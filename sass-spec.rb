@@ -21,4 +21,4 @@
 
 require_relative 'lib/sass_spec'
 
-SassSpec::Runner.new(SassSpec::CLI.parse(ARGV)).run
+SassSpec::Runner.new(SassSpec::CLI.parse()).run

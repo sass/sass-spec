@@ -51,14 +51,14 @@ def handleTest(input_file)
     return 1
   end
 
-  `#{@options[:cmd]} #{input_file} > #{outfile} 2> /dev/null`
+  `#{@options[:sass_executable]} #{input_file} > #{outfile} 2> /dev/null`
 
   if $?.to_i != 0 #cmd failed
-    err_message = "Command '#{@options[:cmd]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
+    err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
     $stderr.puts "ERROR: " + err_message
     `rm "#{outfile}"`
     if !@options[:skip]
-      $stderr.puts("Exiting, make sure '#{@options[:cmd]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
+      $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
       exit 4
     end
     message = "Failed test in #{spec_dir}\n"
@@ -74,17 +74,17 @@ def handleTest(input_file)
     if @options[:verbose]
       puts "Failed for #{input_file}."
     else
-      print "F"
+      print "F" unless @options[:silent]
     end
     message = "Failed test in #{spec_dir}\n"
     message << `diff -rub #{expected_file} #{outfile}`
   else
     retval = 3
-    if !@options[:fails]
+    if !@options[:only_display_failures]
       if @options[:verbose]
-        puts "Passed for #{input_file}."
+        puts "Passed for #{input_file}." 
       else
-        print "."
+        print "." unless @options[:silent]
       end
     end
   end
@@ -95,15 +95,19 @@ def handleTest(input_file)
 end
 
 def run
-  puts "Recursively searching under directory '#{@options[:srchpath]}' for test files to test '#{@options[:cmd]}' with."
+  unless @options[:silent]
+    puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:sass_executable]}' with."
+  end
   
   test_count = 0
   worked = 0
   did_not_run = 0
   has_no_expected_output = 0
   messages = []
-  
-  Dir["#{@options[:srchpath]}**/input.scss"].each do |input_file|
+
+  search_path = File.join(@options[:spec_directory], "**", "input.scss")
+
+  Dir[search_path].each do |input_file|
     test_count += 1
     retval, msg = handleTest(input_file)
     case retval
@@ -118,8 +122,8 @@ def run
     messages << msg if msg
   end
 
-  puts messages
+  puts messages unless @options[:silent]
 
-  printResults @options[:nolog], test_count, worked, did_not_run, has_no_expected_output, messages
+  printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
 end
 end
