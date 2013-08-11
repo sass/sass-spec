@@ -22,7 +22,7 @@ module SassSpec::CLI
         options[:sass_executable] = v 
       end
 
-      opts.on("-d","--dir=", "Sets the directory to recursively search for tests (defaults to '.')") do |v|
+      opts.on("-d=","--dir=", "Sets the directory to recursively search for tests (defaults to '.')") do |v|
         options[:spec_directory] = v
       end
 
