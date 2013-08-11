@@ -26,6 +26,10 @@ module SassSpec::CLI
         options[:spec_directory] = v
       end
 
+      opts.on("--ignore-todo", "Skip any folder named 'todo'") do
+        options[:skip_todo] = true
+      end
+
       opts.on("-f", "--only-fails", "Only display failures") do
         options[:only_display_failures] = true
       end
