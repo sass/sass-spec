@@ -30,6 +30,10 @@ module SassSpec::CLI
         options[:skip_todo] = true
       end
 
+      opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
+        options[:skip] = true
+      end
+
       opts.on("-f", "--only-fails", "Only display failures") do
         options[:only_display_failures] = true
       end
