@@ -139,7 +139,7 @@ class SassSpec::Runner
     end
 
     if @options[:tap]
-      puts "1..#{test_count}"
+      puts "1..#{test_count}#{' # SKIP No tests found' if test_count == 0}"
     else
       puts messages unless @options[:silent]
 
