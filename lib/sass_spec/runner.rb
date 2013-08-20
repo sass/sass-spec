@@ -1,3 +1,4 @@
+require 'pathname';
 
 class SassSpec::Runner
   def initialize(options = {})
@@ -109,23 +110,26 @@ class SassSpec::Runner
     search_path = File.join(@options[:spec_directory], "**", "input.scss")
 
     Dir[search_path].each do |input_file|
+      test_name = Pathname.new(input_file).relative_path_from(Pathname.new(@options[:spec_directory])).dirname.to_s
+      test_name = (test_name == ".") ? @options[:spec_directory] : test_name
       is_todo = input_file.split("/").include?("todo")
+
       if !@options[:skip_todo] || !is_todo
         test_count += 1
         retval, msg = handleTest(input_file)
         case retval
         when 0
-          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{input_file}" if @options[:tap]
+          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         when 1
           did_not_run += 1
           has_no_expected_output += 1
-          puts "not ok #{test_count} # SKIP #{'TODO ' if is_todo}Missing expected_output.css for #{input_file}" if @options[:tap]
+          puts "not ok #{test_count} # SKIP #{'TODO ' if is_todo}Missing expected_output.css for #{test_name}" if @options[:tap]
         when 2
           did_not_run += 1
-          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{input_file}" if @options[:tap]
+          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         when 3
           worked += 1
-          puts "ok #{test_count} # #{'TODO ' if is_todo}#{input_file}" if @options[:tap]
+          puts "ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         end
         puts msg if @options[:tap] and msg
         messages << msg if msg
