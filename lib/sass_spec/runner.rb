@@ -51,10 +51,9 @@ class SassSpec::Runner
       return 1
     end
 
-    `#{@options[:sass_executable]} #{input_file} > #{outfile} 2> /dev/null`
+    err_message=`#{@options[:sass_executable]} #{input_file} 2>&1 > #{outfile}`
 
     if !$?.success?
-      err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
       `rm "#{outfile}"`
       unless @options[:tap]
         $stderr.puts "ERROR: " + err_message
@@ -79,6 +78,7 @@ class SassSpec::Runner
         print "F" unless @options[:silent]
       end
       message = "Failed test in #{spec_dir}\n"
+      message << err_message
       message << `diff -rub #{expected_file} #{outfile}`
     else
       retval = 3
