@@ -7,7 +7,7 @@ class SassSpec::Runner
   def printResults nolog, test_count, worked, did_not_run, has_no_expected_output, messages
     if test_count == 0
       puts("No tests were run, please make sure this is the correct directory and it has input files under it somewhere unhidden.")
-      exit 0
+      exit 99
     else
       puts ""
       outmessage = "#{test_count} tests found. "
