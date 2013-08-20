@@ -9,11 +9,18 @@ module SassSpec::CLI
       only_display_failures: false
     }
     OptionParser.new do |opts|
-      opts.banner = "Example usage: \n sass-spec.rb -c 'sassc' \n ./sass-spec.rb -d mytestsuite -v\n\n" +
-                    "\nThis script will search for all files under the current (or specified) directory that are\n"+
-                    "named input.scss. It will then run a specified binary and check that the output matches the\n"+
-                    "expected output. If you want set up your own test suite, follow a similar hierarchy as described in\n"+
-                    "the initial comment of this script for your test hierarchy.\n\n"
+      opts.banner = "Example usage:
+ sass-spec.rb -c 'sassc'
+ ./sass-spec.rb -d mytestsuite -v
+
+
+This script will search for all files under the current (or specified) directory
+that are named input.scss. It will then run a specified binary and check that
+the output matches the expected output. If you want set up your own test suite,
+follow a similar hierarchy as described in the initial comment of this script
+for your test hierarchy.
+
+"
 
       opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
         options[:verbose] = v
