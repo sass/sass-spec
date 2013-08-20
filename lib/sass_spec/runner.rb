@@ -45,8 +45,8 @@ class SassSpec::Runner
     outfile = File.join spec_dir, "output.out"
     expected_file = File.join spec_dir, "expected_output.css"
 
-    unless File.exists? expected_file #there is no expected_output.css file acompanying
-      $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test."
+    unless File.exists? expected_file #there is no accompanying expected_output.css file
+      $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test." unless @options[:tap]
       return 1
     end
 
@@ -54,15 +54,17 @@ class SassSpec::Runner
 
     if !$?.success?
       err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
-      $stderr.puts "ERROR: " + err_message
       `rm "#{outfile}"`
-      if !@options[:skip]
-        $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
-        exit 4
+      unless @options[:tap]
+        $stderr.puts "ERROR: " + err_message
+        if !@options[:skip]
+          $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
+          exit 4
+        end
       end
       message = "Failed test in #{spec_dir}\n"
       message << err_message
-      return 2
+      return 2, message
     end
 
     output_from_test = File.read outfile
@@ -111,22 +113,32 @@ class SassSpec::Runner
         test_count += 1
         retval, msg = handleTest(input_file)
         case retval
+        when 0
+          puts "not ok #{test_count} # #{input_file}" if @options[:tap]
         when 1
           did_not_run += 1
           has_no_expected_output += 1
+          puts "not ok #{test_count} # SKIP Missing expected_output.css for #{input_file}" if @options[:tap]
         when 2
           did_not_run += 1
+          puts "not ok #{test_count} # #{input_file}" if @options[:tap]
         when 3
           worked += 1
+          puts "ok #{test_count} # #{input_file}" if @options[:tap]
         end
+        puts msg if @options[:tap] and msg
         messages << msg if msg
       else
         print "T" unless @options[:silent]
       end
     end
 
-    puts messages unless @options[:silent]
+    if @options[:tap]
+      puts "1..#{test_count}"
+    else
+      puts messages unless @options[:silent]
 
-    printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
+      printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
+    end
   end
 end

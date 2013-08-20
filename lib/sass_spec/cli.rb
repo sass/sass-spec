@@ -45,6 +45,15 @@ for your test hierarchy.
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
       end
+
+      opts.on("-t", "--tap", "Output results in TAP format") do
+        options[:tap] = true
+        options[:only_display_failures] = false
+        options[:skip] = true
+        options[:skip_todo] = false
+        options[:silent] = true
+        options[:verbose] = false
+      end
     end.parse!
     options[:spec_directory] = ARGV[0] if !ARGV.empty?
     options
