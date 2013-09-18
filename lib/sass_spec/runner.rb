@@ -7,7 +7,7 @@ class SassSpec::Runner
   def printResults nolog, test_count, worked, did_not_run, has_no_expected_output, messages
     if test_count == 0
       puts("No tests were run, please make sure this is the correct directory and it has input files under it somewhere unhidden.")
-      exit 0
+      exit 99
     else
       puts ""
       outmessage = "#{test_count} tests found. "
@@ -44,7 +44,6 @@ class SassSpec::Runner
 
     outfile = File.join spec_dir, "output.out"
     expected_file = File.join spec_dir, "expected_output.css"
-    
 
     unless File.exists? expected_file #there is no expected_output.css file acompanying
       $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test."
@@ -53,7 +52,7 @@ class SassSpec::Runner
 
     `#{@options[:sass_executable]} #{input_file} > #{outfile} 2> /dev/null`
 
-    if $?.to_i != 0 #cmd failed
+    if !$?.success?
       err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
       $stderr.puts "ERROR: " + err_message
       `rm "#{outfile}"`
