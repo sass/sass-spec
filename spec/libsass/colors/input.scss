@@ -8,6 +8,7 @@ p {
   color: unquote(red) + green;
   color: unquote(0xf00);
 
+  /* Lighten/darken limits */
   color: rgba(255, 240, 240, 1);
   color: lighten(rgba(255, 240, 240, 1),15%);
   color: darken(lighten(rgba(255, 240, 240, 1),15%),15%);
@@ -15,11 +16,14 @@ p {
   color: rgba(15, 0, 0, 1);
   color: darken(rgba(15, 0, 0, 1),15%);
   color: lighten(darken(rgba(15, 0, 0, 1),15%),15%);
-
+  
   color: rgba(150, 70, 50, 1);
   color: darken(rgba(150, 70, 50, 1),15%);
   color: lighten(darken(rgba(150, 70, 50, 1),15%),15%);
+    /* Limits whith specials values */
+  color: darken(lighten(rgba(255, 204, 204, 1),10%),10%);
 
+  /* Saturate/desaturate limits */
   color: rgba(255, 240, 240, 1);
   color: saturate(rgba(255, 240, 240, 1),15%);
   color: desaturate(saturate(rgba(255, 240, 240, 1),15%),15%);
@@ -31,4 +35,6 @@ p {
   color: rgba(150, 70, 50, 1);
   color: desaturate(rgba(150, 70, 50, 1),15%);
   color: saturate(desaturate(rgba(150, 70, 50, 1),15%),15%);
+    /* Limits whith specials values */
+  color: saturate(desaturate(rgba(140, 114, 114, 1),10%),10%);
 }
