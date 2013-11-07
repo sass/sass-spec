@@ -1,3 +1,4 @@
+require 'pathname';
 
 class SassSpec::Runner
   def initialize(options = {})
@@ -45,24 +46,25 @@ class SassSpec::Runner
     outfile = File.join spec_dir, "output.out"
     expected_file = File.join spec_dir, "expected_output.css"
 
-    unless File.exists? expected_file #there is no expected_output.css file acompanying
-      $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test."
+    unless File.exists? expected_file #there is no accompanying expected_output.css file
+      $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test." unless @options[:tap]
       return 1
     end
 
-    `#{@options[:sass_executable]} #{input_file} > #{outfile} 2> /dev/null`
+    err_message=`#{@options[:sass_executable]} #{input_file} 2>&1 > #{outfile}`
 
     if !$?.success?
-      err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
-      $stderr.puts "ERROR: " + err_message
       `rm "#{outfile}"`
-      if !@options[:skip]
-        $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
-        exit 4
+      unless @options[:tap]
+        $stderr.puts "ERROR: " + err_message
+        if !@options[:skip]
+          $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
+          exit 4
+        end
       end
       message = "Failed test in #{spec_dir}\n"
       message << err_message
-      return 2
+      return 2, message
     end
 
     output_from_test = File.read outfile
@@ -76,6 +78,7 @@ class SassSpec::Runner
         print "F" unless @options[:silent]
       end
       message = "Failed test in #{spec_dir}\n"
+      message << err_message
       message << `diff -rub #{expected_file} #{outfile}`
     else
       retval = 3
@@ -107,26 +110,40 @@ class SassSpec::Runner
     search_path = File.join(@options[:spec_directory], "**", "input.scss")
 
     Dir[search_path].each do |input_file|
-      if !@options[:skip_todo] || !input_file.split("/").include?("todo")
+      test_name = Pathname.new(input_file).relative_path_from(Pathname.new(@options[:spec_directory])).dirname.to_s
+      test_name = (test_name == ".") ? @options[:spec_directory] : test_name
+      is_todo = input_file.split("/").include?("todo")
+
+      if !@options[:skip_todo] || !is_todo
         test_count += 1
         retval, msg = handleTest(input_file)
         case retval
+        when 0
+          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         when 1
           did_not_run += 1
           has_no_expected_output += 1
+          puts "not ok #{test_count} # SKIP #{'TODO ' if is_todo}Missing expected_output.css for #{test_name}" if @options[:tap]
         when 2
           did_not_run += 1
+          puts "not ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         when 3
           worked += 1
+          puts "ok #{test_count} # #{'TODO ' if is_todo}#{test_name}" if @options[:tap]
         end
+        puts msg if @options[:tap] and msg
         messages << msg if msg
       else
         print "T" unless @options[:silent]
       end
     end
 
-    puts messages unless @options[:silent]
+    if @options[:tap]
+      puts %{1..#{test_count}#{" # SKIP No tests found in #{@options[:spec_directory]}" if test_count == 0}}
+    else
+      puts messages unless @options[:silent]
 
-    printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
+      printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
+    end
   end
 end
