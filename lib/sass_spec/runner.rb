@@ -42,34 +42,23 @@ class SassSpec::Runner
 
   # run a test, returning a value for a switch (to update various counts correctly) and message if it isn't forced to exit out
   def handleTest(input_file)
-    spec_dir = File.dirname input_file
+    test = Test.new(input_file)
+    test.generate_output!(@options[:sass_executable])
 
-    outfile = File.join spec_dir, "output.out"
-    expected_file = File.join spec_dir, "expected_output.css"
-
-    unless File.exists? expected_file #there is no expected_output.css file acompanying
-      $stderr.puts "ERROR: #{input_file} has no accompanying expected_output.css, skipping test."
-      return 1
-    end
-
-    output = `#{@options[:sass_executable]} #{input_file}`
-
-    if !$?.success?
-      err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
+    if test.error?
+      err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error."
       $stderr.puts "ERROR: " + err_message
       if !@options[:skip]
         $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
         exit 4
       end
-      message = "Failed test in #{spec_dir}\n"
+      message = "Failed test in #{input_file}\n"
       message << err_message
       return 2
     end
 
-    expected_output = File.read expected_file
-
     retval = 0
-    if expected_output.strip != output.strip
+    if test.expected_output.strip != test.output.strip
       if @options[:verbose]
         puts "Failed for #{input_file}."
       else
