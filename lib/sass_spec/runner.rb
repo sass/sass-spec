@@ -1,3 +1,5 @@
+require 'fileutils'
+require_relative 'test'
 
 class SassSpec::Runner
   def initialize(options = {})
@@ -50,12 +52,11 @@ class SassSpec::Runner
       return 1
     end
 
-    `#{@options[:sass_executable]} #{input_file} > #{outfile} 2> /dev/null`
+    output = `#{@options[:sass_executable]} #{input_file}`
 
     if !$?.success?
       err_message = "Command '#{@options[:sass_executable]} #{input_file}' terminated unsuccessfully with error code #{$?.to_i}."
       $stderr.puts "ERROR: " + err_message
-      `rm "#{outfile}"`
       if !@options[:skip]
         $stderr.puts("Exiting, make sure '#{@options[:sass_executable]}' is available from your $PATH or use the -s or --skip option to skip tests that fail to exit successfully.")
         exit 4
@@ -65,11 +66,10 @@ class SassSpec::Runner
       return 2
     end
 
-    output_from_test = File.read outfile
     expected_output = File.read expected_file
 
     retval = 0
-    if expected_output.strip != output_from_test.strip
+    if expected_output.strip != output.strip
       if @options[:verbose]
         puts "Failed for #{input_file}."
       else
@@ -88,8 +88,6 @@ class SassSpec::Runner
       end
     end
 
-    `rm "#{outfile}"`
-
     [retval, message]
   end
 
@@ -107,6 +105,7 @@ class SassSpec::Runner
     search_path = File.join(@options[:spec_directory], "**", "input.scss")
 
     Dir[search_path].each do |input_file|
+
       if !@options[:skip_todo] || !input_file.split("/").include?("todo")
         test_count += 1
         retval, msg = handleTest(input_file)
