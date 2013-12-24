@@ -42,7 +42,13 @@ class SassSpec::Runner
 
   # run a test, returning a value for a switch (to update various counts correctly) and message if it isn't forced to exit out
   def handleTest(input_file)
-    test = Test.new(input_file)
+    test = SassSpec::Test.new(input_file)
+
+    if @options[:skip_todo] && test.is_todo?
+      puts "skipped"
+      return
+    end
+
     test.generate_output!(@options[:sass_executable])
 
     if test.error?
@@ -64,8 +70,8 @@ class SassSpec::Runner
       else
         print "F" unless @options[:silent]
       end
-      message = "Failed test in #{spec_dir}\n"
-      message << `diff -rub #{expected_file} #{outfile}`
+      message = "Failed test in #{input_file}\n"
+      #message << `diff -rub #{expected_file} #{outfile}`
     else
       retval = 3
       if !@options[:only_display_failures]
@@ -95,7 +101,7 @@ class SassSpec::Runner
 
     Dir[search_path].each do |input_file|
 
-      if !@options[:skip_todo] || !input_file.split("/").include?("todo")
+      unless (@options[:skip_todo] && input_file.split("/").include?("todo"))
         test_count += 1
         retval, msg = handleTest(input_file)
         case retval

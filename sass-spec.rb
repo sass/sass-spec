@@ -19,8 +19,8 @@
 #the point is to have all the tests in their own folder in a file named input* with
 #the output of running a command on it in the file expected_output* in the same directory
 
-require 'bundler'
-Bundler.setup
+#require 'bundler'
+#Bundler.setup
 require_relative 'lib/sass_spec'
 
 SassSpec::Runner.new(SassSpec::CLI.parse()).run
