@@ -94,6 +94,7 @@ class SassSpec::Runner
 
     test_count = 0
     worked = 0
+    failed = 0
     did_not_run = 0
     has_no_expected_output = 0
     messages = []
@@ -113,6 +114,8 @@ class SassSpec::Runner
           did_not_run += 1
         when 3
           worked += 1
+        else
+          failed += 1
         end
         messages << msg if msg
       else
