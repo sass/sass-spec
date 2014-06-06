@@ -60,10 +60,11 @@ class SassSpec::Runner
       end
       message = "Failed test in #{input_file}\n"
       message << err_message
-      return 2
+      return [2, message, test.output]
     end
 
     retval = 0
+    details = ""
     if test.expected_output.strip != test.output.strip
       if @options[:verbose]
         puts "Failed for #{input_file}."
@@ -83,7 +84,7 @@ class SassSpec::Runner
       end
     end
 
-    [retval, message]
+    [retval, message, details]
   end
 
   def run
@@ -103,7 +104,7 @@ class SassSpec::Runner
 
       unless (@options[:skip_todo] && input_file.split("/").include?("todo"))
         test_count += 1
-        retval, msg = handleTest(input_file)
+        retval, msg, details = handleTest(input_file)
         case retval
         when 1
           did_not_run += 1
