@@ -1,0 +1,45 @@
+@import "http://fonts.googleapis.com/css?family=Roboto";
+
+$passed: #5c5;
+$passed_off: #000;
+$failed: #c55;
+$failed_off: #000;
+$error: #cc5;
+$error_off: #000;
+$unkown: $error_off;
+$unkown_off: $error;
+$todo_failed: $failed;
+$todo_failed_off: $failed_off;
+$todo_passed: $passed;
+$todo_passed_off: $passed_off;
+
+html, body{
+  font-family: 'Roboto', sans-serif;
+}
+
+h1{
+  margin-bottom: 0.25em;
+}
+h2{
+  margin-top: 0.25em;
+}
+
+table.results{
+  th,td{
+    padding: 0.25em 0.5em;;
+  }
+  tr{
+    &.passed{
+      background-color: $passed;
+      color: $passed_off;
+    }
+    &.failed{
+      background-color: $failed;
+      color: $failed_off;
+    }
+    &.not-run{
+      background-color: $error;
+      color: $error_off;
+    }
+  }
+}
