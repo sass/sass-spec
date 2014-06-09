@@ -10,7 +10,7 @@ module SassSpec::CLI
     }
     OptionParser.new do |opts|
       opts.banner = "Example usage:
- sass-spec.rb -c 'sassc'
+ ./sass-spec.rb -c 'sassc'
  ./sass-spec.rb -v mytestsuite
 
 
@@ -47,6 +47,11 @@ for your test hierarchy.
       end
     end.parse!
     options[:spec_directory] = ARGV[0] if !ARGV.empty?
-    options
+
+    options[:input_file] = 'input.scss'
+    options[:expected_file] = 'expected_output.css'
+    options[:todo_path] = '/todo/'
+
+    return options
   end
 end
