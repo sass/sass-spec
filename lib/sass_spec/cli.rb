@@ -33,7 +33,7 @@ for your test hierarchy.
       end
 
       opts.on("-c", "--command=", "Sets a specific binary to run (defaults to 'sass')") do |v|
-        options[:sass_executable] = v 
+        options[:sass_executable] = v
       end
 
       opts.on("--ignore-todo", "Skip any folder named 'todo'") do
@@ -44,14 +44,15 @@ for your test hierarchy.
         options[:skip] = true
       end
 
-      opts.on("-f", "--only-fails", "Only display failures") do
-        options[:only_display_failures] = true
-      end
+      # opts.on("-f", "--only-fails", "Only display failures") do
+      #   options[:only_display_failures] = true
+      # end
 
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
       end
     end.parse!
+
     options[:spec_directory] = ARGV[0] if !ARGV.empty?
 
     options

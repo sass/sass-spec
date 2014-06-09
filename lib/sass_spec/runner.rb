@@ -11,6 +11,10 @@ class SassSpec::Runner
   end
 
   def run
+    unless @options[:silent]
+      puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:sass_executable]}' with."
+    end
+
     test_cases = _get_cases
     SassSpec::Test.create_tests(test_cases, @options)
 
@@ -24,9 +28,9 @@ class SassSpec::Runner
 
   def _get_cases
     cases = []
-    glob = @options[:spec_directory] + "/**/#{@options[:input_file]}"
+    glob = File.join(@options[:spec_directory], "**", "#{@options[:input_file]}")
     Dir.glob(glob) do |filename|
-      expected = Pathname.new(filename).dirname + @options[:expected_file]
+      expected = File.join(Pathname.new(filename).dirname, @options[:expected_file])
       input = Pathname.new(filename)
       cases.push SassSpec::TestCase.new(input.realpath, expected.realpath, @options)
     end

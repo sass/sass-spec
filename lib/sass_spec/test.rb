@@ -7,7 +7,19 @@ def run_spec_test(test_case, options = {})
 
   assert test_case.input_path.readable?, "Input #{test_case.input_path} file does not exist"
   assert test_case.expected_path.readable?, "Expected #{test_case.expected_path} file does not exist"
-  assert_equal test_case.expected, test_case.output, "Expected did not match output"
+
+  output, error, status = test_case.output
+
+  if status != 0
+    msg = "Command `#{options[:sass_executable]}` did not complete:\n\n#{error}"
+    if @options[:skip]
+      raise msg
+    end
+    puts msg
+    exit 4
+  end
+
+  assert_equal test_case.expected, output, "Expected did not match output"
 end
 
 
@@ -16,7 +28,7 @@ class SassSpec::Test < Minitest::Test
   parallelize_me!
   def self.create_tests(test_cases, options = {})
     test_cases.each do |test_case|
-      define_method('test_' + test_case.name) do 
+      define_method('test_' + test_case.name) do
         run_spec_test(test_case, options)
       end
     end
