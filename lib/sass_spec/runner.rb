@@ -20,7 +20,6 @@ class SassSpec::Runner
     end
 
     Minitest.run(minioptions)
-
   end
 
   def _get_cases
@@ -31,7 +30,7 @@ class SassSpec::Runner
       input = Pathname.new(filename)
       cases.push SassSpec::TestCase.new(input.realpath, expected.realpath, @options)
     end
-    return cases
+    cases
   end
 
 end

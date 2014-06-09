@@ -1,41 +1,41 @@
 # This represents a specific test case.
 class SassSpec::TestCase
   def initialize(input_scss, expected_css, options = {})
-    @input = input_scss
-    @expected = expected_css
+    @input_path = input_scss
+    @expected_path = expected_css
     @options = options
   end
 
   def name
-    return @input.dirname.to_s.sub(Dir.pwd + "/", "").gsub('/', '_')
+    @input_path.dirname.to_s.sub(Dir.pwd + "/", "").gsub('/', '_')
   end
 
   def input_path
-    return @input
+    @input_path
   end
 
   def expected_path
-    return @expected
+    @expected_path
   end
 
   def todo?
-    return @input.to_s.include? @options[:todo_path]  
+    @input_path.to_s.include? @options[:todo_path]  
   end
 
   def output
-    return _clean_output `#{@options[:sass_executable]} #{@input}`
+    @output ||= _clean_output `#{@options[:sass_executable]} #{@input_path}`
   end
 
   def expected
-    return _clean_output File.read(@expected)
+    @expected ||= _clean_output File.read(@expected_path)
   end
 
   def _clean_output(css)
-    return css.gsub(/\s+/, "")
-         .gsub("{", "\n{\n\t")
-         .gsub(",", ", ")
-         .gsub(";", ";\n\t")
-         .gsub(/\t?}/, "}\n\n\n")
-         .gsub(/\t([^:]+):/, "\t" + '\1: ')
+    css.gsub(/\s+/, "")
+       .gsub("{", "\n{\n\t")
+       .gsub(",", ", ")
+       .gsub(";", ";\n\t")
+       .gsub(/\t?}/, "}\n\n\n")
+       .gsub(/\t([^:]+):/, "\t" + '\1: ')
   end
 end

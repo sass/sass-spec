@@ -6,8 +6,14 @@ module SassSpec::CLI
     options = {
       sass_executable: "sass",
       spec_directory: "spec",
-      only_display_failures: false
+      only_display_failures: false,
+
+      # Constants
+      input_file: 'input.scss',
+      expected_file: 'expected_output.css',
+      todo_path: '/todo/'
     }
+
     OptionParser.new do |opts|
       opts.banner = "Example usage:
  ./sass-spec.rb -c 'sassc'
@@ -48,10 +54,6 @@ for your test hierarchy.
     end.parse!
     options[:spec_directory] = ARGV[0] if !ARGV.empty?
 
-    options[:input_file] = 'input.scss'
-    options[:expected_file] = 'expected_output.css'
-    options[:todo_path] = '/todo/'
-
-    return options
+    options
   end
 end
