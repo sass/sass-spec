@@ -30,9 +30,9 @@ class SassSpec::Runner
     cases = []
     glob = File.join(@options[:spec_directory], "**", "#{@options[:input_file]}")
     Dir.glob(glob) do |filename|
-      expected = File.join(Pathname.new(filename).dirname, @options[:expected_file])
+      expected = Pathname.new(filename).dirname.join(@options[:expected_file])
       input = Pathname.new(filename)
-      cases.push SassSpec::TestCase.new(input.realpath, expected.realpath, @options)
+      cases.push SassSpec::TestCase.new(input.realpath(), expected.realpath(), @options)
     end
     cases
   end
