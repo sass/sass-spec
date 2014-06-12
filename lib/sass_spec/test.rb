@@ -57,7 +57,7 @@ class SassSpec::Test
 
   def generate_output!(cmd = nil)
     if cmd
-      @output = `#{cmd} #{input_file}`
+      @output = `#{cmd} #{input_file} 2>&1`
       if !$?.success?
         @status = :error
         @message = $?.to_s

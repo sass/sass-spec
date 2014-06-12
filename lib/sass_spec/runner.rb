@@ -60,10 +60,11 @@ class SassSpec::Runner
       end
       message = "Failed test in #{input_file}\n"
       message << err_message
-      return 2
+      return [2, message, test.output]
     end
 
     retval = 0
+    details = ""
     if test.expected_output.strip != test.output.strip
       if @options[:verbose]
         puts "Failed for #{input_file}."
@@ -83,7 +84,7 @@ class SassSpec::Runner
       end
     end
 
-    [retval, message]
+    [retval, message, details]
   end
 
   def run
@@ -93,26 +94,57 @@ class SassSpec::Runner
 
     test_count = 0
     worked = 0
+    failed = 0
     did_not_run = 0
     has_no_expected_output = 0
     messages = []
 
     search_path = File.join(@options[:spec_directory], "**", "input.scss")
 
+    now = Time.new
+    file_now = now.strftime("%Y-%m-%d_%H.%M.%S")
+    output = File.open( "results/result_#{file_now}.html", "w+" )
+    output << "<html><head><title>Test Results</title>"
+    #output << "<link rel=\"stylesheet\" href=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css\" />"
+    output << "<link rel=\"stylesheet\" type=\"text/css\" href=\"results.css\">"
+    # output << "<script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js\"></script>"
+    # output << "<script src=\"http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js\"></script>"
+    # output << "<script>$(function() { $(document).tooltip(track:true); });</script>"
+    output << "</head><body>"
+    output << "<h1>Test Results #{now.inspect}</h1>"
+    output << "<h2>Excutable used: #{@options[:sass_executable]}</h2>"
+    output << "<table class=\"results\"><thead><tr><th>#</th><th>Class</th><th>Case</th><th>Result</th><th>Details</th></tr></thead><tbody>"
+
     Dir[search_path].each do |input_file|
 
       unless (@options[:skip_todo] && input_file.split("/").include?("todo"))
         test_count += 1
-        retval, msg = handleTest(input_file)
+        retval, msg, details = handleTest(input_file)
+        state = "Failed"
+        stateclass = "failed"
+        statemsg = "#{msg} <br /> #{details}"
+
         case retval
         when 1
           did_not_run += 1
           has_no_expected_output += 1
+          state = "Not Run"
+          stateclass = "not-run no-output-expected"
         when 2
           did_not_run += 1
+          state = "Not Run"
+          stateclass = "not-run"
         when 3
           worked += 1
+          state = "Passed"
+          stateclass = "passed"
+        else
+          failed += 1
         end
+        caseparts = input_file.split("/")
+        output << "<tr class=\"#{stateclass}\">"
+        output << "<td>#{test_count}</td><td>#{caseparts[caseparts.length-3]}</td><td>#{caseparts[caseparts.length-2]}</td><td>#{state}</td><td>#{statemsg}</td>"
+        output << "</tr>"
         messages << msg if msg
       else
         print "T" unless @options[:silent]
@@ -120,6 +152,10 @@ class SassSpec::Runner
     end
 
     puts messages unless @options[:silent]
+
+    output << "</tbody></table>"
+    output << "</body></html>"
+    output.close
 
     printResults @options[:silent], test_count, worked, did_not_run, has_no_expected_output, messages
   end
