@@ -1,69 +1,36 @@
-# This represents a specific test case.
+require 'minitest'
 
-
-class SassSpec::Test
-  STATUSES = {
-    :passed  => ".",
-    :failed  => "F",
-    :error   => "!",
-    :unknown => "?", # hasn't run
-    :todo_failed => "T",
-    :todo_passed => "^" }
-
-  # Pass in the directory you are expecting to run in
-  def initialize(file)
-    @path  = File.dirname(file)
+def run_spec_test(test_case, options = {})
+  if options[:skip_todo] && test_case.todo?
+    skip "Skipped todo"
   end
 
-  def status
-    @stutus ||= :unknown
+  assert test_case.input_path.readable?, "Input #{test_case.input_path} file does not exist"
+  assert test_case.expected_path.readable?, "Expected #{test_case.expected_path} file does not exist"
+
+  output, error, status = test_case.output
+
+  if status != 0
+    msg = "Command `#{options[:sass_executable]}` did not complete:\n\n#{error}"
+    if @options[:skip]
+      raise msg
+    end
+    puts msg
+    exit 4
   end
 
-  def is_todo?
-    @is_todo ||= @path.split("/").include?("todo")
-  end
+  assert_equal test_case.expected, output, "Expected did not match output"
+end
 
-  def path
-    @path
-  end
 
-  def input_file
-    File.join(@path, "input.scss")
-  end
-
-  def input
-    @input ||= File.read(input_file).to_s
-  end
-
-  def expected_output_file
-    File.join(@path, "expected_output.css")
-  end
-
-  def expected_output
-    @expected_output ||= File.read(expected_output_file).to_s
-  end
-
-  def message
-    @message ||= ""
-  end
-
-  def error?
-    @status == :error
-  end
-
-  def output
-    @output
-  end
-
-  def generate_output!(cmd = nil)
-    if cmd
-      @output = `#{cmd} #{input_file}`
-      if !$?.success?
-        @status = :error
-        @message = $?.to_s
+# Holder to put and run test cases
+class SassSpec::Test < Minitest::Test
+  parallelize_me!
+  def self.create_tests(test_cases, options = {})
+    test_cases.each do |test_case|
+      define_method('test_' + test_case.name) do
+        run_spec_test(test_case, options)
       end
-    else
-      @output = Sass::Engine.new(input, :syntax => :scss).render
     end
   end
 end
