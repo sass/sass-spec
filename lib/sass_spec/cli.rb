@@ -16,10 +16,14 @@ module SassSpec::CLI
     }
 
     OptionParser.new do |opts|
-      opts.banner = "Example usage:
- ./sass-spec.rb -c 'sassc'
- ./sass-spec.rb -v mytestsuite
+      opts.banner = "Usage: ./sass-spec.rb [options]
 
+Examples:
+  Run `sassc --style compressed input.scss`:
+  ./sass-spec.rb -c 'sass --style compressed'
+
+  Run tests only in the spec/basic folder:
+  ./sass-spec.rb spec/basic
 
 This script will search for all files under the spec (or specified) directory
 that are named input.scss. It will then run a specified binary and check that
@@ -27,13 +31,15 @@ the output matches the expected output. If you want set up your own test suite,
 follow a similar hierarchy as described in the initial comment of this script
 for your test hierarchy.
 
+Make sure the command you provide prints to stdout.
+
 "
 
       opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
         options[:verbose] = v
       end
 
-      opts.on("-c", "--command=", "Sets a specific binary to run (defaults to 'sass')") do |v|
+      opts.on("-c", "--command=", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
         options[:sass_executable] = v
       end
 
