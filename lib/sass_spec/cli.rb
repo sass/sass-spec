@@ -6,8 +6,8 @@ module SassSpec::CLI
     options = {
       sass_executable: "sass",
       spec_directory: "spec",
-      only_display_failures: false,
       skip: false,
+      verbose: false,
 
       # Constants
       input_file: 'input.scss',
@@ -35,11 +35,11 @@ Make sure the command you provide prints to stdout.
 
 "
 
-      opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
-        options[:verbose] = v
+      opts.on("-v", "--verbose", "Run verbosely") do
+        options[:verbose] = true
       end
 
-      opts.on("-c", "--command=", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
+      opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
         options[:sass_executable] = v
       end
 
@@ -50,10 +50,6 @@ Make sure the command you provide prints to stdout.
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
         options[:skip] = true
       end
-
-      # opts.on("-f", "--only-fails", "Only display failures") do
-      #   options[:only_display_failures] = true
-      # end
 
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
