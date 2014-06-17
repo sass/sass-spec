@@ -27,7 +27,6 @@ class SassSpec::TestCase
     if @output
       return @output
     end
-
     stdout, stderr, status = Open3.capture3("#{@options[:sass_executable]} #{@input_path}")
     stdout = _clean_output(stdout)
     @output ||= [stdout, stderr, status]

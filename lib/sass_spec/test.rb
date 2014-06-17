@@ -12,9 +12,11 @@ def run_spec_test(test_case, options = {})
 
   if status != 0
     msg = "Command `#{options[:sass_executable]}` did not complete:\n\n#{error}"
-    if @options[:skip]
+
+    if options[:skip]
       raise msg
     end
+
     puts msg
     exit 4
   end

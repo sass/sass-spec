@@ -7,6 +7,7 @@ module SassSpec::CLI
       sass_executable: "sass",
       spec_directory: "spec",
       only_display_failures: false,
+      skip: false,
 
       # Constants
       input_file: 'input.scss',
