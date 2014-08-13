@@ -27,7 +27,6 @@ class SassSpec::TestCase
     if @output
       return @output
     end
-
     stdout, stderr, status = Open3.capture3("#{@options[:sass_executable]} #{@input_path}")
     stdout = _clean_output(stdout)
     @output ||= [stdout, stderr, status]
@@ -39,10 +38,7 @@ class SassSpec::TestCase
 
   def _clean_output(css)
     css.gsub(/\s+/, "")
-       .gsub("{", "\n{\n\t")
-       .gsub(",", ", ")
-       .gsub(";", ";\n\t")
-       .gsub(/\t?}/, "}\n\n\n")
-       .gsub(/\t([^:]+):/, "\t" + '\1: ')
+       .gsub("{", "{\n")
+       .gsub(";", ";\n")
   end
 end
