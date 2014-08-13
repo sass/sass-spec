@@ -23,7 +23,7 @@ class SassSpec::Runner
       minioptions.push '--verbose'
     end
 
-    Minitest.run(minioptions)
+    exit Minitest.run(minioptions)
   end
 
   def _get_cases
