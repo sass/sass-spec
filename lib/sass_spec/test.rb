@@ -5,6 +5,10 @@ def run_spec_test(test_case, options = {})
     skip "Skipped todo"
   end
 
+  if options[:sass_version] && !test_case.applies_to_version?(options[:sass_version])
+    skip "Test doesn't apply to #{options[:sass_version]}"
+  end
+
   assert test_case.input_path.readable?, "Input #{test_case.input_path} file does not exist"
   assert test_case.expected_path.readable?, "Expected #{test_case.expected_path} file does not exist"
 

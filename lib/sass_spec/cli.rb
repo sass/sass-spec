@@ -39,7 +39,12 @@ Make sure the command you provide prints to stdout.
         options[:verbose] = true
       end
 
+      opts.on("-r", "--ruby-sass-version VERSION", "Sets the version of Ruby Sass to test compatibility against.") do |r|
+        options[:sass_version] = r
+      end
+
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
+        puts v
         options[:sass_executable] = v
       end
 
@@ -56,7 +61,7 @@ Make sure the command you provide prints to stdout.
       end
     end.parse!
 
-    options[:spec_directory] = ARGV[0] if !ARGV.empty?
+    options[:spec_directory] = ARGV.last if !ARGV.empty?
 
     options
   end
