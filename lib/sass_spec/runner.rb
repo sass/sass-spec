@@ -13,6 +13,9 @@ class SassSpec::Runner
   def run
     unless @options[:silent]
       puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:sass_executable]}' with."
+
+      stdout, stderr, status = Open3.capture3("#{@options[:sass_executable]} -v")
+      puts stdout
     end
 
     test_cases = _get_cases
