@@ -9,7 +9,7 @@ class SassSpec::TestCase
   end
 
   def name
-    @input_path.dirname.to_s.sub(Dir.pwd + "/", "").gsub('/', '_')
+    @input_path.dirname.to_s.sub(Dir.pwd + "/", "")
   end
 
   def input_path
