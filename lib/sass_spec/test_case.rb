@@ -35,10 +35,10 @@ class SassSpec::TestCase
       versions = v.scan(/([<>]?)([0-9.]+)/) if v.match(/^\/\/ *VERSION *=/)
       break
     end
-    version = Versionomy.parse(version) unless versions.empty?
+    version = Gem::Version.new(version) unless versions.empty?
 
     versions.each do |v|
-      v[1] = Versionomy.parse(v[1])
+      v[1] = Gem::Version.new(v[1])
       return true if v[1] == version
     end
     versions.all? {|v| version.send(v[0] || '==', v[1]) }
