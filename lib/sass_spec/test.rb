@@ -30,7 +30,7 @@ class SassSpec::Test < Minitest::Test
   parallelize_me!
   def self.create_tests(test_cases, options = {})
     test_cases.each do |test_case|
-      define_method('test_' + test_case.name) do
+      define_method('test__' << test_case.name) do
         run_spec_test(test_case, options)
       end
     end
