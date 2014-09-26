@@ -25,6 +25,8 @@ The tests are organized this way:
 
 All tests with scss files named `input.disabled.scss` should be for non-supported tests.
 
+Ruby 2.1.0 contained a regression that changed the order of some selectors, causing test failures in sass-spec. That was fixed in Ruby 2.1.1. If you're running sass-spec against a Ruby Sass, please be sure not to use Ruby 2.1.0.
+
 ## LibSass
 
 After installing a libsass dev enviroment (see libsass readme... sassc, this spec, and libsass), the tests are run by going
