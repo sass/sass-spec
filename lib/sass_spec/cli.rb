@@ -44,7 +44,6 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
-        puts v
         options[:sass_executable] = v
       end
 

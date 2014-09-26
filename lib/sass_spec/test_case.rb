@@ -31,7 +31,10 @@ class SassSpec::TestCase
   # That means operators > and < actually work like >= and <=.
   def applies_to_version?(version)
     versions = []
-    File.foreach(@input_path){|v| versions = v.scan(/([<>]?)([0-9.]+)/); break }
+    File.foreach(@input_path) do |v|
+      versions = v.scan(/([<>]?)([0-9.]+)/) if v.match(/^\/\/ *VERSION *=/)
+      break
+    end
     version = Versionomy.parse(version) unless versions.empty?
 
     versions.each do |v|
