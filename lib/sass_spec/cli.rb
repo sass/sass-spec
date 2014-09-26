@@ -25,6 +25,9 @@ Examples:
   Run tests only in the spec/basic folder:
   ./sass-spec.rb spec/basic
 
+  Run tests marked for a specific Ruby implementation version:
+  ./sass-spec.rb -r 3.2.19
+
 This script will search for all files under the spec (or specified) directory
 that are named input.scss. It will then run a specified binary and check that
 the output matches the expected output. If you want set up your own test suite,
