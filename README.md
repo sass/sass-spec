@@ -19,3 +19,13 @@ Ruby 2.1.0 contained a regression that changed the order of some selectors, caus
 All tests in the `spec/todo` folder are expected to fail with libsass.
 
 All tests with scss files named `input.disabled.scss` fail with fatal errors in Ruby Sass and are not run.
+
+## Command Line Options
+
+    -v, --verbose                    Run verbosely
+    -r, --ruby-sass-version VERSION  Sets the version of Ruby Sass to test compatibility against.
+    -c, --command COMMAND            Sets a specific binary to run (defaults to 'sass')
+        --ignore-todo                Skip any folder named 'todo'
+    -s, --skip                       Skip tests that fail to exit successfully
+        --silent                     Don't show any logs
+

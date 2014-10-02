@@ -25,6 +25,9 @@ Examples:
   Run tests only in the spec/basic folder:
   ./sass-spec.rb spec/basic
 
+  Run tests marked for a specific Ruby implementation version:
+  ./sass-spec.rb -r 3.2.19
+
 This script will search for all files under the spec (or specified) directory
 that are named input.scss. It will then run a specified binary and check that
 the output matches the expected output. If you want set up your own test suite,
@@ -37,6 +40,10 @@ Make sure the command you provide prints to stdout.
 
       opts.on("-v", "--verbose", "Run verbosely") do
         options[:verbose] = true
+      end
+
+      opts.on("-r", "--ruby-sass-version VERSION", "Sets the version of Ruby Sass to test compatibility against.") do |r|
+        options[:sass_version] = r
       end
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
@@ -56,7 +63,7 @@ Make sure the command you provide prints to stdout.
       end
     end.parse!
 
-    options[:spec_directory] = ARGV[0] if !ARGV.empty?
+    options[:spec_directory] = ARGV.last if !ARGV.empty?
 
     options
   end
