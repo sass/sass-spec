@@ -1,3 +1,7 @@
+// This is a test of variable scoping.
+// Before Sass 3.3, this would have toggled foo and bar back and
+// forth, but after that it will just print out foo, foo, foo, foo.
+
 $x: true;
 
 @function foobar() {
@@ -19,3 +23,9 @@ div {
   $x: false;
   content: foobar();
 }
+
+$x: false;
+a {
+  content: foobar();
+}
+
