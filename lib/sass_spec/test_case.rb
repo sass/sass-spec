@@ -20,7 +20,7 @@ class SassSpec::TestCase
   end
 
   def todo?
-    @input_path.to_s.include? @options[:todo_path]
+    @input_path.to_s.include? "todo"
   end
 
   def output
