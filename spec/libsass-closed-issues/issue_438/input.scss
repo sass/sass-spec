@@ -11,3 +11,13 @@
      color: red;
    }
 }
+
+@mixin bem-m($modifier) {
+  &--#{$modifier} {
+    background: green;
+  }
+}
+
+.test {
+  @include bem-m(foo);
+}
