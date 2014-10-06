@@ -1,0 +1,11 @@
+// IMPORTANT: THIS TEST IS CURRENTLY PASSING BECAUSE
+// THE TEST SUITE DOESN'T CARE ABOUT THE ERRONEOUS
+// WHITESPACE IN THE OUTPUT
+
+@function measure-margin($scale, $measure, $unit) {
+  @return ($measure/$scale)#{$unit};
+}
+
+.test {
+  margin: measure-margin(10, 100, rem);
+}
