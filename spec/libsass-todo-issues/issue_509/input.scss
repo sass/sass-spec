@@ -1,0 +1,13 @@
+$nest: (
+  alpha: (
+    beta: (gamma: delta),
+    epsilon: 2 3 4,
+    zeta: 'hi'
+  )
+);
+
+.test {
+  out: map-get(map-get(map-get($nest, alpha), beta), gamma);
+  out: map-get(map-get($nest, alpha), epsilon);
+  out: map-get(map-get($nest, alpha), zeta);
+}
