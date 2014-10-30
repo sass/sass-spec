@@ -4,11 +4,14 @@
 }
 
 $foo: (
-  bar() : baz ,
+  bar() : baz,
+  bar("foo") : blah,
   hello("bob") : bam,
 );
 
 a {
   foo: map-get($foo, "bar()");
+  foo: map-get($foo, "bar(\"foo\")");
+  foo: map-get($foo, 'bar("foo")');
   foo: map-get($foo, "bob");
 }
