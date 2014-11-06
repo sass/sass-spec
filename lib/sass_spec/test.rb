@@ -21,7 +21,7 @@ def run_spec_test(test_case, options = {})
     exit 4
   end
 
-  if test_case.todo? && (test_case.expected == output)
+  if options[:unexpected_pass] && test_case.todo? && (test_case.expected == output)
     raise "#{test_case.input_path} passed a test we expected it to fail"
   end
 

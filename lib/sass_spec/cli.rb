@@ -10,6 +10,7 @@ module SassSpec::CLI
       verbose: false,
       filter: "",
       limit: -1,
+      unexpected_pass: false,
 
       # Constants
       input_file: 'input.scss',
@@ -53,11 +54,15 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("--limit NUMBER", "Limit the number of tests run to this positive integer.") do |limit|
-        options[:limit] = limit.to_i;
+        options[:limit] = limit.to_i
       end
 
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
         options[:skip] = true
+      end
+
+      opts.on("--unexpected-pass", "When running the todo tests, flag as an error when a test passes which is marked as todo.") do
+        options[:unexpected_pass] = true
       end
 
       opts.on("--silent", "Don't show any logs") do
