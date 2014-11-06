@@ -2,11 +2,11 @@ $x: true;
 
 @mixin foobar() {
   @if $x {
-    $x: false;
+    $x: false !global;
     content: foo;
   }
   @else {
-    $x: true;
+    $x: true !global;
     content: bar;
   }
 }
@@ -15,6 +15,6 @@ div {
   @include foobar();
   @include foobar();
   @include foobar();
-  $x: true;
+  $x: true !global;
   @include foobar();
 }
