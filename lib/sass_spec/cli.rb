@@ -9,6 +9,7 @@ module SassSpec::CLI
       skip: false,
       verbose: false,
       filter: "",
+      limit: -1,
 
       # Constants
       input_file: 'input.scss',
@@ -49,6 +50,10 @@ Make sure the command you provide prints to stdout.
 
       opts.on("--filter PATTERN", "Run tests that match the pattern you provide") do |pattern|
         options[:filter] = pattern
+      end
+
+      opts.on("--limit NUMBER", "Limit the number of tests run to this positive integer.") do |limit|
+        options[:limit] = limit.to_i;
       end
 
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
