@@ -35,7 +35,9 @@ class SassSpec::Runner
     Dir.glob(glob) do |filename|
       expected = Pathname.new(filename).dirname.join(@options[:expected_file])
       input = Pathname.new(filename)
-      cases.push SassSpec::TestCase.new(input.realpath(), expected.realpath(), @options)
+      if filename.include?(@options[:filter])
+        cases.push SassSpec::TestCase.new(input.realpath(), expected.realpath(), @options)
+      end
     end
     cases
   end
