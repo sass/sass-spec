@@ -1,9 +1,0 @@
-  @mixin test($arglist...){
-    $map: keywords($arglist);
-    answer: if($map, 'Yep', 'Nope');
-  }
-  // does-it-work-1 { @include test($arg1: one, $arg2: two, $arg3: three); } // => Yep
-  // does-it-work-2 { @include test(); } // => Yep
-  does-it-work {
-   @include test( not-a-keyword-arg-1 , not-a-keyword-arg-2 ); // Error: basic_string::basic_string
-  }
