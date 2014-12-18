@@ -1,0 +1,10 @@
+// libsass issue 659: never output empty blocks
+// https://github.com/sass/libsass/issues/659
+
+@function null() {
+  @return null;
+}
+
+.test {
+  out: null();
+}
