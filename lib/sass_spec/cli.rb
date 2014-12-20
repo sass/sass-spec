@@ -6,6 +6,7 @@ module SassSpec::CLI
     options = {
       sass_executable: "sass",
       spec_directory: "spec",
+      tap: false,
       skip: false,
       verbose: false,
       filter: "",
@@ -39,6 +40,10 @@ Make sure the command you provide prints to stdout.
 
       opts.on("-v", "--verbose", "Run verbosely") do
         options[:verbose] = true
+      end
+
+      opts.on("-t", "--tap", "Output TAP compatible report") do
+        options[:tap] = true
       end
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|

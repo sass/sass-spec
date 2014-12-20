@@ -11,9 +11,8 @@ class SassSpec::Runner
   end
 
   def run
-    unless @options[:silent]
+    unless @options[:silent] || @options[:tap]
       puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:sass_executable]}' with."
-
       stdout, stderr, status = Open3.capture3("#{@options[:sass_executable]} -v")
       puts stdout
     end
@@ -24,6 +23,11 @@ class SassSpec::Runner
     minioptions = []
     if @options[:verbose]
       minioptions.push '--verbose'
+    end
+
+    if @options[:tap]
+      require 'minitap'
+      Minitest.reporter = Minitap::TapY
     end
 
     exit Minitest.run(minioptions)
