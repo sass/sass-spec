@@ -10,7 +10,7 @@ def run_spec_test(test_case, options = {})
 
   output, error, status = test_case.output
 
-  if status != 0
+  if status != 0 && !options[:unexpected_pass]
     msg = "Command `#{options[:sass_executable]}` did not complete:\n\n#{error}"
 
     if options[:skip]
@@ -21,10 +21,9 @@ def run_spec_test(test_case, options = {})
     exit 4
   end
 
-  if test_case.expected == output
-    if options[:unexpected_pass] && test_case.todo?
-      raise "#{test_case.input_path} passed a test we expected it to fail"
-    end
+
+  if options[:unexpected_pass] && test_case.todo? && (test_case.expected == output)
+    raise "#{test_case.input_path} passed a test we expected it to fail"
   end
 
   if options[:nuke]
@@ -34,7 +33,9 @@ def run_spec_test(test_case, options = {})
     end
   end
 
-  assert_equal test_case.expected, output, "Expected did not match output"
+  if !options[:unexpected_pass]
+    assert_equal test_case.expected, output, "Expected did not match output"
+  end
 end
 
 
