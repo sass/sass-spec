@@ -12,6 +12,7 @@ module SassSpec::CLI
       filter: "",
       limit: -1,
       unexpected_pass: false,
+      nuke: false,
 
       # Constants
       input_file: 'input.scss',
@@ -64,6 +65,10 @@ Make sure the command you provide prints to stdout.
 
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
         options[:skip] = true
+      end
+
+      opts.on("--nuke", "Write a new expected_output for every test from whichever engine we are using") do
+        options[:nuke] = true
       end
 
       opts.on("--unexpected-pass", "When running the todo tests, flag as an error when a test passes which is marked as todo.") do
