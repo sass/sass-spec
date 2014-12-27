@@ -2,9 +2,9 @@ $GLOBAL: global;
 
 @function foo($g1, $g2, $g3) {
   @each $value in $g1, $g2, $g3 {
-    $GLOBAL: $GLOBAL each $value;
-    $GLOBAL: $GLOBAL type1 type-of(nth($value, 1));
-    $GLOBAL: $GLOBAL type2 type-of(nth($value, 2));
+    $GLOBAL: $GLOBAL each $value !global;
+    $GLOBAL: $GLOBAL type1 type-of(nth($value, 1)) !global;
+    $GLOBAL: $GLOBAL type2 type-of(nth($value, 2)) !global;
   }
   @return 0;
 }
