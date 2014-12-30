@@ -1,7 +1,8 @@
-@function measure-margin($scale, $measure, $unit) {
-  @return ($measure/$scale)#{$unit};
-}
+$lhs: (100/10)#{rem};
+$rhs: 10rem;
 
-.test {
-  margin: measure-margin(10, 100, rem);
+foo {
+  a: $lhs;
+  a: $rhs;
+  a: $lhs == $rhs;
 }

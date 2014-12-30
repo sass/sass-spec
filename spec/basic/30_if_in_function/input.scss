@@ -2,11 +2,11 @@ $x: true;
 
 @function foobar() {
   @if $x {
-    $x: false;
+    $x: false !global;
     @return foo;
   }
   @else {
-    $x: true;
+    $x: true !global;
     @return bar;
   }
 }
@@ -16,6 +16,6 @@ div {
   content: foobar();
   content: foobar();
   content: foobar();
-  $x: false;
+  $x: false !global;
   content: foobar();
 }
