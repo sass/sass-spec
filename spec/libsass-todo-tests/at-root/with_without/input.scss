@@ -68,6 +68,16 @@
 
 @media (min-width: 1337px) {
   @supports (color: red) {
+    @at-root (without: media supports) {
+      .foo {
+        content: bar;
+      }
+    }
+  }
+}
+
+@media (min-width: 1337px) {
+  @supports (color: red) {
     @at-root (without: media) {
       .foo {
         content: bar;
@@ -99,6 +109,16 @@
 @media (min-width: 1337px) {
   @supports (color: red) {
     @at-root (with: all) {
+      .foo {
+        content: bar;
+      }
+    }
+  }
+}
+
+@media (min-width: 1337px) {
+  @supports (color: red) {
+    @at-root (with: media supports) {
       .foo {
         content: bar;
       }

@@ -24,12 +24,18 @@
       content: bar; } } }
 .foo {
   content: bar; }
+.foo {
+  content: bar; }
 @supports (color: red) {
   .foo {
     content: bar; } }
 @media (min-width: 1337px) {
   .foo {
     content: bar; } }
+@media (min-width: 1337px) {
+  @supports (color: red) {
+    .foo {
+      content: bar; } } }
 @media (min-width: 1337px) {
   @supports (color: red) {
     .foo {
