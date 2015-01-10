@@ -11,7 +11,7 @@ def run_spec_test(test_case, options = {})
   output, clean_output, error, status = test_case.output
 
   if status != 0 && !options[:unexpected_pass]
-    msg = "Command `#{options[:sass_executable]}` did not complete:\n\n#{error}"
+    msg = "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
 
     if options[:skip]
       raise msg

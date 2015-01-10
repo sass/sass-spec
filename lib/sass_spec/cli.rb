@@ -1,10 +1,11 @@
+require_relative 'engine_adapter'
 
 module SassSpec::CLI
   require 'optparse'
 
   def self.parse
     options = {
-      sass_executable: "sass",
+      engine_adapter: SassEngineAdapter.new("sass"),
       spec_directory: "spec",
       tap: false,
       skip: false,
@@ -47,8 +48,8 @@ Make sure the command you provide prints to stdout.
         options[:tap] = true
       end
 
-      opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:sass_executable]}')") do |v|
-        options[:sass_executable] = v
+      opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:engine_adapter]}')") do |v|
+        options[:engine_adapter] = ExecutableEngineAdapater.new(v)
       end
 
       opts.on("--ignore-todo", "Skip any folder named 'todo'") do
