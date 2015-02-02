@@ -1,4 +1,3 @@
-require "open3"
 # This represents a specific test case.
 class SassSpec::TestCase
   def initialize(input_scss, expected_css, options = {})
@@ -27,13 +26,17 @@ class SassSpec::TestCase
     if @output
       return @output
     end
-    stdout, stderr, status = Open3.capture3("#{@options[:sass_executable]} #{@input_path}")
+    stdout, stderr, status = engine.compile(@input_path)
     cleaned = _clean_output(stdout)
     @output ||= [stdout, cleaned, stderr, status]
   end
 
   def expected
     @expected ||= _clean_output File.read(@expected_path)
+  end
+
+  def engine
+    @options[:engine_adapter]
   end
 
   def _clean_output(css)
