@@ -1,0 +1,80 @@
+$foo: "'foo'";
+$bar: "\"bar\"";
+
+foo {
+	foo: "'foo'";
+	baz: "\"bar\"";
+	eval_foo: ("'foo'");
+	eval_baz: ("\"bar\"");
+
+	var_foo: $foo;
+	var_bar: $bar;
+
+	foo_itp: #{"'foo'"};
+	bar_itp: #{"\"bar\""};
+	foo_var_itp: #{$foo};
+	bar_var_itp: #{$bar};
+
+	foo_var_itp_dq: "#{\"'foo'\"}";
+	// test this without escaping
+	bar_var_itp_sq: "#{'\"bar\"'}";
+
+	foo_var_dq_itp: "#{$foo}";
+	bar_var_dq_itp: "#{$bar}";
+	foo_var_sq_itp: '#{$foo}';
+	bar_var_sq_itp: '#{$bar}';
+
+	foo_var_ditp: #{#{$foo}};
+	bar_var_ditp: #{#{$bar}};
+	foo_var_ditp_dq: #{"#{$foo}"};
+	bar_var_ditp_dq: #{"#{$bar}"};
+	foo_var_ditp_sq: #{'#{$foo}'};
+	bar_var_ditp_sq: #{'#{$bar}'};
+
+	foo_var_titp: #{#{#{$foo}}};
+	bar_var_titp: #{#{#{$bar}}};
+	foo_var_titp_dq: #{#{"#{$foo}"}};
+	bar_var_titp_dq: #{#{"#{$bar}"}};
+	foo_var_titp_sq: #{#{'#{$foo}'}};
+	bar_var_titp_sq: #{#{'#{$bar}'}};
+
+	foo_var_sq_ditp_sq: "#{'#{$foo}'}";
+	bar_var_sq_ditp_sq: "#{'#{$bar}'}";
+	foo_var_dq_ditp_dq: '#{"#{$foo}"}';
+	bar_var_dq_ditp_dq: '#{"#{$bar}"}';
+
+	unquote_foo: unquote("'foo'");
+	unquote_baz: unquote("\"bar\"");
+	unquote_foo_var: unquote($foo);
+	unquote_baz_var: unquote($bar);
+
+	unquote_foo_itp: unquote(#{"'foo'"});
+	unquote_baz_itp: unquote(#{"\"bar\""});
+	unquote_foo_var_itp: unquote(#{$foo});
+	unquote_baz_var_itp: unquote(#{$bar});
+
+	unquote_foo_var_dq_itp: unquote("#{$foo}");
+	unquote_baz_var_dq_itp: unquote("#{$bar}");
+	unquote_foo_var_sq_itp: unquote('#{$foo}');
+	unquote_baz_var_sq_itp: unquote('#{$bar}');
+
+	unquote_foo_var_ditp: unquote(#{#{$foo}});
+	unquote_baz_var_ditp: unquote(#{#{$bar}});
+	unquote_foo_var_ditp_dq: unquote(#{"#{$foo}"});
+	unquote_baz_var_ditp_dq: unquote(#{"#{$bar}"});
+	unquote_foo_var_ditp_sq: unquote(#{'#{$foo}'});
+	unquote_baz_var_ditp_sq: unquote(#{'#{$bar}'});
+
+	unquote_foo_var_dq_ditp_sq: unquote("#{'#{$foo}'}");
+	unquote_baz_var_dq_ditp_sq: unquote("#{'#{$bar}'}");
+	unquote_foo_var_sq_ditp_dq: unquote('#{"#{$foo}"}');
+	unquote_baz_var_sq_ditp_dq: unquote('#{"#{$bar}"}');
+
+	unquote_foo_var_titp: unquote(#{#{#{$foo}}});
+	unquote_baz_var_titp: unquote(#{#{#{$bar}}});
+	unquote_foo_var_titp_dq: unquote(#{#{"#{$foo}"}});
+	unquote_baz_var_titp_dq: unquote(#{#{"#{$bar}"}});
+	unquote_foo_var_titp_sq: unquote(#{#{'#{$foo}'}});
+	unquote_baz_var_titp_sq: unquote(#{#{'#{$bar}'}});
+
+}

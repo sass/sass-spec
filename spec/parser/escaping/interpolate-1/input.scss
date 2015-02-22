@@ -1,0 +1,16 @@
+$foo: "'foo'";
+$bar: "\"bar\"";
+
+foo {
+	unquote_foo_itp: #{"'foo'"};
+	unquote_baz_itp: #{"\"bar\""};
+	unquote_foo_itp: (#{"'foo'"});
+	unquote_baz_itp: (#{"\"bar\""});
+	unquote_foo_itp: foo(#{"'foo'"});
+	unquote_baz_itp: foo(#{"\"bar\""});
+	unquote_foo_itp: unquote('foo');
+	unquote_foo_itp: unquote("bar");
+	unquote_foo_itp: unquote(#{"'foo'"});
+	unquote_baz_itp: unquote(#{"\"bar\""});
+
+}

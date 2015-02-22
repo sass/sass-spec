@@ -1,0 +1,23 @@
+$foo: "\\";
+$bar: "\\\\";
+
+foo {
+	foo: "\\";
+	baz: "\\\\";
+	var_foo: $foo;
+	var_bar: $bar;
+	foo_itp: #{"\\"};
+	bar_itp: #{"\\\\"};
+	foo_var_itp: #{$foo};
+	bar_var_itp: #{$bar};
+	unquote_foo: unquote("\\");
+	unquote_baz: unquote("\\\\");
+	unquote_var_foo: unquote($foo);
+	unquote_var_baz: unquote($bar);
+	unquote_var_foo_itp: unquote(#{$foo});
+	unquote_var_baz_itp: unquote(#{$bar});
+	unquote_var_foo_itp_dq: unquote("#{$foo}");
+	unquote_var_baz_itp_dq: unquote("#{$bar}");
+	unquote_var_foo_itp_sq: unquote('#{$foo}');
+	unquote_var_baz_itp_sq: unquote('#{$bar}');
+}
