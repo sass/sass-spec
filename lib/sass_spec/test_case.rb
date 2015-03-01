@@ -1,13 +1,23 @@
 # This represents a specific test case.
 class SassSpec::TestCase
-  def initialize(input_scss, expected_css, options = {})
+  def initialize(input_scss, expected_css, style, clean, options = {})
     @input_path = input_scss
     @expected_path = expected_css
+    @output_style = style
+    @clean_test = clean
     @options = options
   end
 
   def name
     @input_path.dirname.to_s.sub(Dir.pwd + "/", "")
+  end
+
+  def clean_test
+    @clean_test
+  end
+
+  def output_style
+    @output_style
   end
 
   def input_path
@@ -26,24 +36,40 @@ class SassSpec::TestCase
     if @output
       return @output
     end
-    stdout, stderr, status = engine.compile(@input_path)
-    cleaned = _clean_output(stdout)
+    stdout, stderr, status = engine.compile(@input_path, @output_style)
+    if @clean_test
+      cleaned = _clean_output(stdout)
+    else
+      cleaned = _norm_output(stdout)
+    end
     @output ||= [stdout, cleaned, stderr, status]
   end
 
   def expected
-    @expected ||= _clean_output File.read(@expected_path)
+    if @clean_test
+      @expected ||= _clean_output File.read(@expected_path, :encoding => "utf-8")
+    else
+      @expected ||= _norm_output File.read(@expected_path, :encoding => "utf-8")
+    end
   end
 
   def engine
     @options[:engine_adapter]
   end
 
+  def _norm_output(css)
+    css = css.force_encoding('iso-8859-1').encode('utf-8')
+    css.gsub(/(?:\r?\n)+/, "\n")
+       .strip
+  end
+
   def _clean_output(css)
+    css = css.force_encoding('iso-8859-1').encode('utf-8')
     css.gsub(/\s+/, " ")
        .gsub(/ *\{/, " {\n")
        .gsub(/([;,]) */, "\\1\n")
        .gsub(/ *\} */, " }\n")
        .strip
   end
+
 end
