@@ -44,8 +44,8 @@ class ExecutableEngineAdapater < EngineAdapter
   end
 
 
-  def compile(sass_filename)
-    Open3.capture3("#{@command} #{sass_filename}")
+  def compile(sass_filename, style)
+    Open3.capture3("#{@command} -t #{style} #{sass_filename}")
   end
 end
 

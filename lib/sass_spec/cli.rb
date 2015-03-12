@@ -17,7 +17,10 @@ module SassSpec::CLI
 
       # Constants
       input_file: 'input.scss',
-      expected_file: 'expected_output.css'
+      expected_file: 'expected_output.css',
+      compressed_file: 'expected.compressed.css',
+      expanded_file: 'expected.expanded.css',
+      compact_file: 'expected.compact.css'
     }
 
     OptionParser.new do |opts|

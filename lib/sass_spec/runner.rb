@@ -36,10 +36,26 @@ class SassSpec::Runner
     cases = []
     glob = File.join(@options[:spec_directory], "**", "#{@options[:input_file]}")
     Dir.glob(glob) do |filename|
-      expected = Pathname.new(filename).dirname.join(@options[:expected_file])
       input = Pathname.new(filename)
-      if filename.include?(@options[:filter])
-        cases.push SassSpec::TestCase.new(input.realpath(), expected.realpath(), @options)
+      expected = Pathname.new(filename).dirname.join(@options[:expected_file])
+      if File.file?(expected) && ! File.file?(expected.sub(/\.css$/, ".skip")) && filename.include?(@options[:filter])
+        clean = File.file?(expected.sub(/\.css$/, ".clean"))
+        cases.push SassSpec::TestCase.new(input.realpath(), expected.realpath(), "nested", clean, @options)
+      end
+      expanded = Pathname.new(filename).dirname.join(@options[:expanded_file])
+      if File.file?(expanded) && ! File.file?(expanded.sub(/\.css$/, ".skip")) && filename.include?(@options[:filter])
+        clean = File.file?(expanded.sub(/\.css$/, ".clean"))
+        cases.push SassSpec::TestCase.new(input.realpath(), expanded.realpath(), "expanded", clean, @options)
+      end
+      compressed = Pathname.new(filename).dirname.join(@options[:compressed_file])
+      if File.file?(compressed) && ! File.file?(compressed.sub(/\.css$/, ".skip")) && filename.include?(@options[:filter])
+        clean = File.file?(compressed.sub(/\.css$/, ".clean"))
+        cases.push SassSpec::TestCase.new(input.realpath(), compressed.realpath(), "compressed", clean, @options)
+      end
+      compact = Pathname.new(filename).dirname.join(@options[:compact_file])
+      if File.file?(compact) && ! File.file?(compact.sub(/\.css$/, ".skip")) && filename.include?(@options[:filter])
+        clean = File.file?(compact.sub(/\.css$/, ".clean"))
+        cases.push SassSpec::TestCase.new(input.realpath(), compact.realpath(), "compact", clean, @options)
       end
     end
     cases
