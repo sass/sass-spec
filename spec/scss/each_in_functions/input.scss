@@ -6,6 +6,9 @@ $GLOBAL: global;
     $GLOBAL: $GLOBAL type1 type-of(nth($value, 1)) !global;
     $GLOBAL: $GLOBAL type2 type-of(nth($value, 2)) !global;
   }
+  @each $value in (foo: foo, bar: bar) {
+    $GLOBAL: $GLOBAL map $value !global;
+  }
   @return 0;
 }
 
