@@ -1,8 +1,11 @@
-body {
+div {
   a: selector-append(".foo", ".bar", ".baz");
-  b: selector-append(".a .foo", ".b .bar");
+  b: selector-append(".a,.foo", ".b .bar");
   c: selector-append(".foo", "-suffix");
   d: selector-append('.foo', '.bar, -suffix');
   e: selector-append('.foo', '--suffix');
-  f: selector-append('.foo', '.bar, --suffix');
+  g: selector-append(".a", ".b, .c", ".de, .j, foo");
+  h: selector-append(".a", ".b,b,a.c", ".d", "e,a,suffix,a");
+  i: selector-append("a,b,c,b,c,d", ".foo,.bar","baz");
+  j: selector-append(".a", ".b, .c", ".de, .df, foo");
 }
