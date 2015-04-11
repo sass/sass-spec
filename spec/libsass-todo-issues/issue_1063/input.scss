@@ -1,0 +1,13 @@
+%foo {
+  &:foo > ul { display: block; }
+}
+
+ul.root {
+  $nested: unquote("") unquote(" > li > ul");
+  @for $level from 1 through 3 {
+    #{$nested} {
+      > li { @extend %foo; }
+    }
+    $nested: append($nested, unquote(" > li > ul"));
+  }
+}
