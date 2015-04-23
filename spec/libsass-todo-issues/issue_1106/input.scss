@@ -1,6 +1,13 @@
 @function foo() { @return null; }
 $foo: null;
 a {
+    foo: bar;
+    variable: $foo;
+    function: foo();
+    unquote: unquote($foo);
+}
+
+b {
     variable: $foo;
     function: foo();
     unquote: unquote($foo);
