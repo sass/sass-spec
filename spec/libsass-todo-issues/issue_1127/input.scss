@@ -1,8 +1,45 @@
-$s: to-upper-case('abcd');
+$a: to-upper-case('abcd');
+$b: to-upper-case("abcd");
+$c: to-upper-case(abcd);
 
-p {
-    content: '#{$s}';
-    content: '#{unquote($s)}';
-    content: '#{$s + unquote("efg")}';
-    content: '#{$s + unquote("")}';
+foo {
+    content: #{$a};
+    content: #{$b};
+    content: #{$c};
+    content: '#{$a}';
+    content: '#{$b}';
+    content: '#{$c}';
+    content: "#{$a}";
+    content: "#{$b}";
+    content: "#{$c}";
+
+    content: #{unquote($a)};
+    content: #{unquote($b)};
+    content: #{unquote($c)};
+    content: '#{unquote($a)}';
+    content: '#{unquote($b)}';
+    content: '#{unquote($c)}';
+    content: "#{unquote($a)}";
+    content: "#{unquote($b)}";
+    content: "#{unquote($c)}";
+
+    content: #{$a + unquote("efg")};
+    content: #{$b + unquote("efg")};
+    content: #{$c + unquote("efg")};
+    content: '#{$a + unquote("efg")}';
+    content: '#{$b + unquote("efg")}';
+    content: '#{$c + unquote("efg")}';
+    content: "#{$a + unquote("efg")}";
+    content: "#{$b + unquote("efg")}";
+    content: "#{$c + unquote("efg")}";
+
+    content: #{$a + unquote("")};
+    content: #{$b + unquote("")};
+    content: #{$c + unquote("")};
+    content: '#{$a + unquote("")}';
+    content: '#{$b + unquote("")}';
+    content: '#{$c + unquote("")}';
+    content: "#{$a + unquote("")}";
+    content: "#{$b + unquote("")}";
+    content: "#{$c + unquote("")}";
 }
