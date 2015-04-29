@@ -63,13 +63,13 @@ class SassEngineAdapter < EngineAdapter
     Sass::VERSION
   end
 
-  def compile(sass_filename)
+  def compile(sass_filename, style)
     require 'sass'
     begin
       captured_stderr = StringIO.new
       real_stderr, $stderr = $stderr, captured_stderr
       begin
-        css_output = Sass.compile_file(sass_filename.to_s)
+        css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
         [css_output, captured_stderr.to_s, 0]
       rescue Sass::SyntaxError => e
         [Sass::SyntaxError.exception_to_css(e), captured_stderr.string, 1]
