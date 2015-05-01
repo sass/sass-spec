@@ -1,11 +1,13 @@
 sass-spec
 =========
 
+[![Build Status](https://travis-ci.org/sass/sass-spec.svg)](https://travis-ci.org/sass/sass-spec)
+
 A test suite for Sass. The test cases are all in the `/spec` folder.
 
 Run tests against Ruby Sass with the `sass-spec.rb` file in the root directory.
 
-    ./sass-spec.rb 
+    ./sass-spec.rb
 
 Full text help is available if you run that w/ the help options.
 
