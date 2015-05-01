@@ -46,10 +46,11 @@ class SassSpec::TestCase
   end
 
   def expected
+    output = File.read(@expected_path, :encoding => "utf-8")
     if @clean_test
-      @expected ||= _clean_output File.read(@expected_path, :encoding => "utf-8")
+      @expected ||= _clean_output(output)
     else
-      @expected ||= _norm_output File.read(@expected_path, :encoding => "utf-8")
+      @expected ||= _norm_output(output)
     end
   end
 
