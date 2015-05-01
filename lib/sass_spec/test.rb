@@ -5,8 +5,8 @@ def run_spec_test(test_case, options = {})
     skip "Skipped todo"
   end
 
-  assert test_case.input_path.readable?, "Input #{test_case.input_path} file does not exist"
-  assert test_case.expected_path.readable?, "Expected #{test_case.expected_path} file does not exist"
+  assert File.exists?(test_case.input_path), "Input #{test_case.input_path} file does not exist"
+  assert File.exists?(test_case.expected_path), "Expected #{test_case.expected_path} file does not exist"
 
   output, clean_output, error, status = test_case.output
 
@@ -33,8 +33,10 @@ def run_spec_test(test_case, options = {})
     end
   end
 
-  if !options[:unexpected_pass]
+  if !test_case.todo?
     assert_equal test_case.expected, clean_output, "Expected did not match output"
+  elsif options[:unexpected_pass]
+    assert_not_equal test_case.expected, clean_output, "Marked as todo and passed"
   end
 end
 

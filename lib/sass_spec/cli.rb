@@ -16,11 +16,12 @@ module SassSpec::CLI
       nuke: false,
 
       # Constants
+      output_styles: ["nested", "compressed", "expanded", "compact"],
       input_file: 'input.scss',
-      expected_file: 'expected_output.css',
-      compressed_file: 'expected.compressed.css',
-      expanded_file: 'expected.expanded.css',
-      compact_file: 'expected.compact.css'
+      nested_output_file: 'expected_output',
+      compressed_output_file: 'expected.compressed',
+      expanded_output_file: 'expected.expanded',
+      compact_output_file: 'expected.compact'
     }
 
     OptionParser.new do |opts|
