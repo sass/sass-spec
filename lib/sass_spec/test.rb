@@ -33,10 +33,10 @@ def run_spec_test(test_case, options = {})
     end
   end
 
-  if !test_case.todo?
-    assert_equal test_case.expected, clean_output, "Expected did not match output"
-  elsif options[:unexpected_pass]
+  if test_case.todo? && options[:unexpected_pass]
     assert_not_equal test_case.expected, clean_output, "Marked as todo and passed"
+  elsif !test_case.todo? || !options[:skip_todo]
+    assert_equal test_case.expected, clean_output, "Expected did not match output"
   end
 end
 
