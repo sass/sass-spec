@@ -1,0 +1,13 @@
+@mixin box-sizing-border {
+  @at-root {
+    #{&} {
+      *, *:before, *:after {
+        box-sizing: inherit;
+      }
+    }
+  }
+}
+
+foo {
+  @include box-sizing-border;
+}
