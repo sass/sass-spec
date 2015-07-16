@@ -70,6 +70,8 @@ class SassSpec::TestCase
        .gsub(/ *\{/, " {\n")
        .gsub(/([;,]) */, "\\1\n")
        .gsub(/ *\} */, " }\n")
+       .gsub(/;(?:\s*;)+/m, ";")
+       .gsub(/;\r?\n }/m, " }")
        .strip
   end
 
