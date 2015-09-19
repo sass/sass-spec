@@ -45,7 +45,8 @@ class ExecutableEngineAdapater < EngineAdapter
 
 
   def compile(sass_filename, style)
-    Open3.capture3("#{@command} -t #{style} #{sass_filename}")
+    stdout, stderr, status = Open3.capture3("#{@command} -t #{style} #{sass_filename}")
+    [stdout, stderr, status.exitstatus]
   end
 end
 
