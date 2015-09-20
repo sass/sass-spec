@@ -72,9 +72,9 @@ class SassEngineAdapter < EngineAdapter
         css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
         [css_output, captured_stderr.to_s, 0]
       rescue Sass::SyntaxError => e
-        [Sass::SyntaxError.exception_to_css(e), captured_stderr.string, 1]
+        ["", "Error: " + e.message.to_s, 1]
       rescue => e
-        [Sass::SyntaxError.exception_to_css(e), captured_stderr.string, 2]
+        ["", e.to_s, 2]
       end
     ensure
       $stderr = real_stderr
