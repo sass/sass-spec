@@ -17,7 +17,7 @@ module SassSpec::CLI
 
       # Constants
       output_styles: ["nested", "compressed", "expanded", "compact"],
-      input_file: 'input.scss',
+      input_files: ["input.scss", "input.sass"],
       nested_output_file: 'expected_output',
       compressed_output_file: 'expected.compressed',
       expanded_output_file: 'expected.expanded',
