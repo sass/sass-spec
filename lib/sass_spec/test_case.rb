@@ -12,6 +12,7 @@ class SassSpec::TestCase
     # Probe filesystem once and cache the results
     @should_fail = File.file?(@status_path)
     @verify_stderr = File.file?(@error_path)
+    @todo = (@input_path.to_s.include? "todo") || File.file?(@expected_path.sub(/\.css$/, ".todo"))
   end
 
   def name
@@ -51,7 +52,7 @@ class SassSpec::TestCase
   end
 
   def todo?
-    @input_path.to_s.include? "todo"
+    @todo 
   end
 
   def output
