@@ -68,10 +68,11 @@ class SassEngineAdapter < EngineAdapter
     require 'sass'
     begin
       captured_stderr = StringIO.new
+      # Does not work as expected when tests are run in parallel
       real_stderr, $stderr = $stderr, captured_stderr
       begin
         css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
-        [css_output, captured_stderr.to_s, 0]
+        [css_output, captured_stderr.string, 0]
       rescue Sass::SyntaxError => e
         ["", "Error: " + e.message.to_s, 1]
       rescue => e

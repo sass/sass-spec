@@ -69,7 +69,7 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
-        options[:skip] = true
+        # Note: --skip is no longer necessary as this is now the default behavior, since we test for errors
       end
 
       opts.on("--nuke", "Write a new expected_output for every test from whichever engine we are using") do

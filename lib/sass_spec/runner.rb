@@ -39,14 +39,22 @@ class SassSpec::Runner
       glob = File.join(@options[:spec_directory], "**", input_file)
       Dir.glob(glob) do |filename|
         input = Pathname.new(filename)
+        folder = File.dirname(filename)
+        expected_stderr_file_path = File.join(folder, "error")
+        expected_status_file_path = File.join(folder, "status")
         @options[:output_styles].each do |output_style|
-          folder = File.dirname(filename)
           output_file_name = @options["#{output_style}_output_file".to_sym]
-          expected_file_path = File.join(folder, output_file_name + ".css")
+          expected_stdout_file_path = File.join(folder, output_file_name + ".css")
           clean_file_name = File.join(folder, output_file_name + ".clean")
-          if File.file?(expected_file_path) && !File.file?(expected_file_path.sub(/\.css$/, ".skip")) && filename.include?(@options[:filter])
+          if ( File.file?(expected_stdout_file_path) ) &&
+             !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
+             filename.include?(@options[:filter]) 
             clean = File.file?(clean_file_name)
-            cases.push SassSpec::TestCase.new(input.realpath(), expected_file_path, output_style, clean, @options)
+            cases.push SassSpec::TestCase.new(input.realpath(),
+              expected_stdout_file_path,
+              expected_stderr_file_path,
+              expected_status_file_path,
+              output_style, clean, @options)
           end
         end
       end
