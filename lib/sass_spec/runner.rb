@@ -46,7 +46,8 @@ class SassSpec::Runner
           output_file_name = @options["#{output_style}_output_file".to_sym]
           expected_stdout_file_path = File.join(folder, output_file_name + ".css")
           clean_file_name = File.join(folder, output_file_name + ".clean")
-          if ( File.file?(expected_stdout_file_path) ) &&
+          if ( File.file?(expected_stdout_file_path) ||
+               @options[:generate].include?(output_style) ) &&
              !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
              filename.include?(@options[:filter]) 
             clean = File.file?(clean_file_name)
@@ -54,7 +55,9 @@ class SassSpec::Runner
               expected_stdout_file_path,
               expected_stderr_file_path,
               expected_status_file_path,
-              output_style, clean, @options)
+              output_style, clean, 
+              @options[:generate].include?(output_style),
+              @options)
           end
         end
       end

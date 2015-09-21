@@ -1,6 +1,6 @@
 # This represents a specific test case.
 class SassSpec::TestCase
-  def initialize(input_scss, expected_css, error_file, status_file, style, clean, options = {})
+  def initialize(input_scss, expected_css, error_file, status_file, style, clean, gen, options = {})
     @input_path = input_scss
     @expected_path = expected_css
     @error_path = error_file
@@ -8,6 +8,7 @@ class SassSpec::TestCase
     @output_style = style
     @clean_test = clean
     @options = options
+    @generate = gen
 
     # Probe filesystem once and cache the results
     @should_fail = File.file?(@status_path)
@@ -52,6 +53,10 @@ class SassSpec::TestCase
 
   def todo?
     @input_path.to_s.include? "todo"
+  end
+
+  def overwrite?
+    @generate || @options[:nuke]
   end
 
   def output
