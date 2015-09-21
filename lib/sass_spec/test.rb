@@ -13,12 +13,7 @@ def run_spec_test(test_case, options = {})
   if status != 0 && !options[:unexpected_pass]
     msg = "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
 
-    if options[:skip]
-      raise msg
-    end
-
-    puts msg
-    exit 4
+    raise msg
   end
 
 
