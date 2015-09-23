@@ -9,7 +9,7 @@ def run_spec_test(test_case, options = {})
 
   output, clean_output, error, status = test_case.output
 
-  if options[:nuke]
+  if test_case.overwrite?
     if status != 0
       File.open(test_case.status_path, "w+") do |f|
         f.write(status)

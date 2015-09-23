@@ -7,6 +7,7 @@ module SassSpec::CLI
     options = {
       engine_adapter: SassEngineAdapter.new("sass"),
       spec_directory: "spec",
+      generate: [],
       tap: false,
       skip: false,
       verbose: false,
@@ -54,6 +55,18 @@ Make sure the command you provide prints to stdout.
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:engine_adapter]}')") do |v|
         options[:engine_adapter] = ExecutableEngineAdapater.new(v)
+      end
+
+      opts.on("-g", "--generate format", "Run test and generate output files for the specified format or \"all\"") do |v|
+        if v == "all"
+          options[:generate].replace(options[:output_styles])
+        else
+          if options[:output_styles].include?(v)
+            options[:generate] << v
+          else
+            raise "--generate needs a valid output format #{options[:output_styles]} or \"all\""
+          end
+        end
       end
 
       opts.on("--ignore-todo", "Skip any folder named 'todo'") do
