@@ -42,9 +42,13 @@ def run_spec_test(test_case, options = {})
     assert_equal test_case.expected, clean_output, "Expected did not match output"
     if test_case.verify_stderr?
       # Compare only first line of error output (we can't compare stacktraces etc.)
-      error_msg = error.each_line.next.rstrip
-      expected_error_msg = test_case.expected_error.each_line.next.rstrip
-      assert_equal expected_error_msg, error_msg, "Expected did not match error"
+      begin
+        error_msg = error.each_line.next.rstrip
+        expected_error_msg = test_case.expected_error.each_line.next.rstrip
+        assert_equal expected_error_msg, error_msg, "Expected did not match error"
+      rescue StopIteration
+        assert_equal expected_error_msg, "", "No error message produced"
+      end
     end
   rescue Minitest::Assertion
     if test_case.todo? && options[:unexpected_pass]
