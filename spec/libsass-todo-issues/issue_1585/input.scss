@@ -1,0 +1,12 @@
+@mixin bar() {
+  @at-root { @content; }
+}
+
+.test {
+  @include bar() {
+    color: yellow;
+    .nest2 {
+      color: green;
+    }
+  }
+}
