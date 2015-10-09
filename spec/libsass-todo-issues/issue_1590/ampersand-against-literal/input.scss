@@ -1,0 +1,11 @@
+@mixin where($sel: null) {
+    @if ( & == $sel ) {
+        h1 { color: white; }
+    } @else {
+        h1 { color: blue; }
+    }
+}
+.hive { @include where(); } 
+.bee { @include where(".bee"); } 
+.amp { @include where(&); } 
+.quotedamp { @include where("&"); } 
