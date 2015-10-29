@@ -1,4 +1,21 @@
 #!/bin/bash
+set -ex
+
+EDITOR="${EDITOR-subl}"
+
+
+function runspec() {
+  local issue_dir="$1"
+  local input_file="$issue_dir/input.scss"
+  mkdir -p "$issue_dir"
+  echo "/* Replace this with your test */" > "$input_file"
+  "$EDITOR" "$input_file"
+  for style in compact compressed expanded; do
+    sass "$input_file" --style "$style" > "$issue_dir/expected.$style.css"
+  done
+  sass "$input_file" > "$issue_dir"/expected_output.css
+  git add "$issue_dir"
+}
 
 if [ $1 = "create" ]
 then
@@ -6,20 +23,12 @@ then
     if [ $2 = "todo" ]
     then
       git checkout -b feat/issue-$3
-      git push -u origin feat/issue-$3
-      mkdir spec/libsass-todo-issues/issue_$3
-      touch spec/libsass-todo-issues/issue_$3/{input.scss,expected_output.css,expected.compressed.css,expected.expanded.css,expected.compact.css}
-      subl spec/libsass-todo-issues/issue_$3/input.scss
-      git add spec/libsass-todo-issues/issue_$3
+      runspec "spec/libsass-todo-issues/issue_$3"
       git commit -m "Add specs for issue $3" -m "This PR add specs for sass/libsass#$3"
     elif [ $2 = "closed" ]
     then
       git checkout -b feat/activate-$3
-      git push -u origin feat/activate-$3
-      mkdir spec/libsass-closed-issues/issue_$3
-      touch spec/libsass-closed-issues/issue_$3/{input.scss,expected_output.css,expected.compressed.css,expected.expanded.css,expected.compact.css}
-      subl spec/libsass-closed-issues/issue_$3/input.scss
-      git add spec/libsass-closed-issues/issue_$3
+      runspec "spec/libsass-closed-issues/issue_$3"
       git commit -m "Activate specs for issue $3" -m "This PR activates specs for sass/libsass#$3"
     fi
 elif [ $1 = "nuke" ]
