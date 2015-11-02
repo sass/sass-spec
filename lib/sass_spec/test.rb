@@ -43,8 +43,16 @@ def run_spec_test(test_case, options = {})
     if test_case.verify_stderr?
       # Compare only first line of error output (we can't compare stacktraces etc.)
       begin
-        error_msg = error.each_line.next.rstrip
-        expected_error_msg = test_case.expected_error.each_line.next.rstrip
+        error_lines = error.each_line
+        error_msg = error_lines.next.rstrip
+        if (error_msg =~ /DEPRECATION WARNING:? on line/)
+          error_msg = error_lines.next.rstrip
+        end
+        expected_error_lines = test_case.expected_error.each_line
+        expected_error_msg = expected_error_lines.next.rstrip
+        if (expected_error_msg =~ /DEPRECATION WARNING:? on line/)
+          expected_error_msg = expected_error_lines.next.rstrip
+        end
         assert_equal expected_error_msg, error_msg, "Expected did not match error"
       rescue StopIteration
         assert_equal expected_error_msg, "", "No error message produced"
