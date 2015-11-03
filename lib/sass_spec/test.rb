@@ -57,7 +57,7 @@ def run_spec_test(test_case, options = {})
         expected_error_msg = _clean_debug_path(expected_error_msg)
         assert_equal expected_error_msg, error_msg, "Expected did not match error"
       rescue StopIteration
-        assert_equal expected_error_msg, "", "No error message produced"
+        assert_equal expected_error_msg, nil, "No error message produced"
       end
     end
   rescue Minitest::Assertion
