@@ -53,6 +53,8 @@ def run_spec_test(test_case, options = {})
         if (expected_error_msg =~ /DEPRECATION WARNING:? on line/)
           expected_error_msg = expected_error_lines.next.rstrip
         end
+        error_msg = _clean_debug_path(error_msg)
+        expected_error_msg = _clean_debug_path(expected_error_msg)
         assert_equal expected_error_msg, error_msg, "Expected did not match error"
       rescue StopIteration
         assert_equal expected_error_msg, "", "No error message produced"
@@ -71,6 +73,10 @@ def run_spec_test(test_case, options = {})
       pass
     end
   end
+end
+
+def _clean_debug_path(error)
+  error.sub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
 end
 
 
