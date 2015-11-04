@@ -1,0 +1,13 @@
+%foo {
+  test: outer;
+
+  &-inner {
+    test: inner;
+  }
+}
+
+.foo {
+  @extend %foo;
+
+  &.inner { @extend %foo-inner; }
+}
