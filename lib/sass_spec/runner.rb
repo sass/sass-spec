@@ -66,11 +66,10 @@ class SassSpec::Runner
              !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
              filename.include?(@options[:filter])
             clean = File.file?(clean_file_name)
-            cases.push SassSpec::TestCase.new(input.realpath(),
+            cases.push SassSpec::TestCase.new(
+              input.realpath(),
               expected_stdout_file_path,
-              expected_stderr_file_path,
-              expected_status_file_path,
-              output_style, clean,
+              folder, output_style, clean,
               @options[:generate].include?(output_style),
               @options)
           end

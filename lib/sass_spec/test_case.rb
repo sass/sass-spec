@@ -1,22 +1,40 @@
 # This represents a specific test case.
 class SassSpec::TestCase
-  def initialize(input_scss, expected_css, error_file, status_file, style, clean, gen, options = {})
+  def initialize(input_scss, expected_css, folder, style, clean, gen, options = {})
     @input_path = input_scss
     @expected_path = expected_css
-    @error_path = error_file
-    @status_path = status_file
+    @error_path = File.join(folder, "error")
+    @status_path = File.join(folder, "status")
+    @options_path = File.join(folder, "options")
     @output_style = style
     @clean_test = clean
     @options = options
     @generate = gen
+    @precision = 5
 
     # Probe filesystem once and cache the results
     @should_fail = File.file?(@status_path)
     @verify_stderr = File.file?(@error_path)
+
+    # load options (only precision ATM)
+    if (File.file?(@options_path))
+      File.open(@options_path, "r") do |opt|
+        opt.each_line do |line|
+          if (line =~ /^precision\s*:\s*(\d+)\s*$/)
+            @precision = $1.to_i
+          end
+        end
+      end
+    end
+
   end
 
   def name
     @input_path.dirname.to_s.sub(Dir.pwd + "/", "")
+  end
+
+  def precision
+    @precision
   end
 
   def clean_test
@@ -64,7 +82,7 @@ class SassSpec::TestCase
       return @output
     end
 
-    stdout, stderr, status = engine.compile(@input_path, @output_style)
+    stdout, stderr, status = engine.compile(@input_path, @output_style, @precision)
 
     if @clean_test
       clean_out = _clean_output(stdout)
