@@ -42,10 +42,22 @@ class SassSpec::Runner
         folder = File.dirname(filename)
         expected_stderr_file_path = File.join(folder, "error")
         expected_status_file_path = File.join(folder, "status")
+        if @options[:nuke]
+          [expected_status_file_path, expected_stderr_file_path].each do |f|
+             if File.file?(f)
+               File.unlink(f)
+             end
+          end
+        end
         @options[:output_styles].each do |output_style|
           output_file_name = @options["#{output_style}_output_file".to_sym]
           expected_stdout_file_path = File.join(folder, output_file_name + ".css")
           clean_file_name = File.join(folder, output_file_name + ".clean")
+          if @options[:nuke] && @options[:generate].size > 0
+             if File.file?(expected_stdout_file_path)
+               File.unlink(expected_stdout_file_path)
+             end
+          end
           if ( File.file?(expected_stdout_file_path) ||
                @options[:generate].include?(output_style) ) &&
              !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
