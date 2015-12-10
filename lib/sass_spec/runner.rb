@@ -10,6 +10,22 @@ class SassSpec::Runner
     @options = options
   end
 
+  def get_files(path, arr, key)
+    entries = Dir.entries(path, {:encoding=>"UTF-8"})
+    entries.each do |entry|
+      next if entry == '.' || entry == '..'
+
+      entry_path = File.join(Dir.pwd, path, entry)
+
+      if File.directory? entry_path
+        get_files(File.join(path, entry), arr, key)
+      else
+        arr << entry_path if entry == key
+      end
+    end
+    arr  
+  end
+
   def run
     unless @options[:silent] || @options[:tap]
       puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:engine_adapter]}' with."
@@ -36,8 +52,7 @@ class SassSpec::Runner
   def _get_cases
     cases = []
     @options[:input_files].each do |input_file|
-      glob = File.join(@options[:spec_directory], "**", input_file)
-      Dir.glob(glob) do |filename|
+      get_files(@options[:spec_directory], [], input_file).each do |filename|
         input = Pathname.new(filename)
         folder = File.dirname(filename)
         expected_stderr_file_path = File.join(folder, "error")
