@@ -15,15 +15,15 @@ class SassSpec::Runner
     entries.each do |entry|
       next if entry == '.' || entry == '..'
 
-      entry_path = File.join(Dir.pwd, path, entry)
+      entry_path = File.join(File.expand_path(path, Dir.pwd), entry)
 
       if File.directory? entry_path
-        get_files(File.join(path, entry), arr, key)
+        get_files(entry_path, arr, key)
       else
         arr << entry_path if entry == key
       end
     end
-    arr  
+    arr
   end
 
   def run
@@ -64,13 +64,13 @@ class SassSpec::Runner
           if ( File.file?(expected_stdout_file_path) ||
                @options[:generate].include?(output_style) ) &&
              !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
-             filename.include?(@options[:filter]) 
+             filename.include?(@options[:filter])
             clean = File.file?(clean_file_name)
             cases.push SassSpec::TestCase.new(input.realpath(),
               expected_stdout_file_path,
               expected_stderr_file_path,
               expected_status_file_path,
-              output_style, clean, 
+              output_style, clean,
               @options[:generate].include?(output_style),
               @options)
           end
