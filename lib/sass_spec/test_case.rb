@@ -84,7 +84,7 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = File.read(@error_path, :encoding => "utf-8")
+    @expected_error = _clean_error(File.read(@error_path, :encoding => "utf-8"))
   end
 
   def expected_status
@@ -113,6 +113,20 @@ class SassSpec::TestCase
        .gsub(/ *\} */, " }\n")
        .gsub(/;(?:\s*;)+/m, ";")
        .gsub(/;\r?\n }/m, " }")
+       .strip
+  end
+
+  def _clean_error(err)
+    pwd = Dir.pwd
+    url = pwd.gsub(/\\/, '/')
+    err = err.force_encoding('iso-8859-1').encode('utf-8')
+    err.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
+       .gsub(/[ 	]+/, " ")
+       .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
+       .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
+       .gsub(/(?:\/todo_|_todo\/)/, "/")
+       .gsub(/\/libsass\-[a-z]+\-test\//, "/")
+       .gsub(/\/libsass\-[a-z]+\-issue/, "/libsass-issue")
        .strip
   end
 

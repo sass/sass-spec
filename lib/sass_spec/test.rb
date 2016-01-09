@@ -76,7 +76,16 @@ def run_spec_test(test_case, options = {})
 end
 
 def _clean_debug_path(error)
-  error.sub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
+  pwd = Dir.pwd
+  url = pwd.gsub(/\\/, '\/')
+  error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
+       .gsub(/[ 	]+/, " ")
+       .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
+       .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
+       .gsub(/(?:\/todo_|_todo\/)/, "/")
+       .gsub(/\/libsass\-[a-z]+\-test\//, "/")
+       .gsub(/\/libsass\-[a-z]+\-issue/, "/libsass-issue")
+       .strip
 end
 
 
