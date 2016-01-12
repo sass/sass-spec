@@ -11,20 +11,24 @@ def run_spec_test(test_case, options = {})
 
   if test_case.overwrite?
     if status != 0
-      File.open(test_case.status_path, "w+") do |f|
+      File.open(test_case.status_path, "w+", :binmode => true) do |f|
         f.write(status)
         f.close
       end
+    elsif (File.file?(test_case.status_path))
+      File.unlink(test_case.status_path)
     end
 
     if error.length > 0
-      File.open(test_case.error_path, "w+") do |f|
+      File.open(test_case.error_path, "w+", :binmode => true) do |f|
         f.write(error)
         f.close
       end
+    elsif (File.file?(test_case.error_path))
+      File.unlink(test_case.error_path)
     end
 
-    File.open(test_case.expected_path, "w+") do |f|
+    File.open(test_case.expected_path, "w+", :binmode => true) do |f|
       f.write(output)
       f.close
     end
@@ -43,15 +47,74 @@ def run_spec_test(test_case, options = {})
     if test_case.verify_stderr?
       # Compare only first line of error output (we can't compare stacktraces etc.)
       begin
+        skip = false
         error_lines = error.each_line
-        error_msg = error_lines.next.rstrip
-        if (error_msg =~ /DEPRECATION WARNING:? on line/)
-          error_msg = error_lines.next.rstrip
+        while error_line = error_lines.next do
+          if (error_line =~ /DEPRECATION WARNING/)
+            skip = false
+          end
+          if (error_line =~ /Error:/)
+            skip = false
+          end
+          # disable once we support this deprecation fully
+          if (error_line =~ /interpolation near operators will be simplified/)
+            skip = true
+            next
+          end
+          # disable once we support this deprecation fully
+          # if (error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
+          #   skip = true
+          #   next
+          # end
+          # disable once we support this deprecation fully
+          if (error_line =~ /Passing a percentage as the alpha/)
+            skip = true
+            next
+          end
+          # disable once we support this deprecation fully (partial now)
+          # if (error_line =~ /, a non-string value, to unquote()/)
+          #   skip = true
+          #   next
+          # end
+          if (skip)
+            next
+          end
+          error_msg = error_line.rstrip
+          break
         end
         expected_error_lines = test_case.expected_error.each_line
-        expected_error_msg = expected_error_lines.next.rstrip
-        if (expected_error_msg =~ /DEPRECATION WARNING:? on line/)
-          expected_error_msg = expected_error_lines.next.rstrip
+        while expected_error_line = expected_error_lines.next do
+          if (expected_error_line =~ /DEPRECATION WARNING/)
+            skip = false
+          end
+          if (expected_error_line =~ /Error:/)
+            skip = false
+          end
+          # disable once we support this deprecation fully
+          if (expected_error_line =~ /interpolation near operators will be simplified/)
+            skip = true
+            next
+          end
+          # disable once we support this deprecation fully
+          # if (expected_error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
+          #   skip = true
+          #   next
+          # end
+          # disable once we support this deprecation fully
+          if (expected_error_line =~ /Passing a percentage as the alpha/)
+            skip = true
+            next
+          end
+          # disable once we support this deprecation fully (partial now)
+          # if (expected_error_line =~ /, a non-string value, to unquote()/)
+          #   skip = true
+          #   next
+          # end
+          if (skip)
+            next
+          end
+          expected_error_msg = expected_error_line.rstrip
+          break
         end
         error_msg = _clean_debug_path(error_msg)
         expected_error_msg = _clean_debug_path(expected_error_msg)
@@ -79,12 +142,12 @@ def _clean_debug_path(error)
   pwd = Dir.pwd
   url = pwd.gsub(/\\/, '\/')
   error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
-       .gsub(/[ 	]+/, " ")
+       .gsub(/\/+/, "/")
        .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
        .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
        .gsub(/(?:\/todo_|_todo\/)/, "/")
-       .gsub(/\/libsass\-[a-z]+\-test\//, "/")
-       .gsub(/\/libsass\-[a-z]+\-issue/, "/libsass-issue")
+       .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
+       .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")
        .strip
 end
 
