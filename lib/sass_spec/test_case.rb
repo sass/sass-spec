@@ -114,26 +114,17 @@ class SassSpec::TestCase
     # but make sure we do not remove single cariage returns
     css = css.gsub(/(?:\r?\n)+/, "\n")
   end
-  def _norm_error(err)
-    # we dont want to test for linux or windows line-feeds
-    # but make sure we do not remove single cariage returns
-    err = err.gsub(/(?:\r?\n)+/, "\n")
-    # remove all newlines at the end of the file
-    err = err.sub(/(?:\r?\n)+\z/, "")
-  end
 
   # cleaning only happens when requested for test
   # done by creating `expected.type.clean` flag file
   def _clean_output(css)
-    css.gsub(/ *\{/, " {\n")
-       .gsub(/([;,]) */, "\\1\n")
-       .gsub(/ *\} */, " }\n")
-       .gsub(/;(?:\s*;)+/m, ";")
-       .gsub(/;\r?\n }/m, " }")
-       .gsub(/\r?\n/, "\n")
-       .sub(/(?:\r?\n)+\z/, "")
-       .strip
+    _norm_output(css)
+       .gsub(/[\r\n\s	]+/, " ")
+       .gsub(/, /, ",")
   end
+
+  # errors are always cleaned
+  # we also write them cleaned
   def _clean_error(err)
     err.gsub(/(?:\/todo_|_todo\/)/, "/") # hide todo pre/suffix
        .gsub(/\/libsass\-[a-z]+\-tests\//, "/") # hide test directory
