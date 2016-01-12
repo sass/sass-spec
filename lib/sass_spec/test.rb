@@ -15,6 +15,8 @@ def run_spec_test(test_case, options = {})
         f.write(status)
         f.close
       end
+    elsif (File.file?(test_case.status_path))
+      File.unlink(test_case.status_path)
     end
 
     if error.length > 0
@@ -22,6 +24,8 @@ def run_spec_test(test_case, options = {})
         f.write(error)
         f.close
       end
+    elsif (File.file?(test_case.error_path))
+      File.unlink(test_case.error_path)
     end
 
     File.open(test_case.expected_path, "w+") do |f|
