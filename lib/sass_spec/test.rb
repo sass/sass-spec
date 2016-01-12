@@ -11,7 +11,7 @@ def run_spec_test(test_case, options = {})
 
   if test_case.overwrite?
     if status != 0
-      File.open(test_case.status_path, "w+") do |f|
+      File.open(test_case.status_path, "w+", :binmode => true) do |f|
         f.write(status)
         f.close
       end
@@ -20,7 +20,7 @@ def run_spec_test(test_case, options = {})
     end
 
     if error.length > 0
-      File.open(test_case.error_path, "w+") do |f|
+      File.open(test_case.error_path, "w+", :binmode => true) do |f|
         f.write(error)
         f.close
       end
@@ -28,7 +28,7 @@ def run_spec_test(test_case, options = {})
       File.unlink(test_case.error_path)
     end
 
-    File.open(test_case.expected_path, "w+") do |f|
+    File.open(test_case.expected_path, "w+", :binmode => true) do |f|
       f.write(output)
       f.close
     end
@@ -83,12 +83,12 @@ def _clean_debug_path(error)
   pwd = Dir.pwd
   url = pwd.gsub(/\\/, '\/')
   error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
-       .gsub(/[ 	]+/, " ")
+       .gsub(/\/+/, "/")
        .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
        .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
        .gsub(/(?:\/todo_|_todo\/)/, "/")
-       .gsub(/\/libsass\-[a-z]+\-test\//, "/")
-       .gsub(/\/libsass\-[a-z]+\-issue/, "/libsass-issue")
+       .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
+       .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")
        .strip
 end
 

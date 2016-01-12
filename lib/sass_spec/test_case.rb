@@ -67,15 +67,24 @@ class SassSpec::TestCase
     stdout, stderr, status = engine.compile(@input_path, @output_style)
 
     if @clean_test
-      cleaned = _clean_output(stdout)
+      clean_out = _clean_output(stdout)
     else
-      cleaned = _norm_output(stdout)
+      clean_out = _norm_output(stdout)
     end
-    @output ||= [stdout, cleaned, stderr, status]
+
+    stderr = _clean_error(stderr)
+    # always replace windows linefeeds
+    stdout = stdout.gsub(/(\r\n)/, "\n")
+    stderr = stderr.gsub(/(\r\n)/, "\n")
+
+    @output ||= [stdout, clean_out, stderr, status]
   end
 
   def expected
-    output = File.read(@expected_path, :encoding => "utf-8")
+    output = File.read(@expected_path, :binmode => true)
+    # we seem to get CP850 otherwise
+    # this provokes equal test to fail
+    output.force_encoding('ASCII-8BIT')
     if @clean_test
       @expected ||= _clean_output(output)
     else
@@ -84,12 +93,12 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = _clean_error(File.read(@error_path, :encoding => "utf-8"))
+    @expected_error = _clean_error(File.read(@error_path, :binmode => true))
   end
 
   def expected_status
     if should_fail?
-      @expected_status = File.read(@status_path, :encoding => "utf-8").to_i
+      @expected_status = File.read(@status_path).to_i
     else
       @expected_status = 0
     end
@@ -99,35 +108,39 @@ class SassSpec::TestCase
     @options[:engine_adapter]
   end
 
+  # normalization happens for every test
   def _norm_output(css)
-    css = css.force_encoding('iso-8859-1').encode('utf-8')
-    css.gsub(/(?:\r?\n)+/, "\n")
-       .strip
+    # we dont want to test for linux or windows line-feeds
+    # but make sure we do not remove single cariage returns
+    css = css.gsub(/(?:\r?\n)+/, "\n")
+  end
+  def _norm_error(err)
+    # we dont want to test for linux or windows line-feeds
+    # but make sure we do not remove single cariage returns
+    err = err.gsub(/(?:\r?\n)+/, "\n")
+    # remove all newlines at the end of the file
+    err = err.sub(/(?:\r?\n)+\z/, "")
   end
 
+  # cleaning only happens when requested for test
+  # done by creating `expected.type.clean` flag file
   def _clean_output(css)
-    css = css.force_encoding('iso-8859-1').encode('utf-8')
-    css.gsub(/\s+/, " ")
-       .gsub(/ *\{/, " {\n")
+    css.gsub(/ *\{/, " {\n")
        .gsub(/([;,]) */, "\\1\n")
        .gsub(/ *\} */, " }\n")
        .gsub(/;(?:\s*;)+/m, ";")
        .gsub(/;\r?\n }/m, " }")
+       .gsub(/\r?\n/, "\n")
+       .sub(/(?:\r?\n)+\z/, "")
        .strip
   end
-
   def _clean_error(err)
-    pwd = Dir.pwd
-    url = pwd.gsub(/\\/, '/')
-    err = err.force_encoding('iso-8859-1').encode('utf-8')
-    err.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
-       .gsub(/[ 	]+/, " ")
-       .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
-       .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
-       .gsub(/(?:\/todo_|_todo\/)/, "/")
-       .gsub(/\/libsass\-[a-z]+\-test\//, "/")
-       .gsub(/\/libsass\-[a-z]+\-issue/, "/libsass-issue")
-       .strip
+    err.gsub(/(?:\/todo_|_todo\/)/, "/") # hide todo pre/suffix
+       .gsub(/\/libsass\-[a-z]+\-tests\//, "/") # hide test directory
+       .gsub(/\/libsass\-[a-z]+\-issues\//, "/libsass-issues/") # normalize issue specs
+       .gsub(/[\w\/\-\\:]+?[\/\\]spec[\/\\]+/, "/sass/spec/") # normalize abs paths
+       .sub(/(?:\r?\n)*\z/, "\n") # make sure we have exactly one trailing linefeed
+       .sub(/\A(?:\r?[\n\s])+\z/, "") # clear the whole file if only whitespace
   end
 
 end

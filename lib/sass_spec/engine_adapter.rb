@@ -1,5 +1,3 @@
-require "open3"
-
 class EngineAdapter
   def describe
     not_implemented
@@ -39,13 +37,15 @@ class ExecutableEngineAdapater < EngineAdapter
   end
 
   def version
-    stdout, stderr, status = Open3.capture3("#{@command} -v")
+    require 'open3'
+    stdout, stderr, status = Open3.capture3("#{@command} -v", :binmode => true)
     stdout.to_s
   end
 
 
   def compile(sass_filename, style)
-    stdout, stderr, status = Open3.capture3("#{@command} -t #{style} #{sass_filename}")
+    require 'open3'
+    stdout, stderr, status = Open3.capture3("#{@command} -t #{style} #{sass_filename}", :binmode => true)
     [stdout, stderr, status.exitstatus]
   end
 end
@@ -66,20 +66,34 @@ class SassEngineAdapter < EngineAdapter
 
   def compile(sass_filename, style)
     require 'sass'
+    # overloads STDERR
+    stderr = StringIO.new
+    # restore previous default encoding
+    encoding = Encoding.default_external
+    # Does not work as expected when tests are run in parallel
+    # It runs tests in threads, so stderr is shared across them
+    old_stderr, $stderr = $stderr, stderr
     begin
-      captured_stderr = StringIO.new
-      # Does not work as expected when tests are run in parallel
-      real_stderr, $stderr = $stderr, captured_stderr
-      begin
-        css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
-        [css_output, captured_stderr.string, 0]
-      rescue Sass::SyntaxError => e
-        ["", "Error: " + e.message.to_s, 1]
-      rescue => e
-        ["", e.to_s, 2]
-      end
-    ensure
-      $stderr = real_stderr
+      Encoding.default_external = "UTF-8"
+      css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
+      # strings come back as utf8 encoded
+      # internaly we only work with bytes
+      err_output = stderr.string
+      err_output.force_encoding('ASCII-8BIT')
+      css_output.force_encoding('ASCII-8BIT')
+      [css_output, err_output, 0]
+    rescue Sass::SyntaxError => e
+      # prepend the prefix to the message
+      # and indent all lines to match it
+      err_output = "Error: " + e.message.to_s
+                   .gsub(/(?:\r?\n)(?!\z)/, "\n       ")
+      err_output.force_encoding('ASCII-8BIT')
+      ["", err_output, 65]
+    rescue => e
+      ["", e.to_s, 2]
     end
+  ensure
+    $stderr = old_stderr
+    Encoding.default_external = encoding
   end
 end
