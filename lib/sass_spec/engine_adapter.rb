@@ -43,9 +43,10 @@ class ExecutableEngineAdapater < EngineAdapter
   end
 
 
-  def compile(sass_filename, style)
+  def compile(sass_filename, style, precision)
     require 'open3'
-    stdout, stderr, status = Open3.capture3("#{@command} -t #{style} #{sass_filename}", :binmode => true)
+    cmd = "#{@command} --precision #{precision} -t #{style}"
+    stdout, stderr, status = Open3.capture3("#{cmd} #{sass_filename}", :binmode => true)
     [stdout, stderr, status.exitstatus]
   end
 end
@@ -64,7 +65,7 @@ class SassEngineAdapter < EngineAdapter
     Sass::VERSION
   end
 
-  def compile(sass_filename, style)
+  def compile(sass_filename, style, precision)
     require 'sass'
     # overloads STDERR
     stderr = StringIO.new
@@ -75,6 +76,7 @@ class SassEngineAdapter < EngineAdapter
     old_stderr, $stderr = $stderr, stderr
     begin
       Encoding.default_external = "UTF-8"
+      Sass::Script::Value::Number.precision = precision
       css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
       # strings come back as utf8 encoded
       # internaly we only work with bytes
