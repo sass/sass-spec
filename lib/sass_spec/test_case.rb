@@ -138,7 +138,7 @@ class SassSpec::TestCase
   def _clean_output(css)
     _norm_output(css)
        .gsub(/[\r\n\s	]+/, " ")
-       .gsub(/, /, ",")
+       .gsub(/\s*,\s*/, ",")
   end
 
   # errors are always cleaned
