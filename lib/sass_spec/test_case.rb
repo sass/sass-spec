@@ -99,7 +99,7 @@ class SassSpec::TestCase
   end
 
   def expected
-    output = File.read(@expected_path, :binmode => true)
+    output = File.read(@expected_path, :binmode => true, :encoding => "ASCII-8BIT")
     # we seem to get CP850 otherwise
     # this provokes equal test to fail
     output.force_encoding('ASCII-8BIT')
@@ -111,7 +111,7 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = _clean_error(File.read(@error_path, :binmode => true))
+    @expected_error = _clean_error(File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT"))
   end
 
   def expected_status
