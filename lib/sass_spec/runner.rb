@@ -45,7 +45,7 @@ class SassSpec::Runner
       Minitest.reporter = Minitap::TapY
     end
 
-    exit Minitest.run(minioptions)
+    Minitest.run(minioptions)
   end
 
 
