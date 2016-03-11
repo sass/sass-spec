@@ -20,4 +20,6 @@
 #the output of running a command on it in the file expected_output* in the same directory
 
 require_relative 'lib/sass_spec'
-SassSpec::Runner.new(SassSpec::CLI.parse()).run
+unless SassSpec::Runner.new(SassSpec::CLI.parse()).run
+  exit 1
+end
