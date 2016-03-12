@@ -1,4 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'minitest', '5.2.0'
-gem 'sass'
+gemspec
