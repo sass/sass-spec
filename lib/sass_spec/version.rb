@@ -1,6 +1,4 @@
-module Sass
-  module Spec
-    VERSION = "3.3.3"
-  end
+module SassSpec
+  VERSION = "3.3.3"
 end
 

@@ -5,7 +5,7 @@ require 'sass_spec/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "sass-spec"
-  spec.version       = Sass::Spec::VERSION
+  spec.version       = SassSpec::VERSION
   spec.authors       = [ "Michael Mifsud <xzyfer@gmail.com>",
                          "Marcel Greter <marcel.greter@ocbnet.ch>",
                          "Marcin Cieślak <saper@saper.info>",
