@@ -116,8 +116,8 @@ def run_spec_test(test_case, options = {})
           expected_error_msg = expected_error_line.rstrip
           break
         end
-        error_msg = _clean_debug_path(error_msg)
-        expected_error_msg = _clean_debug_path(expected_error_msg)
+        error_msg = _clean_debug_path(error_msg, options[:spec_directory])
+        expected_error_msg = _clean_debug_path(expected_error_msg, options[:spec_directory])
         assert_equal expected_error_msg, error_msg, "Expected did not match error"
       rescue StopIteration
         assert_equal expected_error_msg, nil, "No error message produced"
@@ -138,13 +138,12 @@ def run_spec_test(test_case, options = {})
   end
 end
 
-def _clean_debug_path(error)
-  pwd = Dir.pwd
-  url = pwd.gsub(/\\/, '\/')
+def _clean_debug_path(error, spec_dir)
+  url = spec_dir.gsub(/\\/, '\/')
   error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
        .gsub(/\/+/, "/")
        .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
-       .gsub(/#{Regexp.quote(pwd)}\//, "/sass/sass-spec/")
+       .gsub(/#{Regexp.quote(spec_dir)}\//, "/sass/sass-spec/")
        .gsub(/(?:\/todo_|_todo\/)/, "/")
        .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
        .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")
