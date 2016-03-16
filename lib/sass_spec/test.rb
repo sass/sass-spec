@@ -16,7 +16,6 @@ def run_spec_test(test_case, options = {})
     if status != 0
       File.open(test_case.status_path, "w+", :binmode => true) do |f|
         f.write(status)
-        f.close
       end
     elsif (File.file?(test_case.status_path))
       File.unlink(test_case.status_path)
@@ -25,7 +24,6 @@ def run_spec_test(test_case, options = {})
     if error.length > 0
       File.open(test_case.error_path, "w+", :binmode => true) do |f|
         f.write(error)
-        f.close
       end
     elsif (File.file?(test_case.error_path))
       File.unlink(test_case.error_path)
@@ -33,7 +31,6 @@ def run_spec_test(test_case, options = {})
 
     File.open(test_case.expected_path, "w+", :binmode => true) do |f|
       f.write(output)
-      f.close
     end
   end
 
