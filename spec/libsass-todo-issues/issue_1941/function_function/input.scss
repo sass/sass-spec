@@ -1,0 +1,12 @@
+@function parent() {
+  @function nested() {
+    @return foo;
+  }
+
+  @return nested();
+}
+
+
+test {
+  foo: parent();
+}
