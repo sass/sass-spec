@@ -69,6 +69,10 @@ class SassSpec::TestCase
     @should_fail
   end
 
+  def skip_format?
+    File.file?(@expected_path.sub(/\.css$/, ".skip"))
+  end
+
   def todo?
     @input_path.to_s.include? "todo"
   end

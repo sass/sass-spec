@@ -5,6 +5,10 @@ def run_spec_test(test_case, options = {})
     skip "Skipped todo"
   end
 
+  if test_case.skip_format?
+    skip "Output format skipped"
+  end
+
   assert File.exists?(test_case.input_path), "Input #{test_case.input_path} file does not exist"
 
   output, clean_output, error, status = test_case.output
