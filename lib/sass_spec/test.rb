@@ -5,6 +5,9 @@ def run_spec_test(test_case, options = {})
     skip "Skipped todo"
   end
 
+  assert_filename_length!(test_case.input_path, options)
+  assert_filename_length!(test_case.expected_path, options)
+
   assert File.exists?(test_case.input_path), "Input #{test_case.input_path} file does not exist"
 
   output, clean_output, error, status = test_case.output
@@ -13,7 +16,6 @@ def run_spec_test(test_case, options = {})
     if status != 0
       File.open(test_case.status_path, "w+", :binmode => true) do |f|
         f.write(status)
-        f.close
       end
     elsif (File.file?(test_case.status_path))
       File.unlink(test_case.status_path)
@@ -22,7 +24,6 @@ def run_spec_test(test_case, options = {})
     if error.length > 0
       File.open(test_case.error_path, "w+", :binmode => true) do |f|
         f.write(error)
-        f.close
       end
     elsif (File.file?(test_case.error_path))
       File.unlink(test_case.error_path)
@@ -30,7 +31,6 @@ def run_spec_test(test_case, options = {})
 
     File.open(test_case.expected_path, "w+", :binmode => true) do |f|
       f.write(output)
-      f.close
     end
   end
 
@@ -138,12 +138,42 @@ def run_spec_test(test_case, options = {})
   end
 end
 
+GEMFILE_PREFIX_LENGTH = 68
+# When running sass-spec as a gem from github very long filenames
+# can cause installation issues. This checks that the paths in use will work.
+def assert_filename_length!(filename, options)
+  name = relative_name = filename.to_s.sub(File.expand_path(options[:spec_directory]), "")
+  assert false, "Filename #{name} must no more than #{256 - GEMFILE_PREFIX_LENGTH} characters long" if name.size > (256 - GEMFILE_PREFIX_LENGTH)
+
+  if name.size <= 100 then
+    prefix = ""
+  else
+    parts = name.split(/\//)
+    newname = parts.pop
+    nxt = ""
+
+    loop do
+      nxt = parts.pop
+      break if newname.size + 1 + nxt.size > 100
+      newname = nxt + "/" + newname
+    end
+
+    prefix = (parts + [nxt]).join "/"
+    name = newname
+
+    assert false, "base name (#{name}) of #{relative_name} must no more than 100 characters long" if name.size > 100
+    assert false, "prefix (#{prefix}) of #{relative_name} must no more than #{155 - GEMFILE_PREFIX_LENGTH} characters long" if prefix.size > (155 - GEMFILE_PREFIX_LENGTH)
+  end
+  return nil
+end
+
 def _clean_debug_path(error, spec_dir)
+  spec_dir = File.expand_path(spec_dir)
   url = spec_dir.gsub(/\\/, '\/')
   error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
        .gsub(/\/+/, "/")
-       .gsub(/#{Regexp.quote(url)}\//, "/sass/sass-spec/")
-       .gsub(/#{Regexp.quote(spec_dir)}\//, "/sass/sass-spec/")
+       .gsub(/^#{Regexp.quote(url)}\//, "/sass/sass-spec/")
+       .gsub(/^#{Regexp.quote(spec_dir)}\//, "/sass/sass-spec/")
        .gsub(/(?:\/todo_|_todo\/)/, "/")
        .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
        .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")

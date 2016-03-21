@@ -147,7 +147,7 @@ class SassSpec::TestCase
     err.gsub(/(?:\/todo_|_todo\/)/, "/") # hide todo pre/suffix
        .gsub(/\/libsass\-[a-z]+\-tests\//, "/") # hide test directory
        .gsub(/\/libsass\-[a-z]+\-issues\//, "/libsass-issues/") # normalize issue specs
-       .gsub(/[\w\/\-\\:]+?[\/\\]spec[\/\\]+/, "/sass/spec/") # normalize abs paths
+       .gsub(/[\w\/.\-\\:]+?[\/\\]spec[\/\\]+/, "/sass/spec/") # normalize abs paths
        .sub(/(?:\r?\n)*\z/, "\n") # make sure we have exactly one trailing linefeed
        .sub(/\A(?:\r?[\n\s])+\z/, "") # clear the whole file if only whitespace
   end
