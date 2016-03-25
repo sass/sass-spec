@@ -32,7 +32,7 @@ BANNER
               "Pass a version of 'unset' to remove the start version.") do |version|
         version = nil if version =~ /unset/i
         return unless assert_legal_version(version)
-        options[:start_verion] = version
+        options[:start_version] = version
       end
 
       opts.on("--end-version VERSION",
@@ -40,7 +40,7 @@ BANNER
               "Pass a version of 'unset' to remove the end version.") do |version|
         version = nil if version =~ /unset/i
         return unless assert_legal_version(version)
-        options[:end_verion] = version
+        options[:end_version] = version
       end
 
       opts.on("--expect-failure IMPLEMENTATION",
