@@ -5,7 +5,18 @@ require 'command_line_reporter'
 class SassSpec::Annotate::CLI
   include CommandLineReporter
 
+  def self.assert_legal_version(version)
+    if version && !SassSpec::LANGUAGE_VERSIONS.include?(version)
+      warn "Version #{version} is not valid. " +
+           "Did you mean one of: #{SassSpec::LANGUAGE_VERSIONS.join(', ')}"
+      return false
+    end
+    true
+  end
+
   def self.parse(args)
+    runner_options = {
+    }
     options = {
     }
     parser = OptionParser.new do |opts|
@@ -20,6 +31,7 @@ BANNER
               "Set the Sass language first version for which the test(s) are valid.",
               "Pass a version of 'unset' to remove the start version.") do |version|
         version = nil if version =~ /unset/i
+        return unless assert_legal_version(version)
         options[:start_verion] = version
       end
 
@@ -27,6 +39,7 @@ BANNER
               "Set the Sass language first version for which the test(s) are valid.",
               "Pass a version of 'unset' to remove the end version.") do |version|
         version = nil if version =~ /unset/i
+        return unless assert_legal_version(version)
         options[:end_verion] = version
       end
 
