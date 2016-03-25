@@ -1,7 +1,10 @@
 require 'set'
 require 'yaml'
+require 'command_line_reporter'
 
 class SassSpec::Annotate::CLI
+  include CommandLineReporter
+
   def self.parse(args)
     options = {
     }
@@ -77,6 +80,7 @@ BANNER
   end
 
   def annotate_path(path)
+    report(message: "#{path}:", complete: "") do
     options_file = path.end_with?("options.yml") ? path : File.join(path, "options.yml")
     if File.exists?(options_file)
       current_options = YAML.load_file(options_file)
@@ -90,7 +94,7 @@ BANNER
         current_options[key] ||= []
         value.each do |v|
           current_options[key] << v
-          puts "#{path}: Adding #{v} to #{key} list"
+          log("* adding #{v} to #{key} list")
         end
         current_options[key].uniq!
       elsif key =~ /remove_(.*)/
@@ -98,22 +102,28 @@ BANNER
         current_options[key] ||= []
         value.each do |v|
           current_options[key].delete(v)
-          puts "#{path}: Removing #{v} from #{key} list"
+          log("* removing #{v} from #{key} list")
         end
         current_options.delete(key) if current_options[key].empty?
       elsif value.nil?
         current_options.delete(key)
-        puts "#{path}: Unsetting #{key}"
+        log("* unsetting #{key}") {}
       else
         current_options[key] = value
-        puts "#{path}: Setting #{key} to #{value}"
+        log("* setting #{key} to #{value}") {}
       end
     end
     File.open(options_file, "w") do |f|
       f.write(current_options.to_yaml)
     end
+    end
   end
 
   def describe(path, key, value)
+  end
+
+  def log(message, &block)
+    block = Proc.new {} unless block
+    report(message: message, type: 'inline', complete: "done", &block)
   end
 end
