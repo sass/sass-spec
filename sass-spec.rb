@@ -20,6 +20,10 @@
 #the output of running a command on it in the file expected_output* in the same directory
 
 require_relative 'lib/sass_spec'
-unless SassSpec::Runner.new(SassSpec::CLI.parse()).run
-  exit 1
+
+if ARGV[0] == "annotate"
+  (cli = SassSpec::Annotate::CLI.parse(ARGV[1..-1])) || exit(1)
+  cli.annotate || exit(1)
+else
+  SassSpec::Runner.new(SassSpec::CLI.parse()).run || exit(1)
 end

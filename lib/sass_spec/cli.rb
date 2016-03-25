@@ -41,6 +41,9 @@ the output matches the expected output. If you want set up your own test suite,
 follow a similar hierarchy as described in the initial comment of this script
 for your test hierarchy.
 
+This command can also be used to annotate tests to control which tests are ran
+and when. For details: ./sass-spec.rb annotate -h
+
 Make sure the command you provide prints to stdout.
 
 "
