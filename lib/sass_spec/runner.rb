@@ -48,6 +48,19 @@ class SassSpec::Runner
     Minitest.run(minioptions)
   end
 
+  def language_version
+    unless defined?(@language_version)
+      @language_version = if @options[:language_version]
+                            Gem::Version.new(@options[:language_version])
+                          else
+                            warn "No language version specified. " +
+                                 "Using #{SassSpec::MAX_LANGUAGE_VERSION}"
+                            SassSpec::MAX_LANGUAGE_VERSION
+                          end
+    end
+    @language_version
+  end
+
 
   def _get_cases
     cases = []
@@ -55,6 +68,13 @@ class SassSpec::Runner
       get_files(@options[:spec_directory], [], input_file).each do |filename|
         input = Pathname.new(filename)
         folder = File.dirname(filename)
+        metadata = SassSpec::TestCaseMetadata.new(folder)
+        unless metadata.valid_for_version(language_version)
+          if @options[:verbose]
+            warn "#{metadata.name} does not apply to Sass #{language_version}"
+          end
+          next
+        end
         expected_stderr_file_path = File.join(folder, "error")
         expected_status_file_path = File.join(folder, "status")
         @options[:output_styles].each do |output_style|

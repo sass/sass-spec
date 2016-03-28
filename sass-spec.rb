@@ -25,5 +25,10 @@ if ARGV[0] == "annotate"
   (cli = SassSpec::Annotate::CLI.parse(ARGV[1..-1])) || exit(1)
   cli.annotate || exit(1)
 else
-  SassSpec::Runner.new(SassSpec::CLI.parse()).run || exit(1)
+  begin
+    SassSpec::Runner.new(SassSpec::CLI.parse()).run || exit(1)
+  rescue ArgumentError => e
+    warn e.message
+    exit 1
+  end
 end

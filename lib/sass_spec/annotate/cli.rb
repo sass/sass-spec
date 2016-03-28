@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'set'
 require 'yaml'
 require 'command_line_reporter'
@@ -148,7 +149,7 @@ BANNER
       metadatas.map {|m| m.name.length}.max,
       TermInfo.screen_size.last - SassSpec::LANGUAGE_VERSIONS.length * 6 - 4
     ].min
-    table(border: true, width: max_length + SassSpec::LANGUAGE_VERSIONS.length * 3) do
+    table(border: true, encoding: :ascii, width: max_length + SassSpec::LANGUAGE_VERSIONS.length * 3) do
       row(header: true) do
         column("Test Case", width: max_length)
         SassSpec::LANGUAGE_VERSIONS.each do |version|
