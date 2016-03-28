@@ -12,5 +12,6 @@ module SassSpec
 end
 
 require_relative 'sass_spec/annotate'
+require_relative 'sass_spec/test_case_metadata'
 require_relative 'sass_spec/cli'
 require_relative 'sass_spec/runner'
