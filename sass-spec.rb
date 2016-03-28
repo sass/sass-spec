@@ -22,6 +22,7 @@
 require_relative 'lib/sass_spec'
 
 if ARGV[0] == "annotate"
+  require_relative 'lib/sass_spec/annotate'
   (cli = SassSpec::Annotate::CLI.parse(ARGV[1..-1])) || exit(1)
   cli.annotate || exit(1)
 else
