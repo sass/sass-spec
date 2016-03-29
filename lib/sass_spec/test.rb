@@ -489,6 +489,7 @@ def change_options(options_file, options)
 
 end
 
+
 GEMFILE_PREFIX_LENGTH = 68
 # When running sass-spec as a gem from github very long filenames
 # can cause installation issues. This checks that the paths in use will work.
@@ -519,40 +520,30 @@ def assert_filename_length!(filename, options)
 end
 
 def _extract_error_message(error, options)
-  skip = false
-  error.each_line do |error_line|
-    if (error_line =~ /DEPRECATION WARNING/)
-      skip = false
+  error_message = ""
+  consume_next_line = false
+  error.each_line do |line|
+    if consume_next_line
+      next if line.strip == ""
+      error_message += line
+      break
     end
-    if (error_line =~ /Error:/)
-      skip = false
+    if (line =~ /DEPRECATION WARNING/)
+      if line.rstrip.end_with?(":")
+        error_message = line.rstrip + "\n"
+        consume_next_line = true
+        next
+      else
+        error_message = line
+        break
+      end
     end
-    # disable once we support this deprecation fully
-    if (error_line =~ /interpolation near operators will be simplified/)
-      skip = true
-      next
+    if (line =~ /Error:/)
+      error_message = line
+      break
     end
-    # disable once we support this deprecation fully
-    # if (error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
-    #   skip = true
-    #   next
-    # end
-    # disable once we support this deprecation fully
-    if (error_line =~ /Passing a percentage as the alpha/)
-      skip = true
-      next
-    end
-    # disable once we support this deprecation fully (partial now)
-    # if (error_line =~ /, a non-string value, to unquote()/)
-    #   skip = true
-    #   next
-    # end
-    if (skip)
-      next
-    end
-    return _clean_debug_path(error_line.rstrip, options[:spec_directory])
   end
-  return nil
+  _clean_debug_path(error_message.rstrip, options[:spec_directory])
 end
 
 def _clean_debug_path(error, spec_dir)

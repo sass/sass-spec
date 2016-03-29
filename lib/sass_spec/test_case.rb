@@ -68,16 +68,16 @@ class SassSpec::TestCase
     @error_path
   end
 
-  def verify_stderr?
-    @verify_stderr
-  end
-
   def status_path
     @status_path
   end
 
   def options_path
     @options_path
+  end
+
+  def verify_stderr?
+    @verify_stderr
   end
 
   def interactive?
@@ -151,7 +151,12 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = _clean_error((File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT") rescue ""))
+    @expected_error ||= if File.file?(@error_path)
+                          _clean_error(File.read(@error_path, :binmode => true,
+                                                 :encoding => "ASCII-8BIT"))
+                        else
+                          ""
+                        end
   end
 
   def expected_status
