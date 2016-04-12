@@ -185,7 +185,7 @@ end
 class SassSpec::Test < Minitest::Test
   def self.create_tests(test_cases, options = {})
     test_cases[0..options[:limit]].each do |test_case|
-      define_method('test__' << test_case.output_style + "_" + test_case.name) do
+      define_method("test__#{test_case.name}") do
         run_spec_test(test_case, options)
       end
     end

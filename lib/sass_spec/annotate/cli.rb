@@ -44,6 +44,33 @@ BANNER
         options[:end_version] = version
       end
 
+      opts.on("--output-style STYLE",
+              [:expanded, :compact, :nested, :compressed, :unset],
+              "Set the output style for the specified tests.") do |output_style|
+        output_style = nil if output_style =~ /unset/i
+        options[:output_style] = output_style
+      end
+
+      opts.on("--[no-]clean-output", "Do some basic whitespace normalization.") do |clean|
+        clean = nil unless clean
+        options[:clean] = clean
+      end
+
+      opts.on("--precision INTEGER",
+              "Set the numeric output precision for the specified tests.",
+              "Pass a precision of 'unset' to remove the precision.") do |precision|
+        if precision =~ /unset/i
+          precision = nil
+        elsif precision =~ /^\d+$/
+          precision = precision.to_i
+        else
+          warn "Precision must be set to a positive integer (or to 'unset')\n\n"
+          warn opts.help()
+          return nil
+        end
+        options[:precision] = precision
+      end
+
       opts.on("--expect-failure IMPLEMENTATION",
               "Expect implementation to fail for the specified tests.") do |impl|
         (options[:add_expect_failure] ||= Set.new) << impl

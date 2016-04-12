@@ -14,7 +14,7 @@ class EngineAdapter
 
   # Compile a Sass file and return the results
   # @return [css_output, std_error, status_code]
-  def compile(sass_filename)
+  def compile(sass_filename, style, precision)
     not_implemented
   end
 
@@ -45,7 +45,8 @@ class ExecutableEngineAdapater < EngineAdapter
 
   def compile(sass_filename, style, precision)
     require 'open3'
-    cmd = "#{@command} --precision #{precision} -t #{style}"
+    cmd = "#{@command} --precision #{precision}"
+    cmd += " -t #{style}" if style
     stdout, stderr, status = Open3.capture3("#{cmd} #{sass_filename}", :binmode => true)
     [stdout, stderr, status.exitstatus]
   end
@@ -77,7 +78,10 @@ class SassEngineAdapter < EngineAdapter
     begin
       Encoding.default_external = "UTF-8"
       Sass::Script::Value::Number.precision = precision
-      css_output = Sass.compile_file(sass_filename.to_s, :style => style.to_sym)
+      sass_options = {}
+      sass_options[:style] = style.to_sym if style
+      puts sass_options.inspect
+      css_output = Sass.compile_file(sass_filename.to_s, sass_options)
       # strings come back as utf8 encoded
       # internaly we only work with bytes
       err_output = stderr.string

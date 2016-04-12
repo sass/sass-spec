@@ -6,8 +6,8 @@ module SassSpec::CLI
   def self.parse
     options = {
       engine_adapter: SassEngineAdapter.new("sass"),
-      spec_directory: "spec",
-      generate: [],
+      spec_directory: nil,
+      generate: false,
       tap: false,
       skip: false,
       verbose: false,
@@ -18,7 +18,6 @@ module SassSpec::CLI
 
       # Constants
       output_styles: ["nested", "compressed", "expanded", "compact"],
-      input_files: ["input.scss", "input.sass"],
       nested_output_file: 'expected_output',
       compressed_output_file: 'expected.compressed',
       expanded_output_file: 'expected.expanded',
@@ -26,7 +25,7 @@ module SassSpec::CLI
     }
 
     OptionParser.new do |opts|
-      opts.banner = "Usage: ./sass-spec.rb [options]
+      opts.banner = "Usage: ./sass-spec.rb [options] [spec_directory...]
 
 Examples:
   Run `sassc --style compressed input.scss`:
@@ -68,16 +67,8 @@ Make sure the command you provide prints to stdout.
         options[:engine_adapter] = ExecutableEngineAdapater.new(v)
       end
 
-      opts.on("-g", "--generate format", "Run test and generate output files for the specified format or \"all\"") do |v|
-        if v == "all"
-          options[:generate].replace(options[:output_styles])
-        else
-          if options[:output_styles].include?(v)
-            options[:generate] << v
-          else
-            raise "--generate needs a valid output format #{options[:output_styles]} or \"all\""
-          end
-        end
+      opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do |v|
+        options[:generate] = true
       end
 
       opts.on("--ignore-todo", "Skip any folder named 'todo'") do
@@ -90,6 +81,13 @@ Make sure the command you provide prints to stdout.
 
       opts.on("--limit NUMBER", "Limit the number of tests run to this positive integer.") do |limit|
         options[:limit] = limit.to_i
+      end
+
+      opts.on("-r SPEC_DIR", "--root SPEC_DIR", "Root directory for the specs. ",
+                "Defaults to the first directory specified if not provided or ",
+                "the default spec directory if no directory is specified or if the first directory",
+                "specified is a subdirectory of the default spec directory.") do |spec_dir|
+        options[:spec_directory] = File.expand_path(spec_dir)
       end
 
       opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
@@ -109,7 +107,17 @@ Make sure the command you provide prints to stdout.
       end
     end.parse!
 
-    options[:spec_directory] = ARGV[0] if !ARGV.empty?
+    if ARGV.any? && !options[:spec_directory]
+      if File.expand_path(ARGV[0]).start_with?(SassSpec::SPEC_DIR)
+        options[:spec_directory] = SassSpec::SPEC_DIR
+      else
+        options[:spec_directory] = File.expand_path(ARGV[0])
+      end
+    end
+
+    options[:spec_directory] ||= SassSpec::SPEC_DIR
+
+    options[:spec_dirs_to_run] = ARGV.dup.map{|d| File.expand_path(d)} if ARGV.any?
 
     options
   end

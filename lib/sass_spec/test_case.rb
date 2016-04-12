@@ -1,48 +1,47 @@
+require 'pathname'
+
 # This represents a specific test case.
 class SassSpec::TestCase
-  def initialize(input_scss, expected_css, folder, style, clean, gen, options = {})
-    @input_path = input_scss
-    @expected_path = expected_css
+  def initialize(folder, options = {})
+    folder = File.expand_path(folder)
+    @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
+    puts @metadata.inspect
+    @input_path = Pathname.new(find_input_path(folder))
+    @expected_path = File.join(folder, "expected_output.css")
     @error_path = File.join(folder, "error")
     @status_path = File.join(folder, "status")
     @options_path = File.join(folder, "options")
-    @output_style = style
-    @clean_test = clean
     @options = options
-    @generate = gen
-    @precision = 5
 
     # Probe filesystem once and cache the results
     @should_fail = File.file?(@status_path)
     @verify_stderr = File.file?(@error_path)
+  end
 
-    # load options (only precision ATM)
-    if (File.file?(@options_path))
-      File.open(@options_path, "r") do |opt|
-        opt.each_line do |line|
-          if (line =~ /^precision\s*:\s*(\d+)\s*$/)
-            @precision = $1.to_i
-          end
-        end
-      end
+  def find_input_path(folder)
+    input_files = Dir.glob(File.join(folder, "input.*"))
+    if input_files.empty?
+      raise ArgumentError.new("No input file found in #{folder}")
+    elsif input_files.size > 1
+      raise ArgumentError.new("Multiple input files found in #{folder}: #{input_files.join(', ')}")
     end
-
+    input_files.first
   end
 
   def name
-    @input_path.dirname.to_s.sub(Dir.pwd + "/", "")
+    @metadata.name
   end
 
   def precision
-    @precision
+    @metadata.precision || 5
   end
 
   def clean_test
-    @clean_test
+    @metadata.clean_output?
   end
 
   def output_style
-    @output_style
+    @metadata.output_style
   end
 
   def input_path
@@ -74,7 +73,7 @@ class SassSpec::TestCase
   end
 
   def overwrite?
-    @generate || @options[:nuke]
+    @options[:generate] || @options[:nuke]
   end
 
   def output
@@ -82,7 +81,7 @@ class SassSpec::TestCase
       return @output
     end
 
-    stdout, stderr, status = engine.compile(@input_path, @output_style, @precision)
+    stdout, stderr, status = engine.compile(@input_path, output_style, precision)
 
     if @clean_test
       clean_out = _clean_output(stdout)
@@ -137,7 +136,7 @@ class SassSpec::TestCase
   # done by creating `expected.type.clean` flag file
   def _clean_output(css)
     _norm_output(css)
-       .gsub(/[\r\n\s	]+/, " ")
+       .gsub(/\s+/, " ")
        .gsub(/\s*,\s*/, ",")
   end
 
@@ -149,7 +148,7 @@ class SassSpec::TestCase
        .gsub(/\/libsass\-[a-z]+\-issues\//, "/libsass-issues/") # normalize issue specs
        .gsub(/[\w\/.\-\\:]+?[\/\\]spec[\/\\]+/, "/sass/spec/") # normalize abs paths
        .sub(/(?:\r?\n)*\z/, "\n") # make sure we have exactly one trailing linefeed
-       .sub(/\A(?:\r?[\n\s])+\z/, "") # clear the whole file if only whitespace
+       .sub(/\A(?:\r?\s)+\z/, "") # clear the whole file if only whitespace
   end
 
 end

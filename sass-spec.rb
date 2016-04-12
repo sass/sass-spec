@@ -23,13 +23,20 @@ require_relative 'lib/sass_spec'
 
 if ARGV[0] == "annotate"
   require_relative 'lib/sass_spec/annotate'
-  (cli = SassSpec::Annotate::CLI.parse(ARGV[1..-1])) || exit(1)
+  begin
+    (cli = SassSpec::Annotate::CLI.parse(ARGV[1..-1])) || exit(1)
+  rescue OptionParser::InvalidOption => e
+    warn e.message + "\n\n"
+    SassSpec::Annotate::CLI.parse(%w(-h))
+    exit 1
+  end
   cli.annotate || exit(1)
 else
   begin
     SassSpec::Runner.new(SassSpec::CLI.parse()).run || exit(1)
   rescue ArgumentError => e
     warn e.message
+    warn e.backtrace
     exit 1
   end
 end

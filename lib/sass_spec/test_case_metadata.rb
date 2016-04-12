@@ -24,14 +24,33 @@ module SassSpec
       return {} if dir.relative_path_from(@spec_dir).to_s == "."
       parent_options = resolve_options(dir.parent)
       options_file = dir + "options.yml"
-      self_options = options_file.exist? ? YAML.load_file(options_file.to_s) : {}
-      parent_options.merge(self_options) do |key, parent_value, self_value|
+      self_options = if options_file.exist?
+                       puts options_file.to_s
+                       YAML.load_file(options_file.to_s)
+                     else
+                       {}
+                     end
+      rv = parent_options.merge(self_options) do |key, parent_value, self_value|
         if ACCUMULATED_OPTIONS.include?(key)
           (Array(parent_value) + Array(self_value)).uniq
         else
           self_value
         end
       end
+      puts rv.inspect
+      rv
+    end
+
+    def output_style
+      @options[:output_style]
+    end
+
+    def precision
+      @options[:precision]
+    end
+
+    def clean_output?
+      !!@options[:clean]
     end
 
     def start_version
