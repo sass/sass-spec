@@ -80,7 +80,6 @@ class SassEngineAdapter < EngineAdapter
       Sass::Script::Value::Number.precision = precision
       sass_options = {}
       sass_options[:style] = style.to_sym if style
-      puts sass_options.inspect
       css_output = Sass.compile_file(sass_filename.to_s, sass_options)
       # strings come back as utf8 encoded
       # internaly we only work with bytes

@@ -5,7 +5,6 @@ class SassSpec::TestCase
   def initialize(folder, options = {})
     folder = File.expand_path(folder)
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
-    puts @metadata.inspect
     @input_path = Pathname.new(find_input_path(folder))
     @expected_path = File.join(folder, "expected_output.css")
     @error_path = File.join(folder, "error")

@@ -9,20 +9,22 @@ class SassSpec::Runner
     @options = options
   end
 
-  def get_input_files
-    dirs = (@options[:spec_dirs_to_run] || Array(@options[:spec_directory])).map do |d|
+  def get_input_dirs
+    (@options[:spec_dirs_to_run] || Array(@options[:spec_directory])).map do |d|
       d = File.expand_path(d)
       File.directory?(d) ? d : File.dirname(d)
     end
+  end
 
-    dirs.inject([]) do |m, d|
+  def get_input_files
+    get_input_dirs.inject([]) do |m, d|
       m + Dir.glob(File.join(d, "**", "input.s[ac]ss"))
     end.uniq
   end
 
   def run
     unless @options[:silent] || @options[:tap]
-      puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:engine_adapter]}' with."
+      puts "Recursively searching under #{get_input_dirs.join(", ")} for test files to test '#{@options[:engine_adapter]}' against language version #{@options[:language_version]}."
       puts @options[:engine_adapter].version
     end
 

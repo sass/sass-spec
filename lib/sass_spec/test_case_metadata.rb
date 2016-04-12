@@ -25,7 +25,6 @@ module SassSpec
       parent_options = resolve_options(dir.parent)
       options_file = dir + "options.yml"
       self_options = if options_file.exist?
-                       puts options_file.to_s
                        YAML.load_file(options_file.to_s)
                      else
                        {}
@@ -37,7 +36,6 @@ module SassSpec
           self_value
         end
       end
-      puts rv.inspect
       rv
     end
 
