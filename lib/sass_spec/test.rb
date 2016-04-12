@@ -41,7 +41,7 @@ def run_spec_test(test_case, options = {})
        # XXX Ruby returns 65 etc. SassC returns 1
        refute_equal status, 0, "Test case should fail, but it did not"
     else
-       assert_equal status, 0, "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
+       assert_equal 0, status, "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
     end
     assert_equal test_case.expected, clean_output, "Expected did not match output"
     if test_case.verify_stderr?
