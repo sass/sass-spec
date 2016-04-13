@@ -1,3 +1,5 @@
+require_relative 'capture_with_timeout'
+
 class EngineAdapter
 
   def describe
@@ -27,9 +29,11 @@ class EngineAdapter
 end
 
 class ExecutableEngineAdapater < EngineAdapter
+  include CaptureWithTimeout
 
   def initialize(command, description = nil)
     @command = command
+    @timeout = 10
     @description = description || command
   end
 
@@ -49,11 +53,15 @@ class ExecutableEngineAdapater < EngineAdapter
 
 
   def compile(sass_filename, style, precision)
-    require 'open3'
     cmd = "#{@command} --precision #{precision}"
     cmd += " -t #{style}" if style
-    stdout, stderr, status = Open3.capture3("#{cmd} #{sass_filename}", :binmode => true)
-    [stdout, stderr, status.exitstatus]
+    result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
+
+    if result[:timeout]
+      ["", "Execution timed out after #{@timeout}s", -1]
+    else
+      [result[:stdout], result[:stderr], result[:status].exitstatus]
+    end
   end
 end
 
