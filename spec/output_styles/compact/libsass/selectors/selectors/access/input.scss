@@ -1,0 +1,34 @@
+@mixin selector-access {
+  mixin-sees: &;
+}
+
+@function function-access() {
+  @return &;
+}
+
+.foo {
+  @include selector-access;
+  function-sees: function-access();
+}
+
+.bar a {
+  @include selector-access;
+  function-sees: function-access();
+}
+
+.bar,
+.baz {
+  @include selector-access;
+  function-sees: function-access();
+}
+
+.qux {
+  &.waldo {
+    .where & {
+      .final {
+        @include selector-access;
+        function-sees: function-access();
+      }
+    }
+  }
+}

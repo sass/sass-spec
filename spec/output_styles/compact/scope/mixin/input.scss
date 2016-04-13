@@ -1,0 +1,15 @@
+$foo: 42;
+
+@mixin foo {
+  $foo: 1337 !global;
+}
+
+.foo {
+  content: $foo;
+}
+
+@include foo;
+
+.bar {
+  content: $foo;
+}

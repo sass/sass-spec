@@ -1,0 +1,25 @@
+$ls: ((foo,));
+
+foo {
+  baz: length($ls);
+  baz: type-of($ls);
+  baz: inspect($ls);
+}
+
+bar {
+  baz: length(&);
+  baz: type-of(&);
+  baz: inspect(&);
+}
+
+foo {
+  string: inspect(&);
+  str-length: str-length(inspect(&));
+  list-length: length(&);
+}
+
+foo, bar {
+  string: inspect(&);
+  str-length: str-length(inspect(&));
+  list-length: length(&);
+}

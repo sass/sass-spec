@@ -1,0 +1,37 @@
+@function foo($arg2) {
+  @return type-of($arg2);
+}
+
+@function foo_($arg2...) {
+  @return type-of($arg2);
+}
+
+@function bar($arg1, $arg2) {
+  @return type-of($arg1) + "::" + type-of($arg2);
+}
+
+@function bar_($arg1, $arg2...) {
+  @return type-of($arg1) + "::" + type-of($arg2);
+}
+
+foo {
+  foo: foo(one);
+  foo: foo(one...);
+  bar: bar(one, two);
+  bar: bar(one, two...);
+  foo: call('foo', one);
+  foo: call('foo', one...);
+  bar: call('bar', one, two);
+  bar: call('bar', one, two...);
+}
+
+bar {
+  foo: foo_(one);
+  foo: foo_(one...);
+  bar: bar_(one, two);
+  bar: bar_(one, two...);
+  foo: call('foo_', one);
+  foo: call('foo_', one...);
+  bar: call('bar_', one, two);
+  bar: call('bar_', one, two...);
+}

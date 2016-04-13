@@ -1,0 +1,41 @@
+div {
+    foo: 'A'#{B};
+    foo: #{A}'B';
+    foo: 'A'#{B}'C';
+    foo: #{A}'B'#{C};
+    foo: A#{B}'C';
+    foo: 'A'#{B}C;
+    foo: #{A}B'C';
+    foo: 'A'#{B}C'D';
+    foo: 'A'B#{C}D'E';
+    foo: A'B'#{C}D'E';
+    foo: #{A}'B'C'D''E';
+}
+
+div {
+    foo: type-of('A'#{B});
+    foo: type-of(#{A}'B');
+    foo: type-of('A'#{B}'C');
+    foo: type-of(#{A}'B'#{C});
+    foo: type-of(A#{B}'C');
+    foo: type-of('A'#{B}C);
+    foo: type-of(#{A}B'C');
+    foo: type-of('A'#{B}C'D');
+    foo: type-of('A'B#{C}D'E');
+    foo: type-of(A'B'#{C}D'E');
+    foo: type-of(#{A}'B'C'D''E');
+}
+
+div {
+    foo: length('A'#{B});
+    foo: length(#{A}'B');
+    foo: length('A'#{B}'C');
+    foo: length(#{A}'B'#{C});
+    foo: length(A#{B}'C');
+    foo: length('A'#{B}C);
+    foo: length(#{A}B'C');
+    foo: length('A'#{B}C'D');
+    foo: length('A'B#{C}D'E');
+    foo: length(A'B'#{C}D'E');
+    foo: length(#{A}'B'C'D''E');
+}

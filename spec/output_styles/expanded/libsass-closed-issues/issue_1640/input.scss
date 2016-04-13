@@ -1,0 +1,13 @@
+@mixin foo() {
+    @if false {
+      a { b: c }
+    } @else {
+      @content;
+    }
+}
+
+@include foo() {
+  .foo {
+    bar: baz;
+  }
+}

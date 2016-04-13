@@ -1,0 +1,19 @@
+$x: -42;
+$y: -84;
+div {
+  $x: 42;
+  $y: 84;
+  for {
+    @for $x from 1 through 5 {
+      $y: $y + 5;
+      y: $y;
+      x: $x;
+      $x: 999;
+      x: $x;
+      $y: -9 !global;
+      $x: -9 !global;
+    }
+  }
+  x: $x;
+  y: $y;
+}

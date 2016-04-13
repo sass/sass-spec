@@ -1,0 +1,13 @@
+$foo: 42;
+
+.foo {
+  content: $foo;
+}
+
+@each $item in 1337 {
+  $foo: $item !global;
+}
+
+.bar {
+  content: $foo;
+}
