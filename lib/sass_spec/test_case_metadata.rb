@@ -2,6 +2,10 @@ require 'pathname'
 require 'yaml'
 module SassSpec
   class TestCaseMetadata
+    def self.cache
+      @metadata_cache ||= {}
+    end
+
     ACCUMULATED_OPTIONS = [:todo, :expect_failure]
 
     attr_reader :options
@@ -20,7 +24,7 @@ module SassSpec
       @test_case_dir.relative_path_from(Pathname.new(Dir.pwd)).to_s
     end
 
-    def resolve_options(dir)
+    def _resolve_options(dir)
       return {} if dir.relative_path_from(@spec_dir).to_s == "."
       parent_options = resolve_options(dir.parent)
       options_file = dir + "options.yml"
@@ -37,6 +41,10 @@ module SassSpec
         end
       end
       rv
+    end
+
+    def resolve_options(dir)
+      self.class.cache[dir] ||= _resolve_options(dir).freeze
     end
 
     def todo?(impl)
