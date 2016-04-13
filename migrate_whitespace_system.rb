@@ -55,6 +55,7 @@ Dir.glob("spec/**/expected*") do |output|
   options[:clean] = true if clean
   options[:todo] = ["libsass", "sass"] if todo
   if (folder =~ /bourbon|todo|precision|104/)
+    # These are not targeting whitespace output and they are problematic.
     puts "Removing: #{output}"
     FileUtils.rm(output)
     next
