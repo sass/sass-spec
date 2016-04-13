@@ -68,7 +68,7 @@ class SassSpec::TestCase
   end
 
   def todo?
-    @input_path.to_s.include? "todo"
+    @metadata.todo?(@options[:engine_adapter].describe)
   end
 
   def overwrite?

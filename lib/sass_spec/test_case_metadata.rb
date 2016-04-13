@@ -39,6 +39,10 @@ module SassSpec
       rv
     end
 
+    def todo?(impl)
+      @options[:todo] && @options[:todo].include?(impl)
+    end
+
     def output_style
       @options[:output_style]
     end

@@ -71,8 +71,12 @@ Make sure the command you provide prints to stdout.
         options[:generate] = true
       end
 
-      opts.on("--ignore-todo", "Skip any folder named 'todo'") do
-        options[:skip_todo] = true
+      opts.on("--run-todo", "Run any tests marked as todo. Defaults to false.") do
+        options[:run_todo] = true
+      end
+
+      opts.on("--impl NAME", "Sets the name of the implementation being tested. Defaults to 'sass'") do |name|
+        options[:implementation] = name
       end
 
       opts.on("--filter PATTERN", "Run tests that match the pattern you provide") do |pattern|
@@ -118,6 +122,10 @@ Make sure the command you provide prints to stdout.
     options[:spec_directory] ||= SassSpec::SPEC_DIR
 
     options[:spec_dirs_to_run] = ARGV.dup.map{|d| File.expand_path(d)} if ARGV.any?
+
+    if options[:implementation] && options[:engine_adapter].respond_to?(:set_description)
+      options[:engine_adapter].set_description(options[:implementation])
+    end
 
     options
   end

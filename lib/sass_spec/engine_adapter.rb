@@ -1,4 +1,5 @@
 class EngineAdapter
+
   def describe
     not_implemented
   end
@@ -32,6 +33,10 @@ class ExecutableEngineAdapater < EngineAdapter
     @description = description || command
   end
 
+  def set_description(description)
+    @description = description
+  end
+
   def describe
     @description
   end
@@ -54,6 +59,10 @@ end
 
 class SassEngineAdapter < EngineAdapter
   def initialize(description)
+    @description = description
+  end
+
+  def set_description(description)
     @description = description
   end
 

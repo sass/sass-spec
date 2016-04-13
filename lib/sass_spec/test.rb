@@ -1,8 +1,8 @@
 require 'minitest'
 
 def run_spec_test(test_case, options = {})
-  if options[:skip_todo] && test_case.todo?
-    skip "Skipped todo"
+  if test_case.todo?
+    skip "Skipped todo" unless options[:run_todo]
   end
 
   assert_filename_length!(test_case.input_path, options)
