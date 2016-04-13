@@ -42,6 +42,7 @@ Dir.glob("spec/**/expected*") do |output|
   folder = File.dirname(output)
   if File.exist?("#{folder}/error")
     puts "Skipping (error expected): #{output}"
+    FileUtils.rm(output)
     next
   end
   input_file = Dir.glob("#{folder}/input.s[ac]ss").first
