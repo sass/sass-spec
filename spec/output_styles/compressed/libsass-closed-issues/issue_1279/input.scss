@@ -1,0 +1,10 @@
+@function noop($string) {
+  @return $string;
+}
+
+.foo {
+  upper: to-upper-case('f') + str-slice('foo', 2);
+  lower: to-lower-case('f') + str-slice('foo', 2);
+  user-upper: to-upper-case('f') + noop('oo');
+  user-lower: to-lower-case('f') + noop('oo');
+}

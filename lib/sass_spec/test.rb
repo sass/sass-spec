@@ -1,8 +1,8 @@
 require 'minitest'
 
 def run_spec_test(test_case, options = {})
-  if options[:skip_todo] && test_case.todo?
-    skip "Skipped todo"
+  if test_case.todo?
+    skip "Skipped todo" unless options[:run_todo]
   end
 
   assert_filename_length!(test_case.input_path, options)
@@ -41,7 +41,7 @@ def run_spec_test(test_case, options = {})
        # XXX Ruby returns 65 etc. SassC returns 1
        refute_equal status, 0, "Test case should fail, but it did not"
     else
-       assert_equal status, 0, "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
+       assert_equal 0, status, "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
     end
     assert_equal test_case.expected, clean_output, "Expected did not match output"
     if test_case.verify_stderr?
@@ -185,7 +185,7 @@ end
 class SassSpec::Test < Minitest::Test
   def self.create_tests(test_cases, options = {})
     test_cases[0..options[:limit]].each do |test_case|
-      define_method('test__' << test_case.output_style + "_" + test_case.name) do
+      define_method("test__#{test_case.name}") do
         run_spec_test(test_case, options)
       end
     end

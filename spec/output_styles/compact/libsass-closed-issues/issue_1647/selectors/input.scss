@@ -1,0 +1,19 @@
+$map: (foo: 'b', bar: c);
+$list: ('d', e);
+
+a {
+  #{map-get($map, foo)} & {
+      foo: bar;
+  }
+  #{map-get($map, bar)} & {
+      foo: bar;
+  }
+
+  #{nth($list, 1)} & {
+      foo: bar;
+  }
+
+  #{nth($list, 2)} & {
+      foo: bar;
+  }
+}

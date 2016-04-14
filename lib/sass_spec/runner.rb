@@ -1,5 +1,4 @@
 require 'minitest'
-require 'pathname'
 require_relative 'test'
 require_relative 'test_case'
 
@@ -10,25 +9,22 @@ class SassSpec::Runner
     @options = options
   end
 
-  def get_files(path, arr, key)
-    entries = Dir.entries(path, {:encoding=>"UTF-8"})
-    entries.each do |entry|
-      next if entry == '.' || entry == '..'
-
-      entry_path = File.join(File.expand_path(path, Dir.pwd), entry)
-
-      if File.directory? entry_path
-        get_files(entry_path, arr, key)
-      else
-        arr << entry_path if entry == key
-      end
+  def get_input_dirs
+    (@options[:spec_dirs_to_run] || Array(@options[:spec_directory])).map do |d|
+      d = File.expand_path(d)
+      File.directory?(d) ? d : File.dirname(d)
     end
-    arr
+  end
+
+  def get_input_files
+    get_input_dirs.inject([]) do |m, d|
+      m + Dir.glob(File.join(d, "**", "input.s[ac]ss"))
+    end.uniq
   end
 
   def run
     unless @options[:silent] || @options[:tap]
-      puts "Recursively searching under directory '#{@options[:spec_directory]}' for test files to test '#{@options[:engine_adapter]}' with."
+      puts "Recursively searching under #{get_input_dirs.join(", ")} for test files to test '#{@options[:engine_adapter]}' against language version #{@options[:language_version]}."
       puts @options[:engine_adapter].version
     end
 
@@ -48,33 +44,48 @@ class SassSpec::Runner
     Minitest.run(minioptions)
   end
 
+  def language_version
+    unless defined?(@language_version)
+      @language_version = if @options[:language_version]
+                            Gem::Version.new(@options[:language_version])
+                          else
+                            warn "No language version specified. " +
+                                 "Using #{SassSpec::MAX_LANGUAGE_VERSION}"
+                            SassSpec::MAX_LANGUAGE_VERSION
+                          end
+    end
+    @language_version
+  end
+
 
   def _get_cases
     cases = []
-    @options[:input_files].each do |input_file|
-      get_files(@options[:spec_directory], [], input_file).each do |filename|
-        input = Pathname.new(filename)
-        folder = File.dirname(filename)
-        expected_stderr_file_path = File.join(folder, "error")
-        expected_status_file_path = File.join(folder, "status")
-        @options[:output_styles].each do |output_style|
-          output_file_name = @options["#{output_style}_output_file".to_sym]
-          expected_stdout_file_path = File.join(folder, output_file_name + ".css")
-          clean_file_name = File.join(folder, output_file_name + ".clean")
-          if ( File.file?(expected_stdout_file_path) ||
-               @options[:generate].include?(output_style) ) &&
-             !File.file?(expected_stdout_file_path.sub(/\.css$/, ".skip")) &&
-             filename.include?(@options[:filter])
-            clean = File.file?(clean_file_name)
-            cases.push SassSpec::TestCase.new(
-              input.realpath(),
-              expected_stdout_file_path,
-              folder, output_style, clean,
-              @options[:generate].include?(output_style),
-              @options)
-          end
+    get_input_files().each do |filename|
+      folder = File.dirname(filename)
+      metadata = SassSpec::TestCaseMetadata.new(folder)
+      unless metadata.valid_for_version(language_version)
+        if @options[:verbose]
+          warn "#{metadata.name} does not apply to Sass #{language_version}"
         end
+        next
       end
+
+      next unless filename.include?(@options[:filter] || "")
+
+      if  @options[:only_output_styles] && @options[:only_output_styles].any?
+        next unless @options[:only_output_styles].include?(metadata.output_style)
+      end
+
+      test_case = SassSpec::TestCase.new(folder, @options)
+
+      unless File.exist?(test_case.expected_path)
+        if @options[:verbose]
+          warn "Expected output file missing. Skipping #{test_case.name}."
+        end
+        next
+      end
+
+      cases.push(test_case)
     end
     cases
   end

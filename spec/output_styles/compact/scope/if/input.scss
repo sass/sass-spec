@@ -1,0 +1,13 @@
+$foo: 42;
+
+.foo {
+  content: $foo;
+}
+
+@if true {
+  $foo: 1337 !global;
+}
+
+.bar {
+  content: $foo;
+}

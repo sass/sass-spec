@@ -1,0 +1,13 @@
+@mixin wrapper() {
+  .wrapped {
+    @content;
+  }
+}
+
+%ext {
+  background: #000;
+}
+
+@include wrapper() {
+  @extend %ext;
+}

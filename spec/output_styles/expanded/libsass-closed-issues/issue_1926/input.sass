@@ -1,0 +1,17 @@
+// The amount of the column of a single row.
+$columnAmount: 16
+
+// The name of the each column size.
+$columnName  : one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen
+
+=column-generator
+  @for $i from 1 through $columnAmount
+    [class*="#{nth($columnName, $i)} wide"]
+      width: 100% / $columnAmount * $i 
+
+    &[class*="#{nth($columnName, $i)} column"], & .row[class*="#{nth($columnName, $i)} column"]
+      > .column:not(.row)
+        width  : 100% / $columnAmount * $i !important
+
+.grid
+  +column-generator
