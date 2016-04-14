@@ -72,11 +72,20 @@ latest version is used.
 
     $ ./sass-spec.rb -V 3.4 ...
 
-## Ruby Sass
+### Pending (TODO) tests
 
-All tests with scss files named `input.disabled.scss` should be for non-supported tests.
+If a test or folder of tests is pending for a particular implementation,
+you can mark that test as pending for just that implementation.
 
-Ruby 2.1.0 contained a regression that changed the order of some selectors, causing test failures in sass-spec. That was fixed in Ruby 2.1.1. If you're running sass-spec against a Ruby Sass, please be sure not to use Ruby 2.1.0.
+
+    $ ./sass-spec.rb annotate --pending libsass spec/awesome_new_feature/
+
+Then those tests will be marked as skipped if you run sass-spec and pass
+the `--impl NAME` option (E.g. in this case `--impl libsass`)
+
+## Known Issues
+
+* Ruby 2.1.0 contained a regression that changed the order of some selectors, causing test failures in sass-spec. That was fixed in Ruby 2.1.1. If you're running sass-spec against a Ruby Sass, please be sure not to use Ruby 2.1.0.
 
 ## LibSass
 
