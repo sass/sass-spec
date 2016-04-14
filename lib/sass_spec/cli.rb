@@ -15,13 +15,7 @@ module SassSpec::CLI
       limit: -1,
       unexpected_pass: false,
       nuke: false,
-
-      # Constants
-      output_styles: ["nested", "compressed", "expanded", "compact"],
-      nested_output_file: 'expected_output',
-      compressed_output_file: 'expected.compressed',
-      expanded_output_file: 'expected.expanded',
-      compact_output_file: 'expected.compact'
+      only_output_styles: []
     }
 
     OptionParser.new do |opts|
@@ -85,6 +79,13 @@ Make sure the command you provide prints to stdout.
 
       opts.on("--limit NUMBER", "Limit the number of tests run to this positive integer.") do |limit|
         options[:limit] = limit.to_i
+      end
+
+      opts.on("--output-style STYLE", [:expanded, :compact, :nested, :compressed, :unspecified],
+              "Only run tests that have the specified output style.",
+              "Legal values: expanded, compact, nested, compressed, unspecified.") do |style|
+        style = nil if style == :unspecified
+        options[:only_output_styles] << style
       end
 
       opts.on("-r SPEC_DIR", "--root SPEC_DIR", "Root directory for the specs. ",

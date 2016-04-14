@@ -72,6 +72,10 @@ class SassSpec::Runner
 
       next unless filename.include?(@options[:filter] || "")
 
+      if  @options[:only_output_styles] && @options[:only_output_styles].any?
+        next unless @options[:only_output_styles].include?(metadata.output_style)
+      end
+
       test_case = SassSpec::TestCase.new(folder, @options)
 
       unless File.exist?(test_case.expected_path)
