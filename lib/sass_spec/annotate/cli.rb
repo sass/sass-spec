@@ -15,6 +15,14 @@ class SassSpec::Annotate::CLI
     true
   end
 
+  def self.assert_not_file!(string, expected)
+    if File.exist?(string) || string.include?(File::SEPARATOR)
+      warn "Expected #{expected} but got a file path. Did you forget the argument?"
+      return false
+    end
+    true
+  end
+
   def self.parse(args)
     runner_options = {
     }
@@ -73,21 +81,25 @@ BANNER
 
       opts.on("--expect-failure IMPLEMENTATION",
               "Expect implementation to fail for the specified tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --expect-failure")
         (options[:add_expect_failure] ||= Set.new) << impl
       end
 
       opts.on("--expect-pass IMPLEMENTATION",
               "Expect implementation to pass for the specified tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --expect-pass")
         (options[:remove_expect_failure] ||= Set.new) << impl
       end
 
       opts.on("--pending IMPLEMENTATION",
               "Mark implementation as not having implemented the tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --pending")
         (options[:add_todo] ||= Set.new) << impl
       end
 
       opts.on("--activate IMPLEMENTATION",
               "Mark implementation as having implemented the tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --activate")
         (options[:remove_todo] ||= Set.new) << impl
       end
 
