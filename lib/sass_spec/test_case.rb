@@ -82,7 +82,7 @@ class SassSpec::TestCase
 
     stdout, stderr, status = engine.compile(@input_path, output_style, precision)
 
-    if @clean_test
+    if clean_test
       clean_out = _clean_output(stdout)
     else
       clean_out = _norm_output(stdout)
@@ -101,7 +101,7 @@ class SassSpec::TestCase
     # we seem to get CP850 otherwise
     # this provokes equal test to fail
     output.force_encoding('ASCII-8BIT')
-    if @clean_test
+    if clean_test
       @expected ||= _clean_output(output)
     else
       @expected ||= _norm_output(output)
