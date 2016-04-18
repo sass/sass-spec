@@ -41,7 +41,7 @@ module CaptureWithTimeout
       :stdin_data => spawn_opts.delete(:stdin_data) || "",
       :binmode    => spawn_opts.delete(:binmode) || false,
       :timeout    => spawn_opts.delete(:timeout),
-      :signal     => spawn_opts.delete(:signal) || :TERM,
+      :signal     => spawn_opts.delete(:signal) || "TERM",
       :kill_after => spawn_opts.delete(:kill_after),
     }
 
@@ -94,7 +94,7 @@ module CaptureWithTimeout
       Process.kill(opts[:signal], pid)
       if opts[:kill_after]
         unless wait_thr.join(opts[:kill_after])
-          Process.kill(:KILL, pid)
+          Process.kill("KILL", pid)
         end
       end
     ensure
