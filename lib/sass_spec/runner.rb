@@ -78,12 +78,12 @@ class SassSpec::Runner
 
       test_case = SassSpec::TestCase.new(folder, @options)
 
-      unless File.exist?(test_case.expected_path)
-        if @options[:verbose]
-          warn "Expected output file missing. Skipping #{test_case.name}."
-        end
-        next
-      end
+      # unless File.exist?(test_case.expected_path)
+      #   if @options[:verbose]
+      #     warn "Expected output file missing. Skipping #{test_case.name}."
+      #   end
+      #   next
+      # end
 
       cases.push(test_case)
     end
