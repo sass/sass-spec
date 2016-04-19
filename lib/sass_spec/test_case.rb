@@ -3,7 +3,7 @@ require 'pathname'
 # This represents a specific test case.
 class SassSpec::TestCase
   def initialize(folder, options = {})
-    folder = File.expand_path(folder)
+    @folder = File.expand_path(folder)
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
     @input_path = Pathname.new(find_input_path(folder))
     @expected_path = File.join(folder, "expected_output.css")
@@ -25,6 +25,10 @@ class SassSpec::TestCase
       raise ArgumentError.new("Multiple input files found in #{folder}: #{input_files.join(', ')}")
     end
     input_files.first
+  end
+
+  def folder
+    @folder
   end
 
   def name
@@ -61,6 +65,10 @@ class SassSpec::TestCase
 
   def status_path
     @status_path
+  end
+
+  def interactive?
+    @options[:interactive]
   end
 
   def should_fail?

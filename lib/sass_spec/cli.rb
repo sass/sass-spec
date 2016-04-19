@@ -110,6 +110,10 @@ Make sure the command you provide prints to stdout.
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
       end
+
+      opts.on("--interactive", "When a test fails, enter into a dialog for how to handle it.") do
+        options[:interactive] = true
+      end
     end.parse!
 
     if ARGV.any? && !options[:spec_directory]
