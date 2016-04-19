@@ -46,81 +46,12 @@ def run_spec_test(test_case, options = {})
     assert_equal test_case.expected, clean_output, "Expected did not match output"
     if test_case.verify_stderr?
       # Compare only first line of error output (we can't compare stacktraces etc.)
-      begin
-        skip = false
-        error_lines = error.each_line
-        while error_line = error_lines.next do
-          if (error_line =~ /DEPRECATION WARNING/)
-            skip = false
-          end
-          if (error_line =~ /Error:/)
-            skip = false
-          end
-          # disable once we support this deprecation fully
-          if (error_line =~ /interpolation near operators will be simplified/)
-            skip = true
-            next
-          end
-          # disable once we support this deprecation fully
-          # if (error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
-          #   skip = true
-          #   next
-          # end
-          # disable once we support this deprecation fully
-          if (error_line =~ /Passing a percentage as the alpha/)
-            skip = true
-            next
-          end
-          # disable once we support this deprecation fully (partial now)
-          # if (error_line =~ /, a non-string value, to unquote()/)
-          #   skip = true
-          #   next
-          # end
-          if (skip)
-            next
-          end
-          error_msg = error_line.rstrip
-          break
-        end
-        expected_error_lines = test_case.expected_error.each_line
-        while expected_error_line = expected_error_lines.next do
-          if (expected_error_line =~ /DEPRECATION WARNING/)
-            skip = false
-          end
-          if (expected_error_line =~ /Error:/)
-            skip = false
-          end
-          # disable once we support this deprecation fully
-          if (expected_error_line =~ /interpolation near operators will be simplified/)
-            skip = true
-            next
-          end
-          # disable once we support this deprecation fully
-          # if (expected_error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
-          #   skip = true
-          #   next
-          # end
-          # disable once we support this deprecation fully
-          if (expected_error_line =~ /Passing a percentage as the alpha/)
-            skip = true
-            next
-          end
-          # disable once we support this deprecation fully (partial now)
-          # if (expected_error_line =~ /, a non-string value, to unquote()/)
-          #   skip = true
-          #   next
-          # end
-          if (skip)
-            next
-          end
-          expected_error_msg = expected_error_line.rstrip
-          break
-        end
-        error_msg = _clean_debug_path(error_msg, options[:spec_directory])
-        expected_error_msg = _clean_debug_path(expected_error_msg, options[:spec_directory])
-        assert_equal expected_error_msg, error_msg, "Expected did not match error"
-      rescue StopIteration
+      error_msg = _extract_error_message(error, options)
+      expected_error_msg = _extract_error_message(test_case.expected_error, options)
+      if error_msg.nil?
         assert_equal expected_error_msg, nil, "No error message produced"
+      else
+        assert_equal expected_error_msg, error_msg, "Expected did not match error"
       end
     end
   rescue Minitest::Assertion
@@ -163,6 +94,43 @@ def assert_filename_length!(filename, options)
 
     assert false, "base name (#{name}) of #{relative_name} must no more than 100 characters long" if name.size > 100
     assert false, "prefix (#{prefix}) of #{relative_name} must no more than #{155 - GEMFILE_PREFIX_LENGTH} characters long" if prefix.size > (155 - GEMFILE_PREFIX_LENGTH)
+  end
+  return nil
+end
+
+def _extract_error_message(error, options)
+  skip = false
+  error.each_line do |error_line|
+    if (error_line =~ /DEPRECATION WARNING/)
+      skip = false
+    end
+    if (error_line =~ /Error:/)
+      skip = false
+    end
+    # disable once we support this deprecation fully
+    if (error_line =~ /interpolation near operators will be simplified/)
+      skip = true
+      next
+    end
+    # disable once we support this deprecation fully
+    # if (error_line =~ /The subject selector operator \"!\" is deprecated and will be removed/)
+    #   skip = true
+    #   next
+    # end
+    # disable once we support this deprecation fully
+    if (error_line =~ /Passing a percentage as the alpha/)
+      skip = true
+      next
+    end
+    # disable once we support this deprecation fully (partial now)
+    # if (error_line =~ /, a non-string value, to unquote()/)
+    #   skip = true
+    #   next
+    # end
+    if (skip)
+      next
+    end
+    return _clean_debug_path(error_line.rstrip, options[:spec_directory])
   end
   return nil
 end
