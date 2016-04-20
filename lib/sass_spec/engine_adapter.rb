@@ -83,6 +83,11 @@ class SassEngineAdapter < EngineAdapter
     Sass::VERSION
   end
 
+  def language_version
+    require 'sass/version'
+    Sass::VERSION[0..2]
+  end
+
   def compile(sass_filename, style, precision)
     require 'sass'
     # overloads STDERR
