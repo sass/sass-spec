@@ -9,7 +9,7 @@ class SassSpec::TestCase
     @expected_path = File.join(folder, "expected_output.css")
     @error_path = File.join(folder, "error")
     @status_path = File.join(folder, "status")
-    @options_path = File.join(folder, "options")
+    @options_path = File.join(folder, "options.yml")
     @options = options
 
     # Probe filesystem once and cache the results
@@ -67,6 +67,10 @@ class SassSpec::TestCase
     @status_path
   end
 
+  def options_path
+    @options_path
+  end
+
   def interactive?
     @options[:interactive]
   end
@@ -77,6 +81,10 @@ class SassSpec::TestCase
 
   def todo?
     @metadata.todo?(@options[:engine_adapter].describe)
+  end
+
+  def metadata
+    @metadata
   end
 
   def overwrite?
@@ -117,7 +125,7 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = _clean_error(File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT"))
+    @expected_error = _clean_error((File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT") rescue ""))
   end
 
   def expected_status

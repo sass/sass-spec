@@ -7,6 +7,7 @@ class SassSpec::Runner
 
   def initialize(options = {})
     @options = options
+    @options[:language_version] = language_version.to_s
   end
 
   def get_input_dirs
@@ -48,6 +49,8 @@ class SassSpec::Runner
     unless defined?(@language_version)
       @language_version = if @options[:language_version]
                             Gem::Version.new(@options[:language_version])
+                          elsif @options[:engine_adapter].respond_to?(:language_version)
+                            Gem::Version.new(@options[:engine_adapter].language_version)
                           else
                             warn "No language version specified. " +
                                  "Using #{SassSpec::MAX_LANGUAGE_VERSION}"
