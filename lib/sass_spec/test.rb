@@ -54,6 +54,12 @@ def handle_expected_error_message!(test_case, options)
     interact(test_case, :fail) do |i|
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
+
+      i.choice(:show_source, "Show me the input.") do
+        display_text_block(File.read(test_case.input_path))
+        i.restart!
+      end
+
       if error_msg.nil?
         i.choice(:show, "Show expected error.") do
           display_text_block(expected_error_msg)
@@ -61,6 +67,7 @@ def handle_expected_error_message!(test_case, options)
         end
       else
         i.choice(:show, "Show diff.") do
+          require 'diffy'
           display_text_block(
             Diffy::Diff.new("Expected\n#{expected_error_msg}",
                             "Actual\n#{error_msg}").to_s(:color))
@@ -110,7 +117,7 @@ def handle_unexpected_error_message!(test_case, options)
     i.prompt "Unexpected output to stderr"
 
     i.choice(:show_source, "Show me the input.") do
-      display_text_block(file.read(test_case.input_path))
+      display_text_block(File.read(test_case.input_path))
       i.restart!
     end
 
@@ -157,7 +164,7 @@ def handle_output_difference!(test_case, options)
     i.prompt "output does not match expectation"
 
     i.choice(:show_source, "Show me the input.") do
-      display_text_block(file.read(test_case.input_path))
+      display_text_block(File.read(test_case.input_path))
       i.restart!
     end
 
