@@ -79,8 +79,16 @@ class SassSpec::TestCase
     @should_fail
   end
 
+  def impl
+    @options[:engine_adapter].describe
+  end
+
   def todo?
-    @metadata.todo?(@options[:engine_adapter].describe)
+    @metadata.todo?(impl)
+  end
+
+  def warning_todo?
+    @metadata.warning_todo?(impl)
   end
 
   def metadata
