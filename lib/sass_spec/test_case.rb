@@ -75,6 +75,10 @@ class SassSpec::TestCase
     @options[:interactive]
   end
 
+  def migrate?
+    @options[:migrate]
+  end
+
   def should_fail?
     @should_fail
   end

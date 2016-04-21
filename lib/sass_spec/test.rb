@@ -14,16 +14,14 @@ def run_spec_test(test_case, options = {})
   assert File.exists?(test_case.input_path),
     "Input #{test_case.input_path} file does not exist"
 
-  _output, _clean_output, error, status = test_case.output
-
   if test_case.overwrite?
     overwrite_test!(test_case)
     return
   end
 
   return unless handle_missing_output!(test_case)
-  return unless handle_unexpected_error!(test_case, status, error, options)
-  return unless handle_unexpected_pass!(test_case, status, error, options)
+  return unless handle_unexpected_error!(test_case, options)
+  return unless handle_unexpected_pass!(test_case, options)
   return unless handle_output_difference!(test_case, options)
 
   if test_case.warning_todo? && !options[:run_todo]
@@ -34,6 +32,8 @@ def run_spec_test(test_case, options = {})
   end
 end
 
+# if the test case is interactive it will do the interaction and return
+# the choice. Otherwise, it returns the default.
 def interact(test_case, default, &block)
   if test_case.interactive?
     return SassSpec::Interactor.interact(&block)
@@ -148,6 +148,11 @@ def handle_output_difference!(test_case, options)
 
   return true if test_case.expected == clean_output
 
+  if test_case.migrate? && !test_case.interactive?
+    migrate_test!(test_case, options)
+    return false
+  end
+
   interact(test_case, :fail) do |i|
     i.prompt "output does not match expectation"
 
@@ -231,96 +236,107 @@ def handle_missing_output!(test_case)
   return true
 end
 
-def handle_unexpected_pass!(test_case, status, error, options)
-  if test_case.should_fail?
-    output, _, error, status = test_case.output
-    if status == 0 && test_case.interactive?
-      choice = SassSpec::Interactor.interact do |i|
-        i.prompt "In #{test_case.name}\n" +
-                 "A failure was expected but it compiled instead."
-        i.choice(:show_source, "Show me the input.") do
-          display_text_block(File.read(test_case.input_path))
-          i.restart!
-        end
+def handle_unexpected_pass!(test_case, options)
+  output, _clean_output, error, status = test_case.output
+  if status == 0
+    return true if !test_case.should_fail?
 
-        i.choice(:show_expected_error, "Show me the expected error.") do
-          display_text_block(File.read(test_case.error_path))
-          i.restart!
-        end
-
-        i.choice(:show_output, "Show me the output.") do
-          display_text_block(output)
-          i.restart!
-        end
-
-        i.choice(:fix, "Update test and mark it passing.") do
-          overwrite_test!(test_case)
-        end
-
-        i.choice(:migrate, "Migrate copy of test to pass current version.") do
-          migrate_test!(test_case, options) || i.restart!
-        end
-
-        i.choice(:fail, "Fail test and continue.")
-
-        i.choice(:exit, "Exit testing.") do
-          raise Interrupt
-        end
-      end
-      return false unless choice == :fail
+    if test_case.migrate? && !test_case.interactive?
+      migrate_test!(test_case, options)
+      return false
     end
-    # XXX Ruby returns 65 etc. SassC returns 1
-    refute_equal status, 0, "Test case should fail, but it did not"
+
+    choice = interact(test_case, :fail) do |i|
+      i.prompt "In #{test_case.name}\n" +
+               "A failure was expected but it compiled instead."
+      i.choice(:show_source, "Show me the input.") do
+        display_text_block(File.read(test_case.input_path))
+        i.restart!
+      end
+
+      i.choice(:show_expected_error, "Show me the expected error.") do
+        display_text_block(File.read(test_case.error_path))
+        i.restart!
+      end
+
+      i.choice(:show_output, "Show me the output.") do
+        display_text_block(output)
+        i.restart!
+      end
+
+      i.choice(:fix, "Update test and mark it passing.") do
+        overwrite_test!(test_case)
+      end
+
+      i.choice(:migrate, "Migrate copy of test to pass current version.") do
+        migrate_test!(test_case, options) || i.restart!
+      end
+
+      i.choice(:fail, "Fail test and continue.")
+
+      i.choice(:exit, "Exit testing.") do
+        raise Interrupt
+      end
+    end
+    return false unless choice == :fail
   end
+  # XXX Ruby returns 65 etc. SassC returns 1
+  refute_equal status, 0, "Test case should fail, but it did not"
   return true
 end
 
-def handle_unexpected_error!(test_case, status, error, options)
-  unless test_case.should_fail?
-    _output, _clean_output, error, status = test_case.output
-    if status != 0 && test_case.interactive?
-      choice = SassSpec::Interactor.interact do |i|
-        i.prompt "In #{test_case.name}\n" +
-                 "An unexpected compiler error was encountered."
-        i.choice(:show_source, "Show me the input.") do
-          display_text_block(File.read(test_case.input_path))
-          i.restart!
-        end
+def handle_unexpected_error!(test_case, options)
+  _output, _clean_output, error, status = test_case.output
+  if status != 0
+    return true if test_case.should_fail?
 
-        i.choice(:show_expected_error, "Show me the error.") do
-          display_text_block(error)
-          i.restart!
-        end
-
-        i.choice(:show_output, "Show me the expected output.") do
-          display_text_block(test_case.expected)
-          i.restart!
-        end
-
-        i.choice(:fix, "Update test to expect this failure.") do
-          overwrite_test!(test_case)
-        end
-
-        i.choice(:migrate, "Migrate copy of test to pass current version.") do
-          migrate_test!(test_case, options) || i.restart!
-        end
-
-        i.choice(:fail, "Fail test and continue.")
-
-        i.choice(:exit, "Exit testing.") do
-          raise Interrupt
-        end
-      end
-      return false unless choice == :fail
+    if test_case.migrate? && !test_case.interactive?
+      migrate_test!(test_case, options)
+      return false
     end
-    assert_equal 0, status, "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
+
+    choice = interact(test_case, :fail) do |i|
+      i.prompt "In #{test_case.name}\n" +
+               "An unexpected compiler error was encountered."
+      i.choice(:show_source, "Show me the input.") do
+        display_text_block(File.read(test_case.input_path))
+        i.restart!
+      end
+
+      i.choice(:show_expected_error, "Show me the error.") do
+        display_text_block(error)
+        i.restart!
+      end
+
+      i.choice(:show_output, "Show me the expected output.") do
+        display_text_block(test_case.expected)
+        i.restart!
+      end
+
+      i.choice(:fix, "Update test to expect this failure.") do
+        overwrite_test!(test_case)
+      end
+
+      i.choice(:migrate, "Migrate copy of test to pass current version.") do
+        migrate_test!(test_case, options) || i.restart!
+      end
+
+      i.choice(:fail, "Fail test and continue.")
+
+      i.choice(:exit, "Exit testing.") do
+        raise Interrupt
+      end
+    end
+    return false unless choice == :fail
   end
+  assert_equal 0, status,
+    "Command `#{options[:engine_adapter]}` did not complete:\n\n#{error}"
   return true
 end
 
 def delete_test!(test_case)
   files = Dir.glob(File.join(test_case.folder, "**", "*"))
-  result = SassSpec::Interactor.interact do |i|
+  result = interact(test_case, :proceed) do |i|
     i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
     i.choice(:proceed, "Delete them.") do
       FileUtils.rm_rf(test_case.folder)

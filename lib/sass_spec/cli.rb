@@ -102,6 +102,10 @@ Make sure the command you provide prints to stdout.
         options[:nuke] = true
       end
 
+      opts.on("--migrate", "Copy tests that fail and make them pass for the current version.") do
+        options[:migrate] = true
+      end
+
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
       end
