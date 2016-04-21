@@ -6,7 +6,36 @@ module SassSpec
       @metadata_cache ||= {}
     end
 
-    ACCUMULATED_OPTIONS = [:todo, :expect_failure]
+    # If you change this, also change Annotate::CLI#annotate_path
+    def self.merge_options(existing_opts, new_opts)
+      existing_opts = existing_opts.dup
+
+      new_opts.each do |key, value|
+        if key =~ /add_(.*)/
+          key = $1.to_sym
+          existing_opts[key] ||= []
+          value.each do |v|
+            existing_opts[key] << v
+          end
+          existing_opts[key].uniq!
+        elsif key =~ /remove_(.*)/
+          key = $1.to_sym
+          existing_opts[key] ||= []
+          value.each do |v|
+            existing_opts[key].delete(v)
+          end
+          existing_opts.delete(key) if existing_opts[key].empty?
+        elsif value.nil?
+          existing_opts.delete(key)
+        else
+          existing_opts[key] = value
+        end
+      end
+
+      existing_opts
+    end
+
+    ACCUMULATED_OPTIONS = [:todo, :expect_failure, :warning_todo]
 
     attr_reader :options
 
@@ -45,6 +74,10 @@ module SassSpec
 
     def resolve_options(dir)
       self.class.cache[dir] ||= _resolve_options(dir).freeze
+    end
+
+    def warning_todo?(impl)
+      @options[:warning_todo] && @options[:warning_todo].include?(impl)
     end
 
     def todo?(impl)

@@ -141,6 +141,7 @@ BANNER
     return true
   end
 
+  # If you change this, also change TestCaseMetadata.merge_options
   def annotate_path(path)
     report(message: "#{path}:", complete: "") do
       options_file = path.end_with?("options.yml") ? path : File.join(path, "options.yml")

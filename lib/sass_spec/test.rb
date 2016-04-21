@@ -25,8 +25,13 @@ def run_spec_test(test_case, options = {})
   return unless handle_unexpected_error!(test_case, status, error, options)
   return unless handle_unexpected_pass!(test_case, status, error, options)
   return unless handle_output_difference!(test_case, options)
-  return unless handle_expected_error_message!(test_case, options)
-  return unless handle_unexpected_error_message!(test_case, options)
+
+  if test_case.warning_todo? && !options[:run_todo]
+    skip "Skipped warning check for #{test_case.folder}"
+  else
+    return unless handle_expected_error_message!(test_case, options)
+    return unless handle_unexpected_error_message!(test_case, options)
+  end
 end
 
 def interact(test_case, default, &block)
@@ -49,11 +54,18 @@ def handle_expected_error_message!(test_case, options)
     interact(test_case, :fail) do |i|
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
-      i.choice(:show, "Show diff.") do
-        display_text_block(
-          Diffy::Diff.new("Expected\n" + expected_error_msg,
-                          "Actual\n" + error_msg).to_s(:color))
-        i.restart!
+      if error_msg.nil?
+        i.choice(:show, "Show expected error.") do
+          display_text_block(expected_error_msg)
+          i.restart!
+        end
+      else
+        i.choice(:show, "Show diff.") do
+          display_text_block(
+            Diffy::Diff.new("Expected\n#{expected_error_msg}",
+                            "Actual\n#{error_msg}").to_s(:color))
+          i.restart!
+        end
       end
 
       i.choice(:overwrite, "Update expected output and pass test.") do
@@ -63,6 +75,11 @@ def handle_expected_error_message!(test_case, options)
 
       i.choice(:migrate, "Migrate copy of test to pass current version.") do
         migrate_test!(test_case, options) || i.restart!
+        return false
+      end
+
+      i.choice(:todo, "Mark warning as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_warning_todo: [test_case.impl])
         return false
       end
 
@@ -109,6 +126,11 @@ def handle_unexpected_error_message!(test_case, options)
 
     i.choice(:migrate, "Migrate copy of test to pass current version.") do
       migrate_test!(test_case, options) || i.restart!
+      return false
+    end
+
+    i.choice(:todo, "Mark warning as todo for #{test_case.impl}.") do
+      change_options(test_case.options_path, add_warning_todo: [test_case.impl])
       return false
     end
 
@@ -406,12 +428,8 @@ def change_options(options_file, options)
                        {}
                      end
 
-  existing_options.update(options)
+  existing_options = SassSpec::TestCaseMetadata.merge_options(existing_options, options)
 
-  existing_options.each do |k, v|
-    existing_options.delete(k) if v.nil?
-  end
-  
   if existing_options.any?
     File.open(options_file, "w") do |f|
       f.write(existing_options.to_yaml)
