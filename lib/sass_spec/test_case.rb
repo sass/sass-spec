@@ -3,13 +3,13 @@ require 'pathname'
 # This represents a specific test case.
 class SassSpec::TestCase
   def initialize(folder, options = {})
-    folder = File.expand_path(folder)
+    @folder = File.expand_path(folder)
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
     @input_path = Pathname.new(find_input_path(folder))
     @expected_path = File.join(folder, "expected_output.css")
     @error_path = File.join(folder, "error")
     @status_path = File.join(folder, "status")
-    @options_path = File.join(folder, "options")
+    @options_path = File.join(folder, "options.yml")
     @options = options
 
     # Probe filesystem once and cache the results
@@ -25,6 +25,10 @@ class SassSpec::TestCase
       raise ArgumentError.new("Multiple input files found in #{folder}: #{input_files.join(', ')}")
     end
     input_files.first
+  end
+
+  def folder
+    @folder
   end
 
   def name
@@ -63,12 +67,32 @@ class SassSpec::TestCase
     @status_path
   end
 
+  def options_path
+    @options_path
+  end
+
+  def interactive?
+    @options[:interactive]
+  end
+
   def should_fail?
     @should_fail
   end
 
+  def impl
+    @options[:engine_adapter].describe
+  end
+
   def todo?
-    @metadata.todo?(@options[:engine_adapter].describe)
+    @metadata.todo?(impl)
+  end
+
+  def warning_todo?
+    @metadata.warning_todo?(impl)
+  end
+
+  def metadata
+    @metadata
   end
 
   def overwrite?
@@ -109,7 +133,7 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error = _clean_error(File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT"))
+    @expected_error = _clean_error((File.read(@error_path, :binmode => true, :encoding => "ASCII-8BIT") rescue ""))
   end
 
   def expected_status

@@ -13,7 +13,6 @@ module SassSpec::CLI
       verbose: false,
       filter: "",
       limit: -1,
-      unexpected_pass: false,
       nuke: false,
       only_output_styles: []
     }
@@ -103,12 +102,12 @@ Make sure the command you provide prints to stdout.
         options[:nuke] = true
       end
 
-      opts.on("--unexpected-pass", "When running the todo tests, flag as an error when a test passes which is marked as todo.") do
-        options[:unexpected_pass] = true
-      end
-
       opts.on("--silent", "Don't show any logs") do
         options[:silent] = true
+      end
+
+      opts.on("--interactive", "When a test fails, enter into a dialog for how to handle it.") do
+        options[:interactive] = true
       end
     end.parse!
 
