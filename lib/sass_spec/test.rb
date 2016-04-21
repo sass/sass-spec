@@ -36,7 +36,7 @@ end
 
 def interact(test_case, default, &block)
   if test_case.interactive?
-    return Interactor.interact(&block)
+    return SassSpec::Interactor.interact(&block)
   else
     return default
   end
@@ -235,7 +235,7 @@ def handle_unexpected_pass!(test_case, status, error, options)
   if test_case.should_fail?
     output, _, error, status = test_case.output
     if status == 0 && test_case.interactive?
-      choice = Interactor.interact do |i|
+      choice = SassSpec::Interactor.interact do |i|
         i.prompt "In #{test_case.name}\n" +
                  "A failure was expected but it compiled instead."
         i.choice(:show_source, "Show me the input.") do
@@ -279,7 +279,7 @@ def handle_unexpected_error!(test_case, status, error, options)
   unless test_case.should_fail?
     _output, _clean_output, error, status = test_case.output
     if status != 0 && test_case.interactive?
-      choice = Interactor.interact do |i|
+      choice = SassSpec::Interactor.interact do |i|
         i.prompt "In #{test_case.name}\n" +
                  "An unexpected compiler error was encountered."
         i.choice(:show_source, "Show me the input.") do
@@ -320,7 +320,7 @@ end
 
 def delete_test!(test_case)
   files = Dir.glob(File.join(test_case.folder, "**", "*"))
-  result = Interactor.interact do |i|
+  result = SassSpec::Interactor.interact do |i|
     i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
     i.choice(:proceed, "Delete them.") do
       FileUtils.rm_rf(test_case.folder)
