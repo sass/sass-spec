@@ -1,0 +1,13 @@
+:not(.asd, .qwe) {
+  content: test;
+}
+:not(.foo) {
+  content: test;
+}
+.bar, .baz {
+  @extend .foo;
+}
+
+test {
+  content: selector-extend(":not(.foo)", ".foo", ".bar");
+}
