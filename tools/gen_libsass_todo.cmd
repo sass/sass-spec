@@ -36,7 +36,7 @@ copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\expected_output.css
 ruby %SPECS%\..\sass-spec.rb -g --run-todo --no-cache --root "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
 
 %GITCMD% add %SPECS%\libsass-todo-issues\issue_%ISSUE%\*
-%GITCMD% commit -m "Activate libsass todo test for issue %ISSUE%" ^
+%GITCMD% commit -m "Add todo spec test for libsass issue %ISSUE%" ^
 	-m "" -m "https://github.com/sass/libsass/issues/%ISSUE%"
 
 echo You may push the branch to your reote repository now
