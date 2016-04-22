@@ -11,6 +11,7 @@ class SassSpec::TestCase
     @status_path = File.join(folder, "status")
     @options_path = File.join(folder, "options.yml")
     @options = options
+    @result = false
 
     # Probe filesystem once and cache the results
     @should_fail = File.file?(@status_path)
@@ -25,6 +26,14 @@ class SassSpec::TestCase
       raise ArgumentError.new("Multiple input files found in #{folder}: #{input_files.join(', ')}")
     end
     input_files.first
+  end
+
+  def result?
+    @result
+  end
+
+  def finalize(result)
+    @result = result
   end
 
   def folder

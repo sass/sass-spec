@@ -42,7 +42,18 @@ class SassSpec::Runner
       Minitest.reporter = Minitap::TapY
     end
 
-    Minitest.run(minioptions)
+    result = Minitest.run(minioptions)
+
+    if @options[:probe_todo]
+      puts "Reporting successfully probed todo tests"
+      test_cases.each do |test_case|
+        if test_case.todo? && test_case.result?
+          puts test_case.folder
+        end
+      end
+    end
+
+    result
   end
 
   def language_version
