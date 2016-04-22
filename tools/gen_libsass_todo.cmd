@@ -16,8 +16,8 @@ if [%1] == [] GOTO :NoIssue
 SET SPECS=%FOLDER%..\sass-spec\spec
 
 if not exist "%ISSUE%.scss" (
-  echo input source not found: %ISSUE%.scss
-  goto :End
+	echo input source not found: %ISSUE%.scss
+	goto :End
 )
 
 SET GITCMD=git -C "%FOLDER%..\sass-spec"
@@ -25,8 +25,10 @@ SET GITCMD=git -C "%FOLDER%..\sass-spec"
 %GITCMD% fetch --all
 %GITCMD% checkout -f -B todo/issue_%ISSUE% master
 
+if exist "%SPECS%\libsass-closed-issues\issue_%ISSUE%" GOTO :IsClosed
+
 if not exist "%SPECS%\libsass-todo-issues\issue_%ISSUE%" (
-  mkdir "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
+	mkdir "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
 )
 
 copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\input.scss
@@ -45,6 +47,10 @@ echo Going to push to remote %2
 %GITCMD% push %2 todo/issue_%ISSUE%
 
 GOTO :End
+
+:IsClosed
+
+echo Issue seems to be closed already
 
 :NoIssue
 
