@@ -35,7 +35,7 @@ copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\input.scss
 REM not sure why this is needed, but sass-spec did not create it otherwise
 copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\expected_output.css
 
-ruby %SPECS%\..\sass-spec.rb -g --run-todo --no-cache --root "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
+ruby %SPECS%\..\sass-spec.rb -g --run-todo --root "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
 
 %GITCMD% add %SPECS%\libsass-todo-issues\issue_%ISSUE%\*
 %GITCMD% commit -m "Add todo spec test for libsass issue %ISSUE%" ^
