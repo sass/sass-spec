@@ -68,6 +68,10 @@ Make sure the command you provide prints to stdout.
         options[:run_todo] = true
       end
 
+      opts.on("--probe-todo", "Run and report tests marked as todo that unexpectedly pass. Defaults to false.") do
+        options[:probe_todo] = options[:run_todo] = true
+      end
+
       opts.on("--impl NAME", "Sets the name of the implementation being tested. Defaults to 'sass'") do |name|
         options[:implementation] = name
       end
