@@ -13,14 +13,14 @@ For %%F IN ("%EXEC%") do (
 
 REM test if we have an issue nr
 if [%1] == [] GOTO :NoIssue
-SET SPECS=%FOLDER%..\sass-spec\spec
+SET SPECS=%FOLDER%..\spec
 
 if not exist "%ISSUE%.scss" (
 	echo input source not found: %ISSUE%.scss
 	goto :End
 )
 
-SET GITCMD=git -C "%FOLDER%..\sass-spec"
+SET GITCMD=git -C "%FOLDER%.."
 
 %GITCMD% fetch --all
 %GITCMD% checkout -f -B todo/issue_%ISSUE% master
