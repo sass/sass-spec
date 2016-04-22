@@ -1,0 +1,18 @@
+$test-map : (
+        mykey    : 10px,
+        otherKey : 20px,
+        moarKey  : 30px
+);
+
+
+@mixin testMixin($key-name) {
+
+  // get index in map
+  $item-value : map-get($test-map, $key-name);
+  $item-index : index($test-map, ($key-name $item-value) );
+
+  @debug $item-index;
+
+}
+
+@include testMixin(otherKey);
