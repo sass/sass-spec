@@ -16,7 +16,7 @@ def run_spec_test(test_case, options = {})
 
   if test_case.overwrite?
     overwrite_test!(test_case)
-    return
+    return true
   end
 
   return unless handle_missing_output!(test_case)
@@ -30,6 +30,8 @@ def run_spec_test(test_case, options = {})
     return unless handle_expected_error_message!(test_case, options)
     return unless handle_unexpected_error_message!(test_case, options)
   end
+
+  return true
 end
 
 # if the test case is interactive it will do the interaction and return
@@ -51,6 +53,8 @@ def handle_expected_error_message!(test_case, options)
   expected_error_msg = _extract_error_message(test_case.expected_error, options)
 
   if expected_error_msg != error_msg
+    return false if options[:probe_todo] && test_case.todo?
+    return false if options[:probe_todo] && test_case.warning_todo?
     interact(test_case, :fail) do |i|
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
@@ -106,13 +110,15 @@ end
 
 def handle_unexpected_error_message!(test_case, options)
   return true if test_case.verify_stderr?
-  
+
   _output, _clean_output, error, _status = test_case.output
 
   error_msg = _extract_error_message(error, options)
 
   return true if error_msg.nil? || error_msg.length == 0
 
+  return false if options[:probe_todo] && test_case.todo?
+  return false if options[:probe_todo] && test_case.warning_todo?
   interact(test_case, :fail) do |i|
     i.prompt "Unexpected output to stderr"
 
@@ -160,6 +166,7 @@ def handle_output_difference!(test_case, options)
     return false
   end
 
+  return false if options[:probe_todo] && test_case.todo?
   interact(test_case, :fail) do |i|
     i.prompt "output does not match expectation"
 
@@ -201,6 +208,7 @@ def handle_missing_output!(test_case)
   return true if File.exists?(test_case.expected_path)
 
   output, _, error, _ = test_case.output
+  return false if options[:probe_todo] && test_case.todo?
   choice = interact(test_case, :fail) do |i|
     i.prompt "in #{test_case.name}\n" +
              "Expected output file does not exist."
@@ -253,6 +261,7 @@ def handle_unexpected_pass!(test_case, options)
       return false
     end
 
+    return false if options[:probe_todo] && test_case.todo?
     choice = interact(test_case, :fail) do |i|
       i.prompt "In #{test_case.name}\n" +
                "A failure was expected but it compiled instead."
@@ -302,6 +311,7 @@ def handle_unexpected_error!(test_case, options)
       return false
     end
 
+    return false if options[:probe_todo] && test_case.todo?
     choice = interact(test_case, :fail) do |i|
       i.prompt "In #{test_case.name}\n" +
                "An unexpected compiler error was encountered."
@@ -401,7 +411,7 @@ def migrate_test!(test_case, options)
   end
 
   start_version_index = SassSpec::LANGUAGE_VERSIONS.index(
-    test_case.metadata.start_version.to_s) 
+    test_case.metadata.start_version.to_s)
 
   if start_version_index >= current_version_index
     puts "Cannot migrate test. Test does not apply to an earlier version."
@@ -548,7 +558,7 @@ class SassSpec::Test < Minitest::Test
   def self.create_tests(test_cases, options = {})
     test_cases[0..options[:limit]].each do |test_case|
       define_method("test__#{test_case.name}") do
-        run_spec_test(test_case, options)
+        test_case.finalize(run_spec_test(test_case, options))
       end
     end
   end
