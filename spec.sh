@@ -26,10 +26,10 @@ elif [ $1 = "nuke" ]
 then
     if [ $2 = "todo" ]
     then
-        ruby sass-spec.rb -c sass spec/libsass-todo-issues/issue_$3 --nuke
+        ruby sass-spec.rb -c sass spec/libsass-todo-issues/issue_$3 --generate
     elif [ $2 = "closed" ]
     then
-        ruby sass-spec.rb -c sass spec/libsass-closed-issues/issue_$3 --nuke
+        ruby sass-spec.rb -c sass spec/libsass-closed-issues/issue_$3 --generate
     fi
 elif [ $1 = "assert" ]
 then

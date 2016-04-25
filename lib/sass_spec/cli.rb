@@ -13,7 +13,6 @@ module SassSpec::CLI
       verbose: false,
       filter: "",
       limit: -1,
-      nuke: false,
       only_output_styles: []
     }
 
