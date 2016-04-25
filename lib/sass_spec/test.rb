@@ -44,6 +44,16 @@ def interact(test_case, default, &block)
   end
 end
 
+def skip_test_case!(test_case, reason = nil)
+  msg = "Skipped #{test_case.folder}" 
+  if reason
+    msg << ": #{reason}"
+  else
+    msg << "."
+  end
+  skip msg
+end
+
 def handle_expected_error_message!(test_case, options)
   return true unless test_case.verify_stderr?
 
@@ -53,7 +63,8 @@ def handle_expected_error_message!(test_case, options)
   expected_error_msg = _extract_error_message(test_case.expected_error, options)
 
   if expected_error_msg != error_msg
-    return false if test_case.probe_todo?
+    skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
+
     interact(test_case, :fail) do |i|
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
@@ -116,7 +127,8 @@ def handle_unexpected_error_message!(test_case, options)
 
   return true if error_msg.nil? || error_msg.length == 0
 
-  return false if test_case.probe_todo?
+  skip_test_case!(test_case, "TODO test is failing")  if test_case.probe_todo?
+
   interact(test_case, :fail) do |i|
     i.prompt "Unexpected output to stderr"
 
@@ -164,7 +176,8 @@ def handle_output_difference!(test_case, options)
     return false
   end
 
-  return false if test_case.probe_todo?
+  skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
+
   interact(test_case, :fail) do |i|
     i.prompt "output does not match expectation"
 
@@ -206,7 +219,9 @@ def handle_missing_output!(test_case)
   return true if File.exists?(test_case.expected_path)
 
   output, _, error, _ = test_case.output
-  return false if test_case.probe_todo?
+
+  skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
+
   choice = interact(test_case, :fail) do |i|
     i.prompt "in #{test_case.name}\n" +
              "Expected output file does not exist."
@@ -309,7 +324,8 @@ def handle_unexpected_error!(test_case, options)
       return false
     end
 
-    return false if test_case.probe_todo?
+    skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
+
     choice = interact(test_case, :fail) do |i|
       i.prompt "In #{test_case.name}\n" +
                "An unexpected compiler error was encountered."
