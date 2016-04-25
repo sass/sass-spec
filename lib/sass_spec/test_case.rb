@@ -114,7 +114,7 @@ class SassSpec::TestCase
   end
 
   def overwrite?
-    @options[:generate] || @options[:nuke]
+    @options[:generate]
   end
 
   def output

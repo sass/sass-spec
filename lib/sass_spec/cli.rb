@@ -102,10 +102,6 @@ Make sure the command you provide prints to stdout.
         # Note: --skip is no longer necessary as this is now the default behavior, since we test for errors
       end
 
-      opts.on("--nuke", "Write a new expected_output for every test from whichever engine we are using") do
-        options[:nuke] = true
-      end
-
       opts.on("--migrate", "Copy tests that fail and make them pass for the current version.") do
         options[:migrate] = true
       end
