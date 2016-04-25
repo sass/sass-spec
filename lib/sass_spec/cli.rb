@@ -60,7 +60,7 @@ Make sure the command you provide prints to stdout.
         options[:engine_adapter] = ExecutableEngineAdapater.new(v)
       end
 
-      opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do |v|
+      opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do
         options[:generate] = true
       end
 
