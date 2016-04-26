@@ -5,23 +5,38 @@ sass-spec
 
 A test suite for Sass. The test cases are all in the `/spec` folder.
 
+Sass spec is written in ruby, so you will need to have ruby and bundler
+installed in order to run it.
+
+## Running specs against Ruby Sass
+
 Run tests against Ruby Sass with the `sass-spec.rb` file in the root directory.
 
-    ./sass-spec.rb
+    $ git clone https://github.com/sass/sass-spec.git
+    $ cd sass-spec
+    $ bundle install
+    $ bundle exec sass-spec.rb
 
-Full text help is available if you run that w/ the help options.
+To run tests against Ruby Sass in development, edit the Gemfile and add:
+
+```ruby
+gem 'sass', :path => "/path/to/sass/directory"
+```
+
+Then run `bundle install` and `bundle exec sass-spec.rb` will run
+against your development version of ruby sass.
+
+Conversely, if you edit the Sass `Gemfile` and set `gem 'sass-spec',
+:path => "..."` then the Sass unit tests will run against your
+development version of sass-spec.
+
+Full text help is available if you run that w/ the `-h` option.
 
 ## Organization
 
-The tests are organized this way:
-
-	* basic - The core tests taken from Sass' early development
-	* scss - The tests suite written for the introduction of scss
-	* libsass-open-issues - Tests for known libsass breakages. These are not run automatically.
-	* libsass-closed-issues - Tests for closed issues in the libsass directory.
- 	* maps - Testing maps
-	* extends - Testing extends
-	* libsass-todo - Tests taken from Ruby Sass and moved over here, that do not pass in libsass yet.
+Tests are stored in the `spec` directory. The structure of the specs is
+being worked on right now, however, most directory names should be
+fairly self explanatory.
 
 ## Working with different Sass Language Versions
 
@@ -72,6 +87,55 @@ latest version is used.
 
     $ ./sass-spec.rb -V 3.4 ...
 
+### Adding new specs
+
+0. Set up sass spec if you haven't yet.
+1. Add an `input.s[ac]ss` file in an appropriate folder.
+2. Optionally, annotate it with sass-spec.rb annotate ... <path_to_folder>
+3. Run `sass-spec.rb -g <path_to_folder>` to generate the expected
+   output files.
+4. Verify the generated output is what you expected.
+5. Run `sass-spec.rb <path_to_folder>` just to make sure it passes.
+6. Commit and send Pull Request. Be sure to include the reason for the
+   new spec in the commit message.
+
+### Updating Failing Tests
+
+A lot of the management tasks for specs is centered around how to handle
+specs as the language changes. Many common fixes for failing tests can
+be found by running tests with the `--interactive` command line option.
+
+When a test would fail, it first stops, lets you see what's failing and
+choose a fix for it or you can let it fail and fix it later.
+
+Sometimes, many tests are all failing and you know they need to be
+updated en masse and interactive mode would be very cumbersome in this
+context. In these situations the `--migrate` option or the `--generate`
+option are very useful.
+
+#### The `--generate` option
+
+The `--generate` option causes all tests that are being ran to have
+their expected output, error and exit statuses updated to match the
+current results. For passing tests, this operation is a net result of
+not changing files.
+
+In `--interactive` mode, a common option is to regenerate the expected
+outputs just like `--generate` does, but on a case-by-case basis.
+
+#### The `--migrate` option
+
+The migrate option only works on tests that are failing.
+
+1. Make a copy of the current test named "&lt;folder>-&lt;current_version>"
+2. Mark the original test as having an `end_version` as the version that
+   comes before the version being tested right now.
+3. Set the copy as having a `start_version` as the version being tested right now.
+4. Regenerate the expected output for the new test so that it passes.
+
+In `--interactive` mode, a common option is to migrate the spec just
+like `--migrate` does, but on a case-by-case basis.
+
 ### Pending (TODO) tests
 
 If a test or folder of tests is pending for a particular implementation,
@@ -82,6 +146,9 @@ you can mark that test as pending for just that implementation.
 
 Then those tests will be marked as skipped if you run sass-spec and pass
 the `--impl NAME` option (E.g. in this case `--impl libsass`)
+
+The `--interactive` mode will provide marking a test as pending for the
+current implementation as a remedy for many types of spec failures.
 
 ## Known Issues
 
@@ -94,6 +161,10 @@ to the libsass folder and running ./script/spec.
 
 ## Contribution
 
-This project needs maintainers! There will be an ongoing process of simplifying test cases, reporting new issues and testing them here, and managing mergers of official test cases.
+This project needs maintainers! There will be an ongoing process of
+simplifying test cases, reporting new issues and testing them here, and
+managing mergers of official test cases.
 
-This project requires help with the Ruby test drivers (better output, detection modes, etc) AND just with managing the issues and writing test cases.
+This project requires help with the Ruby test drivers (better output,
+detection modes, etc) AND just with managing the issues and writing test
+cases.
