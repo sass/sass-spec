@@ -97,10 +97,6 @@ Make sure the command you provide prints to stdout.
         options[:spec_directory] = File.expand_path(spec_dir)
       end
 
-      opts.on("-s", "--skip", "Skip tests that fail to exit successfully") do
-        # Note: --skip is no longer necessary as this is now the default behavior, since we test for errors
-      end
-
       opts.on("--migrate", "Copy tests that fail and make them pass for the current version.") do
         options[:migrate] = true
       end
