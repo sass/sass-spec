@@ -21,6 +21,15 @@
 
 require_relative 'lib/sass_spec'
 
+
+module Minitest
+  class Skip < Assertion
+    def result_code
+      "-"
+    end
+  end
+end
+
 if ARGV[0] == "annotate"
   require_relative 'lib/sass_spec/annotate'
   begin
