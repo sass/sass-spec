@@ -152,7 +152,15 @@ current implementation as a remedy for many types of spec failures.
 
 ## Known Issues
 
-* Ruby 2.1.0 contained a regression that changed the order of some selectors, causing test failures in sass-spec. That was fixed in Ruby 2.1.1. If you're running sass-spec against a Ruby Sass, please be sure not to use Ruby 2.1.0.
+* Ruby 2.1.0 contained a regression that changed the order of some
+  selectors, causing test failures in sass-spec. That was fixed in Ruby
+  2.1.1. If you're running sass-spec against a Ruby Sass, please be sure
+  not to use Ruby 2.1.0.
+* Some of our spec files have UTF-8 characters in their filenames. If
+  you are on OSX, you may encounter issues with git showing files that are
+  not checked in but actually are which can cause issued which doing
+  rebase or changing branches. If so, run `git config core.precomposeunicode false`
+  and it should clear things up.
 
 ## LibSass
 
