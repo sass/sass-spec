@@ -79,18 +79,6 @@ BANNER
         options[:precision] = precision
       end
 
-      opts.on("--expect-failure IMPLEMENTATION",
-              "Expect implementation to fail for the specified tests.") do |impl|
-        return unless assert_not_file!(impl, "implementation for --expect-failure")
-        (options[:add_expect_failure] ||= Set.new) << impl
-      end
-
-      opts.on("--expect-pass IMPLEMENTATION",
-              "Expect implementation to pass for the specified tests.") do |impl|
-        return unless assert_not_file!(impl, "implementation for --expect-pass")
-        (options[:remove_expect_failure] ||= Set.new) << impl
-      end
-
       opts.on("--pending IMPLEMENTATION",
               "Mark implementation as not having implemented the tests.") do |impl|
         return unless assert_not_file!(impl, "implementation for --pending")
