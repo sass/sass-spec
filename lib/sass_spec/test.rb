@@ -34,11 +34,13 @@ def run_spec_test(test_case, options = {})
   return true
 end
 
+$interaction_memory = {}
+
 # if the test case is interactive it will do the interaction and return
 # the choice. Otherwise, it returns the default.
-def interact(test_case, default, &block)
+def interact(test_case, prompt_id, default, &block)
   if test_case.interactive?
-    return SassSpec::Interactor.interact(&block)
+    return SassSpec::Interactor.interact_with_memory($interaction_memory, prompt_id, &block)
   else
     return default
   end
@@ -65,7 +67,7 @@ def handle_expected_error_message!(test_case, options)
   if expected_error_msg != error_msg
     skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
-    interact(test_case, :fail) do |i|
+    interact(test_case, :expected_error_different, :fail) do |i|
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
 
@@ -129,7 +131,7 @@ def handle_unexpected_error_message!(test_case, options)
 
   skip_test_case!(test_case, "TODO test is failing")  if test_case.probe_todo?
 
-  interact(test_case, :fail) do |i|
+  interact(test_case, :unexpected_error_message, :fail) do |i|
     i.prompt "Unexpected output to stderr"
 
     i.choice(:show_source, "Show me the input.") do
@@ -178,7 +180,7 @@ def handle_output_difference!(test_case, options)
 
   skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
-  interact(test_case, :fail) do |i|
+  interact(test_case, :output_difference, :fail) do |i|
     i.prompt "output does not match expectation"
 
     i.choice(:show_source, "Show me the input.") do
@@ -222,7 +224,7 @@ def handle_missing_output!(test_case)
 
   skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
-  choice = interact(test_case, :fail) do |i|
+  choice = interact(test_case, :missing_output, :fail) do |i|
     i.prompt "in #{test_case.name}\n" +
              "Expected output file does not exist."
 
@@ -275,7 +277,7 @@ def handle_unexpected_pass!(test_case, options)
     end
 
     return false if test_case.probe_todo?
-    choice = interact(test_case, :fail) do |i|
+    choice = interact(test_case, :unexpected_pass, :fail) do |i|
       i.prompt "In #{test_case.name}\n" +
                "A failure was expected but it compiled instead."
       i.choice(:show_source, "Show me the input.") do
@@ -326,7 +328,7 @@ def handle_unexpected_error!(test_case, options)
 
     skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
-    choice = interact(test_case, :fail) do |i|
+    choice = interact(test_case, :unexpected_error, :fail) do |i|
       i.prompt "In #{test_case.name}\n" +
                "An unexpected compiler error was encountered."
       i.choice(:show_source, "Show me the input.") do
@@ -367,7 +369,7 @@ end
 
 def delete_test!(test_case)
   files = Dir.glob(File.join(test_case.folder, "**", "*"))
-  result = interact(test_case, :proceed) do |i|
+  result = interact(test_case, :delete_test, :proceed) do |i|
     i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
     i.choice(:proceed, "Delete them.") do
       FileUtils.rm_rf(test_case.folder)
@@ -437,7 +439,7 @@ def migrate_test!(test_case, options)
   new_folder = test_case.folder + "-#{current_version}"
 
   if File.exist?(new_folder)
-    choice = interact(test_case, :abort) do |i|
+    choice = interact(test_case, :migrate_over_existing, :abort) do |i|
       i.prompt("Target folder '#{new_folder}' already exists.")
       i.choice(:abort, "Don't migrate the test.") do
         return false
