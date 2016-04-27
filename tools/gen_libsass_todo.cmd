@@ -41,7 +41,7 @@ ruby %SPECS%\..\sass-spec.rb -g --run-todo --root "%SPECS%\libsass-todo-issues\i
 %GITCMD% commit -m "Add todo spec test for libsass issue %ISSUE%" ^
 	-m "" -m "https://github.com/sass/libsass/issues/%ISSUE%"
 
-echo You may push the branch to your reote repository now
+echo You may push the branch to your remote repository now
 if [%2] == [] GOTO :End
 echo Going to push to remote %2
 %GITCMD% push %2 todo/issue_%ISSUE%
