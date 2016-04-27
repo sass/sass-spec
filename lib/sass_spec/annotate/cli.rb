@@ -91,6 +91,18 @@ BANNER
         (options[:remove_todo] ||= Set.new) << impl
       end
 
+      opts.on("--pending-warning IMPLEMENTATION",
+              "Mark implementation as not having implemented the warnings issued by the tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --pending")
+        (options[:add_warning_todo] ||= Set.new) << impl
+      end
+
+      opts.on("--activate-warning IMPLEMENTATION",
+              "Mark implementation as having implemented the warnings issued by the tests.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --activate")
+        (options[:remove_warning_todo] ||= Set.new) << impl
+      end
+
       opts.on("--report", "Generate a report after running.") do |impl|
         runner_options[:report] = true
       end
