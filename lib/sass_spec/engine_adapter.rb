@@ -113,8 +113,7 @@ class SassEngineAdapter < EngineAdapter
     rescue Sass::SyntaxError => e
       # prepend the prefix to the message
       # and indent all lines to match it
-      err_output = "Error: " + e.message.to_s
-                   .gsub(/(?:\r?\n)(?!\z)/, "\n       ")
+      err_output = e.sass_backtrace_str("standard input") + "\n  Use --trace for backtrace.\n"
       err_output.force_encoding('ASCII-8BIT')
       ["", err_output, 65]
     rescue => e
