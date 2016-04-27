@@ -103,6 +103,30 @@ BANNER
         (options[:remove_warning_todo] ||= Set.new) << impl
       end
 
+      opts.on("--ignore-for IMPLEMENTATION",
+              "Flag test so that it won't run against the specified implementation.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --ignore-for")
+        (options[:add_ignore_for] ||= Set.new) << impl
+      end
+
+      opts.on("--unignore-for IMPLEMENTATION",
+              "Remove the ignore flag so that the test will run against the specified implementation.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --unignore-for")
+        (options[:remove_ignore_for] ||= Set.new) << impl
+      end
+
+      opts.on("--ignore-warning-for IMPLEMENTATION",
+              "Flag test so that it won't check warnings with the specified implementation.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --ignore-warning-for")
+        (options[:add_ignore_warning_for] ||= Set.new) << impl
+      end
+
+      opts.on("--unignore-warning-for IMPLEMENTATION",
+              "Remove the ignore flag so that warnings are checked with the specified implementation.") do |impl|
+        return unless assert_not_file!(impl, "implementation for --unignore-warning-for")
+        (options[:remove_ignore_warning_for] ||= Set.new) << impl
+      end
+
       opts.on("--report", "Generate a report after running.") do |impl|
         runner_options[:report] = true
       end
