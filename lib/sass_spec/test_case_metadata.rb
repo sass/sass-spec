@@ -35,7 +35,7 @@ module SassSpec
       existing_opts
     end
 
-    ACCUMULATED_OPTIONS = [:todo, :warning_todo, :ignore_for, :warning_ignore_for]
+    ACCUMULATED_OPTIONS = [:todo, :warning_todo, :ignore_for, :ignore_warning_for]
 
     attr_reader :options
 
@@ -76,12 +76,20 @@ module SassSpec
       self.class.cache[dir] ||= _resolve_options(dir).freeze
     end
 
+    def todo?(impl)
+      @options[:todo] && @options[:todo].include?(impl)
+    end
+
     def warning_todo?(impl)
       @options[:warning_todo] && @options[:warning_todo].include?(impl)
     end
 
-    def todo?(impl)
-      @options[:todo] && @options[:todo].include?(impl)
+    def ignore_for?(impl)
+      @options[:ignore_for] && @options[:ignore_for].include?(impl)
+    end
+
+    def ignore_warning_for?(impl)
+      @options[:ignore_warning_for] && @options[:ignore_warning_for].include?(impl)
     end
 
     def output_style
@@ -121,6 +129,10 @@ module SassSpec
         valid &&= version <= end_version
       end
       valid
+    end
+
+    def valid_for_impl?(impl)
+      !ignore_for?(impl)
     end
 
   end

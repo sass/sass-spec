@@ -77,6 +77,9 @@ class SassSpec::Runner
     @language_version
   end
 
+  def impl
+    @options[:engine_adapter].describe
+  end
 
   def _get_cases
     cases = []
@@ -86,6 +89,13 @@ class SassSpec::Runner
       unless metadata.valid_for_version?(language_version)
         if @options[:verbose]
           warn "#{metadata.name} does not apply to Sass #{language_version}"
+        end
+        next
+      end
+
+      unless metadata.valid_for_impl?(impl)
+        if @options[:verbose]
+          warn "#{metadata.name} does not apply to #{impl}"
         end
         next
       end

@@ -24,7 +24,9 @@ def run_spec_test(test_case, options = {})
   return unless handle_unexpected_pass!(test_case, options)
   return unless handle_output_difference!(test_case, options)
 
-  if test_case.warning_todo? && !options[:run_todo]
+  if test_case.ignore_warning?
+    return true
+  elsif test_case.warning_todo? && !options[:run_todo]
     skip "Skipped warning check for #{test_case.folder}"
   else
     return unless handle_expected_error_message!(test_case, options)
@@ -267,7 +269,7 @@ def handle_missing_output!(test_case)
 end
 
 def handle_unexpected_pass!(test_case, options)
-  output, _clean_output, error, status = test_case.output
+  output, _clean_output, _error, status = test_case.output
   if status == 0
     return true if !test_case.should_fail?
 

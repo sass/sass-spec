@@ -109,6 +109,14 @@ class SassSpec::TestCase
     @metadata.warning_todo?(impl)
   end
 
+  def ignore?
+    @metadata.ignore_for?(impl)
+  end
+
+  def ignore_warning?
+    @metadata.ignore_warning_for?(impl)
+  end
+
   def metadata
     @metadata
   end
