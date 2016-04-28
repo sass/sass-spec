@@ -587,6 +587,7 @@ end
 
 # Holder to put and run test cases
 class SassSpec::Test < Minitest::Test
+  parallelize_me!
   def self.create_tests(test_cases, options = {})
     test_cases[0..options[:limit]].each do |test_case|
       define_method("test__#{test_case.name}") do
