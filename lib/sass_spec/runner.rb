@@ -83,7 +83,7 @@ class SassSpec::Runner
     get_input_files().each do |filename|
       folder = File.dirname(filename)
       metadata = SassSpec::TestCaseMetadata.new(folder)
-      unless metadata.valid_for_version(language_version)
+      unless metadata.valid_for_version?(language_version)
         if @options[:verbose]
           warn "#{metadata.name} does not apply to Sass #{language_version}"
         end

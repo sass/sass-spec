@@ -114,7 +114,7 @@ module SassSpec
       @end_version
     end
 
-    def valid_for_version(version)
+    def valid_for_version?(version)
       version = Gem::Version.new(version) if version.is_a?(String)
       valid = start_version <= version 
       if end_version

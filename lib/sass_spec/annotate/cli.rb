@@ -232,7 +232,7 @@ BANNER
     column(metadata.name)
     SassSpec::LANGUAGE_VERSIONS.each do |version|
       v = Gem::Version.new(version)
-      if metadata.valid_for_version(v)
+      if metadata.valid_for_version?(v)
         column("✓")
       else
         column("")
