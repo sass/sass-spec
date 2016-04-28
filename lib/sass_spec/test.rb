@@ -108,6 +108,11 @@ def handle_expected_error_message!(test_case, options)
         return false
       end
 
+      i.choice(:ignore, "Ignore warning for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_ignore_warning_for: [test_case.impl])
+        return false
+      end
+
       i.choice(:fail, "Mark as failed.")
 
       i.choice(:exit, "Exit testing.") do
@@ -161,6 +166,11 @@ def handle_unexpected_error_message!(test_case, options)
       return false
     end
 
+    i.choice(:ignore, "Ignore warning for #{test_case.impl}.") do
+      change_options(test_case.options_path, add_ignore_warning_for: [test_case.impl])
+      return false
+    end
+
     i.choice(:fail, "Mark as failed.")
 
     i.choice(:exit, "Exit testing.") do
@@ -205,6 +215,11 @@ def handle_output_difference!(test_case, options)
 
     i.choice(:migrate, "Migrate copy of test to pass current version.") do
       migrate_test!(test_case, options) || i.restart!
+      return false
+    end
+
+    i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
+      change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       return false
     end
 
@@ -305,6 +320,10 @@ def handle_unexpected_pass!(test_case, options)
         migrate_test!(test_case, options) || i.restart!
       end
 
+      i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
+        change_options(test_case.options_path, add_ignore_for: [test_case.impl])
+      end
+
       i.choice(:fail, "Fail test and continue.")
 
       i.choice(:exit, "Exit testing.") do
@@ -354,6 +373,10 @@ def handle_unexpected_error!(test_case, options)
 
       i.choice(:migrate, "Migrate copy of test to pass current version.") do
         migrate_test!(test_case, options) || i.restart!
+      end
+
+      i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
+        change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       end
 
       i.choice(:fail, "Fail test and continue.")
