@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.bindir = "."
   spec.executables << "sass-spec.rb"
 
-  spec.files         = `git ls-files -z`.split("\x0")
+  spec.files         = `git ls-files -z`.split("\x0").select {|f| f !~ /Gemfile/}
   spec.require_paths = ["lib"]
 
   spec.add_dependency "minitest", "~> 5.8"
