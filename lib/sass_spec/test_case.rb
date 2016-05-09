@@ -130,7 +130,7 @@ class SassSpec::TestCase
       return @output
     end
 
-    stdout, stderr, status = engine.compile(@input_path, output_style, precision)
+    stdout, stderr, status = engine.compile(input_path, output_style, precision)
 
     if clean_test
       clean_out = _clean_output(stdout)
@@ -144,6 +144,10 @@ class SassSpec::TestCase
     stderr = stderr.gsub(/(\r\n)/, "\n")
 
     @output ||= [stdout, clean_out, stderr, status]
+  end
+
+  def input
+    @input ||= File.read(input_path, :binmode => true, :encoding => "ASCII-8BIT")
   end
 
   def expected
@@ -165,6 +169,10 @@ class SassSpec::TestCase
                         else
                           ""
                         end
+  end
+
+  def equivalent?(other_test_case)
+    output == other_test_case.output
   end
 
   def expected_status

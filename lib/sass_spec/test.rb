@@ -1,4 +1,5 @@
 require 'minitest'
+require 'thread'
 require 'fileutils'
 require 'yaml'
 require_relative "interactor"
@@ -235,14 +236,28 @@ def handle_output_difference!(test_case, options)
   return true
 end
 
+$sources = {}
+$sources_mutex = Mutex.new
+
 def check_annotations!(test_case, options)
+  return true unless options[:check_annotations]
+
   _output, _, error, _ = test_case.output
   ignored_warning_impls = test_case.metadata.warnings_ignored_for
 
-  if ignored_warning_impls.any?
-  end
 
-  return true unless options[:check_annotations]
+  # $sources_mutex.synchronize do
+  #   if $sources[test_case.input]
+  #     $sources[test_case.input].each do |folder|
+  #       tc = SassSpec::TestCase.new(folder, options)
+  #       if test_case.equivalent?(tc)
+  #         message = "Test case appears to be equivalent to: #{folder}"
+  #         assert false, message
+  #       end
+  #     end
+  #   end
+  #   ($sources[test_case.input] ||= []) << test_case.folder
+  # end
 
   if ignored_warning_impls.any? && error.length == 0
     message = "No warning issued, but warnings are ignored for #{ignored_warning_impls.join(', ')}"
