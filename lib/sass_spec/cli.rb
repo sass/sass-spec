@@ -105,6 +105,10 @@ Make sure the command you provide prints to stdout.
         options[:silent] = true
       end
 
+      opts.on("--check-annotations", "Check if any test annotations are unecessary.") do
+        options[:check_annotations] = true
+      end
+
       opts.on("--interactive", "When a test fails, enter into a dialog for how to handle it.") do
         options[:interactive] = true
       end

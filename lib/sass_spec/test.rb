@@ -19,7 +19,8 @@ def run_spec_test(test_case, options = {})
     return true
   end
 
-  return unless handle_missing_output!(test_case)
+  return unless check_annotations!(test_case, options)
+  return unless handle_missing_output!(test_case, options)
   return unless handle_unexpected_error!(test_case, options)
   return unless handle_unexpected_pass!(test_case, options)
   return unless handle_output_difference!(test_case, options)
@@ -234,7 +235,50 @@ def handle_output_difference!(test_case, options)
   return true
 end
 
-def handle_missing_output!(test_case)
+def check_annotations!(test_case, options)
+  _output, _, error, _ = test_case.output
+  ignored_warning_impls = test_case.metadata.warnings_ignored_for
+
+  if ignored_warning_impls.any?
+  end
+
+  return true unless options[:check_annotations]
+
+  if ignored_warning_impls.any? && error.length == 0
+    message = "No warning issued, but warnings are ignored for #{ignored_warning_impls.join(', ')}"
+    choice = interact(test_case, :ignore_warning_nonexistant, :fail) do |i|
+      i.prompt message
+      i.choice(:remove_ignore, "Remove ignored status for #{ignored_warning_impls.join(', ')}") do
+        change_options(test_case.options_path, remove_ignore_warning_for: ignored_warning_impls)
+      end
+      i.choice(:fail, "Mark as failed.")
+    end
+
+    if (choice == :fail)
+      assert false, message
+    end
+  end
+
+  todo_warning_impls = test_case.metadata.all_warning_todos
+  if todo_warning_impls.any? && error.length == 0
+    message = "No warning issued, but warnings are pending for #{todo_warning_impls.join(', ')}"
+    choice = interact(test_case, :todo_warning_nonexistant, :fail) do |i|
+      i.prompt message
+      i.choice(:remove_ignore, "Remove TODO status for #{todo_warning_impls.join(', ')}") do
+        change_options(test_case.options_path, remove_warning_todo: todo_warning_impls)
+      end
+      i.choice(:fail, "Mark as failed.")
+    end
+
+    if (choice == :fail)
+      assert false, message
+    end
+  end
+
+  return true
+end
+
+def handle_missing_output!(test_case, options)
   return true if File.exists?(test_case.expected_path)
 
   output, _, error, _ = test_case.output

@@ -84,12 +84,20 @@ module SassSpec
       @options[:warning_todo] && @options[:warning_todo].include?(impl)
     end
 
+    def all_warning_todos
+      @options[:warning_todo] || []
+    end
+
     def ignore_for?(impl)
       @options[:ignore_for] && @options[:ignore_for].include?(impl)
     end
 
     def ignore_warning_for?(impl)
       @options[:ignore_warning_for] && @options[:ignore_warning_for].include?(impl)
+    end
+
+    def warnings_ignored_for
+      @options[:ignore_warning_for] || []
     end
 
     def output_style
