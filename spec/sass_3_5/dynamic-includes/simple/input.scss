@@ -1,0 +1,23 @@
+@mixin foo($args...) {
+  .foo {
+    @each $key, $value in keywords($args) {
+      #{$key}: $value;
+    }
+    invoked-with: if(length($args) > 0, $args, null);
+  }
+}
+
+// Positional Arguments
+@include mixin(foo, 1px, 2px);
+
+// Keyword Arguments
+@include mixin(foo, $key-1: aaa, $key-2: bbb);
+
+// Arglist splat
+$arglist: (foo, passed as argument list);
+@include mixin($arglist...);
+
+// Keyword Arglist splat
+$arglist: (foo, positional-argument-1);
+$keywords: (splat-key-1: x, splat-key-2: y);
+@include mixin($arglist..., $keywords...);
