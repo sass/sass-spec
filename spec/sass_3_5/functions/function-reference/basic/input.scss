@@ -1,0 +1,12 @@
+@function add-two($v) {
+  @return $v + 2;
+}
+
+$add-two-fn: function-reference(add-two);
+
+.result {
+  exists: function-exists($add-two-fn);
+  inspect: inspect($add-two-fn);
+  type-of: type-of($add-two-fn);
+  result: call($add-two-fn, 10);
+}

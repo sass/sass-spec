@@ -1,0 +1,17 @@
+$builtin: function-reference(rgb);
+$same-builtin: function-reference(rgb);
+$different-builtin: function-reference(lighten);
+@function lighten() {
+  @return wut;
+}
+$redefined-builtin: function-reference(lighten);
+.should-be-true {
+  identical: $builtin == $builtin;
+  same: $builtin == $same-builtin;
+}
+
+.should-be-false {
+  different: $different-builtin == $builtin;
+  redefined: $different-builtin == $redefined-builtin;
+}
+
