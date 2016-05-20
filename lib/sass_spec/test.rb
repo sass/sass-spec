@@ -44,6 +44,8 @@ $interaction_memory = {}
 # the choice. Otherwise, it returns the default.
 def interact(test_case, prompt_id, default, &block)
   if test_case.interactive?
+    relative_path = Pathname.new(test_case.folder).relative_path_from(Pathname.new(Dir.pwd))
+    print "\nIn test case: #{relative_path}"
     return SassSpec::Interactor.interact_with_memory($interaction_memory, prompt_id, &block)
   else
     return default
@@ -301,8 +303,7 @@ def handle_missing_output!(test_case, options)
   skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
   choice = interact(test_case, :missing_output, :fail) do |i|
-    i.prompt "in #{test_case.name}\n" +
-             "Expected output file does not exist."
+    i.prompt "Expected output file does not exist."
 
     i.choice(:show_source, "Show me the input.") do
       display_text_block(File.read(test_case.input_path))
@@ -354,8 +355,7 @@ def handle_unexpected_pass!(test_case, options)
 
     return false if test_case.probe_todo?
     choice = interact(test_case, :unexpected_pass, :fail) do |i|
-      i.prompt "In #{test_case.name}\n" +
-               "A failure was expected but it compiled instead."
+      i.prompt "A failure was expected but it compiled instead."
       i.choice(:show_source, "Show me the input.") do
         display_text_block(File.read(test_case.input_path))
         i.restart!
@@ -409,8 +409,7 @@ def handle_unexpected_error!(test_case, options)
     skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
 
     choice = interact(test_case, :unexpected_error, :fail) do |i|
-      i.prompt "In #{test_case.name}\n" +
-               "An unexpected compiler error was encountered."
+      i.prompt "An unexpected compiler error was encountered."
       i.choice(:show_source, "Show me the input.") do
         display_text_block(File.read(test_case.input_path))
         i.restart!
