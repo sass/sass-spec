@@ -1,0 +1,16 @@
+@mixin check-for-content {
+  content-exists: content-exists();
+  @if false {
+    @content;
+  }
+}
+
+.should-be-true {
+  @include check-for-content {
+    content-given: yes;
+  }
+}
+
+.should-be-false {
+  @include check-for-content;
+}
