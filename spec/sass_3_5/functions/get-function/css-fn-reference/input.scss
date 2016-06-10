@@ -1,0 +1,12 @@
+@function supports($something) {
+  @return sass;
+}
+
+$sass-fn: get-function(supports);
+$css-fn: get-function(supports, $css: true);
+
+.result {
+  sass-fn: call($sass-fn, 1px);
+  css-fn: call($css-fn, inspect((all: inherit)));
+}
+

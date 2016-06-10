@@ -1,0 +1,11 @@
+@function add-two($v) {
+  @return $v + 2;
+}
+
+$add-two-fn: get-function(add-two);
+
+.result {
+  inspect: inspect($add-two-fn);
+  type-of: type-of($add-two-fn);
+  result: call($add-two-fn, 10);
+}
