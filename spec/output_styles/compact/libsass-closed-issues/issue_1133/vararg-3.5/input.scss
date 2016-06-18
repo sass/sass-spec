@@ -1,0 +1,17 @@
+@function foo($this, $my) {
+  @return (this: $this, my: $my);
+}
+
+a {
+  $map: foo((this: is, my: map)...);
+  @each $k, $v in $map {
+    #{$k}: $v;
+  }
+}
+
+b {
+  $map: call("foo", (this: is, my: map)...);
+  @each $k, $v in $map {
+    #{$k}: $v;
+  }
+}

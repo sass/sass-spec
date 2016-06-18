@@ -1,0 +1,11 @@
+@function foo($a, $b: null, $c: false) {
+  @return $c;
+}
+
+@function bar($args...) {
+  @return call(foo, $args...);
+}
+
+test {
+  test: bar(3, $c: true);
+}
