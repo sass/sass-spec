@@ -6,6 +6,7 @@ var assert = require('assert'),
     read = fs.readFileSync,
     sass = require('node-sass'),
     readYaml = require('read-yaml'),
+    objectMerge = require('object-merge'),
     version = 3.4;
 
 describe('spec', function() {
@@ -19,20 +20,23 @@ describe('spec', function() {
 
     suites.forEach(function(suite) {
       var suitePath = join(spec, suite);
-      var options = {};
-      var optionsPath = join(suitePath, 'options.yml');
-      if (fs.existsSync(optionsPath)) {
-        options = readYaml.sync(optionsPath)
+      var suiteOptions = {};
+      var suiteOptionsPath = join(suitePath, 'options.yml');
+      if (fs.existsSync(suiteOptionsPath)) {
+        suiteOptions = readYaml.sync(suiteOptionsPath);
       }
 
       var tests = fs.readdirSync(suitePath);
 
       ret[suite] = {};
-      
-      ret[suite].options = options;
 
       tests.forEach(function(test) {
         var testPath = join(suitePath, test);
+        var testOptions = suiteOptions;
+        var testOptionsPath = join(testPath, 'options.yml');
+        if (fs.existsSync(testOptionsPath)) {
+          testOptions = objectMerge(testOptions, readYaml.sync(testOptionsPath));
+        }
         var hasErrorFile = fs.existsSync(join(testPath, 'error')) && !fs.statSync(join(testPath, 'error')).isDirectory();
         var hasError = false;
         if (hasErrorFile) {
@@ -52,6 +56,7 @@ describe('spec', function() {
           testPath,
           join(testPath, 'sub')
         ];
+        ret[suite][test].options = testOptions;
       });
     });
 
@@ -62,14 +67,13 @@ describe('spec', function() {
     var tests = Object.keys(suites[suite]);
 
     describe(suite, function() {
-      var s = suites[suite];
-      var isTodo = s.options[':todo'] != null && s.options[':todo'].indexOf('libsass') != -1;
-      var isWarningTodo = s.options[':warning_todo'] != null && s.options[':warning_todo'].indexOf('libsass') != -1;
-      var minVersion = parseFloat(s.options[':start_version']) || 0;
-      var maxVersion = parseFloat(s.options[':end_version']) || 99;
 
       tests.forEach(function(test) {
         var t = suites[suite][test];
+        var isTodo = t.options[':todo'] != null && t.options[':todo'].indexOf('libsass') != -1;
+        var isWarningTodo = t.options[':warning_todo'] != null && t.options[':warning_todo'].indexOf('libsass') != -1;
+        var minVersion = parseFloat(t.options[':start_version']) || 0;
+        var maxVersion = parseFloat(t.options[':end_version']) || 99;
         if (exists(t.src)) {
           it(test, function(done) {
             if (isTodo || isWarningTodo) {
