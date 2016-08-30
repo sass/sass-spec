@@ -4,7 +4,8 @@ var assert = require('assert'),
     path = require('path'),
     join = require('path').join,
     read = fs.readFileSync,
-    sass = require('node-sass');
+    sass = require('node-sass'),
+    readYaml = require('read-yaml');
 
 describe('spec', function() {
   var normalize = function(str) {
@@ -14,20 +15,20 @@ describe('spec', function() {
     var ret = {};
     var spec = join(__dirname, 'spec');
     var suites = fs.readdirSync(spec);
-    var ignoreSuites = [
-      'libsass-todo-issues',
-      'libsass-todo-tests'
-    ];
 
     suites.forEach(function(suite) {
-      if (ignoreSuites.indexOf(suite) !== -1) {
-        return;
+      var suitePath = join(spec, suite);
+      var options = {};
+      var optionsPath = join(suitePath, 'options.yml');
+      if (fs.existsSync(optionsPath)) {
+        options = readYaml.sync(optionsPath)
       }
 
-      var suitePath = join(spec, suite);
       var tests = fs.readdirSync(suitePath);
 
       ret[suite] = {};
+      
+      ret[suite].options = options;
 
       tests.forEach(function(test) {
         var testPath = join(suitePath, test);
@@ -60,27 +61,33 @@ describe('spec', function() {
     var tests = Object.keys(suites[suite]);
 
     describe(suite, function() {
+      var s = suites[suite];
+      var isTodo = s.options[':todo'] != null && s.options[':todo'].indexOf('libsass') != -1;
+      var isWarningTodo = s.options[':warning_todo'] != null && s.options[':warning_todo'].indexOf('libsass') != -1;
+
       tests.forEach(function(test) {
         var t = suites[suite][test];
-
         if (exists(t.src)) {
           it(test, function(done) {
-            var expected = normalize(read(t.expected, 'utf8'));
-
-            sass.render({
-              file: t.src,
-              includePaths: t.paths
-            }, function(error, result) {
-              if (t.error) {
-                assert(error);
-              } else {
-                assert(!error);
-              }
-              if (expected) {
-                assert.equal(normalize(result.css.toString()), expected);
-              }
-              done();
-            });
+            if (isTodo || isWarningTodo) {
+              this.skip("Test marked with TODO");
+            } else {
+              var expected = normalize(read(t.expected, 'utf8'));
+              sass.render({
+                file: t.src,
+                includePaths: t.paths
+              }, function(error, result) {
+                if (t.error) {
+                  assert(error);
+                } else {
+                  assert(!error);
+                }
+                if (expected) {
+                  assert.equal(normalize(result.css.toString()), expected);
+                }
+                done();
+              });
+            }
           });
         }
       });
