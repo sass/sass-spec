@@ -5,7 +5,8 @@ var assert = require('assert'),
     join = require('path').join,
     read = fs.readFileSync,
     sass = require('node-sass'),
-    readYaml = require('read-yaml');
+    readYaml = require('read-yaml'),
+    version = 3.4;
 
 describe('spec', function() {
   var normalize = function(str) {
@@ -64,6 +65,8 @@ describe('spec', function() {
       var s = suites[suite];
       var isTodo = s.options[':todo'] != null && s.options[':todo'].indexOf('libsass') != -1;
       var isWarningTodo = s.options[':warning_todo'] != null && s.options[':warning_todo'].indexOf('libsass') != -1;
+      var minVersion = parseFloat(s.options[':start_version']) || 0;
+      var maxVersion = parseFloat(s.options[':end_version']) || 99;
 
       tests.forEach(function(test) {
         var t = suites[suite][test];
@@ -71,6 +74,10 @@ describe('spec', function() {
           it(test, function(done) {
             if (isTodo || isWarningTodo) {
               this.skip("Test marked with TODO");
+            } else if (version < minVersion) {
+              this.skip("Tests marked for newer Sass versions only");
+            } else if (version > maxVersion) {
+              this.skip("Tests marked for older Sass versions only");
             } else {
               var expected = normalize(read(t.expected, 'utf8'));
               sass.render({
