@@ -7,7 +7,7 @@ if [ "x$NODE_SASS" == "xyes" ]; then
   npm run start || exit 1
 fi
 
-if [ "x$RUBY_SASS" == "xyes" ];
+if [ "x$RUBY_SASS" == "xyes" ]; then
   for GEMFILE in `ls $DIR/Gemfile*`
   do
     if [[ $GEMFILE != *"lock"* ]]
