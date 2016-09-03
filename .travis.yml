@@ -1,5 +1,11 @@
 rvm:
   - "2.3.1"
+env:
+  - NODE_SASS=yes
+  - RUBY_SASS=yes
+matrix:
+  allow_failures:
+  - env: NODE_SASS=yes
 script: "./test_all_impls.sh"
 language: ruby
 sudo: false

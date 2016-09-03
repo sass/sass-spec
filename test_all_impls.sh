@@ -2,6 +2,11 @@
 set -v
 export DIR=`dirname $0`
 
+if [ "x$NODE_SASS" == "xyes" ]; then
+  npm install
+  npm run start
+  exit 0
+fi
 
 for GEMFILE in `ls $DIR/Gemfile*`
 do
@@ -13,5 +18,3 @@ do
     bundle exec sass-spec.rb || exit 1
   fi
 done
-
-# TODO: Test libsass here
