@@ -8,14 +8,16 @@ var assert = require('assert'),
     readYaml = require('read-yaml'),
     objectMerge = require('object-merge'),
     glob = require('glob'),
+    impl = 'libsass',
     version = 3.4;
 
 var normalize = function(str) {
-  return str.replace(/\s+/g, '').replace('{', '{\n').replace(';', ';\n');
+  // This should be /\r\n/g, '\n', but there seems to be some empty line issues
+  return str.replace(/\s+/g, '');
 };
 
 var specPath = join(__dirname, 'spec')
-var inputs = glob.sync(specPath + "/**/input.*");
+var inputs = glob.sync(specPath + '/**/input.*');
 
 var initialize = function(folder, options) {
   var testCase = {};
@@ -36,8 +38,8 @@ var initialize = function(folder, options) {
   ]
   testCase.precision = parseFloat(options[':precision']) || 5;
   testCase.outputStyle = options[':output_style'] ? options[':output_style'].replace(':', '') : 'nested';;
-  testCase.todo = options[':todo'] != null && options[':todo'].indexOf('libsass') != -1;
-  testCase.warningTodo = options[':warning_todo'] != null && options[':warning_todo'].indexOf('libsass') != -1;
+  testCase.todo = options[':todo'] != null && options[':todo'].indexOf(impl) != -1;
+  testCase.warningTodo = options[':warning_todo'] != null && options[':warning_todo'].indexOf(impl) != -1;
   testCase.startVersion = parseFloat(options[':start_version']) || 0;
   testCase.endVersion = parseFloat(options[':end_version']) || 99;
   testCase.options = options;
@@ -69,11 +71,11 @@ describe('spec', function() {
 
     it(test.folder, function(done) {
       if (test.todo || test.warningTodo) {
-        this.skip("Test marked with TODO");
+        this.skip('Test marked with TODO');
       } else if (version < test.startVersion) {
-        this.skip("Tests marked for newer Sass versions only");
+        this.skip('Tests marked for newer Sass versions only');
       } else if (version > test.endVersion) {
-        this.skip("Tests marked for older Sass versions only");
+        this.skip('Tests marked for older Sass versions only');
       } else {
         var expected = normalize(read(test.expectedPath, 'utf8'));
         sass.render({
@@ -82,15 +84,24 @@ describe('spec', function() {
             precision: test.precision,
             outputStyle: test.outputStyle
           }, function(error, result) {
-            if (test.verifyStatus) {
-              assert(error);
-            }
-            if (test.verifyStderr) {
-              assert(error, 'Should Error with options ' + JSON.stringify(test.options))
-            } else {
-              assert(!error, 'Shouldn\'t have an error with options ' + JSON.stringify(test.options))
-            }
-            if (expected) {
+            if (test.shouldFail) {
+              // Replace 1, with parseInt(read(test.statusPath, 'utf8')) penind https://github.com/sass/libsass/issues/2162
+              assert.equal(error.status, 1);
+            } else if (test.verifyStderr) {
+              var expectedError = read(test.errorPath, 'utf8');
+              if (error === null) {
+                // Probably a warning
+                assert.ok(expectedError, 'Expected some sort of warning, but found none')
+              } else {
+                // The error messages seem to have some differences in areas
+                // like line numbering, so we'll check the first line for the
+                // general errror message only
+                assert.equal(
+                  error.formatted.toString().split("\n")[0],
+                  expectedError.toString().split("\n")[0],
+                  'Should Error.\nOptions' + JSON.stringify(test.options))
+              }
+            } else if (expected) {
               assert.equal(normalize(result.css.toString()), expected, 'Should equal with options ' + JSON.stringify(test.options));
             }
             done();
