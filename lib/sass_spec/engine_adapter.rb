@@ -17,7 +17,7 @@ class EngineAdapter
 
   # Compile a Sass file and return the results
   # @return [css_output, std_error, status_code]
-  def compile(sass_filename, style, precision)
+  def compile(sass_filename, style, precision, unix_newlines)
     not_implemented
   end
 
@@ -52,9 +52,10 @@ class ExecutableEngineAdapater < EngineAdapter
   end
 
 
-  def compile(sass_filename, style, precision)
+  def compile(sass_filename, style, precision, unix_newlines)
     cmd = "#{@command} --precision #{precision}"
     cmd += " -t #{style}" if style
+    cmd += " --unix_newlines" if unix_newlines
     result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
 
     if result[:timeout]
@@ -88,7 +89,7 @@ class SassEngineAdapter < EngineAdapter
     Sass::VERSION[0..2]
   end
 
-  def compile(sass_filename, style, precision)
+  def compile(sass_filename, style, precision, unix_newlines)
     require 'sass'
     # overloads STDERR
     stderr = StringIO.new
@@ -102,6 +103,7 @@ class SassEngineAdapter < EngineAdapter
       Sass::Script::Value::Number.precision = precision
       sass_options = {}
       sass_options[:style] = style.to_sym if style
+      sass_options[:unix_newlines] = unix_newlines if unix_newlines
       sass_options[:cache] = false unless sass_options.has_key?(:cache)
       css_output = Sass.compile_file(sass_filename.to_s, sass_options)
       # strings come back as utf8 encoded
