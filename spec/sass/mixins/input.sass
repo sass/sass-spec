@@ -1,0 +1,35 @@
+=mixme
+  color: blue
+
+input
+  +mixme
+  background: red
+
+=apply-to-ie6-only
+  * html
+    @content
+
++apply-to-ie6-only
+  #logo
+    background-image: url(/logo.gif)
+
+@mixin inc()
+  mix: in
+
+.a
+  +
+    .c, .b
+      margin: 10px
+      +inc
+
+.a
+  +inc
+  + b
+    .c, .b
+      margin: 10px
+
+
+.a
+  >
+    .c, .b
+      margin: 10px
