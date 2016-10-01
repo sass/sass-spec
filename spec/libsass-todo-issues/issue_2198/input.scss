@@ -1,0 +1,15 @@
+@mixin test() {
+  @at-root {
+    @include foo();
+  }
+}
+
+@mixin foo() {
+  #{'.foo'} {
+    bar: baz;
+  }
+}
+
+.test {
+  @include test();
+}
