@@ -1,0 +1,30 @@
+$gutter: 100% / 36.2;
+    $gutter_em: 1rem; //This needs to be rem to not mess up margins
+
+// This calculate the gutter
+@function col_width($n, $use_calc: false) {
+    $divisor: 12 / $n;
+    @if ($use_calc) {
+        $gutter_offset: $gutter_em * ($divisor - 1);
+        @return calc((100% - #{$gutter_offset}) / #{$divisor});
+    }
+    @else {
+        @return (100% - $gutter * ($divisor - 1)) / $divisor;
+    }
+}
+
+// Each number here becomes a grid: onecol, twocol etc. 
+$grids: one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve;
+$i: 1;
+@each $grid in $grids {
+    .#{$grid}col {
+        width: col_width( $i );
+        width: col_width( $i, true );
+    }
+
+    %#{$grid}col {
+        width: col_width( $i );
+        width: col_width( $i, true );
+    }
+    $i: $i + 1;
+}
