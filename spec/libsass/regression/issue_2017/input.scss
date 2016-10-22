@@ -1,0 +1,15 @@
+foo {
+  bar: baz;
+}
+
+@mixin link() {
+  a:not(.btn) {
+    color: red;
+  }
+}
+
+foo {
+  @include link;
+  @extend .btn;
+  @include link;
+}
