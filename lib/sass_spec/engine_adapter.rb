@@ -47,7 +47,7 @@ class ExecutableEngineAdapater < EngineAdapter
 
   def version
     require 'open3'
-    stdout, stderr, status = Open3.capture3("#{@command} -v", :binmode => true)
+    stdout, _stderr, _status = Open3.capture3("#{@command} -v", :binmode => true)
     stdout.to_s
   end
 
@@ -91,22 +91,20 @@ class SassEngineAdapter < EngineAdapter
   def compile(sass_filename, style, precision)
     require 'sass'
     # overloads STDERR
-    stderr = StringIO.new
+    Sass.logger.io = StringIO.new
     # restore previous default encoding
-    encoding = Encoding.default_external
-    # Does not work as expected when tests are run in parallel
-    # It runs tests in threads, so stderr is shared across them
-    old_stderr, $stderr = $stderr, stderr
+    original_encoding = Encoding.default_external
     begin
       Encoding.default_external = "UTF-8"
       Sass::Script::Value::Number.precision = precision
+
       sass_options = {}
       sass_options[:style] = style.to_sym if style
       sass_options[:cache] = false unless sass_options.has_key?(:cache)
       css_output = Sass.compile_file(sass_filename.to_s, sass_options)
       # strings come back as utf8 encoded
       # internaly we only work with bytes
-      err_output = stderr.string
+      err_output = Sass.logger.io.string
       err_output.force_encoding('ASCII-8BIT')
       css_output.force_encoding('ASCII-8BIT')
       [css_output, err_output, 0]
@@ -120,7 +118,7 @@ class SassEngineAdapter < EngineAdapter
       ["", e.to_s, 2]
     end
   ensure
-    $stderr = old_stderr
-    Encoding.default_external = encoding
+    Sass.logger.io = nil
+    Encoding.default_external = original_encoding
   end
 end
