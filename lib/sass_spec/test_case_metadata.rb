@@ -108,6 +108,10 @@ module SassSpec
       @options[:precision]
     end
 
+    def unix_newlines?
+      !!@options[:unix_newlines]
+    end
+
     def clean_output?
       !!@options[:clean]
     end
@@ -132,7 +136,7 @@ module SassSpec
 
     def valid_for_version?(version)
       version = Gem::Version.new(version) if version.is_a?(String)
-      valid = start_version <= version 
+      valid = start_version <= version
       if end_version
         valid &&= version <= end_version
       end

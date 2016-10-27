@@ -48,6 +48,10 @@ class SassSpec::TestCase
     @metadata.precision || 5
   end
 
+  def unix_newlines
+    @metadata.unix_newlines?
+  end
+
   def clean_test
     @metadata.clean_output?
   end
@@ -130,7 +134,7 @@ class SassSpec::TestCase
       return @output
     end
 
-    stdout, stderr, status = engine.compile(input_path, output_style, precision)
+    stdout, stderr, status = engine.compile(input_path, output_style, precision, unix_newlines)
 
     if clean_test
       clean_out = _clean_output(stdout)
