@@ -53,8 +53,7 @@ class ExecutableEngineAdapater < EngineAdapter
 
 
   def compile(sass_filename, style, precision)
-    cmd = "#{@command} --precision #{precision}"
-    cmd += " -t #{style}" if style
+    cmd = "#{@command} --precision #{precision} -t #{style || "expanded"}"
     result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
 
     if result[:timeout]
@@ -101,7 +100,7 @@ class SassEngineAdapter < EngineAdapter
       Encoding.default_external = "UTF-8"
       Sass::Script::Value::Number.precision = precision
       sass_options = {}
-      sass_options[:style] = style.to_sym if style
+      sass_options[:style] = (style || :expanded).to_sym
       sass_options[:cache] = false unless sass_options.has_key?(:cache)
       css_output = Sass.compile_file(sass_filename.to_s, sass_options)
       # strings come back as utf8 encoded
