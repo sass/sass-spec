@@ -242,6 +242,11 @@ def handle_output_difference!(test_case, options)
       return false
     end
 
+    i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+      change_options(test_case.options_path, add_todo: [test_case.impl])
+      return false
+    end
+
     i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
       change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       return false
@@ -410,6 +415,11 @@ def handle_unexpected_pass!(test_case, options)
         return false
       end
 
+      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_todo: [test_case.impl])
+        return false
+      end
+
       i.choice('f', "Fail test and continue.")
 
       i.choice('X', "Exit testing.") do
@@ -468,6 +478,11 @@ def handle_unexpected_error!(test_case, options)
 
       i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
+        return false
+      end
+
+      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_todo: [test_case.impl])
         return false
       end
 
