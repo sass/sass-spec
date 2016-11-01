@@ -56,7 +56,14 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:engine_adapter]}')") do |v|
-        options[:engine_adapter] = ExecutableEngineAdapater.new(v)
+        options[:engine_adapter] = ExecutableEngineAdapter.new(v)
+      end
+
+      opts.on("--dart PATH", "Run Dart Sass, whose repo should be at the given path.") do |path|
+        Dir.chdir(path) do
+          system("pub run grinder snapshot")
+          options[:engine_adapter] = DartEngineAdapter.new(File.join(path, "build/sass.dart.snapshot"))
+        end
       end
 
       opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do

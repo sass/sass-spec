@@ -28,7 +28,7 @@ class EngineAdapter
   end
 end
 
-class ExecutableEngineAdapater < EngineAdapter
+class ExecutableEngineAdapter < EngineAdapter
   include CaptureWithTimeout
 
   def initialize(command, description = nil)
@@ -113,5 +113,34 @@ class SassEngineAdapter < EngineAdapter
   ensure
     $stderr = old_stderr
     Encoding.default_external = encoding
+  end
+end
+
+class DartEngineAdapter < EngineAdapter
+  include CaptureWithTimeout
+
+  def initialize(path)
+    @path = path
+    @timeout = 10
+  end
+
+  def describe
+    "dart-sass"
+  end
+
+  def version
+    `dart #{@path} --version`
+  end
+
+  def compile(sass_filename, style, precision)
+    result = capture3_with_timeout(
+        "dart #{@path} --no-color --style #{style || 'expanded'} #{sass_filename}",
+        :binmode => true, :timeout => @timeout)
+
+    if result[:timeout]
+      ["", "Execution timed out after #{@timeout}s", -1]
+    else
+      [result[:stdout], result[:stderr], result[:status].exitstatus]
+    end
   end
 end
