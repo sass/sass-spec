@@ -77,18 +77,18 @@ def handle_expected_error_message!(test_case, options)
       i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
                                 "Error output doesn't match what was expected.")
 
-      i.choice(:show_source, "Show me the input.") do
+      i.choice('i', "Show me the input.") do
         display_text_block(File.read(test_case.input_path))
         i.restart!
       end
 
       if error_msg.nil?
-        i.choice(:show, "Show expected error.") do
+        i.choice('e', "Show expected error.") do
           display_text_block(expected_error_msg)
           i.restart!
         end
       else
-        i.choice(:show, "Show diff.") do
+        i.choice('d', "Show diff.") do
           require 'diffy'
           display_text_block(
             Diffy::Diff.new("Expected\n#{expected_error_msg}",
@@ -97,34 +97,34 @@ def handle_expected_error_message!(test_case, options)
         end
       end
 
-      i.choice(:overwrite, "Update expected output and pass test.") do
+      i.choice('O', "Update expected output and pass test.") do
         overwrite_test!(test_case)
         return false
       end
 
-      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+      i.choice('V', "Migrate copy of test to pass current version.") do
         migrate_version!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+      i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:todo, "Mark warning as todo for #{test_case.impl}.") do
+      i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
         change_options(test_case.options_path, add_warning_todo: [test_case.impl])
         return false
       end
 
-      i.choice(:ignore, "Ignore warning for #{test_case.impl}.") do
+      i.choice('G', "Ignore warning for #{test_case.impl}.") do
         change_options(test_case.options_path, add_ignore_warning_for: [test_case.impl])
         return false
       end
 
-      i.choice(:fail, "Mark as failed.")
+      i.choice('f', "Mark as failed.")
 
-      i.choice(:exit, "Exit testing.") do
+      i.choice('X', "Exit testing.") do
         raise Interrupt
       end
     end
@@ -150,44 +150,44 @@ def handle_unexpected_error_message!(test_case, options)
   interact(test_case, :unexpected_error_message, :fail) do |i|
     i.prompt "Unexpected output to stderr"
 
-    i.choice(:show_source, "Show me the input.") do
+    i.choice('i', "Show me the input.") do
       display_text_block(File.read(test_case.input_path))
       i.restart!
     end
 
-    i.choice(:show, "Show error.") do
+    i.choice('e', "Show error.") do
       display_text_block(error)
       i.restart!
     end
 
-    i.choice(:overwrite, "Update expected error and pass test.") do
+    i.choice('O', "Update expected error and pass test.") do
       overwrite_test!(test_case)
       return false
     end
 
-    i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+    i.choice('V', "Migrate copy of test to pass current version.") do
       migrate_version!(test_case, options) || i.restart!
       return false
     end
 
-    i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+    i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
       migrate_impl!(test_case, options) || i.restart!
       return false
     end
 
-    i.choice(:todo, "Mark warning as todo for #{test_case.impl}.") do
+    i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
       change_options(test_case.options_path, add_warning_todo: [test_case.impl])
       return false
     end
 
-    i.choice(:ignore, "Ignore warning for #{test_case.impl}.") do
+    i.choice('G', "Ignore warning for #{test_case.impl}.") do
       change_options(test_case.options_path, add_ignore_warning_for: [test_case.impl])
       return false
     end
 
-    i.choice(:fail, "Mark as failed.")
+    i.choice('f', "Mark as failed.")
 
-    i.choice(:exit, "Exit testing.") do
+    i.choice('X', "Exit testing.") do
       raise Interrupt
     end
   end
@@ -214,12 +214,12 @@ def handle_output_difference!(test_case, options)
   interact(test_case, :output_difference, :fail) do |i|
     i.prompt "output does not match expectation"
 
-    i.choice(:show_source, "Show me the input.") do
+    i.choice('i', "Show me the input.") do
       display_text_block(File.read(test_case.input_path))
       i.restart!
     end
 
-    i.choice(:diff, "show diff.") do
+    i.choice('d', "show diff.") do
       require 'diffy'
       display_text_block(
         Diffy::Diff.new("Expected\n" + test_case.expected,
@@ -227,29 +227,29 @@ def handle_output_difference!(test_case, options)
       i.restart!
     end
 
-    i.choice(:overwrite, "Update expected output and pass test.") do
+    i.choice('O', "Update expected output and pass test.") do
       overwrite_test!(test_case)
       return false
     end
 
-    i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+    i.choice('V', "Migrate copy of test to pass current version.") do
       migrate_version!(test_case, options) || i.restart!
       return false
     end
 
-    i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+    i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
       migrate_impl!(test_case, options) || i.restart!
       return false
     end
 
-    i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
+    i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
       change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       return false
     end
 
-    i.choice(:fail, "Mark as failed.")
+    i.choice('f', "Mark as failed.")
 
-    i.choice(:exit, "Exit testing.") do
+    i.choice('X', "Exit testing.") do
       raise Interrupt
     end
   end
@@ -285,10 +285,10 @@ def check_annotations!(test_case, options)
     message = "No warning issued, but warnings are ignored for #{ignored_warning_impls.join(', ')}"
     choice = interact(test_case, :ignore_warning_nonexistant, :fail) do |i|
       i.prompt message
-      i.choice(:remove_ignore, "Remove ignored status for #{ignored_warning_impls.join(', ')}") do
+      i.choice('R', "Remove ignored status for #{ignored_warning_impls.join(', ')}") do
         change_options(test_case.options_path, remove_ignore_warning_for: ignored_warning_impls)
       end
-      i.choice(:fail, "Mark as failed.")
+      i.choice('f', "Mark as failed.")
     end
 
     if (choice == :fail)
@@ -301,10 +301,10 @@ def check_annotations!(test_case, options)
     message = "No warning issued, but warnings are pending for #{todo_warning_impls.join(', ')}"
     choice = interact(test_case, :todo_warning_nonexistant, :fail) do |i|
       i.prompt message
-      i.choice(:remove_ignore, "Remove TODO status for #{todo_warning_impls.join(', ')}") do
+      i.choice('R', "Remove TODO status for #{todo_warning_impls.join(', ')}") do
         change_options(test_case.options_path, remove_warning_todo: todo_warning_impls)
       end
-      i.choice(:fail, "Mark as failed.")
+      i.choice('f', "Mark as failed.")
     end
 
     if (choice == :fail)
@@ -325,12 +325,12 @@ def handle_missing_output!(test_case, options)
   choice = interact(test_case, :missing_output, :fail) do |i|
     i.prompt "Expected output file does not exist."
 
-    i.choice(:show_source, "Show me the input.") do
+    i.choice('i', "Show me the input.") do
       display_text_block(File.read(test_case.input_path))
       i.restart!
     end
 
-    i.choice(:show, "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
+    i.choice('e', "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
       to_show = error
       to_show = output if to_show.length == 0
       to_show = "No output or error to display." if to_show.length == 0
@@ -339,7 +339,7 @@ def handle_missing_output!(test_case, options)
       i.restart!
     end
 
-    i.choice(:delete, "Delete test.") do
+    i.choice('D', "Delete test.") do
       if delete_test!(test_case)
         return false
       else
@@ -347,14 +347,14 @@ def handle_missing_output!(test_case, options)
       end
     end
 
-    i.choice(:overwrite, "Create it and pass test.") do
+    i.choice('O', "Create it and pass test.") do
       overwrite_test!(test_case)
       return false
     end
 
-    i.choice(:fail, "Mark as failed.")
+    i.choice('f', "Mark as failed.")
 
-    i.choice(:exit, "Exit testing.") do
+    i.choice('X', "Exit testing.") do
       raise Interrupt
     end
   end
@@ -381,38 +381,38 @@ def handle_unexpected_pass!(test_case, options)
     return false if test_case.probe_todo?
     choice = interact(test_case, :unexpected_pass, :fail) do |i|
       i.prompt "A failure was expected but it compiled instead."
-      i.choice(:show_source, "Show me the input.") do
+      i.choice('i', "Show me the input.") do
         display_text_block(File.read(test_case.input_path))
         i.restart!
       end
 
-      i.choice(:show_expected_error, "Show me the expected error.") do
+      i.choice('e', "Show me the expected error.") do
         display_text_block(File.read(test_case.error_path))
         i.restart!
       end
 
-      i.choice(:show_output, "Show me the output.") do
+      i.choice('o', "Show me the output.") do
         display_text_block(output)
         i.restart!
       end
 
-      i.choice(:fix, "Update test and mark it passing.") do
+      i.choice('O', "Update test and mark it passing.") do
         overwrite_test!(test_case)
       end
 
-      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+      i.choice('V', "Migrate copy of test to pass current version.") do
         migrate_version!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+      i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:fail, "Fail test and continue.")
+      i.choice('f', "Fail test and continue.")
 
-      i.choice(:exit, "Exit testing.") do
+      i.choice('X', "Exit testing.") do
         raise Interrupt
       end
     end
@@ -442,42 +442,42 @@ def handle_unexpected_error!(test_case, options)
 
     choice = interact(test_case, :unexpected_error, :fail) do |i|
       i.prompt "An unexpected compiler error was encountered."
-      i.choice(:show_source, "Show me the input.") do
+      i.choice('i', "Show me the input.") do
         display_text_block(File.read(test_case.input_path))
         i.restart!
       end
 
-      i.choice(:show_expected_error, "Show me the error.") do
+      i.choice('e', "Show me the error.") do
         display_text_block(error)
         i.restart!
       end
 
-      i.choice(:show_output, "Show me the expected output.") do
+      i.choice('o', "Show me the expected output.") do
         display_text_block(test_case.expected)
         i.restart!
       end
 
-      i.choice(:fix, "Update test to expect this failure.") do
+      i.choice('O', "Update test to expect this failure.") do
         overwrite_test!(test_case)
       end
 
-      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+      i.choice('V', "Migrate copy of test to pass current version.") do
         migrate_version!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+      i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
         return false
       end
 
-      i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
+      i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
         change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       end
 
-      i.choice(:fail, "Fail test and continue.")
+      i.choice('f', "Fail test and continue.")
 
-      i.choice(:exit, "Exit testing.") do
+      i.choice('X', "Exit testing.") do
         raise Interrupt
       end
     end
@@ -492,10 +492,10 @@ def delete_test!(test_case)
   files = Dir.glob(File.join(test_case.folder, "**", "*"))
   result = interact(test_case, :delete_test, :proceed) do |i|
     i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
-    i.choice(:proceed, "Delete them.") do
+    i.choice('D', "Delete them.") do
       FileUtils.rm_rf(test_case.folder)
     end
-    i.choice(:abort, "I changed my mind.") do
+    i.choice('x', "I changed my mind.") do
     end
   end
   result == :proceed
@@ -563,10 +563,10 @@ def migrate_version!(test_case, options)
   if File.exist?(new_folder)
     choice = interact(test_case, :migrate_over_existing, :abort) do |i|
       i.prompt("Target folder '#{new_folder}' already exists.")
-      i.choice(:abort, "Don't migrate the test.") do
+      i.choice('x', "Don't migrate the test.") do
         return false
       end
-      i.choice(:remove, "Remove it.") do
+      i.choice('O', "Remove it.") do
         unless delete_test!(SassSpec::TestCase.new(new_folder, options))
           i.restart!
         end
@@ -601,10 +601,10 @@ def migrate_impl!(test_case, options)
   if File.exist?(new_folder)
     choice = interact(test_case, :migrate_over_existing, :abort) do |i|
       i.prompt("Target folder '#{new_folder}' already exists.")
-      i.choice(:abort, "Don't migrate the test.") do
+      i.choice('x', "Don't migrate the test.") do
         return false
       end
-      i.choice(:remove, "Remove it.") do
+      i.choice('O', "Remove it.") do
         unless delete_test!(SassSpec::TestCase.new(new_folder, options))
           i.restart!
         end
