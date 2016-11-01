@@ -97,8 +97,12 @@ Make sure the command you provide prints to stdout.
         options[:spec_directory] = File.expand_path(spec_dir)
       end
 
-      opts.on("--migrate", "Copy tests that fail and make them pass for the current version.") do
-        options[:migrate] = true
+      opts.on("--migrate-version", "Copy tests that fail and make them pass for the current version.") do
+        options[:migrate_version] = true
+      end
+
+      opts.on("--migrate-impl", "Copy tests that fail and make them pass for the current implementatino.") do
+        options[:migrate_impl] = true
       end
 
       opts.on("--silent", "Don't show any logs") do

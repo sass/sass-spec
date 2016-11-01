@@ -102,8 +102,13 @@ def handle_expected_error_message!(test_case, options)
         return false
       end
 
-      i.choice(:migrate, "Migrate copy of test to pass current version.") do
-        migrate_test!(test_case, options) || i.restart!
+      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+        migrate_version!(test_case, options) || i.restart!
+        return false
+      end
+
+      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+        migrate_impl!(test_case, options) || i.restart!
         return false
       end
 
@@ -160,8 +165,13 @@ def handle_unexpected_error_message!(test_case, options)
       return false
     end
 
-    i.choice(:migrate, "Migrate copy of test to pass current version.") do
-      migrate_test!(test_case, options) || i.restart!
+    i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+      migrate_version!(test_case, options) || i.restart!
+      return false
+    end
+
+    i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+      migrate_impl!(test_case, options) || i.restart!
       return false
     end
 
@@ -189,9 +199,14 @@ def handle_output_difference!(test_case, options)
 
   return true if test_case.expected == clean_output
 
-  if test_case.migrate? && !test_case.interactive?
-    migrate_test!(test_case, options)
-    return false
+  unless test_case.interactive?
+    if test_case.migrate_version?
+      migrate_version!(test_case, options)
+      return false
+    elsif test_case.migrate_impl?
+      migrate_impl!(test_case, options)
+      return false
+    end
   end
 
   skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
@@ -217,8 +232,13 @@ def handle_output_difference!(test_case, options)
       return false
     end
 
-    i.choice(:migrate, "Migrate copy of test to pass current version.") do
-      migrate_test!(test_case, options) || i.restart!
+    i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+      migrate_version!(test_case, options) || i.restart!
+      return false
+    end
+
+    i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+      migrate_impl!(test_case, options) || i.restart!
       return false
     end
 
@@ -348,9 +368,14 @@ def handle_unexpected_pass!(test_case, options)
   if status == 0
     return true if !test_case.should_fail?
 
-    if test_case.migrate? && !test_case.interactive?
-      migrate_test!(test_case, options)
-      return false
+    unless test_case.interactive?
+      if test_case.migrate_version?
+        migrate_version!(test_case, options)
+        return false
+      elsif test_case.migrate_impl?
+        migrate_impl!(test_case, options)
+        return false
+      end
     end
 
     return false if test_case.probe_todo?
@@ -375,12 +400,14 @@ def handle_unexpected_pass!(test_case, options)
         overwrite_test!(test_case)
       end
 
-      i.choice(:migrate, "Migrate copy of test to pass current version.") do
-        migrate_test!(test_case, options) || i.restart!
+      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+        migrate_version!(test_case, options) || i.restart!
+        return false
       end
 
-      i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
-        change_options(test_case.options_path, add_ignore_for: [test_case.impl])
+      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+        migrate_impl!(test_case, options) || i.restart!
+        return false
       end
 
       i.choice(:fail, "Fail test and continue.")
@@ -401,9 +428,14 @@ def handle_unexpected_error!(test_case, options)
   if status != 0
     return true if test_case.should_fail?
 
-    if test_case.migrate? && !test_case.interactive?
-      migrate_test!(test_case, options)
-      return false
+    unless test_case.interactive?
+      if test_case.migrate_version?
+        migrate_version!(test_case, options)
+        return false
+      elsif test_case.migrate_impl?
+        migrate_impl!(test_case, options)
+        return false
+      end
     end
 
     skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
@@ -429,8 +461,14 @@ def handle_unexpected_error!(test_case, options)
         overwrite_test!(test_case)
       end
 
-      i.choice(:migrate, "Migrate copy of test to pass current version.") do
-        migrate_test!(test_case, options) || i.restart!
+      i.choice(:migrate_version, "Migrate copy of test to pass current version.") do
+        migrate_version!(test_case, options) || i.restart!
+        return false
+      end
+
+      i.choice(:migrate_impl, "Migrate copy of test to pass on #{test_case.impl}.") do
+        migrate_impl!(test_case, options) || i.restart!
+        return false
       end
 
       i.choice(:ignore, "Ignore test for #{test_case.impl} FOREVER.") do
@@ -497,11 +535,12 @@ def overwrite_test!(test_case)
   end
 end
 
-# Copy a test
-# Mark the original as only being valid until the version before the current version.
-# Mark the copy as being valid starting with the current version.
-# Update copy to expect current actual results.
-def migrate_test!(test_case, options)
+# Creates a copy of a test that's compatible with the current version.
+#
+# Marks the original as only being valid until the version before the current
+# version. Marks the copy as being valid starting with the current version.
+# Updates the copy to expect current actual results.
+def migrate_version!(test_case, options)
   current_version = options[:language_version]
   current_version_index = SassSpec::LANGUAGE_VERSIONS.index(current_version)
   if current_version_index == 0
@@ -543,10 +582,46 @@ def migrate_test!(test_case, options)
   FileUtils.cp_r test_case.folder, new_folder
 
   new_test_case = SassSpec::TestCase.new(new_folder, options)
-
   change_options(test_case.options_path, end_version: previous_version)
-
   change_options(new_test_case.options_path, start_version: current_version)
+
+  overwrite_test!(new_test_case)
+
+  return true
+end
+
+# Creates a copy of a test that's compatible with the current implementation.
+#
+# Marks the original as ignored for the current implementation. Marks the copy
+# as being valid only for the current version. Updates the copy to expect
+# current actual results.
+def migrate_impl!(test_case, options)
+  new_folder = test_case.folder + "-#{test_case.impl}"
+
+  if File.exist?(new_folder)
+    choice = interact(test_case, :migrate_over_existing, :abort) do |i|
+      i.prompt("Target folder '#{new_folder}' already exists.")
+      i.choice(:abort, "Don't migrate the test.") do
+        return false
+      end
+      i.choice(:remove, "Remove it.") do
+        unless delete_test!(SassSpec::TestCase.new(new_folder, options))
+          i.restart!
+        end
+      end
+    end
+
+    if choice == :abort
+      puts "Cannot migrate test. #{new_folder} already exists."
+      return false
+    end
+  end
+
+  FileUtils.cp_r test_case.folder, new_folder
+
+  new_test_case = SassSpec::TestCase.new(new_folder, options)
+  change_options(test_case.options_path, add_ignore_for: [test_case.impl])
+  change_options(new_test_case.options_path, only_on: [test_case.impl])
 
   overwrite_test!(new_test_case)
 
