@@ -65,16 +65,8 @@ class ExecutableEngineAdapater < EngineAdapter
 end
 
 class SassEngineAdapter < EngineAdapter
-  def initialize(description)
-    @description = description
-  end
-
-  def set_description(description)
-    @description = description
-  end
-
   def describe
-    @description
+    'ruby-sass'
   end
 
   def version
