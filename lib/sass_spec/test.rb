@@ -242,6 +242,11 @@ def handle_output_difference!(test_case, options)
       return false
     end
 
+    i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+      change_options(test_case.options_path, add_todo: [test_case.impl])
+      return false
+    end
+
     i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
       change_options(test_case.options_path, add_ignore_for: [test_case.impl])
       return false
@@ -366,9 +371,12 @@ end
 def handle_unexpected_pass!(test_case, options)
   output, _clean_output, _error, status = test_case.output
   if status == 0
-    return true if !test_case.should_fail?
 
-    unless test_case.interactive?
+    if test_case.interactive?
+      return true if !test_case.should_fail? && !(options[:probe_todo] && test_case.todo?)
+    else
+      return true if !test_case.should_fail?
+
       if test_case.migrate_version?
         migrate_version!(test_case, options)
         return false
@@ -408,6 +416,18 @@ def handle_unexpected_pass!(test_case, options)
       i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
         return false
+      end
+
+      if test_case.todo?
+        i.choice('R', "Remove todo status for #{test_case.impl}.") do
+          change_options(test_case.options_path, remove_todo: [test_case.impl])
+          return false
+        end
+      else
+        i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+          change_options(test_case.options_path, add_todo: [test_case.impl])
+          return false
+        end
       end
 
       i.choice('f', "Fail test and continue.")
@@ -468,6 +488,11 @@ def handle_unexpected_error!(test_case, options)
 
       i.choice('I', "Migrate copy of test to pass on #{test_case.impl}.") do
         migrate_impl!(test_case, options) || i.restart!
+        return false
+      end
+
+      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_todo: [test_case.impl])
         return false
       end
 
