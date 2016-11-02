@@ -35,7 +35,7 @@ module SassSpec
       existing_opts
     end
 
-    ACCUMULATED_OPTIONS = [:todo, :warning_todo, :ignore_for, :ignore_warning_for, :only, :warning_only_on]
+    ACCUMULATED_OPTIONS = [:todo, :warning_todo, :ignore_for, :ignore_warning_for, :only_on, :warning_only_on]
 
     attr_reader :options
 
