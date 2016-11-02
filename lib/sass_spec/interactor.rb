@@ -1,7 +1,7 @@
 module SassSpec
   class Interactor
 
-    class Choice < Struct.new(:label, :message, :block)
+    class Choice < Struct.new(:shortcut, :message, :block)
       def run_block!
         block.call if block
       end
@@ -17,8 +17,8 @@ module SassSpec
       @prompt = message
     end
 
-    def choice(label, message, &block)
-      @choices << Choice.new(label, message, block)
+    def choice(shortcut, message, &block)
+      @choices << Choice.new(shortcut, message, block)
     end
 
     def restart!
@@ -29,7 +29,7 @@ module SassSpec
       puts
       puts @prompt if @prompt
       @choices.each_with_index do |c, i|
-        puts "#{i + 1}. #{c.message}"
+        puts "#{c.shortcut}. #{c.message}"
       end
       if @id && memory
         puts "Note: If you end your choice with a ! then next time this happens,\n"+
@@ -40,7 +40,7 @@ module SassSpec
 
     def run!(memory = nil)
       if @id && memory && memory[@id]
-        @choices.detect{|c| c.label == memory[@id]}.run_block!
+        @choices.detect{|c| c.shortcut == memory[@id]}.run_block!
         return memory[@id]
       end
       if @choices.size == 0
@@ -52,17 +52,17 @@ module SassSpec
         input = $stdin.gets
         puts
         repeat = input && input.strip.end_with?("!")
-        @choice = input ? input.strip.to_i : 0
-        if @choice > 0 && @choice <= @choices.size
-          @choices[@choice - 1].run_block! # We run this in the loop so restart! can be invoked.
+        @choice = (input.strip if input)
+        if (choice = @choices.find {|c| c.shortcut == @choice})
+          choice.run_block! # We run this in the loop so restart! can be invoked.
         else
           @choice = nil
         end
       end
-      @choices[@choice - 1].label # we return the label so re-ordering choices doesn't change result
+      @choices[@choice - 1].shortcut # we return the shortcut so re-ordering choices doesn't change result
     ensure
       if @id && memory && repeat && @choice
-        memory[@id] = @choices[@choice - 1].label
+        memory[@id] = @choices[@choice - 1].shortcut
       end
     end
 
