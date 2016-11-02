@@ -5,7 +5,7 @@ module SassSpec::CLI
 
   def self.parse
     options = {
-      engine_adapter: SassEngineAdapter.new("sass"),
+      engine_adapter: SassEngineAdapter.new,
       spec_directory: nil,
       generate: false,
       tap: false,
