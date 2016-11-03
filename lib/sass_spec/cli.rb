@@ -60,10 +60,7 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("--dart PATH", "Run Dart Sass, whose repo should be at the given path.") do |path|
-        Dir.chdir(path) do
-          system("pub run grinder snapshot")
-          options[:engine_adapter] = DartEngineAdapter.new(File.join(path, "build/sass.dart.snapshot"))
-        end
+        options[:engine_adapter] = DartEngineAdapter.new(path)
       end
 
       opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do

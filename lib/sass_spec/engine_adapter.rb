@@ -1,3 +1,4 @@
+require 'open3'
 require_relative 'capture_with_timeout'
 
 class EngineAdapter
@@ -121,7 +122,34 @@ class DartEngineAdapter < EngineAdapter
 
   def initialize(path)
     @path = path
-    @timeout = 10
+    Tempfile.open("dart-sass-spec") do |f|
+      f.write(<<-DART)
+        import "dart:convert";
+        import "dart:io";
+
+        import "#{File.absolute_path @path}/bin/sass.dart" as sass;
+
+        main() async {
+          await for (var line in new LineSplitter().bind(UTF8.decoder.bind(stdin))) {
+            try {
+              await sass.main(line.split(" "));
+            } catch (error, stackTrace) {
+              stderr.writeln("Unhandled exception:");
+              stderr.writeln(error);
+              stderr.writeln(stackTrace);
+              exitCode = 255;
+            }
+
+            stdout.writeCharCode(0);
+            stdout.write(exitCode);
+            stdout.writeCharCode(0);
+            stderr.writeCharCode(0);
+            exitCode = 0;
+          }
+        }
+      DART
+      @stdin, @stdout, @stderr = Open3.popen3("dart --packages=#{@path}/.packages #{f.path}")
+    end
   end
 
   def describe
@@ -129,18 +157,19 @@ class DartEngineAdapter < EngineAdapter
   end
 
   def version
-    `dart #{@path} --version`
+    `dart #{@path}/bin/sass.dart --version`
   end
 
   def compile(sass_filename, style, precision)
-    result = capture3_with_timeout(
-        "dart #{@path} --no-color --style #{style || 'expanded'} #{sass_filename}",
-        :binmode => true, :timeout => @timeout)
+    @stdin.puts "--no-color --style #{style || 'expanded'} #{sass_filename}"
+    [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
+  end
 
-    if result[:timeout]
-      ["", "Execution timed out after #{@timeout}s", -1]
-    else
-      [result[:stdout], result[:stderr], result[:status].exitstatus]
-    end
+  private
+
+  def next_chunk(io)
+    result = io.gets("\0")
+    return '' unless result
+    return result[0...-1]
   end
 end
