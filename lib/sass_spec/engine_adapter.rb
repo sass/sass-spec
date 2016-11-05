@@ -170,6 +170,6 @@ class DartEngineAdapter < EngineAdapter
   def next_chunk(io)
     result = io.gets("\0")
     return '' unless result
-    return result[0...-1]
+    return result[0...-1].force_encoding('binary')
   end
 end
