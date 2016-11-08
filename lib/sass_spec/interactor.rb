@@ -49,10 +49,15 @@ module SassSpec
       @choice = nil
       until @choice
         display_choices!(memory)
-        input = $stdin.gets
+        input = $stdin.gets.strip
         puts
-        repeat = input && input.strip.end_with?("!")
-        @choice = (input.strip if input)
+
+        if input && input.end_with?("!")
+          repeat = true
+          input.slice!(-1)
+        end
+
+        @choice = input
         if (choice = @choices.find {|c| c.shortcut == @choice})
           choice.run_block! # We run this in the loop so restart! can be invoked.
         else
