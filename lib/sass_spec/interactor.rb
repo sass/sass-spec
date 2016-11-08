@@ -59,10 +59,10 @@ module SassSpec
           @choice = nil
         end
       end
-      @choices[@choice - 1].shortcut # we return the shortcut so re-ordering choices doesn't change result
+      @choice # we return the shortcut so re-ordering choices doesn't change result
     ensure
       if @id && memory && repeat && @choice
-        memory[@id] = @choices[@choice - 1].shortcut
+        memory[@id] = @choice
       end
     end
 
