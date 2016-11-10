@@ -1,5 +1,39 @@
-rvm:
-  - "2.3.1"
-script: "./test_all_impls.sh"
-language: ruby
 sudo: false
+
+language: ruby
+
+env:
+  global:
+    - SASS_LIBSASS_PATH=$TRAVIS_BUILD_DIR/../libsass
+    - SASS_SASSC_PATH=$TRAVIS_BUILD_DIR/../sassc
+    - SASS_SPEC_PATH=~$TRAVIS_BUILD_DIR/sass-spec
+
+matrix:
+  fast_finish: true
+  include:
+    - gemfile: Gemfile
+      env: LANGUAGE_VERSION=3.4 IMPL=ruby-sass
+    - gemfile: Gemfile.sass_3_5
+      env: LANGUAGE_VERSION=3.5 IMPL=ruby-sass
+    - gemfile: Gemfile.sass_4_0
+      env: LANGUAGE_VERSION=4.0 IMPL=ruby-sass
+    - env: LANGUAGE_VERSION=3.4 IMPL=libsass COMMAND="../sassc/bin/sassc" GITISH=3.4.0-RC1
+
+before_install:
+  - rm Gemfile.lock
+  - if [ $IMPL == "libsass" ]; then
+      git clone https://github.com/sass/libsass.git $SASS_LIBSASS_PATH;
+      (cd $SASS_LIBSASS_PATH; git checkout $GITISH);
+      git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH;
+      (cd $SASS_SASSC_PATH; git checkout $GITISH);
+      make -C $SASS_SASSC_PATH;
+    fi
+
+
+script:
+  - if [ $IMPL == "ruby-sass" ]; then
+      bundle update sass;
+      bundle exec sass-spec.rb -V $LANGUAGE_VERSION --impl $IMPL;
+    else
+      bundle exec sass-spec.rb -V $LANGUAGE_VERSION --impl $IMPL -c $COMMAND;
+    fi
