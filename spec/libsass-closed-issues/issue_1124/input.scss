@@ -1,0 +1,22 @@
+$foo: null;
+
+@mixin bar($bar:null) {
+  aa: type-of($bar);
+  ab: type-of(unqoute($bar));
+}
+
+@mixin baz($baz) {
+  ba: type-of($baz);
+  bb: type-of(unqoute($baz));
+}
+
+foo {
+  a: type-of('');
+  b: type-of(unqoute(''));
+  c: type-of(null);
+  d: type-of(unquote(null));
+  e: type-of($foo);
+  f: type-of(unquote($foo));
+  @include bar;
+  @include baz(null);
+}

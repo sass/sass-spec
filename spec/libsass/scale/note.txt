@@ -1,0 +1,16 @@
+https://github.com/sass/sass/issues/1690
+
+scale-color(rgb(200, 150, 170), $green: -40%, $blue: 70%);
+
+libsass: #c85ae6
+ruby sass: #c85ae5
+
+difference in the blue channel:
+
+libsass: e6 => 230
+ruby sass: e5 => 229
+
+Actual calculation done:
+
+170 + (255 - 170) * .7 = 229.5
+

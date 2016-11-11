@@ -1,0 +1,10 @@
+@function add-two($v) {
+  @return $v + 2;
+}
+
+$add-two-fn: get-function(add-two);
+
+.error {
+  error: function-exists($add-two-fn);
+}
+

@@ -1,0 +1,16 @@
+@function my-content-exists() {
+  @return content-exists(); // must be called within a mixin
+}
+
+@mixin uses-content-exists-indirectly {
+  .test {
+    error: my-content-exists();
+  }
+  @if false {
+    @content;
+  }
+}
+
+@include uses-content-exists-indirectly {
+  .content { exists: yep; }
+}

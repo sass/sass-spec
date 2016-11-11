@@ -1,0 +1,12 @@
+@function test($from, $to) {
+    @warn 'Starting loop';
+    @for $i from $from through $to {
+      @warn 'Step #{$i}' ;
+    }
+    @warn 'Finished loop';
+    @return 100%;
+}
+body {
+    width: test(0, 1);
+    height: test(-1, 1);
+}

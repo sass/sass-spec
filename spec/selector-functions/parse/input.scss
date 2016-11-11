@@ -1,0 +1,41 @@
+@mixin selector-info($selector) {
+  parse: selector-parse($selector);
+}
+
+.foo {
+  parse: selector-parse(&)
+}
+
+#foo {
+  parse: selector-parse(&)
+}
+
+.bar a {
+  parse: selector-parse(&);
+}
+
+.bar,
+.baz {
+  parse: selector-parse(&)
+}
+
+.qux {
+  &.waldo {
+    .where & {
+      .final {
+        parse: selector-parse(&)
+      }
+    }
+  }
+}
+
+inside {
+  &.of {
+    #a {
+      .mixin{
+        parse: selector-parse(&)
+      }
+    }
+  }
+}
+

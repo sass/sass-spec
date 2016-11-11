@@ -1,0 +1,11 @@
+@mixin colors($color) {
+  border-color: $color;
+  background-color: $color;
+  @content;
+}
+.colors {
+  @include colors {
+    color: $color;
+  }
+  border-width: 10px;
+}

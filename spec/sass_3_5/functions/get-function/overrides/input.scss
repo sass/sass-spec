@@ -1,0 +1,21 @@
+@function add-two($v) {
+  @return $v + 2;
+}
+
+$add-two-fn: get-function(add-two);
+
+@function add-two($v) {
+  @error "This should not have been called.";
+}
+
+$lighten-fn: get-function(lighten) !default;
+
+@function lighten($color, $amount: null) {
+  $amount: 10% !default;
+  @return call($lighten-fn, $color, $amount);
+}
+
+.result {
+  captured-sass-fn: call($add-two-fn, 10);
+  captured-ruby-fn: lighten(red);
+}

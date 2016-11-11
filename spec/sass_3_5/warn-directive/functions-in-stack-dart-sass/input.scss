@@ -1,0 +1,12 @@
+@function issues-warning($a) {
+  @warn "From function: #{inspect($a)}";
+  @return $a;
+}
+
+@mixin calls-function-that-warns($a) {
+  warned: issues-warning($a);
+}
+
+.test {
+  @include calls-function-that-warns(testing);
+}

@@ -1,0 +1,13 @@
+.nesting-characters {
+  --parens: (foo; (bar: baz;) bang!);
+  --curly: {foo; {bar: baz;} bang!};
+  --square: [foo; [bar: baz;] bang!];
+  --multiple: [({{([])}})];
+
+  // Nested properties aren't supported in custom properties.
+  --nested-props: {foo: bar;};
+
+  // A property that's ambiguous with a nested selector is interpreted as a
+  // custom property.
+  --ambiguous:foo {bar: baz;};
+}

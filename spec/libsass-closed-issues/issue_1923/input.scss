@@ -1,0 +1,15 @@
+%btnBase {
+  display: none;
+}
+
+@mixin mobile {
+  @media only screen and (min-width:300px) {
+    @content;
+  }
+}
+
+@include mobile {
+  a {
+    @extend %btnBase;
+  }
+}

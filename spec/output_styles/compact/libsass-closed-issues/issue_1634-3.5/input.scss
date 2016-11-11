@@ -1,0 +1,13 @@
+$empty-list: ();
+
+@function foo($args...) {
+    @return call(bar, $args...);
+}
+
+@function bar($list) {
+    @return length($list);
+}
+
+test {
+  test: foo($empty-list);
+}

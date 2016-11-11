@@ -1,0 +1,40 @@
+$Selectors: ();
+
+//////////////////////////////
+// Add selectors of various depths and makeups
+//////////////////////////////
+.foo {
+  $Selectors: append($Selectors, &) !global;
+}
+
+.bar a {
+  $Selectors: append($Selectors, &) !global;
+}
+
+.bar,
+.baz {
+  $Selectors: append($Selectors, &) !global;
+}
+
+.qux {
+  &.waldo {
+    .where & {
+      .final {
+        $Selectors: append($Selectors, &) !global;
+      }
+    }
+  }
+}
+
+//////////////////////////////
+// Display Results
+//////////////////////////////
+.result {
+  length: length($Selectors);
+  content: $Selectors;
+  @for $i from 1 through length($Selectors) {
+    index: $i;
+    length: length(nth($Selectors, $i));
+    content: nth($Selectors, $i);
+  }
+}

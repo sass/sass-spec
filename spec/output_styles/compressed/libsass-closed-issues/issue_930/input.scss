@@ -1,0 +1,19 @@
+.foo {
+  &.bar {
+    color: #F00;
+  }
+}
+
+$class: 'baz';
+.foo {
+  &.#{$class} {
+    color: #F00;
+  }
+}
+
+$n: 1;
+.foo {
+  &:nth-child(#{$n}) {
+    color: #F00;
+  }
+}

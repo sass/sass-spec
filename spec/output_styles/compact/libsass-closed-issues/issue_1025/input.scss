@@ -1,0 +1,12 @@
+@mixin m() {
+  .a & {
+    @content;
+  }
+}
+
+:not(:last-of-type) {
+  top: 10px;
+  @include m {
+    top: 10px;
+  }
+}
