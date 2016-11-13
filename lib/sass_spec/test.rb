@@ -109,6 +109,315 @@ class SassSpecRunner
     return true
   end
 
+  def handle_missing_output!
+    return true if File.exists?(@test_case.expected_path)
+
+    output, _, error, _ = @test_case.output
+
+    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+
+    choice = interact(:missing_output, :fail) do |i|
+      i.prompt "Expected output file does not exist."
+
+      i.choice('i', "Show me the input.") do
+        display_text_block(File.read(@test_case.input_path))
+        i.restart!
+      end
+
+      i.choice('e', "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
+        to_show = error
+        to_show = output if to_show.length == 0
+        to_show = "No output or error to display." if to_show.length == 0
+
+        display_text_block(to_show)
+        i.restart!
+      end
+
+      i.choice('D', "Delete test.") do
+        if delete_dir!(@test_case.folder)
+          return false
+        else
+          i.restart!
+        end
+      end
+
+      i.choice('O', "Create it and pass test.") do
+        overwrite_test!
+        return false
+      end
+
+      i.choice('f', "Mark as failed.")
+
+      i.choice('X', "Exit testing.") do
+        raise Interrupt
+      end
+    end
+    return true unless choice == :fail
+
+    assert false, "Expected #{@test_case.expected_path} file does not exist"
+  end
+
+  def handle_unexpected_error!
+    _output, _clean_output, error, status = @test_case.output
+    return true if status == 0 || @test_case.should_fail?
+
+    unless @test_case.interactive?
+      if @test_case.migrate_version?
+        migrate_version!
+        return false
+      elsif @test_case.migrate_impl?
+        migrate_impl!
+        return false
+      end
+    end
+
+    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+
+    choice = interact(:unexpected_error, :fail) do |i|
+      i.prompt "An unexpected compiler error was encountered."
+      i.choice('i', "Show me the input.") do
+        display_text_block(File.read(@test_case.input_path))
+        i.restart!
+      end
+
+      i.choice('e', "Show me the error.") do
+        display_text_block(error)
+        i.restart!
+      end
+
+      i.choice('o', "Show me the expected output.") do
+        display_text_block(@test_case.expected)
+        i.restart!
+      end
+
+      i.choice('O', "Update test to expect this failure.") do
+        overwrite_test!
+      end
+
+      i.choice('V', "Migrate copy of test to pass current version.") do
+        migrate_version! || i.restart!
+        return false
+      end
+
+      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
+        migrate_impl! || i.restart!
+        return false
+      end
+
+      unless @test_case.todo?
+        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
+          change_options(add_todo: [@test_case.impl])
+          return false
+        end
+      end
+
+      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+        change_options(add_ignore_for: [@test_case.impl])
+      end
+
+      i.choice('f', "Fail test and continue.")
+
+      i.choice('X', "Exit testing.") do
+        raise Interrupt
+      end
+    end
+    return false unless choice == :fail
+
+    assert_equal 0, status,
+      "Command `#{@options[:engine_adapter]}` did not complete:\n\n#{error}"
+    return true
+  end
+
+  def handle_unexpected_pass!
+    output, _clean_output, _error, status = @test_case.output
+    return true if status != 0
+
+    if @test_case.interactive?
+      return true if !@test_case.should_fail?
+    else
+      return true if !@test_case.should_fail?
+
+      if @test_case.migrate_version?
+        migrate_version!
+        return false
+      elsif @test_case.migrate_impl?
+        migrate_impl!
+        return false
+      end
+    end
+
+    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+
+    choice = interact(:unexpected_pass, :fail) do |i|
+      i.prompt "A failure was expected but it compiled instead."
+      i.choice('i', "Show me the input.") do
+        display_text_block(File.read(@test_case.input_path))
+        i.restart!
+      end
+
+      i.choice('e', "Show me the expected error.") do
+        display_text_block(File.read(@test_case.error_path))
+        i.restart!
+      end
+
+      i.choice('o', "Show me the output.") do
+        display_text_block(output)
+        i.restart!
+      end
+
+      i.choice('O', "Update test and mark it passing.") do
+        overwrite_test!
+      end
+
+      i.choice('V', "Migrate copy of test to pass current version.") do
+        migrate_version! || i.restart!
+        return false
+      end
+
+      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
+        migrate_impl! || i.restart!
+        return false
+      end
+
+      unless @test_case.todo?
+        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
+          change_options(add_todo: [@test_case.impl])
+          return false
+        end
+      end
+
+      i.choice('f', "Fail test and continue.")
+
+      i.choice('X', "Exit testing.") do
+        raise Interrupt
+      end
+    end
+    return false unless choice == :fail
+
+    # XXX Ruby returns 65 etc. SassC returns 1
+    refute_equal status, 0, "Test case should fail, but it did not"
+    return true
+  end
+
+  def handle_output_difference!
+    _output, clean_output, _error, _status = @test_case.output
+
+    return true if @test_case.expected == clean_output
+
+    unless @test_case.interactive?
+      if @test_case.migrate_version?
+        migrate_version!
+        return false
+      elsif @test_case.migrate_impl?
+        migrate_impl!
+        return false
+      end
+    end
+
+    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+
+    interact(:output_difference, :fail) do |i|
+      i.prompt "output does not match expectation"
+
+      i.choice('i', "Show me the input.") do
+        display_text_block(File.read(@test_case.input_path))
+        i.restart!
+      end
+
+      i.choice('d', "show diff.") do
+        require 'diffy'
+        display_text_block(
+          Diffy::Diff.new("Expected\n" + @test_case.expected,
+                          "Actual\n" + clean_output).to_s(:color))
+        i.restart!
+      end
+
+      i.choice('O', "Update expected output and pass test.") do
+        overwrite_test!
+        return false
+      end
+
+      i.choice('V', "Migrate copy of test to pass current version.") do
+        migrate_version! || i.restart!
+        return false
+      end
+
+      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
+        migrate_impl! || i.restart!
+        return false
+      end
+
+      unless @test_case.todo?
+        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
+          change_options(add_todo: [@test_case.impl])
+          return false
+        end
+      end
+
+      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+        change_options(add_ignore_for: [@test_case.impl])
+        return false
+      end
+
+      i.choice('f', "Mark as failed.")
+
+      i.choice('X', "Exit testing.") do
+        raise Interrupt
+      end
+    end
+
+    assert_equal @test_case.expected, clean_output, "expected did not match output"
+    return true
+  end
+
+  def handle_unnecessary_todo!
+    output, clean_output, _error, _status = @test_case.output
+
+    return true unless @test_case.todo?
+    skip_test_case!(@test_case, "TODO test is passing") unless @test_case.interactive?
+
+    expected_error_msg = extract_error_message(@test_case.expected_error, @options)
+
+    interact(@test_case, :output_difference, :fail) do |i|
+      i.prompt "Test is passing but marked as TODO."
+
+      i.choice('i', "Show me the input.") do
+        display_text_block(File.read(@test_case.input_path))
+        i.restart!
+      end
+
+      unless expected_error_msg.empty?
+        i.choice('e', "Show me the expected error.") do
+          display_text_block(expected_error_msg)
+          i.restart!
+        end
+      end
+
+      unless output.empty?
+        i.choice('o', "Show me the output.") do
+          display_text_block(output)
+          i.restart!
+        end
+      end
+
+      i.choice('R', "Remove TODO status for #{@test_case.impl}.") do
+        change_options(remove_todo: [@test_case.impl])
+        return false
+      end
+
+      i.choice('f', "Mark as skipped.") do
+        skip_test_case!(@test_case, "TODO test is passing")
+      end
+
+      i.choice('X', "Exit testing.") do
+        raise Interrupt
+      end
+    end
+
+    assert_equal @test_case.expected, clean_output, "expected did not match output"
+    return true
+  end
+
   def handle_expected_error_message!
     return true unless @test_case.verify_stderr?
 
@@ -242,315 +551,6 @@ class SassSpecRunner
       end
     end
     assert false, "Unexpected Error Output: #{error_msg}"
-  end
-
-  def handle_output_difference!
-    _output, clean_output, _error, _status = @test_case.output
-
-    return true if @test_case.expected == clean_output
-
-    unless @test_case.interactive?
-      if @test_case.migrate_version?
-        migrate_version!
-        return false
-      elsif @test_case.migrate_impl?
-        migrate_impl!
-        return false
-      end
-    end
-
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
-
-    interact(:output_difference, :fail) do |i|
-      i.prompt "output does not match expectation"
-
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
-
-      i.choice('d', "show diff.") do
-        require 'diffy'
-        display_text_block(
-          Diffy::Diff.new("Expected\n" + @test_case.expected,
-                          "Actual\n" + clean_output).to_s(:color))
-        i.restart!
-      end
-
-      i.choice('O', "Update expected output and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(add_ignore_for: [@test_case.impl])
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
-    end
-
-    assert_equal @test_case.expected, clean_output, "expected did not match output"
-    return true
-  end
-
-  def handle_unnecessary_todo!
-    output, clean_output, _error, _status = @test_case.output
-
-    return true unless @test_case.todo?
-    skip_test_case!(@test_case, "TODO test is passing") unless @test_case.interactive?
-
-    expected_error_msg = extract_error_message(@test_case.expected_error, @options)
-
-    interact(@test_case, :output_difference, :fail) do |i|
-      i.prompt "Test is passing but marked as TODO."
-
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
-
-      unless expected_error_msg.empty?
-        i.choice('e', "Show me the expected error.") do
-          display_text_block(expected_error_msg)
-          i.restart!
-        end
-      end
-
-      unless output.empty?
-        i.choice('o', "Show me the output.") do
-          display_text_block(output)
-          i.restart!
-        end
-      end
-
-      i.choice('R', "Remove TODO status for #{@test_case.impl}.") do
-        change_options(remove_todo: [@test_case.impl])
-        return false
-      end
-
-      i.choice('f', "Mark as skipped.") do
-        skip_test_case!(@test_case, "TODO test is passing")
-      end
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
-    end
-
-    assert_equal @test_case.expected, clean_output, "expected did not match output"
-    return true
-  end
-
-  def handle_missing_output!
-    return true if File.exists?(@test_case.expected_path)
-
-    output, _, error, _ = @test_case.output
-
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
-
-    choice = interact(:missing_output, :fail) do |i|
-      i.prompt "Expected output file does not exist."
-
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
-
-      i.choice('e', "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
-        to_show = error
-        to_show = output if to_show.length == 0
-        to_show = "No output or error to display." if to_show.length == 0
-
-        display_text_block(to_show)
-        i.restart!
-      end
-
-      i.choice('D', "Delete test.") do
-        if delete_dir!(@test_case.folder)
-          return false
-        else
-          i.restart!
-        end
-      end
-
-      i.choice('O', "Create it and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
-    end
-    return true unless choice == :fail
-
-    assert false, "Expected #{@test_case.expected_path} file does not exist"
-  end
-
-  def handle_unexpected_pass!
-    output, _clean_output, _error, status = @test_case.output
-    return true if status != 0
-
-    if @test_case.interactive?
-      return true if !@test_case.should_fail?
-    else
-      return true if !@test_case.should_fail?
-
-      if @test_case.migrate_version?
-        migrate_version!
-        return false
-      elsif @test_case.migrate_impl?
-        migrate_impl!
-        return false
-      end
-    end
-
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
-
-    choice = interact(:unexpected_pass, :fail) do |i|
-      i.prompt "A failure was expected but it compiled instead."
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
-
-      i.choice('e', "Show me the expected error.") do
-        display_text_block(File.read(@test_case.error_path))
-        i.restart!
-      end
-
-      i.choice('o', "Show me the output.") do
-        display_text_block(output)
-        i.restart!
-      end
-
-      i.choice('O', "Update test and mark it passing.") do
-        overwrite_test!
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('f', "Fail test and continue.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
-    end
-    return false unless choice == :fail
-
-    # XXX Ruby returns 65 etc. SassC returns 1
-    refute_equal status, 0, "Test case should fail, but it did not"
-    return true
-  end
-
-  def handle_unexpected_error!
-    _output, _clean_output, error, status = @test_case.output
-    return true if status == 0 || @test_case.should_fail?
-
-    unless @test_case.interactive?
-      if @test_case.migrate_version?
-        migrate_version!
-        return false
-      elsif @test_case.migrate_impl?
-        migrate_impl!
-        return false
-      end
-    end
-
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
-
-    choice = interact(:unexpected_error, :fail) do |i|
-      i.prompt "An unexpected compiler error was encountered."
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
-
-      i.choice('e', "Show me the error.") do
-        display_text_block(error)
-        i.restart!
-      end
-
-      i.choice('o', "Show me the expected output.") do
-        display_text_block(@test_case.expected)
-        i.restart!
-      end
-
-      i.choice('O', "Update test to expect this failure.") do
-        overwrite_test!
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(add_ignore_for: [@test_case.impl])
-      end
-
-      i.choice('f', "Fail test and continue.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
-    end
-    return false unless choice == :fail
-
-    assert_equal 0, status,
-      "Command `#{@options[:engine_adapter]}` did not complete:\n\n#{error}"
-    return true
   end
 
   ## Interaction utilities
