@@ -276,7 +276,7 @@ class SassSpecRunner
 
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
-    interact(@test_case, :output_difference, :fail) do |i|
+    interact(:output_difference, :fail) do |i|
       i.prompt "Test is passing but marked as TODO."
 
       show_input_choice(i)
