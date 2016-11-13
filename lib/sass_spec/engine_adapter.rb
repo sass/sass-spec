@@ -118,8 +118,6 @@ class SassEngineAdapter < EngineAdapter
 end
 
 class DartEngineAdapter < EngineAdapter
-  include CaptureWithTimeout
-
   def initialize(path)
     @path = path
     Tempfile.open("dart-sass-spec") do |f|
