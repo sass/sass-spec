@@ -133,14 +133,7 @@ class SassSpecRunner
         i.restart!
       end
 
-      i.choice('D', "Delete test.") do
-        if delete_dir!(@test_case.folder)
-          throw :done
-        else
-          i.restart!
-        end
-      end
-
+      delete_choice(i)
       update_output_choice(i)
       fail_or_exit_choice(i)
     end
@@ -430,6 +423,8 @@ class SassSpecRunner
   end
 
   def migrate_version_choice(i)
+    # Don't offer to migrate if the test already targets the current version.
+    return if File.basename(@test_case.folder) =~ /-#{Regexp.quote(@options[:language_version])}/
     i.choice('V', "Migrate copy of test to pass current version.") do
       migrate_version! || i.restart!
       throw :done
@@ -437,6 +432,7 @@ class SassSpecRunner
   end
 
   def migrate_impl_choice(i)
+    return if for_current_impl?
     i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
       migrate_impl! || i.restart!
       throw :done
@@ -444,7 +440,7 @@ class SassSpecRunner
   end
 
   def todo_choice(i)
-    return if @test_case.todo?
+    return if @test_case.todo? || for_current_impl?
     i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
       change_options(add_todo: [@test_case.impl])
       throw :done
@@ -452,9 +448,23 @@ class SassSpecRunner
   end
 
   def ignore_choice(i)
-    i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-      change_options(add_ignore_for: [@test_case.impl])
-      throw :done
+    if for_current_impl?
+      delete_choice(i)
+    else
+      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+        change_options(add_ignore_for: [@test_case.impl])
+        throw :done
+      end
+    end
+  end
+
+  def delete_choice(i)
+    i.choice('D', "Delete test.") do
+      if delete_dir!(@test_case.folder)
+        throw :done
+      else
+        i.restart!
+      end
     end
   end
 
@@ -589,6 +599,12 @@ class SassSpecRunner
   end
 
   ## Other utilities
+
+  # Returns whether the current spec targets only the implementation being
+  # tested.
+  def for_current_impl?
+    File.basename(@test_case.folder) =~ /-#{Regexp.quote(@test_case.impl)}/
+  end
 
   def skip_test_case!(reason = nil)
     msg = "Skipped #{@test_case.folder}" 
