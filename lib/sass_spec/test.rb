@@ -25,6 +25,7 @@ def run_spec_test(test_case, options = {})
   return unless handle_unexpected_error!(test_case, options)
   return unless handle_unexpected_pass!(test_case, options)
   return unless handle_output_difference!(test_case, options)
+  return unless handle_unnecessary_todo!(test_case, options)
 
   if test_case.ignore_warning?
     return true
@@ -263,6 +264,54 @@ def handle_output_difference!(test_case, options)
   return true
 end
 
+def handle_unnecessary_todo!(test_case, options)
+  _output, clean_output, _error, _status = test_case.output
+
+  return true unless test_case.todo?
+  skip_test_case!(test_case, "TODO test is passing") unless test_case.interactive?
+
+  expected_error_msg = _extract_error_message(test_case.expected_error, options)
+
+  interact(test_case, :output_difference, :fail) do |i|
+    i.prompt "Test is passing but marked as TODO."
+
+    i.choice('i', "Show me the input.") do
+      display_text_block(File.read(test_case.input_path))
+      i.restart!
+    end
+
+    unless expected_error_msg.empty?
+      i.choice('e', "Show me the expected error.") do
+        display_text_block(expected_error_msg)
+        i.restart!
+      end
+    end
+
+    unless _output.empty?
+      i.choice('o', "Show me the output.") do
+        display_text_block(_output)
+        i.restart!
+      end
+    end
+
+    i.choice('R', "Remove TODO status for #{test_case.impl}.") do
+      change_options(test_case.options_path, remove_todo: [test_case.impl])
+      return false
+    end
+
+    i.choice('f', "Mark as skipped.") do
+      skip_test_case!(test_case, "TODO test is passing")
+    end
+
+    i.choice('X', "Exit testing.") do
+      raise Interrupt
+    end
+  end
+
+  assert_equal test_case.expected, clean_output, "expected did not match output"
+  return true
+end
+
 $sources = {}
 $sources_mutex = Mutex.new
 
@@ -373,7 +422,7 @@ def handle_unexpected_pass!(test_case, options)
   if status == 0
 
     if test_case.interactive?
-      return true if !test_case.should_fail? && !(options[:probe_todo] && test_case.todo?)
+      return true if !test_case.should_fail?
     else
       return true if !test_case.should_fail?
 
@@ -386,7 +435,8 @@ def handle_unexpected_pass!(test_case, options)
       end
     end
 
-    return false if test_case.probe_todo?
+    skip_test_case!(test_case, "TODO test is failing") if test_case.probe_todo?
+
     choice = interact(test_case, :unexpected_pass, :fail) do |i|
       i.prompt "A failure was expected but it compiled instead."
       i.choice('i', "Show me the input.") do
@@ -418,16 +468,9 @@ def handle_unexpected_pass!(test_case, options)
         return false
       end
 
-      if test_case.todo?
-        i.choice('R', "Remove todo status for #{test_case.impl}.") do
-          change_options(test_case.options_path, remove_todo: [test_case.impl])
-          return false
-        end
-      else
-        i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
-          change_options(test_case.options_path, add_todo: [test_case.impl])
-          return false
-        end
+      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_todo: [test_case.impl])
+        return false
       end
 
       i.choice('f', "Fail test and continue.")

@@ -106,7 +106,7 @@ class SassSpec::TestCase
 
   def probe_todo?
     # run todo tests but do not fail runner if one does not pass
-    @options[:probe_todo] && (todo? || warning_todo?) && !interactive?
+    @options[:probe_todo] && (todo? || warning_todo?)
   end
 
   def warning_todo?
