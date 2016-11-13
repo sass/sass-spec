@@ -274,7 +274,7 @@ class SassSpecRunner
     return unless @test_case.todo?
     skip_test_case!(@test_case, "TODO test is passing") unless @test_case.interactive?
 
-    expected_error_msg = extract_error_message(@test_case.expected_error, @options)
+    expected_error_msg = extract_error_message(@test_case.expected_error)
 
     interact(@test_case, :output_difference, :fail) do |i|
       i.prompt "Test is passing but marked as TODO."
