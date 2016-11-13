@@ -113,9 +113,11 @@ def handle_expected_error_message!(test_case, options)
         return false
       end
 
-      i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
-        change_options(test_case.options_path, add_warning_todo: [test_case.impl])
-        return false
+      unless test_case.warning_todo?
+        i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
+          change_options(test_case.options_path, add_warning_todo: [test_case.impl])
+          return false
+        end
       end
 
       i.choice('G', "Ignore warning for #{test_case.impl}.") do
@@ -176,9 +178,11 @@ def handle_unexpected_error_message!(test_case, options)
       return false
     end
 
-    i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
-      change_options(test_case.options_path, add_warning_todo: [test_case.impl])
-      return false
+    unless test_case.warning_todo?
+      i.choice('T', "Mark warning as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_warning_todo: [test_case.impl])
+        return false
+      end
     end
 
     i.choice('G', "Ignore warning for #{test_case.impl}.") do
@@ -243,9 +247,11 @@ def handle_output_difference!(test_case, options)
       return false
     end
 
-    i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
-      change_options(test_case.options_path, add_todo: [test_case.impl])
-      return false
+    unless test_case.todo?
+      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+        change_options(test_case.options_path, add_todo: [test_case.impl])
+        return false
+      end
     end
 
     i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
@@ -468,9 +474,11 @@ def handle_unexpected_pass!(test_case, options)
         return false
       end
 
-      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
-        change_options(test_case.options_path, add_todo: [test_case.impl])
-        return false
+      unless test_case.todo?
+        i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+          change_options(test_case.options_path, add_todo: [test_case.impl])
+          return false
+        end
       end
 
       i.choice('f', "Fail test and continue.")
@@ -534,9 +542,11 @@ def handle_unexpected_error!(test_case, options)
         return false
       end
 
-      i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
-        change_options(test_case.options_path, add_todo: [test_case.impl])
-        return false
+      unless test_case.todo?
+        i.choice('T', "Mark spec as todo for #{test_case.impl}.") do
+          change_options(test_case.options_path, add_todo: [test_case.impl])
+          return false
+        end
       end
 
       i.choice('G', "Ignore test for #{test_case.impl} FOREVER.") do
