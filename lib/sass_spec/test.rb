@@ -452,7 +452,10 @@ class SassSpecRunner
       delete_choice(i)
     else
       i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(add_ignore_for: [@test_case.impl])
+        change_options(
+          add_ignore_for: [@test_case.impl],
+          remove_warning_todo: [@test_case.impl],
+          remove_todo: [@test_case.impl])
         throw :done
       end
     end
@@ -592,7 +595,10 @@ class SassSpecRunner
     FileUtils.cp_r @test_case.folder, new_folder
 
     new_test_case = SassSpec::TestCase.new(new_folder, @options)
-    change_options(add_ignore_for: [@test_case.impl])
+    change_options(
+      add_ignore_for: [@test_case.impl],
+      remove_warning_todo: [@test_case.impl],
+      remove_todo: [@test_case.impl])
     change_options(new_test_case.options_path, only_on: [@test_case.impl])
 
     overwrite_test!(new_test_case)
@@ -647,6 +653,9 @@ class SassSpecRunner
     File.open(test_case.expected_path, "w+", :binmode => true) do |f|
       f.write(output)
     end
+
+    change_options(test_case.options_path,
+      remove_warning_todo: [test_case.impl], remove_todo: [test_case.impl])
   end
 
   def change_options(file_or_new_options, new_options = nil)
