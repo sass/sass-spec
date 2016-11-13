@@ -756,6 +756,12 @@ def assert_filename_length!(filename, options)
 end
 
 def _extract_error_message(error, options)
+  # We want to make sure dart-sass continues to generate correct stack traces
+  # and text highlights, so we check its full error messages.
+  if options[:engine_adapter].describe == 'dart-sass'
+    return _clean_debug_path(error.rstrip, options[:spec_directory])
+  end
+
   error_message = ""
   consume_next_line = false
   error.each_line do |line|
