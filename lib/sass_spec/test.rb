@@ -46,20 +46,25 @@ class SassSpecRunner
       return true
     end
 
-    return unless check_annotations!
-    return unless handle_missing_output!
-    return unless handle_unexpected_error!
-    return unless handle_unexpected_pass!
-    return unless handle_output_difference!
-    return unless handle_unnecessary_todo!
+    # Allow checks to throw `:done` to indicate that no more checks need to be
+    # performed. We throw rather than returning a boolean so that we can do
+    # checks in nested functions without worrying about piping return values.
+    catch :done do
+      check_annotations!
+      handle_missing_output!
+      handle_unexpected_error!
+      handle_unexpected_pass!
+      handle_output_difference!
+      handle_unnecessary_todo!
 
-    if @test_case.ignore_warning?
-      return true
-    elsif @test_case.warning_todo? && !@options[:run_todo]
-      skip "Skipped warning check for #{@test_case.folder}"
-    else
-      return unless handle_expected_error_message!
-      return unless handle_unexpected_error_message!
+      if @test_case.ignore_warning?
+        return true
+      elsif @test_case.warning_todo? && !@options[:run_todo]
+        skip "Skipped warning check for #{@test_case.folder}"
+      else
+        return unless handle_expected_error_message!
+        return unless handle_unexpected_error_message!
+      end
     end
 
     return true
@@ -70,7 +75,7 @@ class SassSpecRunner
   ## Failure handlers
 
   def check_annotations!
-    return true unless @options[:check_annotations]
+    return unless @options[:check_annotations]
 
     _output, _, error, _ = @test_case.output
     ignored_warning_impls = @test_case.metadata.warnings_ignored_for
@@ -84,7 +89,7 @@ class SassSpecRunner
           change_options(remove_ignore_warning_for: ignored_warning_impls)
         end
 
-        i.choice('f', "Mark as failed.")
+        fail_or_exit_choice(i)
       end
 
       assert choice != :fail, message
@@ -100,17 +105,15 @@ class SassSpecRunner
           change_options(remove_warning_todo: todo_warning_impls)
         end
 
-        i.choice('f', "Mark as failed.")
+        fail_or_exit_choice(i)
       end
 
       assert choice != :fail, message
     end
-
-    return true
   end
 
   def handle_missing_output!
-    return true if File.exists?(@test_case.expected_path)
+    return if File.exists?(@test_case.expected_path)
 
     output, _, error, _ = @test_case.output
 
@@ -119,10 +122,7 @@ class SassSpecRunner
     choice = interact(:missing_output, :fail) do |i|
       i.prompt "Expected output file does not exist."
 
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+      show_input_choice(i)
 
       i.choice('e', "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
         to_show = error
@@ -135,39 +135,30 @@ class SassSpecRunner
 
       i.choice('D', "Delete test.") do
         if delete_dir!(@test_case.folder)
-          return false
+          throw :done
         else
           i.restart!
         end
       end
 
-      i.choice('O', "Create it and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      fail_or_exit_choice(i)
     end
-    return true unless choice == :fail
 
-    assert false, "Expected #{@test_case.expected_path} file does not exist"
+    assert choice != :fail, "Expected #{@test_case.expected_path} file does not exist"
   end
 
   def handle_unexpected_error!
     _output, _clean_output, error, status = @test_case.output
-    return true if status == 0 || @test_case.should_fail?
+    return if status == 0 || @test_case.should_fail?
 
     unless @test_case.interactive?
       if @test_case.migrate_version?
         migrate_version!
-        return false
+        throw :done
       elsif @test_case.migrate_impl?
         migrate_impl!
-        return false
+        throw :done
       end
     end
 
@@ -175,74 +166,42 @@ class SassSpecRunner
 
     choice = interact(:unexpected_error, :fail) do |i|
       i.prompt "An unexpected compiler error was encountered."
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+
+      show_input_choice(i)
 
       i.choice('e', "Show me the error.") do
         display_text_block(error)
         i.restart!
       end
 
-      i.choice('o', "Show me the expected output.") do
-        display_text_block(@test_case.expected)
-        i.restart!
-      end
-
-      i.choice('O', "Update test to expect this failure.") do
-        overwrite_test!
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(add_ignore_for: [@test_case.impl])
-      end
-
-      i.choice('f', "Fail test and continue.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      migrate_version_choice(i)
+      migrate_impl_choice(i)
+      todo_choice(i)
+      ignore_choice(i)
+      fail_or_exit_choice(i)
     end
-    return false unless choice == :fail
+    throw :done unless choice == :fail
 
     assert_equal 0, status,
       "Command `#{@options[:engine_adapter]}` did not complete:\n\n#{error}"
-    return true
   end
 
   def handle_unexpected_pass!
     output, _clean_output, _error, status = @test_case.output
-    return true if status != 0
+    return if status != 0
 
     if @test_case.interactive?
-      return true if !@test_case.should_fail?
+      return if !@test_case.should_fail?
     else
-      return true if !@test_case.should_fail?
+      return if !@test_case.should_fail?
 
       if @test_case.migrate_version?
         migrate_version!
-        return false
+        throw :done
       elsif @test_case.migrate_impl?
         migrate_impl!
-        return false
+        throw :done
       end
     end
 
@@ -250,10 +209,8 @@ class SassSpecRunner
 
     choice = interact(:unexpected_pass, :fail) do |i|
       i.prompt "A failure was expected but it compiled instead."
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+
+      show_input_choice(i)
 
       i.choice('e', "Show me the expected error.") do
         display_text_block(File.read(@test_case.error_path))
@@ -265,52 +222,30 @@ class SassSpecRunner
         i.restart!
       end
 
-      i.choice('O', "Update test and mark it passing.") do
-        overwrite_test!
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('f', "Fail test and continue.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      migrate_version_choice(i)
+      migrate_impl_choice(i)
+      todo_choice(i)
+      fail_or_exit_choice(i)
     end
-    return false unless choice == :fail
+    throw :done unless choice == :fail
 
     # XXX Ruby returns 65 etc. SassC returns 1
     refute_equal status, 0, "Test case should fail, but it did not"
-    return true
   end
 
   def handle_output_difference!
     _output, clean_output, _error, _status = @test_case.output
 
-    return true if @test_case.expected == clean_output
+    return if @test_case.expected == clean_output
 
     unless @test_case.interactive?
       if @test_case.migrate_version?
         migrate_version!
-        return false
+        throw :done
       elsif @test_case.migrate_impl?
         migrate_impl!
-        return false
+        throw :done
       end
     end
 
@@ -319,10 +254,7 @@ class SassSpecRunner
     interact(:output_difference, :fail) do |i|
       i.prompt "output does not match expectation"
 
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+      show_input_choice(i)
 
       i.choice('d', "show diff.") do
         require 'diffy'
@@ -332,48 +264,21 @@ class SassSpecRunner
         i.restart!
       end
 
-      i.choice('O', "Update expected output and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.todo?
-        i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
-          change_options(add_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(add_ignore_for: [@test_case.impl])
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      migrate_version_choice(i)
+      migrate_impl_choice(i)
+      todo_choice(i)
+      ignore_choice(i)
+      fail_or_exit_choice(i)
     end
 
     assert_equal @test_case.expected, clean_output, "expected did not match output"
-    return true
   end
 
   def handle_unnecessary_todo!
     output, clean_output, _error, _status = @test_case.output
 
-    return true unless @test_case.todo?
+    return unless @test_case.todo?
     skip_test_case!(@test_case, "TODO test is passing") unless @test_case.interactive?
 
     expected_error_msg = extract_error_message(@test_case.expected_error, @options)
@@ -381,10 +286,7 @@ class SassSpecRunner
     interact(@test_case, :output_difference, :fail) do |i|
       i.prompt "Test is passing but marked as TODO."
 
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+      show_input_choice(i)
 
       unless expected_error_msg.empty?
         i.choice('e', "Show me the expected error.") do
@@ -402,7 +304,7 @@ class SassSpecRunner
 
       i.choice('R', "Remove TODO status for #{@test_case.impl}.") do
         change_options(remove_todo: [@test_case.impl])
-        return false
+        throw :done
       end
 
       i.choice('f', "Mark as skipped.") do
@@ -415,30 +317,32 @@ class SassSpecRunner
     end
 
     assert_equal @test_case.expected, clean_output, "expected did not match output"
-    return true
   end
 
   def handle_expected_error_message!
-    return true unless @test_case.verify_stderr?
+    return unless @test_case.verify_stderr?
 
     _output, _clean_output, error, _status = @test_case.output
 
     error_msg = extract_error_message(error)
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
-    return true if expected_error_msg == error_msg
+    return if expected_error_msg == error_msg
     skip_test_case!("TODO test is failing.") if @test_case.probe_todo?
 
     interact(:expected_error_different, :fail) do |i|
-      i.prompt(error_msg.nil? ? "An error message was expected but wasn't produced." :
-                                "Error output doesn't match what was expected.")
+      i.prompt(
+        if error_msg.empty?
+          "An error message was expected but wasn't produced."
+        else
+          "Error output doesn't match what was expected."
+        end)
 
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+      show_input_choice(i)
 
-      if error_msg.nil?
+      if error_msg.empty?
+        return if expected_error_msg.empty?
+
         i.choice('e', "Show expected error.") do
           display_text_block(expected_error_msg)
           i.restart!
@@ -453,102 +357,45 @@ class SassSpecRunner
         end
       end
 
-      i.choice('O', "Update expected output and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.warning_todo?
-        i.choice('T', "Mark warning as todo for #{@test_case.impl}.") do
-          change_options(add_warning_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore warning for #{@test_case.impl}.") do
-        change_options(add_ignore_warning_for: [@test_case.impl])
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      migrate_version_choice(i)
+      migrate_impl_choice(i)
+      todo_warning_choice(i)
+      ignore_warning_choice(i)
+      fail_or_exit_choice(i)
     end
 
     assert_equal expected_error_msg, error_msg,
-      (error_msg.nil? ? "No error message produced" : "Expected did not match error")
-
-    return true
+      (error_msg.empty? ? "No error message produced" : "Expected did not match error")
   end
 
   def handle_unexpected_error_message!
-    return true if @test_case.verify_stderr?
+    return if @test_case.verify_stderr?
 
     _output, _clean_output, error, _status = @test_case.output
 
     error_msg = extract_error_message(error)
 
-    return true if error_msg.nil? || error_msg.length == 0
+    return if error_msg.empty?
 
     skip_test_case!("TODO test is failing") if @test_case.probe_todo?
 
     interact(:unexpected_error_message, :fail) do |i|
-      i.prompt "Unexpected output to stderr"
+      i.prompt "Unexpected output to stderr."
 
-      i.choice('i', "Show me the input.") do
-        display_text_block(File.read(@test_case.input_path))
-        i.restart!
-      end
+      show_input_choice(i)
 
       i.choice('e', "Show error.") do
         display_text_block(error)
         i.restart!
       end
 
-      i.choice('O', "Update expected error and pass test.") do
-        overwrite_test!
-        return false
-      end
-
-      i.choice('V', "Migrate copy of test to pass current version.") do
-        migrate_version! || i.restart!
-        return false
-      end
-
-      i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
-        migrate_impl! || i.restart!
-        return false
-      end
-
-      unless @test_case.warning_todo?
-        i.choice('T', "Mark warning as todo for #{@test_case.impl}.") do
-          change_options(add_warning_todo: [@test_case.impl])
-          return false
-        end
-      end
-
-      i.choice('G', "Ignore warning for #{@test_case.impl}.") do
-        change_options(add_ignore_warning_for: [@test_case.impl])
-        return false
-      end
-
-      i.choice('f', "Mark as failed.")
-
-      i.choice('X', "Exit testing.") do
-        raise Interrupt
-      end
+      update_output_choice(i)
+      migrate_version_choice(i)
+      migrate_impl_choice(i)
+      todo_warning_choice(i)
+      ignore_warning_choice(i)
+      fail_or_exit_choice(i)
     end
     assert false, "Unexpected Error Output: #{error_msg}"
   end
@@ -565,6 +412,71 @@ class SassSpecRunner
       return SassSpec::Interactor.interact_with_memory(@@interaction_memory, prompt_id, &block)
     else
       return default
+    end
+  end
+
+  def show_input_choice(i)
+    i.choice('i', "Show me the input.") do
+      display_text_block(File.read(@test_case.input_path))
+      i.restart!
+    end
+  end
+
+  def update_output_choice(i)
+    i.choice('O', "Update expected output and pass test.") do
+      overwrite_test!
+      throw :done
+    end
+  end
+
+  def migrate_version_choice(i)
+    i.choice('V', "Migrate copy of test to pass current version.") do
+      migrate_version! || i.restart!
+      throw :done
+    end
+  end
+
+  def migrate_impl_choice(i)
+    i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
+      migrate_impl! || i.restart!
+      throw :done
+    end
+  end
+
+  def todo_choice(i)
+    return if @test_case.todo?
+    i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
+      change_options(add_todo: [@test_case.impl])
+      throw :done
+    end
+  end
+
+  def ignore_choice(i)
+    i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+      change_options(add_ignore_for: [@test_case.impl])
+      throw :done
+    end
+  end
+
+  def todo_warning_choice(i)
+    return if @test_case.warning_todo?
+    i.choice('T', "Mark warning as todo for #{@test_case.impl}.") do
+      change_options(add_warning_todo: [@test_case.impl])
+      throw :done
+    end
+  end
+
+  def ignore_warning_choice(i)
+    i.choice('G', "Ignore warning for #{@test_case.impl}.") do
+      change_options(add_ignore_warning_for: [@test_case.impl])
+      throw :done
+    end
+  end
+
+  def fail_or_exit_choice(i)
+    i.choice('f', "Mark as failed.")
+    i.choice('X', "Exit testing.") do
+      raise Interrupt
     end
   end
 
@@ -593,7 +505,7 @@ class SassSpecRunner
     current_version_index = SassSpec::LANGUAGE_VERSIONS.index(current_version)
     if current_version_index == 0
       puts "Cannot migrate test. There's no version earlier than #{current_version}."
-      return false
+      return
     end
 
     start_version_index = SassSpec::LANGUAGE_VERSIONS.index(
@@ -601,7 +513,7 @@ class SassSpecRunner
 
     if start_version_index >= current_version_index
       puts "Cannot migrate test. Test does not apply to an earlier version."
-      return false
+      return
     end
 
     previous_version = SassSpec::LANGUAGE_VERSIONS[current_version_index - 1]
@@ -613,7 +525,7 @@ class SassSpecRunner
         i.prompt("Target folder '#{new_folder}' already exists.")
 
         i.choice('x', "Don't migrate the test.") do
-          return false
+          return
         end
 
         i.choice('O', "Remove it.") do
@@ -625,7 +537,7 @@ class SassSpecRunner
 
       if choice == :abort
         puts "Cannot migrate test. #{new_folder} already exists."
-        return false
+        return
       end
     end
 
@@ -636,8 +548,6 @@ class SassSpecRunner
     change_options(new_test_case.options_path, start_version: current_version)
 
     overwrite_test!(new_test_case)
-
-    return true
   end
 
   # Creates a copy of a test that's compatible with the current implementation.
@@ -653,7 +563,7 @@ class SassSpecRunner
         i.prompt("Target folder '#{new_folder}' already exists.")
 
         i.choice('x', "Don't migrate the test.") do
-          return false
+          return
         end
 
         i.choice('O', "Remove it.") do
@@ -665,7 +575,7 @@ class SassSpecRunner
 
       if choice == :abort
         puts "Cannot migrate test. #{new_folder} already exists."
-        return false
+        return
       end
     end
 
@@ -676,8 +586,6 @@ class SassSpecRunner
     change_options(new_test_case.options_path, only_on: [@test_case.impl])
 
     overwrite_test!(new_test_case)
-
-    return true
   end
 
   ## Other utilities
