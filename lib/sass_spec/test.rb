@@ -272,7 +272,7 @@ class SassSpecRunner
     output, clean_output, _error, _status = @test_case.output
 
     return unless @test_case.todo?
-    skip_test_case!(@test_case, "TODO test is passing") unless @test_case.interactive?
+    skip_test_case!("TODO test is passing") unless @test_case.interactive?
 
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
@@ -301,7 +301,7 @@ class SassSpecRunner
       end
 
       i.choice('f', "Mark as skipped.") do
-        skip_test_case!(@test_case, "TODO test is passing")
+        skip_test_case!("TODO test is passing")
       end
 
       i.choice('X', "Exit testing.") do
