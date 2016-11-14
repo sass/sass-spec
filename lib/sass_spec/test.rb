@@ -569,6 +569,14 @@ class SassSpecRunner
   # as being valid only for the current version. Updates the copy to expect
   # current actual results.
   def migrate_impl!
+    _output, clean_output, error, _status = @test_case.output
+    if @test_case.expected == clean_output
+      File.write(File.join(@test_case.folder, "error-#{@test_case.impl}"), error, binmode: true)
+      change_options(@test_case.options_path,
+        remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
+      return
+    end
+
     new_folder = @test_case.folder + "-#{@test_case.impl}"
 
     if File.exist?(new_folder)
