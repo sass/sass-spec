@@ -55,16 +55,17 @@ class SassSpecRunner
       handle_unexpected_error!
       handle_unexpected_pass!
       handle_output_difference!
-      handle_unnecessary_todo!
 
       if @test_case.ignore_warning?
         return true
       elsif @test_case.warning_todo? && !@options[:run_todo]
         skip "Skipped warning check for #{@test_case.folder}"
       else
-        return unless handle_expected_error_message!
-        return unless handle_unexpected_error_message!
+        handle_expected_error_message!
+        handle_unexpected_error_message!
       end
+
+      handle_unnecessary_todo!
     end
 
     return true
@@ -271,12 +272,12 @@ class SassSpecRunner
   def handle_unnecessary_todo!
     output, clean_output, _error, _status = @test_case.output
 
-    return unless @test_case.todo?
+    return unless @test_case.todo? || @test_case.warning_todo?
     skip_test_case!("TODO test is passing") unless @test_case.interactive?
 
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
-    interact(:output_difference, :fail) do |i|
+    interact(:unnecessary_todo, :fail) do |i|
       i.prompt "Test is passing but marked as TODO."
 
       show_input_choice(i)
@@ -296,7 +297,7 @@ class SassSpecRunner
       end
 
       i.choice('R', "Remove TODO status for #{@test_case.impl}.") do
-        change_options(remove_todo: [@test_case.impl])
+        change_options(remove_todo: [@test_case.impl], remove_warning_todo: [@test_case.impl])
         throw :done
       end
 
