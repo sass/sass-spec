@@ -3,14 +3,18 @@ require 'pathname'
 # This represents a specific test case.
 class SassSpec::TestCase
   def initialize(folder, options = {})
+    @options = options
     @folder = File.expand_path(folder)
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
     @input_path = Pathname.new(find_input_path(folder))
     @expected_path = File.join(folder, "expected_output.css")
+
     @error_path = File.join(folder, "error")
+    impl_error_path = "#{@error_path}-#{impl}"
+    @error_path = impl_error_path if File.exist?(impl_error_path)
+
     @status_path = File.join(folder, "status")
     @options_path = File.join(folder, "options.yml")
-    @options = options
     @result = false
 
     # Probe filesystem once and cache the results
