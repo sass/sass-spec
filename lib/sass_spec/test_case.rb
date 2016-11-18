@@ -2,6 +2,9 @@ require 'pathname'
 
 # This represents a specific test case.
 class SassSpec::TestCase
+  attr_reader :folder, :input_path, :expected_path, :error_path, :status_path,
+              :options_path, :metadata
+
   def initialize(folder, options = {})
     @options = options
     @folder = File.expand_path(folder)
@@ -40,10 +43,6 @@ class SassSpec::TestCase
     @result = result
   end
 
-  def folder
-    @folder
-  end
-
   def name
     @metadata.name
   end
@@ -58,26 +57,6 @@ class SassSpec::TestCase
 
   def output_style
     @metadata.output_style
-  end
-
-  def input_path
-    @input_path
-  end
-
-  def expected_path
-    @expected_path
-  end
-
-  def error_path
-    @error_path
-  end
-
-  def status_path
-    @status_path
-  end
-
-  def options_path
-    @options_path
   end
 
   def verify_stderr?
@@ -123,10 +102,6 @@ class SassSpec::TestCase
 
   def ignore_warning?
     @metadata.ignore_warning_for?(impl)
-  end
-
-  def metadata
-    @metadata
   end
 
   def overwrite?
