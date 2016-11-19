@@ -7,22 +7,11 @@ class SassSpec::TestCase
 
   def initialize(folder, options = {})
     @options = options
-    @folder = File.expand_path(folder)
+    @folder = folder
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
     @input_path = Pathname.new(find_input_path(folder))
-    @expected_path = File.join(folder, "expected_output.css")
-
-    @error_path = File.join(folder, "error")
-    impl_error_path = "#{@error_path}-#{impl}"
-    @error_path = impl_error_path if File.exist?(impl_error_path)
-
-    @status_path = File.join(folder, "status")
     @options_path = File.join(folder, "options.yml")
     @result = false
-
-    # Probe filesystem once and cache the results
-    @should_fail = File.file?(@status_path)
-    @verify_stderr = File.file?(@error_path)
   end
 
   def find_input_path(folder)
@@ -47,6 +36,46 @@ class SassSpec::TestCase
     @metadata.name
   end
 
+  def folder
+    File.expand_path(@folder)
+  end
+
+  def expected_path
+    @expected_path ||= _expectation_path("expected_output.css")
+  end
+
+  def base_expected_path
+    File.join(@folder, "expected_output.css")
+  end
+
+  def impl_expected_path
+    File.join(@folder, "expected_output-#{impl}.css")
+  end
+
+  def error_path
+    @error_path ||= _expectation_path("error")
+  end
+
+  def base_error_path
+    File.join(@folder, "error")
+  end
+
+  def impl_error_path
+    File.join(@folder, "error-#{impl}")
+  end
+
+  def status_path
+    @status_path ||= _expectation_path("status")
+  end
+
+  def base_status_path
+    File.join(@folder, "status")
+  end
+
+  def impl_status_path
+    File.join(@folder, "status-#{impl}")
+  end
+
   def precision
     @metadata.precision || 5
   end
@@ -60,7 +89,7 @@ class SassSpec::TestCase
   end
 
   def verify_stderr?
-    @verify_stderr
+    !expected_error.empty?
   end
 
   def interactive?
@@ -76,7 +105,7 @@ class SassSpec::TestCase
   end
 
   def should_fail?
-    @should_fail
+    expected_status != 0
   end
 
   def impl
@@ -134,7 +163,7 @@ class SassSpec::TestCase
   end
 
   def expected
-    output = File.read(@expected_path, :binmode => true, :encoding => "ASCII-8BIT")
+    output = File.read(expected_path, :binmode => true, :encoding => "ASCII-8BIT")
     # we seem to get CP850 otherwise
     # this provokes equal test to fail
     output.force_encoding('ASCII-8BIT')
@@ -146,12 +175,13 @@ class SassSpec::TestCase
   end
 
   def expected_error
-    @expected_error ||= if File.file?(@error_path)
-                          _clean_error(File.read(@error_path, :binmode => true,
-                                                 :encoding => "ASCII-8BIT"))
-                        else
-                          ""
-                        end
+    @expected_error ||=
+      if File.file?(error_path)
+        _clean_error(File.read(error_path, :binmode => true,
+                               :encoding => "ASCII-8BIT"))
+      else
+        ""
+      end
   end
 
   def equivalent?(other_test_case)
@@ -159,15 +189,24 @@ class SassSpec::TestCase
   end
 
   def expected_status
-    if should_fail?
-      @expected_status = File.read(@status_path).to_i
-    else
-      @expected_status = 0
-    end
+    @expected_status ||=
+      if File.file?(status_path)
+        @expected_status = File.read(status_path).to_i
+      else
+        @expected_status = 0
+      end
   end
 
   def engine
     @options[:engine_adapter]
+  end
+
+  def _expectation_path(basename)
+    extension = File.extname(basename)
+    path = File.join(@folder, File.basename(basename, extension))
+
+    impl_path = "#{path}-#{impl}#{extension}"
+    File.file?(impl_path) ? impl_path : "#{path}#{extension}"
   end
 
   # normalization happens for every test
