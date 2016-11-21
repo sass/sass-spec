@@ -564,53 +564,25 @@ class SassSpecRunner
     overwrite_test!(new_test_case)
   end
 
-  # Creates a copy of a test that's compatible with the current implementation.
-  #
-  # Marks the original as ignored for the current implementation. Marks the copy
-  # as being valid only for the current version. Updates the copy to expect
-  # current actual results.
+  # Adds separate outputs for the test that are compatible with the current
+  # implementation.
   def migrate_impl!
-    _output, clean_output, error, _status = @test_case.output
-    if @test_case.expected == clean_output
-      File.write(File.join(@test_case.folder, "error-#{@test_case.impl}"), error, binmode: true)
-      change_options(@test_case.options_path,
+    output, clean_output, error, status = @test_case.output
+
+    if @test_case.expected != clean_output
+      File.write(@test_case.impl_expected_path, output, binmode: true)
+    end
+
+    if extract_error_message(@test_case.expected_error) != extract_error_message(error)
+      File.write(@test_case.impl_error_path, error, binmode: true)
+    end
+
+    if @test_case.expected_status != status
+      File.write(@test_case.impl_status_path, status, binmode: true)
+    end
+
+    change_options(@test_case.options_path,
         remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
-      return
-    end
-
-    new_folder = @test_case.folder + "-#{@test_case.impl}"
-
-    if File.exist?(new_folder)
-      choice = interact(:migrate_over_existing, :abort) do |i|
-        i.prompt("Target folder '#{new_folder}' already exists.")
-
-        i.choice('x', "Don't migrate the test.") do
-          return
-        end
-
-        i.choice('O', "Remove it.") do
-          unless delete_dir!(new_folder)
-            i.restart!
-          end
-        end
-      end
-
-      if choice == :abort
-        puts "Cannot migrate test. #{new_folder} already exists."
-        return
-      end
-    end
-
-    FileUtils.cp_r @test_case.folder, new_folder
-
-    new_test_case = SassSpec::TestCase.new(new_folder, @options)
-    change_options(
-      add_ignore_for: [@test_case.impl],
-      remove_warning_todo: [@test_case.impl],
-      remove_todo: [@test_case.impl])
-    change_options(new_test_case.options_path, only_on: [@test_case.impl])
-
-    overwrite_test!(new_test_case)
   end
 
   ## Other utilities
