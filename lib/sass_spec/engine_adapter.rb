@@ -34,7 +34,7 @@ class ExecutableEngineAdapter < EngineAdapter
 
   def initialize(command, description = nil)
     @command = command
-    @timeout = 20
+    @timeout = 60
     @description = description || command
   end
 
