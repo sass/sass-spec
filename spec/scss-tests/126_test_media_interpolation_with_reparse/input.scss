@@ -1,11 +1,11 @@
 $constraint: "(max-width: 300px)";
 $fragment: "nd #{$constraint}";
 $comma: "een, pri";
-@media screen and #{$constraint} {a: b}
+@media screen and #{$constraint} {a {b: c}}
 @media screen {
-  @media #{$constraint} {a: b}
+  @media #{$constraint} {a {b: c}}
 }
-@media screen a#{$fragment} {a: b}
+@media screen a#{$fragment} {a {b: c}}
 @media scr#{$comma}nt {
-  @media #{$constraint} {a: b}
+  @media #{$constraint} {a {b: c}}
 }
