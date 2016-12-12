@@ -1,0 +1,20 @@
+// Unknown directives should support almost any sequence of valid tokens,
+// including interpolation.
+
+// By default, characters are passed through unaltered.
+@asdf .~@#$%^&*()_-+=[]|:<>,.?/;
+
+// Strings are tokenized as strings.
+@asdf "f'o" 'b"r' url(baz) url("qux");
+
+// Comments are preserved.
+@asdf foo //
+      bar;
+@asdf foo /* bar */ baz;
+
+// Interpolation is supported in plain text, strings, and URLs.
+@asdf #{1 + 2};
+@asdf "foo #{"bar"} baz";
+@asdf 'foo #{'bar'} baz';
+@asdf url(http://#{")"}.com/);
+@asdf url("http://#{")"}.com/");
