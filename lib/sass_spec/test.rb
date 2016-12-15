@@ -272,6 +272,7 @@ class SassSpecRunner
   def handle_unnecessary_todo!
     output, clean_output, _error, _status = @test_case.output
 
+    return if @test_case.probe_todo?
     return unless @test_case.todo? || @test_case.warning_todo?
     skip_test_case!("TODO test is passing") unless @test_case.interactive?
 
@@ -594,7 +595,7 @@ class SassSpecRunner
   end
 
   def skip_test_case!(reason = nil)
-    msg = "Skipped #{@test_case.folder}" 
+    msg = "Skipped #{@test_case.folder}"
     if reason
       msg << ": #{reason}"
     else
