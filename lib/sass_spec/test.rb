@@ -272,9 +272,8 @@ class SassSpecRunner
   def handle_unnecessary_todo!
     output, clean_output, _error, _status = @test_case.output
 
-    return if @test_case.probe_todo?
+    return if @test_case.probe_todo? && !@test_case.interactive?
     return unless @test_case.todo? || @test_case.warning_todo?
-    skip_test_case!("TODO test is passing") unless @test_case.interactive?
 
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
