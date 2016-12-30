@@ -103,9 +103,10 @@ class SassEngineAdapter < EngineAdapter
       css_output.force_encoding('ASCII-8BIT')
       [css_output, err_output, 0]
     rescue Sass::SyntaxError => e
+      err_output = stderr.string
       # prepend the prefix to the message
       # and indent all lines to match it
-      err_output = e.sass_backtrace_str("standard input") + "\n  Use --trace for backtrace.\n"
+      err_output += e.sass_backtrace_str("standard input") + "\n  Use --trace for backtrace.\n"
       err_output.force_encoding('ASCII-8BIT')
       ["", err_output, 65]
     rescue => e
