@@ -1,0 +1,31 @@
+a {
+  @if [foo bar]==[foo bar] {
+    t1: t;
+  } @else {
+    f1: f;
+  }
+
+  @if [foo bar]==[foo, bar] {
+    t2: t;
+  } @else {
+    f2: f;
+  }
+
+  @if [foo bar]==(foo bar) {
+    t3: t;
+  } @else {
+    f3: f;
+  }
+
+  @if [] == [] {
+    t4: t;
+  } @else {
+    f4: f;
+  }
+
+  @if [] == () {
+    t5: t;
+  } @else {
+    f5: f;
+  }
+}
