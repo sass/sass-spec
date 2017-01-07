@@ -26,6 +26,7 @@ matrix:
     - env: LANGUAGE_VERSION=4.0 IMPL=dart-sass
 
 before_install:
+  - if ./tools/skipped-for-impl.sh; then exit 0; fi
   - rm Gemfile.lock
 
   - if [ $IMPL == "libsass" ]; then
