@@ -17,8 +17,7 @@ fi
 JSON=$(curl -L -sS https://api.github.com/repos/sass/sass-spec/pulls/$TRAVIS_PULL_REQUEST)
 
 RE_SKIP="[Ss]kip\>[a-z, -]*\<$IMPL"
-
-if [[ $JSON =~ $RE_SPEC_PR ]]; then
+if [[ $JSON =~ $RE_SKIP ]]; then
   >&2 echo "Skipping $IMPL."
   exit 0
 else
