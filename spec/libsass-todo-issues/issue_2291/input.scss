@@ -1,0 +1,36 @@
+.m__exhibit-header--medium {
+    @extend #{&}--plain;
+    &--plain {
+        font-size: 1em;
+    }
+}
+
+foo {
+  bar[baz="#{&}"][str="&"] {
+    asd: qwe;
+  }
+}
+
+A, B, C {
+  #{&}-foo#{&}-bar {
+    color: blue;
+  }
+  #{"A, B, C"}-foo#{"A, B, C"}-bar {
+    color: blue;
+  }
+}
+
+A {
+  B#{&}C {
+    .b, .c, .d {
+      #{&}-foo {
+        parent: &bar;
+        itpl: #{&}bar;
+      }
+      #{"A .b, A .c, A .d"}-foo {
+        parent: &bar;
+        itpl: #{&}bar;
+      }
+    }
+  }
+}
