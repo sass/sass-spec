@@ -1,0 +1,8 @@
+$include-foo: true !default;
+.my-scope {
+  .bar {  display: none; }
+  @if ($include-foo) {
+    .foo { display: none; }
+  }
+  @import 'input-bug';
+}
