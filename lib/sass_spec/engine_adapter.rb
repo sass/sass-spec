@@ -139,15 +139,17 @@ class DartEngineAdapter < EngineAdapter
               exitCode = 255;
             }
 
-            stdout.writeCharCode(0);
+            stdout.add([0xFF]);
             stdout.write(exitCode);
-            stdout.writeCharCode(0);
-            stderr.writeCharCode(0);
+            stdout.add([0xFF]);
+            stderr.add([0xFF]);
             exitCode = 0;
           }
         }
       DART
       @stdin, @stdout, @stderr = Open3.popen3("dart --packages=#{@path}/.packages #{f.path}")
+      @stdout.set_encoding 'binary'
+      @stderr.set_encoding 'binary'
     end
   end
 
@@ -167,8 +169,8 @@ class DartEngineAdapter < EngineAdapter
   private
 
   def next_chunk(io)
-    result = io.gets("\0")
+    result = io.gets("\xFF".force_encoding('binary'))
     return '' unless result
-    return result[0...-1].force_encoding('binary')
+    return result[0...-1]
   end
 end
