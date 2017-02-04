@@ -1,0 +1,22 @@
+$button-sizes: (
+  'xs': (
+    'line-height': 16 / 12,
+  ),
+  's': (
+    'line-height': 18 / 14,
+  ),
+  'm': (
+    'line-height': 18 / 14,
+  ),
+  'l': (
+    'line-height': 22 / 16,
+  )
+);
+
+@each $size in $button-sizes {
+  $size-metrics: nth($size, 2);
+
+  .c-button__icon {
+    min-height: map-get($size-metrics, 'line-height') * 1em;
+  }
+}
