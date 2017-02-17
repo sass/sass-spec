@@ -1,0 +1,14 @@
+@function test () {
+  $m: ();
+  $abc: (a b c d e f g h i j k);
+
+  @for $index from 1 through length($abc) {;
+    $m: map-merge($m, (nth($abc, $index):$index) );
+  }
+
+  @return $m;
+}
+
+test {
+  content: inspect(test());
+}
