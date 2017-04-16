@@ -1,0 +1,18 @@
+@mixin test {
+  $selector-list: &;                 // (.a .b,)
+  $selector: nth($selector-list, 1); // (.a .b)
+  $first: nth($selector, 1);         // .a
+  $second: nth($selector, 2);        // .b
+  $add: 'dummy';
+
+  @at-root #{$first} #{$add} #{$second} {
+    @content;
+  }
+}
+
+
+.a .b {
+  @include test {
+    color: red;
+  }
+}
