@@ -17,13 +17,22 @@ matrix:
   include:
     - gemfile: Gemfile
       env: LANGUAGE_VERSION=3.4 IMPL=ruby-sass
+      rvm: 2.3.4
     - gemfile: Gemfile.sass_3_5
       env: LANGUAGE_VERSION=3.5 IMPL=ruby-sass
+      rvm: 2.3.4
     - gemfile: Gemfile.sass_4_0
       env: LANGUAGE_VERSION=4.0 IMPL=ruby-sass
+      rvm: 2.3.4
+    - gemfile: Gemfile.sass_4_0
+      env: LANGUAGE_VERSION=4.0 IMPL=ruby-sass
+      rvm: 2.4.1
     - env: LANGUAGE_VERSION=3.4 IMPL=libsass COMMAND="../sassc/bin/sassc" GITISH=3.4-stable
+      rvm: 2.3.4
     - env: LANGUAGE_VERSION=3.5 IMPL=libsass COMMAND="../sassc/bin/sassc" GITISH=master
+      rvm: 2.3.4
     - env: LANGUAGE_VERSION=4.0 IMPL=dart-sass
+      rvm: 2.3.4
 
 before_install:
   - if ./tools/skipped-for-impl.sh; then exit 0; fi
