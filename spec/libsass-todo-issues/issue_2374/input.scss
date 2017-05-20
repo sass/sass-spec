@@ -1,0 +1,25 @@
+$colors: (
+    yellow: #ffeb3b
+);
+@each $name, $color in $colors {
+    $amount: 40;
+    @for $i from 0 through 9 {
+        .#{$name}-#{($i*100)} { background-color: lighten($color, $amount) };
+        $amount: $amount - 2;
+    }
+}
+
+$colors: (
+    yellow: yellow,
+    red: red,
+    blue: blue,
+    
+);
+@each $name, $color in $colors {
+    @for $i from 0 through 2 {
+        .#{$name}-#{($i*100)} { 
+          background-color: lighten($color, 10) 
+        };
+    }
+}
+
