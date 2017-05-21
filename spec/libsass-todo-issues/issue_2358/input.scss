@@ -1,0 +1,31 @@
+.outer {
+  @at-root .root {
+    .inner {
+      .element {
+        --modifier#{&}--another-modifier {
+          content: "#{&}";
+        }
+        &--modifier#{&}--another-modifier {
+          content: "#{&}";
+        }
+      }
+    }
+  }
+}
+
+@at-root .block {
+  &__element {
+    #{&} {
+      content: "#{&}";
+    }
+    &--modifier {
+      content: "#{&}";
+    }
+    --modifier#{&}--another-modifier {
+      content: "#{&}";
+    }
+    &--modifier#{&}--another-modifier {
+      content: "#{&}";
+    }
+  }
+}
