@@ -1,0 +1,15 @@
+@function aFunction() {
+    @return 1em;
+}
+
+@media (max-width: 1em) {
+    %placeholder {
+        color: red;
+    }
+}
+
+@media (max-width: aFunction()) {
+    .test {
+        @extend %placeholder;
+    }
+}
