@@ -1,9 +1,9 @@
 #!/bin/bash
 set -v
-export DIR=`dirname $0`
+export DIR=$(dirname $0)
 
 
-for GEMFILE in `ls $DIR/Gemfile*`
+for GEMFILE in $(ls $DIR/Gemfile*)
 do
   if [[ $GEMFILE != *"lock"* ]]
   then
