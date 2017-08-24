@@ -1,0 +1,20 @@
+// not enough arguments for `adjust-color' on line x at column y
+@function adjust(
+  $color,
+  $args...
+) {
+  @return call('adjust-color', $color, $args...);
+}
+
+// argument `$amount` of `darken($color, $amount)` must be a number
+@function dark(
+  $color,
+  $args...
+) {
+  @return call('darken', $color, $args...);
+}
+
+.test {
+  too-few: adjust(#102030, -5);
+  wrong-type: dark(#102030, 5%);
+}
