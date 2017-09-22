@@ -1,4 +1,4 @@
-# encoding: UTF-8
+# encoding: utf-8
 require 'set'
 require 'yaml'
 require 'command_line_reporter'
@@ -199,8 +199,11 @@ BANNER
           log("* setting #{key} to #{value}") {}
         end
       end
-      File.open(options_file, "w") do |f|
-        f.write(current_options.to_yaml)
+
+      if current_options.empty?
+        File.delete(options_file) if File.exists?(options_file)
+      else
+        File.write(options_file, current_options.to_yaml)
       end
     end
   end
