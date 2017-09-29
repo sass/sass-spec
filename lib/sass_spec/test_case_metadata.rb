@@ -115,10 +115,8 @@ module SassSpec
     end
 
     def start_version
-      unless @options[:start_version]
-        raise ArgumentError.new("#{name} does not specify a start version.")
-      end
-      @start_version ||= Gem::Version.new(@options[:start_version])
+      @start_version ||= Gem::Version.new(@options[:start_version]) ||
+                         Gem::Version.new(SassSpec::MIN_LANGUAGE_VERSION)
     end
 
     def end_version
