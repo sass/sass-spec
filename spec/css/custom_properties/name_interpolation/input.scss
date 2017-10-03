@@ -1,0 +1,17 @@
+.name-interpolation {
+  // If the entire name is interpolated, SassScript is allowed on the
+  // right-hand side because we don't know it's a custom property at parse time.
+  #{--entire}: 1 + 2;
+
+  // Same if the first hyphen is interpolated.
+  -#{-first-hyphen}: 1 + 2;
+
+  // But if the name is interpolated, the right-hand side is static.
+  --#{only-name}: 1 + 2;
+
+  // The name can also be partially interpolated.
+  --#{initial}-interp: 1 + 2;
+  --midd#{le-int}erp: 1 + 2;
+  --final-#{interp}: 1 + 2;
+  --#{doub}le-int#{erp}: 1 + 2;
+}
