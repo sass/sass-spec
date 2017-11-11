@@ -1,0 +1,15 @@
+@function adjust(
+  $color,
+  $args...
+) {
+  // not enough arguments for `adjust-color' on line x at column y
+  @return call('adjust-color', $color, $args...);
+
+  // this hack seems to fix the problem…
+  $hack: join(('adjust-color', $color), $args);
+  @return call($hack...);
+}
+
+.test {
+  color: adjust(#102030, -5);
+}
