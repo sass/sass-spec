@@ -1,0 +1,22 @@
+@function dark(
+  $color,
+  $args...
+) {
+  @return call('darken', $color, $args...);
+}
+
+@function dark2(
+  $args...
+) {
+  @return call('darken', $args...);
+}
+
+$arg: join((), 5%);
+
+.single {
+  direct: darken(#102030, 5%);
+  arg: darken(#102030, $arg...);
+  call: call('darken', #102030, $arg...);
+  function: dark(#102030, 5%);
+  function2: dark2(#102030, 5%);
+}
