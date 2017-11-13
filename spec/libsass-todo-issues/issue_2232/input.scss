@@ -1,0 +1,13 @@
+.#{'b-' + black} {
+    background: black;
+}
+
+$colors: red #f00, yellow #ff0;
+@each $entry in $colors {
+    $name: nth($entry, 1);
+    $color: nth($entry, 2);
+
+    .box-#{'b' + $name} {
+         x: foo;
+    }
+}
