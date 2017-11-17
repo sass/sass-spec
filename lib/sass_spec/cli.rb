@@ -61,6 +61,15 @@ Make sure the command you provide prints to stdout.
 
       opts.on("--dart PATH", "Run Dart Sass, whose repo should be at the given path.") do |path|
         options[:engine_adapter] = DartEngineAdapter.new(path)
+        options[:engine_adapter].args = options[:dart_args]
+      end
+
+      opts.on("--dart-args ARGS", "Pass ARGS to Dart Sass.") do |args|
+        if (adapter = options[:engine_adapter]) && adapter.is_a?(DartEngineAdapter)
+          adapter.args = args
+        else
+          options[:dart_args] = args
+        end
       end
 
       opts.on("-g", "--generate", "Run test(s) and generate expected output file(s).") do

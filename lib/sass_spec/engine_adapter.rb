@@ -119,6 +119,8 @@ class SassEngineAdapter < EngineAdapter
 end
 
 class DartEngineAdapter < EngineAdapter
+  attr_accessor :args
+
   def initialize(path)
     @path = path
     Tempfile.open("dart-sass-spec") do |f|
@@ -131,7 +133,7 @@ class DartEngineAdapter < EngineAdapter
         main() async {
           await for (var line in new LineSplitter().bind(UTF8.decoder.bind(stdin))) {
             try {
-              await sass.main(line.split(" "));
+              await sass.main(line.split(" ").where((arg) => arg.isNotEmpty).toList());
             } catch (error, stackTrace) {
               stderr.writeln("Unhandled exception:");
               stderr.writeln(error);
@@ -162,7 +164,7 @@ class DartEngineAdapter < EngineAdapter
   end
 
   def compile(sass_filename, style, precision)
-    @stdin.puts "--no-color --style #{style || 'expanded'} #{sass_filename}"
+    @stdin.puts "--no-color --style #{style || 'expanded'} #{@args} #{sass_filename}"
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
 
