@@ -708,7 +708,7 @@ class SassSpecRunner
         error_message += line
         break
       end
-      if (line =~ /DEPRECATION WARNING/)
+      if (line =~ /(DEPRECATION )?WARNING/)
         if line.rstrip.end_with?(":")
           error_message = line.rstrip + "\n"
           consume_next_line = true
