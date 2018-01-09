@@ -1,0 +1,6 @@
+a {
+  // var() is substituted before parsing, so it may contain multiple arguments.
+  b: hsl(var(--foo), 3%);
+  b: hsl(1, var(--foo));
+  b: hsl(var(--foo));
+}
