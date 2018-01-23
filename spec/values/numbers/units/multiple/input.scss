@@ -1,0 +1,30 @@
+.multiple {
+  // Sass units that are multiplied and divided along with the values.
+  multiple-numerators: inspect(1px * 1rad);
+  multiple-denominators: inspect((1 / 1px / 1rad));
+  divide-by-multiple-numerators: inspect(1 / (1px * 1rad));
+  divide-by-multiple-denominators: inspect(1 / (1 / 1px / 1rad));
+
+  // Units that appear in both the numerator and denominator cancel out, leaving
+  // remaining units in place.
+  $number: 1px * 1rad / 1ms / 1Hz;
+  multiplication-cancels-denominator: inspect($number * 1ms);
+  multiplication-cancels-denominator-twice: inspect($number * (1ms * 1Hz));
+  multiplication-cancels-numerator: inspect($number * (1 / 1px));
+  multiplication-cancels-numerator-twice: inspect($number * (1 / 1px / 1rad));
+  multiplication-cancels-both: inspect($number * (1ms / 1px));
+  division-cancels-numerator: inspect($number / 1rad);
+  division-cancels-numerator-twice: inspect($number / (1px * 1rad));
+  division-cancels-denominator: inspect($number / (1 / 1ms));
+  division-cancels-denominator-twice: inspect($number / (1 / 1ms / 1Hz));
+  division-cancels-both: inspect($number / (1px / 1ms));
+
+  // Units cancel if they're compatible, even if they aren't identical.
+  multiplication-cancels-compatible: inspect($number * 1s);
+  division-cancels-compatible: inspect($number / 1in);
+
+  // Units cancel even if they're totally unknown to Sass.
+  $number: 1foo * 1bar / 1baz / 1qux;
+  multiplication-cancels-unknown: inspect($number * 1baz);
+  division-cancels-unknown: inspect($number / 1foo);
+}
