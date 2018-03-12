@@ -1,0 +1,32 @@
+@mixin sprite-arrow() {
+  @extend %hidden-text;
+}
+
+%hidden-text {
+  text-indent: -999em;
+}
+
+// button.scss
+.button-left,
+.button-right,
+.button-plus,
+.button-min {
+  &:after {
+      @include sprite-arrow();
+  }
+}
+
+.banner {
+  &:after {
+      @include sprite-arrow();
+  }
+}
+
+.calculator {
+  .btn-down,
+  .btn-up {
+      &:after {
+          @include sprite-arrow();
+      }
+  }
+}
