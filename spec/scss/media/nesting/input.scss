@@ -1,0 +1,62 @@
+// Media queries can be nested within one another. The intersection of the two
+// queries will be generated.
+@media screen {
+  a {b: c}
+  @media (color) {x {y: z}}
+}
+
+// Features always go to the end of a query, even if they're at an outer nesting
+// level.
+@media (color) {
+  a {b: c}
+  @media screen {x {y: z}}
+}
+
+// Different features can be intersected.
+@media (max-width: 300px) {
+  a {b: c}
+  @media (min-width: 200px) {x {y: z}}
+}
+
+// Different media types *can't* be intersected, so they're eliminated.
+@media screen {
+  a {b: c}
+  @media print {x {y: z}}
+}
+
+// Likewise, there's no way to generate the intersection of these queries. We
+// could write `not screen and (color)`, but that actually means "neither
+// `screen` nor `(color)`" rather than "not `screen` but yes `(color)`.
+//
+// The latest spec allows us to generate `not screen and not (color)` here,
+// which would work, but no browsers support it yet.
+@media not screen {
+  a {b: c}
+  @media (color) {x {y: z}}
+}
+
+// The intersection of `not screen` and `print` is just `print`.
+@media not screen {
+  a {b: c}
+  @media print {x {y: z}}
+}
+@media print {
+  a {b: c}
+  @media not screen {x {y: z}}
+}
+
+/// The intersection of `not screen` and `screen` is empty.
+@media not screen {
+  a {b: c}
+  @media screen {x {y: z}}
+}
+@media screen {
+  a {b: c}
+  @media not screen {x {y: z}}
+}
+
+// Unlike `not`, the `only` keyword is preserved through intersection.
+@media only screen {
+  a {b: c}
+  @media (color) {x {y: z}}
+}
