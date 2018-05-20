@@ -115,8 +115,7 @@ module SassSpec
     end
 
     def start_version
-      @start_version ||= Gem::Version.new(@options[:start_version]) ||
-                         Gem::Version.new(SassSpec::MIN_LANGUAGE_VERSION)
+      @start_version ||= Gem::Version.new(@options[:start_version] || SassSpec::MIN_LANGUAGE_VERSION)
     end
 
     def end_version
