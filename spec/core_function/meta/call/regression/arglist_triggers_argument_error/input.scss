@@ -1,0 +1,14 @@
+// Regression test for sass/libsass#2472
+//
+// Passing an argument list to `call()` was broken on LibSass. The call to
+// `adjust()` should throw an error complaining about passing -5 by position
+// instead of by name, but in LibSass it threw an error complaining about "not
+// enough arguments".
+
+@function adjust($color, $args...) {
+  @return call(get-function('adjust-color'), $color, $args...);
+}
+
+.test {
+  too-few: adjust(#102030, -5);
+}

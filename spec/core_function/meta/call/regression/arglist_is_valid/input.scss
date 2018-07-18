@@ -1,0 +1,13 @@
+// Regression test for sass/libsass#2472
+//
+// Passing an argument list to `call()` was broken on LibSass. The call to
+// `dark()` throw an error complaining about the second argument being the wrong
+// type.
+
+@function dark($color, $args...) {
+  @return call(get-function('darken'), $color, $args...);
+}
+
+.test {
+  wrong-type: dark(#102030, 5%);
+}
