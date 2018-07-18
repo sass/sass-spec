@@ -1,0 +1,19 @@
+$map : (
+  key : value,
+  number : 20px
+);
+
+$index: 1;
+$val: red 50px;
+
+foo {
+  set: set-nth($map, $index, $val);
+  set-type: type-of(set-nth($map, $index, $val));
+  before: inspect($map);
+  $map: set-nth($map, $index, $val);
+  after: inspect($map);
+  length: length(nth($map, $index));
+  key: inspect(nth(nth($map, $index), 1));
+  key-type: type-of(nth(nth($map, $index), 1));
+  value-type: type-of(nth(nth($map, $index), 2));
+}
