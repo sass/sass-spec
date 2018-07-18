@@ -1,0 +1,11 @@
+// not enough arguments for `adjust-color' on line x at column y
+@function adjust(
+  $color,
+  $args...
+) {
+  @return call('adjust-color', $color, $args...);
+}
+
+.test {
+  too-few: adjust(#102030, -5);
+}
