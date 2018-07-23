@@ -131,7 +131,7 @@ class DartEngineAdapter < EngineAdapter
         import "#{File.absolute_path @path}/bin/sass.dart" as sass;
 
         main() async {
-          await for (var line in new LineSplitter().bind(UTF8.decoder.bind(stdin))) {
+          await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
             try {
               await sass.main(line.split(" ").where((arg) => arg.isNotEmpty).toList());
             } catch (error, stackTrace) {
