@@ -1,0 +1,7 @@
+// Escapes in selectors' identifiers should be normalized before `@extend` is
+// applied.
+.foo {escape: none}
+\.foo {escape: slash dot}
+\2E foo {escape: hex}
+
+.bar {@extend \02e foo}
