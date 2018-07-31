@@ -1,6 +1,8 @@
 foo {
-  foo: max(1, 2, 3);
-  foo: max(3, 2px, 1px);
-  foo: max(4em);
-  foo: max(10cm, 6in);
+  // A trailing comma forces the function to be parsed as a Sass function,
+  // rather than a CSS math function.
+  foo: max(1, 2, 3,);
+  foo: max(3, 2px, 1px,);
+  foo: max(4em,);
+  foo: max(10cm, 6in,);
 }
