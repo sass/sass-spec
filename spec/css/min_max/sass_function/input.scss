@@ -1,0 +1,11 @@
+// If a min() or max() function uses a SassScript feature, parse it as Sass.
+
+.sass-function {
+  $two-px: 2px;
+  variable: min(1px, $two-px) max(1px, $two-px);
+
+  function: min(1px, floor(10.6px)) max(1px, floor(10.6px));
+  nested-min-max: min(1px, max($two-px, 3px)) max(1px, min($two-px, 3px));
+  modulo: min(1px, 7px % 4) max(1px, 7px % 4);
+  trailing-comma: min(1px, 2px,) max(1px, 2px,);
+}
