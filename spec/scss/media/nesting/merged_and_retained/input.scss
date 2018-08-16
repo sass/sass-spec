@@ -1,0 +1,14 @@
+@media (retained: before) {
+  a {b: c}
+  @media (a: b) {
+    x {y: z}
+  }
+}
+
+// Regression test for sass/dart-sass#453
+@media (retained: after) {
+  @media (a: b) {
+    x {y: z}
+  }
+  a {b: c}
+}
