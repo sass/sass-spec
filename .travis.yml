@@ -16,10 +16,10 @@ matrix:
   fast_finish: true
   include:
     - gemfile: Gemfile
-      env: LANGUAGE_VERSION=3.5 IMPL=ruby-sass
-    - gemfile: Gemfile.sass_3_6
       env: LANGUAGE_VERSION=3.6 IMPL=ruby-sass
-    - gemfile: Gemfile.sass_4_0
+    - gemfile: Gemfile.sass_next
+      env: LANGUAGE_VERSION=3.7 IMPL=ruby-sass
+    - gemfile: Gemfile.sass_master
       env: LANGUAGE_VERSION=4.0 IMPL=ruby-sass
     - env: LANGUAGE_VERSION=3.5 IMPL=libsass COMMAND="../sassc/bin/sassc" GITISH=3.5-stable
     - env: LANGUAGE_VERSION=3.6 IMPL=libsass COMMAND="../sassc/bin/sassc" GITISH=master
