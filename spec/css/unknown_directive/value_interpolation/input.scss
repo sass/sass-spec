@@ -1,0 +1,13 @@
+// Unknown directives should support interpolation in plain text, strings,
+// identifiers, and URLs.
+@asdf #{1 + 2};
+
+@asdf foo#{"bar"}baz;
+
+@asdf "foo #{"bar"} baz";
+
+@asdf 'foo #{'bar'} baz';
+
+@asdf url(http://#{")"}.com/);
+
+@asdf url("http://#{")"}.com/");
