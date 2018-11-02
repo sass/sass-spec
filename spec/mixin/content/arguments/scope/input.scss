@@ -1,0 +1,23 @@
+// Arguments passed to @content blocks are lexically-scoped within those blocks.
+
+$var: top-level;
+
+@mixin mixin($var) {
+  mixin-var-before: $var;
+  @content(content-argument);
+  mixin-var-after: $var;
+}
+
+@mixin inner {
+  var-in-inner: $var;
+}
+
+scope {
+  var-before: $var;
+  @include mixin(mixin-argument) using ($var) {
+    content-var-before: $var;
+    @include inner;
+    content-var-after: $var;
+  }
+  var-after: $var;
+}
