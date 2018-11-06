@@ -1,0 +1,54 @@
+no-space-before-using {
+  @mixin mixin {
+    @content(value1, value2);
+  }
+
+  @include mixin()using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+no-space-after-using {
+  @mixin mixin {
+    @content(value1, value2);
+  }
+
+  @include mixin using($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+no-space-after-arglist {
+  @mixin mixin {
+    @content(value1, value2);
+  }
+
+  @include mixin using($arg1, $arg2){
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+space-after-content {
+  @mixin mixin {
+    @content (value1, value2);
+  }
+
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+case-insensitive-using {
+  @mixin mixin {
+    @content(value1, value2);
+  }
+
+  @include mixin UsInG ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
