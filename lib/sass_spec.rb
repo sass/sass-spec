@@ -6,6 +6,7 @@ module SassSpec
     3.5
     3.6
     3.7
+    3.8
     4.0
   )
   MIN_LANGUAGE_VERSION = Gem::Version.new(LANGUAGE_VERSIONS.first)
