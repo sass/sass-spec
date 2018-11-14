@@ -2,26 +2,13 @@ require 'pathname'
 
 # This represents a specific test case.
 class SassSpec::TestCase
-  attr_reader :folder, :input_path, :expected_path, :error_path, :status_path,
-              :options_path, :metadata
+  attr_reader :metadata, :folder
 
   def initialize(folder, options = {})
+    @folder = File.expand_path(folder)
     @options = options
-    @folder = folder
     @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
-    @input_path = Pathname.new(find_input_path(folder))
-    @options_path = File.join(folder, "options.yml")
     @result = false
-  end
-
-  def find_input_path(folder)
-    input_files = Dir.glob(File.join(folder, "input.*"))
-    if input_files.empty?
-      raise ArgumentError.new("No input file found in #{folder}")
-    elsif input_files.size > 1
-      raise ArgumentError.new("Multiple input files found in #{folder}: #{input_files.join(', ')}")
-    end
-    input_files.first
   end
 
   def result?
@@ -36,16 +23,29 @@ class SassSpec::TestCase
     @metadata.name
   end
 
-  def folder
-    File.expand_path(@folder)
+  def input_path
+    @input_path ||=
+      begin
+        input_files = Dir.glob(File.join(@folder, "input.*"))
+        if input_files.empty?
+          raise ArgumentError.new("No input file found in #{@folder}")
+        elsif input_files.size > 1
+          raise ArgumentError.new("Multiple input files found in #{@folder}: #{input_files.join(', ')}")
+        end
+        input_files.first
+      end
   end
 
-  def expected_path
-    @expected_path ||= _expectation_path("output.css")
+  def options_path
+    File.join(@folder, "options.yml")
   end
 
   def base_expected_path
     File.join(@folder, "output.css")
+  end
+
+  def expected_path
+    @expected_path ||= _expectation_path("output.css")
   end
 
   def impl_expected_path
