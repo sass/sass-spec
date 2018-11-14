@@ -1,0 +1,205 @@
+// These test cases come from two official W3C test suites:
+//
+// * https://www.w3.org/Style/CSS/Test/CSS3/Color/20070927/html4/t040204-hsl-h-rotating-b.htm
+// * https://www.w3.org/Style/CSS/Test/CSS3/Color/current/html4/t040204-hsl-values-b.htm
+
+hue {
+  @mixin test-hues($name, $hues...) {
+    #{$name} {
+      @each $hue in $hues {
+        hue-#{$hue}: hsla($hue, 100%, 50%);
+      }
+    }
+  }
+
+  @include test-hues("red", 0, -360, 260, 6120);
+  @include test-hues("yellow", 60, -300, 420, -9660);
+  @include test-hues("green", 120, -240, 480, 99840);
+  @include test-hues("cyan", 180, -180, 540, -900);
+  @include test-hues("blue", 240, -120, 600, -104880);
+  @include test-hues("purple", 300, -60, 660, 2820);
+}
+
+red-to-green {
+  step-1: hsla(0, 100%, 50%);
+  step-2: hsla(12, 100%, 50%);
+  step-3: hsla(24, 100%, 50%);
+  step-4: hsla(36, 100%, 50%);
+  step-5: hsla(48, 100%, 50%);
+  step-6: hsla(60, 100%, 50%);
+  step-7: hsla(72, 100%, 50%);
+  step-8: hsla(84, 100%, 50%);
+  step-9: hsla(96, 100%, 50%);
+  step-10: hsla(108, 100%, 50%);
+  step-11: hsla(120, 100%, 50%);
+}
+
+green-to-blue {
+  step-1: hsla(120, 100%, 50%);
+  step-2: hsla(132, 100%, 50%);
+  step-3: hsla(144, 100%, 50%);
+  step-4: hsla(156, 100%, 50%);
+  step-5: hsla(168, 100%, 50%);
+  step-6: hsla(180, 100%, 50%);
+  step-7: hsla(192, 100%, 50%);
+  step-8: hsla(204, 100%, 50%);
+  step-9: hsla(216, 100%, 50%);
+  step-10: hsla(228, 100%, 50%);
+  step-11: hsla(240, 100%, 50%);
+}
+
+blue-to-red {
+  step-1: hsla(240, 100%, 50%);
+  step-2: hsla(252, 100%, 50%);
+  step-3: hsla(264, 100%, 50%);
+  step-4: hsla(276, 100%, 50%);
+  step-5: hsla(288, 100%, 50%);
+  step-6: hsla(300, 100%, 50%);
+  step-7: hsla(312, 100%, 50%);
+  step-8: hsla(324, 100%, 50%);
+  step-9: hsla(336, 100%, 50%);
+  step-10: hsla(348, 100%, 50%);
+  step-11: hsla(360, 100%, 50%);
+}
+
+gray-to {
+  red {
+    step-1: hsla(0, 20%, 50%);
+    step-2: hsla(0, 60%, 50%);
+    step-3: hsla(0, 100%, 50%);
+  }
+
+  yellow {
+    step-1: hsla(60, 20%, 50%);
+    step-2: hsla(60, 60%, 50%);
+    step-3: hsla(60, 100%, 50%);
+  }
+
+  green {
+    step-1: hsla(120, 20%, 50%);
+    step-2: hsla(120, 60%, 50%);
+    step-3: hsla(120, 100%, 50%);
+  }
+
+  cyan {
+    step-1: hsla(180, 20%, 50%);
+    step-2: hsla(180, 60%, 50%);
+    step-3: hsla(180, 100%, 50%);
+  }
+
+  blue {
+    step-1: hsla(240, 20%, 50%);
+    step-2: hsla(240, 60%, 50%);
+    step-3: hsla(240, 100%, 50%);
+  }
+
+  purple {
+    step-1: hsla(300, 20%, 50%);
+    step-2: hsla(300, 60%, 50%);
+    step-3: hsla(300, 100%, 50%);
+  }
+}
+
+black-to-white-through {
+  red {
+    step-1: hsla(0, 100%, 0%);
+    step-2: hsla(0, 100%, 10%);
+    step-3: hsla(0, 100%, 20%);
+    step-4: hsla(0, 100%, 30%);
+    step-5: hsla(0, 100%, 40%);
+    step-6: hsla(0, 100%, 50%);
+    step-7: hsla(0, 100%, 60%);
+    step-8: hsla(0, 100%, 70%);
+    step-9: hsla(0, 100%, 80%);
+    step-10: hsla(0, 100%, 90%);
+    step-11: hsla(0, 100%, 100%);
+  }
+
+  yellow {
+    step-1: hsla(60, 100%, 0%);
+    step-2: hsla(60, 100%, 10%);
+    step-3: hsla(60, 100%, 20%);
+    step-4: hsla(60, 100%, 30%);
+    step-5: hsla(60, 100%, 40%);
+    step-6: hsla(60, 100%, 50%);
+    step-7: hsla(60, 100%, 60%);
+    step-8: hsla(60, 100%, 70%);
+    step-9: hsla(60, 100%, 80%);
+    step-10: hsla(60, 100%, 90%);
+    step-11: hsla(60, 100%, 100%);
+  }
+
+  green {
+    step-1: hsla(120, 100%, 0%);
+    step-2: hsla(120, 100%, 10%);
+    step-3: hsla(120, 100%, 20%);
+    step-4: hsla(120, 100%, 30%);
+    step-5: hsla(120, 100%, 40%);
+    step-6: hsla(120, 100%, 50%);
+    step-7: hsla(120, 100%, 60%);
+    step-8: hsla(120, 100%, 70%);
+    step-9: hsla(120, 100%, 80%);
+    step-10: hsla(120, 100%, 90%);
+    step-11: hsla(120, 100%, 100%);
+  }
+
+  cyan {
+    step-1: hsla(180, 100%, 0%);
+    step-2: hsla(180, 100%, 10%);
+    step-3: hsla(180, 100%, 20%);
+    step-4: hsla(180, 100%, 30%);
+    step-5: hsla(180, 100%, 40%);
+    step-6: hsla(180, 100%, 50%);
+    step-7: hsla(180, 100%, 60%);
+    step-8: hsla(180, 100%, 70%);
+    step-9: hsla(180, 100%, 80%);
+    step-10: hsla(180, 100%, 90%);
+    step-11: hsla(180, 100%, 100%);
+  }
+
+  blue {
+    step-1: hsla(240, 100%, 0%);
+    step-2: hsla(240, 100%, 10%);
+    step-3: hsla(240, 100%, 20%);
+    step-4: hsla(240, 100%, 30%);
+    step-5: hsla(240, 100%, 40%);
+    step-6: hsla(240, 100%, 50%);
+    step-7: hsla(240, 100%, 60%);
+    step-8: hsla(240, 100%, 70%);
+    step-9: hsla(240, 100%, 80%);
+    step-10: hsla(240, 100%, 90%);
+    step-11: hsla(240, 100%, 100%);
+  }
+
+  purple {
+    step-1: hsla(300, 100%, 0%);
+    step-2: hsla(300, 100%, 10%);
+    step-3: hsla(300, 100%, 20%);
+    step-4: hsla(300, 100%, 30%);
+    step-5: hsla(300, 100%, 40%);
+    step-6: hsla(300, 100%, 50%);
+    step-7: hsla(300, 100%, 60%);
+    step-8: hsla(300, 100%, 70%);
+    step-9: hsla(300, 100%, 80%);
+    step-10: hsla(300, 100%, 90%);
+    step-11: hsla(300, 100%, 100%);
+  }
+}
+
+// The W3C tests cover clamped hue, but not clamped saturation or lightness.
+clamped {
+  saturation-above: hsla(0, 500%, 50%);
+  saturation-below: hsla(0, -100%, 50%);
+  lightness-above: hsla(0, 100%, 500%);
+  lightness-below: hsla(0, 100%, -100%);
+}
+
+units {
+  hue-deg: hsla(0deg, 100%, 50%);
+  saturation-unitless: hsla(0, 50, 50%);
+  lightness-unitless: hsla(0, 100%, 50);
+}
+
+named {
+  x: hsla($hue: 0, $saturation: 100%, $lightness: 50%);
+}
