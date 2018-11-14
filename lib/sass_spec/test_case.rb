@@ -7,7 +7,7 @@ class SassSpec::TestCase
   def initialize(folder, options = {})
     @folder = File.expand_path(folder)
     @options = options
-    @metadata = SassSpec::TestCaseMetadata.new(folder, File.expand_path(options[:spec_directory]))
+    @metadata = SassSpec::TestCaseMetadata.new(folder)
     @result = false
   end
 

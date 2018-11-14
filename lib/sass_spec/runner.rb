@@ -11,7 +11,7 @@ class SassSpec::Runner
   end
 
   def get_input_dirs
-    (@options[:spec_dirs_to_run] || Array(@options[:spec_directory])).map do |d|
+    (@options[:spec_dirs_to_run] || [SassSpec::SPEC_DIR]).map do |d|
       d = File.expand_path(d)
       File.directory?(d) ? d : File.dirname(d)
     end

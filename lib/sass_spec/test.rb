@@ -668,7 +668,7 @@ class SassSpecRunner
   # When running sass-spec as a gem from github very long filenames can cause
   # installation issues. This checks that the paths in use will work.
   def assert_filename_length!(filename)
-    name = relative_name = filename.to_s.sub(File.expand_path(@options[:spec_directory]), "")
+    name = relative_name = filename.to_s.sub(SassSpec::SPEC_DIR, "")
     assert false, "Filename #{name} must no more than #{256 - GEMFILE_PREFIX_LENGTH} characters long" if name.size > (256 - GEMFILE_PREFIX_LENGTH)
 
     if name.size <= 100 then
@@ -727,12 +727,10 @@ class SassSpecRunner
   end
 
   def clean_debug_path(error)
-    spec_dir = File.expand_path(@options[:spec_directory])
-    url = spec_dir.gsub(/\\/, '\/')
     error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
          .gsub(/\/+/, "/")
-         .gsub(/^#{Regexp.quote(url)}\//, "/sass/sass-spec/")
-         .gsub(/^#{Regexp.quote(spec_dir)}\//, "/sass/sass-spec/")
+         .gsub(/^#{Regexp.quote(SassSpec::SPEC_DIR.gsub(/\\/, '\/'))}\//, "/sass/sass-spec/")
+         .gsub(/^#{Regexp.quote(SassSpec::SPEC_DIR)}\//, "/sass/sass-spec/")
          .gsub(/(?:\/todo_|_todo\/)/, "/")
          .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
          .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")
