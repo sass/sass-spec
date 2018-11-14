@@ -40,10 +40,6 @@ class SassSpec::TestCase
     File.join(@folder, "options.yml")
   end
 
-  def base_expected_path
-    File.join(@folder, "output.css")
-  end
-
   def expected_path
     @expected_path ||= _expectation_path("output.css")
   end
@@ -56,20 +52,12 @@ class SassSpec::TestCase
     @error_path ||= _expectation_path("error")
   end
 
-  def base_error_path
-    File.join(@folder, "error")
-  end
-
   def impl_error_path
     File.join(@folder, "error-#{impl}")
   end
 
   def status_path
     @status_path ||= _expectation_path("status")
-  end
-
-  def base_status_path
-    File.join(@folder, "status")
   end
 
   def impl_status_path
