@@ -41,15 +41,15 @@ class SassSpec::TestCase
   end
 
   def expected_path
-    @expected_path ||= _expectation_path("expected_output.css")
+    @expected_path ||= _expectation_path("output.css")
   end
 
   def base_expected_path
-    File.join(@folder, "expected_output.css")
+    File.join(@folder, "output.css")
   end
 
   def impl_expected_path
-    File.join(@folder, "expected_output-#{impl}.css")
+    File.join(@folder, "output-#{impl}.css")
   end
 
   def error_path
