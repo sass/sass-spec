@@ -8,7 +8,7 @@ then
       git checkout -b feat/issue-$3
       git push -u origin feat/issue-$3
       mkdir spec/libsass-todo-issues/issue_$3
-      touch spec/libsass-todo-issues/issue_$3/{input.scss,expected_output.css}
+      touch spec/libsass-todo-issues/issue_$3/{input.scss,output.css}
       subl spec/libsass-todo-issues/issue_$3/input.scss
       git add spec/libsass-todo-issues/issue_$3
       git commit -m "Add specs for issue $3" -m "This PR add specs for sass/libsass#$3"
@@ -17,7 +17,7 @@ then
       git checkout -b feat/activate-$3
       git push -u origin feat/activate-$3
       mkdir spec/libsass-closed-issues/issue_$3
-      touch spec/libsass-closed-issues/issue_$3/{input.scss,expected_output.css}
+      touch spec/libsass-closed-issues/issue_$3/{input.scss,output.css}
       subl spec/libsass-closed-issues/issue_$3/input.scss
       git add spec/libsass-closed-issues/issue_$3
       git commit -m "Activate specs for issue $3" -m "This PR activates specs for sass/libsass#$3"
@@ -66,5 +66,5 @@ fi
 # git checkout master
 # git checkout -b feat/issue-$1
 # mkdir spec/libsass-todo-issues/issue_$1
-# touch spec/libsass-todo-issues/issue_$1/{input.scss,expected_output.css}
+# touch spec/libsass-todo-issues/issue_$1/{input.scss,output.css}
 # subl spec/libsass-todo-issues/issue_$1/input.scss
