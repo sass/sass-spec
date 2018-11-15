@@ -36,24 +36,12 @@ class SassSpec::TestCase
     @expected_path ||= _expectation_path("output.css")
   end
 
-  def impl_expected_path
-    File.join(@folder, "output-#{impl}.css")
-  end
-
   def error_path
     @error_path ||= _expectation_path("error")
   end
 
-  def impl_error_path
-    File.join(@folder, "error-#{impl}")
-  end
-
   def status_path
     @status_path ||= _expectation_path("status")
-  end
-
-  def impl_status_path
-    File.join(@folder, "status-#{impl}")
   end
 
   def precision
