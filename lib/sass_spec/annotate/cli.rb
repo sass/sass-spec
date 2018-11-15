@@ -59,11 +59,6 @@ BANNER
         options[:output_style] = output_style
       end
 
-      opts.on("--[no-]clean-output", "Do some basic whitespace normalization.") do |clean|
-        clean = nil unless clean
-        options[:clean] = clean
-      end
-
       opts.on("--precision INTEGER",
               "Set the numeric output precision for the specified tests.",
               "Pass a precision of 'unset' to remove the precision.") do |precision|

@@ -110,10 +110,6 @@ module SassSpec
       @options[:precision]
     end
 
-    def clean_output?
-      !!@options[:clean]
-    end
-
     def start_version
       @start_version ||= Gem::Version.new(@options[:start_version] || SassSpec::MIN_LANGUAGE_VERSION)
     end
