@@ -11,7 +11,7 @@ class SassSpec::Test < Minitest::Test
     test_cases[0..options[:limit]].each do |test_case|
       define_method("test__#{test_case.name}") do
         runner = SassSpecRunner.new(test_case, options)
-        test_case.finalize(runner.run)
+        runner.run
         self.assertions += runner.assertions
       end
     end
