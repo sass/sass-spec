@@ -106,7 +106,7 @@ class SassSpec::Runner
         next unless @options[:only_output_styles].include?(metadata.output_style)
       end
 
-      test_case = SassSpec::TestCase.new(folder, @options)
+      test_case = SassSpec::TestCase.new(folder, @options[:engine_adapter].describe)
 
       # unless File.exist?(test_case.expected_path)
       #   if @options[:verbose]
