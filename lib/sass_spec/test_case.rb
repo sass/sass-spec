@@ -80,10 +80,6 @@ class SassSpec::TestCase
     @metadata.precision || 5
   end
 
-  def clean_test
-    @metadata.clean_output?
-  end
-
   def output_style
     @metadata.output_style
   end
@@ -143,12 +139,7 @@ class SassSpec::TestCase
     end
 
     stdout, stderr, status = engine.compile(input_path, output_style, precision)
-
-    if clean_test
-      clean_out = _clean_output(stdout)
-    else
-      clean_out = _norm_output(stdout)
-    end
+    clean_out = _norm_output(stdout)
 
     stderr = _clean_error(stderr)
     # always replace windows linefeeds
@@ -167,11 +158,7 @@ class SassSpec::TestCase
     # we seem to get CP850 otherwise
     # this provokes equal test to fail
     output.force_encoding('ASCII-8BIT')
-    if clean_test
-      @expected ||= _clean_output(output)
-    else
-      @expected ||= _norm_output(output)
-    end
+    @expected ||= _norm_output(output)
   end
 
   def expected_error
@@ -214,14 +201,6 @@ class SassSpec::TestCase
     # we dont want to test for linux or windows line-feeds
     # but make sure we do not remove single cariage returns
     css = css.gsub(/(?:\r?\n)+/, "\n")
-  end
-
-  # cleaning only happens when requested for test
-  # done by creating `expected.type.clean` flag file
-  def _clean_output(css)
-    _norm_output(css)
-       .gsub(/\s+/, " ")
-       .gsub(/\s*,\s*/, ",")
   end
 
   # errors are always cleaned
