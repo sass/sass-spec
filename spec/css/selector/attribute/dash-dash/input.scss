@@ -1,0 +1,7 @@
+// Attribute selector values are allowed to be unquoted as long as they're plain
+// CSS identifiers. However, IE 11 doesn't recognize custom-property-style
+// identifiers like `--foo` as identifiers, so they should always be quoted.
+
+[class="--foo"], [class*="--foo"] {
+  x: y;
+}
