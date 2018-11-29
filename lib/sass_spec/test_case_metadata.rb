@@ -39,13 +39,8 @@ module SassSpec
 
     attr_reader :options
 
-    def initialize(test_case_dir, spec_dir = SassSpec::SPEC_DIR)
+    def initialize(test_case_dir)
       @test_case_dir = Pathname.new(File.expand_path(test_case_dir))
-      @spec_dir = Pathname.new(spec_dir)
-      if @test_case_dir.relative_path_from(@spec_dir).to_s.start_with?("..")
-        raise ArgumentError,
-          "Test case #{test_case_dir} is not within the spec directory #{spec_dir}"
-      end
       @options = resolve_options(@test_case_dir).freeze
     end
 
@@ -54,7 +49,7 @@ module SassSpec
     end
 
     def _resolve_options(dir)
-      return {} if dir.relative_path_from(@spec_dir).to_s == "."
+      return {} if dir.relative_path_from(Pathname.new(SassSpec::SPEC_DIR)).to_s == "."
       parent_options = resolve_options(dir.parent)
       options_file = dir + "options.yml"
       self_options = if options_file.exist?

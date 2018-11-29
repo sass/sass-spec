@@ -11,7 +11,7 @@ class SassSpec::Runner
   end
 
   def get_input_dirs
-    (@options[:spec_dirs_to_run] || Array(@options[:spec_directory])).map do |d|
+    (@options[:spec_dirs_to_run] || [SassSpec::SPEC_DIR]).map do |d|
       d = File.expand_path(d)
       File.directory?(d) ? d : File.dirname(d)
     end
@@ -42,24 +42,7 @@ class SassSpec::Runner
       Minitest.reporter = Minitap::TapY
     end
 
-    result = Minitest.run(minioptions)
-
-    if @options[:run_todo]
-      passing = []
-      test_cases.each do |test_case|
-        if test_case.todo? && test_case.result?
-          passing << test_case.folder
-        end
-      end
-      if passing.any?
-        puts "The following tests pass but were marked as TODO for #{@options[:engine_adapter].describe}:"
-        puts passing.join("\n")
-      else
-        puts "Note: All tests marked as TODO for #{@options[:engine_adapter].describe} are still failing."
-      end
-    end
-
-    result
+    Minitest.run(minioptions)
   end
 
   def language_version
@@ -106,7 +89,7 @@ class SassSpec::Runner
         next unless @options[:only_output_styles].include?(metadata.output_style)
       end
 
-      test_case = SassSpec::TestCase.new(folder, @options)
+      test_case = SassSpec::TestCase.new(folder, @options[:engine_adapter].describe)
 
       # unless File.exist?(test_case.expected_path)
       #   if @options[:verbose]

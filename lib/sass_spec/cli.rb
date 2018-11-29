@@ -103,13 +103,6 @@ Make sure the command you provide prints to stdout.
         options[:only_output_styles] << style
       end
 
-      opts.on("-r SPEC_DIR", "--root SPEC_DIR", "Root directory for the specs. ",
-                "Defaults to the first directory specified if not provided or ",
-                "the default spec directory if no directory is specified or if the first directory",
-                "specified is a subdirectory of the default spec directory.") do |spec_dir|
-        options[:spec_directory] = File.expand_path(spec_dir)
-      end
-
       opts.on("--migrate-version", "Copy tests that fail and make them pass for the current version.") do
         options[:migrate_version] = true
       end
@@ -130,16 +123,6 @@ Make sure the command you provide prints to stdout.
         options[:interactive] = true
       end
     end.parse!
-
-    if ARGV.any? && !options[:spec_directory]
-      if File.expand_path(ARGV[0]).start_with?(SassSpec::SPEC_DIR)
-        options[:spec_directory] = SassSpec::SPEC_DIR
-      else
-        options[:spec_directory] = File.expand_path(ARGV[0])
-      end
-    end
-
-    options[:spec_directory] ||= SassSpec::SPEC_DIR
 
     options[:spec_dirs_to_run] = ARGV.dup.map{|d| File.expand_path(d)} if ARGV.any?
 
