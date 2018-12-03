@@ -3,6 +3,7 @@ require 'thread'
 require 'fileutils'
 require 'yaml'
 require_relative "interactor"
+require_relative "util"
 
 # Holder to put and run test cases
 class SassSpec::Test < Minitest::Test
@@ -10,7 +11,7 @@ class SassSpec::Test < Minitest::Test
     test_cases[0..options[:limit]].each do |test_case|
       define_method("test__#{test_case.name}") do
         runner = SassSpecRunner.new(test_case, options)
-        test_case.finalize(runner.run)
+        runner.run
         self.assertions += runner.assertions
       end
     end
@@ -41,7 +42,13 @@ class SassSpecRunner
     assert File.exists?(@test_case.input_path),
       "Input #{@test_case.input_path} file does not exist"
 
-    if @test_case.overwrite?
+    @output, @error, @status = @options[:engine_adapter].compile(
+      @test_case.input_path, @test_case.output_style, @test_case.precision)
+    @output = @output.gsub(/\r\n/, "\n")
+    @normalized_output = SassSpec::Util.normalize_output(@output)
+    @error = SassSpec::Util.normalize_error(@error)
+
+    if @options[:generate]
       overwrite_test!
       return true
     end
@@ -78,10 +85,9 @@ class SassSpecRunner
   def check_annotations!
     return unless @options[:check_annotations]
 
-    _output, _, error, _ = @test_case.output
     ignored_warning_impls = @test_case.metadata.warnings_ignored_for
 
-    if ignored_warning_impls.any? && error.length == 0
+    if ignored_warning_impls.any? && @error.empty?
       message = "No warning issued, but warnings are ignored for #{ignored_warning_impls.join(', ')}"
       choice = interact(:ignore_warning_nonexistant, :fail) do |i|
         i.prompt message
@@ -97,7 +103,7 @@ class SassSpecRunner
     end
 
     todo_warning_impls = @test_case.metadata.all_warning_todos
-    if todo_warning_impls.any? && error.length == 0
+    if todo_warning_impls.any? && @error.length == 0
       message = "No warning issued, but warnings are pending for #{todo_warning_impls.join(', ')}"
       choice = interact(:todo_warning_nonexistant, :fail) do |i|
         i.prompt message
@@ -116,18 +122,16 @@ class SassSpecRunner
   def handle_missing_output!
     return if File.exists?(@test_case.expected_path)
 
-    output, _, error, _ = @test_case.output
-
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if probe_todo?
 
     choice = interact(:missing_output, :fail) do |i|
       i.prompt "Expected output file does not exist."
 
       show_input_choice(i)
 
-      i.choice('e', "Show me the #{error.length > 0 ? 'error' : 'output'} generated.") do
-        to_show = error
-        to_show = output if to_show.length == 0
+      i.choice('e', "Show me the #{@error.length > 0 ? 'error' : 'output'} generated.") do
+        to_show = @error
+        to_show = @output if to_show.length == 0
         to_show = "No output or error to display." if to_show.length == 0
 
         display_text_block(to_show)
@@ -143,20 +147,19 @@ class SassSpecRunner
   end
 
   def handle_unexpected_error!
-    _output, _clean_output, error, status = @test_case.output
-    return if status == 0 || @test_case.should_fail?
+    return if @status == 0 || @test_case.should_fail?
 
-    unless @test_case.interactive?
-      if @test_case.migrate_version?
+    unless @options[:interactive]
+      if @options[:migrate_version]
         migrate_version!
         throw :done
-      elsif @test_case.migrate_impl?
+      elsif @options[:migrate_impl]
         migrate_impl!
         throw :done
       end
     end
 
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if @test_case.todo?
 
     choice = interact(:unexpected_error, :fail) do |i|
       i.prompt "An unexpected compiler error was encountered."
@@ -164,7 +167,7 @@ class SassSpecRunner
       show_input_choice(i)
 
       i.choice('e', "Show me the error.") do
-        display_text_block(error)
+        display_text_block(@error)
         i.restart!
       end
 
@@ -177,29 +180,28 @@ class SassSpecRunner
     end
     throw :done unless choice == :fail
 
-    assert_equal 0, status,
-      "Command `#{@options[:engine_adapter]}` did not complete:\n\n#{error}"
+    assert_equal 0, @status,
+      "Command `#{@options[:engine_adapter]}` did not complete:\n\n#{@error}"
   end
 
   def handle_unexpected_pass!
-    output, _clean_output, _error, status = @test_case.output
-    return if status != 0
+    return if @status != 0
 
-    if @test_case.interactive?
+    if @options[:interactive]
       return if !@test_case.should_fail?
     else
       return if !@test_case.should_fail?
 
-      if @test_case.migrate_version?
+      if @options[:migrate_version]
         migrate_version!
         throw :done
-      elsif @test_case.migrate_impl?
+      elsif @options[:migrate_impl]
         migrate_impl!
         throw :done
       end
     end
 
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if probe_todo?
 
     choice = interact(:unexpected_pass, :fail) do |i|
       i.prompt "A failure was expected but it compiled instead."
@@ -212,7 +214,7 @@ class SassSpecRunner
       end
 
       i.choice('o', "Show me the output.") do
-        display_text_block(output)
+        display_text_block(@output)
         i.restart!
       end
 
@@ -225,25 +227,23 @@ class SassSpecRunner
     throw :done unless choice == :fail
 
     # XXX Ruby returns 65 etc. SassC returns 1
-    refute_equal status, 0, "Test case should fail, but it did not"
+    refute_equal @status, 0, "Test case should fail, but it did not"
   end
 
   def handle_output_difference!
-    _output, clean_output, _error, _status = @test_case.output
+    return if @normalized_output == @test_case.expected
 
-    return if @test_case.expected == clean_output
-
-    unless @test_case.interactive?
-      if @test_case.migrate_version?
+    unless @options[:interactive]
+      if @options[:migrate_version]
         migrate_version!
         throw :done
-      elsif @test_case.migrate_impl?
+      elsif @options[:migrate_impl]
         migrate_impl!
         throw :done
       end
     end
 
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if probe_todo?
 
     interact(:output_difference, :fail) do |i|
       i.prompt "output does not match expectation"
@@ -254,7 +254,7 @@ class SassSpecRunner
         require 'diffy'
         display_text_block(
           Diffy::Diff.new("Expected\n" + @test_case.expected,
-                          "Actual\n" + clean_output).to_s(:color))
+                          "Actual\n" + @normalized_output).to_s(:color))
         i.restart!
       end
 
@@ -266,13 +266,11 @@ class SassSpecRunner
       fail_or_exit_choice(i)
     end
 
-    assert_equal @test_case.expected, clean_output, "expected did not match output"
+    assert_equal @test_case.expected, @normalized_output, "expected did not match output"
   end
 
   def handle_unnecessary_todo!
-    output, clean_output, _error, _status = @test_case.output
-
-    return if @test_case.probe_todo? && !@test_case.interactive?
+    return if probe_todo? && !@options[:interactive]
     return unless @test_case.todo? || @test_case.warning_todo?
 
     expected_error_msg = extract_error_message(@test_case.expected_error)
@@ -289,9 +287,9 @@ class SassSpecRunner
         end
       end
 
-      unless output.empty?
+      unless @output.empty?
         i.choice('o', "Show me the output.") do
-          display_text_block(output)
+          display_text_block(@output)
           i.restart!
         end
       end
@@ -310,19 +308,17 @@ class SassSpecRunner
       end
     end
 
-    assert_equal @test_case.expected, clean_output, "expected did not match output"
+    assert_equal @test_case.expected, @normalized_output, "expected did not match output"
   end
 
   def handle_expected_error_message!
     return unless @test_case.verify_stderr?
 
-    _output, _clean_output, error, _status = @test_case.output
-
-    error_msg = extract_error_message(error)
+    error_msg = extract_error_message(@error)
     expected_error_msg = extract_error_message(@test_case.expected_error)
 
     return if expected_error_msg == error_msg
-    skip_test_case!("TODO test is failing.") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if probe_todo?
 
     interact(:expected_error_different, :fail) do |i|
       i.prompt(
@@ -366,13 +362,11 @@ class SassSpecRunner
   def handle_unexpected_error_message!
     return if @test_case.verify_stderr?
 
-    _output, _clean_output, error, _status = @test_case.output
-
-    error_msg = extract_error_message(error)
+    error_msg = extract_error_message(@error)
 
     return if error_msg.empty?
 
-    skip_test_case!("TODO test is failing") if @test_case.probe_todo?
+    skip_test_case!("TODO test is failing") if probe_todo?
 
     interact(:unexpected_error_message, :fail) do |i|
       i.prompt "Unexpected output to stderr."
@@ -380,7 +374,7 @@ class SassSpecRunner
       show_input_choice(i)
 
       i.choice('e', "Show error.") do
-        display_text_block(error)
+        display_text_block(@error)
         i.restart!
       end
 
@@ -400,7 +394,7 @@ class SassSpecRunner
   # in the block and returns the result. Otherwise, just returns the default
   # value.
   def interact(prompt_id, default, dir = @test_case.folder, &block)
-    if @test_case.interactive?
+    if @options[:interactive]
       relative_path = Pathname.new(dir).relative_path_from(Pathname.new(Dir.pwd))
       print "\nIn test case: #{relative_path}"
       return SassSpec::Interactor.interact_with_memory(@@interaction_memory, prompt_id, &block)
@@ -557,7 +551,7 @@ class SassSpecRunner
 
     FileUtils.cp_r @test_case.folder, new_folder
 
-    new_test_case = SassSpec::TestCase.new(new_folder, @options)
+    new_test_case = SassSpec::TestCase.new(new_folder, @options[:engine_adapter].describe)
     change_options(end_version: previous_version)
     change_options(new_test_case.options_path, start_version: current_version)
 
@@ -567,18 +561,16 @@ class SassSpecRunner
   # Adds separate outputs for the test that are compatible with the current
   # implementation.
   def migrate_impl!
-    output, clean_output, error, status = @test_case.output
-
-    if @test_case.expected != clean_output
-      File.write(@test_case.impl_expected_path, output, binmode: true)
+    if @test_case.expected != @normalized_output
+      File.write("#{@test_case.folder}/expected-#{@test_case.impl}.css", @output, binmode: true)
     end
 
-    if extract_error_message(@test_case.expected_error) != extract_error_message(error)
-      File.write(@test_case.impl_error_path, error, binmode: true)
+    if extract_error_message(@test_case.expected_error) != extract_error_message(@error)
+      File.write("#{@test_case.folder}/error-#{@test_case.impl}", @error, binmode: true)
     end
 
-    if @test_case.expected_status != status
-      File.write(@test_case.impl_status_path, status, binmode: true)
+    if @test_case.expected_status != @status
+      File.write("#{@test_case.folder}/status-#{@test_case.impl}", @status, binmode: true)
     end
 
     change_options(@test_case.options_path,
@@ -591,6 +583,13 @@ class SassSpecRunner
   # tested.
   def for_current_impl?
     File.basename(@test_case.folder) =~ /-#{Regexp.quote(@test_case.impl)}/
+  end
+
+  # Returns whether the current test case is marked as TODO, but is still being
+  # run because --probe-todo was passed. These specs shouldn't produce errors
+  # when they fail.
+  def probe_todo?
+    @options[:probe_todo] && (@test_case.todo? || @test_case.warning_todo?)
   end
 
   def skip_test_case!(reason = nil)
@@ -668,7 +667,7 @@ class SassSpecRunner
   # When running sass-spec as a gem from github very long filenames can cause
   # installation issues. This checks that the paths in use will work.
   def assert_filename_length!(filename)
-    name = relative_name = filename.to_s.sub(File.expand_path(@options[:spec_directory]), "")
+    name = relative_name = filename.to_s.sub(SassSpec::SPEC_DIR, "")
     assert false, "Filename #{name} must no more than #{256 - GEMFILE_PREFIX_LENGTH} characters long" if name.size > (256 - GEMFILE_PREFIX_LENGTH)
 
     if name.size <= 100 then
@@ -727,12 +726,10 @@ class SassSpecRunner
   end
 
   def clean_debug_path(error)
-    spec_dir = File.expand_path(@options[:spec_directory])
-    url = spec_dir.gsub(/\\/, '\/')
     error.gsub(/^.*?(input.scss:\d+ DEBUG:)/, '\1')
          .gsub(/\/+/, "/")
-         .gsub(/^#{Regexp.quote(url)}\//, "/sass/sass-spec/")
-         .gsub(/^#{Regexp.quote(spec_dir)}\//, "/sass/sass-spec/")
+         .gsub(/^#{Regexp.quote(SassSpec::SPEC_DIR.gsub(/\\/, '\/'))}\//, "/sass/sass-spec/")
+         .gsub(/^#{Regexp.quote(SassSpec::SPEC_DIR)}\//, "/sass/sass-spec/")
          .gsub(/(?:\/todo_|_todo\/)/, "/")
          .gsub(/\/libsass\-[a-z]+\-tests\//, "/")
          .gsub(/\/libsass\-[a-z]+\-issues/, "/libsass-issues")
