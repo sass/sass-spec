@@ -612,26 +612,24 @@ class SassSpecRunner
   end
 
   def overwrite_test!(test_case = @test_case)
-    output, _, error, status = test_case.output
-
-    if status != 0
+    if @status != 0
       File.open(test_case.status_path, "w+", :binmode => true) do |f|
-        f.write(status)
+        f.write(@status)
       end
     elsif (File.file?(test_case.status_path))
       File.unlink(test_case.status_path)
     end
 
-    if error.length > 0
+    if @error.length > 0
       File.open(test_case.error_path, "w+", :binmode => true) do |f|
-        f.write(error)
+        f.write(@error)
       end
     elsif (File.file?(test_case.error_path))
       File.unlink(test_case.error_path)
     end
 
     File.open(test_case.expected_path, "w+", :binmode => true) do |f|
-      f.write(output)
+      f.write(@output)
     end
 
     change_options(test_case.options_path,
