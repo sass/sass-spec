@@ -9,6 +9,15 @@ class SassSpec::TestCase
     @folder = File.expand_path(folder)
     @impl = impl
     @metadata = SassSpec::TestCaseMetadata.new(folder)
+    @result = false
+  end
+
+  def result?
+    @result
+  end
+
+  def finalize(result)
+    @result = result
   end
 
   def name
