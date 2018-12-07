@@ -195,14 +195,9 @@ class SassSpecRunner
   def handle_unexpected_error!
     return if @status == 0 || @test_case.should_fail?
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if @test_case.todo?
@@ -218,7 +213,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       ignore_choice(i)
@@ -233,14 +227,9 @@ class SassSpecRunner
   def handle_unexpected_pass!
     return unless @status == 0 && @test_case.should_fail?
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if probe_todo?
@@ -262,7 +251,6 @@ class SassSpecRunner
 
       migrate_warning_choice(i)
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       fail_or_exit_choice(i)
@@ -275,14 +263,9 @@ class SassSpecRunner
   def handle_output_difference!
     return if @test_case.should_fail? || @normalized_output == @test_case.expected
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if probe_todo?
@@ -301,7 +284,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       ignore_choice(i)
@@ -411,7 +393,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_warning_choice(i)
       ignore_warning_choice(i)
@@ -475,15 +456,6 @@ class SassSpecRunner
   def update_output_choice(i)
     i.choice('O', "Update expected output and pass test.") do
       overwrite_test!
-      throw :done
-    end
-  end
-
-  def migrate_version_choice(i)
-    # Don't offer to migrate if the test already targets the current version.
-    return if File.basename(@test_case.folder) =~ /-#{Regexp.quote(@options[:language_version])}/
-    i.choice('V', "Migrate copy of test to pass current version.") do
-      migrate_version! || i.restart!
       throw :done
     end
   end
@@ -565,59 +537,6 @@ class SassSpecRunner
     result == :proceed
   end
 
-  # Creates a copy of the test test that's compatible with the current version.
-  #
-  # Marks the original as only being valid until the version before the current
-  # version. Marks the copy as being valid starting with the current version.
-  # Updates the copy to expect current actual results.
-  def migrate_version!
-    current_version = @options[:language_version]
-    current_version_index = SassSpec::LANGUAGE_VERSIONS.index(current_version)
-    if current_version_index == 0
-      puts "Cannot migrate test. There's no version earlier than #{current_version}."
-      return
-    end
-
-    start_version_index = SassSpec::LANGUAGE_VERSIONS.index(
-      @test_case.metadata.start_version.to_s)
-
-    if start_version_index >= current_version_index
-      puts "Cannot migrate test. Test does not apply to an earlier version."
-      return
-    end
-
-    previous_version = SassSpec::LANGUAGE_VERSIONS[current_version_index - 1]
-
-    new_folder = @test_case.folder + "-#{current_version}"
-
-    if File.exist?(new_folder)
-      choice = interact(:migrate_over_existing, :abort) do |i|
-        i.prompt("Target folder '#{new_folder}' already exists.")
-
-        i.choice('x', "Don't migrate the test.") do
-          return
-        end
-
-        i.choice('O', "Remove it.") do
-          unless delete_dir!(new_folder)
-            i.restart!
-          end
-        end
-      end
-
-      if choice == :abort
-        puts "Cannot migrate test. #{new_folder} already exists."
-        return
-      end
-    end
-
-    FileUtils.cp_r @test_case.folder, new_folder
-    overwrite_test!(new_folder)
-
-    change_options(end_version: previous_version)
-    change_options(File.join(new_folder, 'options.yml'), start_version: current_version)
-  end
-
   # Adds separate outputs for the test that are compatible with the current
   # implementation.
   def migrate_impl!
@@ -679,27 +598,25 @@ class SassSpecRunner
     puts delim
   end
 
-  def overwrite_test!(folder = nil)
-    test_case = folder ? SassSpec::TestCase.new(folder, @test_case.impl) : @test_case
-
+  def overwrite_test!
     if @status == 0
-      File.write(test_case.path("output.css", impl: :auto), @output, binmode: true)
-      delete_if_exists(test_case.path("error", impl: :auto))
+      File.write(@test_case.path("output.css", impl: :auto), @output, binmode: true)
+      delete_if_exists(@test_case.path("error", impl: :auto))
 
-      warning_path = test_case.path("warning", impl: :auto)
+      warning_path = @test_case.path("warning", impl: :auto)
       if @error.empty?
         delete_if_exists(warning_path)
       else
         File.write(warning_path, @error, binmode: true)
       end
     else
-      File.write(test_case.path("error", impl: :auto), @error, binmode: true)
-      delete_if_exists(test_case.path("output.css", impl: :auto))
-      delete_if_exists(test_case.path("warning", impl: :auto))
+      File.write(@test_case.path("error", impl: :auto), @error, binmode: true)
+      delete_if_exists(@test_case.path("output.css", impl: :auto))
+      delete_if_exists(@test_case.path("warning", impl: :auto))
     end
 
-    change_options(test_case.options_path,
-      remove_warning_todo: [test_case.impl], remove_todo: [test_case.impl])
+    change_options(@test_case.options_path,
+      remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
   end
 
   def change_options(file_or_new_options, new_options = nil)
