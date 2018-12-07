@@ -461,7 +461,6 @@ class SassSpecRunner
   end
 
   def migrate_impl_choice(i)
-    return if for_current_impl?
     i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
       migrate_impl! || i.restart!
       throw :done
@@ -469,7 +468,7 @@ class SassSpecRunner
   end
 
   def todo_choice(i)
-    return if @test_case.todo? || for_current_impl?
+    return if @test_case.todo?
     i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
       change_options(add_todo: [@test_case.impl])
       throw :done
@@ -477,16 +476,12 @@ class SassSpecRunner
   end
 
   def ignore_choice(i)
-    if for_current_impl?
-      delete_choice(i)
-    else
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(
-          add_ignore_for: [@test_case.impl],
-          remove_warning_todo: [@test_case.impl],
-          remove_todo: [@test_case.impl])
-        throw :done
-      end
+    i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+      change_options(
+        add_ignore_for: [@test_case.impl],
+        remove_warning_todo: [@test_case.impl],
+        remove_todo: [@test_case.impl])
+      throw :done
     end
   end
 
@@ -560,12 +555,6 @@ class SassSpecRunner
   end
 
   ## Other utilities
-
-  # Returns whether the current spec targets only the implementation being
-  # tested.
-  def for_current_impl?
-    File.basename(@test_case.folder) =~ /-#{Regexp.quote(@test_case.impl)}/
-  end
 
   # Returns whether the current test case is marked as TODO, but is still being
   # run because --probe-todo was passed. These specs shouldn't produce errors
