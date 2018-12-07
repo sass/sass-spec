@@ -42,7 +42,24 @@ class SassSpec::Runner
       Minitest.reporter = Minitap::TapY
     end
 
-    Minitest.run(minioptions)
+    result = Minitest.run(minioptions)
+
+    if @options[:run_todo]
+      passing = []
+      test_cases.each do |test_case|
+        if test_case.todo? && test_case.result?
+          passing << test_case.folder
+        end
+      end
+      if passing.any?
+        puts "The following tests pass but were marked as TODO for #{@options[:engine_adapter].describe}:"
+        puts passing.join("\n")
+      else
+        puts "Note: All tests marked as TODO for #{@options[:engine_adapter].describe} are still failing."
+      end
+    end
+
+    result
   end
 
   def language_version

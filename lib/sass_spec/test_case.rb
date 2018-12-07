@@ -28,6 +28,7 @@ class SassSpec::TestCase
     @folder = File.expand_path(folder)
     @impl = impl
     @metadata = SassSpec::TestCaseMetadata.new(folder)
+    @result = false
 
     input_files = Dir.glob(path("input.*"))
     if input_files.empty?
@@ -60,6 +61,14 @@ class SassSpec::TestCase
     else
       @expected_error = _expected_error_or_warning(error_path) if error_path
     end
+  end
+
+  def result?
+    @result
+  end
+
+  def finalize(result)
+    @result = result
   end
 
   def name
