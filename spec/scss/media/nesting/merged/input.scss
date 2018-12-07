@@ -3,6 +3,9 @@
 @media screen {
   a {b: c}
   @media (color) {x {y: z}}
+
+  // The "all and" prefix shouldn't change the semantics.
+  @media all and (color) {x {y: z}}
 }
 
 // Features always go to the end of a query, even if they're at an outer nesting
@@ -11,17 +14,28 @@
   a {b: c}
   @media screen {x {y: z}}
 }
+@media all and (color) {
+  a {b: c}
+  @media screen {x {y: z}}
+}
 
 // Different features can be intersected.
 @media (max-width: 300px) {
   a {b: c}
   @media (min-width: 200px) {x {y: z}}
+  @media all and (min-width: 200px) {q {r: s}}
+}
+@media all and (max-width: 300px) {
+  a {b: c}
+  @media (min-width: 200px) {x {y: z}}
+  @media all and (min-width: 200px) {q {r: s}}
 }
 
 // Unlike `not`, the `only` keyword is preserved through intersection.
 @media only screen {
   a {b: c}
   @media (color) {x {y: z}}
+  @media all and (color) {q {r: s}}
 }
 
 // The intersection of `not screen` and `print` is just `print`.
