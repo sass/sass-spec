@@ -562,7 +562,7 @@ class SassSpecRunner
   # implementation.
   def migrate_impl!
     if @test_case.expected != @normalized_output
-      File.write("#{@test_case.folder}/expected-#{@test_case.impl}.css", @output, binmode: true)
+      File.write("#{@test_case.folder}/output-#{@test_case.impl}.css", @output, binmode: true)
     end
 
     if extract_error_message(@test_case.expected_error) != extract_error_message(@error)
