@@ -9,10 +9,28 @@
 @media not screen {
   a {b: c}
   @media (color) {x {y: z}}
+
+  // The "all and" prefix shouldn't change the semantics.
+  @media all and (color) {q {r: s}}
 }
 @media (color) {
   a {b: c}
   @media not screen {x {y: z}}
+}
+@media all and (color) {
+  a {b: c}
+  @media not screen {x {y: z}}
+}
+
+// The unification of these would be `screen and not (color)`, which isn't yet
+// supported.
+@media screen {
+  a {b: c}
+  @media not all and (color) {x {y: z}}
+}
+@media not all and (color) {
+  a {b: c}
+  @media screen {x {y: z}}
 }
 
 // `not screen and (color)` means `not (screen and (color))`, so it could still
