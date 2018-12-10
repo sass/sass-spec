@@ -5,11 +5,62 @@ require_relative 'util'
 class SassSpec::TestCase
   attr_reader :metadata, :folder, :impl
 
+  # The path to the input file for this test case.
+  attr_reader :input_path
+
+  # The Sass or SCSS input for this test case.
+  attr_reader :input
+
+  # The normalized expected CSS output. This is `nil` if the test is expected to
+  # fail, or if it's malformed and has no expectations.
+  attr_reader :expected
+
+  # The normalized expected warning text. This is `nil` if the test is expected
+  # to fail, or if it's malformed and has no expectations. It's `""` if the test
+  # is expected to succeed without warnings.
+  attr_reader :expected_warning
+
+  # The normalized expected error message. This is `nil` if the test is expected
+  # to succeed, or if it's malformed and has no expectations.
+  attr_reader :expected_error
+
   def initialize(folder, impl)
     @folder = File.expand_path(folder)
     @impl = impl
     @metadata = SassSpec::TestCaseMetadata.new(folder)
     @result = false
+
+    input_files = Dir.glob(path("input.*"))
+    if input_files.empty?
+      raise ArgumentError.new("No input file found in #{@folder}")
+    elsif input_files.size > 1
+      raise ArgumentError.new("Multiple input files found in #{@folder}: #{input_files.join(', ')}")
+    end
+    @input_path = input_files.first
+    @input = File.read(@input_path, :binmode => true, :encoding => "ASCII-8BIT")
+
+    if File.file?(path("output.css", impl: true))
+      expected_path = path("output.css", impl: true)
+      warning_path = path("warning", impl: :auto)
+    elsif error_path = path("error", impl: :auto)
+      # error_path is already set
+    else
+      expected_path = path("output.css")
+      warning_path = path("warning", impl: :auto)
+    end
+
+    if expected_path
+      if File.exist?(expected_path)
+        output = File.read(expected_path, :binmode => true, :encoding => "ASCII-8BIT")
+        # we seem to get CP850 otherwise
+        # this provokes equal test to fail
+        output.force_encoding('ASCII-8BIT')
+        @expected = SassSpec::Util.normalize_output(output)
+      end
+      @expected_warning = warning_path ? _expected_error_or_warning(warning_path) : ""
+    else
+      @expected_error = _expected_error_or_warning(error_path) if error_path
+    end
   end
 
   def result?
@@ -24,33 +75,8 @@ class SassSpec::TestCase
     @metadata.name
   end
 
-  def input_path
-    @input_path ||=
-      begin
-        input_files = Dir.glob(File.join(@folder, "input.*"))
-        if input_files.empty?
-          raise ArgumentError.new("No input file found in #{@folder}")
-        elsif input_files.size > 1
-          raise ArgumentError.new("Multiple input files found in #{@folder}: #{input_files.join(', ')}")
-        end
-        input_files.first
-      end
-  end
-
   def options_path
-    File.join(@folder, "options.yml")
-  end
-
-  def expected_path
-    @expected_path ||= _expectation_path("output.css")
-  end
-
-  def error_path
-    @error_path ||= _expectation_path("error")
-  end
-
-  def status_path
-    @status_path ||= _expectation_path("status")
+    path("options.yml")
   end
 
   def precision
@@ -61,12 +87,8 @@ class SassSpec::TestCase
     @metadata.output_style
   end
 
-  def verify_stderr?
-    !expected_error.empty?
-  end
-
   def should_fail?
-    expected_status != 0
+    !!expected_error
   end
 
   def todo?
@@ -85,45 +107,28 @@ class SassSpec::TestCase
     @metadata.ignore_warning_for?(impl)
   end
 
-  def input
-    @input ||= File.read(input_path, :binmode => true, :encoding => "ASCII-8BIT")
-  end
+  # Returns the path of `basename` within `folder`. If `impl` is `true`, this
+  # adds an implementation-specific suffix to the path. If `impl` is false (the
+  # default), it does not. If `impl` is `:auto`, it returns the
+  # implementation-specific file if it exists, or the base file if *it* exists,
+  # or `nil` if neither exists.
+  def path(basename, impl: false)
+    path_without_impl = File.join(@folder, basename)
+    return path_without_impl unless impl
 
-  def expected
-    @expected ||=
-      begin
-        output = File.read(expected_path, :binmode => true, :encoding => "ASCII-8BIT")
-        # we seem to get CP850 otherwise
-        # this provokes equal test to fail
-        output.force_encoding('ASCII-8BIT')
-        SassSpec::Util.normalize_output(output)
-      end
-  end
-
-  def expected_error
-    @expected_error ||=
-      if File.file?(error_path)
-        error = File.read(error_path, :binmode => true, :encoding => "ASCII-8BIT")
-        SassSpec::Util.normalize_error(error)
-      else
-        ""
-      end
-  end
-
-  def expected_status
-    @expected_status ||=
-      if File.file?(status_path)
-        @expected_status = File.read(status_path).to_i
-      else
-        @expected_status = 0
-      end
-  end
-
-  def _expectation_path(basename)
     extension = File.extname(basename)
-    path = File.join(@folder, File.basename(basename, extension))
+    path_without_extension = File.join(@folder, File.basename(basename, extension))
+    path_with_impl = "#{path_without_extension}-#{@impl}#{extension}"
 
-    impl_path = "#{path}-#{impl}#{extension}"
-    File.file?(impl_path) ? impl_path : "#{path}#{extension}"
+    return path_with_impl if impl == true || File.file?(path_with_impl)
+    return path_without_impl if File.file?(path_without_impl)
+  end
+
+  private
+
+  # Loads and normalizes the error or warning expectation at the given path.
+  def _expected_error_or_warning(path)
+    text = File.read(path, :binmode => true, :encoding => "ASCII-8BIT")
+    SassSpec::Util.normalize_error(text)
   end
 end
