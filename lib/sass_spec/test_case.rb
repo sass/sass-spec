@@ -80,7 +80,7 @@ class SassSpec::TestCase
   end
 
   def precision
-    @metadata.precision || 5
+    @metadata.precision || 10
   end
 
   def output_style
