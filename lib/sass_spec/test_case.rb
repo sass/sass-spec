@@ -172,7 +172,7 @@ class SassSpec::TestCase
       engine_adapter.compile(
         File.join(@dir.path, @dir.glob("input.*").first),
         @metadata.output_style,
-        @metadata.precision || 5)
+        @metadata.precision || 10)
     end
   end
 
