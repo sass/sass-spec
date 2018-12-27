@@ -7,6 +7,18 @@ no-alpha {
   var-2: rgb(1 var(--foo) 3);
   var-3: rgb(1 2 var(--foo));
 
+  env-1: rgb(env(--foo) 2 3);
+  env-2: rgb(1 env(--foo) 3);
+  env-3: rgb(1 2 env(--foo));
+
+  min-1: rgb(min(1) 2 3);
+  min-2: rgb(1 min(2) 3);
+  min-3: rgb(1 2 min(3));
+
+  max-1: rgb(max(1) 2 3);
+  max-2: rgb(1 max(2) 3);
+  max-3: rgb(1 2 max(3));
+
   // var() is substituted before parsing, so it may contain multiple arguments.
   multi-argument-var-1-of-2: rgb(var(--foo) 2);
   multi-argument-var-2-of-2: rgb(1 var(--foo));
@@ -22,7 +34,22 @@ alpha {
   var-1: rgb(var(--foo) 2 3 / 0.4);
   var-2: rgb(1 var(--foo) 3 / 0.4);
   var-3: rgb(1 2 var(--foo) / 0.4);
-  var-4: rgb(1 2 3 / var(0.4));
+  var-4: rgb(1 2 3 / var(--foo));
+
+  env-1: rgb(env(--foo) 2 3 / 0.4);
+  env-2: rgb(1 env(--foo) 3 / 0.4);
+  env-3: rgb(1 2 env(--foo) / 0.4);
+  env-4: rgb(1 2 3 / env(--foo));
+
+  min-1: rgb(min(1) 2 3 / 0.4);
+  min-2: rgb(1 min(2) 3 / 0.4);
+  min-3: rgb(1 2 min(3) / 0.4);
+  min-4: rgb(1 2 3 / min(0.4));
+
+  max-1: rgb(max(1) 2 3 / 0.4);
+  max-2: rgb(1 max(2) 3 / 0.4);
+  max-3: rgb(1 2 max(3) / 0.4);
+  max-4: rgb(1 2 3 / max(0.4));
 
   // var() is substituted before parsing, so it may contain multiple arguments.
   multi-argument-var-1-of-2: rgb(var(--foo) 2 / 0.4);
