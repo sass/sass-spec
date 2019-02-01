@@ -6,5 +6,17 @@ a {
   var-1: hsl(var(--foo), 2%, 3%, 0.4);
   var-2: hsl(1, var(--foo), 3%, 0.4);
   var-3: hsl(1, 2%, var(--foo), 0.4);
-  var-4: hsl(1, 2%, 3%, var(0.4));
+  var-4: hsl(1, 2%, 3%, var(--foo));
+  env-1: hsl(env(--foo), 2%, 3%, 0.4);
+  env-2: hsl(1, env(--foo), 3%, 0.4);
+  env-3: hsl(1, 2%, env(--foo), 0.4);
+  env-4: hsl(1, 2%, 3%, env(--foo));
+  min-1: hsl(min(1), 2%, 3%, 0.4);
+  min-2: hsl(1, min(2%), 3%, 0.4);
+  min-3: hsl(1, 2%, min(3%), 0.4);
+  min-4: hsl(1, 2%, 3%, min(0.4));
+  max-1: hsl(max(1), 2%, 3%, 0.4);
+  max-2: hsl(1, max(2%), 3%, 0.4);
+  max-3: hsl(1, 2%, max(3%), 0.4);
+  max-4: hsl(1, 2%, 3%, max(0.4));
 }

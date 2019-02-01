@@ -164,7 +164,7 @@ class DartEngineAdapter < EngineAdapter
   end
 
   def compile(sass_filename, style, precision)
-    @stdin.puts "--no-color --style #{style || 'expanded'} #{@args} #{sass_filename}"
+    @stdin.puts "--no-color --no-unicode --style #{style || 'expanded'} #{@args} #{sass_filename}"
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
 
