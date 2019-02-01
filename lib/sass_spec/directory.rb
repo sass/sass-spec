@@ -156,10 +156,11 @@ class SassSpec::Directory
     end
   end
 
-  # If this directory refers to an HRX file, runs a block the that archive's
-  # directory and all its contents physically present on the filesystem.
+  # If this directory refers to an HRX file, runs a block with the archive's
+  # directory and all its contents physically present on the filesystem next to
+  # the archive.
   #
-  # If this is a normal directory, runs the block in the normal context.
+  # If this is a normal directory, runs the block with the filesystem as-is.
   def with_real_files
     return yield unless @archive
 
