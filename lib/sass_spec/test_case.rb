@@ -3,9 +3,12 @@ require_relative 'util'
 
 # This represents a specific test case.
 class SassSpec::TestCase
-  attr_reader :metadata, :folder, :impl
+  attr_reader :metadata, :dir, :impl
 
   # The path to the input file for this test case.
+  #
+  # Note that this file is not guaranteed to exist on disk, since this test case
+  # may be loaded from an HRX file.
   attr_reader :input_path
 
   # The Sass or SCSS input for this test case.
@@ -24,42 +27,42 @@ class SassSpec::TestCase
   # to succeed, or if it's malformed and has no expectations.
   attr_reader :expected_error
 
-  def initialize(folder, impl)
-    @folder = File.expand_path(folder)
+  # Returns the test case for the given SassSpec::Directory and implementation
+  # name.
+  def initialize(dir, impl)
+    @dir = dir
     @impl = impl
-    @metadata = SassSpec::TestCaseMetadata.new(folder)
+    @metadata = SassSpec::TestCaseMetadata.new(dir)
     @result = false
 
-    input_files = Dir.glob(path("input.*"))
+    input_files = @dir.glob("input.*")
     if input_files.empty?
-      raise ArgumentError.new("No input file found in #{@folder}")
+      raise ArgumentError.new("No input file found in #{@dir}")
     elsif input_files.size > 1
-      raise ArgumentError.new("Multiple input files found in #{@folder}: #{input_files.join(', ')}")
+      raise ArgumentError.new("Multiple input files found in #{@dir}")
     end
-    @input_path = input_files.first
-    @input = File.read(@input_path, :binmode => true, :encoding => "ASCII-8BIT")
+    @input = @dir.read(input_files.first)
 
-    if File.file?(path("output.css", impl: true))
-      expected_path = path("output.css", impl: true)
-      warning_path = path("warning", impl: :auto)
-    elsif error_path = path("error", impl: :auto)
-      # error_path is already set
+    # If there's an impl-specific output file, then this is a success test.
+    # Otherwise, it's an error test if there's *any* error file, impl-specific
+    # or otherwise.
+    if !file?("output.css", impl: true) && file?("error", impl: :auto)
+      @expected_error = SassSpec::Util.normalize_error(read("error", impl: :auto))
     else
-      expected_path = path("output.css")
-      warning_path = path("warning", impl: :auto)
-    end
-
-    if expected_path
-      if File.exist?(expected_path)
-        output = File.read(expected_path, :binmode => true, :encoding => "ASCII-8BIT")
+      if file?("output.css", impl: :auto)
+        output = read("output.css", impl: :auto)
         # we seem to get CP850 otherwise
         # this provokes equal test to fail
-        output.force_encoding('ASCII-8BIT')
+        output = String.new(output).force_encoding('ASCII-8BIT')
         @expected = SassSpec::Util.normalize_output(output)
       end
-      @expected_warning = warning_path ? _expected_error_or_warning(warning_path) : ""
-    else
-      @expected_error = _expected_error_or_warning(error_path) if error_path
+
+      @expected_warning =
+        if file?("warning", impl: :auto)
+          SassSpec::Util.normalize_error(read("warning", impl: :auto))
+        else
+          ""
+        end
     end
   end
 
@@ -73,18 +76,6 @@ class SassSpec::TestCase
 
   def name
     @metadata.name
-  end
-
-  def options_path
-    path("options.yml")
-  end
-
-  def precision
-    @metadata.precision || 10
-  end
-
-  def output_style
-    @metadata.output_style
   end
 
   def should_fail?
@@ -107,28 +98,100 @@ class SassSpec::TestCase
     @metadata.ignore_warning_for?(impl)
   end
 
-  # Returns the path of `basename` within `folder`. If `impl` is `true`, this
-  # adds an implementation-specific suffix to the path. If `impl` is false (the
-  # default), it does not. If `impl` is `:auto`, it returns the
-  # implementation-specific file if it exists, or the base file if *it* exists,
-  # or `nil` if neither exists.
-  def path(basename, impl: false)
-    path_without_impl = File.join(@folder, basename)
-    return path_without_impl unless impl
+  # Returns whether a file exists at `path` within this test case's directory.
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to the
+  # path. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it returns true if either the implementation-specific file or the base file
+  # exists.
+  def file?(path, impl: false)
+    path = _path(path, impl)
+    path && @dir.file?(path)
+  end
 
-    extension = File.extname(basename)
-    path_without_extension = File.join(@folder, File.basename(basename, extension))
-    path_with_impl = "#{path_without_extension}-#{@impl}#{extension}"
+  # Reads the file at `path` within this test case's directory.
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to the
+  # path. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it returns the contents of implementation-specific file if it exists, or the
+  # base file if *it* exists, or throws an error if neither exists.
+  def read(path, impl: false)
+    unless resolved_path = _path(path, impl)
+      raise "#@dir/#{path} doesn't exist"
+    end
 
-    return path_with_impl if impl == true || File.file?(path_with_impl)
-    return path_without_impl if File.file?(path_without_impl)
+    @dir.read(resolved_path)
+  end
+
+  # Writes `contents` to `path` within this test case's directory.
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to the
+  # path. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it writes to the implementation-specific file if it exists, and the base
+  # file otherwise.
+  def write(path, contents, impl: false)
+    @dir.write(_path(path, impl) || path, contents)
+  end
+
+  # Deletes the file at `path` within this test case's directory.
+  #
+  # If `if_exists` is `true`, don't throw an error if the file doesn't exist.
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to the
+  # path. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it deletes the implementation-specific file if it exists, or the base file
+  # if *it* exists, or throws an error if neither exists.
+  def delete(path, if_exists: false, impl: false)
+    unless resolved_path = _path(path, impl)
+      return if if_exists
+      raise "#@dir/#{path} doesn't exist"
+    end
+
+    @dir.delete(resolved_path, if_exists: if_exists)
+  end
+
+  # Renames the file at `old` to `new` within this test case's directory.
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to both
+  # paths. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it renames the implementation-specific file if it exists to an
+  # implementation-specific version of `new`, or the base file if *it* exists to
+  # `new`, or throws an error if neither exist.
+  def rename(old, new, impl: false)
+    unless resolved_old = _path(old, impl)
+      raise "#@dir/#{old} doesn't exist"
+    end
+
+    new = _path(new, true) if resolved_old.include?("-#{@impl}")
+    @dir.rename(resolved_old, new)
+  end
+
+  # Invokes EngineAdapter#compile on this test case and returns the result.
+  def run(engine_adapter)
+    @dir.with_real_files do
+      engine_adapter.compile(
+        File.join(@dir.path, @dir.glob("input.*").first),
+        @metadata.output_style,
+        @metadata.precision || 10)
+    end
   end
 
   private
 
-  # Loads and normalizes the error or warning expectation at the given path.
-  def _expected_error_or_warning(path)
-    text = File.read(path, :binmode => true, :encoding => "ASCII-8BIT")
-    SassSpec::Util.normalize_error(text)
+  # Returns the path of `path` within `dir`. 
+  #
+  # If `impl` is `true`, this adds an implementation-specific suffix to the
+  # path. If `impl` is false (the default), it does not. If `impl` is `:auto`,
+  # it returns the implementation-specific file if it exists, or the base file
+  # if *it* exists, or `nil` if neither exists.
+  def _path(path, impl)
+    return path unless impl
+
+    extension = File.extname(path)
+    path_without_extension = extension.empty? ? path : path[0...-extension.length]
+    path_with_impl = "#{path_without_extension}-#{@impl}#{extension}"
+
+    return path_with_impl if impl == true || @dir.file?(path_with_impl)
+    return path if @dir.file?(path)
   end
 end

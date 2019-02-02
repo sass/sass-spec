@@ -3,6 +3,8 @@ require 'set'
 require 'yaml'
 require 'command_line_reporter'
 
+require_relative 'directory'
+
 class SassSpec::Annotate::CLI
   include CommandLineReporter
 
@@ -205,7 +207,7 @@ BANNER
 
   def report_path(path)
     test_case_dirs = Dir.glob(File.join(path, "**/input.scss")).map {|p| File.dirname(p) }.uniq.sort
-    metadatas = test_case_dirs.map{|d| SassSpec::TestCaseMetadata.new(d) }
+    metadatas = test_case_dirs.map {|d| SassSpec::TestCaseMetadata.new(SassSpec::Directory.new(d))}
     TermInfo.screen_size
     max_length = [
       metadatas.map {|m| m.name.length}.max,

@@ -1,7 +1,8 @@
 require 'minitest'
+
 require_relative 'test'
 require_relative 'test_case'
-
+require_relative 'directory'
 
 class SassSpec::Runner
 
@@ -12,14 +13,25 @@ class SassSpec::Runner
 
   def get_input_dirs
     (@options[:spec_dirs_to_run] || [SassSpec::SPEC_DIR]).map do |d|
-      d = File.expand_path(d)
-      File.directory?(d) ? d : File.dirname(d)
+      dir =
+        # If the user passes a directory, use that. If it fails, they may have
+        # passed a file *in* a directory, so try using the parent. If *that*
+        # fails, raise the original error.
+        begin
+          SassSpec::Directory.new(d)
+        rescue => e
+          begin
+            SassSpec::Directory.new(File.dirname(d))
+          rescue
+            raise e
+          end
+        end
     end
   end
 
   def get_input_files
-    get_input_dirs.inject([]) do |m, d|
-      m + Dir.glob(File.join(d, "**", "input.s[ac]ss"))
+    get_input_dirs.flat_map do |dir|
+      dir.glob("**/input.s[ac]ss").map {|f| File.join(dir.path, f)}
     end.uniq
   end
 
@@ -84,8 +96,8 @@ class SassSpec::Runner
   def _get_cases
     cases = []
     get_input_files().each do |filename|
-      folder = File.dirname(filename)
-      metadata = SassSpec::TestCaseMetadata.new(folder)
+      dir = SassSpec::Directory.new(File.dirname(filename))
+      metadata = SassSpec::TestCaseMetadata.new(dir)
       unless metadata.valid_for_version?(language_version)
         if @options[:verbose]
           warn "#{metadata.name} does not apply to Sass #{language_version}"
@@ -106,7 +118,7 @@ class SassSpec::Runner
         next unless @options[:only_output_styles].include?(metadata.output_style)
       end
 
-      test_case = SassSpec::TestCase.new(folder, @options[:engine_adapter].describe)
+      test_case = SassSpec::TestCase.new(dir, @options[:engine_adapter].describe)
 
       # unless File.exist?(test_case.expected_path)
       #   if @options[:verbose]

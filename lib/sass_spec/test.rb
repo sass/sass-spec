@@ -33,13 +33,14 @@ class SassSpecRunner
 
   def run
     if @test_case.todo? && !@options[:run_todo]
-      skip "Skipped #{@test_case.folder}"
+      skip "Skipped #{@test_case.name}"
     end
 
-    Dir.entries(@test_case.folder).each {|e| assert_filename_length!(e)}
+    unless @test_case.dir.hrx?
+      @test_case.dir.glob("*").each {|p| assert_filename_length!(File.join(@test_case.dir.path, p))}
+    end
 
-    @output, @error, @status = @options[:engine_adapter].compile(
-      @test_case.input_path, @test_case.output_style, @test_case.precision)
+    @output, @error, @status = @test_case.run(@options[:engine_adapter])
     @output = @output.gsub(/\r\n/, "\n")
     @normalized_output = SassSpec::Util.normalize_output(@output)
     @error = SassSpec::Util.normalize_error(@error)
@@ -112,21 +113,17 @@ class SassSpecRunner
   end
 
   def handle_conflicting_files!
-    if File.file?(@test_case.path("error", impl: true))
-      error_file = @test_case.path("error", impl: true)
-      output_file = @test_case.path("output.css", impl: true)
-      warning_file = @test_case.path("warning", impl: true)
-    elsif File.file?(@test_case.path("error"))
-      error_file = @test_case.path("error")
-      output_file = @test_case.path("output.css")
-      warning_file = @test_case.path("warning")
+    if @test_case.file?("error", impl: true)
+      impl = true
+    elsif @test_case.file?("error")
+      impl = false
     else
       return
     end
 
-    output_file = nil unless File.file?(output_file)
-    warning_file = nil unless File.file?(warning_file)
-    return unless output_file || warning_file
+    output_file_exists = @test_case.file?("output.css", impl: impl)
+    warning_file_exists = @test_case.file?("warning", impl: impl)
+    return unless output_file_exists || warning_file_exists
 
     choice = interact(:conflicting_files, :fail) do |i|
       i.prompt "Test has both error and success outputs."
@@ -134,39 +131,39 @@ class SassSpecRunner
       show_input_choice(i)
       show_output_choice(i)
 
-      if output_file
+      if output_file_exists
         i.choice('eo', 'Show expected output.') do
-          display_text_block(File.read(output_file))
+          display_text_block(@test_case.read("output.css", impl: impl))
           i.restart!
         end
       end
 
-      if warning_file
+      if warning_file_exists
         i.choice('ew', 'Show expected warning.') do
-          display_text_block(File.read(warning_file))
+          display_text_block(@test_case.read("warning", impl: impl))
           i.restart!
         end
       end
 
       i.choice('ee', 'Show expected error.') do
-        display_text_block(File.read(@test_case.path("error", impl: :auto)))
+        display_text_block(@test_case.read("error", impl: :auto))
         i.restart!
       end
 
       delete_choice(i)
 
       i.choice('S', 'Keep the success output.') do
-        File.unlink(@test_case.path("error", impl: :auto))
+        @test_case.delete("error", impl: :auto)
         throw :done
       end
 
       i.choice('E', 'Keep the error output.') do
-        File.unlink(output_file) if output_file
-        File.unlink(warning_file) if warning_file
+        @test_case.delete("output.css") if output_file_exists
+        @test_case.delete("warning") if warning_file_exists
         throw :done
       end
 
-      migrate_warning_choice(i) unless warning_file
+      migrate_warning_choice(i) unless warning_file_exists
       update_output_choice(i)
       fail_or_exit_choice(i)
     end
@@ -195,14 +192,9 @@ class SassSpecRunner
   def handle_unexpected_error!
     return if @status == 0 || @test_case.should_fail?
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if @test_case.todo?
@@ -218,7 +210,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       ignore_choice(i)
@@ -233,14 +224,9 @@ class SassSpecRunner
   def handle_unexpected_pass!
     return unless @status == 0 && @test_case.should_fail?
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if probe_todo?
@@ -262,7 +248,6 @@ class SassSpecRunner
 
       migrate_warning_choice(i)
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       fail_or_exit_choice(i)
@@ -275,14 +260,9 @@ class SassSpecRunner
   def handle_output_difference!
     return if @test_case.should_fail? || @normalized_output == @test_case.expected
 
-    unless @options[:interactive]
-      if @options[:migrate_version]
-        migrate_version!
-        throw :done
-      elsif @options[:migrate_impl]
-        migrate_impl!
-        throw :done
-      end
+    if !@options[:interactive] && @options[:migrate_impl]
+      migrate_impl!
+      throw :done
     end
 
     skip_test_case!("TODO test is failing") if probe_todo?
@@ -301,7 +281,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_choice(i)
       ignore_choice(i)
@@ -356,7 +335,7 @@ class SassSpecRunner
       if @test_case.ignore_warning?
         return
       elsif @test_case.warning_todo? && !@options[:run_todo]
-        skip_test_case! "Skipped warning check for #{@test_case.folder}"
+        skip_test_case! "Skipped warning check for #{@test_case.name}"
       end
     end
 
@@ -411,7 +390,6 @@ class SassSpecRunner
       end
 
       update_output_choice(i)
-      migrate_version_choice(i)
       migrate_impl_choice(i)
       todo_warning_choice(i)
       ignore_warning_choice(i)
@@ -426,10 +404,9 @@ class SassSpecRunner
   # If the runner is running in interactive mode, runs the interaction defined
   # in the block and returns the result. Otherwise, just returns the default
   # value.
-  def interact(prompt_id, default, dir = @test_case.folder, &block)
+  def interact(prompt_id, default, &block)
     if @options[:interactive]
-      relative_path = Pathname.new(dir).relative_path_from(Pathname.new(Dir.pwd))
-      print "\nIn test case: #{relative_path}"
+      print "\nIn test case: #{@test_case.name}"
       return SassSpec::Interactor.interact_with_memory(@@interaction_memory, prompt_id, &block)
     else
       return default
@@ -466,8 +443,7 @@ class SassSpecRunner
 
   def migrate_warning_choice(i)
     i.choice('W', "Migrate the error to a warning.") do
-      error_path = @test_case.path("error", impl: :auto)
-      File.rename(error_path, error_path.gsub(%r{error-([^/]*)$}, 'warning-\1'))
+      @test_case.rename("error", "warning")
       throw :done
     end
   end
@@ -479,17 +455,7 @@ class SassSpecRunner
     end
   end
 
-  def migrate_version_choice(i)
-    # Don't offer to migrate if the test already targets the current version.
-    return if File.basename(@test_case.folder) =~ /-#{Regexp.quote(@options[:language_version])}/
-    i.choice('V', "Migrate copy of test to pass current version.") do
-      migrate_version! || i.restart!
-      throw :done
-    end
-  end
-
   def migrate_impl_choice(i)
-    return if for_current_impl?
     i.choice('I', "Migrate copy of test to pass on #{@test_case.impl}.") do
       migrate_impl! || i.restart!
       throw :done
@@ -497,7 +463,7 @@ class SassSpecRunner
   end
 
   def todo_choice(i)
-    return if @test_case.todo? || for_current_impl?
+    return if @test_case.todo?
     i.choice('T', "Mark spec as todo for #{@test_case.impl}.") do
       change_options(add_todo: [@test_case.impl])
       throw :done
@@ -505,22 +471,18 @@ class SassSpecRunner
   end
 
   def ignore_choice(i)
-    if for_current_impl?
-      delete_choice(i)
-    else
-      i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
-        change_options(
-          add_ignore_for: [@test_case.impl],
-          remove_warning_todo: [@test_case.impl],
-          remove_todo: [@test_case.impl])
-        throw :done
-      end
+    i.choice('G', "Ignore test for #{@test_case.impl} FOREVER.") do
+      change_options(
+        add_ignore_for: [@test_case.impl],
+        remove_warning_todo: [@test_case.impl],
+        remove_todo: [@test_case.impl])
+      throw :done
     end
   end
 
   def delete_choice(i)
     i.choice('D', "Delete test.") do
-      if delete_dir!(@test_case.folder)
+      if delete_test!
         throw :done
       else
         i.restart!
@@ -550,72 +512,22 @@ class SassSpecRunner
     end
   end
 
-  # Deletes a directory. In interactive mode, prompts the user and returns
-  # `false` if they decide not to delete the directory.
-  def delete_dir!(dir)
-    result = interact(:delete_test, :proceed) do |i|
-      files = Dir.glob(File.join(dir, "**", "*"))
-      i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
-      i.choice('D', "Delete them.") do
-        FileUtils.rm_rf(@test_case.folder)
-      end
-      i.choice('x', "I changed my mind.") do
-      end
-    end
-    result == :proceed
-  end
-
-  # Creates a copy of the test test that's compatible with the current version.
+  # Deletes the current test case.
   #
-  # Marks the original as only being valid until the version before the current
-  # version. Marks the copy as being valid starting with the current version.
-  # Updates the copy to expect current actual results.
-  def migrate_version!
-    current_version = @options[:language_version]
-    current_version_index = SassSpec::LANGUAGE_VERSIONS.index(current_version)
-    if current_version_index == 0
-      puts "Cannot migrate test. There's no version earlier than #{current_version}."
-      return
-    end
+  # In interactive mode, prompts the user and returns `false` if they decide not
+  # to delete the test.
+  def delete_test!
+    result = interact(:delete_test, :proceed) do |i|
+      files = @test_case.dir.glob("**/*")
+      i.prompt("The following files will be removed:\n  * " + files.join("\n  * "))
 
-    start_version_index = SassSpec::LANGUAGE_VERSIONS.index(
-      @test_case.metadata.start_version.to_s)
-
-    if start_version_index >= current_version_index
-      puts "Cannot migrate test. Test does not apply to an earlier version."
-      return
-    end
-
-    previous_version = SassSpec::LANGUAGE_VERSIONS[current_version_index - 1]
-
-    new_folder = @test_case.folder + "-#{current_version}"
-
-    if File.exist?(new_folder)
-      choice = interact(:migrate_over_existing, :abort) do |i|
-        i.prompt("Target folder '#{new_folder}' already exists.")
-
-        i.choice('x', "Don't migrate the test.") do
-          return
-        end
-
-        i.choice('O', "Remove it.") do
-          unless delete_dir!(new_folder)
-            i.restart!
-          end
-        end
+      i.choice('D', "Delete them.") do
+        @test_case.dir.delete_dir!
       end
 
-      if choice == :abort
-        puts "Cannot migrate test. #{new_folder} already exists."
-        return
-      end
+      i.choice('x', "I changed my mind.") {}
     end
-
-    FileUtils.cp_r @test_case.folder, new_folder
-    overwrite_test!(new_folder)
-
-    change_options(end_version: previous_version)
-    change_options(File.join(new_folder, 'options.yml'), start_version: current_version)
+    result == :proceed || result == "D"
   end
 
   # Adds separate outputs for the test that are compatible with the current
@@ -623,30 +535,23 @@ class SassSpecRunner
   def migrate_impl!
     if @status == 0
       if @test_case.expected != @normalized_output || @test_case.should_fail?
-        File.write(@test_case.path("output.css", impl: true), @output, binmode: true)
+        @test_case.write("output.css", @output, impl: true)
       end
 
       if extract_error_message(@test_case.expected_warning) != extract_error_message(@error)
-        File.write(@test_case.path("warning", impl: true), @error, binmode: true)
+        @test_case.write("warning", @error, impl: true)
       end
     else
       actual_error = @test_case.expected_error && extract_error_message(@test_case.expected_error)
       if actual_error != extract_error_message(@error)
-        File.write(@test_case.path("error", impl: true), @error, binmode: true)
+        @test_case.write("error", @error, impl: true)
       end
     end
 
-    change_options(@test_case.options_path,
-        remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
+    change_options(remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
   end
 
   ## Other utilities
-
-  # Returns whether the current spec targets only the implementation being
-  # tested.
-  def for_current_impl?
-    File.basename(@test_case.folder) =~ /-#{Regexp.quote(@test_case.impl)}/
-  end
 
   # Returns whether the current test case is marked as TODO, but is still being
   # run because --probe-todo was passed. These specs shouldn't produce errors
@@ -656,7 +561,7 @@ class SassSpecRunner
   end
 
   def skip_test_case!(reason = nil)
-    msg = "Skipped #{@test_case.folder}"
+    msg = "Skipped #{@test_case.name}"
     if reason
       msg << ": #{reason}"
     else
@@ -679,39 +584,28 @@ class SassSpecRunner
     puts delim
   end
 
-  def overwrite_test!(folder = nil)
-    test_case = folder ? SassSpec::TestCase.new(folder, @test_case.impl) : @test_case
-
+  def overwrite_test!
     if @status == 0
-      File.write(test_case.path("output.css", impl: :auto), @output, binmode: true)
-      delete_if_exists(test_case.path("error", impl: :auto))
+      @test_case.write("output.css", @output, impl: :auto)
+      @test_case.delete("error", if_exists: true, impl: :auto)
 
-      warning_path = test_case.path("warning", impl: :auto)
       if @error.empty?
-        delete_if_exists(warning_path)
+        @test_case.delete("warning", if_exists: true, impl: :auto)
       else
-        File.write(warning_path, @error, binmode: true)
+        @test_case.write("warning", @error, impl: :auto)
       end
     else
-      File.write(test_case.path("error", impl: :auto), @error, binmode: true)
-      delete_if_exists(test_case.path("output.css", impl: :auto))
-      delete_if_exists(test_case.path("warning", impl: :auto))
+      @test_case.write("error", @error, impl: :auto)
+      @test_case.delete("output.css", if_exists: true, impl: :auto)
+      @test_case.delete("warning", if_exists: true, impl: :auto)
     end
 
-    change_options(test_case.options_path,
-      remove_warning_todo: [test_case.impl], remove_todo: [test_case.impl])
+    change_options(remove_warning_todo: [@test_case.impl], remove_todo: [@test_case.impl])
   end
 
-  def change_options(file_or_new_options, new_options = nil)
-    if new_options
-      options_file = file_or_new_options
-    else
-      options_file = @test_case.options_path
-      new_options = file_or_new_options
-    end
-
-    existing_options = if File.exist?(options_file)
-                         YAML.load_file(options_file)
+  def change_options(new_options)
+    existing_options = if @test_case.file?("options.yml")
+                         YAML.load(@test_case.read("options.yml"))
                        else
                          {}
                        end
@@ -719,17 +613,10 @@ class SassSpecRunner
     existing_options = SassSpec::TestCaseMetadata.merge_options(existing_options, new_options)
 
     if existing_options.any?
-      File.open(options_file, "w") do |f|
-        f.write(existing_options.to_yaml)
-      end
+      @test_case.write("options.yml", existing_options.to_yaml)
     else
-      File.unlink(options_file) if File.exist?(options_file)
+      @test_case.delete("options.yml", if_exists: true)
     end
-  end
-
-  # Delete the given `file`, if it's non-`nil` and it exists on disk.
-  def delete_if_exists(file)
-    File.unlink(file) if file && File.file?(file)
   end
 
   GEMFILE_PREFIX_LENGTH = 68

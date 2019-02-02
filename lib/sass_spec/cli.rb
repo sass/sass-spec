@@ -103,10 +103,6 @@ Make sure the command you provide prints to stdout.
         options[:only_output_styles] << style
       end
 
-      opts.on("--migrate-version", "Copy tests that fail and make them pass for the current version.") do
-        options[:migrate_version] = true
-      end
-
       opts.on("--migrate-impl", "Copy tests that fail and make them pass for the current implementatino.") do
         options[:migrate_impl] = true
       end

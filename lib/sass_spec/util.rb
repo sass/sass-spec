@@ -16,5 +16,20 @@ module SassSpec::Util
         .sub(/\A(?:\r?\s)+\z/, "") # clear the whole file if only whitespace
         .gsub(/\r\n/, "\n") # remove Windows line feeds
     end
+
+    # Yields each directory in `path`, from the outermost to the innermost.
+    def each_directory(path)
+      return to_enum(__method__, path) unless block_given?
+
+      path_so_far = nil
+      Pathname.new(path).each_filename do |dir|
+        if path_so_far.nil?
+          path_so_far = String.new(dir)
+        else
+          path_so_far << File::SEPARATOR << dir
+        end
+        yield path_so_far
+      end
+    end
   end
 end

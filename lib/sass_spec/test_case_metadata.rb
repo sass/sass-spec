@@ -1,5 +1,6 @@
 require 'pathname'
 require 'yaml'
+
 module SassSpec
   class TestCaseMetadata
     def self.cache
@@ -39,21 +40,23 @@ module SassSpec
 
     attr_reader :options
 
-    def initialize(test_case_dir)
-      @test_case_dir = Pathname.new(File.expand_path(test_case_dir))
-      @options = resolve_options(@test_case_dir).freeze
-    end
+    # The name of the test.
+    #
+    # This is a standardized format of the test's directory name.
+    attr_reader :name
 
-    def name
-      @test_case_dir.relative_path_from(Pathname.new(Dir.pwd)).to_s
+    # Parses metadata for the test case at the given SassSpec::Directory.
+    def initialize(test_case_dir)
+      @name = test_case_dir.to_s
+      @options = resolve_options(test_case_dir).freeze
     end
 
     def _resolve_options(dir)
-      return {} if dir.relative_path_from(Pathname.new(SassSpec::SPEC_DIR)).to_s == "."
-      parent_options = resolve_options(dir.parent)
-      options_file = dir + "options.yml"
-      self_options = if options_file.exist?
-                       YAML.load_file(options_file.to_s)
+      return {} unless parent = dir.parent
+
+      parent_options = resolve_options(parent)
+      self_options = if dir.file?("options.yml")
+                       YAML.load(dir.read("options.yml"))
                      else
                        {}
                      end
@@ -68,7 +71,7 @@ module SassSpec
     end
 
     def resolve_options(dir)
-      self.class.cache[dir] ||= _resolve_options(dir).freeze
+      self.class.cache[dir.path] ||= _resolve_options(dir).freeze
     end
 
     def todo?(impl)

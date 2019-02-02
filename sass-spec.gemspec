@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "command_line_reporter", '~> 3.0'
   spec.add_dependency "ruby-terminfo", '~> 0.1.1'
   spec.add_dependency "diffy", '~> 3.1'
+  spec.add_dependency "hrx", '~> 1.0'
 
   spec.add_development_dependency "sass", "~> 3.5"
   spec.add_development_dependency "bundler", "~> 1.7"
