@@ -1,0 +1,22 @@
+<===> options.yml
+---
+:todo:
+- libsass
+
+<===> input.sass
+.no-nesting
+  --foo: bar
+    baz: qux
+
+<===> error
+Error: Illegal nesting: Nothing may be nested beneath custom properties.
+        on line 3 of /sass/spec/css/custom_properties/error/no_nesting/input.sass
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: Nothing may be indented beneath a custom property.
+  ,
+3 |     baz: qux
+  |     ^
+  '
+  /sass/spec/css/custom_properties/error/no_nesting/input.sass 3:5  root stylesheet

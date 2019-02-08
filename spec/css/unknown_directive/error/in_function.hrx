@@ -1,0 +1,26 @@
+<===> input.scss
+// Unknown at-rules aren't allowed in functions.
+@function foo() {
+  @asdf;
+  @return null;
+}
+
+<===> error
+Error: This at-rule is not allowed here.
+  ,
+3 |   @asdf;
+  |   ^^^^^
+  '
+  /sass/spec/css/unknown_directive/error/in_function/input.scss 3:3  root stylesheet
+
+<===> error-libsass
+Error: Functions can only contain variable declarations and control directives.
+        on line 3 of /sass/spec/css/unknown_directive/error/in_function/input.scss
+>>   @asdf;
+
+   --^
+
+<===> error-ruby-sass
+Error: Functions can only contain variable declarations and control directives.
+        on line 3 of /sass/spec/css/unknown_directive/error/in_function/input.scss
+  Use --trace for backtrace.

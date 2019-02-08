@@ -1,0 +1,189 @@
+<===> options.yml
+---
+:end_version: '3.5'
+:warning_todo:
+- libsass
+
+<===> input.scss
+div {
+  baz: #{1/2}/#{1/2};
+  baz: #{1/  2}/  #{1/  2};
+  baz: #{1  /2}  /#{1  /2};
+  baz: #{1  /  2}  /  #{1  /  2};
+}
+
+add {
+  baz: #{1+2}+#{1+2};
+  baz: #{1+  2}+  #{1+  2};
+  baz: #{1  +2}  +#{1  +2};
+  baz: #{1  +  2}  +  #{1  +  2};
+}
+
+sub {
+  baz: #{1-2}-#{1-2};
+  baz: #{1-  2}-  #{1-  2};
+  baz: #{1  -2}  -#{1  -2};
+  baz: #{1  -  2}  -  #{1  -  2};
+}
+
+mul {
+  baz: #{1*2}*#{1*2};
+  baz: #{1*  2}*  #{1*  2};
+  baz: #{1  *2}  *#{1  *2};
+  baz: #{1  *  2}  *  #{1  *  2};
+}
+
+mod {
+  baz: #{1%2}%#{1%2};
+  baz: #{1%  2}%  #{1%  2};
+  baz: #{1  %2}  %#{1  %2};
+  baz: #{1  %  2}  %  #{1  %  2};
+}
+<===> output.css
+div {
+  baz: 1/2/1/2;
+  baz: 1/2/ 1/2;
+  baz: 1/2 /1/2;
+  baz: 1/2 / 1/2;
+}
+
+add {
+  baz: 3+3;
+  baz: 3+ 3;
+  baz: 3 +3;
+  baz: 3 + 3;
+}
+
+sub {
+  baz: -1--1;
+  baz: -1- -1;
+  baz: 1 -2 -1 -2;
+  baz: -1 - -1;
+}
+
+mul {
+  baz: 2*2;
+  baz: 2* 2;
+  baz: 2 *2;
+  baz: 2 * 2;
+}
+
+mod {
+  baz: 1% 2%1% 2;
+  baz: 1% 2% 1% 2;
+  baz: 1 %1;
+  baz: 1 % 1;
+}
+
+<===> warning
+DEPRECATION WARNING on line 9 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 + 2}+#{1 + 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 10 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 + 2}+ #{1 + 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 11 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 + 2} +#{1 + 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 12 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 + 2} + #{1 + 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 17 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 - 2}- #{1 - 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 19 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 - 2} - #{1 - 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 23 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 * 2}*#{1 * 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 24 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 * 2}* #{1 * 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 25 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 * 2} *#{1 * 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 26 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 * 2} * #{1 * 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 30 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1% 2}%#{1% 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 31 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1% 2}% #{1% 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 32 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 % 2} %#{1 % 2}")
+
+You can use the sass-convert command to automatically fix most cases.
+
+DEPRECATION WARNING on line 33 of /sass/spec/libsass-issues/issue_1739/interpolate/both/input.scss:
+#{} interpolation near operators will be simplified in a future version of Sass.
+To preserve the current behavior, use quotes:
+
+  unquote("#{1 % 2} % #{1 % 2}")
+
+You can use the sass-convert command to automatically fix most cases.

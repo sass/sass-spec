@@ -1,0 +1,29 @@
+<===> options.yml
+---
+:ignore_for:
+- ruby-sass
+- libsass
+
+<===> input.scss
+.too-many-question-marks {
+  a: U+???????;
+}
+
+<===> error
+Error: expected ";".
+  ,
+2 |   a: U+???????;
+  |              ^
+  '
+  /sass/spec/css/unicode_range/error/too_many_question_marks/input.scss 2:14  root stylesheet
+
+<===> error-libsass
+Error: Invalid CSS after "  a: U+??????": expected expression (e.g. 1px, bold), was "?;"
+        on line 2 of spec/css/unicode_range/error/too_many_question_marks-libsass/input.scss
+>>   a: U+???????;
+   -------------^
+
+<===> error-ruby-sass
+Error: Invalid CSS after "  a: U+??????": expected ";", was "?;"
+        on line 2 of /sass/spec/css/unicode_range/error/too_many_question_marks-ruby-sass/input.scss
+  Use --trace for backtrace.

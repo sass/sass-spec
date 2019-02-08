@@ -1,0 +1,25 @@
+<===> input.scss
+@mixin mixin {
+  @content(1, 2, 3);
+}
+
+@include mixin using ($arg1, $arg2) {}
+
+<===> error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 |   @content(1, 2, 3);
+  |   ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/mixin/content/arguments/error/too_many_args/input.scss 2:3  @content
+  /sass/spec/mixin/content/arguments/error/too_many_args/input.scss 2:3  mixin()
+  /sass/spec/mixin/content/arguments/error/too_many_args/input.scss 5:1  root stylesheet
+
+<===> error-libsass
+Error: wrong number of arguments (3 for 2) for `@content'
+        on line 2:3 of test.scss, in mixin `@content`
+        from line 2:3 of test.scss, in mixin `mixin`
+        from line 5:10 of test.scss
+>>   @content(1, 2, 3);
+
+   --^

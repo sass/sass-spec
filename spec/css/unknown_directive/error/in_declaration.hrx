@@ -1,0 +1,27 @@
+<===> input.scss
+// Unknown at-rules aren't allowed in property declarations.
+.x {
+  y: {
+    @asdf;
+  }
+}
+
+<===> error
+Error: This at-rule is not allowed here.
+  ,
+4 |     @asdf;
+  |     ^^^^^
+  '
+  /sass/spec/css/unknown_directive/error/in_declaration/input.scss 4:5  root stylesheet
+
+<===> error-libsass
+Error: Illegal nesting: Only properties may be nested beneath properties.
+        on line 4 of /sass/spec/css/unknown_directive/error/in_declaration/input.scss
+>>     @asdf;
+
+   ----^
+
+<===> error-ruby-sass
+Error: Illegal nesting: Only properties may be nested beneath properties.
+        on line 4 of /sass/spec/css/unknown_directive/error/in_declaration/input.scss
+  Use --trace for backtrace.

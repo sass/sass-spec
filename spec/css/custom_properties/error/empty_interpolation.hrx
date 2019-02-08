@@ -1,0 +1,19 @@
+<===> options.yml
+---
+:todo:
+- ruby-sass
+- libsass
+
+<===> input.scss
+// CSS requires at least one token in a custom property.
+.empty {
+  --property:#{""};
+}
+
+<===> error
+Error: Custom property values may not be empty.
+  ,
+3 |   --property:#{""};
+  |              ^^^^^
+  '
+  /sass/spec/css/custom_properties/error/empty_interpolation/input.scss 3:14  root stylesheet

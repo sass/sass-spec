@@ -1,0 +1,39 @@
+<===> _import.scss
+import-before {
+  foo: $foo;
+}
+
+$foo: baz !global !default;
+
+import-after {
+  foo: $foo;
+}
+
+<===> input.scss
+$foo: foo !global !default;
+
+default {
+  foo: $foo;
+}
+
+$foo: bar;
+
+after {
+  @import "import";
+  foo: $foo;
+}
+
+<===> output.css
+default {
+  foo: foo;
+}
+
+after {
+  foo: bar;
+}
+after import-before {
+  foo: bar;
+}
+after import-after {
+  foo: bar;
+}

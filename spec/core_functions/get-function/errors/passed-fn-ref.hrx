@@ -1,0 +1,20 @@
+<===> input.scss
+@function foo() {
+  @return null;
+}
+
+$foo-ref: get-function(foo);
+$error: get-function($foo-ref);
+
+<===> error
+Error: $name: get-function("foo") is not a string for `get-function'
+        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: $name: get-function("foo") is not a string.
+  ,
+6 | $error: get-function($foo-ref);
+  |         ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss 6:9  root stylesheet

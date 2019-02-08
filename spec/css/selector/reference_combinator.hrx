@@ -1,0 +1,23 @@
+<===> options.yml
+---
+:start_version: '4.0'
+:todo:
+- libsass
+
+<===> input.scss
+.foo /bar/ .baz {
+  a: b;
+}
+
+<===> error
+Error: expected selector.
+  ,
+1 | .foo /bar/ .baz{
+  |      ^
+  '
+  /sass/spec/css/selector/reference_combinator/input.scss 1:6  root stylesheet
+
+<===> error-ruby-sass
+Error: Invalid CSS after ".foo ": expected selector, was "/bar/ .baz"
+        on line 1 of /sass/spec/css/selector/reference_combinator/input.scss
+  Use --trace for backtrace.

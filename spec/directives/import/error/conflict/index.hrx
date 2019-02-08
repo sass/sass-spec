@@ -1,0 +1,33 @@
+<===> options.yml
+---
+:todo:
+- ruby-sass
+:start_version: '3.6'
+
+<===> input.scss
+@import "other";
+
+<===> other/_index.scss
+a {partial: true}
+
+<===> other/index.scss
+a {partial: false}
+
+<===> error
+Error: It's not clear which file to import for '@import "other"'.
+       Candidates:
+         _index.scss
+         index.scss
+       Please delete or rename all but one of these files.
+        on line 1 of spec/directives/import/conflict/index/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: It's not clear which file to import. Found:
+  /sass/spec/directives/import/error/conflict/index/other/_index.scss
+  /sass/spec/directives/import/error/conflict/index/other/index.scss
+  ,
+1 | @import "other";
+  |         ^^^^^^^
+  '
+  /sass/spec/directives/import/error/conflict/index/input.scss 1:9  root stylesheet

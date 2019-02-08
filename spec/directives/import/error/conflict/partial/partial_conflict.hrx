@@ -1,0 +1,27 @@
+<===> _other.scss
+a {partial: true}
+
+<===> input.scss
+@import "other";
+
+<===> other.scss
+a {partial: false}
+
+<===> error
+Error: It's not clear which file to import for '@import "other"'.
+       Candidates:
+         _other.scss
+         other.scss
+       Please delete or rename all but one of these files.
+        on line 1 of /sass/spec/scss/import/partial_conflict/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: It's not clear which file to import. Found:
+  /sass/spec/directives/import/error/conflict/partial/partial_conflict/_other.scss
+  /sass/spec/directives/import/error/conflict/partial/partial_conflict/other.scss
+  ,
+1 | @import "other";
+  |         ^^^^^^^
+  '
+  /sass/spec/directives/import/error/conflict/partial/partial_conflict/input.scss 1:9  root stylesheet

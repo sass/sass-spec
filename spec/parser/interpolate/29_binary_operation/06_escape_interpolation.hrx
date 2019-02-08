@@ -1,0 +1,20 @@
+<===> options.yml
+---
+:end_version: '3.5'
+
+<===> input.scss
+$input: "foo#{'ba' + 'r'}baz";
+.result {
+  output: "[\#{"foo#{'ba' + 'r'}baz"}]";
+  output: "\#{"foo#{'ba' + 'r'}baz"}";
+  output: '\#{"foo#{'ba' + 'r'}baz"}';
+  output: "['\#{"foo#{'ba' + 'r'}baz"}']";
+}
+
+<===> output.css
+.result {
+  output: "[#{" foobarbaz "}]";
+  output: "#{" foobarbaz "}";
+  output: '#{"foobarbaz"}';
+  output: "['#{" foobarbaz "}']";
+}

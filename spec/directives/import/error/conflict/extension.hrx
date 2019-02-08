@@ -1,0 +1,28 @@
+<===> input.scss
+@import "other";
+
+<===> other.sass
+a
+  syntax: sass
+
+<===> other.scss
+a {syntax: scss}
+
+<===> error
+Error: It's not clear which file to import for '@import "other"'.
+       Candidates:
+         other.sass
+         other.scss
+       Please delete or rename all but one of these files.
+        on line 1 of /sass/spec/scss/import/extension_conflict/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: It's not clear which file to import. Found:
+  /sass/spec/directives/import/error/conflict/extension/other.sass
+  /sass/spec/directives/import/error/conflict/extension/other.scss
+  ,
+1 | @import "other";
+  |         ^^^^^^^
+  '
+  /sass/spec/directives/import/error/conflict/extension/input.scss 1:9  root stylesheet

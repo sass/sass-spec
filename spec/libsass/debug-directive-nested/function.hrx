@@ -1,0 +1,25 @@
+<===> input.scss
+@function c() {
+  @warn test;
+  @return d;
+}
+
+a {
+  b: {
+    c: c();
+  }
+}
+
+<===> output.css
+a {
+  b-c: d;
+}
+
+<===> warning
+WARNING: test
+         on line 2 of /sass/spec/libsass/debug-directive-nested/function/input.scss
+
+<===> warning-dart-sass
+WARNING: test
+    spec/libsass/debug-directive-nested/function/input.scss 2:3  c()
+    spec/libsass/debug-directive-nested/function/input.scss 8:8  root stylesheet

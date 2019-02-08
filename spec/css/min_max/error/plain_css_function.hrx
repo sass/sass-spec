@@ -1,0 +1,27 @@
+<===> input.scss
+// A plain CSS function causes min() to be parsed as Sass, and then fail at
+// runtime because the argument isn't a number.
+.plain-css-function {
+  x: min(something(1px), 2px);
+}
+
+<===> error
+Error: something(1px) is not a number.
+  ,
+4 |   x: min(something(1px), 2px);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/css/min_max/error/plain_css_function/input.scss 4:6  root stylesheet
+
+<===> error-libsass
+Error: "something(1px)" is not a number for `min'
+        on line 4:6 of /sass/spec/css/min_max/error/plain_css_function/input.scss, in function `min`
+        from line 4:6 of /sass/spec/css/min_max/error/plain_css_function/input.scss
+>>   x: min(something(1px), 2px);
+
+   -----^
+
+<===> error-ruby-sass
+Error: "something(1px)" is not a number for `min'
+        on line 4 of /sass/spec/css/min_max/error/plain_css_function/input.scss
+  Use --trace for backtrace.

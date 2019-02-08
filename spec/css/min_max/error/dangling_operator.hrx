@@ -1,0 +1,26 @@
+<===> input.scss
+// A dangling operator is a syntax error in both syntaxes, so it should fail to
+// compile.
+.dangling-operator {
+  x: min(1px +, 2px);
+}
+
+<===> error
+Error: Expected expression.
+  ,
+4 |   x: min(1px +, 2px);
+  |               ^
+  '
+  /sass/spec/css/min_max/error/dangling_operator/input.scss 4:15  root stylesheet
+
+<===> error-libsass
+Error: Invalid CSS after "  x: min(1px +": expected expression (e.g. 1px, bold), was ", 2px);"
+        on line 4:15 of /sass/spec/css/min_max/error/dangling_operator/input.scss
+>>   x: min(1px +, 2px);
+
+   --------------^
+
+<===> error-ruby-sass
+Error: Invalid CSS after "  x: min(1px +": expected expression (e.g. 1px, bold), was ", 2px);"
+        on line 4 of /sass/spec/css/min_max/error/dangling_operator/input.scss
+  Use --trace for backtrace.

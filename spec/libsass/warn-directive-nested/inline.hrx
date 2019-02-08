@@ -1,0 +1,22 @@
+<===> input.scss
+a {
+  b: {
+    @warn test;
+    c: d;
+  }
+}
+
+<===> error
+Error: Illegal nesting: Only properties may be nested beneath properties.
+        on line 3 of /sass/spec/libsass/warn-directive-nested/inline/input.scss
+  Use --trace for backtrace.
+
+<===> output-dart-sass.css
+a {
+  b-c: d;
+}
+
+<===> warning-dart-sass
+WARNING: test
+    spec/libsass/warn-directive-nested/inline/input.scss 3:5  root stylesheet
+         

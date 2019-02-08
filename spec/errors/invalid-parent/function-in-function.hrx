@@ -1,0 +1,16 @@
+<===> input.scss
+@function foo () {
+  @function bar() {}
+}
+<===> error
+Error: Functions can only contain variable declarations and control directives.
+        on line 2 of /sass/spec/errors/invalid-parent/function-in-function/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: This at-rule is not allowed here.
+  ,
+2 |   @function bar() {}
+  |   ^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/errors/invalid-parent/function-in-function/input.scss 2:3  root stylesheet

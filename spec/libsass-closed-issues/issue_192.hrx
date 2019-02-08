@@ -1,0 +1,83 @@
+<===> input.scss
+@function test($from, $to) {
+    @warn 'Starting loop';
+    @for $i from $from through $to {
+      @warn 'Step #{$i}' ;
+    }
+    @warn 'Finished loop';
+    @return 100%;
+}
+body {
+    width: test(0, 1);
+    height: test(-1, 1);
+}
+<===> output.css
+body {
+  width: 100%;
+  height: 100%;
+}
+
+<===> warning
+WARNING: Starting loop
+         on line 2 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Step 0
+         on line 4 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Step 1
+         on line 4 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Finished loop
+         on line 6 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Starting loop
+         on line 2 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Step -1
+         on line 4 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Step 0
+         on line 4 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Step 1
+         on line 4 of /sass/spec/libsass-issues/issue_192/input.scss
+
+WARNING: Finished loop
+         on line 6 of /sass/spec/libsass-issues/issue_192/input.scss
+
+<===> warning-dart-sass
+WARNING: Starting loop
+    spec/libsass-issues/issue_192/input.scss 2:5    test()
+    spec/libsass-issues/issue_192/input.scss 10:12  root stylesheet
+
+WARNING: Step 0
+    spec/libsass-issues/issue_192/input.scss 4:7    test()
+    spec/libsass-issues/issue_192/input.scss 10:12  root stylesheet
+
+WARNING: Step 1
+    spec/libsass-issues/issue_192/input.scss 4:7    test()
+    spec/libsass-issues/issue_192/input.scss 10:12  root stylesheet
+
+WARNING: Finished loop
+    spec/libsass-issues/issue_192/input.scss 6:5    test()
+    spec/libsass-issues/issue_192/input.scss 10:12  root stylesheet
+
+WARNING: Starting loop
+    spec/libsass-issues/issue_192/input.scss 2:5    test()
+    spec/libsass-issues/issue_192/input.scss 11:13  root stylesheet
+
+WARNING: Step -1
+    spec/libsass-issues/issue_192/input.scss 4:7    test()
+    spec/libsass-issues/issue_192/input.scss 11:13  root stylesheet
+
+WARNING: Step 0
+    spec/libsass-issues/issue_192/input.scss 4:7    test()
+    spec/libsass-issues/issue_192/input.scss 11:13  root stylesheet
+
+WARNING: Step 1
+    spec/libsass-issues/issue_192/input.scss 4:7    test()
+    spec/libsass-issues/issue_192/input.scss 11:13  root stylesheet
+
+WARNING: Finished loop
+    spec/libsass-issues/issue_192/input.scss 6:5    test()
+    spec/libsass-issues/issue_192/input.scss 11:13  root stylesheet

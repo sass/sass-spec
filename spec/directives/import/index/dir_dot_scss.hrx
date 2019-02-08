@@ -1,0 +1,17 @@
+<===> dir.scss/index.scss
+.foo {
+  a: b;
+}
+
+<===> input.scss
+@import "dir.scss";
+
+<===> error
+Error: File to import not found or unreadable: dir.scss.
+<===> error-dart-sass
+Error: Can't find stylesheet to import.
+  ,
+1 | @import "dir.scss";
+  |         ^^^^^^^^^^
+  '
+  /sass/spec/directives/import/index/dir_dot_scss/input.scss 1:9  root stylesheet

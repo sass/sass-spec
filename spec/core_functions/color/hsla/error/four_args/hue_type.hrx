@@ -1,0 +1,25 @@
+<===> input.scss
+hue-type {
+  x: hsla("foo", 100%, 50%, 0.5);
+}
+
+<===> error
+Error: $hue: "foo" is not a number.
+  ,
+2 |   x: hsla("foo", 100%, 50%, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss 2:6  root stylesheet
+
+<===> error-libsass
+Error: argument `$hue` of `hsla($hue, $saturation, $lightness, $alpha)` must be a number
+        on line 2 of /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss, in function `hsla`
+        from line 2 of /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss
+>>   x: hsla("foo", 100%, 50%, 0.5);
+
+   -----^
+
+<===> error-ruby-sass
+Error: $hue: "foo" is not a number for `hsla'
+        on line 2 of /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss
+  Use --trace for backtrace.

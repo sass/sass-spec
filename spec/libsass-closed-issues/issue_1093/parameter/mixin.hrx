@@ -1,0 +1,21 @@
+<===> input.scss
+@mixin foo($bar) {
+  a: $bar;
+}
+
+foo {
+  @include foo(#{});
+}
+
+<===> error
+Error: Invalid CSS after "  @include foo(#{": expected expression (e.g. 1px, bold), was "});"
+        on line 6 of /sass/spec/libsass-issues/issue_1093/parameter/mixin/input.scss
+  Use --trace for backtrace.
+
+<===> error-dart-sass
+Error: Expected expression.
+  ,
+6 |   @include foo(#{});
+  |                ^^
+  '
+  /sass/spec/libsass-issues/issue_1093/parameter/mixin/input.scss 6:16  root stylesheet

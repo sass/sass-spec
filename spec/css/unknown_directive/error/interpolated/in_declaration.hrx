@@ -1,0 +1,20 @@
+<===> options.yml
+---
+:todo:
+- libsass
+
+<===> input.scss
+// Unknown at-rules aren't allowed in property declarations.
+.x {
+  y: {
+    @#{"asdf"};
+  }
+}
+
+<===> error
+Error: Expected identifier.
+  ,
+4 |     @#{"asdf"};
+  |      ^
+  '
+  /sass/spec/css/unknown_directive/error/interpolated/in_declaration/input.scss 4:6  root stylesheet
