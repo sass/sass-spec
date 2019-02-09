@@ -1,0 +1,447 @@
+<===> function/built_in/input.scss
+@import 'plain'
+<===> function/built_in/plain.css
+a {
+  x: index(1 2 3, 1);
+}
+
+<===> function/built_in/error
+Error: This function isn't allowed in plain CSS.
+  ,
+2 |   x: index(1 2 3, 1);
+  |      ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/css/plain/error/expression/function/built_in/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/function/built_in/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> function/variable_arguments/input.scss
+@import 'plain'
+<===> function/variable_arguments/plain.css
+a {
+  x: hsl(0, 100%, 50%...);
+}
+
+<===> function/variable_arguments/error
+Error: expected ")".
+  ,
+2 |   x: hsl(0, 100%, 50%...);
+  |                      ^
+  '
+  /sass/spec/css/plain/error/expression/function/variable_arguments/plain.css 2:22  root stylesheet
+  /sass/spec/css/plain/error/expression/function/variable_arguments/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> function/keyword_arguments/input.scss
+@import 'plain'
+<===> function/keyword_arguments/plain.css
+a {
+  x: hsl(0, 100%, $lightness: 50%);
+}
+
+<===> function/keyword_arguments/error
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+2 |   x: hsl(0, 100%, $lightness: 50%);
+  |                   ^^^^^^^^^^
+  '
+  /sass/spec/css/plain/error/expression/function/keyword_arguments/plain.css 2:19  root stylesheet
+  /sass/spec/css/plain/error/expression/function/keyword_arguments/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty/input.scss
+@import 'plain'
+<===> list/empty/plain.css
+a {
+  x: ();
+}
+
+<===> list/empty/error
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: ();
+  |      ^
+  '
+  /sass/spec/css/plain/error/expression/list/empty/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/list/empty/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty_comma/input.scss
+@import 'plain'
+<===> list/empty_comma/plain.css
+a {
+  x: (,);
+}
+
+<===> list/empty_comma/error
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (,);
+  |      ^
+  '
+  /sass/spec/css/plain/error/expression/list/empty_comma/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/list/empty_comma/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> map/input.scss
+@import 'plain'
+<===> map/plain.css
+a {
+  x: (y: z);
+}
+
+<===> map/error
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (y: z);
+  |      ^
+  '
+  /sass/spec/css/plain/error/expression/map/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/map/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> parentheses/input.scss
+@import 'plain'
+<===> parentheses/plain.css
+a {
+  x: (y);
+}
+
+<===> parentheses/error
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (y);
+  |      ^
+  '
+  /sass/spec/css/plain/error/expression/parentheses/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/parentheses/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> parent_selector/input.scss
+@import 'plain'
+<===> parent_selector/plain.css
+a {
+  x: &;
+}
+
+<===> parent_selector/error
+Error: The parent selector isn't allowed in plain CSS.
+  ,
+2 |   x: &;
+  |      ^
+  '
+  /sass/spec/css/plain/error/expression/parent_selector/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/parent_selector/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> variable/use/input.scss
+@import 'plain'
+<===> variable/use/plain.css
+a {
+  x: $var;
+}
+
+<===> variable/use/error
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+2 |   x: $var;
+  |      ^^^^
+  '
+  /sass/spec/css/plain/error/expression/variable/use/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/variable/use/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> variable/declaration/input.scss
+@import 'plain'
+<===> variable/declaration/plain.css
+$var: value;
+
+<===> variable/declaration/error
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+1 | $var: value;
+  | ^^^^
+  '
+  /sass/spec/css/plain/error/expression/variable/declaration/plain.css 1:1   root stylesheet
+  /sass/spec/css/plain/error/expression/variable/declaration/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/calc/input.scss
+@import 'plain'
+<===> interpolation/calc/plain.css
+a {
+  w: calc(#{1px} + 10%);
+}
+
+<===> interpolation/calc/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: calc(#{1px} + 10%);
+  |           ^^^^^^
+  '
+  /sass/spec/css/plain/error/expression/interpolation/calc/plain.css 2:11  root stylesheet
+  /sass/spec/css/plain/error/expression/interpolation/calc/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/identifier/input.scss
+@import 'plain'
+<===> interpolation/identifier/plain.css
+a {
+  w: x#{y}z;
+}
+
+<===> interpolation/identifier/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: x#{y}z;
+  |       ^^^^
+  '
+  /sass/spec/css/plain/error/expression/interpolation/identifier/plain.css 2:7   root stylesheet
+  /sass/spec/css/plain/error/expression/interpolation/identifier/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/quoted_string/input.scss
+@import 'plain'
+<===> interpolation/quoted_string/plain.css
+a {
+  w: "x#{y}z";
+}
+
+<===> interpolation/quoted_string/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: "x#{y}z";
+  |        ^^^^
+  '
+  /sass/spec/css/plain/error/expression/interpolation/quoted_string/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/interpolation/quoted_string/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/standalone/input.scss
+@import 'plain'
+<===> interpolation/standalone/plain.css
+a {
+  w: #{x};
+}
+
+<===> interpolation/standalone/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: #{x};
+  |      ^^^^
+  '
+  /sass/spec/css/plain/error/expression/interpolation/standalone/plain.css 2:6   root stylesheet
+  /sass/spec/css/plain/error/expression/interpolation/standalone/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/addition/input.scss
+@import 'plain'
+<===> operation/addition/plain.css
+a {
+  x: y + z;
+}
+
+<===> operation/addition/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y + z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/addition/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/addition/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/subtraction/input.scss
+@import 'plain'
+<===> operation/subtraction/plain.css
+a {
+  x: y - z;
+}
+
+<===> operation/subtraction/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y - z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/subtraction/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/subtraction/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/multiplication/input.scss
+@import 'plain'
+<===> operation/multiplication/plain.css
+a {
+  x: y * z;
+}
+
+<===> operation/multiplication/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y * z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/multiplication/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/multiplication/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/modulo/input.scss
+@import 'plain'
+<===> operation/modulo/plain.css
+a {
+  x: y % z;
+}
+
+<===> operation/modulo/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y % z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/modulo/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/modulo/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/less_than/input.scss
+@import 'plain'
+<===> operation/less_than/plain.css
+a {
+  x: y < z;
+}
+
+<===> operation/less_than/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y < z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/less_than/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/less_than/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/less_than_or_equal/input.scss
+@import 'plain'
+<===> operation/less_than_or_equal/plain.css
+a {
+  x: y <= z;
+}
+
+<===> operation/less_than_or_equal/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y <= z;
+  |        ^^
+  '
+  /sass/spec/css/plain/error/expression/operation/less_than_or_equal/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/less_than_or_equal/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/greater_than/input.scss
+@import 'plain'
+<===> operation/greater_than/plain.css
+a {
+  x: y > z;
+}
+
+<===> operation/greater_than/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y > z;
+  |        ^
+  '
+  /sass/spec/css/plain/error/expression/operation/greater_than/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/greater_than/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/greater_than_or_equal/input.scss
+@import 'plain'
+<===> operation/greater_than_or_equal/plain.css
+a {
+  x: y >= z;
+}
+
+<===> operation/greater_than_or_equal/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y >= z;
+  |        ^^
+  '
+  /sass/spec/css/plain/error/expression/operation/greater_than_or_equal/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/greater_than_or_equal/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/equals/input.scss
+@import 'plain'
+<===> operation/equals/plain.css
+a {
+  x: y == z;
+}
+
+<===> operation/equals/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y == z;
+  |        ^^
+  '
+  /sass/spec/css/plain/error/expression/operation/equals/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/equals/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> operation/not_equals/input.scss
+@import 'plain'
+<===> operation/not_equals/plain.css
+a {
+  x: y != z;
+}
+
+<===> operation/not_equals/error
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y != z;
+  |        ^^
+  '
+  /sass/spec/css/plain/error/expression/operation/not_equals/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/operation/not_equals/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> silent_comment/input.scss
+@import 'plain'
+
+<===> silent_comment/plain.css
+a {
+  b: c // d
+     e;
+}
+
+<===> silent_comment/error
+Error: Silent comments aren't allowed in plain CSS.
+  ,
+2 |   b: c // d
+  |        ^^^^
+  '
+  /sass/spec/css/plain/error/expression/silent_comment/plain.css 2:8   root stylesheet
+  /sass/spec/css/plain/error/expression/silent_comment/input.scss 1:9  root stylesheet
