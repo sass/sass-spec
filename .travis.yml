@@ -4,7 +4,10 @@ language: ruby
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
-  only: [master]
+  only:
+    - master
+    # Feature branches beginning with "feature."
+    - "/^feature\\..*/"
 
 env:
   global:
