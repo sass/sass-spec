@@ -38,6 +38,69 @@ a {
 
 <===>
 ================================================================================
+<===> precedence/scss_before_css/options.yml
+---
+:todo:
+- libsass # sass/libsass#2699
+
+<===> precedence/scss_before_css/input.scss
+@import "other";
+
+<===> precedence/scss_before_css/other.scss
+a {syntax: scss}
+
+<===> precedence/scss_before_css/other.css
+a {syntax: css}
+
+<===> precedence/scss_before_css/output.css
+a {
+  syntax: scss;
+}
+
+<===>
+================================================================================
+<===> precedence/sass_before_css/options.yml
+---
+:todo:
+- libsass # sass/libsass#2699
+
+<===> precedence/sass_before_css/input.scss
+@import "other";
+
+<===> precedence/sass_before_css/other.sass
+a
+  syntax: sass
+
+<===> precedence/sass_before_css/other.css
+a {syntax: css}
+
+<===> precedence/sass_before_css/output.css
+a {
+  syntax: sass;
+}
+
+<===>
+================================================================================
+<===> precedence/normal_before_index/options.yml
+---
+:start_version: '3.6'
+
+<===> precedence/normal_before_index/input.scss
+@import "dir";
+
+<===> precedence/normal_before_index/dir/index.scss
+a {index: true}
+
+<===> precedence/normal_before_index/dir.scss
+a {index: false}
+
+<===> precedence/normal_before_index/output.css
+a {
+  index: false;
+}
+
+<===>
+================================================================================
 <===> index/options.yml
 ---
 :start_version: '3.6'
@@ -82,26 +145,6 @@ a {
 @import "dir";
 
 <===> index/partial/output.css
-.foo {
-  a: b;
-}
-
-<===>
-================================================================================
-<===> index/precedence/dir/index.scss
-.boo {
-  x: y;
-}
-
-<===> index/precedence/dir.scss
-.foo {
-  a: b;
-}
-
-<===> index/precedence/input.scss
-@import "dir";
-
-<===> index/precedence/output.css
 .foo {
   a: b;
 }
