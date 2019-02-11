@@ -1,0 +1,408 @@
+<===> missing_member/namespaced/variable_use/input.scss
+@use "other";
+
+a {b: $other.member}
+
+<===> missing_member/namespaced/variable_use/other.scss
+<===> missing_member/namespaced/variable_use/error
+Error: Undefined variable.
+  ,
+3 | a {b: $other.member}
+  |       ^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/namespaced/variable_use/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing_member/namespaced/variable_declaration/input.scss
+@use "other";
+
+$other.member: value;
+
+<===> missing_member/namespaced/variable_declaration/other.scss
+<===> missing_member/namespaced/variable_declaration/error
+Error: Undefined variable.
+  ,
+3 | $other.member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/namespaced/variable_declaration/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> missing_member/namespaced/function/input.scss
+@use "other";
+
+a {b: other.member()}
+
+<===> missing_member/namespaced/function/other.scss
+<===> missing_member/namespaced/function/error
+Error: Undefined function.
+  ,
+3 | a {b: other.member()}
+  |       ^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/namespaced/function/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing_member/namespaced/mixin/input.scss
+@use "other";
+
+@include other.member;
+
+<===> missing_member/namespaced/mixin/other.scss
+<===> missing_member/namespaced/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include other.member;
+  | ^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/namespaced/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> missing_member/global/variable/input.scss
+@use "other";
+
+a {b: $member}
+
+<===> missing_member/global/variable/other.scss
+<===> missing_member/global/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/global/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing_member/global/mixin/input.scss
+@use "other";
+
+@include member;
+
+<===> missing_member/global/mixin/other.scss
+<===> missing_member/global/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include member;
+  | ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing_member/global/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> member_before_use/variable_use/input.scss
+$variable: $other.member;
+@use "other";
+
+<===> member_before_use/variable_use/other.scss
+$member: value;
+
+<===> member_before_use/variable_use/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: $other.member;
+  |            ^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_before_use/variable_use/input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> member_before_use/variable_declaration/input.scss
+$other.member: value;
+@use "other";
+
+<===> member_before_use/variable_declaration/other.scss
+$member: value;
+
+<===> member_before_use/variable_declaration/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $other.member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_before_use/variable_declaration/input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> member_before_use/variable_declaration_without_namespace/input.scss
+$member: from input;
+
+@use "other" as *;
+
+a {b: $member}
+
+<===> member_before_use/variable_declaration_without_namespace/other.scss
+$member: from other;
+
+<===> member_before_use/variable_declaration_without_namespace/error
+Error: This module and the new module both define a variable named "$member".
+  ,
+3 | @use "other" as *;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_before_use/variable_declaration_without_namespace/input.scss 3:1  @use
+  /sass/spec/directives/use/error/member/member_before_use/variable_declaration_without_namespace/other.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> member_before_use/function/input.scss
+$variable: other.member();
+@use "other";
+
+<===> member_before_use/function/other.scss
+@function member() {@return null}
+
+<===> member_before_use/function/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: other.member();
+  |            ^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_before_use/function/input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> member_conflict/variable/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: $member}
+
+<===> member_conflict/variable/other1.scss
+$member: from other1;
+
+<===> member_conflict/variable/other2.scss
+$member: from other2;
+
+<===> member_conflict/variable/error
+Error: Multiple global modules have a variable named "$member".
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_conflict/variable/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> member_conflict/function/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: member()}
+
+<===> member_conflict/function/other1.scss
+@function member() {@return from other1}
+
+<===> member_conflict/function/other2.scss
+@function member() {@return from other2}
+
+<===> member_conflict/function/error
+Error: Multiple global modules have a function named "member".
+  ,
+4 | a {b: member()}
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_conflict/function/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> member_conflict/mixin/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {@include member}
+
+<===> member_conflict/mixin/other1.scss
+@mixin member {a: from other1}
+
+<===> member_conflict/mixin/other2.scss
+@mixin member {a: from other2}
+
+<===> member_conflict/mixin/error
+Error: Multiple global modules have a mixin named "member".
+  ,
+4 | a {@include member}
+  |    ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/member_conflict/mixin/input.scss 4:4  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive/variable/input.scss
+@use "midstream" as *;
+
+a {b: $upstream};
+
+<===> inaccessible_member/transitive/variable/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive/variable/upstream.scss
+$upstream: value;
+
+<===> inaccessible_member/transitive/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $upstream};
+  |       ^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/transitive/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive/function/input.scss
+@use "midstream" as *;
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: upstream()};
+
+<===> inaccessible_member/transitive/function/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive/function/upstream.scss
+@function upstream() {@return value}
+
+<===> inaccessible_member/transitive/function/output.css
+a {
+  b: upstream();
+}
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive/mixin/input.scss
+@use "midstream" as *;
+
+@include upstream;
+
+<===> inaccessible_member/transitive/mixin/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive/mixin/upstream.scss
+@mixin upstream {a {b: c}}
+
+<===> inaccessible_member/transitive/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include upstream;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/transitive/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive_from_import/variable/input.scss
+@import "midstream";
+
+a {b: $upstream};
+
+<===> inaccessible_member/transitive_from_import/variable/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive_from_import/variable/upstream.scss
+$upstream: value;
+
+<===> inaccessible_member/transitive_from_import/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $upstream};
+  |       ^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/transitive_from_import/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive_from_import/function/input.scss
+@import "midstream";
+
+// This is technically not a compile error, since `upstream()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: upstream()};
+
+<===> inaccessible_member/transitive_from_import/function/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive_from_import/function/upstream.scss
+@function upstream() {@return value}
+
+<===> inaccessible_member/transitive_from_import/function/output.css
+a {
+  b: upstream();
+}
+
+<===>
+================================================================================
+<===> inaccessible_member/transitive_from_import/mixin/input.scss
+@import "midstream";
+
+@include upstream;
+
+<===> inaccessible_member/transitive_from_import/mixin/midstream.scss
+@use "upstream" as *;
+
+<===> inaccessible_member/transitive_from_import/mixin/upstream.scss
+@mixin upstream {a {b: c}}
+
+<===> inaccessible_member/transitive_from_import/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include upstream;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/transitive_from_import/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/private/variable/input.scss
+@use "other" as *;
+
+a {b: $-member};
+
+<===> inaccessible_member/private/variable/other.scss
+$-member: value;
+
+<===> inaccessible_member/private/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $-member};
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/private/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> inaccessible_member/private/function/input.scss
+@use "other" as *;
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: -member()};
+
+<===> inaccessible_member/private/function/other.scss
+@function -member() {@return value}
+
+<===> inaccessible_member/private/function/output.css
+a {
+  b: -member();
+}
+
+<===>
+================================================================================
+<===> inaccessible_member/private/mixin/input.scss
+@use "other" as *;
+
+@include -member;
+
+<===> inaccessible_member/private/mixin/other.scss
+@mixin -member {a {b: c}}
+
+<===> inaccessible_member/private/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include -member;
+  | ^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible_member/private/mixin/input.scss 3:1  root stylesheet
