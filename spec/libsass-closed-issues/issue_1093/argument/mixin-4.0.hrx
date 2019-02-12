@@ -1,0 +1,25 @@
+<===> options.yml
+---
+:start_version: '4.0'
+:todo:
+- libsass
+
+<===> input.scss
+@mixin foo($bar:#{}) {
+  @return $bar;
+}
+
+foo {
+  @include foo;
+}
+
+<===> error
+Error: Invalid CSS after "@mixin foo($bar:#{": expected expression (e.g. 1px, bold), was "}) {"
+
+<===> error-dart-sass
+Error: Expected expression.
+  ,
+1 | @mixin foo($bar:#{}) {
+  |                 ^^
+  '
+  /sass/spec/libsass-issues/issue_1093/argument/mixin-4.0/input.scss 1:17  root stylesheet

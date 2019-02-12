@@ -1,0 +1,17 @@
+<===> options.yml
+---
+:end_version: '3.5'
+
+<===> input.scss
+@mixin foo($bar:#{}) {
+  @return $bar;
+}
+
+foo {
+  @include foo;
+}
+
+<===> error
+Error: Invalid CSS after "@mixin foo($bar:": expected expression (e.g. 1px, bold), was "#{}) {"
+        on line 1 of /sass/spec/libsass-issues/issue_1093/argument/mixin/input.scss
+  Use --trace for backtrace.

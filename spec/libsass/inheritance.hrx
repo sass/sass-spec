@@ -1,0 +1,148 @@
+<===> options.yml
+---
+:end_version: '3.5'
+:warning_todo:
+- libsass
+
+<===> input.scss
+main content a box {
+  border: solid;
+}
+
+supplemtal text b sidebar {
+  @extend box;
+  background: gray;
+}
+
+/********/
+
+mammal {
+  blood: warm;
+}
+
+mammal.furry.quadruped {
+  fur: lots;
+  legs: 4;
+}
+
+human {
+  @extend mammal;
+  says: "hello";
+}
+
+dog {
+  says: "woof";
+  @extend mammal.quadruped;
+}
+
+/********/
+
+region.country {
+  inhabitant.mouse {
+    eats: cheddar;
+  }
+}
+
+region.city {
+  inhabitant.mouse {
+    eats: camembert;
+  }
+}
+
+region.country citizen {
+  @extend inhabitant;
+  ssn: 123 45 6789;
+}
+
+region tax-payer {
+  @extend inhabitant;
+  rate: 17%;
+}
+
+/********/
+
+foo {
+  color: red;
+}
+
+.a.bar {
+  @extend fo#{o};
+  background: gray;
+}
+
+/********/
+
+foo {
+  color: red;
+}
+
+hux, .bar.a {
+  @extend foo;
+  background: blue;
+}
+<===> output.css
+main content a box, main content a supplemtal text b sidebar, supplemtal text b main content a sidebar {
+  border: solid;
+}
+
+supplemtal text b sidebar {
+  background: gray;
+}
+
+/********/
+mammal, human {
+  blood: warm;
+}
+
+mammal.furry.quadruped, human.furry.quadruped, dog.furry {
+  fur: lots;
+  legs: 4;
+}
+
+human {
+  says: "hello";
+}
+
+dog {
+  says: "woof";
+}
+
+/********/
+region.country inhabitant.mouse, region.country citizen.mouse, region.country tax-payer.mouse {
+  eats: cheddar;
+}
+
+region.city inhabitant.mouse, region.city region.country citizen.mouse, region.country region.city citizen.mouse, region.city tax-payer.mouse {
+  eats: camembert;
+}
+
+region.country citizen {
+  ssn: 123 45 6789;
+}
+
+region tax-payer {
+  rate: 17%;
+}
+
+/********/
+foo, .a.bar, hux {
+  color: red;
+}
+
+.a.bar {
+  background: gray;
+}
+
+/********/
+foo, .a.bar, hux {
+  color: red;
+}
+
+hux, .bar.a {
+  background: blue;
+}
+
+<===> warning
+DEPRECATION WARNING on line 28 of /sass/spec/libsass/inheritance/input.scss:
+Extending a compound selector, mammal.quadruped, is deprecated and will not be supported in a future release.
+See http://bit.ly/ExtendCompound for details.
