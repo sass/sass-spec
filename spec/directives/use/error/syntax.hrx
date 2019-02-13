@@ -89,12 +89,57 @@ Error: Expected digit.
 
 <===>
 ================================================================================
+<===> within/mixin/input.scss
+@mixin foo {
+  @use "other";
+}
+
+<===> within/mixin/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/within/mixin/input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> within/function/input.scss
+@function foo {
+  @use "other";
+}
+
+<===> within/function/error
+Error: expected "(".
+  ,
+1 | @function foo {
+  |               ^
+  '
+  /sass/spec/directives/use/error/syntax/within/function/input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> within/style_rule/input.scss
+a {
+  @use "other";
+}
+
+<===> within/style_rule/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/within/style_rule/input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
 <===> after/at_rule/unknown/input.scss
 @fblthp;
 @use "other";
 
 <===> after/at_rule/unknown/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other";
   | ^^^^^^^^^^^^
@@ -108,7 +153,7 @@ Error: This at-rule is not allowed here.
 @use "other";
 
 <===> after/at_rule/sass/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other";
   | ^^^^^^^^^^^^
@@ -122,7 +167,7 @@ Error: This at-rule is not allowed here.
 @use "other2";
 
 <===> after/at_rule/import/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other2";
   | ^^^^^^^^^^^^^
@@ -136,7 +181,7 @@ Error: This at-rule is not allowed here.
 @use "other";
 
 <===> after/at_rule/css/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other";
   | ^^^^^^^^^^^^
@@ -150,7 +195,7 @@ a {};
 @use "other";
 
 <===> after/style_rule/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other";
   | ^^^^^^^^^^^^
@@ -165,7 +210,7 @@ Error: This at-rule is not allowed here.
 @use "other"
 
 <===> after/indented/mixin/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 3 | @use "other"
   | ^^^^^^^^^^^^
@@ -179,7 +224,7 @@ Error: This at-rule is not allowed here.
 @use "other"
 
 <===> after/indented/include/error
-Error: This at-rule is not allowed here.
+Error: @use rules must be written before any other rules.
   ,
 2 | @use "other"
   | ^^^^^^^^^^^^
