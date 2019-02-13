@@ -4,7 +4,10 @@ language: ruby
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
-  only: [master]
+  only:
+    - master
+    # Feature branches beginning with "feature."
+    - "/^feature\\..*/"
 
 env:
   global:
@@ -41,7 +44,7 @@ before_install:
       unzip dart.zip;
       export PATH="$PATH:`pwd`/dart-sdk/bin";
 
-      git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1;
+      git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch feature.use;
       (cd ../dart-sass; pub get);
     fi
 

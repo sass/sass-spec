@@ -1,0 +1,420 @@
+<===> empty/input.scss
+@use;
+
+<===> empty/error
+Error: Expected string.
+  ,
+1 | @use;
+  |     ^
+  '
+  /sass/spec/directives/use/error/syntax/empty/input.scss 1:5  root stylesheet
+
+<===>
+================================================================================
+<===> as_nothing/input.scss
+@use "foo" as;
+
+<===> as_nothing/error
+Error: Expected identifier.
+  ,
+1 | @use "foo" as;
+  |              ^
+  '
+  /sass/spec/directives/use/error/syntax/as_nothing/input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> as_invalid/input.scss
+@use "foo" as 1;
+
+<===> as_invalid/error
+Error: Expected identifier.
+  ,
+1 | @use "foo" as 1;
+  |               ^
+  '
+  /sass/spec/directives/use/error/syntax/as_invalid/input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> url/unquoted/input.scss
+@use foo;
+
+<===> url/unquoted/error
+Error: Expected string.
+  ,
+1 | @use foo;
+  |      ^
+  '
+  /sass/spec/directives/use/error/syntax/url/unquoted/input.scss 1:6  root stylesheet
+
+<===>
+================================================================================
+<===> url/empty/input.scss
+@use "";
+
+<===> url/empty/error
+Error: Invalid Sass identifier ""
+  ,
+1 | @use "";
+  | ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/url/empty/input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> url/non_identifier/input.scss
+@use "123";
+
+<===> url/non_identifier/error
+Error: Invalid Sass identifier "123"
+  ,
+1 | @use "123";
+  | ^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/url/non_identifier/input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> member/single_dot/input.scss
+a {a: .}
+
+<===> member/single_dot/error
+Error: Expected digit.
+  ,
+1 | a {a: .}
+  |        ^
+  '
+  /sass/spec/directives/use/error/syntax/member/single_dot/input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> within/mixin/input.scss
+@mixin foo {
+  @use "other";
+}
+
+<===> within/mixin/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/within/mixin/input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> within/function/input.scss
+@function foo {
+  @use "other";
+}
+
+<===> within/function/error
+Error: expected "(".
+  ,
+1 | @function foo {
+  |               ^
+  '
+  /sass/spec/directives/use/error/syntax/within/function/input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> within/style_rule/input.scss
+a {
+  @use "other";
+}
+
+<===> within/style_rule/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/within/style_rule/input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/unknown/input.scss
+@fblthp;
+@use "other";
+
+<===> after/at_rule/unknown/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/at_rule/unknown/input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/sass/input.scss
+@if true {};
+@use "other";
+
+<===> after/at_rule/sass/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/at_rule/sass/input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/import/input.scss
+@import "other1";
+@use "other2";
+
+<===> after/at_rule/import/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other2";
+  | ^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/at_rule/import/input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/css/input.scss
+@keyframes foo {};
+@use "other";
+
+<===> after/at_rule/css/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/at_rule/css/input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/style_rule/input.scss
+a {};
+@use "other";
+
+<===> after/style_rule/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/style_rule/input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/indented/mixin/input.sass
+=mixin
+  a: b
+@use "other"
+
+<===> after/indented/mixin/error
+Error: @use rules must be written before any other rules.
+  ,
+3 | @use "other"
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/indented/mixin/input.sass 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/indented/include/input.sass
++mixin
+@use "other"
+
+<===> after/indented/include/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other"
+  | ^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/after/indented/include/input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> member/identifier_only/input.scss
+// A namespaced identifier with neither parentheses for a function nor a leading
+// dollar sign for a variable is invalid syntax.
+a {a: namespace.member}
+
+<===> member/identifier_only/error
+Error: expected "(".
+  ,
+3 | a {a: namespace.member}
+  |                       ^
+  '
+  /sass/spec/directives/use/error/syntax/member/identifier_only/input.scss 3:23  root stylesheet
+
+<===>
+================================================================================
+<===> member/function/no_namespace/input.scss
+a {a: .member()}
+
+<===> member/function/no_namespace/error
+Error: Expected digit.
+  ,
+1 | a {a: .member()}
+  |        ^
+  '
+  /sass/spec/directives/use/error/syntax/member/function/no_namespace/input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> member/function/no_member/input.scss
+a {a: namespace.()}
+
+<===> member/function/no_member/error
+Error: Expected identifier.
+  ,
+1 | a {a: namespace.()}
+  |                 ^
+  '
+  /sass/spec/directives/use/error/syntax/member/function/no_member/input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> member/function/private/input.scss
+a {a: namespace._member()}
+
+<===> member/function/private/error
+Error: Private members can't be accessed from outside their modules.
+  ,
+1 | a {a: namespace._member()}
+  |                 ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/member/function/private/input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> member/function/definition/input.scss
+@function namespace.member() {@return null}
+
+<===> member/function/definition/error
+Error: expected "(".
+  ,
+1 | @function namespace.member() {@return null}
+  |                    ^
+  '
+  /sass/spec/directives/use/error/syntax/member/function/definition/input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> member/variable/no_namespace/input.scss
+a {a: $.member}
+
+<===> member/variable/no_namespace/error
+Error: Expected identifier.
+  ,
+1 | a {a: $.member}
+  |        ^
+  '
+  /sass/spec/directives/use/error/syntax/member/variable/no_namespace/input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> member/variable/no_member/input.scss
+a {a: $namespace.}
+
+<===> member/variable/no_member/error
+Error: Expected identifier.
+  ,
+1 | a {a: $namespace.}
+  |                  ^
+  '
+  /sass/spec/directives/use/error/syntax/member/variable/no_member/input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> member/variable/private/input.scss
+a {a: $namespace._member}
+
+<===> member/variable/private/error
+Error: Private members can't be accessed from outside their modules.
+  ,
+1 | a {a: $namespace._member}
+  |                  ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/member/variable/private/input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> member/variable/global/input.scss
+$namespace.member: value !global;
+
+<===> member/variable/global/error
+Error: !global isn't allowed for variables in other modules.
+  ,
+1 | $namespace.member: value !global;
+  |                          ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/member/variable/global/input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> member/mixin/no_namespace/input.scss
+a {@include .member}
+
+<===> member/mixin/no_namespace/error
+Error: Expected identifier.
+  ,
+1 | a {@include .member}
+  |             ^
+  '
+  /sass/spec/directives/use/error/syntax/member/mixin/no_namespace/input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> member/mixin/no_member/input.scss
+a {@include namespace.}
+
+<===> member/mixin/no_member/error
+Error: Expected identifier.
+  ,
+1 | a {@include namespace.}
+  |                       ^
+  '
+  /sass/spec/directives/use/error/syntax/member/mixin/no_member/input.scss 1:23  root stylesheet
+
+<===>
+================================================================================
+<===> member/mixin/private/input.scss
+a {@include namespace._member}
+
+<===> member/mixin/private/error
+Error: Private members can't be accessed from outside their modules.
+  ,
+1 | a {@include namespace._member}
+  |                       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/member/mixin/private/input.scss 1:23  root stylesheet
+
+<===>
+================================================================================
+<===> member/mixin/definition/input.scss
+@mixin namespace.member() {}
+
+<===> member/mixin/definition/error
+Error: expected "{".
+  ,
+1 | @mixin namespace.member() {}
+  |                 ^
+  '
+  /sass/spec/directives/use/error/syntax/member/mixin/definition/input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> member/unused_private/input.scss
+// Private member usage is a syntax error, so it should fail at parse time
+// without needing to be executed.
+@function foo() {
+  @debug $namespace._member;
+}
+
+<===> member/unused_private/error
+Error: Private members can't be accessed from outside their modules.
+  ,
+4 |   @debug $namespace._member;
+  |                     ^^^^^^^
+  '
+  /sass/spec/directives/use/error/syntax/member/unused_private/input.scss 4:21  root stylesheet
