@@ -55,6 +55,27 @@ a {
 
 <===>
 ================================================================================
+<===> through_use/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> through_use/input.scss
+@use "other" as *;
+a {b: mixin-exists(global-mixin)}
+
+<===> through_use/other.scss
+@mixin global-mixin() {}
+
+<===> through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> non_existent/input.scss
 a {
   b: mixin-exists(non-existent);
@@ -150,3 +171,32 @@ Error: wrong number of arguments (2 for 1) for `mixin-exists'
 >> a {b: mixin-exists(foo, bar)}
 
    ------^
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: mixin-exists(member)}
+
+<===> conflict/other1.scss
+@mixin member() {}
+
+<===> conflict/other2.scss
+@mixin member() {}
+
+<===> conflict/error
+Error: Multiple global modules have a mixin named "member".
+  ,
+4 | a {b: mixin-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/mixin_exists/conflict/input.scss 4:7  root stylesheet

@@ -55,6 +55,27 @@ a {
 
 <===>
 ================================================================================
+<===> through_use/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> through_use/input.scss
+@use "other" as *;
+a {b: call(get-function(add-two), 10)}
+
+<===> through_use/other.scss
+@function add-two($v) {@return $v + 2}
+
+<===> through_use/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
 <===> plain_css/input.scss
 $sass-fn: get-function(lighten);
 $css-fn: get-function(lighten, $css: true);
@@ -359,3 +380,32 @@ Error: $name: get-function("add-two") is not a string.
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   /sass/spec/core_functions/get_function/error/function_exists/input.scss 8:10  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: get-function(member)}
+
+<===> conflict/other1.scss
+@function member() {@return from other1}
+
+<===> conflict/other2.scss
+@function member() {@return from other2}
+
+<===> conflict/error
+Error: Multiple global modules have a function named "member".
+  ,
+4 | a {b: get-function(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/get_function/conflict/input.scss 4:7  root stylesheet

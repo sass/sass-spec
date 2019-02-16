@@ -37,6 +37,27 @@ a {
 
 <===>
 ================================================================================
+<===> through_use/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> through_use/input.scss
+@use "other" as *;
+a {b: global-variable-exists(global-variable)}
+
+<===> through_use/other.scss
+$global-variable: null;
+
+<===> through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> dash_insensitive/input.scss
 $global-variable: null;
 
@@ -144,3 +165,32 @@ Error: wrong number of arguments (2 for 1) for `global-variable-exists'
 >> a {b: global-variable-exists(foo, bar)}
 
    ------^
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: global-variable-exists(member)}
+
+<===> conflict/other1.scss
+$member: from other1;
+
+<===> conflict/other2.scss
+$member: from other2;
+
+<===> conflict/error
+Error: Multiple global modules have a variable named "$member".
+  ,
+4 | a {b: global-variable-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/global_variable_exists/conflict/input.scss 4:7  root stylesheet

@@ -54,6 +54,27 @@ a {
 
 <===>
 ================================================================================
+<===> through_use/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> through_use/input.scss
+@use "other" as *;
+a {b: function-exists(global-function)}
+
+<===> through_use/other.scss
+@function global-function() {@return null}
+
+<===> through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> non_existent/input.scss
 a {
   b: function-exists(non-existent);
@@ -149,3 +170,32 @@ Error: wrong number of arguments (2 for 1) for `function-exists'
 >> a {b: function-exists(foo, bar)}
 
    ------^
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+:ignore_for:
+- ruby-sass
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: function-exists(member)}
+
+<===> conflict/other1.scss
+@function member() {@return from other1}
+
+<===> conflict/other2.scss
+@function member() {@return from other2}
+
+<===> conflict/error
+Error: Multiple global modules have a function named "member".
+  ,
+4 | a {b: function-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/core_functions/function_exists/conflict/input.scss 4:7  root stylesheet
