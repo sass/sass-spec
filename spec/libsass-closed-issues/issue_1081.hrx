@@ -1,13 +1,9 @@
-<===> _import.scss
-import-before {
-  foo: $foo;
-}
-
-$foo: baz !global !default;
-
-import-after {
-  foo: $foo;
-}
+<===> options.yml
+---
+:warning_todo:
+- libsass # sass/libsass#2834
+:ignore_for:
+- ruby-sass
 
 <===> input.scss
 $foo: foo !global !default;
@@ -20,6 +16,17 @@ $foo: bar;
 
 after {
   @import "import";
+  foo: $foo;
+}
+
+<===> _import.scss
+import-before {
+  foo: $foo;
+}
+
+$foo: baz !global !default;
+
+import-after {
   foo: $foo;
 }
 
@@ -37,3 +44,13 @@ after import-before {
 after import-after {
   foo: bar;
 }
+
+<===> warning
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$foo: null` at the top level.
+
+  ,
+1 | $foo: foo !global !default;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    /sass/spec/libsass-issues/issue_1081/input.scss 1:1  root stylesheet

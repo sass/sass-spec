@@ -1,3 +1,10 @@
+<===> options.yml
+---
+:warning_todo:
+- libsass # sass/libsass#2834
+:ignore_for:
+- ruby-sass
+
 <===> input.scss
 $continue_inner: true;
 $continue_outer: true;
@@ -73,3 +80,53 @@ result {
   root_explicit: inner;
   local_explicit: inner;
 }
+
+<===> warning
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$root_explicit: null` at the top level.
+
+  ,
+5 | $root_explicit: initial !global;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 5:1  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$local_explicit: null` at the top level.
+
+   ,
+13 |     $local_explicit: outer !global;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 13:5  fn()
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_implicit: null` at the top level.
+
+   ,
+26 |   $check_implicit: $root_implicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 26:3  fn()
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_explicit: null` at the top level.
+
+   ,
+27 |   $check_explicit: $root_explicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 27:3  fn()
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_default: null` at the top level.
+
+   ,
+28 |   $check_default: $root_default !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 28:3  fn()
+    /sass/spec/libsass/variable-scoping/blead-global/functional/while/input.scss 33:7  root stylesheet
