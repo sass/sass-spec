@@ -1,3 +1,10 @@
+<===> options.yml
+---
+:warning_todo:
+- libsass # sass/libsass#2834
+:ignore_for:
+- ruby-sass
+
 <===> input.scss
 $i: 9;
 $z: 3 !default;
@@ -55,3 +62,13 @@ div {
   qwe: 42;
   zap: 3;
 }
+
+<===> warning
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$n: null` at the top level.
+
+  ,
+6 |   $n: 42 !global;
+  |   ^^^^^^^^^^^^^^
+  '
+    /sass/spec/libsass/variable-scoping/defaults/input.scss 6:3  root stylesheet
