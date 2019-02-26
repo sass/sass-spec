@@ -1,0 +1,46 @@
+<===> no_extension/options.yml
+---
+:todo:
+- libsass
+
+<===> no_extension/input.scss
+@import "other";
+
+<===> no_extension/other
+a {b: c}
+
+<===> no_extension/error
+Error: File to import not found or unreadable: other.
+        on line 1 of /sass/spec/directives/import/no_extension/input.scss
+  Use --trace for backtrace.
+
+<===> no_extension/error-dart-sass
+Error: Can't find stylesheet to import.
+  ,
+1 | @import "other";
+  |         ^^^^^^^
+  '
+  /sass/spec/directives/import/error/not_found/no_extension/input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> directory_dot_import/input.scss
+// Import-only file extensions only apply to individual files, not to
+// directories.
+@import "other";
+
+<===> directory_dot_import/other.import/index.scss
+a {b: c}
+
+<===> directory_dot_import/error
+Error: File to import not found or unreadable: other.
+        on line 1 of /sass/spec/directives/import/directory_dot_import/input.scss
+  Use --trace for backtrace.
+
+<===> directory_dot_import/error-dart-sass
+Error: Can't find stylesheet to import.
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+  /sass/spec/directives/import/error/not_found/directory_dot_import/input.scss 3:9  root stylesheet
