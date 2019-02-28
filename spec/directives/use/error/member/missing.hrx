@@ -1,0 +1,165 @@
+<===> namespaced/variable_use/input.scss
+@use "other";
+
+a {b: $other.member}
+
+<===> namespaced/variable_use/other.scss
+<===> namespaced/variable_use/error
+Error: Undefined variable.
+  ,
+3 | a {b: $other.member}
+  |       ^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/namespaced/variable_use/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/variable_declaration/input.scss
+@use "other";
+
+$other.member: value;
+
+<===> namespaced/variable_declaration/other.scss
+<===> namespaced/variable_declaration/error
+Error: Undefined variable.
+  ,
+3 | $other.member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/namespaced/variable_declaration/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/function/input.scss
+@use "other";
+
+a {b: other.member()}
+
+<===> namespaced/function/other.scss
+<===> namespaced/function/error
+Error: Undefined function.
+  ,
+3 | a {b: other.member()}
+  |       ^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/namespaced/function/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/mixin/input.scss
+@use "other";
+
+@include other.member;
+
+<===> namespaced/mixin/other.scss
+<===> namespaced/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include other.member;
+  | ^^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/namespaced/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> global/variable/input.scss
+@use "other";
+
+a {b: $member}
+
+<===> global/variable/other.scss
+<===> global/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/global/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> global/mixin/input.scss
+@use "other";
+
+@include member;
+
+<===> global/mixin/other.scss
+<===> global/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include member;
+  | ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/global/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> before_use/variable_use/input.scss
+$variable: $other.member;
+@use "other";
+
+<===> before_use/variable_use/other.scss
+$member: value;
+
+<===> before_use/variable_use/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: $other.member;
+  |            ^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/before_use/variable_use/input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> before_use/variable_declaration/input.scss
+$other.member: value;
+@use "other";
+
+<===> before_use/variable_declaration/other.scss
+$member: value;
+
+<===> before_use/variable_declaration/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $other.member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/before_use/variable_declaration/input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> before_use/variable_declaration_without_namespace/input.scss
+$member: from input;
+
+@use "other" as *;
+
+a {b: $member}
+
+<===> before_use/variable_declaration_without_namespace/other.scss
+$member: from other;
+
+<===> before_use/variable_declaration_without_namespace/error
+Error: This module and the new module both define a variable named "$member".
+  ,
+3 | @use "other" as *;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/before_use/variable_declaration_without_namespace/input.scss 3:1  @use
+  /sass/spec/directives/use/error/member/missing/before_use/variable_declaration_without_namespace/other.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> before_use/function/input.scss
+$variable: other.member();
+@use "other";
+
+<===> before_use/function/other.scss
+@function member() {@return null}
+
+<===> before_use/function/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: other.member();
+  |            ^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/missing/before_use/function/input.scss 1:12  root stylesheet

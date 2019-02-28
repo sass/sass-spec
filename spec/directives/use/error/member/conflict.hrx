@@ -1,0 +1,204 @@
+<===> use_and_use/variable/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: $member}
+
+<===> use_and_use/variable/other1.scss
+$member: from other1;
+
+<===> use_and_use/variable/other2.scss
+$member: from other2;
+
+<===> use_and_use/variable/error
+Error: Multiple global modules have a variable named "$member".
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_use/variable/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_use/function/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: member()}
+
+<===> use_and_use/function/other1.scss
+@function member() {@return from other1}
+
+<===> use_and_use/function/other2.scss
+@function member() {@return from other2}
+
+<===> use_and_use/function/error
+Error: Multiple global modules have a function named "member".
+  ,
+4 | a {b: member()}
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_use/function/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_use/mixin/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {@include member}
+
+<===> use_and_use/mixin/other1.scss
+@mixin member {a: from other1}
+
+<===> use_and_use/mixin/other2.scss
+@mixin member {a: from other2}
+
+<===> use_and_use/mixin/error
+Error: Multiple global modules have a mixin named "member".
+  ,
+4 | a {@include member}
+  |    ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_use/mixin/input.scss 4:4  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import/variable/input.scss
+@use "other1" as *;
+@import "other2";
+
+a {b: $member}
+
+<===> use_and_import/variable/other1.scss
+$member: from other1;
+
+<===> use_and_import/variable/other2.scss
+$member: from other2;
+
+<===> use_and_import/variable/error
+Error: A variable named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import/variable/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import/function/input.scss
+@use "other1" as *;
+@import "other2";
+
+a {b: member()}
+
+<===> use_and_import/function/other1.scss
+@function member() {@return from other1}
+
+<===> use_and_import/function/other2.scss
+@function member() {@return from other2}
+
+<===> use_and_import/function/error
+Error: A function named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {b: member()}
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import/function/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import/mixin/input.scss
+@use "other1" as *;
+@function "other2";
+
+a {@include member}
+
+<===> use_and_import/mixin/other1.scss
+@mixin member {a: from other1}
+
+<===> use_and_import/mixin/other2.scss
+@mixin member {a: from other2}
+
+<===> use_and_import/mixin/error
+Error: A mixin named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {@include member}
+  |    ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import/mixin/input.scss 4:4  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import_context/variable/input.scss
+$member: from input;
+
+@import "imported";
+
+<===> use_and_import_context/variable/imported.scss
+@use "used" as *;
+
+a {b: $member}
+
+<===> use_and_import_context/variable/used.scss
+$member: from used;
+
+<===> use_and_import_context/variable/error
+Error: A variable named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import_context/variable/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import_context/function/input.scss
+@function member() {@return from input}
+
+@import "imported";
+
+<===> use_and_import_context/function/imported.scss
+@use "used" as *;
+
+a {@include member}
+
+<===> use_and_import_context/function/used.scss
+@function member() {@return from used}
+
+<===> use_and_import_context/function/error
+Error: A function named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import_context/function/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_import_context/mixin/input.scss
+$member: from input;
+
+@mixin member {a: from input}
+
+<===> use_and_import_context/mixin/imported.scss
+@use "used" as *;
+
+a {@include member}
+
+<===> use_and_import_context/mixin/used.scss
+@mixin member {a: from used}
+
+<===> use_and_import_context/mixin/error
+Error: A mixin named "$member" is defined in a global module and in the
+import context.
+  ,
+4 | a {b: $member}
+  |       ^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_import_context/mixin/input.scss 4:7  root stylesheet

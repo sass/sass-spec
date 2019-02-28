@@ -1,0 +1,174 @@
+<===> transitive/variable/input.scss
+@use "midstream" as *;
+
+a {b: $upstream};
+
+<===> transitive/variable/midstream.scss
+@use "upstream" as *;
+
+<===> transitive/variable/upstream.scss
+$upstream: value;
+
+<===> transitive/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $upstream};
+  |       ^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/transitive/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> transitive/function/input.scss
+@use "midstream" as *;
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: upstream()};
+
+<===> transitive/function/midstream.scss
+@use "upstream" as *;
+
+<===> transitive/function/upstream.scss
+@function upstream() {@return value}
+
+<===> transitive/function/output.css
+a {
+  b: upstream();
+}
+
+<===>
+================================================================================
+<===> transitive/mixin/input.scss
+@use "midstream" as *;
+
+@include upstream;
+
+<===> transitive/mixin/midstream.scss
+@use "upstream" as *;
+
+<===> transitive/mixin/upstream.scss
+@mixin upstream {a {b: c}}
+
+<===> transitive/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include upstream;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/transitive/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> transitive_from_import/variable/input.scss
+@import "midstream";
+
+a {b: $upstream};
+
+<===> transitive_from_import/variable/midstream.scss
+@use "upstream" as *;
+
+<===> transitive_from_import/variable/upstream.scss
+$upstream: value;
+
+<===> transitive_from_import/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $upstream};
+  |       ^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/transitive_from_import/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> transitive_from_import/function/input.scss
+@import "midstream";
+
+// This is technically not a compile error, since `upstream()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: upstream()};
+
+<===> transitive_from_import/function/midstream.scss
+@use "upstream" as *;
+
+<===> transitive_from_import/function/upstream.scss
+@function upstream() {@return value}
+
+<===> transitive_from_import/function/output.css
+a {
+  b: upstream();
+}
+
+<===>
+================================================================================
+<===> transitive_from_import/mixin/input.scss
+@import "midstream";
+
+@include upstream;
+
+<===> transitive_from_import/mixin/midstream.scss
+@use "upstream" as *;
+
+<===> transitive_from_import/mixin/upstream.scss
+@mixin upstream {a {b: c}}
+
+<===> transitive_from_import/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include upstream;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/transitive_from_import/mixin/input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> private/variable/input.scss
+@use "other" as *;
+
+a {b: $-member};
+
+<===> private/variable/other.scss
+$-member: value;
+
+<===> private/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $-member};
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/private/variable/input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> private/function/input.scss
+@use "other" as *;
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: -member()};
+
+<===> private/function/other.scss
+@function -member() {@return value}
+
+<===> private/function/output.css
+a {
+  b: -member();
+}
+
+<===>
+================================================================================
+<===> private/mixin/input.scss
+@use "other" as *;
+
+@include -member;
+
+<===> private/mixin/other.scss
+@mixin -member {a {b: c}}
+
+<===> private/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include -member;
+  | ^^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/inaccessible/private/mixin/input.scss 3:1  root stylesheet
