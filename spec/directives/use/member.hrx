@@ -253,6 +253,29 @@ a {
 
 <===>
 ================================================================================
+<===> global/variable_assignment/nested/semi_global/input.scss
+@use "other" as *;
+
+@if true {
+  // A nested variable assignment in a semi-global scope does assign to a
+  // module's variable.
+  $member: new value;
+
+  a {b: get-member()}
+}
+
+<===> global/variable_assignment/nested/semi_global/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> global/variable_assignment/nested/semi_global/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
 <===> global/function/input.scss
 @use "other" as *;
 
