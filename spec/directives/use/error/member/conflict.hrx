@@ -202,3 +202,43 @@ import context.
   |       ^^^^^^^
   '
   /sass/spec/directives/use/error/member/conflict/use_and_import_context/mixin/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_local/function/input.scss
+@use "other" as *;
+
+a {b: member()}
+
+@function member() {@return from input};
+
+<===> use_and_local/function/other.scss
+@function member() {@return from other}
+
+<===> use_and_local/function/error
+Error: Function is not yet defined.
+  ,
+4 | a {b: member()}
+  |       ^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_local/function/input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> use_and_local/mixin/input.scss
+@use "other" as *;
+
+a {@include member}
+
+@mixin member {a: from input}
+
+<===> use_and_local/mixin/other.scss
+@mixin member {a: from other}
+
+<===> use_and_local/mixin/error
+Error: Mixin is not yet defined.
+  ,
+4 | a {@include member}
+  |    ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/member/conflict/use_and_local/mixin/input.scss 4:4  root stylesheet
