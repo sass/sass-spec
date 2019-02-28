@@ -207,7 +207,7 @@ a {
 
 <===>
 ================================================================================
-<===> global/variable_assignment/nested/global/input.scss
+<===> global/variable_assignment/nested/global/with_flag/input.scss
 @use "other" as *;
 
 a {
@@ -218,14 +218,37 @@ a {
   b: get-member();
 }
 
-<===> global/variable_assignment/nested/global/other.scss
+<===> global/variable_assignment/nested/global/with_flag/other.scss
 $member: value;
 
 @function get-member() {@return $member}
 
-<===> global/variable_assignment/nested/global/output.css
+<===> global/variable_assignment/nested/global/with_flag/output.css
 a {
   b: new value;
+}
+
+<===>
+================================================================================
+<===> global/variable_assignment/nested/global/without_flag/input.scss
+@use "other" as *;
+
+a {
+  // A nested variable assignment that doesn't have a namespace and is not
+  // !global doesn't assign to a global module's variable.
+  $member: new value;
+
+  b: get-member();
+}
+
+<===> global/variable_assignment/nested/global/without_flag/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> global/variable_assignment/nested/global/without_flag/output.css
+a {
+  b: value;
 }
 
 <===>
