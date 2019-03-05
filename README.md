@@ -101,6 +101,11 @@ and either:
   prints the error message to standard error and exits with a non-zero status
   code when it compiles the input. These specs are known as "error specs".
 
+These files may also have [variants that are specific to individual
+implementations][].
+
+[variants that are specific to individual implementations]: #implementation-specific-expectations
+
 The path to the spec serves as the spec's name, which should tersely describe
 what it's testing. Additional explanation, if necessary, is included in a silent
 comment in the input file. Specs may also contain additional files that are used
@@ -134,11 +139,11 @@ ul li {
 }
 ```
 
-HRX archives can contain directories, which means that they can also a single
-file can define multiple different This allows us to write many specs for the
-same feature to be stored without spreading them across hundreds of separate
-tiny files. By convention, we include an HRX comment with 80 `=` characters
-between each spec to help keep them visually separate. For example:
+HRX archives can also contain directories. This allows us to write multiple
+specs for the same feature in a single file rather than spreading them out
+across hundreds of separate tiny files. By convention, we include an HRX comment
+with 80 `=` characters between each spec to help keep them visually separate.
+For example:
 
 ```hrx
 <===> unbracketed/input.scss
