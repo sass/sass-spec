@@ -87,53 +87,6 @@ Error: It's not clear which file to import. Found:
 
 <===>
 ================================================================================
-<===> conflict/extension/scss_and_css/input.scss
-// This import can't be resolved because it could refer to either the ".sass" or
-// ".css" file.
-@use "other";
-
-<===> conflict/extension/scss_and_css/other.scss
-a {syntax: scss}
-
-<===> conflict/extension/scss_and_css/other.css
-a {syntax: css}
-
-<===> conflict/extension/scss_and_css/error
-Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/extension/scss_and_css/other.scss
-  /sass/spec/directives/use/error/load/conflict/extension/scss_and_css/other.css
-  ,
-3 | @use "other";
-  | ^^^^^^^^^^^^
-  '
-  /sass/spec/directives/use/error/load/conflict/extension/scss_and_css/input.scss 3:1  root stylesheet
-
-<===>
-================================================================================
-<===> conflict/extension/sass_and_css/input.scss
-// This import can't be resolved because it could refer to either the ".sass" or
-// ".css" file.
-@use "other";
-
-<===> conflict/extension/sass_and_css/other.sass
-a
-  syntax: sass
-
-<===> conflict/extension/sass_and_css/other.css
-a {syntax: css}
-
-<===> conflict/extension/sass_and_css/error
-Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_css/other.sass
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_css/other.css
-  ,
-3 | @use "other";
-  | ^^^^^^^^^^^^
-  '
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_css/input.scss 3:1  root stylesheet
-
-<===>
-================================================================================
 <===> conflict/all/input.scss
 // This import can't be resolved because it has conflicting partials *and*
 // conflicting extensions.
@@ -167,8 +120,6 @@ Error: It's not clear which file to import. Found:
   /sass/spec/directives/use/error/load/conflict/all/other.sass
   /sass/spec/directives/use/error/load/conflict/all/_other.scss
   /sass/spec/directives/use/error/load/conflict/all/other.scss
-  /sass/spec/directives/use/error/load/conflict/all/_other.css
-  /sass/spec/directives/use/error/load/conflict/all/other.css
   ,
 3 | @use "other";
   | ^^^^^^^^^^^^
