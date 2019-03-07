@@ -1,178 +1,322 @@
-sass-spec
-=========
+# sass-spec
+
+### A cross-implementation [Sass][] test suite
+
+* [Running Specs](#running-specs)
+  * [Dart Sass](#dart-sass)
+  * [LibSass](#libsass)
+  * [Ruby Sass](#ruby-sass)
+* [Spec Structure](#spec-structure)
+  * [HRX](#hrx)
+  * [Specifying Warnings](#specifying-warnings)
+  * [Implementation-Specific Expectations](#implementation-specific-expectations)
+  * [Options](#options)
+    * [`:todo`](#todo)
+    * [`:warning_todo`](#warning_todo)
+    * [`:ignore_for`](#ignore_for)
+* [Organization](#organization)
+* [Interactive Mode](#interactive-mode)
+
+[Sass]: https://sass-lang.com
 
 [![Build Status](https://travis-ci.org/sass/sass-spec.svg)](https://travis-ci.org/sass/sass-spec)
 
-A test suite for Sass. The test cases are all in the `/spec` folder.
+`sass-spec` is the official Sass test suite. It's used by all major Sass
+implementations to ensure that they correctly implement the language.
 
-Sass spec is written in ruby, so you will need to have ruby and bundler
-installed in order to run it.
+## Running Specs
 
-## Running specs against Ruby Sass
+Before running specs, you'll need to install [Ruby][] and [Bundler][]. The spec
+runner is written in Ruby, so it's necessary no matter which implementation
+you're testing. Then, from the root of this repo, run `bundle install`.
 
-Run tests against Ruby Sass with the `sass-spec.rb` file in the root directory.
+[Ruby]: https://www.ruby-lang.org/en/
+[Bundler]: http://bundler.io/
 
-    $ git clone https://github.com/sass/sass-spec.git
-    $ cd sass-spec
-    $ bundle install
-    $ bundle exec sass-spec.rb
+From there, it depends which implementation you're testing:
 
-To run tests against Ruby Sass in development, edit the Gemfile and add:
+### Dart Sass
 
-```ruby
-gem 'sass', :path => "/path/to/sass/directory"
+To run specs against [Dart Sass][], the reference implementation of Sass that's
+used for [the `sass` package][] on npm, you'll first need to install [Dart][].
+Then run:
+
+[Dart Sass]: https://sass-lang.com/dart-sass
+[the `sass` package]: https://npmjs.com/package/sass
+[Dart]: https://www.dartlang.org/
+
+```sh
+# If you already have a clone of the Dart Sass repo, you can use that instead.
+git clone https://github.com/sass/dart-sass
+(cd dart-sass; pub get)
+export DART_SASS_PATH=`pwd`/dart-sass
+
+bundle exec ./sass-spec.rb --dart $DART_SASS_PATH
 ```
 
-Then run `bundle install` and `bundle exec sass-spec.rb` will run
-against your development version of ruby sass.
+### LibSass
 
-Conversely, if you edit the Sass `Gemfile` and set `gem 'sass-spec',
-:path => "..."` then the Sass unit tests will run against your
-development version of sass-spec.
+To run specs against [LibSass][], the C++ Sass implementation that's used for
+[Node Sass][] and other languages' Sass wrappers, you'll need to be able to
+[build LibSass][]. Once you have all the build dependencies:
 
-Full text help is available if you run that w/ the `-h` option.
+[LibSass]: https://sass-lang.com/libsass
+[Node Sass]: https://npmjs.com/package/node-sass
+[build LibSass]: https://github.com/sass/libsass/blob/master/docs/build.md
+
+```sh
+# If you already have a clone of the LibSass repo, you can use that instead.
+git clone https://github.com/sass/libsass
+(cd libsass; ./script/bootstrap; make sassc)
+export SASSC_PATH=`pwd`/libsass/sassc/bin/sassc
+
+bundle exec ./sass-spec.rb --impl libsass -c $SASSC_PATH
+```
+
+### Ruby Sass
+
+Unlike other implementations, Ruby Sass is installed via Bundler and used by
+default. All you need to do to run specs against it is:
+
+```sh
+bundle exec ./sass-spec.rb
+```
+
+If you want to run specs against your own clone of Ruby Sass, edit the `Gemfile`
+and replace the `gem "sass"` line with:
+
+```ruby
+gem "sass", :path => "path/to/ruby/sass"
+```
+
+## Spec Structure
+
+Each spec is defined by a directory with an `input.scss` or `input.sass` file
+and either:
+
+* An `output.css` file, in which case the spec asserts that the Sass
+  implementation compiles the input to the output. These specs are known as
+  "success specs".
+* An `error` file, in which case the spec asserts that the Sass implementation
+  prints the error message to standard error and exits with a non-zero status
+  code when it compiles the input. These specs are known as "error specs".
+
+These files may also have [variants that are specific to individual
+implementations][].
+
+[variants that are specific to individual implementations]: #implementation-specific-expectations
+
+The path to the spec serves as the spec's name, which should tersely describe
+what it's testing. Additional explanation, if necessary, is included in a silent
+comment in the input file. Specs may also contain additional files that are used
+by the input file, as well as various other features which are detailed below.
+
+### HRX
+
+Most specs are stored in [HRX files][], which are human-readable plain-text
+archives that define a virtual filesystem. This format makes it easy for code
+reviewers to see the context of specs they're reviewing. The spec runner treats
+each HRX file as a directory with the same name as the file, minus `.hrx`. For
+example:
+
+[HRX files]: https://github.com/google/hrx#human-readable-archive-hrx
+
+```hrx
+<===> input.scss
+ul {
+  margin-left: 1em;
+  li {
+    list-style-type: none;
+  }
+}
+
+<===> output.css
+ul {
+  margin-left: 1em;
+}
+ul li {
+  list-style-type: none;
+}
+```
+
+HRX archives can also contain directories. This allows us to write multiple
+specs for the same feature in a single file rather than spreading them out
+across hundreds of separate tiny files. By convention, we include an HRX comment
+with 80 `=` characters between each spec to help keep them visually separate.
+For example:
+
+```hrx
+<===> unbracketed/input.scss
+a {b: is-bracketed(foo bar)}
+
+<===> unbracketed/output.scss
+a {b: false}
+
+<===>
+================================================================================
+<===> bracketed/input.scss
+a {b: is-bracketed([foo bar])}
+
+<===> bracketed/output.scss
+a {b: true}
+```
+
+Each HRX archive shouldn't be much longer than 500 lines. Once one gets too
+long, its subdirectories should be split out into separate archives beneath a
+physical directory. Conversely, if a given directory contains many small HRX
+archives, they should be merged together into one larger file. This helps ensure
+that the repo remains easy to navigate.
+
+The only specs that *aren't* written in HRX format are those that include
+invalid UTF-8 byte sequences. The HRX format is itself written in UTF-8, so it's
+unable to represent the files in these specs.
+
+### Specifying Warnings
+
+By default, Sass implementations are expected to emit nothing on standard error
+when executing a success spec. However, if a `warning` file is added to the spec
+directory, the spec will assert that the Sass implementation prints that warning
+message to standard error as well as compiling the output. This is used to test
+the behavior of the `@debug` and `@warn` rules, as well as various warnings
+(particularly deprecation warnings) emitted by the Sass implementation itself.
+
+Warnings can't be specified for error specs, since everything an implementation
+emits on standard error is considered part of the error message that's validated
+against `error`.
+
+### Implementation-Specific Expectations
+
+Sometimes different Sass implementations produce different but equally-valid CSS
+outputs or error messages for the same input. To accommodate this,
+implementation-specific output, error, and warning files may be created by
+adding `-dart-sass`, `-libsass`, or `-ruby-sass` after the file's name (but
+before its extension, in the case of `output.css`).
+
+When a spec is running for an implementation with an implementations-specific
+expectation, the normal expectation is ignored completely in favor of the
+implementation-specific one. It's even possible (although rare) for one
+implementation to expect an input file to produce an error while another expects
+it to compile successfully.
+
+### Options
+
+Metadata for a spec and options for how it's run can be written in an
+`options.yml` file in the spec's directory. This file applies recursively to all
+specs within its directory, so it can be used to configure many specs at once.
+All options must begin with `:`.
+
+All options that are supported for new specs are listed below. A few additional
+legacy options exist that are no longer considered good style and will
+eventually be removed.
+
+#### `:todo`
+
+```yaml
+---
+:todo:
+- libsass # sass/libsass#2827
+```
+
+This option indicates implementations that should add support for a spec, but
+haven't done so yet. When running specs for a given implementation, all specs
+marked as `:todo` for that implementation are skipped by default. This ensures that
+the build remains green while clearly marking which specs are expected to pass
+eventually.
+
+In general, when marking a spec as `:todo` for an implementation, it's a good
+idea to include a comment referencing the GitHub issue for that implementation
+that will fix the spec. If no issue exists yet, please file one.
+
+If the `--run-todo` flag is passed to `sass-spec.rb`, specs marked as `:todo`
+for the current implementation will be run, and their failures will be reported.
+
+If the `--probe-todo` flag is passed to `sass-spec.rb`, specs marked as `:todo`
+for the current implementation will be run, but a failure will be reported *only
+if those specs pass*. This is used to determine which specs need to have `:todo`
+removed once a feature has been implemented. This can be used in combination
+with [`--interactive`](#interactive-mode) to automatically remove `:todo`s for
+these specs.
+
+#### `:warning_todo`
+
+```yaml
+---
+:warning_todo:
+- libsass # sass/libsass#2834
+```
+
+This option works like [`:todo`](#todo), except instead of skipping the entire
+test for listed implementations it only skips validating [that spec's
+warnings](#specifying-warnings). The rest of the spec is run and verified as
+normal. This should not be used for error specs.
+
+#### `:ignore_for`
+
+```yaml
+---
+:ignore_for:
+- ruby-sass
+```
+
+This option indicates implementations that are never expected to be compatible
+with a given spec. It's used for specs that Ruby Sass, [which is deprecated][],
+will never support, as well as for specs for old features that some but not all
+implementations have dropped support for.
+
+[which is deprecated]: http://sass.logdown.com/posts/7081811
 
 ## Organization
 
-Tests are stored in the `spec` directory. The structure of the specs is
-being worked on right now, however, most directory names should be
-fairly self explanatory.
+All specs should go in the `spec/` directory. Beyond that, it gets messy. The
+specs in this repo accumulated haphazardly over the years from contributions
+from many different people, so there's not currently much by way of unified
+organizational principles. In general, though, **specs should be organized by
+what part of the language they're testing**.
 
-## Working with different Sass Language Versions
+In addition, the following conventions should be followed for new specs when
+applicable:
 
-Spec tests each apply to their own range of Sass Language versions. Each
-folder in the spec directory can have start and end language versions set and it will
-apply to all of the tests contained in that folder and below. Individual
-tests can override these settings.
+* Specs for plain CSS features, including CSS at-rules like `@media` and CSS
+  selector syntax, go in `spec/css/`.
 
-Use the annotate subcommand to annotate and report on annotations
-applied to individual test cases. Run `./sass-spec.rb annotate -h` to
-see all available options.
+* Specs for built-in functions go in `spec/core_functions/`, under directories
+  whose names correspond to the modules in [the module system proposal][]. For
+  example, specs for the `rgb()` function go in
+  `spec/core_functions/color/rgb/`.
 
-Examples:
+  [the module system proposal]: https://github.com/sass/language/blob/master/accepted/module-system.md#built-in-modules-1
 
-    $ ./sass-spec.rb annotate --end-version 3.5 spec/basic
-    spec/basic:
-      * setting end_version to 3.5...done
-    
-    $ ./sass-spec.rb annotate --end-version 4.0 spec/basic/40_pseudo_class_identifier_starting_with_n
-    spec/basic:
-      * setting end_version to 4.0...done
-    
-    $ ./sass-spec.rb annotate --report spec/basic
-    +-------------------------------------------------------+-----+-----+-----+
-    | Test Case                                             | 3.4 | 3.5 | 4.0 |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/00_empty                                   |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/01_simple_css                              |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/02_simple_nesting                          |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/03_simple_variable                         |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/04_basic_variables                         |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/...                                        |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/40_pseudo_class_identifier_starting_with_n |  ✓  |  ✓  |  ✓  |
-    +-------------------------------------------------------+-----+-----+-----+
-    | spec/basic/...                                        |  ✓  |  ✓  |     |
-    +-------------------------------------------------------+-----+-----+-----+
+* Specs for Sass's at-rules like `@extend` and `@import` go in `spec/directives/`.
 
+* Specs for SassScript value types go in `spec/values/`.
 
-When running the tests, it is important to specify which language
-version subset of the tests should be used. When not specified, the
-latest version is used.
+All directory names should be lowercase and underscore-separated. All error
+specs for a given feature should go in an `errors/` directory under that
+feature's directory.
 
-    $ ./sass-spec.rb -V 3.4 ...
+## Interactive Mode
 
-### Adding new specs
+If you pass `--interactive` to `sass-spec.rb`, it will run in interactive mode.
+In this mode, whenever a spec would fail, the spec runner stops and provides the
+user with a prompt that allows them to inspect the failure and determine how to
+handle it. This makes it easy to add [implementation-specific expectations][] or
+mark specs as [`:todo`](#todo). For example:
 
-0. Set up sass spec if you haven't yet.
-1. Add an `input.s[ac]ss` file in an appropriate folder.
-2. Optionally, annotate it with sass-spec.rb annotate ... <path_to_folder>
-3. Run `sass-spec.rb -g <path_to_folder>` to generate the expected
-   output files.
-4. Verify the generated output is what you expected.
-5. Run `sass-spec.rb <path_to_folder>` just to make sure it passes.
-6. Commit and send Pull Request. Be sure to include the reason for the
-   new spec in the commit message.
+```
+In test case: spec/core_functions/color/hsla/four_args/alpha_percent
+Output does not match expectation.
+i. Show me the input.
+d. show diff.
+O. Update expected output and pass test.
+I. Migrate copy of test to pass on libsass.
+T. Mark spec as todo for libsass.
+G. Ignore test for libsass FOREVER.
+f. Mark as failed.
+X. Exit testing.
+```
 
-### Updating Failing Tests
+[implementation-specific expectations]: #implementation-specific-expectations
 
-A lot of the management tasks for specs is centered around how to handle
-specs as the language changes. Many common fixes for failing tests can
-be found by running tests with the `--interactive` command line option.
-
-When a test would fail, it first stops, lets you see what's failing and
-choose a fix for it or you can let it fail and fix it later.
-
-Sometimes, many tests are all failing and you know they need to be
-updated en masse and interactive mode would be very cumbersome in this
-context. In these situations the `--migrate` option or the `--generate`
-option are very useful.
-
-#### The `--generate` option
-
-The `--generate` option causes all tests that are being ran to have
-their expected output, error and exit statuses updated to match the
-current results. For passing tests, this operation is a net result of
-not changing files.
-
-In `--interactive` mode, a common option is to regenerate the expected
-outputs just like `--generate` does, but on a case-by-case basis.
-
-#### The `--migrate` option
-
-The migrate option only works on tests that are failing.
-
-1. Make a copy of the current test named "&lt;folder>-&lt;current_version>"
-2. Mark the original test as having an `end_version` as the version that
-   comes before the version being tested right now.
-3. Set the copy as having a `start_version` as the version being tested right now.
-4. Regenerate the expected output for the new test so that it passes.
-
-In `--interactive` mode, a common option is to migrate the spec just
-like `--migrate` does, but on a case-by-case basis.
-
-### Pending (TODO) tests
-
-If a test or folder of tests is pending for a particular implementation,
-you can mark that test as pending for just that implementation.
-
-
-    $ ./sass-spec.rb annotate --pending libsass spec/awesome_new_feature/
-
-Then those tests will be marked as skipped if you run sass-spec and pass
-the `--impl NAME` option (E.g. in this case `--impl libsass`)
-
-The `--interactive` mode will provide marking a test as pending for the
-current implementation as a remedy for many types of spec failures.
-
-## Known Issues
-
-* Ruby 2.1.0 contained a regression that changed the order of some
-  selectors, causing test failures in sass-spec. That was fixed in Ruby
-  2.1.1. If you're running sass-spec against a Ruby Sass, please be sure
-  not to use Ruby 2.1.0.
-* Some of our spec files have UTF-8 characters in their filenames. If
-  you are on OSX, you may encounter issues with git showing files that are
-  not checked in but actually are which can cause issued which doing
-  rebase or changing branches. If so, run `git config core.precomposeunicode false`
-  and it should clear things up.
-
-## LibSass
-
-After installing a libsass dev enviroment (see libsass readme... sassc, this spec, and libsass), the tests are run by going
-to the libsass folder and running ./script/spec.
-
-## Contribution
-
-This project needs maintainers! There will be an ongoing process of
-simplifying test cases, reporting new issues and testing them here, and
-managing mergers of official test cases.
-
-This project requires help with the Ruby test drivers (better output,
-detection modes, etc) AND just with managing the issues and writing test
-cases.
+Any option can also be applied to all future occurences of that type of failure
+by adding `!` after it. For example, if you want to mark *all* failing specs as
+`:todo` for the current implementation you'd type `I!`.
