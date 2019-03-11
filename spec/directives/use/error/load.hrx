@@ -40,6 +40,24 @@ Error: Can't find stylesheet to import.
 
 <===>
 ================================================================================
+<===> dir_dot_scss/input.scss
+@use "dir.scss";
+
+<===> dir_dot_scss/dir.scss/index.scss
+.foo {
+  a: b;
+}
+
+<===> dir_dot_scss/error
+Error: Can't find stylesheet to import.
+  ,
+1 | @use "dir.scss";
+  | ^^^^^^^^^^^^^^^
+  '
+  /sass/spec/directives/use/error/load/dir_dot_scss/input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
 <===> conflict/partial/input.scss
 // This import can't be resolved because it could refer to either the partial or
 // the non-partial file.
