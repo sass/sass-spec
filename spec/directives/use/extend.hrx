@@ -1,0 +1,254 @@
+<===> upstream/input.scss
+@use "other";
+
+in-input {@extend in-other}
+
+<===> upstream/_other.scss
+in-other {x: y}
+
+<===> upstream/output.css
+in-other, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> far_upstream/input.scss
+@use "midstream";
+
+in-input {@extend in-upstream}
+
+<===> far_upstream/_midstream.scss
+@use "upstream";
+
+<===> far_upstream/_upstream.scss
+in-upstream {x: y}
+
+<===> far_upstream/output.css
+in-upstream, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/input.scss
+@use "other";
+
+in-input {@extend %in-other}
+
+<===> placeholder/_other.scss
+%in-other {x: y}
+
+<===> placeholder/output.css
+in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> diamond_merge/input.scss
+// Sibling modules can't extend one another's selectors, but they can be merged
+// together into the same selector list if they extend the same thing. If they
+// are, they should be optimized with respect to one another.
+//
+// In this case, _left.scss causes the selector ".a.a" to be generated, which is
+// simplified to ".a". Then _right.scss causes ".a.b" to be generated. ".a" is a
+// superselector of ".a.b" and ".a" has the same specificity as the extender,
+// ".b", so ".a.b" can (and should) be optimized away.
+@use "left";
+@use "right";
+
+<===> diamond_merge/_left.scss
+@use "other";
+
+.a {@extend %in-other}
+
+<===> diamond_merge/_right.scss
+@use "other";
+
+.b {@extend %in-other}
+
+<===> diamond_merge/_other.scss
+%in-other.a {x: y}
+
+<===> diamond_merge/output.css
+.a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> extended/from_same_file/input.scss
+@use "other";
+
+in-input {@extend in-other-extender}
+
+<===> extended/from_same_file/_other.scss
+in-other-extender {@extend in-other-extendee}
+
+in-other-extendee {x: y}
+
+<===> extended/from_same_file/output.css
+in-other-extendee, in-other-extender, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> extended/from_other_file/input.scss
+@use "midstream";
+
+in-input {@extend in-midstream}
+
+<===> extended/from_other_file/_midstream.scss
+@use "upstream";
+
+in-midstream {@extend in-upstream}
+
+<===> extended/from_other_file/_upstream.scss
+in-upstream {x: y}
+
+<===> extended/from_other_file/output.css
+in-upstream, in-midstream, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> optional_and_mandatory/README.md
+If an optional and a mandatory version of the same extension both exist, the
+mandatory version should be marked as having successfully matched.
+
+<===>
+================================================================================
+<===> optional_and_mandatory/same_file/input.scss
+@use "other";
+
+in-input {
+  @extend in-other !optional;
+  @extend in-other;
+}
+
+<===> optional_and_mandatory/same_file/_other.scss
+in-other {x: y}
+
+<===> optional_and_mandatory/same_file/output.css
+in-other, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> optional_and_mandatory/different_files/input.scss
+@use "optional";
+@use "mandatory";
+
+<===> optional_and_mandatory/different_files/_optional.scss
+@use "shared";
+
+downstream {@extend in-other !optional};
+
+<===> optional_and_mandatory/different_files/_mandatory.scss
+@use "shared";
+
+downstream {@extend in-other};
+
+<===> optional_and_mandatory/different_files/_shared.scss
+in-other {x: y}
+
+<===> optional_and_mandatory/different_files/output.css
+in-other, downstream {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/README.md
+All tests in this directory use `!optional` extends to test extensions that
+don't have matches. Each test should have a counterpart in error/extend/ that
+tests the same thing but without `!optional` to verify that it properly produces
+an error message.
+
+<===>
+================================================================================
+<===> scope/sibling/input.scss
+@use "left";
+@use "right";
+
+<===> scope/sibling/_left.scss
+left-extendee {in: left}
+left-extender {@extend right-extendee !optional}
+
+<===> scope/sibling/_right.scss
+right-extendee {in: right}
+right-extender {@extend left-extendee !optional}
+
+<===> scope/sibling/output.css
+left-extendee {
+  in: left;
+}
+
+right-extendee {
+  in: right;
+}
+
+<===>
+================================================================================
+<===> scope/downstream/input.scss
+@use "other";
+
+in-input {x: y}
+
+<===> scope/downstream/_other.scss
+in-other {@extend in-input !optional}
+
+<===> scope/downstream/output.css
+in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/private/input.scss
+@use "other";
+
+in-input {@extend %-in-other !optional}
+
+<===> scope/private/_other.scss
+%-in-other {x: y}
+
+in-other {@extend %-in-other}
+
+<===> scope/private/output.css
+in-other {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/diamond/input.scss
+// Even though left-extendee and right-extendee both end up in the style rule
+// defined in _shared.scss, they aren't extended by the other file because those
+// files don't use one another.
+@use "left";
+@use "right";
+
+<===> scope/diamond/_left.scss
+@use "shared";
+
+left-extendee {@extend in-shared}
+left-extender {@extend right-extendee !optional}
+
+<===> scope/diamond/_right.scss
+@use "shared";
+
+right-extendee {@extend in-shared}
+right-extender {@extend left-extendee !optional}
+
+<===> scope/diamond/_shared.scss
+in-shared {x: y}
+
+<===> scope/diamond/output.css
+in-shared, right-extendee, left-extendee {
+  x: y;
+}

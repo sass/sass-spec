@@ -1,6 +1,21 @@
 <===>
 TODO: spec out use + import once sass/language#75 is resolved.
 
+<===> once/input.scss
+@use "other" as o1;
+@use "other" as o2;
+@use "other" as o3;
+
+<===> once/_other.scss
+a {b: c}
+
+<===> once/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
 <===> css_order/use_into_use/input.scss
 @use "midstream";
 
