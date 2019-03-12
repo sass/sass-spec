@@ -1,3 +1,10 @@
+<===> options.yml
+---
+:warning_todo:
+- libsass # sass/libsass#2834
+:ignore_for:
+- ruby-sass
+
 <===> input.scss
 div {
   $foo: inner !default !global;
@@ -26,3 +33,13 @@ outer {
 div inner {
   foo: lexical;
 }
+
+<===> warning
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$foo: null` at the top level.
+
+  ,
+2 |   $foo: inner !default !global;
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    /sass/spec/libsass/variable-scoping/defaults-global/input.scss 2:3  root stylesheet
