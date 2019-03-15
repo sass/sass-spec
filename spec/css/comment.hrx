@@ -63,3 +63,71 @@ Baz */
 Baz */
   a: b;
 }
+
+<===>
+================================================================================
+<===> converts_newlines/README.md
+Everything CSS considers a newline (including `\r\n`, `\r`, and `\f`) should be
+converted to a newline in a comment's contents.
+
+Note that we don't test CR LF because the spec runner normalizes those itself,
+so we can't usefully verify that they're converted. Individual implementations
+should include their own tests for CR LF newlines.
+
+<===>
+================================================================================
+<===> converts_newlines/scss/cr/options.yml
+---
+:todo:
+- libsass # sass/libsass#2843
+
+<===> converts_newlines/scss/cr/input.scss
+/* foo * bar */
+
+<===> converts_newlines/scss/cr/output.css
+/* foo
+ * bar */
+
+<===>
+================================================================================
+<===> converts_newlines/scss/lf/options.yml
+---
+:todo:
+- libsass # sass/libsass#2843
+
+<===> converts_newlines/scss/lf/input.scss
+/* foo * bar */
+
+<===> converts_newlines/scss/lf/output.css
+/* foo
+ * bar */
+
+<===>
+================================================================================
+<===> converts_newlines/sass/cr/input.sass
+/*
+  foo  bar
+
+<===> converts_newlines/sass/cr/output.css
+/* foo
+ * bar */
+
+<===> converts_newlines/sass/cr/output-libsass.css
+/*
+  foo
+  bar */
+
+<===>
+================================================================================
+<===> converts_newlines/sass/lf/options.yml
+---
+:todo:
+- libsass # sass/libsass#2843
+
+<===> converts_newlines/sass/lf/input.sass
+/*
+  foo  bar
+
+<===> converts_newlines/sass/lf/output.css
+/* foo
+ * bar */
