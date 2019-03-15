@@ -1,0 +1,65 @@
+<===> multiple/input.scss
+.foo {
+  /* Foo Bar */
+  /* Baz Bang */ }
+
+<===> multiple/output.css
+.foo {
+  /* Foo Bar */
+  /* Baz Bang */
+}
+
+<===>
+================================================================================
+<===> multiple_stars/input.scss
+a /***/ b {x: y}
+a /****/ b {x: y}
+a /* **/ b {x: y}
+a /** */ b {x: y}
+
+<===> multiple_stars/output.css
+a b {
+  x: y;
+}
+a b {
+  x: y;
+}
+a b {
+  x: y;
+}
+a b {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> weird_indentation/input.scss
+.foo {
+    /* Foo
+ Bar
+Baz */
+  a: b; }
+
+<===> weird_indentation/output.css
+.foo {
+  /* Foo
+   Bar
+  Baz */
+  a: b;
+}
+
+<===> weird_indentation/output-libsass.css
+.foo {
+  /* Foo
+ Bar
+Baz */
+  a: b;
+}
+
+<===> weird_indentation/output-ruby-sass.css
+.foo {
+    /* Foo
+ Bar
+Baz */
+  a: b;
+}
