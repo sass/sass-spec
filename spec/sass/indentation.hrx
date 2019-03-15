@@ -38,6 +38,50 @@ x {
 
 <===>
 ================================================================================
+<===> unusual_newlines/README.md
+Everything CSS considers a newline (including `\r\n`, `\r`, and `\f`) should be
+usable as the end of an indented syntax line.
+
+<===>
+================================================================================
+<===> unusual_newlines/cr_lf/input.sass
+a
+  b: c
+  d: e
+
+<===> unusual_newlines/cr_lf/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> unusual_newlines/cr/input.sass
+a  b: c  d: e
+<===> unusual_newlines/cr/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> unusual_newlines/ff/options.yml
+---
+:todo:
+- libsass # sass/libsass#2843
+
+<===> unusual_newlines/ff/input.sass
+a  b: c  d: e
+<===> unusual_newlines/ff/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
 <===> error/inconsistent/options.yml
 ---
 :todo:
