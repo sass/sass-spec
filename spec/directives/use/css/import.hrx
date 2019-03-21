@@ -1,0 +1,240 @@
+<===> use_into_import/input.scss
+@use "used";
+
+in-input {a: b}
+
+<===> use_into_import/_used.scss
+@import "imported";
+
+in-used {a: b}
+
+<===> use_into_import/_imported.scss
+in-imported {a: b}
+
+<===> use_into_import/output.css
+in-imported {
+  a: b;
+}
+
+in-used {
+  a: b;
+}
+
+in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> use_into_import_into_use/input.scss
+@use "used-downstream";
+
+in-input {a: b}
+
+<===> use_into_import_into_use/_used-downstream.scss
+@import "imported";
+
+in-used-downstream {a: b}
+
+<===> use_into_import_into_use/_imported.scss
+@use "used-upstream";
+
+in-imported {a: b}
+
+<===> use_into_import_into_use/_used-upstream.scss
+in-used-upstream {a: b}
+
+<===> use_into_import_into_use/output.css
+in-used-upstream {
+  a: b;
+}
+
+in-imported {
+  a: b;
+}
+
+in-used-downstream {
+  a: b;
+}
+
+in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> use_and_import_same/input.scss
+@use "other";
+
+// @import always duplicates CSS, even when that CSS has been @used. In other
+// words, @import's duplication takes precedence over @use's load-once policy.
+@import "other";
+
+<===> use_and_import_same/_other.scss
+// Every import always evaluates the file being imported, so this should be
+// printed twice.
+@debug "evaluating other";
+
+a {b: c}
+
+<===> use_and_import_same/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===> use_and_import_same/warning
+/sass/spec/directives/use/css/import/use_and_import_same/_other.scss:3 DEBUG: evaluating other
+/sass/spec/directives/use/css/import/use_and_import_same/_other.scss:3 DEBUG: evaluating other
+
+<===>
+================================================================================
+<===> use_module_used_by_import/input.scss
+@use "shared";
+@import "imported";
+
+<===> use_module_used_by_import/_shared.scss
+// This file is only used, so this should only be printed once, even though one
+// of those uses came from an import.
+@debug "evaluating shared";
+
+// However, imported CSS is always duplicated, so this should appear twice in
+// the output.
+a {b: c}
+
+<===> use_module_used_by_import/_imported.scss
+@use "shared";
+
+<===> use_module_used_by_import/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===> use_module_used_by_import/warning
+/sass/spec/directives/use/css/import/use_module_used_by_import/_shared.scss:3 DEBUG: evaluating shared
+
+<===>
+================================================================================
+<===> import_into_use/input.scss
+@import "imported";
+
+in-input {a: b}
+
+<===> import_into_use/_imported.scss
+@use "used";
+
+in-imported {a: b}
+
+<===> import_into_use/_used.scss
+in-used {a: b}
+
+<===> import_into_use/output.css
+in-used {
+  a: b;
+}
+
+in-imported {
+  a: b;
+}
+
+in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> nested_import_into_use/input.scss
+outer {@import "imported"}
+
+<===> nested_import_into_use/_imported.scss
+@use "used";
+
+in-imported {parent: inspect(&)}
+
+<===> nested_import_into_use/_used.scss
+// This parent selector will be `null`, because used modules are always
+// evaluated in a clean context, even if their CSS is then copied into an
+// imported file.
+in-used {parent: inspect(&)}
+
+<===> nested_import_into_use/output.css
+outer in-used {
+  parent: (in-used,);
+}
+
+outer in-imported {
+  parent: (outer in-imported,);
+}
+
+<===>
+================================================================================
+<===> import_into_use_into_import/input.scss
+@import "imported-downstream";
+
+in-input {a: b}
+
+<===> import_into_use_into_import/_imported-downstream.scss
+@use "used";
+
+in-imported-downstream {a: b}
+
+<===> import_into_use_into_import/_used.scss
+@import "imported-upstream";
+
+in-used {a: b}
+
+<===> import_into_use_into_import/_imported-upstream.scss
+in-imported-upstream {a: b}
+
+<===> import_into_use_into_import/output.css
+in-imported-upstream {
+  a: b;
+}
+
+in-used {
+  a: b;
+}
+
+in-imported-downstream {
+  a: b;
+}
+
+in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> import_module_imported_by_use/input.scss
+@use "used";
+@import "shared";
+
+<===> import_module_imported_by_use/_shared.scss
+// This file is imported twice, so this should be printed twice, even though one
+// of those imports came from a use.
+@debug "evaluating shared";
+
+a {b: c}
+
+<===> import_module_imported_by_use/_used.scss
+@import "shared";
+
+<===> import_module_imported_by_use/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===> import_module_imported_by_use/warning
+/sass/spec/directives/use/css/import/import_module_imported_by_use/_shared.scss:3 DEBUG: evaluating shared
+/sass/spec/directives/use/css/import/import_module_imported_by_use/_shared.scss:3 DEBUG: evaluating shared

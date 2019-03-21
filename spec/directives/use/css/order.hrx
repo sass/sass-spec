@@ -188,25 +188,31 @@ a {
 
 <===>
 ================================================================================
-<===> import_order/use_into_use/input.scss
+<===> import_order/use_into_use/import_above_rule/input.scss
 @use "midstream";
 
 @import "input.css";
 
-<===> import_order/use_into_use/midstream.scss
+<===> import_order/use_into_use/import_above_rule/_midstream.scss
 @use "upstream";
 
 @import "midstream.css";
 
 a {file: midstream}
 
-<===> import_order/use_into_use/upstream.scss
+<===> import_order/use_into_use/import_above_rule/_upstream.scss
 @import "upstream.css";
 
-<===> import_order/use_into_use/output.css
+a {file: upstream}
+
+<===> import_order/use_into_use/import_above_rule/output.css
 @import "upstream.css";
 @import "midstream.css";
 @import "input.css";
+
+a {
+  file: upstream;
+}
 
 a {
   file: midstream;
@@ -214,29 +220,203 @@ a {
 
 <===>
 ================================================================================
-<===> import_order/import_below_rule/input.scss
+<===> import_order/use_into_use/import_below_rule/input.scss
 @use "midstream";
 
 @import "input.css";
 
-<===> import_order/import_below_rule/midstream.scss
+<===> import_order/use_into_use/import_below_rule/_midstream.scss
 @use "upstream";
 
 a {file: midstream}
 
 @import "midstream.css";
 
-<===> import_order/import_below_rule/upstream.scss
+<===> import_order/use_into_use/import_below_rule/_upstream.scss
+a {file: upstream}
+
 @import "upstream.css";
 
-<===> import_order/import_below_rule/output.css
+<===> import_order/use_into_use/import_below_rule/output.css
 @import "upstream.css";
 @import "midstream.css";
 @import "input.css";
 
 a {
+  file: upstream;
+}
+
+a {
   file: midstream;
 }
+
+<===>
+================================================================================
+<===> import_order/use_into_import/css_import_above_rule/input.scss
+@use "used";
+
+@import "input.css";
+
+<===> import_order/use_into_import/css_import_above_rule/_used.scss
+@import "imported";
+
+@import "used.css";
+
+a {file: used}
+
+<===> import_order/use_into_import/css_import_above_rule/_imported.scss
+@import "imported.css";
+
+a {file: imported}
+
+<===> import_order/use_into_import/css_import_above_rule/output.css
+@import "imported.css";
+@import "used.css";
+@import "input.css";
+
+a {
+  file: imported;
+}
+
+a {
+  file: used;
+}
+
+<===>
+================================================================================
+<===> import_order/use_into_import/css_import_below_rule/input.scss
+@use "used";
+
+@import "input.css";
+
+<===> import_order/use_into_import/css_import_below_rule/_used.scss
+@import "imported";
+
+a {file: used}
+
+@import "used.css";
+
+<===> import_order/use_into_import/css_import_below_rule/_imported.scss
+a {file: imported}
+
+@import "imported.css";
+
+<===> import_order/use_into_import/css_import_below_rule/output.css
+@import "imported.css";
+@import "used.css";
+@import "input.css";
+
+a {
+  file: imported;
+}
+
+a {
+  file: used;
+}
+
+<===>
+================================================================================
+<===> import_order/use_into_import/sass_import_below_css_import/input.scss
+@use "used";
+
+@import "input.css";
+
+<===> import_order/use_into_import/sass_import_below_css_import/_used.scss
+@import "used.css";
+
+@import "imported";
+
+<===> import_order/use_into_import/sass_import_below_css_import/_imported.scss
+@import "imported.css";
+
+<===> import_order/use_into_import/sass_import_below_css_import/output.css
+@import "used.css";
+@import "imported.css";
+@import "input.css";
+
+<===>
+================================================================================
+<===> import_order/import_into_use/css_import_above_rule/input.scss
+@import "imported";
+
+@import "input.css";
+
+<===> import_order/import_into_use/css_import_above_rule/_imported.scss
+@use "used";
+
+@import "imported.css";
+
+a {file: imported}
+
+<===> import_order/import_into_use/css_import_above_rule/_used.scss
+@import "used.css";
+
+a {file: used}
+
+<===> import_order/import_into_use/css_import_above_rule/output.css
+@import "used.css";
+@import "imported.css";
+@import "input.css";
+
+a {
+  file: used;
+}
+
+a {
+  file: imported;
+}
+
+<===>
+================================================================================
+<===> import_order/import_into_use/css_import_below_rule/input.scss
+@import "imported";
+
+@import "input.css";
+
+<===> import_order/import_into_use/css_import_below_rule/_imported.scss
+@use "used";
+
+a {file: imported}
+
+@import "imported.css";
+
+<===> import_order/import_into_use/css_import_below_rule/_used.scss
+a {file: used}
+
+@import "used.css";
+
+<===> import_order/import_into_use/css_import_below_rule/output.css
+@import "used.css";
+@import "imported.css";
+@import "input.css";
+
+a {
+  file: used;
+}
+
+a {
+  file: imported;
+}
+
+<===>
+================================================================================
+<===> import_order/import_into_use/sass_import_below_css_import/input.scss
+@import "input.css";
+
+@import "imported";
+
+<===> import_order/import_into_use/sass_import_below_css_import/_imported.scss
+@use "used";
+
+@import "imported.css";
+
+<===> import_order/import_into_use/sass_import_below_css_import/_used.scss
+@import "used.css";
+
+<===> import_order/import_into_use/sass_import_below_css_import/output.css
+@import "input.css";
+@import "used.css";
+@import "imported.css";
 
 <===>
 ================================================================================

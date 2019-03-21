@@ -252,3 +252,177 @@ in-shared {x: y}
 in-shared, right-extendee, left-extendee {
   x: y;
 }
+
+<===>
+================================================================================
+<===> scope/use_into_use_and_import_into_use/input.scss
+@use "used";
+@import "imported";
+
+<===> scope/use_into_use_and_import_into_use/_used.scss
+@use "shared";
+
+in-used {@extend shared}
+
+<===> scope/use_into_use_and_import_into_use/_imported.scss
+@use "shared";
+
+in-imported {@extend shared}
+
+<===> scope/use_into_use_and_import_into_use/_shared.scss
+// When this module is used by _imported.scss, its CSS is copied. The used
+// @extend only applies to the original, while the imported @extend applies to
+// both (since the imported extend is downstream of the used module).
+
+shared {x: y}
+
+<===> scope/use_into_use_and_import_into_use/output.css
+shared, in-used, in-imported {
+  x: y;
+}
+
+shared, in-imported {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/use_into_use_and_import_into_import/input.scss
+@use "used";
+@import "imported";
+
+<===> scope/use_into_use_and_import_into_import/_used.scss
+@use "shared";
+
+in-used {@extend shared}
+
+<===> scope/use_into_use_and_import_into_import/_imported.scss
+@import "shared";
+
+in-imported {@extend shared}
+
+<===> scope/use_into_use_and_import_into_import/_shared.scss
+// When this module is used by _imported.scss, its CSS is copied. The used
+// @extend only applies to the original, while the imported @extend applies to
+// both (since the imported extend is downstream of the used module).
+shared {x: y}
+
+<===> scope/use_into_use_and_import_into_import/output.css
+shared, in-used, in-imported {
+  x: y;
+}
+
+shared, in-imported {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/use_into_use_and_use_into_import/input.scss
+@use "user";
+@use "importer";
+
+<===> scope/use_into_use_and_use_into_import/_user.scss
+@use "shared";
+
+in-user {@extend shared}
+
+<===> scope/use_into_use_and_use_into_import/_importer.scss
+@import "shared";
+
+in-importer {@extend shared}
+
+<===> scope/use_into_use_and_use_into_import/_shared.scss
+// When this module is imported by _importer.scss, its CSS is copied. The
+// imported @extend only applies to the copy, and the used @extend only applies
+// to the original.
+shared {x: y}
+
+<===> scope/use_into_use_and_use_into_import/output.css
+shared, in-user {
+  x: y;
+}
+
+shared, in-importer {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/use_into_use_and_use_into_import_into_use/input.scss
+@use "importer";
+@use "used";
+
+<===> scope/use_into_use_and_use_into_import_into_use/_importer.scss
+@import "imported";
+
+<===> scope/use_into_use_and_use_into_import_into_use/_imported.scss
+@use "shared";
+
+in-imported {@extend shared}
+
+<===> scope/use_into_use_and_use_into_import_into_use/_used.scss
+@use "shared";
+
+in-used {@extend shared}
+
+<===> scope/use_into_use_and_use_into_import_into_use/_shared.scss
+// When this module is used by _imported.scss, its CSS is copied. The imported
+// @extend only applies to the copy, and the used @extend only applies to the
+// original.
+shared {x: y}
+
+<===> scope/use_into_use_and_use_into_import_into_use/output.css
+shared, in-imported {
+  x: y;
+}
+
+shared, in-used {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> scope/use_and_import_into_diamond_extend/input.scss
+@use "downstream";
+@import "downstream";
+@import "imported";
+
+<===> scope/use_and_import_into_diamond_extend/_downstream.scss
+// Even though left-extendee and right-extendee both end up in the style rule
+// defined in _shared.scss, they aren't extended by the other file because those
+// files don't use one another. This is true even though they're imported, which
+// eagerly resolves extensions.
+@use "left";
+@use "right";
+
+<===> scope/use_and_import_into_diamond_extend/_left.scss
+@use "shared";
+
+left-extendee {@extend in-shared}
+left-extender {@extend right-extendee !optional}
+
+<===> scope/use_and_import_into_diamond_extend/_right.scss
+@use "shared";
+
+right-extendee {@extend in-shared}
+right-extender {@extend left-extendee !optional}
+
+<===> scope/use_and_import_into_diamond_extend/_shared.scss
+in-shared {x: y}
+
+<===> scope/use_and_import_into_diamond_extend/_imported.scss
+@use "downstream";
+
+<===> scope/use_and_import_into_diamond_extend/output.css
+in-shared, right-extendee, left-extendee {
+  x: y;
+}
+
+in-shared, right-extendee, left-extendee {
+  x: y;
+}
+
+in-shared, right-extendee, left-extendee {
+  x: y;
+}
