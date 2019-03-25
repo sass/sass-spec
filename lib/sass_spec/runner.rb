@@ -60,10 +60,10 @@ class SassSpec::Runner
       passing = []
       test_cases.each do |test_case|
         if test_case.todo? && test_case.result?
-          passing << test_case.folder
+          passing << test_case.dir.to_s
         end
       end
-      if passing.any?
+      if !passing.empty?
         puts "The following tests pass but were marked as TODO for #{@options[:engine_adapter].describe}:"
         puts passing.join("\n")
       else
