@@ -426,3 +426,37 @@ in-shared, right-extendee, left-extendee {
 in-shared, right-extendee, left-extendee {
   x: y;
 }
+
+<===>
+================================================================================
+<===> scope/isolated_through_import/input.scss
+@use "used-by-input";
+@import "imported";
+
+<===> scope/isolated_through_import/_used-by-input.scss
+@use "shared";
+
+.in-used-by-input {@extend .in-shared}
+
+<===> scope/isolated_through_import/_imported.scss
+@use "used-by-imported";
+
+<===> scope/isolated_through_import/_used-by-imported.scss
+@use "shared";
+
+.in-used-by-imported {@extend .in-shared}
+
+<===> scope/isolated_through_import/_shared.scss
+// This should appear twice in the output: once when it's used directly, and
+// once when it's used through @import (since @import copies its CSS). Each copy
+// should be extended exactly once.
+.in-shared {a: b}
+
+<===> scope/isolated_through_import/output.css
+.in-shared, .in-used-by-input {
+  a: b;
+}
+
+.in-shared, .in-used-by-imported {
+  a: b;
+}
