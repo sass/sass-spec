@@ -57,6 +57,7 @@ an exception. Thorough testing trumps style.
   * [DO use Dart Sass's output as the default](#do-use-dart-sasss-output-as-the-default)
   * [DO end each file with a newline](#do-end-each-file-with-a-newline)
   * [DO use two spaces for indentation](#do-use-two-spaces-for-indentation)
+  * [DO use one-line rules when they contain empty children](#do-use-one-line-rules-when-they-contain-empty-children)
   * [PREFER one-line rules when they contain a single child with no children](#prefer-one-line-rules-when-they-contain-a-single-child-with-no-children)
   * [DON'T use one-line rules when they contain more than one child](#dont-use-one-line-rules-when-they-contain-more-than-one-child)
   * [DON'T use one-line rules when they contain grandchildren](#dont-use-one-line-rules-when-they-contain-grandchildren)
@@ -1184,6 +1185,32 @@ a b {
 
 Always use two spaces for indentation unless you're explicitly testing behavior
 for other whitespace.
+
+### DO use one-line rules when they contain empty children
+
+<details>
+<summary>Example</summary>
+
+#### Good
+
+```hrx
+<===> empty/input.scss
+a {}
+
+<===> empty/output.css
+```
+
+#### Bad
+
+```hrx
+<===> empty/input.scss
+a {
+}
+
+<===> empty/output.css
+```
+
+</details>
 
 ### PREFER one-line rules when they contain a single child with no children
 
