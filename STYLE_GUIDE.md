@@ -34,6 +34,7 @@ an exception. Thorough testing trumps style.
   * [DO write specs in HRX files](#do-write-specs-in-hrx-files)
   * [DO use as few HRX files as possible for a given feature](#do-use-as-few-hrx-files-as-possible-for-a-given-feature)
   * [DON'T have HRX files longer than 500 lines or so](#dont-have-hrx-files-longer-than-500-lines-or-so)
+  * [DO organize specs by which part of the language they test](#do-organize-specs-by-which-part-of-the-language-they-test)
   * [DO use descriptive paths](#do-use-descriptive-paths)
   * [DO put error specs in a separate "error" directory](#do-put-error-specs-in-a-separate-error-directory)
   * [PREFER underscore-separated paths](#prefer-underscore-separated-paths)
@@ -191,14 +192,14 @@ it into multiple files. To do so:
 * If this creates too many small HRX files, consider combining some related
   files back into more coarse-grained sub-divisions.
 
-### DO use descriptive paths
+### DO organize specs by which part of the language they test
 
 <details>
 <summary>Example</summary>
 
 #### Good
 
-`css/keyframes.hrx`
+`css/directives/keyframes.hrx`
 
 ```hrx
 <===> bubble/empty/input.scss
@@ -231,15 +232,76 @@ a {
 
 </details>
 
+Specs should be organized into hierarchical directories based on what part of
+the language they test, rather than other factors like how the test came to
+exist, which implementations support it, and so on. If a spec covers the
+intersection of multiple features, it can go in any of those features'
+locations, based on which the spec writer feels most clearly communicates the
+spec's meaning.
+
+The following directories should be used for their corresponding language
+features:
+
+* `spec/css/` is for plain CSS features, including CSS at-rules like `@media`
+  and plain-CSS selector syntax.
+
+* `spec/core_functions/` is for built-in Sass functions. These functions should
+  go in directories whose names correspond to the modules in [the module system
+  proposal][]. For example, specs for the `rgb()` function go in
+  `spec/core_functions/color/rgb/`.
+
+  [the module system proposal]: https://github.com/sass/language/blob/master/accepted/module-system.md#built-in-modules-1
+
+* `spec/directives` is for Sass's at-rules like `@extend` and `@import`.
+
+* `spec/values/` is for SassScript value types.
+
+### DO use descriptive paths
+
+<details>
+<summary>Example</summary>
+
+#### Good
+
+`css/keyframes.hrx`
+
+```hrx
+<===> bubble/empty/input.scss
+// Regression test for sass/dart-sass#611.
+a {
+  @keyframes {/**/}
+}
+
+<===> bubble/empty/output.css
+@keyframes {
+  /**/
+}
+```
+
+#### Bad
+
+`basic/edge_case.hrx`
+
+```hrx
+<===> input.scss
+a {
+  @keyframes {/**/}
+}
+
+<===> output.css
+@keyframes {
+  /**/
+}
+```
+
+</details>
+
 The path to a spec, both inside and outside its HRX file, is the first place a
 reader will look to try to understand [exactly what it's testing][]. Being as
 descriptive as possible (without being too verbose) in your choice of names will
 make this understanding much easier. Good rules of thumb include:
 
 [exactly what it's testing]: #do-test-only-one-thing-per-spec
-
-* Describe the feature or behavior being tested, not the circumstances around
-  how the test came to be created.
 
 * Use noun phrases (like "keyframes") or adjectives (like "empty") that describe
   the feature being tested or the context or state it's in.

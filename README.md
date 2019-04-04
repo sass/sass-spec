@@ -14,7 +14,7 @@
     * [`:todo`](#todo)
     * [`:warning_todo`](#warning_todo)
     * [`:ignore_for`](#ignore_for)
-* [Organization](#organization)
+* [Spec Style](#spec-style)
 * [Interactive Mode](#interactive-mode)
 
 [Sass]: https://sass-lang.com
@@ -265,34 +265,13 @@ implementations have dropped support for.
 
 [which is deprecated]: http://sass.logdown.com/posts/7081811
 
-## Organization
+## Spec Style
 
-All specs should go in the `spec/` directory. Beyond that, it gets messy. The
-specs in this repo accumulated haphazardly over the years from contributions
+The specs in this repo accumulated haphazardly over the years from contributions
 from many different people, so there's not currently much by way of unified
-organizational principles. In general, though, **specs should be organized by
-what part of the language they're testing**.
-
-In addition, the following conventions should be followed for new specs when
-applicable:
-
-* Specs for plain CSS features, including CSS at-rules like `@media` and CSS
-  selector syntax, go in `spec/css/`.
-
-* Specs for built-in functions go in `spec/core_functions/`, under directories
-  whose names correspond to the modules in [the module system proposal][]. For
-  example, specs for the `rgb()` function go in
-  `spec/core_functions/color/rgb/`.
-
-  [the module system proposal]: https://github.com/sass/language/blob/master/accepted/module-system.md#built-in-modules-1
-
-* Specs for Sass's at-rules like `@extend` and `@import` go in `spec/directives/`.
-
-* Specs for SassScript value types go in `spec/values/`.
-
-All directory names should be lowercase and underscore-separated. All error
-specs for a given feature should go in an `errors/` directory under that
-feature's directory.
+style or organization. However, all new specs should follow the [style
+guide](STYLE_GUIDE.md), and old specs should be migrated to be style-guide
+compliant whenever possible.
 
 ## Interactive Mode
 
