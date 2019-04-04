@@ -5,7 +5,6 @@
 * [Running Specs](#running-specs)
   * [Dart Sass](#dart-sass)
   * [LibSass](#libsass)
-  * [Ruby Sass](#ruby-sass)
 * [Spec Structure](#spec-structure)
   * [HRX](#hrx)
   * [Specifying Warnings](#specifying-warnings)
@@ -71,22 +70,6 @@ git clone https://github.com/sass/libsass
 export SASSC_PATH=`pwd`/libsass/sassc/bin/sassc
 
 bundle exec ./sass-spec.rb --impl libsass -c $SASSC_PATH
-```
-
-### Ruby Sass
-
-Unlike other implementations, Ruby Sass is installed via Bundler and used by
-default. All you need to do to run specs against it is:
-
-```sh
-bundle exec ./sass-spec.rb
-```
-
-If you want to run specs against your own clone of Ruby Sass, edit the `Gemfile`
-and replace the `gem "sass"` line with:
-
-```ruby
-gem "sass", :path => "path/to/ruby/sass"
 ```
 
 ## Spec Structure
@@ -189,8 +172,8 @@ against `error`.
 Sometimes different Sass implementations produce different but equally-valid CSS
 outputs or error messages for the same input. To accommodate this,
 implementation-specific output, error, and warning files may be created by
-adding `-dart-sass`, `-libsass`, or `-ruby-sass` after the file's name (but
-before its extension, in the case of `output.css`).
+adding `-dart-sass` or `-libsass` after the file's name (but before its
+extension, in the case of `output.css`).
 
 When a spec is running for an implementation with an implementations-specific
 expectation, the normal expectation is ignored completely in favor of the
@@ -255,12 +238,11 @@ normal. This should not be used for error specs.
 ```yaml
 ---
 :ignore_for:
-- ruby-sass
+- libsass
 ```
 
 This option indicates implementations that are never expected to be compatible
-with a given spec. It's used for specs that Ruby Sass, [which is deprecated][],
-will never support, as well as for specs for old features that some but not all
+with a given spec. It's used for specs for old features that some but not all
 implementations have dropped support for.
 
 [which is deprecated]: http://sass.logdown.com/posts/7081811

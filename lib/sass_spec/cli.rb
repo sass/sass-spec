@@ -5,7 +5,7 @@ module SassSpec::CLI
 
   def self.parse
     options = {
-      engine_adapter: SassEngineAdapter.new,
+      engine_adapter: nil,
       spec_directory: nil,
       generate: false,
       tap: false,
@@ -55,7 +55,7 @@ Make sure the command you provide prints to stdout.
         options[:tap] = true
       end
 
-      opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:engine_adapter]}')") do |v|
+      opts.on("-c", "--command COMMAND", "Sets a specific binary to run") do |v|
         options[:engine_adapter] = ExecutableEngineAdapter.new(v)
       end
 
@@ -119,6 +119,8 @@ Make sure the command you provide prints to stdout.
         options[:interactive] = true
       end
     end.parse!
+
+    raise "Must specify either --dart or --command." if options[:engine_adapter].nil?
 
     options[:spec_dirs_to_run] = ARGV.dup.map{|d| File.expand_path(d)} if ARGV.any?
 
