@@ -60,6 +60,8 @@ module SassSpec
                      else
                        {}
                      end
+      raise "#{dir.path}/options.yml is not a map!" unless self_options.is_a?(Hash)
+
       rv = parent_options.merge(self_options) do |key, parent_value, self_value|
         if ACCUMULATED_OPTIONS.include?(key)
           (Array(parent_value) + Array(self_value)).uniq
