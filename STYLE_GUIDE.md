@@ -181,7 +181,7 @@ files should be split apart if they become too large (see below).
 
 ### DON'T have HRX files longer than 500 lines or so
 
-Very large HRX files can be as difficult to naviate as hundreds of tiny files.
+Very large HRX files can be as difficult to navigate as hundreds of tiny files.
 Once an HRX file gets larger than about 500 lines, it's probably time to split
 it into multiple files. To do so:
 
@@ -631,9 +631,10 @@ a {
 
 </details>
 
-When writing a spec with multiple files, make the files other than the import
-partials unless there's a concrete reason not to. This helps make it clearer at
-a glance that they're additional input files, rather than expectation files.
+When writing a spec with multiple files, make the files (other than `input.scss`
+or `input.sass`) partials unless there's a concrete reason not to. This helps
+make it clearer at a glance that they're additional input files, rather than
+expectation files.
 
 ### DO name single imported or used files "other"
 
@@ -725,7 +726,7 @@ issue in the implementation in question tracking the feature the spec tests. If
 there isn't an issue yet, create one. Make sure to also link that issue back to
 the specs for it!
 
-[marking a spec as "todo"]: README.md#todo
+[marking a spec as `:todo`]: README.md#todo
 
 ## Documentation
 ### CONSIDER adding a comment explaining your spec
@@ -907,21 +908,18 @@ a b, a c {
 
 </details>
 
-The first file of each spec within an HRX file other than the first should begin with:
+Each subdirectory within an HRX file after the first should begin with [an HRX
+comment][] containing 80 `=` characters:
+
+[an HRX comment]: https://github.com/google/hrx/blob/master/README.md
 
 ```hrx
 <===>
 ================================================================================
 ```
 
-This is an HRX comment, and has no effect on the semantics of the file. It just
-serves to visually separate specs from one another.
-
-These comment separators should also be added before specs' parent directories
-if they're added separately, such as for an `options.yml` or [a `README.md`][]
-file.
-
-[a `README.md`]: #consider-adding-readme-md-files-to-parent-directories
+Because this is an HRX comment, it has no effect on the contents of the
+directory. It just serves to visually separate specs from one another.
 
 ### DO order files consistently
 
