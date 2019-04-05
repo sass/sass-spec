@@ -15,12 +15,6 @@ env:
 matrix:
   fast_finish: true
   include:
-    - gemfile: Gemfile
-      env: LANGUAGE_VERSION=3.7 IMPL=ruby-sass
-    - gemfile: Gemfile.sass_next
-      env: LANGUAGE_VERSION=3.8 IMPL=ruby-sass
-    - gemfile: Gemfile.sass_master
-      env: LANGUAGE_VERSION=4.0 IMPL=ruby-sass
     - env: LANGUAGE_VERSION=4.0 IMPL=libsass COMMAND="../sassc/bin/sassc"
     - env: LANGUAGE_VERSION=4.0 IMPL=dart-sass
 
@@ -46,10 +40,7 @@ before_install:
     fi
 
 script:
-  - if [ $IMPL == "ruby-sass" ]; then
-      bundle update sass;
-      bundle exec sass-spec.rb -V $LANGUAGE_VERSION --impl $IMPL;
-    elif [ $IMPL == "dart-sass" ]; then
+  - if [ $IMPL == "dart-sass" ]; then
       bundle exec sass-spec.rb -V $LANGUAGE_VERSION --dart ../dart-sass;
     else
       bundle exec sass-spec.rb -V $LANGUAGE_VERSION --impl $IMPL -c $COMMAND;
