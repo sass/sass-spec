@@ -856,7 +856,8 @@ Error: Expected token.
 
 HRX supports its own comment syntax, but that should never be used for specs.
 Instead [use Sass comments][] to document an individual file or spec and
-[`README.md` files][] to document entire directories.
+[`README.md` files][] to document entire directories. Sass comments provide more
+flexibility to provide documentation for specific portions of the test files.
 
 [use Sass comments]: #consider-adding-a-comment-explaining-your-spec
 [`README.md` files]: #consider-adding-readme-md-files-to-parent-directories
