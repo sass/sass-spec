@@ -8,6 +8,7 @@ module SassSpec::Util
 
     # Normalizes the path names and whitespace in the given error message.
     def normalize_error(error)
+      # TODO(nweiz): Delete path normalization when sass/libsass#2861 is fixed.
       error.gsub(/(?:\/todo_|_todo\/)/, "/") # hide todo pre/suffix
         .gsub(/\/libsass\-[a-z]+\-tests\//, "/") # hide test directory
         .gsub(/\/libsass\-[a-z]+\-issues\//, "/libsass-issues/") # normalize issue specs
