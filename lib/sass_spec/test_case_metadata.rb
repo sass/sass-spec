@@ -102,10 +102,6 @@ module SassSpec
       @options[:ignore_warning_for] || []
     end
 
-    def output_style
-      @options[:output_style]
-    end
-
     def precision
       @options[:precision]
     end

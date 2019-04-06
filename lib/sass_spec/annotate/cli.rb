@@ -54,13 +54,6 @@ BANNER
         options[:end_version] = version
       end
 
-      opts.on("--output-style STYLE",
-              [:expanded, :compact, :nested, :compressed, :unset],
-              "Set the output style for the specified tests.") do |output_style|
-        output_style = nil if output_style =~ /unset/i
-        options[:output_style] = output_style
-      end
-
       opts.on("--precision INTEGER",
               "Set the numeric output precision for the specified tests.",
               "Pass a precision of 'unset' to remove the precision.") do |precision|

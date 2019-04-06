@@ -18,7 +18,7 @@ class EngineAdapter
 
   # Compile a Sass file and return the results
   # @return [css_output, std_error, status_code]
-  def compile(sass_filename, style, precision)
+  def compile(sass_filename, precision)
     not_implemented
   end
 
@@ -53,8 +53,8 @@ class ExecutableEngineAdapter < EngineAdapter
   end
 
 
-  def compile(sass_filename, style, precision)
-    cmd = "#{@command} --precision #{precision} -t #{style || "expanded"}"
+  def compile(sass_filename, precision)
+    cmd = "#{@command} --precision #{precision} -t expanded"
     result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
 
     if result[:timeout]
@@ -110,8 +110,8 @@ class DartEngineAdapter < EngineAdapter
     `dart #{@path}/bin/sass.dart --version`
   end
 
-  def compile(sass_filename, style, precision)
-    @stdin.puts "--no-color --no-unicode --style #{style || 'expanded'} #{@args} #{sass_filename}"
+  def compile(sass_filename, precision)
+    @stdin.puts "--no-color --no-unicode #{@args} #{sass_filename}"
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
 
