@@ -25,12 +25,10 @@ class SassSpec::Directory
   # exists, this will load `subdir` from within `path/to/archive.hrx`.
   def initialize(path)
     @path = Pathname.new(path)
-    @path = @path.relative_path_from(Pathname.new(Dir.pwd)) if Pathname.new(path).absolute?
+    @path = @path.relative_path_from(Pathname.new(Dir.pwd)) if @path.absolute?
 
     # Always use forward slashes on Windows, because HRX requires them.
     @path = Pathname.new(@path.to_s.gsub(/\\/, '/')) if Gem.win_platform?
-
-    raise ArgumentError.new("#{@path} must be relative.") if @path.absolute?
 
     return if Dir.exist?(@path)
 
@@ -68,7 +66,7 @@ class SassSpec::Directory
   # This includes files within HRX files in this directory.
   def glob(pattern)
     if hrx?
-      @archive.glob(pattern).select {|e| e.is_a?(HRX::File)}.map(&:path)
+      @archive.glob(pattern, File::FNM_EXTGLOB).select {|e| e.is_a?(HRX::File)}.map(&:path)
     else
       recursive = pattern.include?("**")
       physical_pattern = recursive ? "{#{pattern},**/*.hrx}" : pattern
@@ -78,8 +76,10 @@ class SassSpec::Directory
 
         dir = path[0...-".hrx".length]
         relative_dir = relative[0...-".hrx".length]
+        next relative_dir if File.fnmatch(pattern, dir, File::FNM_EXTGLOB)
+
         archive = self.class._hrx_cache[dir] ||= HRX::Archive.load(path)
-        archive.glob(pattern).map {|inner| "#{relative_dir}/#{inner.path}"}
+        archive.glob(pattern, File::FNM_EXTGLOB).map {|inner| "#{relative_dir}/#{inner.path}"}
       end
     end
   end
@@ -89,7 +89,8 @@ class SassSpec::Directory
     if hrx?
       @archive[path].is_a?(HRX::File)
     else
-      File.exist?(File.join(@path, path))
+      resolved = File.join(@path, path)
+      File.exist?(resolved) && !File.directory?(resolved)
     end
   end
 
@@ -111,12 +112,22 @@ class SassSpec::Directory
 
   # Deletes the file at `path` within this directory.
   #
-  # If `if_exists` is `true`, don't throw an error if the file doesn't exist.
-  def delete(path, if_exists: false)
+  # If `if_exists` is `true`, don't throw an error if the file doesn't exist. If
+  # `recursive` is true, recursively delete `path` if it's a directory.
+  def delete(path, if_exists: false, recursive: false)
+    raise "if_exists and recursive can't both be true!" if if_exists && recursive
+
     return if if_exists && !file?(path)
     if hrx?
-      @archive.delete(path)
+      @archive.delete(path, recursive: recursive)
       _write!
+    elsif recursive
+      hrx_path = File.join(@path, "#{path}.hrx")
+      if !hrx? && File.exist?(hrx_path)
+        File.unlink(hrx_path)
+      else
+        FileUtils.rm_f(File.join(@path, path))
+      end
     else
       File.unlink(File.join(@path, path))
     end
@@ -134,7 +145,14 @@ class SassSpec::Directory
       @archive.delete(old)
       _write!
     else
-      File.rename(File.join(@path, old), File.join(@path, new))
+      old_path = File.join(@path, old)
+      new_path = File.join(@path, new)
+      if File.exist?("#{old_path}.hrx")
+        old_path += ".hrx"
+        new_path += ".hrx"
+      end
+
+      FileUtils.mv(old_path, new_path)
     end
   end
 
