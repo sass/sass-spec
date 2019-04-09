@@ -1,4 +1,5 @@
 require 'open3'
+require 'shellwords'
 require_relative 'capture_with_timeout'
 
 class EngineAdapter
@@ -54,7 +55,7 @@ class ExecutableEngineAdapter < EngineAdapter
 
 
   def compile(sass_filename, precision)
-    cmd = "#{File.absolute_path(@command)} --precision #{precision} -t expanded"
+    cmd = "#{Shellwords.escape(File.absolute_path(@command))} --precision #{precision} -t expanded"
     dirname, basename = File.split(sass_filename)
     result = Dir.chdir(dirname) do
       capture3_with_timeout("#{cmd} #{basename}", :binmode => true, :timeout => @timeout)
