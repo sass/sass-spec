@@ -55,10 +55,11 @@ class ExecutableEngineAdapter < EngineAdapter
 
 
   def compile(sass_filename, precision)
-    cmd = "#{Shellwords.escape(File.absolute_path(@command))} --precision #{precision} -t expanded"
+    command = File.absolute_path(@command)
     dirname, basename = File.split(sass_filename)
     result = Dir.chdir(dirname) do
-      capture3_with_timeout("#{cmd} #{basename}", :binmode => true, :timeout => @timeout)
+      capture3_with_timeout(command, "--precision", precision.to_s, "-t", "expanded", basename,
+        binmode: true, timeout: @timeout)
     end
 
     if result[:timeout]
