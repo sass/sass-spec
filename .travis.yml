@@ -27,7 +27,7 @@ before_install:
       (cd $SASS_LIBSASS_PATH; git checkout $GITISH);
       git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH;
       (cd $SASS_SASSC_PATH; git checkout $GITISH);
-      make -C $SASS_SASSC_PATH;
+      make -j "$(nproc)" -C $SASS_SASSC_PATH;
     fi
 
   - if [ $IMPL == "dart-sass" ]; then
