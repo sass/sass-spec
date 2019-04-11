@@ -54,8 +54,11 @@ class ExecutableEngineAdapter < EngineAdapter
 
 
   def compile(sass_filename, precision)
-    cmd = "#{@command} --precision #{precision} -t expanded"
-    result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
+    command = File.absolute_path(@command)
+    dirname, basename = File.split(sass_filename)
+    result = capture3_with_timeout(
+      command, "--precision", precision.to_s, "-t", "expanded", basename,
+      binmode: true, timeout: @timeout, chdir: dirname)
 
     if result[:timeout]
       ["", "Execution timed out after #{@timeout}s", -1]
@@ -79,6 +82,11 @@ class DartEngineAdapter < EngineAdapter
 
         main() async {
           await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
+            if (line.startsWith("!cd ")) {
+              Directory.current = line.substring("!cd ".length);
+              continue;
+            }
+
             try {
               await sass.main(line.split(" ").where((arg) => arg.isNotEmpty).toList());
             } catch (error, stackTrace) {
@@ -111,7 +119,9 @@ class DartEngineAdapter < EngineAdapter
   end
 
   def compile(sass_filename, precision)
-    @stdin.puts "--no-color --no-unicode #{@args} #{sass_filename}"
+    dirname, basename = File.split(sass_filename)
+    @stdin.puts "!cd #{File.absolute_path(dirname)}"
+    @stdin.puts "--no-color --no-unicode #{@args} #{basename}"
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
 
