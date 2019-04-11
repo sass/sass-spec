@@ -106,33 +106,8 @@ module SassSpec
       @options[:precision]
     end
 
-    def start_version
-      @start_version ||= Gem::Version.new(@options[:start_version] || SassSpec::MIN_LANGUAGE_VERSION)
-    end
-
-    def end_version
-      unless defined?(@end_version)
-        @end_version = if @options[:end_version]
-                         Gem::Version.new(@options[:end_version])
-                       else
-                         nil
-                       end
-      end
-      @end_version
-    end
-
-    def valid_for_version?(version)
-      version = Gem::Version.new(version) if version.is_a?(String)
-      valid = start_version <= version 
-      if end_version
-        valid &&= version <= end_version
-      end
-      valid
-    end
-
     def valid_for_impl?(impl)
       !ignore_for?(impl)
     end
-
   end
 end
