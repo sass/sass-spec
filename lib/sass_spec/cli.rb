@@ -42,14 +42,6 @@ Make sure the command you provide prints to stdout.
         options[:verbose] = true
       end
 
-      opts.on("-V", "--version LANGUAGE_VERSION", "Select the Sass Language Version to test.") do |v|
-        unless SassSpec::LANGUAGE_VERSIONS.include?(v)
-          raise ArgumentError.new("Version #{v} is not valid. " +
-                                  "Did you mean one of: #{SassSpec::LANGUAGE_VERSIONS.join(', ')}")
-        end
-        options[:language_version] = v
-      end
-
       opts.on("-t", "--tap", "Output TAP compatible report") do
         options[:tap] = true
       end

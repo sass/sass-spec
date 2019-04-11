@@ -7,15 +7,6 @@ class EngineAdapter
     not_implemented
   end
 
-  # The version string of the implementation
-  def version
-    not_implemented
-  end
-
-  def to_s
-    describe
-  end
-
   # Compile a Sass file and return the results
   # @return [css_output, std_error, status_code]
   def compile(sass_filename, precision)
@@ -36,6 +27,7 @@ class ExecutableEngineAdapter < EngineAdapter
     @command = command
     @timeout = 90
     @description = description || command
+    @version = `#{@command} -v`
   end
 
   def set_description(description)
@@ -45,13 +37,6 @@ class ExecutableEngineAdapter < EngineAdapter
   def describe
     @description
   end
-
-  def version
-    require 'open3'
-    stdout, stderr, status = Open3.capture3("#{@command} -v", :binmode => true)
-    stdout.to_s
-  end
-
 
   def compile(sass_filename, precision)
     command = File.absolute_path(@command)
@@ -65,6 +50,10 @@ class ExecutableEngineAdapter < EngineAdapter
     else
       [result[:stdout], result[:stderr], result[:status].exitstatus]
     end
+  end
+
+  def to_s
+    "#{@description} #{@version}"
   end
 end
 
@@ -108,14 +97,11 @@ class DartEngineAdapter < EngineAdapter
       @stdout.set_encoding 'binary'
       @stderr.set_encoding 'binary'
     end
+    @version = `dart #{@path}/bin/sass.dart --version`
   end
 
   def describe
     "dart-sass"
-  end
-
-  def version
-    `dart #{@path}/bin/sass.dart --version`
   end
 
   def compile(sass_filename, precision)
@@ -123,6 +109,10 @@ class DartEngineAdapter < EngineAdapter
     @stdin.puts "!cd #{File.absolute_path(dirname)}"
     @stdin.puts "--no-color --no-unicode #{@args} #{basename}"
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
+  end
+
+  def to_s
+    "Dart Sass #{@version}"
   end
 
   private

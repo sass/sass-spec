@@ -1,6 +1,7 @@
 <===> options.yml
 ---
-:end_version: '3.5'
+:todo:
+- libsass
 
 <===> input.scss
 @function foo($bar:#{}) {
@@ -10,6 +11,12 @@
 $foo: foo();
 
 <===> error
-Error: Invalid CSS after "...ction foo($bar:": expected expression (e.g. 1px, bold), was "#{}) {"
-        on line 1 of input.scss
-  Use --trace for backtrace.
+Error: Invalid CSS after "...ion foo($bar:#{": expected expression (e.g. 1px, bold), was "}) {"
+
+<===> error-dart-sass
+Error: Expected expression.
+  ,
+1 | @function foo($bar:#{}) {
+  |                    ^^
+  '
+  input.scss 1:20  root stylesheet

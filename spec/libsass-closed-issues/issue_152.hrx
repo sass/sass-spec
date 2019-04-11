@@ -1,7 +1,6 @@
 <===> options.yml
 ---
-:end_version: '3.5'
-:warning_todo:
+:todo:
 - libsass
 
 <===> input.scss
@@ -23,43 +22,13 @@ foo {
   a: $bar %100%;
 }
 
-<===> output.css
-foo {
-  a: 10% 100%;
-  a: 10 % 100%;
-  a: 10 %100%;
-  a: 10% 100%;
-  a: 10%;
-  a: 10%;
-  a: 10 100%;
-  a: 10%;
-  a: 10%;
-  a: 10% 100%;
-  a: 10%;
-  a: 10%;
-}
+<===> error
+Error: Undefined operation: "10 mod 100%".
 
-<===> warning
-DEPRECATION WARNING on line 5 of input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote("10% 100%")
-
-You can use the sass-convert command to automatically fix most cases.
-
-DEPRECATION WARNING on line 6 of input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote("10 % 100%")
-
-You can use the sass-convert command to automatically fix most cases.
-
-DEPRECATION WARNING on line 7 of input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote("10 %100%")
-
-You can use the sass-convert command to automatically fix most cases.
+<===> error-dart-sass
+Error: Undefined operation "10 % 100%".
+  ,
+5 |   a: #{10}% 100%;
+  |      ^^^^^^^^^^^
+  '
+  input.scss 5:6  root stylesheet

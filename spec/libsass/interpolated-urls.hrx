@@ -1,7 +1,6 @@
 <===> options.yml
 ---
-:end_version: '3.5'
-:warning_todo:
+:todo:
 - libsass
 
 <===> input.scss
@@ -19,7 +18,7 @@ fudge {
 }
 <===> output.css
 div {
-  background-image: "url("/static_loc/"img/beta.png)";
+  background-image: "url(" /static_loc/ "img/beta.png)";
 }
 
 span {
@@ -27,22 +26,5 @@ span {
 }
 
 fudge {
-  walnuts: blix "fludge"hey now123;
+  walnuts: blix "fludge" hey now123;
 }
-
-<===> warning
-DEPRECATION WARNING on line 3 of input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote('"url("#{$base_url}"img/beta.png)"')
-
-You can use the sass-convert command to automatically fix most cases.
-
-DEPRECATION WARNING on line 11 of input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote("#{blix "fludge"}#{hey now}123")
-
-You can use the sass-convert command to automatically fix most cases.
