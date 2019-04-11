@@ -1,5 +1,4 @@
 require 'open3'
-require 'shellwords'
 require_relative 'capture_with_timeout'
 
 class EngineAdapter
@@ -57,10 +56,9 @@ class ExecutableEngineAdapter < EngineAdapter
   def compile(sass_filename, precision)
     command = File.absolute_path(@command)
     dirname, basename = File.split(sass_filename)
-    result = Dir.chdir(dirname) do
-      capture3_with_timeout(command, "--precision", precision.to_s, "-t", "expanded", basename,
-        binmode: true, timeout: @timeout)
-    end
+    result = capture3_with_timeout(
+      command, "--precision", precision.to_s, "-t", "expanded", basename,
+      binmode: true, timeout: @timeout, chdir: dirname)
 
     if result[:timeout]
       ["", "Execution timed out after #{@timeout}s", -1]
