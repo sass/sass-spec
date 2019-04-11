@@ -26,18 +26,30 @@ SET GITCMD=git -C "%FOLDER%.."
 %GITCMD% checkout -f -B todo/issue_%ISSUE% master
 
 if exist "%SPECS%\libsass-closed-issues\issue_%ISSUE%" GOTO :IsClosed
+if exist "%SPECS%\libsass-closed-issues\issue_%ISSUE%.hrx" GOTO :IsClosed
 
 if not exist "%SPECS%\libsass-todo-issues\issue_%ISSUE%" (
 	mkdir "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
 )
 
-copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\input.scss
-REM not sure why this is needed, but sass-spec did not create it otherwise
-copy %ISSUE%.scss %SPECS%\libsass-todo-issues\issue_%ISSUE%\output.css
+set ROOT=%SPECS%\libsass-todo-issues\issue_%ISSUE%
 
-ruby %SPECS%\..\sass-spec.rb -g --run-todo --root "%SPECS%\libsass-todo-issues\issue_%ISSUE%"
+copy %ISSUE%.scss %ROOT%\input.scss
 
-%GITCMD% add %SPECS%\libsass-todo-issues\issue_%ISSUE%\*
+sass %ROOT%\input.scss %ROOT%\output.css ^
+	--no-source-map
+
+if exist "%ROOT%.hrx" del %ROOT%.hrx
+echo ^<===^> input.scss >> %ROOT%.hrx
+type %ROOT%\input.scss >> %ROOT%.hrx
+echo ^<===^> output.css >> %ROOT%.hrx
+type %ROOT%\output.css >> %ROOT%.hrx
+
+del %ROOT%\input.scss
+del %ROOT%\output.css
+
+dos2unix %ROOT%.hrx
+%GITCMD% add %ROOT%.hrx
 %GITCMD% commit -m "Add todo spec test for libsass issue %ISSUE%" ^
 	-m "" -m "https://github.com/sass/libsass/issues/%ISSUE%"
 
