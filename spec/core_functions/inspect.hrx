@@ -371,6 +371,26 @@ a {
 
 <===>
 ================================================================================
+<===> list/nested/options.yml
+---
+:todo:
+- libsass # sass/libsass#2654
+
+<===> list/nested/input.scss
+a {
+  $a: inspect([() (())]);
+  a: $a;
+  b: type-of($a);
+}
+
+<===> list/nested/output.css
+a {
+  a: [() ()];
+  b: string;
+}
+
+<===>
+================================================================================
 <===> map/input.scss
 a {
   $result: inspect((1: 2, 3: 4));
