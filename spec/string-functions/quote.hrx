@@ -1,0 +1,80 @@
+<===> unquoted/input.scss
+a {
+  a: quote(a);
+}
+
+<===> unquoted/output.css
+a {
+  a: "a";
+}
+
+<===>
+================================================================================
+<===> quoted-double/input.scss
+a {
+  a: quote("a");
+}
+
+<===> quoted-double/output.css
+a {
+  a: "a";
+}
+
+<===>
+================================================================================
+<===> quoted-single/input.scss
+a {
+  a: quote('a');
+}
+
+<===> quoted-single/output.css
+a {
+  a: "a";
+}
+
+<===>
+================================================================================
+<===> quote-mark-selection-single/input.scss
+a {
+  a: quote(unquote('"'));
+}
+
+<===> quote-mark-selection-single/output.css
+a {
+  a: '"';
+}
+
+<===>
+================================================================================
+<===> quote-mark-selection-double/input.scss
+a {
+  a: quote(unquote('"') + unquote("'"));
+}
+
+<===> quote-mark-selection-double/output.css
+a {
+  a: "\"'";
+}
+
+<===>
+================================================================================
+<===> error/argument-type/input.scss
+a {
+  a: quote((1, 2, 3));
+}
+
+<===> error/argument-type/error
+Error: $string: 1, 2, 3 is not a string.
+  ,
+2 |   a: quote((1, 2, 3));
+  |      ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
+
+<===> error/argument-type/error-libsass
+Error: argument `$string` of `quote($string)` must be a string
+        on line 2:6 of input.scss, in function `quote`
+        from line 2:6 of input.scss
+>>   a: quote((1, 2, 3));
+
+   -----^
