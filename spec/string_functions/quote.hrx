@@ -1,80 +1,82 @@
 <===> unquoted/input.scss
 a {
-  a: quote(a);
+  b: quote(c);
 }
 
 <===> unquoted/output.css
 a {
-  a: "a";
+  b: "c";
 }
 
 <===>
 ================================================================================
-<===> quoted-double/input.scss
+<===> quoted_double/input.scss
 a {
-  a: quote("a");
+  b: quote("c");
 }
 
-<===> quoted-double/output.css
+<===> quoted_double/output.css
 a {
-  a: "a";
-}
-
-<===>
-================================================================================
-<===> quoted-single/input.scss
-a {
-  a: quote('a');
-}
-
-<===> quoted-single/output.css
-a {
-  a: "a";
+  b: "c";
 }
 
 <===>
 ================================================================================
-<===> quote-mark-selection-single/input.scss
+<===> quoted_single/input.scss
 a {
-  a: quote(unquote('"'));
+  b: quote('c');
 }
 
-<===> quote-mark-selection-single/output.css
+<===> quoted_single/output.css
 a {
-  a: '"';
-}
-
-<===>
-================================================================================
-<===> quote-mark-selection-double/input.scss
-a {
-  a: quote(unquote('"') + unquote("'"));
-}
-
-<===> quote-mark-selection-double/output.css
-a {
-  a: "\"'";
+  b: "c";
 }
 
 <===>
 ================================================================================
-<===> error/argument-type/input.scss
+<===> quote_unquoted_quote/single/input.scss
+// See sass/libsass#2873
 a {
-  a: quote((1, 2, 3));
+  b: quote(unquote('"'));
 }
 
-<===> error/argument-type/error
+<===> quote_unquoted_quote/single/output.css
+a {
+  b: '"';
+}
+
+<===>
+================================================================================
+<===> quote_unquoted_quote/double/input.scss
+// See sass/libsass#2873
+a {
+  b: quote(unquote('"') + unquote("'"));
+}
+
+<===> quote_unquoted_quote/double/output.css
+a {
+  b: "\"'";
+}
+
+<===>
+================================================================================
+<===> error/argument_type/input.scss
+a {
+  b: quote((1, 2, 3));
+}
+
+<===> error/argument_type/error
 Error: $string: 1, 2, 3 is not a string.
   ,
-2 |   a: quote((1, 2, 3));
+2 |   b: quote((1, 2, 3));
   |      ^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
-<===> error/argument-type/error-libsass
+<===> error/argument_type/error-libsass
 Error: argument `$string` of `quote($string)` must be a string
         on line 2:6 of input.scss, in function `quote`
         from line 2:6 of input.scss
->>   a: quote((1, 2, 3));
+>>   b: quote((1, 2, 3));
 
    -----^
