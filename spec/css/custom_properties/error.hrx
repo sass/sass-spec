@@ -1,8 +1,3 @@
-<===> empty/options.yml
----
-:todo:
-- libsass
-
 <===> empty/input.scss
 // CSS requires at least one token in a custom property.
 .empty {
@@ -17,13 +12,15 @@ Error: Expected token.
   '
   input.scss 3:14  root stylesheet
 
+<===> empty/error-libsass
+Error: Custom property values may not be empty.
+        on line 3:13 of input.scss
+>>   --property:;
+
+   ------------^
+
 <===>
 ================================================================================
-<===> empty_interpolation/options.yml
----
-:todo:
-- libsass
-
 <===> empty_interpolation/input.scss
 // CSS requires at least one token in a custom property.
 .empty {
@@ -37,6 +34,13 @@ Error: Custom property values may not be empty.
   |              ^^^^^
   '
   input.scss 3:14  root stylesheet
+
+<===> empty_interpolation/error-libsass
+Error: Custom property values may not be empty.
+        on line 3:13 of input.scss
+>>   --property:#{""};
+
+   ------------^
 
 <===>
 ================================================================================
