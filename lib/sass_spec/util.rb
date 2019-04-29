@@ -3,7 +3,7 @@ module SassSpec::Util
     # Normalizes the whitespace in the given CSS to make it easier to compare
     # across implementations.
     def normalize_output(css)
-      css.gsub(/(?:\r?\n)+/, "\n")
+      css.gsub(/(?:\r?\n)+/, "\n").force_encoding("utf-8")
     end
 
     # Normalizes the path names and whitespace in the given error message.
@@ -16,6 +16,7 @@ module SassSpec::Util
         .sub(/(?:\r?\n)*\z/, "\n") # make sure we have exactly one trailing linefeed
         .sub(/\A(?:\r?\s)+\z/, "") # clear the whole file if only whitespace
         .gsub(/\r\n/, "\n") # remove Windows line feeds
+        .force_encoding("utf-8")
     end
 
     # Yields each directory in `path`, from the outermost to the innermost.
