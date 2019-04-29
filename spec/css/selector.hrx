@@ -1,0 +1,59 @@
+<===> attribute/dash_dash/input.scss
+// Attribute selector values are allowed to be unquoted as long as they're plain
+// CSS identifiers. However, IE 11 doesn't recognize custom-property-style
+// identifiers like `--foo` as identifiers, so they should always be quoted.
+
+[class="--foo"], [class*="--foo"] {
+  x: y;
+}
+
+<===> attribute/dash_dash/output.css
+[class="--foo"], [class*="--foo"] {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> reference_combinator/options.yml
+---
+:todo:
+- libsass
+
+<===> reference_combinator/input.scss
+// Reference combinators used to be supported by Sass when they were part of the
+// CSS spec, but they're no longer supported and should now produce errors.
+.foo /bar/ .baz {
+  a: b;
+}
+
+<===> reference_combinator/error
+Error: expected selector.
+  ,
+3 | .foo /bar/ .baz{
+  |      ^
+  '
+  input.scss 3:6  root stylesheet
+
+<===>
+================================================================================
+<===> slotted/input.scss
+::slotted(.a) {x: y}
+
+::slotted(.c.d) {x: y}
+.e {@extend .c}
+
+::slotted(.f) {x: y}
+::slotted(.g) {@extend .f}
+
+<===> slotted/output.css
+::slotted(.a) {
+  x: y;
+}
+
+::slotted(.c.d, .d.e) {
+  x: y;
+}
+
+::slotted(.f, ::slotted(.g)) {
+  x: y;
+}
