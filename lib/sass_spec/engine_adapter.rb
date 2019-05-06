@@ -7,18 +7,9 @@ class EngineAdapter
     not_implemented
   end
 
-  # The version string of the implementation
-  def version
-    not_implemented
-  end
-
-  def to_s
-    describe
-  end
-
   # Compile a Sass file and return the results
   # @return [css_output, std_error, status_code]
-  def compile(sass_filename, style, precision)
+  def compile(sass_filename, precision)
     not_implemented
   end
 
@@ -36,6 +27,7 @@ class ExecutableEngineAdapter < EngineAdapter
     @command = command
     @timeout = 90
     @description = description || command
+    @version = `#{@command} -v`
   end
 
   def set_description(description)
@@ -46,16 +38,12 @@ class ExecutableEngineAdapter < EngineAdapter
     @description
   end
 
-  def version
-    require 'open3'
-    stdout, stderr, status = Open3.capture3("#{@command} -v", :binmode => true)
-    stdout.to_s
-  end
-
-
-  def compile(sass_filename, style, precision)
-    cmd = "#{@command} --precision #{precision} -t #{style || "expanded"}"
-    result = capture3_with_timeout("#{cmd} #{sass_filename}", :binmode => true, :timeout => @timeout)
+  def compile(sass_filename, precision)
+    command = File.absolute_path(@command)
+    dirname, basename = File.split(sass_filename)
+    result = capture3_with_timeout(
+      command, "--precision", precision.to_s, "-t", "expanded", basename,
+      binmode: true, timeout: @timeout, chdir: dirname)
 
     if result[:timeout]
       ["", "Execution timed out after #{@timeout}s", -1]
@@ -63,58 +51,9 @@ class ExecutableEngineAdapter < EngineAdapter
       [result[:stdout], result[:stderr], result[:status].exitstatus]
     end
   end
-end
 
-class SassEngineAdapter < EngineAdapter
-  def describe
-    'ruby-sass'
-  end
-
-  def version
-    require 'sass/version'
-    Sass::VERSION
-  end
-
-  def language_version
-    require 'sass/version'
-    Sass::VERSION[0..2]
-  end
-
-  def compile(sass_filename, style, precision)
-    require 'sass'
-    # overloads STDERR
-    stderr = StringIO.new
-    # restore previous default encoding
-    encoding = Encoding.default_external
-    # Does not work as expected when tests are run in parallel
-    # It runs tests in threads, so stderr is shared across them
-    old_stderr, $stderr = $stderr, stderr
-    begin
-      Encoding.default_external = "UTF-8"
-      Sass::Script::Value::Number.precision = precision
-      sass_options = {}
-      sass_options[:style] = (style || :expanded).to_sym
-      sass_options[:cache] = false unless sass_options.has_key?(:cache)
-      css_output = Sass.compile_file(sass_filename.to_s, sass_options)
-      # strings come back as utf8 encoded
-      # internaly we only work with bytes
-      err_output = stderr.string
-      err_output.force_encoding('ASCII-8BIT')
-      css_output.force_encoding('ASCII-8BIT')
-      [css_output, err_output, 0]
-    rescue Sass::SyntaxError => e
-      err_output = stderr.string
-      # prepend the prefix to the message
-      # and indent all lines to match it
-      err_output += e.sass_backtrace_str("standard input") + "\n  Use --trace for backtrace.\n"
-      err_output.force_encoding('ASCII-8BIT')
-      ["", err_output, 65]
-    rescue => e
-      ["", e.to_s, 2]
-    end
-  ensure
-    $stderr = old_stderr
-    Encoding.default_external = encoding
+  def to_s
+    "#{@description} #{@version}"
   end
 end
 
@@ -132,6 +71,11 @@ class DartEngineAdapter < EngineAdapter
 
         main() async {
           await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
+            if (line.startsWith("!cd ")) {
+              Directory.current = line.substring("!cd ".length);
+              continue;
+            }
+
             try {
               await sass.main(line.split(" ").where((arg) => arg.isNotEmpty).toList());
             } catch (error, stackTrace) {
@@ -153,19 +97,22 @@ class DartEngineAdapter < EngineAdapter
       @stdout.set_encoding 'binary'
       @stderr.set_encoding 'binary'
     end
+    @version = `dart #{@path}/bin/sass.dart --version`
   end
 
   def describe
     "dart-sass"
   end
 
-  def version
-    `dart #{@path}/bin/sass.dart --version`
+  def compile(sass_filename, precision)
+    dirname, basename = File.split(sass_filename)
+    @stdin.puts "!cd #{File.absolute_path(dirname)}"
+    @stdin.puts "--no-color --no-unicode #{@args} #{basename}"
+    [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
 
-  def compile(sass_filename, style, precision)
-    @stdin.puts "--no-color --no-unicode --style #{style || 'expanded'} #{@args} #{sass_filename}"
-    [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
+  def to_s
+    "Dart Sass #{@version}"
   end
 
   private

@@ -7,7 +7,7 @@ Error: Can't find stylesheet to import.
 1 | @use "scheme:bar";
   | ^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/unknown_scheme/input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -23,7 +23,7 @@ Error: Can't find stylesheet to import.
 1 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/no_extension/input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -36,7 +36,7 @@ Error: Can't find stylesheet to import.
 1 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/missing/input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -54,7 +54,7 @@ Error: Can't find stylesheet to import.
 1 | @use "dir.scss";
   | ^^^^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/dir_dot_scss/input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -71,13 +71,13 @@ a {partial: false}
 
 <===> conflict/partial/error
 Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/partial/_other.scss
-  /sass/spec/directives/use/error/load/conflict/partial/other.scss
+  _other.scss
+  other.scss
   ,
 3 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflict/partial/input.scss 3:1  root stylesheet
+  input.scss 3:1  root stylesheet
 
 <===>
 ================================================================================
@@ -95,13 +95,13 @@ a {syntax: scss}
 
 <===> conflict/extension/sass_and_scss/error
 Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_scss/other.sass
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_scss/other.scss
+  other.sass
+  other.scss
   ,
 3 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflict/extension/sass_and_scss/input.scss 3:1  root stylesheet
+  input.scss 3:1  root stylesheet
 
 <===>
 ================================================================================
@@ -134,15 +134,15 @@ a {syntax: css; partial: true}
 
 <===> conflict/all/error
 Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/all/_other.sass
-  /sass/spec/directives/use/error/load/conflict/all/other.sass
-  /sass/spec/directives/use/error/load/conflict/all/_other.scss
-  /sass/spec/directives/use/error/load/conflict/all/other.scss
+  _other.sass
+  other.sass
+  _other.scss
+  other.scss
   ,
 3 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflict/all/input.scss 3:1  root stylesheet
+  input.scss 3:1  root stylesheet
 
 <===>
 ================================================================================
@@ -159,13 +159,13 @@ a {partial: false}
 
 <===> conflict/index/error
 Error: It's not clear which file to import. Found:
-  /sass/spec/directives/use/error/load/conflict/index/other/_index.scss
-  /sass/spec/directives/use/error/load/conflict/index/other/index.scss
+  other/_index.scss
+  other/index.scss
   ,
 3 | @use "other";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflict/index/input.scss 3:1  root stylesheet
+  input.scss 3:1  root stylesheet
 
 <===>
 ================================================================================
@@ -178,7 +178,7 @@ Error: This module is currently being loaded.
 1 | @use "input";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/loop/use_self/input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -194,8 +194,8 @@ Error: This module is currently being loaded.
 1 | @use "input";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/loop/use_to_use/other.scss 1:1  @use
-  /sass/spec/directives/use/error/load/loop/use_to_use/other.scss 1:1  root stylesheet
+  other.scss 1:1  @use
+  other.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -211,8 +211,8 @@ Error: This file is already being loaded.
 1 | @import "input";
   |         ^^^^^^^
   '
-  /sass/spec/directives/use/error/load/loop/use_to_import/other.scss 1:9  @use
-  /sass/spec/directives/use/error/load/loop/use_to_import/other.scss 1:1  root stylesheet
+  other.scss 1:9  @use
+  other.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -228,8 +228,8 @@ Error: This module is currently being loaded.
 1 | @use "input";
   | ^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/loop/import_to_use/other.scss 1:1  @import
-  /sass/spec/directives/use/error/load/loop/import_to_use/input.scss 1:9  root stylesheet
+  other.scss 1:1  @import
+  input.scss 1:9  root stylesheet
 
 <===>
 ================================================================================
@@ -245,8 +245,8 @@ Error: There's already a module with namespace "other".
 2 | @use "other2" as other;
   | ^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflicting_namespace/explicit/input.scss 2:1   @use
-  /sass/spec/directives/use/error/load/conflicting_namespace/explicit/other2.scss 1:1  root stylesheet
+  input.scss 2:1   @use
+  other2.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -262,8 +262,8 @@ Error: There's already a module with namespace "other".
 2 | @use "dir2/other";
   | ^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflicting_namespace/implicit/input.scss 2:1       @use
-  /sass/spec/directives/use/error/load/conflicting_namespace/implicit/dir2/other.scss 1:1  root stylesheet
+  input.scss 2:1       @use
+  dir2/other.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -279,5 +279,5 @@ Error: There's already a module with namespace "other".
 2 | @use "other2" as other;
   | ^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/directives/use/error/load/conflicting_namespace/mixed/input.scss 2:1   @use
-  /sass/spec/directives/use/error/load/conflicting_namespace/mixed/other2.scss 1:1  root stylesheet
+  input.scss 2:1   @use
+  other2.scss 1:1  root stylesheet

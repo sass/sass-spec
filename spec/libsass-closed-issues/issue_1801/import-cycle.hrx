@@ -9,12 +9,12 @@
 
 <===> error
 Error: An @import loop has been found:
-           /sass/spec/libsass-issues/issue_1801/import-cycle/input.scss imports /sass/spec/libsass-issues/issue_1801/import-cycle/_alpha.scss
-           /sass/spec/libsass-issues/issue_1801/import-cycle/_alpha.scss imports /sass/spec/libsass-issues/issue_1801/import-cycle/_beta.scss
-           /sass/spec/libsass-issues/issue_1801/import-cycle/_beta.scss imports /sass/spec/libsass-issues/issue_1801/import-cycle/_alpha.scss
-        on line 1 of /sass/spec/libsass-issues/issue_1801/import-cycle/_beta.scss
-        from line 1 of /sass/spec/libsass-issues/issue_1801/import-cycle/_alpha.scss
-        from line 1 of /sass/spec/libsass-issues/issue_1801/import-cycle/input.scss
+           input.scss imports _alpha.scss
+           _alpha.scss imports _beta.scss
+           _beta.scss imports _alpha.scss
+        on line 1 of _beta.scss
+        from line 1 of _alpha.scss
+        from line 1 of input.scss
   Use --trace for backtrace.
 
 <===> error-dart-sass
@@ -23,6 +23,6 @@ Error: This file is already being loaded.
 1 | @import 'alpha';
   |         ^^^^^^^
   '
-  /sass/spec/libsass-issues/issue_1801/import-cycle/_beta.scss 1:9   @import
-  /sass/spec/libsass-issues/issue_1801/import-cycle/_alpha.scss 1:9  @import
-  /sass/spec/libsass-issues/issue_1801/import-cycle/input.scss 1:9   root stylesheet
+  _beta.scss 1:9   @import
+  _alpha.scss 1:9  @import
+  input.scss 1:9   root stylesheet

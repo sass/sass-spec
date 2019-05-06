@@ -5,7 +5,6 @@
 * [Running Specs](#running-specs)
   * [Dart Sass](#dart-sass)
   * [LibSass](#libsass)
-  * [Ruby Sass](#ruby-sass)
 * [Spec Structure](#spec-structure)
   * [HRX](#hrx)
   * [Specifying Warnings](#specifying-warnings)
@@ -14,7 +13,7 @@
     * [`:todo`](#todo)
     * [`:warning_todo`](#warning_todo)
     * [`:ignore_for`](#ignore_for)
-* [Organization](#organization)
+* [Spec Style](#spec-style)
 * [Interactive Mode](#interactive-mode)
 
 [Sass]: https://sass-lang.com
@@ -71,22 +70,6 @@ git clone https://github.com/sass/libsass
 export SASSC_PATH=`pwd`/libsass/sassc/bin/sassc
 
 bundle exec ./sass-spec.rb --impl libsass -c $SASSC_PATH
-```
-
-### Ruby Sass
-
-Unlike other implementations, Ruby Sass is installed via Bundler and used by
-default. All you need to do to run specs against it is:
-
-```sh
-bundle exec ./sass-spec.rb
-```
-
-If you want to run specs against your own clone of Ruby Sass, edit the `Gemfile`
-and replace the `gem "sass"` line with:
-
-```ruby
-gem "sass", :path => "path/to/ruby/sass"
 ```
 
 ## Spec Structure
@@ -189,8 +172,8 @@ against `error`.
 Sometimes different Sass implementations produce different but equally-valid CSS
 outputs or error messages for the same input. To accommodate this,
 implementation-specific output, error, and warning files may be created by
-adding `-dart-sass`, `-libsass`, or `-ruby-sass` after the file's name (but
-before its extension, in the case of `output.css`).
+adding `-dart-sass` or `-libsass` after the file's name (but before its
+extension, in the case of `output.css`).
 
 When a spec is running for an implementation with an implementations-specific
 expectation, the normal expectation is ignored completely in favor of the
@@ -255,44 +238,22 @@ normal. This should not be used for error specs.
 ```yaml
 ---
 :ignore_for:
-- ruby-sass
+- libsass
 ```
 
 This option indicates implementations that are never expected to be compatible
-with a given spec. It's used for specs that Ruby Sass, [which is deprecated][],
-will never support, as well as for specs for old features that some but not all
+with a given spec. It's used for specs for old features that some but not all
 implementations have dropped support for.
 
 [which is deprecated]: http://sass.logdown.com/posts/7081811
 
-## Organization
+## Spec Style
 
-All specs should go in the `spec/` directory. Beyond that, it gets messy. The
-specs in this repo accumulated haphazardly over the years from contributions
+The specs in this repo accumulated haphazardly over the years from contributions
 from many different people, so there's not currently much by way of unified
-organizational principles. In general, though, **specs should be organized by
-what part of the language they're testing**.
-
-In addition, the following conventions should be followed for new specs when
-applicable:
-
-* Specs for plain CSS features, including CSS at-rules like `@media` and CSS
-  selector syntax, go in `spec/css/`.
-
-* Specs for built-in functions go in `spec/core_functions/`, under directories
-  whose names correspond to the modules in [the module system proposal][]. For
-  example, specs for the `rgb()` function go in
-  `spec/core_functions/color/rgb/`.
-
-  [the module system proposal]: https://github.com/sass/language/blob/master/accepted/module-system.md#built-in-modules-1
-
-* Specs for Sass's at-rules like `@extend` and `@import` go in `spec/directives/`.
-
-* Specs for SassScript value types go in `spec/values/`.
-
-All directory names should be lowercase and underscore-separated. All error
-specs for a given feature should go in an `errors/` directory under that
-feature's directory.
+style or organization. However, all new specs should follow the [style
+guide](STYLE_GUIDE.md), and old specs should be migrated to be style-guide
+compliant whenever possible.
 
 ## Interactive Mode
 

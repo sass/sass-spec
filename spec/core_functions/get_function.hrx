@@ -59,8 +59,6 @@ a {
 ---
 :todo:
 - libsass # sass/libsass#2807
-:ignore_for:
-- ruby-sass
 
 <===> through_use/input.scss
 @use "other" as *;
@@ -244,7 +242,7 @@ Error: $name: 2px is not a string.
 1 | a {b: get-function(2px)}
   |       ^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/argument/type/name/input.scss 1:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -267,15 +265,10 @@ Error: $name: get-function("foo") is not a string.
 6 | a {b: get-function($foo-ref)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/argument/function_ref/input.scss 6:7  root stylesheet
+  input.scss 6:7  root stylesheet
 
 <===>
 ================================================================================
-<===> error/argument/too_few/options.yml
----
-:todo:
-- ruby-sass
-
 <===> error/argument/too_few/input.scss
 a {b: get-function()}
 
@@ -285,22 +278,17 @@ Error: Missing argument $name.
 1 | a {b: get-function()}
   |       ^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/argument/too_few/input.scss 1:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error/argument/too_few/error-libsass
 Error: Function get-function is missing argument $name.
-        on line 1 of /sass/spec/core_functions/get_function/error/argument/too_few/input.scss
+        on line 1 of input.scss
 >> a {b: get-function()}
 
    ------^
 
 <===>
 ================================================================================
-<===> error/argument/too_many/options.yml
----
-:todo:
-- ruby-sass
-
 <===> error/argument/too_many/input.scss
 a {b: get-function(lighten, true, lighten)}
 
@@ -310,11 +298,11 @@ Error: Only 2 arguments allowed, but 3 were passed.
 1 | a {b: get-function(lighten, true, lighten)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/argument/too_many/input.scss 1:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
 Error: wrong number of arguments (3 for 2) for `get-function'
-        on line 1:7 of /sass/spec/core_functions/get_function/error/argument/too_many/input.scss
+        on line 1:7 of input.scss
 >> a {b: get-function(lighten, true, lighten)}
 
    ------^
@@ -335,7 +323,7 @@ Error: Function not found: does-not-exist
 1 | a {b: get-function(does-not-exist)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/non_existent/input.scss 1:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -353,7 +341,7 @@ Error: get-function("rgb") isn't a valid CSS value.
 1 | a {b: get-function(rgb) / get-function(lighten)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/division/input.scss 1:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -379,7 +367,7 @@ Error: $name: get-function("add-two") is not a string.
 8 |   error: function-exists($add-two-fn);
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/error/function_exists/input.scss 8:10  root stylesheet
+  input.scss 8:10  root stylesheet
 
 <===>
 ================================================================================
@@ -387,8 +375,6 @@ Error: $name: get-function("add-two") is not a string.
 ---
 :todo:
 - libsass # sass/libsass#2807
-:ignore_for:
-- ruby-sass
 
 <===> conflict/input.scss
 @use "other1" as *;
@@ -408,4 +394,4 @@ Error: Multiple global modules have a function named "member".
 4 | a {b: get-function(member)}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/get_function/conflict/input.scss 4:7  root stylesheet
+  input.scss 4:7  root stylesheet

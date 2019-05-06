@@ -1,7 +1,6 @@
 <===> options.yml
 ---
-:end_version: '3.5'
-:warning_todo:
+:todo:
 - libsass
 
 <===> input.scss
@@ -12,14 +11,5 @@ div {
 }
 <===> output.css
 div {
-  color: fooa, 3, c;
+  color: foo(a, 3, c);
 }
-
-<===> warning
-DEPRECATION WARNING on line 4 of /sass/spec/libsass/interpolated-function-call/input.scss:
-#{} interpolation near operators will be simplified in a future version of Sass.
-To preserve the current behavior, use quotes:
-
-  unquote("#{$f}#{a, 1 + 2, c}")
-
-You can use the sass-convert command to automatically fix most cases.

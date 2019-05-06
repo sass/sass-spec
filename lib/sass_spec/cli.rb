@@ -5,7 +5,7 @@ module SassSpec::CLI
 
   def self.parse
     options = {
-      engine_adapter: SassEngineAdapter.new,
+      engine_adapter: nil,
       spec_directory: nil,
       generate: false,
       tap: false,
@@ -13,7 +13,6 @@ module SassSpec::CLI
       verbose: false,
       filter: "",
       limit: -1,
-      only_output_styles: []
     }
 
     OptionParser.new do |opts|
@@ -43,19 +42,11 @@ Make sure the command you provide prints to stdout.
         options[:verbose] = true
       end
 
-      opts.on("-V", "--version LANGUAGE_VERSION", "Select the Sass Language Version to test.") do |v|
-        unless SassSpec::LANGUAGE_VERSIONS.include?(v)
-          raise ArgumentError.new("Version #{v} is not valid. " +
-                                  "Did you mean one of: #{SassSpec::LANGUAGE_VERSIONS.join(', ')}")
-        end
-        options[:language_version] = v
-      end
-
       opts.on("-t", "--tap", "Output TAP compatible report") do
         options[:tap] = true
       end
 
-      opts.on("-c", "--command COMMAND", "Sets a specific binary to run (defaults to '#{options[:engine_adapter]}')") do |v|
+      opts.on("-c", "--command COMMAND", "Sets a specific binary to run") do |v|
         options[:engine_adapter] = ExecutableEngineAdapter.new(v)
       end
 
@@ -96,13 +87,6 @@ Make sure the command you provide prints to stdout.
         options[:limit] = limit.to_i
       end
 
-      opts.on("--output-style STYLE", [:expanded, :compact, :nested, :compressed, :unspecified],
-              "Only run tests that have the specified output style.",
-              "Legal values: expanded, compact, nested, compressed, unspecified.") do |style|
-        style = nil if style == :unspecified
-        options[:only_output_styles] << style
-      end
-
       opts.on("--migrate-impl", "Copy tests that fail and make them pass for the current implementatino.") do
         options[:migrate_impl] = true
       end
@@ -119,6 +103,8 @@ Make sure the command you provide prints to stdout.
         options[:interactive] = true
       end
     end.parse!
+
+    raise "Must specify either --dart or --command." if options[:engine_adapter].nil?
 
     options[:spec_dirs_to_run] = ARGV.dup.map{|d| File.expand_path(d)} if ARGV.any?
 

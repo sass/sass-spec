@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 
-gemspec
-
-gem "sass", git: "https://github.com/sass/ruby-sass.git", branch: "stable"
-
-# In development, uncomment this instead.
-# gem "sass", :path => "../sass"
-# gem "pry"
-# gem "pry-nav"
+gem "minitest", "~> 5.8"
+gem "command_line_reporter", '~> 3.0'
+gem "ruby-terminfo", '~> 0.1.1'
+gem "diffy", '~> 3.1'
+gem "hrx", '~> 1.0'
