@@ -8,7 +8,6 @@ class SassSpec::Runner
 
   def initialize(options = {})
     @options = options
-    @options[:language_version] = language_version.to_s
   end
 
   def get_input_dirs
@@ -37,8 +36,7 @@ class SassSpec::Runner
 
   def run
     unless @options[:silent] || @options[:tap]
-      puts "Recursively searching under #{get_input_dirs.join(", ")} for test files to test '#{@options[:engine_adapter]}' against language version #{@options[:language_version]}."
-      puts @options[:engine_adapter].version
+      puts "Recursively searching under #{get_input_dirs.join(", ")} for test files to test #{@options[:engine_adapter]}."
     end
 
     test_cases = _get_cases
@@ -60,10 +58,10 @@ class SassSpec::Runner
       passing = []
       test_cases.each do |test_case|
         if test_case.todo? && test_case.result?
-          passing << test_case.folder
+          passing << test_case.dir.to_s
         end
       end
-      if passing.any?
+      if !passing.empty?
         puts "The following tests pass but were marked as TODO for #{@options[:engine_adapter].describe}:"
         puts passing.join("\n")
       else
@@ -72,21 +70,6 @@ class SassSpec::Runner
     end
 
     result
-  end
-
-  def language_version
-    unless defined?(@language_version)
-      @language_version = if @options[:language_version]
-                            Gem::Version.new(@options[:language_version])
-                          elsif @options[:engine_adapter].respond_to?(:language_version)
-                            Gem::Version.new(@options[:engine_adapter].language_version)
-                          else
-                            warn "No language version specified. " +
-                                 "Using #{SassSpec::MAX_LANGUAGE_VERSION}"
-                            SassSpec::MAX_LANGUAGE_VERSION
-                          end
-    end
-    @language_version
   end
 
   def impl
@@ -98,12 +81,6 @@ class SassSpec::Runner
     get_input_files().each do |filename|
       dir = SassSpec::Directory.new(File.dirname(filename))
       metadata = SassSpec::TestCaseMetadata.new(dir)
-      unless metadata.valid_for_version?(language_version)
-        if @options[:verbose]
-          warn "#{metadata.name} does not apply to Sass #{language_version}"
-        end
-        next
-      end
 
       unless metadata.valid_for_impl?(impl)
         if @options[:verbose]
@@ -113,10 +90,6 @@ class SassSpec::Runner
       end
 
       next unless filename.include?(@options[:filter] || "")
-
-      if  @options[:only_output_styles] && @options[:only_output_styles].any?
-        next unless @options[:only_output_styles].include?(metadata.output_style)
-      end
 
       test_case = SassSpec::TestCase.new(dir, @options[:engine_adapter].describe)
 

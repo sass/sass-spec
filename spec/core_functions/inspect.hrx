@@ -7,16 +7,11 @@ Error: Missing argument $value.
 1 | a {a: inspect()}
   |       ^^^^^^^^^
   '
-  /sass/spec/core_functions/inspect/error/no_args/input.scss 1:7  root stylesheet
-
-<===> error/no_args/error-ruby-sass
-Error: wrong number of arguments (0 for 1) for `inspect'
-        on line 1 of /sass/spec/core_functions/inspect/error/no_args/input.scss
-  Use --trace for backtrace.
+  input.scss 1:7  root stylesheet
 
 <===> error/no_args/error-libsass
 Error: Function inspect is missing argument $value.
-        on line 1 of /sass/spec/core_functions/inspect/error/no_args/input.scss
+        on line 1 of input.scss
 >> a {a: inspect()}
 
    ------^
@@ -32,16 +27,11 @@ Error: Only 1 argument allowed, but 2 were passed.
 1 | a {a: inspect(1, 2)}
   |       ^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/inspect/error/two_args/input.scss 1:7  root stylesheet
-
-<===> error/two_args/error-ruby-sass
-Error: wrong number of arguments (2 for 1) for `inspect'
-        on line 1 of /sass/spec/core_functions/inspect/error/two_args/input.scss
-  Use --trace for backtrace.
+  input.scss 1:7  root stylesheet
 
 <===> error/two_args/error-libsass
 Error: wrong number of arguments (2 for 1) for `inspect'
-        on line 1:7 of /sass/spec/core_functions/inspect/error/two_args/input.scss
+        on line 1:7 of input.scss
 >> a {a: inspect(1, 2)}
 
    ------^
@@ -78,11 +68,6 @@ a {
 
 <===>
 ================================================================================
-<===> string/quoted/options.yml
----
-:todo:
-- libsass # sass/libsass#2826
-
 <===> string/quoted/input.scss
 a {
   $result: inspect("foo");
@@ -377,6 +362,26 @@ a {
 a {
   result: [1, 2, 3];
   type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/options.yml
+---
+:todo:
+- libsass # sass/libsass#2654
+
+<===> list/nested/input.scss
+a {
+  $a: inspect([() ()]);
+  a: $a;
+  b: type-of($a);
+}
+
+<===> list/nested/output.css
+a {
+  a: [() ()];
+  b: string;
 }
 
 <===>

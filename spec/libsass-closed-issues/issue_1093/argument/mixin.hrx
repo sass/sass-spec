@@ -1,6 +1,7 @@
 <===> options.yml
 ---
-:end_version: '3.5'
+:todo:
+- libsass
 
 <===> input.scss
 @mixin foo($bar:#{}) {
@@ -12,6 +13,12 @@ foo {
 }
 
 <===> error
-Error: Invalid CSS after "@mixin foo($bar:": expected expression (e.g. 1px, bold), was "#{}) {"
-        on line 1 of /sass/spec/libsass-issues/issue_1093/argument/mixin/input.scss
-  Use --trace for backtrace.
+Error: Invalid CSS after "@mixin foo($bar:#{": expected expression (e.g. 1px, bold), was "}) {"
+
+<===> error-dart-sass
+Error: Expected expression.
+  ,
+1 | @mixin foo($bar:#{}) {
+  |                 ^^
+  '
+  input.scss 1:17  root stylesheet

@@ -41,8 +41,6 @@ a {
 ---
 :todo:
 - libsass # sass/libsass#2807
-:ignore_for:
-- ruby-sass
 
 <===> through_use/input.scss
 @use "other" as *;
@@ -101,17 +99,12 @@ Error: $name: 12px is not a string.
 1 | a {b: global-variable-exists(12px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/global_variable_exists/error/argument/type/input.scss 1:7  root stylesheet
-
-<===> error/argument/type/error-ruby-sass
-Error: $name: 12px is not a string for `global-variable-exists'
-        on line 1 of /sass/spec/core_functions/global_variable_exists/error/argument/type/input.scss
-  Use --trace for backtrace.
+  input.scss 1:7  root stylesheet
 
 <===> error/argument/type/error-libsass
 Error: argument `$name` of `global-variable-exists($name)` must be a string
-        on line 1:7 of /sass/spec/core_functions/global_variable_exists/error/argument/type/input.scss, in function `global-variable-exists`
-        from line 1:7 of /sass/spec/core_functions/global_variable_exists/error/argument/type/input.scss
+        on line 1:7 of input.scss, in function `global-variable-exists`
+        from line 1:7 of input.scss
 >> a {b: global-variable-exists(12px)}
 
    ------^
@@ -127,16 +120,11 @@ Error: Missing argument $name.
 1 | a {b: global-variable-exists()}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/global_variable_exists/error/argument/too_few/input.scss 1:7  root stylesheet
-
-<===> error/argument/too_few/error-ruby-sass
-Error: wrong number of arguments (0 for 1) for `global-variable-exists'
-        on line 1 of /sass/spec/core_functions/global_variable_exists/error/argument/too_few/input.scss
-  Use --trace for backtrace.
+  input.scss 1:7  root stylesheet
 
 <===> error/argument/too_few/error-libsass
 Error: Function global-variable-exists is missing argument $name.
-        on line 1 of /sass/spec/core_functions/global_variable_exists/error/argument/too_few/input.scss
+        on line 1 of input.scss
 >> a {b: global-variable-exists()}
 
    ------^
@@ -152,16 +140,11 @@ Error: Only 1 argument allowed, but 2 were passed.
 1 | a {b: global-variable-exists(foo, bar)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/global_variable_exists/error/argument/too_many/input.scss 1:7  root stylesheet
-
-<===> error/argument/too_many/error-ruby-sass
-Error: wrong number of arguments (2 for 1) for `global-variable-exists'
-        on line 1 of /sass/spec/core_functions/global_variable_exists/error/argument/too_many/input.scss
-  Use --trace for backtrace.
+  input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
 Error: wrong number of arguments (2 for 1) for `global-variable-exists'
-        on line 1:7 of /sass/spec/core_functions/global_variable_exists/error/argument/too_many/input.scss
+        on line 1:7 of input.scss
 >> a {b: global-variable-exists(foo, bar)}
 
    ------^
@@ -172,8 +155,6 @@ Error: wrong number of arguments (2 for 1) for `global-variable-exists'
 ---
 :todo:
 - libsass # sass/libsass#2807
-:ignore_for:
-- ruby-sass
 
 <===> conflict/input.scss
 @use "other1" as *;
@@ -193,4 +174,4 @@ Error: Multiple global modules have a variable named "$member".
 4 | a {b: global-variable-exists(member)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  /sass/spec/core_functions/global_variable_exists/conflict/input.scss 4:7  root stylesheet
+  input.scss 4:7  root stylesheet
