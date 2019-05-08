@@ -1,0 +1,99 @@
+<===> variable_use/input.scss
+@use "midstream";
+
+a {b: $midstream.c}
+
+<===> variable_use/_midstream.scss
+@forward "upstream";
+
+<===> variable_use/_upstream.scss
+$c: d;
+
+<===> variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/top_level/input.scss
+@use "midstream";
+
+$midstream.a: new value;
+
+b {c: midstream.get-a()};
+
+<===> variable_assignment/top_level/_midstream.scss
+@forward "upstream";
+
+<===> variable_assignment/top_level/_upstream.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> variable_assignment/top_level/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/nested/input.scss
+@use "midstream";
+
+a {
+  // Namespaced assignments always assign to the other module's variable, even
+  // if they're nested in a block scope.
+  $midstream.b: new value;
+
+  c: midstream.get-b();
+}
+
+<===> variable_assignment/nested/_midstream.scss
+@forward "upstream";
+
+<===> variable_assignment/nested/_upstream.scss
+$b: old value;
+
+@function get-b() {@return $b}
+
+<===> variable_assignment/nested/output.css
+a {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+@use "midstream";
+
+a {b: midstream.c()}
+
+<===> function/_midstream.scss
+@forward "upstream";
+
+<===> function/_upstream.scss
+@function c() {@return d}
+
+<===> function/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> mixin/input.scss
+@use "midstream";
+
+@include midstream.a;
+
+<===> mixin/_midstream.scss
+@forward "upstream";
+
+<===> mixin/_upstream.scss
+@mixin a() {b {c: d}}
+
+<===> mixin/output.css
+b {
+  c: d;
+}

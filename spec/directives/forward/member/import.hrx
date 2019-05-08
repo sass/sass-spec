@@ -1,0 +1,144 @@
+<===> precedence/input.scss
+// Forwarded definitions take precedence over local definitions through imports,
+// to match the behavior of definitions written directly in the imported file.
+$a: in-input;
+
+@import "midstream";
+
+b {c: $a}
+
+<===> precedence/_midstream.scss
+@forward "upstream";
+
+<===> precedence/_upstream.scss
+$a: in-upstream;
+
+<===> precedence/output.css
+b {
+  c: in-upstream;
+}
+
+<===>
+================================================================================
+<===> forward_to_import/mixin/input.scss
+@use "used";
+
+@include used.a;
+
+<===> forward_to_import/mixin/_used.scss
+@forward "forwarded";
+
+<===> forward_to_import/mixin/_forwarded.scss
+@import "imported";
+
+<===> forward_to_import/mixin/_imported.scss
+@mixin a() {b {c: d}}
+
+<===> forward_to_import/mixin/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> forward_to_import/variable_assignment/input.scss
+@use "used";
+
+$used.a: new value;
+
+b {c: used.get-a()};
+
+<===> forward_to_import/variable_assignment/_used.scss
+@forward "forwarded";
+
+<===> forward_to_import/variable_assignment/_forwarded.scss
+@import "imported";
+
+<===> forward_to_import/variable_assignment/_imported.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> forward_to_import/variable_assignment/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> forward_to_import/variable_use/input.scss
+@use "used";
+
+a {b: $used.c}
+
+<===> forward_to_import/variable_use/_used.scss
+@forward "forwarded";
+
+<===> forward_to_import/variable_use/_forwarded.scss
+@import "imported";
+
+<===> forward_to_import/variable_use/_imported.scss
+$c: d;
+
+<===> forward_to_import/variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/mixin/input.scss
+@import "midstream";
+
+@include a;
+
+<===> import_to_forward/mixin/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/mixin/_upstream.scss
+@mixin a() {b {c: d}}
+
+<===> import_to_forward/mixin/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/variable_assignment/input.scss
+@import "midstream";
+
+$a: new value;
+
+b {c: get-a()};
+
+<===> import_to_forward/variable_assignment/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/variable_assignment/_upstream.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> import_to_forward/variable_assignment/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/variable_use/input.scss
+@import "midstream";
+
+a {b: $c}
+
+<===> import_to_forward/variable_use/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/variable_use/_upstream.scss
+$c: d;
+
+<===> import_to_forward/variable_use/output.css
+a {
+  b: d;
+}

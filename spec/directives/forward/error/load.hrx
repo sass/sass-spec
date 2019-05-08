@@ -1,0 +1,82 @@
+<===> README.md
+`@forward` should load modules in the same way as `@use`, and as such should
+produce the same errors when loading fails. We assume that they use shared
+infrastructure, though, and as such only duplicate a few basic load tests for
+`@forward`.
+
+<===>
+================================================================================
+<===> missing/input.scss
+@forward "other";
+
+<===> missing/error
+Error: Can't find stylesheet to import.
+  ,
+1 | @forward "other";
+  | ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> loop/forward_self/input.scss
+@forward "input";
+
+<===> loop/forward_self/error
+Error: This module is currently being loaded.
+  ,
+1 | @forward "input";
+  | ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> loop/forward_to_forward/input.scss
+@forward "other";
+
+<===> loop/forward_to_forward/other.scss
+@forward "input";
+
+<===> loop/forward_to_forward/error
+Error: This module is currently being loaded.
+  ,
+1 | @forward "input";
+  | ^^^^^^^^^^^^^^^^
+  '
+  other.scss 1:1  @forward
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> loop/forward_to_use/input.scss
+@forward "other";
+
+<===> loop/forward_to_use/other.scss
+@use "input";
+
+<===> loop/forward_to_use/error
+Error: This module is currently being loaded.
+  ,
+1 | @use "input";
+  | ^^^^^^^^^^^^
+  '
+  other.scss 1:1  @forward
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> loop/forward_to_import/input.scss
+@forward "other";
+
+<===> loop/forward_to_import/other.scss
+@import "input";
+
+<===> loop/forward_to_import/error
+Error: This file is already being loaded.
+  ,
+1 | @import "input";
+  |         ^^^^^^^
+  '
+  other.scss 1:9  @forward
+  input.scss 1:1  root stylesheet

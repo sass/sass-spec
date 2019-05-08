@@ -1,0 +1,63 @@
+<===> README.md
+`@forward` should handle extensions in the same way as `@use`. We assume that
+they use shared infrastructure, though, and as such only test basic cases.
+
+<===>
+================================================================================
+<===> upstream/input.scss
+@use "midstream";
+
+in-input {@extend in-upstream}
+
+<===> upstream/_midstream.scss
+@forward "upstream";
+
+<===> upstream/_upstream.scss
+in-upstream {a: b}
+
+<===> upstream/output.css
+in-upstream, in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> forward_into_use/input.scss
+@use "midstream";
+
+in-input {@extend in-used}
+
+<===> forward_into_use/_midstream.scss
+@forward "forwarded";
+
+<===> forward_into_use/_forwarded.scss
+@use "used";
+
+<===> forward_into_use/_used.scss
+in-used {a: b}
+
+<===> forward_into_use/output.css
+in-used, in-input {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> forward_into_import/input.scss
+@use "midstream";
+
+in-input {@extend in-imported}
+
+<===> forward_into_import/_midstream.scss
+@forward "forwarded";
+
+<===> forward_into_import/_forwarded.scss
+@import "imported";
+
+<===> forward_into_import/_imported.scss
+in-imported {a: b}
+
+<===> forward_into_import/output.css
+in-imported, in-input {
+  a: b;
+}

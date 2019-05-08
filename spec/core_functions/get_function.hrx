@@ -74,6 +74,87 @@ a {
 
 <===>
 ================================================================================
+<===> through_forward/options.yml
+---
+:todo:
+- libsass # sass/libsass#2807
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "midstream" as *;
+a {b: call(get-function(c))}
+
+<===> through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/bare/_upstream.scss
+@function c() {@return c}
+
+<===> through_forward/bare/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c-d));
+}
+
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as c-*;
+
+<===> through_forward/as/_upstream.scss
+@function d() {@return d}
+
+<===> through_forward/as/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c));
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show c;
+
+<===> through_forward/show/_upstream.scss
+@function c() {@return c}
+
+<===> through_forward/show/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(d));
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide c;
+
+<===> through_forward/hide/_upstream.scss
+@function d() {@return d}
+
+<===> through_forward/hide/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
 <===> plain_css/input.scss
 $sass-fn: get-function(lighten);
 $css-fn: get-function(lighten, $css: true);
@@ -324,6 +405,50 @@ Error: Function not found: does-not-exist
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(d));
+}
+
+<===> error/through_forward/show/_midstream.scss
+@forward "upstream" show c;
+
+<===> error/through_forward/show/_upstream.scss
+@function d() {@return c}
+
+<===> error/through_forward/show/error
+Error: Function not found: d
+  ,
+3 |   b: call(get-function(d));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c));
+}
+
+<===> error/through_forward/hide/_midstream.scss
+@forward "upstream" hide c;
+
+<===> error/through_forward/hide/_upstream.scss
+@function c() {@return c}
+
+<===> error/through_forward/hide/error
+Error: Function not found: c
+  ,
+3 |   b: call(get-function(c));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  root stylesheet
 
 <===>
 ================================================================================
