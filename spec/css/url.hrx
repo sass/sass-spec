@@ -5,20 +5,60 @@
 
 <===>
 ================================================================================
-<===> exclam/only/input.scss
-a {b: url(!)}
+<===> exclam/absolute/path/input.scss
+a {b: url(http://a.b/c!d)}
 
-<===> exclam/only/output.css
+<===> exclam/absolute/path/output.css
 a {
-  b: url(!);
+  b: url(http://a.b/c!d);
 }
 
 <===>
 ================================================================================
-<===> exclam/middle/input.scss
-a {b: url(http://c.d/e!f)}
+<===> exclam/relative/path/input.scss
+a {b: url(a!b)}
 
-<===> exclam/middle/output.css
+<===> exclam/relative/path/output.css
 a {
-  b: url(http://c.d/e!f);
+  b: url(a!b);
+}
+
+<===>
+================================================================================
+<===> exclam/absolute/query/input.scss
+a {b: url(http://a.b/c?d!e)}
+
+<===> exclam/absolute/query/output.css
+a {
+  b: url(http://a.b/c?d!e);
+}
+
+<===>
+================================================================================
+<===> exclam/relative/query/input.scss
+a {b: url(a?b!c)}
+
+<===> exclam/relative/query/output.css
+a {
+  b: url(a?b!c);
+}
+
+<===>
+================================================================================
+<===> exclam/absolute/fragment/input.scss
+a {b: url(http://a.b/c#d!e)}
+
+<===> exclam/absolute/fragment/output.css
+a {
+  b: url(http://a.b/c#d!e);
+}
+
+<===>
+================================================================================
+<===> exclam/relative/fragment/input.scss
+a {b: url(a#b!c)}
+
+<===> exclam/relative/fragment/output.css
+a {
+  b: url(a#b!c);
 }
