@@ -128,27 +128,8 @@ class SassSpecRunner
     choice = interact(:conflicting_files, :fail) do |i|
       i.prompt "Test has both error and success outputs."
 
-      show_input_choice(i)
+      show_test_case_choice(i)
       show_output_choice(i)
-
-      if output_file_exists
-        i.choice('eo', 'Show expected output.') do
-          display_text_block(@test_case.read("output.css", impl: impl))
-          i.restart!
-        end
-      end
-
-      if warning_file_exists
-        i.choice('ew', 'Show expected warning.') do
-          display_text_block(@test_case.read("warning", impl: impl))
-          i.restart!
-        end
-      end
-
-      i.choice('ee', 'Show expected error.') do
-        display_text_block(@test_case.read("error", impl: :auto))
-        i.restart!
-      end
 
       delete_choice(i)
 
@@ -179,7 +160,7 @@ class SassSpecRunner
     choice = interact(:missing_output, :fail) do |i|
       i.prompt "Expected output file does not exist."
 
-      show_input_choice(i)
+      show_test_case_choice(i)
       show_output_choice(i)
       delete_choice(i)
       update_output_choice(i)
@@ -202,7 +183,7 @@ class SassSpecRunner
     choice = interact(:unexpected_error, :fail) do |i|
       i.prompt "An unexpected compiler error was encountered."
 
-      show_input_choice(i)
+      show_test_case_choice(i)
 
       i.choice('e', "Show me the error.") do
         display_text_block(@error)
@@ -234,12 +215,7 @@ class SassSpecRunner
     choice = interact(:unexpected_pass, :fail) do |i|
       i.prompt "A failure was expected but it compiled instead."
 
-      show_input_choice(i)
-
-      i.choice('e', "Show me the expected error.") do
-        display_text_block(@test_case.expected_error)
-        i.restart!
-      end
+      show_test_case_choice(i)
 
       i.choice('o', "Show me the output.") do
         display_text_block(@output)
@@ -270,7 +246,7 @@ class SassSpecRunner
     interact(:output_difference, :fail) do |i|
       i.prompt "Output does not match expectation."
 
-      show_input_choice(i)
+      show_test_case_choice(i)
 
       i.choice('d', "show diff.") do
         require 'diffy'
@@ -297,14 +273,7 @@ class SassSpecRunner
     interact(:unnecessary_todo, :fail) do |i|
       i.prompt "Test is passing but marked as TODO."
 
-      show_input_choice(i)
-
-      if @test_case.should_fail?
-        i.choice('e', "Show me the expected error.") do
-          display_text_block(@test_case.expected_error)
-          i.restart!
-        end
-      end
+      show_test_case_choice(i)
 
       unless @output.empty?
         i.choice('o', "Show me the output.") do
@@ -367,26 +336,21 @@ class SassSpecRunner
     interact(type, :fail) do |i|
       i.prompt(message)
 
-      show_input_choice(i)
+      show_test_case_choice(i)
 
-      if error_msg.empty?
-        i.choice('e', "Show expected #{@test_case.should_fail? ? 'error' : 'warning'}.") do
-          display_text_block(@test.expected_error)
-          i.restart!
-        end
-      elsif expected_error_msg.empty?
+      unless error_msg.empty?
         i.choice('e', "Show #{@test_case.should_fail? ? 'error' : 'warning'}.") do
           display_text_block(error_msg)
           i.restart!
         end
-      else
-        i.choice('d', "Show diff.") do
-          require 'diffy'
-          display_text_block(
-            Diffy::Diff.new("Expected\n#{expected_error_msg}",
-                            "Actual\n#{error_msg}").to_s(:color))
-          i.restart!
-        end
+      end
+
+      i.choice('d', "Show diff.") do
+        require 'diffy'
+        display_text_block(
+          Diffy::Diff.new("Expected\n#{expected_error_msg}",
+                          "Actual\n#{error_msg}").to_s(:color))
+        i.restart!
       end
 
       update_output_choice(i)
@@ -413,9 +377,9 @@ class SassSpecRunner
     end
   end
 
-  def show_input_choice(i)
-    i.choice('i', "Show me the input.") do
-      display_text_block(@test_case.input)
+  def show_test_case_choice(i)
+    i.choice('t', "Show me the test case.") do
+      display_text_block(@test_case.dir.to_hrx)
       i.restart!
     end
   end
