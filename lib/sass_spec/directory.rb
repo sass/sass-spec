@@ -176,6 +176,15 @@ class SassSpec::Directory
     FileUtils.rm_rf(outermost_new_dir) if outermost_new_dir
   end
 
+  # Returns an HRX representation of this directory.
+  def to_hrx
+    archive = HRX::Archive.new
+    glob("**/*").each do |path|
+      archive << HRX::File.new("#{self.path}/#{path}", read(path))
+    end
+    archive.to_hrx
+  end
+
   def inspect
     "#<SassSpec::Directory:#{@path}>"
   end
