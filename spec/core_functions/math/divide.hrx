@@ -1,0 +1,176 @@
+<===> options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===>
+================================================================================
+<===> unitless/whole/input.scss
+a {b: divide(6, 3)}
+
+<===> unitless/whole/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unitless/fraction/input.scss
+a {b: divide(6, 5)}
+
+<===> unitless/fraction/output.css
+a {
+  b: 1.2;
+}
+
+<===>
+================================================================================
+<===> unitless/named/input.scss
+a {b: divide($denominator: 3, $numerator: 6)}
+
+<===> unitless/named/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/README.md
+More thorough specs for unit arithmetic in Sass live in spec/values/numbers.
+These specs are just designed to verify that the `divide()` function produces
+the appropriate numbers.
+
+<===>
+================================================================================
+<===> unit/numerator/input.scss
+a {b: divide(6px, 3)}
+
+<===> unit/numerator/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> unit/denominator/input.scss
+a {b: divide(6, 3px) * 1px}
+
+<===> unit/denominator/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/same/input.scss
+a {b: divide(6px, 3px)}
+
+<===> unit/same/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/compatible/input.scss
+a {b: divide(6in, 3px)}
+
+<===> unit/compatible/output.css
+a {
+  b: 192;
+}
+
+<===>
+================================================================================
+<===> unit/incompatible/input.scss
+a {b: divide(6in, 3s) * 1s}
+
+<===> unit/incompatible/output.css
+a {
+  b: 2in;
+}
+
+<===>
+================================================================================
+<===> unit/unknown/input.scss
+a {b: divide(6c, 3d) * 1d}
+
+<===> unit/unknown/output.css
+a {
+  b: 2c;
+}
+
+<===>
+================================================================================
+<===> non_numeric/numerator/input.scss
+a {
+  $result: divide(b, 3);
+  value: $result;
+  type: type-of($result);
+}
+
+<===> non_numeric/numerator/output.css
+a {
+  value: b/3;
+  type: string;
+}
+
+<===> non_numeric/numerator/warning
+WARNING: divide() will only support number arguments in a future release.
+Use slash-list() instead for a slash separator.
+
+  ,
+2 |   $result: divide(b, 3);
+  |            ^^^^^^^^^^^^
+  '
+    input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> non_numeric/denominator/input.scss
+a {
+  $result: divide(6, b);
+  value: $result;
+  type: type-of($result);
+}
+
+<===> non_numeric/denominator/output.css
+a {
+  value: 6/b;
+  type: string;
+}
+
+<===> non_numeric/denominator/warning
+WARNING: divide() will only support number arguments in a future release.
+Use slash-list() instead for a slash separator.
+
+  ,
+2 |   $result: divide(6, b);
+  |            ^^^^^^^^^^^^
+  '
+    input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: divide(6)}
+
+<===> error/too_few_args/error
+Error: Missing argument $denominator.
+  ,
+1 | a {b: divide(6)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: divide(6, 3, 1)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: divide(6, 3, 1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
