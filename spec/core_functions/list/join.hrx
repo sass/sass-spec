@@ -88,6 +88,62 @@ a {
 
 <===>
 ================================================================================
+<===> slash/options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash/both/input.scss
+a {b: join(slash-list(c, d), slash-list(e, f))}
+
+<===> slash/both/output.css
+a {
+  b: c / d / e / f;
+}
+
+<===>
+================================================================================
+<===> slash/first/input.scss
+a {b: join(slash-list(c, d), e f)}
+
+<===> slash/first/output.css
+a {
+  b: c / d / e / f;
+}
+
+<===>
+================================================================================
+<===> slash/second/input.scss
+a {b: join(c d, slash-list(e, f))}
+
+<===> slash/second/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> slash/separator/forces_slash/input.scss
+a {b: join(c, d, $separator: slash)}
+
+<===> slash/separator/forces_slash/output.css
+a {
+  b: c / d;
+}
+
+<===>
+================================================================================
+<===> slash/separator/forces_not_slash/input.scss
+a {b: join(slash-list(c, d), slash-list(e, f), $separator: comma)}
+
+<===> slash/separator/forces_not_slash/output.css
+a {
+  b: c, d, e, f;
+}
+
+<===>
+================================================================================
 <===> error/README.md
 `join()` is unique in that it takes multiple optional arguments that can be
 passed independently of one another. This may necessitate unusual

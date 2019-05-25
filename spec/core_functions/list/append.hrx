@@ -1,0 +1,33 @@
+<===> slash/options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash/automatic/input.scss
+a {b: append(slash-list(c, d), e)}
+
+<===> slash/automatic/output.css
+a {
+  b: c / d / e;
+}
+
+<===>
+================================================================================
+<===> slash/explicit/input.scss
+a {b: append(c d, e, $separator: slash)}
+
+<===> slash/explicit/output.css
+a {
+  b: c / d / e;
+}
+
+<===>
+================================================================================
+<===> slash/overridden/input.scss
+a {b: append(slash-list(c, d), e, $separator: comma)}
+
+<===> slash/overridden/output.css
+a {
+  b: c, d, e;
+}

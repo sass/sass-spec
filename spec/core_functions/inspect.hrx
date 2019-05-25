@@ -1,40 +1,17 @@
-<===> error/no_args/input.scss
-a {a: inspect()}
+<===> number/unit/input.scss
+// We explicitly don't test the inspect format for complex units. Their format
+// isn't guaranteed by the spec, since they can't be written literally in Sass.
+a {
+  $result: inspect(50px);
+  result: $result;
+  type: type-of($result);
+}
 
-<===> error/no_args/error
-Error: Missing argument $value.
-  ,
-1 | a {a: inspect()}
-  |       ^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===> error/no_args/error-libsass
-Error: Function inspect is missing argument $value.
-        on line 1 of input.scss
->> a {a: inspect()}
-
-   ------^
-
-<===>
-================================================================================
-<===> error/two_args/input.scss
-a {a: inspect(1, 2)}
-
-<===> error/two_args/error
-Error: Only 1 argument allowed, but 2 were passed.
-  ,
-1 | a {a: inspect(1, 2)}
-  |       ^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===> error/two_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `inspect'
-        on line 1:7 of input.scss
->> a {a: inspect(1, 2)}
-
-   ------^
+<===> number/unit/output.css
+a {
+  result: 50px;
+  type: string;
+}
 
 <===>
 ================================================================================
@@ -86,23 +63,6 @@ a {
   result: "foo";
   type: string;
   length: 5;
-}
-
-<===>
-================================================================================
-<===> number/unit/input.scss
-// We explicitly don't test the inspect format for complex units. Their format
-// isn't guaranteed by the spec, since they can't be written literally in Sass.
-a {
-  $result: inspect(50px);
-  result: $result;
-  type: type-of($result);
-}
-
-<===> number/unit/output.css
-a {
-  result: 50px;
-  type: string;
 }
 
 <===>
@@ -351,6 +311,26 @@ a {
 
 <===>
 ================================================================================
+<===> list/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> list/slash/input.scss
+a {
+  $result: inspect(slash-list(1, 2, 3));
+  result: $result;
+  type: type-of($result);
+}
+
+<===> list/slash/output.css
+a {
+  result: 1 / 2 / 3;
+  type: string;
+}
+
+<===>
+================================================================================
 <===> list/bracketed/input.scss
 a {
   $result: inspect([1, 2, 3]);
@@ -366,22 +346,113 @@ a {
 
 <===>
 ================================================================================
-<===> list/nested/options.yml
+<===> list/nested/empty_in_bracketed/options.yml
 ---
 :todo:
 - sass/libsass#2654
 
-<===> list/nested/input.scss
+<===> list/nested/empty_in_bracketed/input.scss
 a {
   $a: inspect([() ()]);
   a: $a;
   b: type-of($a);
 }
 
-<===> list/nested/output.css
+<===> list/nested/empty_in_bracketed/output.css
 a {
   a: [() ()];
   b: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/slash_in/options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===>
+================================================================================
+<===> list/nested/slash_in/space/input.scss
+a {
+  $result: inspect(slash-list(b, c) slash-list(d, e));
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/slash_in/space/output.css
+a {
+  value: (b / c) (d / e);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/slash_in/comma/input.scss
+a {
+  $result: inspect((slash-list(b, c), slash-list(d, e)));
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/slash_in/comma/output.css
+a {
+  value: b / c, d / e;
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/slash_in/slash/input.scss
+a {
+  $result: inspect(slash-list(slash-list(b, c), slash-list(d, e)));
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/slash_in/slash/output.css
+a {
+  value: (b / c) / (d / e);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/space_in/slash/options.yml
+---
+:todo:
+- libsass
+
+<===> list/nested/space_in/slash/input.scss
+a {
+  $result: inspect(slash-list(b c, d e));
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/space_in/slash/output.css
+a {
+  value: b c / d e;
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/comma_in/slash/options.yml
+---
+:todo:
+- libsass
+
+<===> list/nested/comma_in/slash/input.scss
+a {
+  $result: inspect(slash-list((b, c), (d, e)));
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/comma_in/slash/output.css
+a {
+  value: (b, c) / (d, e);
+  type: string;
 }
 
 <===>
@@ -398,3 +469,44 @@ a {
   result: (1: 2, 3: 4);
   type: string;
 }
+
+<===>
+================================================================================
+<===> error/no_args/input.scss
+a {a: inspect()}
+
+<===> error/no_args/error
+Error: Missing argument $value.
+  ,
+1 | a {a: inspect()}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/no_args/error-libsass
+Error: Function inspect is missing argument $value.
+        on line 1 of input.scss
+>> a {a: inspect()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/two_args/input.scss
+a {a: inspect(1, 2)}
+
+<===> error/two_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {a: inspect(1, 2)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/two_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `inspect'
+        on line 1:7 of input.scss
+>> a {a: inspect(1, 2)}
+
+   ------^
+
