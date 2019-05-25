@@ -1,0 +1,44 @@
+<===> options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===> README.md
+More thorough specs for the behavior of slash-separated lists, once created,
+live in spec/values/lists/slash.
+
+<===>
+================================================================================
+<===> two_args/input.scss
+a {b: slash-list(c, d)}
+
+<===> two_args/output.css
+a {
+  b: c / d;
+}
+
+<===>
+================================================================================
+<===> three_args/input.scss
+a {b: slash-list(c, d, e)}
+
+<===> three_args/output.css
+a {
+  b: c / d / e;
+}
+
+<===>
+================================================================================
+<===> many_args/input.scss
+a {b: slash-list(c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z)}
+
+<===> many_args/output.css
+a {
+  b: c / d / e / f / g / h / i / j / k / l / m / n / o / p / q / r / s / t / u / v / w / x / y / z;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: slash-list(c)}
+
+<===> error/too_few_args/error
