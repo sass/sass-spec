@@ -1,33 +1,87 @@
-<===> input.scss
-basic {
-  transparent: hsl(180 60% 50% / 0);
-  opaque: hsl(180 60% 50% / 1);
-  partial: hsl(180 60% 50% / 0.5);
-  named: hsl($channels: 180 60% 50% / 0.4);
+<===> alpha/transparent/input.scss
+a {b: hsl(180 60% 50% / 0)}
 
-  // Extra parens shouldn't cause the slash to be forced into division.
-  parenthesized: (hsl(180 60% 50% / 0.4));
+<===> alpha/transparent/output.css
+a {
+  b: rgba(51, 204, 204, 0);
 }
 
-clamped {
-  saturation: hsl(0 -0.1% 50% / 0.5);
-  lightness: hsl(0 100% 9999% / 0.5);
-  alpha-above: hsl(0 100% 50% / 1.1);
-  alpha-below: hsl(0 100% 50% / -0.1);
+<===>
+================================================================================
+<===> alpha/opaque/input.scss
+a {b: hsl(180 60% 50% / 1)}
+
+<===> alpha/opaque/output.css
+a {
+  b: #33cccc;
 }
 
-<===> output.css
-basic {
-  transparent: rgba(51, 204, 204, 0);
-  opaque: #33cccc;
-  partial: rgba(51, 204, 204, 0.5);
-  named: rgba(51, 204, 204, 0.4);
-  parenthesized: rgba(51, 204, 204, 0.4);
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+a {b: hsl(180 60% 50% / 0.5)}
+
+<===> alpha/partial/output.css
+a {
+  b: rgba(51, 204, 204, 0.5);
 }
 
-clamped {
-  saturation: rgba(128, 128, 128, 0.5);
-  lightness: rgba(255, 255, 255, 0.5);
-  alpha-above: red;
-  alpha-below: rgba(255, 0, 0, 0);
+<===>
+================================================================================
+<===> alpha/named/input.scss
+a {b: hsl($channels: 180 60% 50% / 0.4)}
+
+<===> alpha/named/output.css
+a {
+  b: rgba(51, 204, 204, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/parenthesized/input.scss
+a {b: (hsl(180 60% 50% / 0.4))}
+
+<===> alpha/parenthesized/output.css
+a {
+  b: rgba(51, 204, 204, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/saturation/input.scss
+a {b: hsl(0 -0.1% 50% / 0.5)}
+
+<===> alpha/clamped/saturation/output.css
+a {
+  b: rgba(128, 128, 128, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/lightness/input.scss
+a {b: hsl(0 100% 9999% / 0.5)}
+
+<===> alpha/clamped/lightness/output.css
+a {
+  b: rgba(255, 255, 255, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/alpha_above/input.scss
+a {b: hsl(0 100% 50% / 1.1)}
+
+<===> alpha/clamped/alpha_above/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/alpha_below/input.scss
+a {b: hsl(0 100% 50% / -0.1)}
+
+<===> alpha/clamped/alpha_below/output.css
+a {
+  b: rgba(255, 0, 0, 0);
 }
