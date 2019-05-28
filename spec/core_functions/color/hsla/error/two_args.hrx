@@ -1,18 +1,17 @@
 <===> input.scss
-one-arg {
-  x: hsla(0, 100%);
-}
+a {b: hsla(#123, 0.5)}
 
 <===> error
 Error: Missing argument $lightness.
   ,
-2 |   x: hsla(0, 100%);
-  |      ^^^^^^^^^^^^^
+1 | a {b: hsla(#123, 0.5)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 2:6  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error-libsass
 Error: Function hsla is missing argument $lightness.
-        on line 2 of one_arg/input.scss
->>   x: hsla(0, 100%);
-   -----^
+        on line 1 of input.scss
+>> a {b: hsla(#123, 0.5)}
+
+   ------^
