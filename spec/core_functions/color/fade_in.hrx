@@ -1,0 +1,181 @@
+<===> max/input.scss
+a {b: fade-in(rgba(red, 0.5), 1)}
+
+<===> max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> max_remaining/input.scss
+a {b: fade-in(rgba(red, 0.5), 0.5)}
+
+<===> max_remaining/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: fade-in(rgba(red, 0.5), 0)}
+
+<===> min/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: fade-in(rgba(red, 0.5), 0.14)}
+
+<===> middle/output.css
+a {
+  b: rgba(255, 0, 0, 0.64);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: fade-in($color: rgba(red, 0.5), $amount: 0.14)}
+
+<===> named/output.css
+a {
+  b: rgba(255, 0, 0, 0.64);
+}
+
+<===>
+================================================================================
+<===> opacify/input.scss
+a {b: opacify($color: rgba(red, 0.5), $amount: 0.14)}
+
+<===> opacify/output.css
+a {
+  b: rgba(255, 0, 0, 0.64);
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: fade-in(red)}
+
+<===> error/too_few_args/error
+Error: Missing argument $amount.
+  ,
+1 | a {b: fade-in(red)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function fade-in is missing argument $amount.
+        on line 1 of input.scss
+>> a {b: fade-in(red)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: fade-in(red, 0.1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: fade-in(red, 0.1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `fade-in'
+        on line 1:7 of input.scss
+>> a {b: fade-in(red, 0.1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+a {b: fade-in(1, 0.1)}
+
+<===> error/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: fade-in(1, 0.1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color/error-libsass
+Error: argument `$color` of `fade-in($color, $amount)` must be a color
+        on line 1:7 of input.scss, in function `fade-in`
+        from line 1:7 of input.scss
+>> a {b: fade-in(1, 0.1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/alpha/input.scss
+a {b: fade-in(red, blue)}
+
+<===> error/type/alpha/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: fade-in(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/alpha/error-libsass
+Error: argument `$amount` of `fade-in($color, $amount)` must be a number
+        on line 1:7 of input.scss, in function `fade-in`
+        from line 1:7 of input.scss
+>> a {b: fade-in(red, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: fade-in(red, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 1.
+  ,
+1 | a {b: fade-in(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_low/error-libsass
+Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
+        on line 1:7 of input.scss, in function `fade-in`
+        from line 1:7 of input.scss
+>> a {b: fade-in(red, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: fade-in(red, 1.001)}
+
+<===> error/bounds/too_high/error
+Error: Expected 1.001 to be within 0 and 1.
+  ,
+1 | a {b: fade-in(red, 1.001)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_high/error-libsass
+Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
+        on line 1:7 of input.scss, in function `fade-in`
+        from line 1:7 of input.scss
+>> a {b: fade-in(red, 1.001)}
+
+   ------^
