@@ -1,18 +1,18 @@
 <===> too_few/input.scss
-a {b: scale-color()}
+a {b: change-color()}
 
 <===> too_few/error
 Error: Missing argument $color.
   ,
-1 | a {b: scale-color()}
-  |       ^^^^^^^^^^^^^
+1 | a {b: change-color()}
+  |       ^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> too_few/error-libsass
-Error: Function scale-color is missing argument $color.
+Error: Function change-color is missing argument $color.
         on line 1 of input.scss
->> a {b: scale-color()}
+>> a {b: change-color()}
 
    ------^
 
@@ -24,30 +24,32 @@ Error: Function scale-color is missing argument $color.
 - sass/libsass#2900
 
 <===> too_many/input.scss
-a {b: scale-color(red, 1)}
+a {b: change-color(red, 1)}
 
 <===> too_many/error
 Error: Only one positional argument is allowed. All other arguments must be passed by name.
   ,
-1 | a {b: scale-color(red, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> unknown/options.yml
----
-:todo:
-- sass/libsass#2902
-
 <===> unknown/input.scss
-a {b: scale-color(red, $hue: 10%)}
+a {b: change-color(red, $ambience: 10%)}
 
 <===> unknown/error
-Error: No argument named $hue.
+Error: No argument named $ambience.
   ,
-1 | a {b: scale-color(red, $hue: 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, $ambience: 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> unknown/error-libsass
+Error: Function change-color has no parameter named $ambience
+        on line 1:25 of input.scss
+>> a {b: change-color(red, $ambience: 10%)}
+
+   ------------------------^
