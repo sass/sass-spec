@@ -1,0 +1,77 @@
+<===> positional/options.yml
+---
+:todo:
+- libsass # sass/libsass#2900
+
+<===> positional/input.scss
+a {b: scale-color(red)}
+
+<===> positional/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- libsass # sass/libsass#2900
+
+<===> named/input.scss
+a {b: scale-color($color: red)}
+
+<===> named/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/max/input.scss
+a {b: scale-color(rgba(red, 0.5), $alpha: 100%)}
+
+<===> alpha/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/zero/input.scss
+a {b: scale-color(rgba(red, 0.5), $alpha: 0%)}
+
+<===> alpha/zero/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/min/input.scss
+a {b: scale-color(rgba(red, 0.5), $alpha: -100%)}
+
+<===> alpha/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/high/input.scss
+a {b: scale-color(rgba(red, 0.5), $alpha: 14%)}
+
+<===> alpha/high/output.css
+a {
+  b: rgba(255, 0, 0, 0.57);
+}
+
+<===>
+================================================================================
+<===> alpha/low/input.scss
+a {b: scale-color(rgba(red, 0.3), $alpha: -36%)}
+
+<===> alpha/low/output.css
+a {
+  b: rgba(255, 0, 0, 0.192);
+}
