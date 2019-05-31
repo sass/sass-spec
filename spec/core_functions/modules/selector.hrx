@@ -1,0 +1,169 @@
+<===> nest/input.scss
+@use "sass:selector";
+a {b: selector.nest(c, d)}
+
+<===> nest/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> append/input.scss
+@use "sass:selector";
+a {b: selector.append(c, d)}
+
+<===> append/output.css
+a {
+  b: cd;
+}
+
+<===>
+================================================================================
+<===> replace/input.scss
+@use "sass:selector";
+a {b: selector.replace(c, c, d)}
+
+<===> replace/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> extend/input.scss
+@use "sass:selector";
+a {b: selector.extend(c, c, d)}
+
+<===> extend/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> unify/input.scss
+@use "sass:selector";
+a {b: selector.unify(".c", ".d")}
+
+<===> unify/output.css
+a {
+  b: .c.d;
+}
+
+<===>
+================================================================================
+<===> is_superselector/input.scss
+@use "sass:selector";
+a {b: selector.is-superselector(c, d)}
+
+<===> is_superselector/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> simple_selectors/input.scss
+@use "sass:selector";
+a {b: selector.simple-selectors(".c.d")}
+
+<===> simple_selectors/output.css
+a {
+  b: .c, .d;
+}
+
+<===>
+================================================================================
+<===> parse/input.scss
+@use "sass:selector";
+a {b: selector.parse(".c, .d")}
+
+<===> parse/output.css
+a {
+  b: .c, .d;
+}
+
+<===>
+================================================================================
+<===> error/selector_nest/input.scss
+@use "sass:selector";
+a {b: selector.selector-nest(c, d)}
+
+<===> error/selector_nest/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-nest(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector_append/input.scss
+@use "sass:selector";
+a {b: selector.selector-append(c, d)}
+
+<===> error/selector_append/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-append(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector_replace/input.scss
+@use "sass:selector";
+a {b: selector.selector-replace(c, c, d)}
+
+<===> error/selector_replace/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-replace(c, c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector_extend/input.scss
+@use "sass:selector";
+a {b: selector.selector-extend(c, c, d)}
+
+<===> error/selector_extend/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-extend(c, c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector_unify/input.scss
+@use "sass:selector";
+a {b: selector.selector-unify(".c", ".d")}
+
+<===> error/selector_unify/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-unify(".c", ".d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector_parse/input.scss
+@use "sass:selector";
+a {b: selector.selector-parse(".c.d")}
+
+<===> error/selector_parse/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-parse(".c.d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

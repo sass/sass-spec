@@ -1,0 +1,464 @@
+<===> red/input.scss
+@use "sass:color";
+a {b: color.red(#abcdef)}
+
+<===> red/output.css
+a {
+  b: 171;
+}
+
+<===>
+================================================================================
+<===> green/input.scss
+@use "sass:color";
+a {b: color.green(#abcdef)}
+
+<===> green/output.css
+a {
+  b: 205;
+}
+
+<===>
+================================================================================
+<===> blue/input.scss
+@use "sass:color";
+a {b: color.blue(#abcdef)}
+
+<===> blue/output.css
+a {
+  b: 239;
+}
+
+<===>
+================================================================================
+<===> hue/input.scss
+@use "sass:color";
+a {b: color.hue(#abcdef)}
+
+<===> hue/output.css
+a {
+  b: 210deg;
+}
+
+<===>
+================================================================================
+<===> saturation/input.scss
+@use "sass:color";
+a {b: color.saturation(#abcdef)}
+
+<===> saturation/output.css
+a {
+  b: 68%;
+}
+
+<===>
+================================================================================
+<===> lightness/input.scss
+@use "sass:color";
+a {b: color.lightness(#abcdef)}
+
+<===> lightness/output.css
+a {
+  b: 80.3921568627%;
+}
+
+<===>
+================================================================================
+<===> mix/input.scss
+@use "sass:color";
+a {b: color.mix(#abcdef, #daddee)}
+
+<===> mix/output.css
+a {
+  b: #c3d5ef;
+}
+
+<===>
+================================================================================
+<===> adjust_hue/input.scss
+@use "sass:color";
+a {b: color.adjust-hue(#abcdef, 15)}
+
+<===> adjust_hue/output.css
+a {
+  b: #abbcef;
+}
+
+<===>
+================================================================================
+<===> complement/input.scss
+@use "sass:color";
+a {b: color.complement(#abcdef)}
+
+<===> complement/output.css
+a {
+  b: #efcdab;
+}
+
+<===>
+================================================================================
+<===> invert/input.scss
+@use "sass:color";
+a {b: color.invert(#abcdef)}
+
+<===> invert/output.css
+a {
+  b: #543210;
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+@use "sass:color";
+a {b: color.alpha(#abcdef)}
+
+<===> alpha/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> adjust/input.scss
+@use "sass:color";
+a {b: color.adjust(#abcdef, $red: 10)}
+
+<===> adjust/output.css
+a {
+  b: #b5cdef;
+}
+
+<===>
+================================================================================
+<===> scale/input.scss
+@use "sass:color";
+a {b: color.scale(#abcdef, $red: 10%)}
+
+<===> scale/output.css
+a {
+  b: #b3cdef;
+}
+
+<===>
+================================================================================
+<===> change/input.scss
+@use "sass:color";
+a {b: color.change(#abcdef, $red: 10)}
+
+<===> change/output.css
+a {
+  b: #0acdef;
+}
+
+<===>
+================================================================================
+<===> ie_hex_str/input.scss
+@use "sass:color";
+a {b: color.ie-hex-str(#abcdef)}
+
+<===> ie_hex_str/output.css
+a {
+  b: #FFABCDEF;
+}
+
+<===>
+================================================================================
+<===> css_overloads/README.md
+CSS overloads are still supported for module functions to ease the transition,
+but they should produce deprecation warnings.
+
+<===>
+================================================================================
+<===> css_overloads/grayscale/input.scss
+@use "sass:color";
+a {b: color.grayscale(1)}
+
+<===> css_overloads/grayscale/output.css
+a {
+  b: grayscale(1);
+}
+
+<===> css_overloads/grayscale/warning
+WARNING: Passing a number to color.grayscale() is deprecated.
+
+Recommendation: grayscale(1)
+
+  ,
+2 | a {b: color.grayscale(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/invert/input.scss
+@use "sass:color";
+a {b: color.invert(1)}
+
+<===> css_overloads/invert/output.css
+a {
+  b: invert(1);
+}
+
+<===> css_overloads/invert/warning
+WARNING: Passing a number to color.invert() is deprecated.
+
+Recommendation: invert(1)
+
+  ,
+2 | a {b: color.invert(1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/alpha/one_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d)}
+
+<===> css_overloads/alpha/one_arg/output.css
+a {
+  b: alpha(c=d);
+}
+
+<===> css_overloads/alpha/one_arg/warning
+WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d)
+
+  ,
+2 | a {b: color.alpha(c=d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/alpha/multi_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d, e=f, g=h)}
+
+<===> css_overloads/alpha/multi_arg/output.css
+a {
+  b: alpha(c=d, e=f, g=h);
+}
+
+<===> css_overloads/alpha/multi_arg/warning
+WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d, e=f, g=h)
+
+  ,
+2 | a {b: color.alpha(c=d, e=f, g=h)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/opacity/input.scss
+@use "sass:color";
+a {b: color.opacity(1)}
+
+<===> css_overloads/opacity/output.css
+a {
+  b: opacity(1);
+}
+
+<===> css_overloads/opacity/warning
+WARNING: Passing a number to color.opacity() is deprecated.
+
+Recommendation: opacity(1)
+
+  ,
+2 | a {b: color.opacity(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/adjust_color/input.scss
+@use "sass:color";
+a {b: color.adjust-color(#abcdef, $red: 10)}
+
+<===> error/adjust_color/error
+Error: Undefined function.
+  ,
+2 | a {b: color.adjust-color(#abcdef, $red: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/scale_color/input.scss
+@use "sass:color";
+a {b: color.scale-color(#abcdef, $red: 10%)}
+
+<===> error/scale_color/error
+Error: Undefined function.
+  ,
+2 | a {b: color.scale-color(#abcdef, $red: 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/change_color/input.scss
+@use "sass:color";
+a {b: color.change-color(#abcdef, $red: 10)}
+
+<===> error/change_color/error
+Error: Undefined function.
+  ,
+2 | a {b: color.change-color(#abcdef, $red: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/lighten/input.scss
+@use "sass:color";
+a {b: color.lighten(#abcdef, 10%)}
+
+<===> error/lighten/error
+Error: The function lighten() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $lightness: 10%)
+
+More info: https://sass-lang.com/documentation/functions/color#lighten
+  ,
+2 | a {b: color.lighten(#abcdef, 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/darken/input.scss
+@use "sass:color";
+a {b: color.darken(#abcdef, 10%)}
+
+<===> error/darken/error
+Error: The function darken() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $lightness: -10%)
+
+More info: https://sass-lang.com/documentation/functions/color#darken
+  ,
+2 | a {b: color.darken(#abcdef, 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/saturate/input.scss
+@use "sass:color";
+a {b: color.saturate(#abcdef, 10%)}
+
+<===> error/saturate/error
+Error: The function saturate() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $saturation: 10%)
+
+More info: https://sass-lang.com/documentation/functions/color#saturate
+  ,
+2 | a {b: color.saturate(#abcdef, 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/desaturate/input.scss
+@use "sass:color";
+a {b: color.desaturate(#abcdef, 10%)}
+
+<===> error/desaturate/error
+Error: The function desaturate() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $saturation: -10%)
+
+More info: https://sass-lang.com/documentation/functions/color#desaturate
+  ,
+2 | a {b: color.desaturate(#abcdef, 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/opacify/input.scss
+@use "sass:color";
+a {b: color.opacify(#abcdef, 0.5)}
+
+<===> error/opacify/error
+Error: The function opacify() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $alpha: 0.5)
+
+More info: https://sass-lang.com/documentation/functions/color#opacify
+  ,
+2 | a {b: color.opacify(#abcdef, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/fade_in/input.scss
+@use "sass:color";
+a {b: color.fade-in(#abcdef, 0.5)}
+
+<===> error/fade_in/error
+Error: The function fade-in() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $alpha: 0.5)
+
+More info: https://sass-lang.com/documentation/functions/color#fade-in
+  ,
+2 | a {b: color.fade-in(#abcdef, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/transparentize/input.scss
+@use "sass:color";
+a {b: color.transparentize(#abcdef, 0.5)}
+
+<===> error/transparentize/error
+Error: The function transparentize() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $alpha: -0.5)
+
+More info: https://sass-lang.com/documentation/functions/color#transparentize
+  ,
+2 | a {b: color.transparentize(#abcdef, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/fade_out/input.scss
+@use "sass:color";
+a {b: color.fade-out(#abcdef, 0.5)}
+
+<===> error/fade_out/error
+Error: The function fade-out() isn't in the new module system.
+
+Recommendation: color.adjust(#abcdef, $alpha: -0.5)
+
+More info: https://sass-lang.com/documentation/functions/color#fade-out
+  ,
+2 | a {b: color.fade-out(#abcdef, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

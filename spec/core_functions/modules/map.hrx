@@ -1,0 +1,151 @@
+<===> get/input.scss
+@use "sass:map";
+a {b: map.get((c: d), c)}
+
+<===> get/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> merge/input.scss
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.merge((c: d), (e: f)))}
+
+<===> merge/output.css
+a {
+  b: (c: d, e: f);
+}
+
+<===>
+================================================================================
+<===> remove/input.scss
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((c: d), c))}
+
+<===> remove/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> keys/input.scss
+@use "sass:map";
+a {b: map.keys((c: d))}
+
+<===> keys/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> values/input.scss
+@use "sass:map";
+a {b: map.values((c: d))}
+
+<===> values/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> has_key/input.scss
+@use "sass:map";
+a {b: map.has-key((c: d), c)}
+
+<===> has_key/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/map_get/input.scss
+@use "sass:map";
+a {b: map.map-get((c: d), c)}
+
+<===> error/map_get/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-get((c: d), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/map_merge/input.scss
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.map-inspect(map.merge((c: d), (e: f)))}
+
+<===> error/map_merge/error
+Error: Undefined function.
+  ,
+3 | a {b: meta.map-inspect(map.merge((c: d), (e: f)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/map_remove/input.scss
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.map-inspect(map.remove((c: d), c))}
+
+<===> error/map_remove/error
+Error: Undefined function.
+  ,
+3 | a {b: meta.map-inspect(map.remove((c: d), c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/map_keys/input.scss
+@use "sass:map";
+a {b: map.map-keys((c: d))}
+
+<===> error/map_keys/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-keys((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/map_values/input.scss
+@use "sass:map";
+a {b: map.map-values((c: d), c)}
+
+<===> error/map_values/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-values((c: d), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/map_has_key/input.scss
+@use "sass:map";
+a {b: map.map-has-key((c: d), c)}
+
+<===> error/map_has_key/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-has-key((c: d), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

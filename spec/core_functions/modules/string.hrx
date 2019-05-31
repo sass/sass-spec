@@ -1,0 +1,142 @@
+<===> unquote/input.scss
+@use "sass:string";
+a {b: string.unquote("c")}
+
+<===> unquote/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> quote/input.scss
+@use "sass:string";
+a {b: string.quote(c)}
+
+<===> quote/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> length/input.scss
+@use "sass:string";
+a {b: string.length("c")}
+
+<===> length/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> insert/input.scss
+@use "sass:string";
+a {b: string.insert("c", "d", 1)}
+
+<===> insert/output.css
+a {
+  b: "dc";
+}
+
+<===>
+================================================================================
+<===> index/input.scss
+@use "sass:string";
+a {b: string.index("c", "c")}
+
+<===> index/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> slice/input.scss
+@use "sass:string";
+a {b: string.slice("c", 1, 1)}
+
+<===> slice/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> to_upper_case/input.scss
+@use "sass:string";
+a {b: string.to-upper-case("c")}
+
+<===> to_upper_case/output.css
+a {
+  b: "C";
+}
+
+<===>
+================================================================================
+<===> unique_id/input.scss
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.type-of(string.unique-id())}
+
+<===> unique_id/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> error/str_length/input.scss
+@use "sass:string";
+a {b: string.str-length("c")}
+
+<===> error/str_length/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-length("c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/str_insert/input.scss
+@use "sass:string";
+a {b: string.str-insert("c", 1, "d")}
+
+<===> error/str_insert/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-insert("c", 1, "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/str_index/input.scss
+@use "sass:string";
+a {b: string.str-index("c", "c")}
+
+<===> error/str_index/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-index("c", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/str_slice/input.scss
+@use "sass:string";
+a {b: string.str-slice("c", 1, 1)}
+
+<===> error/str_slice/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-slice("c", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -1,0 +1,128 @@
+<===> inspect/input.scss
+@use "sass:meta";
+a {b: meta.inspect(())}
+
+<===> inspect/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> feature_exists/input.scss
+@use "sass:meta";
+a {b: meta.feature-exists(at-error)}
+
+<===> feature_exists/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> variable_exists/input.scss
+@use "sass:meta";
+a {b: meta.variable-exists(c)}
+
+<===> variable_exists/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> global_variable_exists/input.scss
+@use "sass:meta";
+a {b: meta.global-variable-exists(c)}
+
+<===> global_variable_exists/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> function_exists/input.scss
+@use "sass:meta";
+a {b: meta.function-exists(c)}
+
+<===> function_exists/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> mixin_exists/input.scss
+@use "sass:meta";
+a {b: meta.mixin-exists(c)}
+
+<===> mixin_exists/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> get_function/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.get-function(rgb))}
+
+<===> get_function/output.css
+a {
+  b: get-function("rgb");
+}
+
+<===>
+================================================================================
+<===> type_of/input.scss
+@use "sass:meta";
+a {b: meta.type-of(())}
+
+<===> type_of/output.css
+a {
+  b: list;
+}
+
+<===>
+================================================================================
+<===> call/input.scss
+@use "sass:meta";
+a {b: meta.call(meta.get-function("rgb"), 1, 2, 3)}
+
+<===> call/output.css
+a {
+  b: #010203;
+}
+
+<===>
+================================================================================
+<===> content_exists/input.scss
+@use "sass:meta";
+
+@mixin print-content-exists {
+  a {b: meta.content-exists()}
+}
+
+@include print-content-exists;
+
+<===> content_exists/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> keywords/input.scss
+@use "sass:meta";
+
+@function keywords($args...) {
+  @return meta.keywords($args);
+}
+
+a {b: meta.inspect(keywords($c: d))}
+
+<===> keywords/output.css
+a {
+  b: (c: d);
+}
