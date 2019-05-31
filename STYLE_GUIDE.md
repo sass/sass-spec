@@ -754,7 +754,7 @@ be named "other" (`_other.scss`, `_other.sass`, etc).
 <===> slash_slash_string/options.yml
 ---
 :todo:
-- libsass # sass/libsass#2840
+- sass/libsass#2840
 
 <===> slash_slash_string/input.scss
 a {b: 1 / 2 / foo()}
@@ -784,10 +784,10 @@ a {
 
 </details>
 
-When [marking a spec as `:todo`][], follow it with a comment that refers to an
-issue in the implementation in question tracking the feature the spec tests. If
-there isn't an issue yet, create one. Make sure to also link that issue back to
-the specs for it!
+When [marking a spec as `:todo`][], use a reference to an issue in the
+implementation in question tracking the feature the spec tests. If there isn't
+an issue yet, create one. Make sure to also link that issue back to the specs
+for it!
 
 [marking a spec as `:todo`]: README.md#todo
 
@@ -996,7 +996,7 @@ directory. It just serves to visually separate specs from one another.
 <===> top_level/options.yml
 ---
 :warning_todo:
-- libsass # sass/libsass#2834
+- sass/libsass#2834
 :ignore_for:
 - ruby-sass
 
@@ -1041,7 +1041,7 @@ declare new variables. Consider adding `$var: null` at the top level.
 <===> top_level/options.yml
 ---
 :warning_todo:
-- libsass # sass/libsass#2834
+- sass/libsass#2834
 :ignore_for:
 - ruby-sass
 
