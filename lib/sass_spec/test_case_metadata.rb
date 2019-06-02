@@ -48,7 +48,14 @@ module SassSpec
     # Parses metadata for the test case at the given SassSpec::Directory.
     def initialize(test_case_dir)
       @name = test_case_dir.to_s
-      @options = resolve_options(test_case_dir).freeze
+      @options = resolve_options(test_case_dir)
+    end
+
+    def resolve_options(dir)
+      self.class.cache[dir.path] ||= _resolve_options(dir).tap do |options|
+        _normalize_todos(options, :todo)
+        _normalize_todos(options, :warning_todo)
+      end.freeze
     end
 
     def _resolve_options(dir)
@@ -72,8 +79,14 @@ module SassSpec
       rv
     end
 
-    def resolve_options(dir)
-      self.class.cache[dir.path] ||= _resolve_options(dir).freeze
+    # Normalize a list of TODOs to convert GitHub issue references to
+    # implementation names.
+    def _normalize_todos(options, field)
+      if options.include?(field)
+        options[field] = options[field]
+          .map {|name| name =~ %r{^sass/(.*)#} ? $1 : name}
+          .to_set
+      end
     end
 
     def todo?(impl)

@@ -197,7 +197,7 @@ eventually be removed.
 ```yaml
 ---
 :todo:
-- libsass # sass/libsass#2827
+- sass/libsass#2827
 ```
 
 This option indicates implementations that should add support for a spec, but
@@ -206,9 +206,11 @@ marked as `:todo` for that implementation are skipped by default. This ensures t
 the build remains green while clearly marking which specs are expected to pass
 eventually.
 
-In general, when marking a spec as `:todo` for an implementation, it's a good
-idea to include a comment referencing the GitHub issue for that implementation
-that will fix the spec. If no issue exists yet, please file one.
+Implementations can be (and should be) specified as shorthand GitHub issue
+references rather than plain names. This makes it easy to track whether the
+implementation has fixed the issue, and to see which specs correspond to which
+issue. When marking an issue as `:todo` for an implementation, please either
+find an existing issue to reference or file a new one.
 
 If the `--run-todo` flag is passed to `sass-spec.rb`, specs marked as `:todo`
 for the current implementation will be run, and their failures will be reported.
@@ -225,7 +227,7 @@ these specs.
 ```yaml
 ---
 :warning_todo:
-- libsass # sass/libsass#2834
+- sass/libsass#2834
 ```
 
 This option works like [`:todo`](#todo), except instead of skipping the entire
