@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 @function foo() {
   @return 1+2 3/4 5+6;
@@ -26,3 +31,17 @@ div {
   content: 3 3/4 11;
   bar-content: 0.75;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 | @mixin bar($x: 3/4) {
+  |                ^^^
+  '
+    input.scss 5:16  bar()
+    input.scss 16:3  root stylesheet

@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 @mixin ie-opacity($opacity) {
   opacity: $opacity / 100;
@@ -97,3 +102,17 @@ foo {
   filter: progid:DXImageTransform.Microsoft.MotionBlur(strength=13, direction=310) progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled="false", startColorstr=#550000FF, endColorstr=#55FFFF00);
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($opacity, 100)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   opacity: $opacity / 100;
+  |            ^^^^^^^^^^^^^^
+  '
+    input.scss 2:12  ie-opacity()
+    input.scss 19:3  root stylesheet

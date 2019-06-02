@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 .multiple {
   // Sass units that are multiplied and divided along with the values.
@@ -73,3 +78,304 @@
   multiplication-cancels-unknown: 1foo*bar/qux;
   division-cancels-unknown: 1bar/baz*qux;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   multiple-denominators: inspect((1 / 1px / 1rad));
+  |                                   ^^^^^^^
+  '
+    input.scss 4:35  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1 / 1px, 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   multiple-denominators: inspect((1 / 1px / 1rad));
+  |                                   ^^^^^^^^^^^^^^
+  '
+    input.scss 4:35  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1px * 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   divide-by-multiple-numerators: inspect(1 / (1px * 1rad));
+  |                                          ^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:42  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+6 |   divide-by-multiple-denominators: inspect(1 / (1 / 1px / 1rad));
+  |                                                 ^^^^^^^
+  '
+    input.scss 6:49  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1 / 1px, 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+6 |   divide-by-multiple-denominators: inspect(1 / (1 / 1px / 1rad));
+  |                                                 ^^^^^^^^^^^^^^
+  '
+    input.scss 6:49  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1 / 1px / 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+6 |   divide-by-multiple-denominators: inspect(1 / (1 / 1px / 1rad));
+  |                                            ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 6:44  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1px * 1rad, 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+10|   $number: 1px * 1rad / 1ms / 1Hz;
+  |            ^^^^^^^^^^^^^^^^
+  '
+    input.scss 10:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1px * 1rad / 1ms, 1Hz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+10|   $number: 1px * 1rad / 1ms / 1Hz;
+  |            ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 10:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+13 |   multiplication-cancels-numerator: inspect($number * (1 / 1px));
+   |                                                        ^^^^^^^
+   '
+    input.scss 13:56  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+14 |   multiplication-cancels-numerator-twice: inspect($number * (1 / 1px / 1rad));
+   |                                                              ^^^^^^^
+   '
+    input.scss 14:62  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1 / 1px, 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+14 |   multiplication-cancels-numerator-twice: inspect($number * (1 / 1px / 1rad));
+   |                                                              ^^^^^^^^^^^^^^
+   '
+    input.scss 14:62  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1ms, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+15 |   multiplication-cancels-both: inspect($number * (1ms / 1px));
+   |                                                   ^^^^^^^^^
+   '
+    input.scss 15:51  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+16 |   division-cancels-numerator: inspect($number / 1rad);
+   |                                       ^^^^^^^^^^^^^^
+   '
+    input.scss 16:39  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1px * 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+17 |   division-cancels-numerator-twice: inspect($number / (1px * 1rad));
+   |                                             ^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 17:45  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+18 |   division-cancels-denominator: inspect($number / (1 / 1ms));
+   |                                                    ^^^^^^^
+   '
+    input.scss 18:52  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1 / 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+18 |   division-cancels-denominator: inspect($number / (1 / 1ms));
+   |                                         ^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 18:41  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1, 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+19 |   division-cancels-denominator-twice: inspect($number / (1 / 1ms / 1Hz));
+   |                                                          ^^^^^^^
+   '
+    input.scss 19:58  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1 / 1ms, 1Hz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+19 |   division-cancels-denominator-twice: inspect($number / (1 / 1ms / 1Hz));
+   |                                                          ^^^^^^^^^^^^^
+   '
+    input.scss 19:58  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1 / 1ms / 1Hz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+19 |   division-cancels-denominator-twice: inspect($number / (1 / 1ms / 1Hz));
+   |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:47  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1px, 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+20 |   division-cancels-both: inspect($number / (1px / 1ms));
+   |                                             ^^^^^^^^^
+   '
+    input.scss 20:45  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1px / 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+20 |   division-cancels-both: inspect($number / (1px / 1ms));
+   |                                  ^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 20:34  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1in)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+24 |   division-cancels-compatible: inspect($number / 1in);
+   |                                        ^^^^^^^^^^^^^
+   '
+    input.scss 24:40  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1foo * 1bar, 1baz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+27 |   $number: 1foo * 1bar / 1baz / 1qux;
+   |            ^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 27:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1foo * 1bar / 1baz, 1qux)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+27 |   $number: 1foo * 1bar / 1baz / 1qux;
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 27:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($number, 1foo)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+29 |   division-cancels-unknown: inspect($number / 1foo);
+   |                                     ^^^^^^^^^^^^^^
+   '
+    input.scss 29:37  root stylesheet

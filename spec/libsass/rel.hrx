@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 div {
   less: 3px < 3pt;
@@ -66,3 +71,100 @@ div {
   lt: false;
   lt: false;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1px, 1pt)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 |   less: (1px / 1pt);
+  |          ^^^^^^^^^
+  '
+    input.scss 3:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1cm * 1in, 1cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+12 |   eq: (1in) == (1cm*1in/1cm);
+   |                 ^^^^^^^^^^^
+   '
+    input.scss 12:17  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1cm * 1in, 1cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+13 |   x: 1in, (1cm*1in/1cm);
+   |            ^^^^^^^^^^^
+   '
+    input.scss 13:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1cm * 1in, 1in)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+14 |   y: 1cm*1in/1in;
+   |      ^^^^^^^^^^^
+   '
+    input.scss 14:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(2cm * 1in, 2cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+15 |   eq: (2cm*1in/2cm) == (1in*2cm/2cm);
+   |        ^^^^^^^^^^^
+   '
+    input.scss 15:8  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1in * 2cm, 2cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+15 |   eq: (2cm*1in/2cm) == (1in*2cm/2cm);
+   |                         ^^^^^^^^^^^
+   '
+    input.scss 15:25  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1cm, 1in)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+16 |   blah: (1cm/1in);
+   |          ^^^^^^^
+   '
+    input.scss 16:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(1in * 2.54cm, 1in)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+17 |   in: (1in*2.54cm/1in);
+   |        ^^^^^^^^^^^^^^
+   '
+    input.scss 17:8  root stylesheet

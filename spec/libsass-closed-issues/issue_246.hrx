@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 $content-width: 960px;
 
@@ -20,3 +25,28 @@ $content-width: 960px;
 .selector {
   padding: 0 calc(100%/2 - 480px);
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($content-width, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   padding: 0 calc(100%/2 - #{$content-width/2})
+  |                              ^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:30  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide($content-width, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+11 |   padding: 0 calc(100%/2 - #{$content-width/2}); }
+   |                              ^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:30  root stylesheet

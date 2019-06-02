@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 .wizard-editor {
     transform: scale(50/1);
@@ -10,3 +15,28 @@
   transform: scale(50);
   transform: scale(50);
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(50, 1)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 |     transform: scale((50/1));
+  |                       ^^^^
+  '
+    input.scss 3:23  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(50, 1)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |     transform: scale( (50/1) );
+  |                        ^^^^
+  '
+    input.scss 4:24  root stylesheet

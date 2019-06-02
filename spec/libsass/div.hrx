@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 $x: 3/4;
 $xs: hey 3/4 ho;
@@ -23,3 +28,52 @@ div {
   e: true;
   f: number;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | $x: 3/4;
+  |     ^^^
+  '
+    input.scss 1:5  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+10|   d: nth($xs, 2);
+  |      ^^^^^^^^^^^
+  '
+    input.scss 10:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+11 |   e: nth($xs, 2) == 0.75;
+   |      ^^^^^^^^^^^
+   '
+    input.scss 11:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: divide(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+12 |   f: type-of(nth($xs, 2));
+   |              ^^^^^^^^^^^
+   '
+    input.scss 12:14  root stylesheet
