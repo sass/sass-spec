@@ -1,0 +1,31 @@
+<===> slash_list/options.yml
+:todo:
+- libsass # sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash_list/top_level/input.scss
+a {b: selector-parse(slash-list(c d, e f))}
+
+<===> slash_list/top_level/error
+Error: $selector: c d / e f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(slash-list(c d, e f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/in_comma_list/input.scss
+a {b: selector-parse((slash-list(c, d), slash-list(e, f)))}
+
+<===> slash_list/in_comma_list/error
+Error: $selector: c / d, e / f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse((slash-list(c, d), slash-list(e, f)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
