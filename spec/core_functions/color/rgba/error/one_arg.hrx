@@ -152,3 +152,107 @@ Error: $blue: "var(--foo) / 0.4" is not a number.
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/too_few_elements/input.scss
+a {b: rgba(append((), 1 2 3, $separator: slash))}
+
+<===> slash_list/too_few_elements/error
+Error: Only 2 slash-separated elements allowed, but 1 was passed.
+  ,
+1 | a {b: rgba(append((), 1 2 3, $separator: slash))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/too_many_elements/input.scss
+a {b: rgba(slash-list(1 2 3, 0.4, 1))}
+
+<===> slash_list/too_many_elements/error
+Error: Only 2 slash-separated elements allowed, but 3 were passed.
+  ,
+1 | a {b: rgba(slash-list(1 2 3, 0.4, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/empty/input.scss
+a {b: rgba(slash-list((), 1))}
+
+<===> slash_list/channels/empty/error
+Error: Missing element $red.
+  ,
+1 | a {b: rgba(slash-list((), 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/comma_separated/input.scss
+a {b: rgba(slash-list((1, 2, 3), 1))}
+
+<===> slash_list/channels/comma_separated/error
+Error: $channels must be a space-separated list.
+  ,
+1 | a {b: rgba(slash-list((1, 2, 3), 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/bracketed/input.scss
+a {b: rgba(slash-list([1 2 3], 1))}
+
+<===> slash_list/channels/bracketed/error
+Error: $channels must be an unbracketed list.
+  ,
+1 | a {b: rgba(slash-list([1 2 3], 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/one_element/input.scss
+a {b: rgba(slash-list(1, 1))}
+
+<===> slash_list/channels/one_element/error
+Error: Missing element $green.
+  ,
+1 | a {b: rgba(slash-list(1, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/two_elements/input.scss
+a {b: rgba(slash-list(1 2, 1))}
+
+<===> slash_list/channels/two_elements/error
+Error: Missing element $blue.
+  ,
+1 | a {b: rgba(slash-list(1 2, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/four_elements/input.scss
+a {b: rgba(slash-list(1 2 3 0.4, 1))}
+
+<===> slash_list/channels/four_elements/error
+Error: Only 3 elements allowed, but 4 were passed.
+  ,
+1 | a {b: rgba(slash-list(1 2 3 0.4, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

@@ -414,3 +414,33 @@ a {b: hsla(var(--foo) / 0.4)}
 a {
   b: hsla(var(--foo)/0.4);
 }
+
+<===>
+================================================================================
+<===> slash_list/channels/input.scss
+a {b: hsla(slash-list(var(--foo), 0.4))}
+
+<===> slash_list/channels/output.css
+a {
+  b: hsla(var(--foo) / 0.4);
+}
+
+<===>
+================================================================================
+<===> slash_list/some_channels/input.scss
+a {b: hsla(slash-list(1 var(--foo), 0.4))}
+
+<===> slash_list/some_channels/output.css
+a {
+  b: hsla(1 var(--foo) / 0.4);
+}
+
+<===>
+================================================================================
+<===> slash_list/alpha/input.scss
+a {b: hsla(slash-list(1 2% 3%, var(--c)))}
+
+<===> slash_list/alpha/output.css
+a {
+  b: hsla(1, 2%, 3%, var(--c));
+}
