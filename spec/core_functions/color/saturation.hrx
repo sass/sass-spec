@@ -1,0 +1,108 @@
+<===> max/input.scss
+a {b: saturation(hsl(0, 100%, 100%))}
+
+<===> max/output.css
+a {
+  b: 100%;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: saturation(hsl(0, 0%, 100%))}
+
+<===> min/output.css
+a {
+  b: 0%;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: saturation(hsl(0, 50%, 100%))}
+
+<===> middle/output.css
+a {
+  b: 50%;
+}
+
+<===>
+================================================================================
+<===> fraction/input.scss
+a {b: saturation(hsl(0, 0.5%, 100%))}
+
+<===> fraction/output.css
+a {
+  b: 0.5%;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: saturation($color: hsl(0, 42%, 100%))}
+
+<===> named/output.css
+a {
+  b: 42%;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: saturation()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: saturation()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function saturation is missing argument $color.
+        on line 1 of input.scss
+>> a {b: saturation()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: saturation(red, green)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: saturation(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `saturation'
+        on line 1:7 of input.scss
+>> a {b: saturation(red, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: saturation(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: saturation(1)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$color` of `saturation($color)` must be a color
+        on line 1:7 of input.scss, in function `saturation`
+        from line 1:7 of input.scss
+>> a {b: saturation(1)}
+
+   ------^

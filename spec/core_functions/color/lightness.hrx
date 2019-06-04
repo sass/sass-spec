@@ -1,0 +1,108 @@
+<===> max/input.scss
+a {b: lightness(hsl(0, 100%, 100%))}
+
+<===> max/output.css
+a {
+  b: 100%;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: lightness(hsl(0, 100%, 0%))}
+
+<===> min/output.css
+a {
+  b: 0%;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: lightness(hsl(0, 100%, 50%))}
+
+<===> middle/output.css
+a {
+  b: 50%;
+}
+
+<===>
+================================================================================
+<===> fraction/input.scss
+a {b: lightness(hsl(0, 100%, 0.5%))}
+
+<===> fraction/output.css
+a {
+  b: 0.5%;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: lightness($color: hsl(0, 100%, 42%))}
+
+<===> named/output.css
+a {
+  b: 42%;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: lightness()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: lightness()}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function lightness is missing argument $color.
+        on line 1 of input.scss
+>> a {b: lightness()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: lightness(red, green)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: lightness(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `lightness'
+        on line 1:7 of input.scss
+>> a {b: lightness(red, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: lightness(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: lightness(1)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$color` of `lightness($color)` must be a color
+        on line 1:7 of input.scss, in function `lightness`
+        from line 1:7 of input.scss
+>> a {b: lightness(1)}
+
+   ------^
