@@ -1,0 +1,87 @@
+<===> variable_use/input.scss
+@use "midstream";
+
+a {b: $midstream.c}
+
+<===> variable_use/_midstream.scss
+@forward "upstream";
+
+$c: midstream;
+
+<===> variable_use/_upstream.scss
+$c: upstream;
+
+<===> variable_use/output.css
+a {
+  b: midstream;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/top_level/input.scss
+@use "midstream";
+
+$midstream.a: new value;
+
+b {
+  midstream: midstream.get-midstream-a();
+  upstream: midstream.get-upstream-a();
+};
+
+<===> variable_assignment/top_level/_midstream.scss
+@forward "upstream";
+
+$a: midstream value;
+
+@function get-midstream-a() {@return $a}
+
+<===> variable_assignment/top_level/_upstream.scss
+$a: upstream value;
+
+@function get-upstream-a() {@return $a}
+
+<===> variable_assignment/top_level/output.css
+b {
+  midstream: midstream value;
+  upstream: new value;
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+@use "midstream";
+
+a {b: midstream.c()}
+
+<===> function/_midstream.scss
+@forward "upstream";
+
+@function c() {@return midstream}
+
+<===> function/_upstream.scss
+@function c() {@return upstream}
+
+<===> function/output.css
+a {
+  b: midstream;
+}
+
+<===>
+================================================================================
+<===> mixin/input.scss
+@use "midstream";
+
+@include midstream.a;
+
+<===> mixin/_midstream.scss
+@forward "upstream";
+
+@mixin a() {b {c: midstream}}
+
+<===> mixin/_upstream.scss
+@mixin a() {b {c: upstream}}
+
+<===> mixin/output.css
+b {
+  c: midstream;
+}

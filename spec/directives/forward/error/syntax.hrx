@@ -1,0 +1,349 @@
+<===> empty/input.scss
+@forward;
+
+<===> empty/error
+Error: Expected string.
+  ,
+1 | @forward;
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> as/nothing/input.scss
+@forward "a" as;
+
+<===> as/nothing/error
+Error: Expected identifier.
+  ,
+1 | @forward "a" as;
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> as/asterisk/input.scss
+@forward "a" as *;
+
+<===> as/asterisk/error
+Error: Expected identifier.
+  ,
+1 | @forward "a" as *;
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> as/invalid/input.scss
+@forward "a" as 1-*;
+
+<===> as/invalid/error
+Error: Expected identifier.
+  ,
+1 | @forward "a" as 1-*;
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> as/no_star/input.scss
+@forward "a" as foo;
+
+<===> as/no_star/error
+Error: expected "*".
+  ,
+1 | @forward "a" as foo;
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> show/nothing/input.scss
+@forward "a" show;
+
+<===> show/nothing/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" show;
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> show/invalid/input.scss
+@forward "a" show 1;
+
+<===> show/invalid/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" show 1;
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> show/empty_variable/input.scss
+@forward "a" show $;
+
+<===> show/empty_variable/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" show $;
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> show/trailing_comma/input.scss
+@forward "a" show b,;
+
+<===> show/trailing_comma/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" show b,;
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> show/and_hide/input.scss
+@forward "a" show b hide c;
+
+<===> show/and_hide/error
+Error: expected ";".
+  ,
+1 | @forward "a" show b hide c;
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> hide/nothing/input.scss
+@forward "a" hide;
+
+<===> hide/nothing/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" hide;
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> hide/invalid/input.scss
+@forward "a" hide 1;
+
+<===> hide/invalid/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" hide 1;
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> hide/empty_variable/input.scss
+@forward "a" hide $;
+
+<===> hide/empty_variable/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" hide $;
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> hide/trailing_comma/input.scss
+@forward "a" hide b,;
+
+<===> hide/trailing_comma/error
+Error: Expected variable, mixin, or function name
+  ,
+1 | @forward "a" hide b,;
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> hide/and_show/input.scss
+@forward "a" hide b show c;
+
+<===> hide/and_show/error
+Error: expected ";".
+  ,
+1 | @forward "a" hide b show c;
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> url/unquoted/input.scss
+@forward foo;
+
+<===> url/unquoted/error
+Error: Expected string.
+  ,
+1 | @forward foo;
+  |          ^
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> within/mixin/input.scss
+@mixin a {
+  @forward "b";
+}
+
+<===> within/mixin/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @forward "b";
+  |   ^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> within/function/input.scss
+@function a() {
+  @forward "b";
+}
+
+<===> within/function/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @forward "b";
+  |   ^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> within/style_rule/input.scss
+a {
+  @forward "b";
+}
+
+<===> within/style_rule/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @forward "b";
+  |   ^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/unknown/input.scss
+@a;
+@forward "b";
+
+<===> after/at_rule/unknown/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "b";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/sass/input.scss
+@if true {};
+@forward "a";
+
+<===> after/at_rule/sass/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "a";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/import/input.scss
+@import "a";
+@forward "b";
+
+<===> after/at_rule/import/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "b";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/at_rule/css/input.scss
+@keyframes a {};
+@forward "b";
+
+<===> after/at_rule/css/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "b";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/style_rule/input.scss
+a {};
+@forward "b";
+
+<===> after/style_rule/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "b";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/indented/mixin/input.sass
+=a
+  b: c
+@forward "d"
+
+<===> after/indented/mixin/error
+Error: @forward rules must be written before any other rules.
+  ,
+3 | @forward "d"
+  | ^^^^^^^^^^^^
+  '
+  input.sass 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> after/indented/include/input.sass
++a
+@forward "b"
+
+<===> after/indented/include/error
+Error: @forward rules must be written before any other rules.
+  ,
+2 | @forward "b"
+  | ^^^^^^^^^^^^
+  '
+  input.sass 2:1  root stylesheet

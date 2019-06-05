@@ -1,0 +1,171 @@
+<===> variable_use/input.scss
+@use "midstream";
+
+a {b: $midstream.d-c}
+
+<===> variable_use/_midstream.scss
+@forward "upstream" as d-*;
+
+<===> variable_use/_upstream.scss
+$c: e;
+
+<===> variable_use/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/top_level/input.scss
+@use "midstream";
+
+$midstream.d-a: new value;
+
+b {c: midstream.d-get-a()};
+
+<===> variable_assignment/top_level/_midstream.scss
+@forward "upstream" as d-*;
+
+<===> variable_assignment/top_level/_upstream.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> variable_assignment/top_level/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/nested/input.scss
+@use "midstream";
+
+a {
+  // Namespaced assignments always assign to the other module's variable, even
+  // if they're nested in a block scope.
+  $midstream.d-b: new value;
+
+  c: midstream.d-get-b();
+}
+
+<===> variable_assignment/nested/_midstream.scss
+@forward "upstream" as d-*;
+
+<===> variable_assignment/nested/_upstream.scss
+$b: old value;
+
+@function get-b() {@return $b}
+
+<===> variable_assignment/nested/output.css
+a {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+@use "midstream";
+
+a {b: midstream.d-c()}
+
+<===> function/_midstream.scss
+@forward "upstream" as d-*;
+
+<===> function/_upstream.scss
+@function c() {@return e}
+
+<===> function/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> mixin/input.scss
+@use "midstream";
+
+@include midstream.b-a;
+
+<===> mixin/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> mixin/_upstream.scss
+@mixin a() {c {d: e}}
+
+<===> mixin/output.css
+c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> different_separator/input.scss
+@use "midstream";
+
+a {b: $midstream.d-c}
+
+<===> different_separator/_midstream.scss
+@forward "upstream" as d_*;
+
+<===> different_separator/_upstream.scss
+$c: e;
+
+<===> different_separator/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> show/same_separator/input.scss
+@use "midstream";
+
+@include midstream.b-a;
+
+<===> show/same_separator/_midstream.scss
+@forward "upstream" as b-* show b-a;
+
+<===> show/same_separator/_upstream.scss
+@mixin a() {c {d: e}}
+
+<===> show/same_separator/output.css
+c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> show/different_separator/input.scss
+@use "midstream";
+
+@include midstream.b-a;
+
+<===> show/different_separator/_midstream.scss
+@forward "upstream" as b-* show b_a;
+
+<===> show/different_separator/_upstream.scss
+@mixin a() {c {d: e}}
+
+<===> show/different_separator/output.css
+c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "midstream";
+
+@include midstream.b-a;
+
+<===> hide/_midstream.scss
+@forward "upstream" as b-* hide a;
+
+<===> hide/_upstream.scss
+@mixin a() {c {d: e}}
+
+<===> hide/output.css
+c {
+  d: e;
+}
