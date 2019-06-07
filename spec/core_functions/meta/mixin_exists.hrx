@@ -1,111 +1,160 @@
-<===> global/input.scss
+<===> same_module/global/input.scss
 @mixin global-mixin() {}
 
 a {b: mixin-exists(global-mixin)}
 
-<===> global/output.css
+<===> same_module/global/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> local/input.scss
+<===> same_module/local/input.scss
 a {
   @mixin local-mixin() {}
   b: mixin-exists(local-mixin);
 }
 
-<===> local/output.css
+<===> same_module/local/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> dash_insensitive/input.scss
-@mixin global-mixin() {}
-
-a {b: mixin-exists(global_mixin)}
-
-<===> dash_insensitive/output.css
-a {
-  b: true;
-}
-
-<===>
-================================================================================
-<===> through_import/input.scss
+<===> same_module/through_import/input.scss
 @import "other";
 a {b: mixin-exists(global-mixin)}
 
-<===> through_import/other.scss
+<===> same_module/through_import/other.scss
 @mixin global-mixin() {}
 
-<===> through_import/output.css
+<===> same_module/through_import/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> through_use/options.yml
+<===> same_module/non_existent/input.scss
+a {
+  b: mixin-exists(non-existent);
+}
+
+<===> same_module/non_existent/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/options.yml
 ---
 :todo:
 - sass/libsass#2807
 
-<===> through_use/input.scss
+<===>
+================================================================================
+<===> different_module/undefined/input.scss
+@use "sass:color";
+a {b: mixin-exists("c", "color")}
+
+<===> different_module/undefined/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/input.scss
+@use "other";
+a {b: mixin-exists("c", "color")}
+
+<===> different_module/defined/_other.scss
+@mixin c() {}
+
+<===> different_module/defined/error
+Error: There is no module with the namespace "color".
+  ,
+2 | a {b: mixin-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> different_module/chosen_prefix/input.scss
+@use "other" as a;
+b {c: mixin-exists("d", "a")}
+
+<===> different_module/chosen_prefix/_other.scss
+@mixin d() {}
+
+<===> different_module/chosen_prefix/output.css
+b {
+  c: true;
+}
+
+<===>
+================================================================================
+<===> different_module/through_use/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> different_module/through_use/input.scss
 @use "other" as *;
 a {b: mixin-exists(global-mixin)}
 
-<===> through_use/other.scss
+<===> different_module/through_use/other.scss
 @mixin global-mixin() {}
 
-<===> through_use/output.css
+<===> different_module/through_use/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> through_forward/options.yml
+<===> different_module/through_forward/options.yml
 ---
 :todo:
 - sass/libsass#2807
 
 <===>
 ================================================================================
-<===> through_forward/bare/input.scss
+<===> different_module/through_forward/bare/input.scss
 @use "midstream" as *;
 a {b: mixin-exists(c)}
 
-<===> through_forward/bare/_midstream.scss
+<===> different_module/through_forward/bare/_midstream.scss
 @forward "upstream";
 
-<===> through_forward/bare/_upstream.scss
+<===> different_module/through_forward/bare/_upstream.scss
 @mixin c() {}
 
-<===> through_forward/bare/output.css
+<===> different_module/through_forward/bare/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> through_forward/as/input.scss
+<===> different_module/through_forward/as/input.scss
 @use "midstream" as *;
 a {
   with-prefix: mixin-exists(b-c);
   without-prefix: mixin-exists(c);
 }
 
-<===> through_forward/as/_midstream.scss
+<===> different_module/through_forward/as/_midstream.scss
 @forward "upstream" as b-*;
 
-<===> through_forward/as/_upstream.scss
+<===> different_module/through_forward/as/_upstream.scss
 @mixin c() {}
 
-<===> through_forward/as/output.css
+<===> different_module/through_forward/as/output.css
 a {
   with-prefix: true;
   without-prefix: false;
@@ -113,21 +162,21 @@ a {
 
 <===>
 ================================================================================
-<===> through_forward/show/input.scss
+<===> different_module/through_forward/show/input.scss
 @use "midstream" as *;
 a {
   shown: mixin-exists(b);
   not-shown: mixin-exists(c);
 }
 
-<===> through_forward/show/_midstream.scss
+<===> different_module/through_forward/show/_midstream.scss
 @forward "upstream" show b;
 
-<===> through_forward/show/_upstream.scss
+<===> different_module/through_forward/show/_upstream.scss
 @mixin b() {}
 @mixin c() {}
 
-<===> through_forward/show/output.css
+<===> different_module/through_forward/show/output.css
 a {
   shown: true;
   not-shown: false;
@@ -135,21 +184,21 @@ a {
 
 <===>
 ================================================================================
-<===> through_forward/hide/input.scss
+<===> different_module/through_forward/hide/input.scss
 @use "midstream" as *;
 a {
   hidden: mixin-exists(b);
   not-hidden: mixin-exists(c);
 }
 
-<===> through_forward/hide/_midstream.scss
+<===> different_module/through_forward/hide/_midstream.scss
 @forward "upstream" hide b;
 
-<===> through_forward/hide/_upstream.scss
+<===> different_module/through_forward/hide/_upstream.scss
 @mixin b() {}
 @mixin c() {}
 
-<===> through_forward/hide/output.css
+<===> different_module/through_forward/hide/output.css
 a {
   hidden: false;
   not-hidden: true;
@@ -157,32 +206,29 @@ a {
 
 <===>
 ================================================================================
-<===> non_existent/input.scss
-a {
-  b: mixin-exists(non-existent);
-}
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2807
 
-<===> non_existent/output.css
-a {
-  b: false;
-}
+<===> named/input.scss
+@use "other";
+a {b: mixin-exists($name: "c", $module: "other")}
 
-<===>
-================================================================================
-<===> keyword/input.scss
-a {b: mixin-exists($name: foo)}
+<===> named/_other.scss
+@mixin c() {}
 
-<===> keyword/output.css
+<===> named/output.css
 a {
-  b: false;
+  b: true;
 }
 
 <===>
 ================================================================================
-<===> error/argument/type/input.scss
+<===> error/argument/type/name/input.scss
 a {b: mixin-exists(12px)}
 
-<===> error/argument/type/error
+<===> error/argument/type/name/error
 Error: $name: 12px is not a string.
   ,
 1 | a {b: mixin-exists(12px)}
@@ -190,13 +236,31 @@ Error: $name: 12px is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/type/error-libsass
+<===> error/argument/type/name/error-libsass
 Error: argument `$name` of `mixin-exists($name)` must be a string
         on line 1:7 of input.scss, in function `mixin-exists`
         from line 1:7 of input.scss
 >> a {b: mixin-exists(12px)}
 
    ------^
+
+<===>
+================================================================================
+<===> error/argument/type/module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> error/argument/type/module/input.scss
+a {b: mixin-exists(c, 1)}
+
+<===> error/argument/type/module/error
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: mixin-exists(c, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -221,46 +285,93 @@ Error: Function mixin-exists is missing argument $name.
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: mixin-exists(foo, bar)}
+a {b: mixin-exists(c, d, e)}
 
 <===> error/argument/too_many/error
-Error: Only 1 argument allowed, but 2 were passed.
+Error: Only 2 arguments allowed, but 3 were passed.
   ,
-1 | a {b: mixin-exists(foo, bar)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: mixin-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (2 for 1) for `mixin-exists'
+Error: wrong number of arguments (3 for 1) for `mixin-exists'
         on line 1:7 of input.scss
->> a {b: mixin-exists(foo, bar)}
+>> a {b: mixin-exists(c, d, e)}
 
    ------^
 
 <===>
 ================================================================================
-<===> conflict/options.yml
+<===> error/conflict/options.yml
 ---
 :todo:
 - sass/libsass#2807
 
-<===> conflict/input.scss
+<===> error/conflict/input.scss
 @use "other1" as *;
 @use "other2" as *;
 
 a {b: mixin-exists(member)}
 
-<===> conflict/other1.scss
+<===> error/conflict/other1.scss
 @mixin member() {}
 
-<===> conflict/other2.scss
+<===> error/conflict/other2.scss
 @mixin member() {}
 
-<===> conflict/error
+<===> error/conflict/error
 Error: Multiple global modules have a mixin named "member".
   ,
 4 | a {b: mixin-exists(member)}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> error/module/non_existent/input.scss
+a {b: mixin-exists("c", "d")}
+
+<===> error/module/non_existent/error
+Error: There is no module with the namespace "d".
+  ,
+1 | a {b: mixin-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/built_in_but_not_loaded/input.scss
+a {b: mixin-exists("c", "color")}
+
+<===> error/module/built_in_but_not_loaded/error
+Error: There is no module with the namespace "color".
+  ,
+1 | a {b: mixin-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/dash_sensitive/input.scss
+@use "sass:color" as a-b;
+c {d: mixin-exists("c", $module: "a_b")}
+
+<===> error/module/dash_sensitive/error
+Error: There is no module with the namespace "a_b".
+  ,
+2 | c {d: mixin-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

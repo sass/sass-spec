@@ -1,0 +1,33 @@
+<===> inspect/input.scss
+a {b: inspect(get-function(lighten))};
+
+<===> inspect/output.css
+a {
+  b: get-function("lighten");
+}
+
+<===>
+================================================================================
+<===> type_of/input.scss
+a {b: type-of(get-function(lighten))};
+
+<===> type_of/output.css
+a {
+  b: function;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> named/input.scss
+@use "sass:color";
+a {b: call(get-function($name: "red", $module: "color"), #abcdef)}
+
+<===> named/output.css
+a {
+  b: 171;
+}

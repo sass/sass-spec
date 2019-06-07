@@ -1,0 +1,71 @@
+<===> user_defined/input.scss
+@function add-two($v) {@return $v + 2}
+$add-two-fn: get-function(add-two);
+
+a {b: call($add-two-fn, 10)}
+
+<===> user_defined/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> redefined/input.scss
+@function add-two($v) {@return $v + 2}
+$add-two-fn: get-function(add-two);
+
+// The function returned by `get-function()` is locked in place when it's
+// called. Redefining the function after the fact shouldn't affect the stored
+// value.
+@function add-two($v) {@error "Should not be called"}
+
+a {b: call($add-two-fn, 10)}
+
+<===> redefined/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> built_in/input.scss
+$lighten-fn: get-function(lighten);
+
+a {b: call($lighten-fn, red, 30%)}
+
+<===> built_in/output.css
+a {
+  b: #ff9999;
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@import "other";
+a {b: call(get-function(add-two), 10)}
+
+<===> through_import/other.scss
+@function add-two($v) {@return $v + 2}
+
+<===> through_import/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> plain_css/input.scss
+$sass-fn: get-function(lighten);
+$css-fn: get-function(lighten, $css: true);
+
+a {
+  sass-fn: call($sass-fn, red, 30%);
+  css-fn: call($css-fn, red, 30%);
+}
+
+<===> plain_css/output.css
+a {
+  sass-fn: #ff9999;
+  css-fn: lighten(red, 30%);
+}

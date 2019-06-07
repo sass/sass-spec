@@ -1,0 +1,45 @@
+<===> stores_local_scope/options.yml
+---
+:todo:
+- sass/libsass#2830
+
+<===> stores_local_scope/input.scss
+$add-two-fn: null;
+
+.scope {
+  @function add-two($v) {@return $v + 2}
+
+  // This function reference will still refer to this nested `add-two` function
+  // even when it goes out of scope.
+  $add-two-fn: get-function(add-two) !global;
+}
+
+a {b: call($add-two-fn, 10)}
+
+<===> stores_local_scope/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> captures_inner_scope/input.scss
+@function add-two($v) {@error "Should not be called"}
+.scope1 {
+  @function add-two($v) {@error "Should not be called"}
+  .scope2 {
+    @function add-two($v) {@error "Should not be called"}
+    .scope3 {
+      @function add-two($v) {@return $v + 2}
+
+      // Like a normal function call, get-function() will always use the
+      // innermost definition of a function.
+      a: call(get-function(add-two), 10);
+    }
+  }
+}
+
+<===> captures_inner_scope/output.css
+.scope1 .scope2 .scope3 {
+  a: 12;
+}
