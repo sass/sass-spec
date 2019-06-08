@@ -1,0 +1,317 @@
+<===> single/input.scss
+@use "other" with ($a: configured);
+
+<===> single/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> single/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> trailing_comma/input.scss
+@use "other" with ($a: configured,);
+
+<===> trailing_comma/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> trailing_comma/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/input.scss
+@use "other" with ($a_b: configured);
+
+<===> dash_insensitive/_other.scss
+$a-b: original !default;
+b {c: $a-b}
+
+<===> dash_insensitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "other" with (
+  $a: configured a,
+  $b: configured b,
+  $c: configured c
+);
+
+<===> multiple/_other.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> multiple/output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}
+
+<===>
+================================================================================
+<===> some_unconfigured/input.scss
+@use "other" with ($a: configured a);
+
+<===> some_unconfigured/_other.scss
+$a: original a !default;
+$b: original b !default;
+
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> some_unconfigured/output.css
+c {
+  a: configured a;
+  b: original b;
+}
+
+<===>
+================================================================================
+<===> from_variable/input.scss
+$a: configured;
+@use "other" with ($a: $a);
+
+<===> from_variable/_other.scss
+$a: original a !default;
+b {c: $a}
+
+<===> from_variable/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> doesnt_run_default/input.scss
+@use "other" with ($a: configured);
+
+<===> doesnt_run_default/_other.scss
+// This will throw an error if it's evaluated, but it shouldn't be because `$a`
+// already has a value.
+$a: 1px + 1em !default;
+b {c: $a}
+
+<===> doesnt_run_default/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> used_in_input/input.scss
+@use "other" with ($a: configured);
+b {c: $other.a}
+
+<===> used_in_input/_other.scss
+$a: original !default;
+
+<===> used_in_input/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> variable_exists/input.scss
+@use "other" with ($a: configured);
+
+<===> variable_exists/_other.scss
+$before-declaration: variable-exists(a);
+$a: original !default;
+b {
+  before-declaration: $before-declaration;
+  after-declaration: variable-exists(a);
+}
+
+<===> variable_exists/output.css
+b {
+  before-declaration: false;
+  after-declaration: true;
+}
+
+<===>
+================================================================================
+<===> through_import/direct/input.scss
+@use "used" with ($a: configured);
+
+<===> through_import/direct/_used.scss
+@import "imported";
+
+<===> through_import/direct/_imported.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_import/direct/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_import/transitive/input.scss
+@use "used" with ($a: configured);
+
+<===> through_import/transitive/_used.scss
+@import "midstream";
+
+<===> through_import/transitive/_midstream.scss
+@import "upstream";
+
+<===> through_import/transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_import/transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "used" with ($a: configured);
+
+<===> through_forward/bare/_used.scss
+@forward "forwarded";
+
+<===> through_forward/bare/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/bare/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/transitive/input.scss
+@use "used" with ($a: configured);
+
+<===> through_forward/transitive/_used.scss
+@forward "midstream";
+
+<===> through_forward/transitive/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "used" with ($a: configured);
+
+<===> through_forward/show/_used.scss
+@forward "forwarded" show $a;
+
+<===> through_forward/show/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/show/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "used" with ($a: configured);
+
+<===> through_forward/hide/_used.scss
+@forward "forwarded" hide $b;
+
+<===> through_forward/hide/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/hide/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "used" with ($b-a: configured);
+
+<===> through_forward/as/_used.scss
+@forward "forwarded" as b-*;
+
+<===> through_forward/as/_forwarded.scss
+$a: original !default;
+c {d: $a}
+
+<===> through_forward/as/output.css
+c {
+  d: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/README.md
+If a module is first loaded with a configuration, future loads with no
+configuration will used the configured module.
+
+<===>
+================================================================================
+<===> multi_load/use/input.scss
+@use "upstream" with ($a: configured);
+@use "midstream";
+
+<===> multi_load/use/_midstream.scss
+@use "upstream";
+b {c: $upstream.a}
+
+<===> multi_load/use/_upstream.scss
+$a: original !default;
+
+<===> multi_load/use/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/forward/input.scss
+@use "upstream" with ($a: configured);
+@use "midstream";
+b {c: $midstream.a}
+
+<===> multi_load/forward/_midstream.scss
+@forward "upstream";
+
+<===> multi_load/forward/_upstream.scss
+$a: original !default;
+
+<===> multi_load/forward/output.css
+b {
+  c: configured;
+}
