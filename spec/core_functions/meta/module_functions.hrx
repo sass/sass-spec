@@ -1,0 +1,368 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> empty/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-functions("other"))}
+
+<===> empty/_other.scss
+// This module defines no functions.
+
+<===> empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> _util.scss
+@use "sass:meta";
+
+@mixin print-function-map($functions) {
+  a {
+    @each $name, $function in $functions {
+      #{$name}: meta.call($function);
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "sass:meta";
+@use "../util";
+@use "other";
+
+@include util.print-function-map(meta.module-functions("other"));
+
+<===> multiple/_other.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> multiple/output.css
+a {
+  b: b value;
+  c: c value;
+  d: d value;
+}
+
+<===>
+================================================================================
+<===> dash_sensitive/input.scss
+@use "sass:meta";
+@use "../util";
+@use "other";
+
+@include util.print-function-map(meta.module-functions("other"));
+
+<===> dash_sensitive/_other.scss
+@function b-c() {@return b-c value}
+@function d_e() {@return d_e value}
+
+<===> dash_sensitive/output.css
+a {
+  b-c: b-c value;
+  d_e: d_e value;
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "sass:meta";
+@use "../util";
+@use "other" as b;
+
+@include util.print-function-map(meta.module-functions("b"))
+
+<===> as/_other.scss
+@function c() {@return c value}
+@function d() {@return d value}
+@function e() {@return e value}
+
+<===> as/output.css
+a {
+  c: c value;
+  d: d value;
+  e: e value;
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@use "sass:meta";
+@use "../util";
+@use "used";
+
+@include util.print-function-map(meta.module-functions("used"));
+
+<===> through_import/_used.scss
+@import "imported";
+
+<===> through_import/_imported.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> through_import/output.css
+a {
+  b: b value;
+  c: c value;
+  d: d value;
+}
+
+<===>
+================================================================================
+<===> core_module/input.scss
+@use "sass:map";
+@use "sass:meta";
+
+// We don't want to print every function name in this module, since that would
+// make this test brittle when new functions are added. Instead we just test
+// that a couple functions work.
+
+$functions: meta.module-functions("meta");
+a {
+  variable-exists: meta.call(map.get($functions, "variable-exists"), "functions");
+  inspect: meta.call(map.get($functions, "inspect"), ());
+}
+
+<===> core_module/output.css
+a {
+  variable-exists: true;
+  inspect: ();
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "sass:meta";
+@use "../../util";
+@use "used";
+
+@include util.print-function-map(meta.module-functions("used"));
+
+<===> through_forward/bare/_used.scss
+@forward "forwarded";
+
+<===> through_forward/bare/_forwarded.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> through_forward/bare/output.css
+a {
+  b: b value;
+  c: c value;
+  d: d value;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@use "../../util";
+@use "used";
+
+@include util.print-function-map(meta.module-functions("used"));
+
+<===> through_forward/as/_used.scss
+@forward "forwarded" as b-*;
+
+<===> through_forward/as/_forwarded.scss
+@function c() {@return c value}
+@function d() {@return d value}
+@function e() {@return e value}
+
+<===> through_forward/as/output.css
+a {
+  b-c: c value;
+  b-d: d value;
+  b-e: e value;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@use "../../util";
+@use "used";
+
+@include util.print-function-map(meta.module-functions("used"));
+
+<===> through_forward/show/_used.scss
+@forward "forwarded" show b, c;
+
+<===> through_forward/show/_forwarded.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> through_forward/show/output.css
+a {
+  b: b value;
+  c: c value;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@use "../../util";
+@use "used";
+
+@include util.print-function-map(meta.module-functions("used"));
+
+<===> through_forward/hide/_used.scss
+@forward "forwarded" hide b, c;
+
+<===> through_forward/hide/_forwarded.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> through_forward/hide/output.css
+a {
+  d: d value;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+@use "../util";
+@use "other";
+
+@include util.print-function-map(meta.module-functions($module: "other"));
+
+<===> named/_other.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> named/output.css
+a {
+  b: b value;
+  c: c value;
+  d: d value;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:meta";
+$a: meta.module-functions(1);
+
+<===> error/type/error
+Error: $module: 1 is not a string.
+  ,
+2 | $a: meta.module-functions(1);
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:meta";
+$a: meta.module-functions();
+
+<===> error/too_few_args/error
+Error: Missing argument $module.
+  ,
+2 | $a: meta.module-functions();
+  |     ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:meta";
+$a: meta.module-functions("meta", "c");
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+2 | $a: meta.module-functions("meta", "c");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/missing/input.scss
+@use "sass:meta";
+$a: meta.module-functions("other");
+
+<===> error/missing/error
+Error: There is no module with namespace "other".
+  ,
+2 | $a: meta.module-functions("other");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/dash_sensitive/input.scss
+@use "sass:meta";
+@use "other-module";
+
+$a: meta.module-functions("other_module");
+
+<===> error/dash_sensitive/_other-module.scss
+// This module defines no functions.
+
+<===> error/dash_sensitive/error
+Error: There is no module with namespace "other_module".
+  ,
+4 | $a: meta.module-functions("other_module");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/global/input.scss
+@use "sass:meta";
+@use "other" as *;
+
+$a: meta.module-functions("other");
+
+<===> error/global/_other.scss
+// This module defines no functions.
+
+<===> error/global/error
+Error: There is no module with namespace "other".
+  ,
+4 | $a: meta.module-functions("other");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_load/input.scss
+@use "sass:meta";
+
+$a: meta.module-functions("other");
+
+@use "other";
+
+<===> error/before_load/_other.scss
+// This module defines no functions.
+
+<===> error/before_load/error
+Error: There is no module with namespace "other".
+  ,
+3 | $a: meta.module-functions("other");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:5  root stylesheet
