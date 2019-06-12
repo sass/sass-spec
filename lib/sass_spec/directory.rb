@@ -164,6 +164,21 @@ class SassSpec::Directory
   def with_real_files
     return yield unless @archive
 
+    files = @archive.entries.select {|entry| entry.is_a?(HRX::File)}
+
+    # If any files in this directory contain "../"s that reach out of this
+    # directory, materialize the appropriate level of parent directory instead.
+    if parent.hrx? &&
+       files.any? do |file|
+         levels_up = file.content.
+            scan(%r{(?:\.\./)+}).
+            map {|s| s.count("/")}.
+            max
+         (levels_up || 0) > file.path.count("/")
+       end
+      return parent.with_real_files {yield}
+    end
+
     outermost_new_dir = SassSpec::Util.each_directory(@path).find {|dir| !Dir.exist?(dir)}
 
     @archive.entries.select {|entry| entry.is_a?(HRX::File)}.each do |file|
