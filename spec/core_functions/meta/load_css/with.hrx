@@ -1,11 +1,23 @@
 <===> README.md
-Most changes here should also be reflected in
-core_functions/meta/load_css/with.hrx.
+Most changes here should also be reflected in directives/use/with.hrx.
+
+<===> empty/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ());
+
+<===> empty/_other.scss
+a {b: c}
+
+<===> empty/output.css
+a {
+  b: c;
+}
 
 <===>
 ================================================================================
 <===> single/input.scss
-@use "other" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
 
 <===> single/_other.scss
 $a: original !default;
@@ -18,22 +30,9 @@ b {
 
 <===>
 ================================================================================
-<===> trailing_comma/input.scss
-@use "other" with ($a: configured,);
-
-<===> trailing_comma/_other.scss
-$a: original !default;
-b {c: $a}
-
-<===> trailing_comma/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
 <===> dash_insensitive/input.scss
-@use "other" with ($a_b: configured);
+@use "sass:meta";
+@include meta.load-css("other", $with: (a_b: configured));
 
 <===> dash_insensitive/_other.scss
 $a-b: original !default;
@@ -47,11 +46,12 @@ b {
 <===>
 ================================================================================
 <===> multiple/input.scss
-@use "other" with (
-  $a: configured a,
-  $b: configured b,
-  $c: configured c
-);
+@use "sass:meta";
+@include meta.load-css("other", $with: (
+  a: configured a,
+  b: configured b,
+  c: configured c
+));
 
 <===> multiple/_other.scss
 $a: original a !default;
@@ -74,7 +74,8 @@ d {
 <===>
 ================================================================================
 <===> some_unconfigured/input.scss
-@use "other" with ($a: configured a);
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured a));
 
 <===> some_unconfigured/_other.scss
 $a: original a !default;
@@ -93,23 +94,9 @@ c {
 
 <===>
 ================================================================================
-<===> from_variable/input.scss
-$a: configured;
-@use "other" with ($a: $a);
-
-<===> from_variable/_other.scss
-$a: original a !default;
-b {c: $a}
-
-<===> from_variable/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
 <===> doesnt_run_default/input.scss
-@use "other" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
 
 <===> doesnt_run_default/_other.scss
 // This will throw an error if it's evaluated, but it shouldn't be because `$a`
@@ -124,22 +111,9 @@ b {
 
 <===>
 ================================================================================
-<===> used_in_input/input.scss
-@use "other" with ($a: configured);
-b {c: $other.a}
-
-<===> used_in_input/_other.scss
-$a: original !default;
-
-<===> used_in_input/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
 <===> variable_exists/input.scss
-@use "other" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
 
 <===> variable_exists/_other.scss
 $before-declaration: variable-exists(a);
@@ -158,9 +132,10 @@ b {
 <===>
 ================================================================================
 <===> through_import/direct/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_import/direct/_used.scss
+<===> through_import/direct/_loaded.scss
 @import "imported";
 
 <===> through_import/direct/_imported.scss
@@ -175,9 +150,10 @@ b {
 <===>
 ================================================================================
 <===> through_import/transitive/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_import/transitive/_used.scss
+<===> through_import/transitive/_loaded.scss
 @import "midstream";
 
 <===> through_import/transitive/_midstream.scss
@@ -195,9 +171,10 @@ b {
 <===>
 ================================================================================
 <===> through_forward/bare/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_forward/bare/_used.scss
+<===> through_forward/bare/_loaded.scss
 @forward "forwarded";
 
 <===> through_forward/bare/_forwarded.scss
@@ -212,9 +189,10 @@ b {
 <===>
 ================================================================================
 <===> through_forward/transitive/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_forward/transitive/_used.scss
+<===> through_forward/transitive/_loaded.scss
 @forward "midstream";
 
 <===> through_forward/transitive/_midstream.scss
@@ -232,9 +210,10 @@ b {
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_forward/show/_used.scss
+<===> through_forward/show/_loaded.scss
 @forward "forwarded" show $a;
 
 <===> through_forward/show/_forwarded.scss
@@ -249,9 +228,10 @@ b {
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
-@use "used" with ($a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
 
-<===> through_forward/hide/_used.scss
+<===> through_forward/hide/_loaded.scss
 @forward "forwarded" hide $b;
 
 <===> through_forward/hide/_forwarded.scss
@@ -266,9 +246,10 @@ b {
 <===>
 ================================================================================
 <===> through_forward/as/input.scss
-@use "used" with ($b-a: configured);
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (b-a: configured));
 
-<===> through_forward/as/_used.scss
+<===> through_forward/as/_loaded.scss
 @forward "forwarded" as b-*;
 
 <===> through_forward/as/_forwarded.scss
@@ -289,8 +270,12 @@ configuration will use the configured module.
 <===>
 ================================================================================
 <===> multi_load/use/input.scss
-@use "upstream" with ($a: configured);
-@use "midstream";
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// We have to load this dynamically, because we can't have a `@use` after an
+// `@include`.
+@include meta.load-css("midstream");
 
 <===> multi_load/use/_midstream.scss
 @use "upstream";
@@ -307,9 +292,16 @@ b {
 <===>
 ================================================================================
 <===> multi_load/forward/input.scss
-@use "upstream" with ($a: configured);
+// This indirection is necessary so that we can execute `meta.load-css()` before
+// we begin loading `used`.
+@use "loads";
 @use "midstream";
+
 b {c: $midstream.a}
+
+<===> multi_load/forward/_loads.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
 
 <===> multi_load/forward/_midstream.scss
 @forward "upstream";
