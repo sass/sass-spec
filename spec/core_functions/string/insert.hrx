@@ -1,0 +1,312 @@
+<===> empty_destination/empty_source/input.scss
+a {b: str-insert("", "", 1)}
+
+<===> empty_destination/empty_source/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty_destination/index_0/input.scss
+a {b: str-insert("", "c", 0)}
+
+<===> empty_destination/index_0/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> empty_destination/index_1/input.scss
+a {b: str-insert("", "c", 1)}
+
+<===> empty_destination/index_1/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> empty_destination/index_2/input.scss
+a {b: str-insert("", "c", 2)}
+
+<===> empty_destination/index_2/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> empty_destination/index_negative_1/input.scss
+a {b: str-insert("", "c", 2)}
+
+<===> empty_destination/index_negative_1/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> empty_insertion/input.scss
+a {b: str-insert("cde", "", 1)}
+
+<===> empty_insertion/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> index/positive/0/input.scss
+a {b: str-insert("cde", "f", 0)}
+
+<===> index/positive/0/output.css
+a {
+  b: "fcde";
+}
+
+<===>
+================================================================================
+<===> index/positive/1/input.scss
+a {b: str-insert("cde", "f", 1)}
+
+<===> index/positive/1/output.css
+a {
+  b: "fcde";
+}
+
+<===>
+================================================================================
+<===> index/positive/2/input.scss
+a {b: str-insert("cde", "f", 2)}
+
+<===> index/positive/2/output.css
+a {
+  b: "cfde";
+}
+
+<===>
+================================================================================
+<===> index/positive/last/input.scss
+a {b: str-insert("cde", "f", 4)}
+
+<===> index/positive/last/output.css
+a {
+  b: "cdef";
+}
+
+<===>
+================================================================================
+<===> index/positive/after_last/input.scss
+a {b: str-insert("cde", "f", 100)}
+
+<===> index/positive/after_last/output.css
+a {
+  b: "cdef";
+}
+
+<===>
+================================================================================
+<===> index/negative/1/options.yml
+---
+:todo:
+- sass/dart-sass#733
+
+<===> index/negative/1/input.scss
+a {b: str-insert("cde", "f", -1)}
+
+<===> index/negative/1/output.css
+a {
+  b: "cdef";
+}
+
+<===>
+================================================================================
+<===> index/negative/2/input.scss
+a {b: str-insert("cde", "f", -2)}
+
+<===> index/negative/2/output.css
+a {
+  b: "cdfe";
+}
+
+<===>
+================================================================================
+<===> index/negative/last/input.scss
+a {b: str-insert("cde", "f", -4)}
+
+<===> index/negative/last/output.css
+a {
+  b: "fcde";
+}
+
+<===>
+================================================================================
+<===> index/negative/after_last/input.scss
+a {b: str-insert("cde", "f", -100)}
+
+<===> index/negative/after_last/output.css
+a {
+  b: "fcde";
+}
+
+<===>
+================================================================================
+<===> double_width_character/input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units, so inserting a character
+// at index 2 shouldn't break this emoji in two.
+a {b: str-insert("👭", "c", 2)}
+
+<===> double_width_character/output.css
+@charset "UTF-8";
+a {
+  b: "👭c";
+}
+
+<===>
+================================================================================
+<===> combining_character/input.scss
+// Sass does *not* treat strings as sequences of glyphs, so this string which
+// contains "c" followed by a combining umlaut should be considered two separate
+// characters even though it's rendered as only one and the "d" should be
+// injected between the two.
+a {b: str-insert("c\0308", "d", 2)}
+
+<===> combining_character/output.css
+@charset "UTF-8";
+a {
+  b: "cd̈";
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: str-insert($string: "cde", $insert: "f", $index: 2)}
+
+<===> named/output.css
+a {
+  b: "cfde";
+}
+
+<===>
+================================================================================
+<===> error/type/string/input.scss
+a {b: str-insert(1, "", 1)}
+
+<===> error/type/string/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-insert(1, "", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/string/error-libsass
+Error: argument `$string` of `str-insert($string, $insert, $index)` must be a string
+        on line 1:7 of input.scss, in function `str-insert`
+        from line 1:7 of input.scss
+>> a {b: str-insert(1, "", 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/insert/input.scss
+a {b: str-insert("", 1, 1)}
+
+<===> error/type/insert/error
+Error: $insert: 1 is not a string.
+  ,
+1 | a {b: str-insert("", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/insert/error-libsass
+Error: argument `$insert` of `str-insert($string, $insert, $index)` must be a string
+        on line 1:7 of input.scss, in function `str-insert`
+        from line 1:7 of input.scss
+>> a {b: str-insert("", 1, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/index/input.scss
+a {b: str-insert("", "", "")}
+
+<===> error/type/index/error
+Error: $index: "" is not a number.
+  ,
+1 | a {b: str-insert("", "", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/index/error-libsass
+Error: argument `$index` of `str-insert($string, $insert, $index)` must be a number
+        on line 1:7 of input.scss, in function `str-insert`
+        from line 1:7 of input.scss
+>> a {b: str-insert("", "", "")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/decimal/options.yml
+---
+:todo:
+- sass/libsass#2921
+
+<===> error/decimal/input.scss
+a {b: str-insert("", "", 0.5)}
+
+<===> error/decimal/error
+Error: $index: 0.5 is not an int.
+  ,
+1 | a {b: str-insert("", "", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: str-insert("", "")}
+
+<===> error/too_few_args/error
+Error: Missing argument $index.
+  ,
+1 | a {b: str-insert("", "")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function str-insert is missing argument $index.
+        on line 1 of input.scss
+>> a {b: str-insert("", "")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: str-insert("", "", 1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: str-insert("", "", 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `str-insert'
+        on line 1:7 of input.scss
+>> a {b: str-insert("", "", 1, 2)}
+
+   ------^
