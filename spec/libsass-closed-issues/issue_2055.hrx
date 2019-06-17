@@ -16,19 +16,6 @@
   color: red;
 }
 
-:not(.thing[disabled]):not([disabled]:not(.thing[disabled])):not([disabled]:has(:not(.thing[disabled]))) {
-  background: blue;
-}
-
-:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])):not([disabled]:has(:not(.thing[disabled])))) {
-  background: blue;
-}
-
-<===> output-dart-sass.css
-:not(.thing) {
-  color: red;
-}
-
 :not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))) {
   background: blue;
 }
