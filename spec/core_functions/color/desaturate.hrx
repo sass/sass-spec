@@ -1,0 +1,201 @@
+<===> max/input.scss
+a {b: desaturate(plum, 100%)}
+
+<===> max/output.css
+a {
+  b: #bfbfbf;
+}
+
+<===>
+================================================================================
+<===> max_remaining/input.scss
+a {b: desaturate(plum, 48%)}
+
+<===> max_remaining/output.css
+a {
+  b: #bfbfbf;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: desaturate(plum, 0%)}
+
+<===> min/output.css
+a {
+  b: plum;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: desaturate(plum, 14%)}
+
+<===> middle/output.css
+a {
+  b: #d4a9d4;
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+a {b: desaturate(rgba(plum, 0.3), 100%)}
+
+<===> alpha/output.css
+a {
+  b: rgba(191, 191, 191, 0.3);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: desaturate($color: plum, $amount: 14%)}
+
+<===> named/output.css
+a {
+  b: #d4a9d4;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: desaturate(plum)}
+
+<===> error/too_few_args/error
+Error: Missing argument $amount.
+  ,
+1 | a {b: desaturate(plum)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function desaturate is missing argument $amount.
+        on line 1 of input.scss
+>> a {b: desaturate(plum)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: desaturate(plum, 1%, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: desaturate(plum, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `desaturate'
+        on line 1:7 of input.scss
+>> a {b: desaturate(plum, 1%, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/one_arg/type/input.scss
+a {b: desaturate(red)}
+
+<===> error/one_arg/type/error
+Error: Missing argument $amount.
+  ,
+1 | a {b: desaturate(red)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/one_arg/type/error-libsass
+Error: Function desaturate is missing argument $amount.
+        on line 1 of input.scss
+>> a {b: desaturate(red)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+a {b: desaturate(1, 2)}
+
+<===> error/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: desaturate(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color/error-libsass
+Error: argument `$color` of `desaturate($color, $amount)` must be a color
+        on line 1:7 of input.scss, in function `desaturate`
+        from line 1:7 of input.scss
+>> a {b: desaturate(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/lightness/input.scss
+a {b: desaturate(plum, blue)}
+
+<===> error/type/lightness/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: desaturate(plum, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/lightness/error-libsass
+Error: argument `$amount` of `desaturate($color, $amount)` must be a number
+        on line 1:7 of input.scss, in function `desaturate`
+        from line 1:7 of input.scss
+>> a {b: desaturate(plum, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: desaturate(plum, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: desaturate(plum, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_low/error-libsass
+Error: argument `$amount` of `desaturate($color, $amount)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `desaturate`
+        from line 1:7 of input.scss
+>> a {b: desaturate(plum, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: desaturate(plum, 100.001)}
+
+<===> error/bounds/too_high/error
+Error: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: desaturate(plum, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_high/error-libsass
+Error: argument `$amount` of `desaturate($color, $amount)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `desaturate`
+        from line 1:7 of input.scss
+>> a {b: desaturate(plum, 100.001)}
+
+   ------^

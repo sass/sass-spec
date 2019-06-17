@@ -1,0 +1,259 @@
+<===> white/input.scss
+a {b: invert(white)}
+
+<===> white/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> black/input.scss
+a {b: invert(black)}
+
+<===> black/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+a {b: invert(gray)}
+
+<===> gray/output.css
+a {
+  b: #7f7f7f;
+}
+
+<===>
+================================================================================
+<===> turquoise/input.scss
+a {b: invert(turquoise)}
+
+<===> turquoise/output.css
+a {
+  b: #bf1f2f;
+}
+
+<===>
+================================================================================
+<===> weighted/min/input.scss
+a {b: invert(turquoise, 0%)}
+
+<===> weighted/min/output.css
+a {
+  b: turquoise;
+}
+
+<===>
+================================================================================
+<===> weighted/max/input.scss
+a {b: invert(turquoise, 100%)}
+
+<===> weighted/max/output.css
+a {
+  b: #bf1f2f;
+}
+
+<===>
+================================================================================
+<===> weighted/middle/options.yml
+---
+:todo:
+- sass/dart-sass#704
+
+<===> weighted/middle/input.scss
+a {b: invert(turquoise, 50%)}
+
+<===> weighted/middle/output.css
+a {
+  b: gray;
+}
+
+<===>
+================================================================================
+<===> weighted/low/input.scss
+a {b: invert(turquoise, 23%)}
+
+<===> weighted/low/output.css
+a {
+  b: #5db4ab;
+}
+
+<===>
+================================================================================
+<===> weighted/high/input.scss
+a {b: invert(turquoise, 92%)}
+
+<===> weighted/high/output.css
+a {
+  b: #b52e3c;
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+a {b: invert(rgba(turquoise, 0.4))}
+
+<===> alpha/output.css
+a {
+  b: rgba(191, 31, 47, 0.4);
+}
+
+<===>
+================================================================================
+<===> number/input.scss
+a {b: invert(10%)}
+
+<===> number/output.css
+a {
+  b: invert(10%);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: invert($color: turquoise, $weight: 0%)}
+
+<===> named/output.css
+a {
+  b: turquoise;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: invert()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: invert()}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function invert is missing argument $color.
+        on line 1 of input.scss
+>> a {b: invert()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: invert(turquoise, 0%, 1)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: invert(turquoise, 0%, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `invert'
+        on line 1:7 of input.scss
+>> a {b: invert(turquoise, 0%, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/number_with_weight/options.yml
+---
+:todo:
+- sass/dart-sass#705
+- sass/libsass#2899
+
+<===> error/number_with_weight/input.scss
+a {b: invert(1, 50%)}
+
+<===> error/number_with_weight/error
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+a {b: invert(c)}
+
+<===> error/type/color/error
+Error: $color: c is not a color.
+  ,
+1 | a {b: invert(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color/error-libsass
+Error: argument `$color` of `invert($color, $weight: 100%)` must be a color
+        on line 1:7 of input.scss, in function `invert`
+        from line 1:7 of input.scss
+>> a {b: invert(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/weight/input.scss
+a {b: invert(red, c)}
+
+<===> error/type/weight/error
+Error: $weight: c is not a number.
+  ,
+1 | a {b: invert(red, c)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/weight/error-libsass
+Error: argument `$weight` of `invert($color, $weight: 100%)` must be a number
+        on line 1:7 of input.scss, in function `invert`
+        from line 1:7 of input.scss
+>> a {b: invert(red, c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: invert(red, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: invert(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_low/error-libsass
+Error: argument `$weight` of `invert($color, $weight: 100%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `invert`
+        from line 1:7 of input.scss
+>> a {b: invert(red, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: invert(red, 100.001)}
+
+<===> error/bounds/too_high/error
+Error: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: invert(red, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_high/error-libsass
+Error: argument `$weight` of `invert($color, $weight: 100%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `invert`
+        from line 1:7 of input.scss
+>> a {b: invert(red, 100.001)}
+
+   ------^
