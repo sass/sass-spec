@@ -1,42 +1,134 @@
-<===> input.scss
-basic {
-  transparent: rgba(0 255 127 / 0);
-  opaque: rgba(190 173 237 / 1);
-  partial: rgba(18 52 86 / 0.5);
-  percent: rgba(18 52 86 / 50%);
-  named: rgba($channels: 0 255 127 / 0.3);
+<===> in_gamut/transparent/input.scss
+a {b: rgba(0 255 127 / 0)}
 
-  // Extra parens shouldn't cause the slash to be forced into division.
-  parenthesized: (rgba(0 255 127 / 0.3));
+<===> in_gamut/transparent/output.css
+a {
+  b: rgba(0, 255, 127, 0);
 }
 
-// Channels that are out of bounds are clamped within bounds.
-clamped {
-  red: rgba(256 0 0 / 0.5);
-  green: rgba(0 -1 0 / 0.5);
-  blue: rgba(0 0 9999 / 0.5);
-  alpha-above: rgba(0 0 0 / 1.1);
-  alpha-below: rgba(0 0 0 / -0.1);
-  alpha-above-percent: rgba(0 0 0 / 250%);
-  alpha-below-percent: rgba(0 0 0 / -10%);
+<===>
+================================================================================
+<===> in_gamut/opaque/input.scss
+a {b: rgba(190 173 237 / 1)}
+
+<===> in_gamut/opaque/output.css
+a {
+  b: #beaded;
 }
 
-<===> output.css
-basic {
-  transparent: rgba(0, 255, 127, 0);
-  opaque: #beaded;
-  partial: rgba(18, 52, 86, 0.5);
-  percent: rgba(18, 52, 86, 0.5);
-  named: rgba(0, 255, 127, 0.3);
-  parenthesized: rgba(0, 255, 127, 0.3);
+<===>
+================================================================================
+<===> in_gamut/partial/input.scss
+a {b: rgba(18 52 86 / 0.5)}
+
+<===> in_gamut/partial/output.css
+a {
+  b: rgba(18, 52, 86, 0.5);
 }
 
-clamped {
-  red: rgba(255, 0, 0, 0.5);
-  green: rgba(0, 0, 0, 0.5);
-  blue: rgba(0, 0, 255, 0.5);
-  alpha-above: black;
-  alpha-below: rgba(0, 0, 0, 0);
-  alpha-above-percent: black;
-  alpha-below-percent: rgba(0, 0, 0, 0);
+<===>
+================================================================================
+<===> in_gamut/percent/input.scss
+a {b: rgba(18 52 86 / 50%)}
+
+<===> in_gamut/percent/output.css
+a {
+  b: rgba(18, 52, 86, 0.5);
 }
+
+<===>
+================================================================================
+<===> in_gamut/named/input.scss
+a {b: rgba($channels: 0 255 127 / 0.3)}
+
+<===> in_gamut/named/output.css
+a {
+  b: rgba(0, 255, 127, 0.3);
+}
+
+<===>
+================================================================================
+<===> in_gamut/parenthesized/input.scss
+// Extra parens shouldn't cause the slash to be forced into division.
+a {b: rgba(0 255 127 / 0.3)}
+
+<===> in_gamut/parenthesized/output.css
+a {
+  b: rgba(0, 255, 127, 0.3);
+}
+
+<===>
+================================================================================
+<===> clamped/README.md
+Channels that are out of bounds are clamped within bounds.
+
+<===>
+================================================================================
+<===> clamped/red/input.scss
+a {b: rgba(256 0 0 / 0.5)}
+
+<===> clamped/red/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> clamped/green/input.scss
+a {b: rgba(0 -1 0 / 0.5)}
+
+<===> clamped/green/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> clamped/blue/input.scss
+a {b: rgba(0 0 9999 / 0.5)}
+
+<===> clamped/blue/output.css
+a {
+  b: rgba(0, 0, 255, 0.5);
+}
+
+<===>
+================================================================================
+<===> clamped/alpha/above/input.scss
+a {b: rgba(0 0 0 / 1.1)}
+
+<===> clamped/alpha/above/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> clamped/alpha/below/input.scss
+a {b: rgba(0 0 0 / -0.1)}
+
+<===> clamped/alpha/below/output.css
+a {
+  b: rgba(0, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> clamped/alpha/above/percent/input.scss
+a {b: rgba(0 0 0 / 250%)}
+
+<===> clamped/alpha/above/percent/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> clamped/alpha/below/percent/input.scss
+a {b: rgba(0 0 0 / -10%)}
+
+<===> clamped/alpha/below/percent/output.css
+a {
+  b: rgba(0, 0, 0, 0);
+}
+

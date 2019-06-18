@@ -1,0 +1,224 @@
+<===> color/max/input.scss
+a {b: alpha(red)}
+
+<===> color/max/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> color/min/input.scss
+a {b: alpha(rgba(red, 0))}
+
+<===> color/min/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> color/middle/input.scss
+a {b: alpha(rgba(red, 0.42))}
+
+<===> color/middle/output.css
+a {
+  b: 0.42;
+}
+
+<===>
+================================================================================
+<===> color/named/input.scss
+a {b: alpha($color: rgba(red, 0.73))}
+
+<===> color/named/output.css
+a {
+  b: 0.73;
+}
+
+<===>
+================================================================================
+<===> filter/one_arg/input.scss
+a {b: alpha(c=d)}
+
+<===> filter/one_arg/output.css
+a {
+  b: alpha(c=d);
+}
+
+<===>
+================================================================================
+<===> filter/multi_args/options.yml
+---
+:todo:
+- sass/dart-sass#701
+
+<===> filter/multi_args/input.scss
+a {b: alpha(c=d, e=f, g=h)}
+
+<===> filter/multi_args/output.css
+a {
+  b: alpha(c=d, e=f, g=h);
+}
+
+<===>
+================================================================================
+<===> filter/space_before_equals/input.scss
+a {b: alpha(unquote("c = d"))}
+
+<===> filter/space_before_equals/output.css
+a {
+  b: alpha(c = d);
+}
+
+<===>
+================================================================================
+<===> opacity/positional/input.scss
+a {b: opacity(rgba(red, 0.2))}
+
+<===> opacity/positional/output.css
+a {
+  b: 0.2;
+}
+
+<===>
+================================================================================
+<===> opacity/named/input.scss
+a {b: opacity($color: rgba(red, 0.2))}
+
+<===> opacity/named/output.css
+a {
+  b: 0.2;
+}
+
+<===>
+================================================================================
+<===> opacity/filter/input.scss
+a {b: opacity(10%)}
+
+<===> opacity/filter/output.css
+a {
+  b: opacity(10%);
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/options.yml
+---
+:todo:
+- sass/dart-sass#700
+
+<===> error/too_few_args/input.scss
+a {b: alpha()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: alpha()}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function alpha is missing argument $color.
+        on line 1 of input.scss
+>> a {b: alpha()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/options.yml
+---
+:todo:
+- sass/dart-sass#700
+
+<===> error/too_many_args/input.scss
+a {b: alpha(red, green)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: alpha(red, green)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `alpha'
+        on line 1:7 of input.scss
+>> a {b: alpha(red, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/options.yml
+---
+:todo:
+- sass/libsass#2898
+
+<===> error/type/input.scss
+a {b: alpha(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: alpha(1)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/quoted_string/options.yml
+---
+:todo:
+- sass/libsass#2898
+
+<===> error/quoted_string/input.scss
+a {b: alpha("c=d")}
+
+<===> error/quoted_string/error
+Error: $color: "c=d" is not a color.
+  ,
+1 | a {b: alpha("c=d")}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unquoted_string/no_equals/options.yml
+---
+:todo:
+- sass/libsass#2898
+
+<===> error/unquoted_string/no_equals/input.scss
+a {b: alpha(cd)}
+
+<===> error/unquoted_string/no_equals/error
+Error: $color: cd is not a color.
+  ,
+1 | a {b: alpha(cd)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unquoted_string/non_identifier_before_equals/options.yml
+---
+:todo:
+- sass/libsass#2898
+
+<===> error/unquoted_string/non_identifier_before_equals/input.scss
+a {b: alpha(unquote("1=c"))}
+
+<===> error/unquoted_string/non_identifier_before_equals/error
+Error: $color: 1=c is not a color.
+  ,
+1 | a {b: alpha(unquote("1=c"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

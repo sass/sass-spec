@@ -1,0 +1,138 @@
+<===> red/input.scss
+a {b: complement(red)}
+
+<===> red/output.css
+a {
+  b: aqua;
+}
+
+<===> red/output-libsass.css
+a {
+  b: cyan;
+}
+
+<===>
+================================================================================
+<===> turquoise/input.scss
+a {b: complement(turquoise)}
+
+<===> turquoise/output.css
+a {
+  b: #e04050;
+}
+
+<===>
+================================================================================
+<===> grayscale/gray/input.scss
+a {b: complement(gray)}
+
+<===> grayscale/gray/output.css
+a {
+  b: gray;
+}
+
+<===>
+================================================================================
+<===> grayscale/white/input.scss
+a {b: complement(white)}
+
+<===> grayscale/white/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> grayscale/black/input.scss
+a {b: complement(black)}
+
+<===> grayscale/black/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+a {b: complement(rgba(turquoise, 0.7))}
+
+<===> alpha/output.css
+a {
+  b: rgba(224, 64, 80, 0.7);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: complement($color: red)}
+
+<===> named/output.css
+a {
+  b: aqua;
+}
+
+<===> named/output-libsass.css
+a {
+  b: cyan;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: complement()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: complement()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function complement is missing argument $color.
+        on line 1 of input.scss
+>> a {b: complement()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: complement(red, 1)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: complement(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `complement'
+        on line 1:7 of input.scss
+>> a {b: complement(red, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: complement(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: complement(1)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$color` of `complement($color)` must be a color
+        on line 1:7 of input.scss, in function `complement`
+        from line 1:7 of input.scss
+>> a {b: complement(1)}
+
+   ------^

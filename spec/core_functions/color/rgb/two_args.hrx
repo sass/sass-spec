@@ -1,61 +1,125 @@
 <===> options.yml
 ---
 :todo:
-- libsass # sass/libsass#2722
+- sass/libsass#2722
 
-<===> input.scss
-opaque-to {
-  opaque: rgb(#123, 1);
-  partial: rgb(#123, 0.5);
-  transparent: rgb(#123, 0);
+<===>
+================================================================================
+<===> opaque_to/opaque/input.scss
+a {b: rgb(#123, 1)}
+
+<===> opaque_to/opaque/output.css
+a {
+  b: #112233;
 }
 
-partial-to {
-  $color: rgb(0, 0, 255, 0.3);
-  opaque: rgb($color, 1);
-  partial: rgb($color, 0.5);
-  transparent: rgb($color, 0);
+<===>
+================================================================================
+<===> opaque_to/partial/input.scss
+a {b: rgb(#123, 0.5)}
+
+<===> opaque_to/partial/output.css
+a {
+  b: rgba(17, 34, 51, 0.5);
 }
 
-transparent-to {
-  opaque: rgb(transparent, 1);
-  partial: rgb(transparent, 0.5);
-  transparent: rgb(transparent, 0);
+<===>
+================================================================================
+<===> opaque_to/transparent/input.scss
+a {b: rgb(#123, 0)}
+
+<===> opaque_to/transparent/output.css
+a {
+  b: rgba(17, 34, 51, 0);
 }
 
-clamped {
-  opaque: rgb(#123, 1.1);
-  transparent: rgb(#123, -0.1);
+<===>
+================================================================================
+<===> partial_to/opaque/input.scss
+a {b: rgb(rgba(0, 0, 255, 0.3), 1)}
+
+<===> partial_to/opaque/output.css
+a {
+  b: blue;
 }
 
-named {
-  x: rgb($color: #123, $alpha: 0.5);
+<===>
+================================================================================
+<===> partial_to/partial/input.scss
+a {b: rgb(rgba(0, 0, 255, 0.3), 0.5)}
+
+<===> partial_to/partial/output.css
+a {
+  b: rgba(0, 0, 255, 0.5);
 }
 
-<===> output.css
-opaque-to {
-  opaque: #112233;
-  partial: rgba(17, 34, 51, 0.5);
-  transparent: rgba(17, 34, 51, 0);
+<===>
+================================================================================
+<===> partial_to/transparent/input.scss
+a {b: rgb(rgba(0, 0, 255, 0.3), 0)}
+
+<===> partial_to/transparent/output.css
+a {
+  b: rgba(0, 0, 255, 0);
 }
 
-partial-to {
-  opaque: blue;
-  partial: rgba(0, 0, 255, 0.5);
-  transparent: rgba(0, 0, 255, 0);
+<===>
+================================================================================
+<===> transparent_to/opaque/input.scss
+a {b: rgb(transparent, 1)}
+
+<===> transparent_to/opaque/output.css
+a {
+  b: black;
 }
 
-transparent-to {
-  opaque: black;
-  partial: rgba(0, 0, 0, 0.5);
-  transparent: rgba(0, 0, 0, 0);
+<===>
+================================================================================
+<===> transparent_to/partial/input.scss
+a {b: rgb(transparent, 0.5)}
+
+<===> transparent_to/partial/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
 }
 
-clamped {
-  opaque: #112233;
-  transparent: rgba(17, 34, 51, 0);
+<===>
+================================================================================
+<===> transparent_to/transparent/input.scss
+a {b: rgb(transparent, 0)}
+
+<===> transparent_to/transparent/output.css
+a {
+  b: rgba(0, 0, 0, 0);
 }
 
-named {
-  x: rgba(17, 34, 51, 0.5);
+<===>
+================================================================================
+<===> clamped/opaque/input.scss
+a {b: rgb(#123, 1.1)}
+
+<===> clamped/opaque/output.css
+a {
+  b: #112233;
 }
+
+<===>
+================================================================================
+<===> clamped/transparent/input.scss
+a {b: rgb(#123, -0.1)}
+
+<===> clamped/transparent/output.css
+a {
+  b: rgba(17, 34, 51, 0);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: rgb($color: #123, $alpha: 0.5)}
+
+<===> named/output.css
+a {
+  b: rgba(17, 34, 51, 0.5);
+}
+

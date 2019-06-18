@@ -1,0 +1,191 @@
+<===> max/input.scss
+a {b: darken(red, 100%)}
+
+<===> max/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> max_remaining/input.scss
+a {b: darken(red, 50%)}
+
+<===> max_remaining/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: darken(red, 0%)}
+
+<===> min/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: darken(red, 14%)}
+
+<===> middle/output.css
+a {
+  b: #b80000;
+}
+
+<===>
+================================================================================
+<===> fraction/input.scss
+a {b: darken(red, 0.5%)}
+
+<===> fraction/output.css
+a {
+  b: #fc0000;
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+a {b: darken(rgba(red, 0.2), 100%)}
+
+<===> alpha/output.css
+a {
+  b: rgba(0, 0, 0, 0.2);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: darken($color: red, $amount: 14%)}
+
+<===> named/output.css
+a {
+  b: #b80000;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: darken(red)}
+
+<===> error/too_few_args/error
+Error: Missing argument $amount.
+  ,
+1 | a {b: darken(red)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function darken is missing argument $amount.
+        on line 1 of input.scss
+>> a {b: darken(red)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: darken(red, 1%, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: darken(red, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `darken'
+        on line 1:7 of input.scss
+>> a {b: darken(red, 1%, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+a {b: darken(1, 2)}
+
+<===> error/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: darken(1, 2)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color/error-libsass
+Error: argument `$color` of `darken($color, $amount)` must be a color
+        on line 1:7 of input.scss, in function `darken`
+        from line 1:7 of input.scss
+>> a {b: darken(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/lightness/input.scss
+a {b: darken(red, blue)}
+
+<===> error/type/lightness/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: darken(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/lightness/error-libsass
+Error: argument `$amount` of `darken($color, $amount)` must be a number
+        on line 1:7 of input.scss, in function `darken`
+        from line 1:7 of input.scss
+>> a {b: darken(red, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: darken(red, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: darken(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_low/error-libsass
+Error: argument `$amount` of `darken($color, $amount)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `darken`
+        from line 1:7 of input.scss
+>> a {b: darken(red, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: darken(red, 100.001)}
+
+<===> error/bounds/too_high/error
+Error: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: darken(red, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_high/error-libsass
+Error: argument `$amount` of `darken($color, $amount)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `darken`
+        from line 1:7 of input.scss
+>> a {b: darken(red, 100.001)}
+
+   ------^

@@ -1,0 +1,363 @@
+<===> unweighted/min_and_max/input.scss
+// Each channel becomes the average of 255 and 0, which is 128 = 0xAA.
+a {b: mix(#ff00ff, #00ff00)}
+
+<===> unweighted/min_and_max/output.css
+a {
+  b: gray;
+}
+
+<===>
+================================================================================
+<===> unweighted/identical/input.scss
+// If two channels have the same values, they should be the same in the output.
+a {b: mix(#123456, #123456)}
+
+<===> unweighted/identical/output.css
+a {
+  b: #123456;
+}
+
+<===>
+================================================================================
+<===> unweighted/average/input.scss
+// All channels should be averaged across the two colors.
+a {b: mix(#91e16f, #0144bf)}
+
+<===> unweighted/average/output.css
+a {
+  b: #499397;
+}
+
+<===>
+================================================================================
+<===> explicit_weight/even/input.scss
+a {b: mix(#91e16f, #0144bf, 50%)}
+
+<===> explicit_weight/even/output.css
+a {
+  b: #499397;
+}
+
+<===>
+================================================================================
+<===> explicit_weight/first/input.scss
+a {b: mix(#91e16f, #0144bf, 100%)}
+
+<===> explicit_weight/first/output.css
+a {
+  b: #91e16f;
+}
+
+<===>
+================================================================================
+<===> explicit_weight/last/input.scss
+a {b: mix(#91e16f, #0144bf, 0%)}
+
+<===> explicit_weight/last/output.css
+a {
+  b: #0144bf;
+}
+
+<===>
+================================================================================
+<===> explicit_weight/firstwards/input.scss
+a {b: mix(#91e16f, #0144bf, 92%)}
+
+<===> explicit_weight/firstwards/output.css
+a {
+  b: #85d475;
+}
+
+<===>
+================================================================================
+<===> explicit_weight/lastwards/input.scss
+a {b: mix(#91e16f, #0144bf, 43%)}
+
+<===> explicit_weight/lastwards/output.css
+a {
+  b: #3f889d;
+}
+
+<===>
+================================================================================
+<===> alpha/even/input.scss
+a {b: mix(rgba(#91e16f, 0.3), rgba(#0144bf, 0.3))}
+
+<===> alpha/even/output.css
+a {
+  b: rgba(73, 147, 151, 0.3);
+}
+
+<===>
+================================================================================
+<===> alpha/first/input.scss
+a {b: mix(#91e16f, transparent)}
+
+<===> alpha/first/output.css
+a {
+  b: rgba(145, 225, 111, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/last/input.scss
+a {b: mix(transparent, #0144bf)}
+
+<===> alpha/last/output.css
+a {
+  b: rgba(1, 68, 191, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/firstwards/input.scss
+a {b: mix(rgba(#91e16f, 0.8), rgba(#0144bf, 0.3))}
+
+<===> alpha/firstwards/output.css
+a {
+  b: rgba(109, 186, 131, 0.55);
+}
+
+<===>
+================================================================================
+<===> alpha/lastwards/input.scss
+a {b: mix(rgba(#91e16f, 0.4), rgba(#0144bf, 0.9))}
+
+<===> alpha/lastwards/output.css
+a {
+  b: rgba(37, 107, 171, 0.65);
+}
+
+<===>
+================================================================================
+<===> both_weights/transparent/first/input.scss
+a {b: mix(transparent, #0144bf, 70%)}
+
+<===> both_weights/transparent/first/output.css
+a {
+  b: rgba(1, 68, 191, 0.3);
+}
+
+<===>
+================================================================================
+<===> both_weights/transparent/last/input.scss
+a {b: mix(#91e16f, transparent, 70%)}
+
+<===> both_weights/transparent/last/output.css
+a {
+  b: rgba(145, 225, 111, 0.7);
+}
+
+<===>
+================================================================================
+<===> both_weights/weighted/first/input.scss
+a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 100%)}
+
+<===> both_weights/weighted/first/output.css
+a {
+  b: rgba(145, 225, 111, 0.2);
+}
+
+<===>
+================================================================================
+<===> both_weights/weighted/last/input.scss
+a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 0%)}
+
+<===> both_weights/weighted/last/output.css
+a {
+  b: rgba(1, 68, 191, 0.7);
+}
+
+<===>
+================================================================================
+<===> both_weights/mixed/firstwards/input.scss
+a {b: mix(rgba(#91e16f, 0.8), rgba(#0144bf, 0.3), 63%)}
+
+<===> both_weights/mixed/firstwards/output.css
+a {
+  b: rgba(121, 199, 124, 0.615);
+}
+
+<===>
+================================================================================
+<===> both_weights/mixed/lastwards/input.scss
+a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 42%)}
+
+<===> both_weights/mixed/lastwards/output.css
+a {
+  b: rgba(29, 99, 175, 0.49);
+}
+
+<===>
+================================================================================
+<===> both_weights/contradiction/input.scss
+// When we weight entirely towards a transparent color, the formula for
+// computing the combined alpha would divide by zero, so we just return
+// transparent as a special case.
+a {b: mix(transparent, #0144bf, 100%)}
+
+<===> both_weights/contradiction/output.css
+a {
+  b: rgba(0, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2894
+
+<===> named/input.scss
+a {b: mix($color1: #91e16f, $color2: #0144bf, $weight: 92%)}
+
+<===> named/output.css
+a {
+  b: #85d475;
+}
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: mix(red, blue, 100, 1)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: mix(red, blue, 100, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `mix'
+        on line 1:7 of input.scss
+>> a {b: mix(red, blue, 100, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: mix(red)}
+
+<===> error/too_few_args/error
+Error: Missing argument $color2.
+  ,
+1 | a {b: mix(red)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function mix is missing argument $color-2.
+        on line 1 of input.scss
+>> a {b: mix(red)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/color1/input.scss
+a {b: mix(1, blue)}
+
+<===> error/type/color1/error
+Error: $color1: 1 is not a color.
+  ,
+1 | a {b: mix(1, blue)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color1/error-libsass
+Error: argument `$color-1` of `mix($color-1, $color-2, $weight: 50%)` must be a color
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(1, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/color2/input.scss
+a {b: mix(red, 1)}
+
+<===> error/type/color2/error
+Error: $color2: 1 is not a color.
+  ,
+1 | a {b: mix(red, 1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/color2/error-libsass
+Error: argument `$color-2` of `mix($color-1, $color-2, $weight: 50%)` must be a color
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/weight/input.scss
+a {b: mix(red, blue, green)}
+
+<===> error/type/weight/error
+Error: $weight: green is not a number.
+  ,
+1 | a {b: mix(red, blue, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/weight/error-libsass
+Error: argument `$weight` of `mix($color-1, $color-2, $weight: 50%)` must be a number
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: mix(red, blue, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: mix(red, blue, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_low/error-libsass
+Error: argument `$weight` of `mix($color-1, $color-2, $weight: 50%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: mix(red, blue, 100.001)}
+
+<===> error/bounds/too_high/error
+Error: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: mix(red, blue, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/bounds/too_high/error-libsass
+Error: argument `$weight` of `mix($color-1, $color-2, $weight: 50%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, 100.001)}
+
+   ------^

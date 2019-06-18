@@ -1,0 +1,239 @@
+<===> one_arg/README.md
+Sass supports saturate() with one argument for compatibility with [plain CSS][].
+
+[plain CSS]: https://developer.mozilla.org/en-US/docs/Web/CSS/filter-function/saturate
+
+<===>
+================================================================================
+<===> one_arg/unit/input.scss
+a {b: saturate(50%)}
+
+<===> one_arg/unit/output.css
+a {
+  b: saturate(50%);
+}
+
+<===>
+================================================================================
+<===> one_arg/unitless/input.scss
+a {b: saturate(1)}
+
+<===> one_arg/unitless/output.css
+a {
+  b: saturate(1);
+}
+
+<===>
+================================================================================
+<===> one_arg/named/options.yml
+---
+:todo:
+- sass/libsass#2897
+- sass/dart-sass#699
+
+<===> one_arg/named/input.scss
+a {b: saturate($amount: 50%)}
+
+<===> one_arg/named/output.css
+a {
+  b: saturate(50%);
+}
+
+<===>
+================================================================================
+<===> two_args/max/input.scss
+a {b: saturate(plum, 100%)}
+
+<===> two_args/max/output.css
+a {
+  b: #ff7eff;
+}
+
+<===>
+================================================================================
+<===> two_args/max_remaining/input.scss
+a {b: saturate(plum, 53%)}
+
+<===> two_args/max_remaining/output.css
+a {
+  b: #ff7eff;
+}
+
+<===>
+================================================================================
+<===> two_args/min/input.scss
+a {b: saturate(plum, 0%)}
+
+<===> two_args/min/output.css
+a {
+  b: plum;
+}
+
+<===>
+================================================================================
+<===> two_args/middle/input.scss
+a {b: saturate(plum, 14%)}
+
+<===> two_args/middle/output.css
+a {
+  b: #e697e6;
+}
+
+<===>
+================================================================================
+<===> two_args/alpha/input.scss
+a {b: saturate(rgba(plum, 0.5), 100%)}
+
+<===> two_args/alpha/output.css
+a {
+  b: rgba(255, 126, 255, 0.5);
+}
+
+<===>
+================================================================================
+<===> two_args/named/input.scss
+a {b: saturate($color: plum, $amount: 14%)}
+
+<===> two_args/named/output.css
+a {
+  b: #e697e6;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: saturate()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: saturate()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function saturate is missing argument $color.
+        on line 1 of input.scss
+>> a {b: saturate()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: saturate(plum, 1%, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: saturate(plum, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `saturate'
+        on line 1:7 of input.scss
+>> a {b: saturate(plum, 1%, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/one_arg/type/input.scss
+a {b: saturate(red)}
+
+<===> error/one_arg/type/error
+Error: $number: red is not a number.
+  ,
+1 | a {b: saturate(red)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/one_arg/type/options.yml
+---
+:todo:
+- sass/libsass#2895
+
+<===>
+================================================================================
+<===> error/two_args/type/color/input.scss
+a {b: saturate(1, 2)}
+
+<===> error/two_args/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: saturate(1, 2)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/two_args/type/color/error-libsass
+Error: argument `$color` of `saturate($color, $amount: false)` must be a color
+        on line 1:7 of input.scss, in function `saturate`
+        from line 1:7 of input.scss
+>> a {b: saturate(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/two_args/type/lightness/input.scss
+a {b: saturate(plum, blue)}
+
+<===> error/two_args/type/lightness/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: saturate(plum, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/two_args/type/lightness/options.yml
+---
+:todo:
+- sass/libsass#2896
+
+<===>
+================================================================================
+<===> error/two_args/bounds/too_low/input.scss
+a {b: saturate(plum, -0.001)}
+
+<===> error/two_args/bounds/too_low/error
+Error: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: saturate(plum, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/two_args/bounds/too_low/error-libsass
+Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `saturate`
+        from line 1:7 of input.scss
+>> a {b: saturate(plum, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/two_args/bounds/too_high/input.scss
+a {b: saturate(plum, 100.001)}
+
+<===> error/two_args/bounds/too_high/error
+Error: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: saturate(plum, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/two_args/bounds/too_high/error-libsass
+Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `saturate`
+        from line 1:7 of input.scss
+>> a {b: saturate(plum, 100.001)}
+
+   ------^
