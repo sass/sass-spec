@@ -1,0 +1,114 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> defined/input.scss
+@use "sass:color";
+a {b: call(get-function("red", $module: "color"), #abcdef)}
+
+<===> defined/output.css
+a {
+  b: 171;
+}
+
+<===>
+================================================================================
+<===> chosen_prefix/input.scss
+@use "sass:color" as a;
+b {c: call(get-function("red", $module: "a"), #abcdef)}
+
+<===> chosen_prefix/output.css
+b {
+  c: 171;
+}
+
+<===>
+================================================================================
+<===> through_use/input.scss
+@use "other" as *;
+a {b: call(get-function(add-two), 10)}
+
+<===> through_use/other.scss
+@function add-two($v) {@return $v + 2}
+
+<===> through_use/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "midstream" as *;
+a {b: call(get-function(c))}
+
+<===> through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/bare/_upstream.scss
+@function c() {@return c}
+
+<===> through_forward/bare/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c-d));
+}
+
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as c-*;
+
+<===> through_forward/as/_upstream.scss
+@function d() {@return d}
+
+<===> through_forward/as/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c));
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show c;
+
+<===> through_forward/show/_upstream.scss
+@function c() {@return c}
+
+<===> through_forward/show/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(d));
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide c;
+
+<===> through_forward/hide/_upstream.scss
+@function d() {@return d}
+
+<===> through_forward/hide/output.css
+a {
+  b: d;
+}

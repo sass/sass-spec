@@ -1,0 +1,374 @@
+<===> same_module/global/input.scss
+$global-variable: null;
+
+a {b: global-variable-exists(global-variable)}
+
+<===> same_module/global/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/local/input.scss
+a {
+  $local-variable: null;
+  b: global-variable-exists(local-variable);
+}
+
+<===> same_module/local/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/through_import/input.scss
+@import "other";
+a {b: global-variable-exists(global-variable)}
+
+<===> same_module/through_import/other.scss
+$global-variable: null;
+
+<===> same_module/through_import/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/non_existent/input.scss
+a {
+  b: global-variable-exists(non-existent);
+}
+
+<===> same_module/non_existent/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> different_module/undefined/input.scss
+@use "sass:color";
+a {b: global-variable-exists("c", "color")}
+
+<===> different_module/undefined/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/input.scss
+@use "other";
+a {b: global-variable-exists("c", "other")}
+
+<===> different_module/defined/_other.scss
+$c: null;
+
+<===> different_module/defined/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_module/chosen_prefix/input.scss
+@use "other" as a;
+b {c: global-variable-exists("d", "a")}
+
+<===> different_module/chosen_prefix/_other.scss
+$d: null;
+
+<===> different_module/chosen_prefix/output.css
+b {
+  c: true;
+}
+
+<===>
+================================================================================
+<===> different_module/through_use/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> different_module/through_use/input.scss
+@use "other" as *;
+a {b: global-variable-exists(global-variable)}
+
+<===> different_module/through_use/other.scss
+$global-variable: null;
+
+<===> different_module/through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_module/through_forward/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> different_module/through_forward/bare/input.scss
+@use "midstream" as *;
+a {b: variable-exists(c)}
+
+<===> different_module/through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> different_module/through_forward/bare/_upstream.scss
+$c: null;
+
+<===> different_module/through_forward/bare/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_module/through_forward/as/input.scss
+@use "midstream" as *;
+a {
+  with-prefix: global-variable-exists(b-c);
+  without-prefix: global-variable-exists(c);
+}
+
+<===> different_module/through_forward/as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> different_module/through_forward/as/_upstream.scss
+$c: null;
+
+<===> different_module/through_forward/as/output.css
+a {
+  with-prefix: true;
+  without-prefix: false;
+}
+
+<===>
+================================================================================
+<===> different_module/through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  shown: global-variable-exists(b);
+  not-shown: global-variable-exists(c);
+}
+
+<===> different_module/through_forward/show/_midstream.scss
+@forward "upstream" show $b;
+
+<===> different_module/through_forward/show/_upstream.scss
+$b: null;
+$c: null;
+
+<===> different_module/through_forward/show/output.css
+a {
+  shown: true;
+  not-shown: false;
+}
+
+<===>
+================================================================================
+<===> different_module/through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  hidden: global-variable-exists(b);
+  not-hidden: global-variable-exists(c);
+}
+
+<===> different_module/through_forward/hide/_midstream.scss
+@forward "upstream" hide $b;
+
+<===> different_module/through_forward/hide/_upstream.scss
+$b: null;
+$c: null;
+
+<===> different_module/through_forward/hide/output.css
+a {
+  hidden: false;
+  not-hidden: true;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> named/input.scss
+@use "other";
+a {b: global-variable-exists($name: "c", $module: "other")}
+
+<===> named/_other.scss
+$c: null;
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/argument/type/name/input.scss
+a {b: global-variable-exists(12px)}
+
+<===> error/argument/type/name/error
+Error: $name: 12px is not a string.
+  ,
+1 | a {b: global-variable-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/argument/type/name/error-libsass
+Error: argument `$name` of `global-variable-exists($name)` must be a string
+        on line 1:7 of input.scss, in function `global-variable-exists`
+        from line 1:7 of input.scss
+>> a {b: global-variable-exists(12px)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/argument/type/module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> error/argument/type/module/input.scss
+a {b: global-variable-exists("c", 1)}
+
+<===> error/argument/type/module/error
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: global-variable-exists("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/argument/too_few/input.scss
+a {b: global-variable-exists()}
+
+<===> error/argument/too_few/error
+Error: Missing argument $name.
+  ,
+1 | a {b: global-variable-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/argument/too_few/error-libsass
+Error: Function global-variable-exists is missing argument $name.
+        on line 1 of input.scss
+>> a {b: global-variable-exists()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/argument/too_many/input.scss
+a {b: global-variable-exists(c, d, e)}
+
+<===> error/argument/too_many/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: global-variable-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/argument/too_many/error-libsass
+Error: wrong number of arguments (3 for 1) for `global-variable-exists'
+        on line 1:7 of input.scss
+>> a {b: global-variable-exists(c, d, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/conflict/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> error/conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: global-variable-exists(member)}
+
+<===> error/conflict/other1.scss
+$member: from other1;
+
+<===> error/conflict/other2.scss
+$member: from other2;
+
+<===> error/conflict/error
+Error: Multiple global modules have a variable named "$member".
+  ,
+4 | a {b: global-variable-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> error/module/non_existent/input.scss
+a {b: global-variable-exists("c", "d")}
+
+<===> error/module/non_existent/error
+Error: There is no module with the namespace "d".
+  ,
+1 | a {b: global-variable-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/built_in_but_not_loaded/input.scss
+a {b: global-variable-exists("c", "color")}
+
+<===> error/module/built_in_but_not_loaded/error
+Error: There is no module with the namespace "color".
+  ,
+1 | a {b: global-variable-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/dash_sensitive/input.scss
+@use "sass:color" as a-b;
+c {d: global-variable-exists("c", $module: "a_b")}
+
+<===> error/module/dash_sensitive/error
+Error: There is no module with the namespace "a_b".
+  ,
+2 | c {d: global-variable-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

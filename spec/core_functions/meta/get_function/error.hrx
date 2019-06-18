@@ -1,0 +1,304 @@
+<===> argument/type/name/input.scss
+a {b: get-function(2px)}
+
+<===> argument/type/name/error
+Error: $name: 2px is not a string for `get-function'
+        on line 1 of /sass/spec/core_functions/get-function/errors/illegal-argument/input.scss
+  Use --trace for backtrace.
+
+<===> argument/type/name/error-dart-sass
+Error: $name: 2px is not a string.
+  ,
+1 | a {b: get-function(2px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/type/module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> argument/type/module/input.scss
+a {b: get-function(c, $module: 1)}
+
+<===> argument/type/module/error
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: get-function(c, $module: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/function_ref/input.scss
+@function foo() {
+  @return null;
+}
+
+$foo-ref: get-function(foo);
+a {b: get-function($foo-ref)}
+
+<===> argument/function_ref/error
+Error: $name: get-function("foo") is not a string for `get-function'
+        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
+  Use --trace for backtrace.
+
+<===> argument/function_ref/error-dart-sass
+Error: $name: get-function("foo") is not a string.
+  ,
+6 | a {b: get-function($foo-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/too_few/input.scss
+a {b: get-function()}
+
+<===> argument/too_few/error
+Error: Missing argument $name.
+  ,
+1 | a {b: get-function()}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> argument/too_few/error-libsass
+Error: Function get-function is missing argument $name.
+        on line 1 of input.scss
+>> a {b: get-function()}
+
+   ------^
+
+<===>
+================================================================================
+<===> argument/too_many/input.scss
+a {b: get-function(c, true, d, e)}
+
+<===> argument/too_many/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: get-function(c, true, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> argument/too_many/error-libsass
+Error: wrong number of arguments (4 for 2) for `get-function'
+        on line 1:7 of input.scss
+>> a {b: get-function(c, true, d, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> non_existent/input.scss
+a {b: get-function(does-not-exist)}
+
+<===> non_existent/error
+Error: Function not found: does-not-exist
+        on line 1 of /sass/spec/core_functions/get-function/errors/non-existent/input.scss
+  Use --trace for backtrace.
+
+<===> non_existent/error-dart-sass
+Error: Function not found: does-not-exist
+  ,
+1 | a {b: get-function(does-not-exist)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(d));
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show c;
+
+<===> through_forward/show/_upstream.scss
+@function d() {@return c}
+
+<===> through_forward/show/error
+Error: Function not found: d
+  ,
+3 |   b: call(get-function(d));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  b: call(get-function(c));
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide c;
+
+<===> through_forward/hide/_upstream.scss
+@function c() {@return c}
+
+<===> through_forward/hide/error
+Error: Function not found: c
+  ,
+3 |   b: call(get-function(c));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  root stylesheet
+
+<===>
+================================================================================
+<===> division/input.scss
+a {b: get-function(rgb) / get-function(lighten)}
+
+<===> division/error
+Error: get-function("rgb") isn't a valid CSS value.
+        on line 3 of /sass/spec/core_functions/get-function/errors/math/division/input.scss
+  Use --trace for backtrace.
+
+<===> division/error-dart-sass
+Error: get-function("rgb") isn't a valid CSS value.
+  ,
+1 | a {b: get-function(rgb) / get-function(lighten)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> function_exists/input.scss
+@function add-two($v) {
+  @return $v + 2;
+}
+
+$add-two-fn: get-function(add-two);
+
+.error {
+  error: get-function($add-two-fn);
+}
+
+<===> function_exists/error
+Error: $name: get-function("add-two") is not a string for `get-function'
+        on line 8 of /sass/spec/core_functions/get-function/errors/get-function/input.scss
+  Use --trace for backtrace.
+
+<===> function_exists/error-dart-sass
+Error: $name: get-function("add-two") is not a string.
+  ,
+8 |   error: get-function($add-two-fn);
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 8:10  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: get-function(member)}
+
+<===> conflict/other1.scss
+@function member() {@return from other1}
+
+<===> conflict/other2.scss
+@function member() {@return from other2}
+
+<===> conflict/error
+Error: Multiple global modules have a function named "member".
+  ,
+4 | a {b: get-function(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> module/undefined/input.scss
+@use "sass:color";
+a {b: get-function("c", $module: "color")}
+
+<===> module/undefined/error
+Error: Function not found: "c"
+  ,
+2 | a {b: get-function("c", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/non_existent/input.scss
+a {b: get-function("c", $module: "d")}
+
+<===> module/non_existent/error
+Error: There is no module with the namespace "d".
+  ,
+1 | a {b: get-function("c", $module: "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/built_in_but_not_loaded/input.scss
+a {b: get-function("red", $module: "color")}
+
+<===> module/built_in_but_not_loaded/error
+Error: There is no module with the namespace "color".
+  ,
+1 | a {b: get-function("red", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/dash_sensitive/input.scss
+@use "sass:color" as a-b;
+c {d: get-function("c", $module: "a_b")}
+
+<===> module/dash_sensitive/error
+Error: There is no module with the namespace "a_b".
+  ,
+2 | c {d: get-function("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/and_css/input.scss
+@use "sass:color";
+a {b: get-function("red", $css: true, $module: "color")}
+
+<===> module/and_css/error
+Error: $css and $module may not both be passed at once.
+  ,
+2 | a {b: get-function("red", $css: true, $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

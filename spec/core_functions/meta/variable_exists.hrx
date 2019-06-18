@@ -1,7 +1,7 @@
 <===> global/input.scss
-@function global-function() {@return null}
+$global-variable: null;
 
-a {b: function-exists(global-function)}
+a {b: variable-exists(global-variable)}
 
 <===> global/output.css
 a {
@@ -12,8 +12,8 @@ a {
 ================================================================================
 <===> local/input.scss
 a {
-  @function local-function() {@return null}
-  b: function-exists(local-function);
+  $local-variable: null;
+  b: variable-exists(local-variable);
 }
 
 <===> local/output.css
@@ -23,24 +23,12 @@ a {
 
 <===>
 ================================================================================
-<===> dash_insensitive/input.scss
-@function global-function() {@return null}
-
-a {b: function-exists(global_function)}
-
-<===> dash_insensitive/output.css
-a {
-  b: true;
-}
-
-<===>
-================================================================================
 <===> through_import/input.scss
 @import "other";
-a {b: function-exists(global-function)}
+a {b: variable-exists(global-variable)}
 
 <===> through_import/other.scss
-@function global-function() {@return null}
+$global-variable: null;
 
 <===> through_import/output.css
 a {
@@ -56,10 +44,10 @@ a {
 
 <===> through_use/input.scss
 @use "other" as *;
-a {b: function-exists(global-function)}
+a {b: variable-exists(global-variable)}
 
 <===> through_use/other.scss
-@function global-function() {@return null}
+$global-variable: null;
 
 <===> through_use/output.css
 a {
@@ -75,35 +63,18 @@ a {
 
 <===>
 ================================================================================
-<===> through_forward/bare/input.scss
-@use "midstream" as *;
-a {b: function-exists(c)}
-
-<===> through_forward/bare/_midstream.scss
-@forward "upstream";
-
-<===> through_forward/bare/_upstream.scss
-@function c() {@return null}
-
-<===> through_forward/bare/output.css
-a {
-  b: true;
-}
-
-<===>
-================================================================================
 <===> through_forward/as/input.scss
 @use "midstream" as *;
 a {
-  with-prefix: function-exists(b-c);
-  without-prefix: function-exists(c);
+  with-prefix: variable-exists(b-c);
+  without-prefix: variable-exists(c);
 }
 
 <===> through_forward/as/_midstream.scss
 @forward "upstream" as b-*;
 
 <===> through_forward/as/_upstream.scss
-@function c() {@return null}
+$c: null;
 
 <===> through_forward/as/output.css
 a {
@@ -116,16 +87,16 @@ a {
 <===> through_forward/show/input.scss
 @use "midstream" as *;
 a {
-  shown: function-exists(b);
-  not-shown: function-exists(c);
+  shown: variable-exists(b);
+  not-shown: variable-exists(c);
 }
 
 <===> through_forward/show/_midstream.scss
-@forward "upstream" show b;
+@forward "upstream" show $b;
 
 <===> through_forward/show/_upstream.scss
-@function b() {@return null}
-@function c() {@return null}
+$b: null;
+$c: null;
 
 <===> through_forward/show/output.css
 a {
@@ -138,16 +109,16 @@ a {
 <===> through_forward/hide/input.scss
 @use "midstream" as *;
 a {
-  hidden: function-exists(b);
-  not-hidden: function-exists(c);
+  hidden: variable-exists(b);
+  not-hidden: variable-exists(c);
 }
 
 <===> through_forward/hide/_midstream.scss
-@forward "upstream" hide b;
+@forward "upstream" hide $b;
 
 <===> through_forward/hide/_upstream.scss
-@function b() {@return null}
-@function c() {@return null}
+$b: null;
+$c: null;
 
 <===> through_forward/hide/output.css
 a {
@@ -159,7 +130,7 @@ a {
 ================================================================================
 <===> non_existent/input.scss
 a {
-  b: function-exists(non-existent);
+  b: variable-exists(non-existent);
 }
 
 <===> non_existent/output.css
@@ -170,7 +141,7 @@ a {
 <===>
 ================================================================================
 <===> keyword/input.scss
-a {b: function-exists($name: foo)}
+a {b: variable-exists($name: foo)}
 
 <===> keyword/output.css
 a {
@@ -180,61 +151,61 @@ a {
 <===>
 ================================================================================
 <===> error/argument/type/input.scss
-a {b: function-exists(12px)}
+a {b: variable-exists(12px)}
 
 <===> error/argument/type/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: function-exists(12px)}
+1 | a {b: variable-exists(12px)}
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/argument/type/error-libsass
-Error: $name: 12px is not a string for `function-exists'
-        on line 1:7 of input.scss, in function `function-exists`
+Error: argument `$name` of `variable-exists($name)` must be a string
+        on line 1:7 of input.scss, in function `variable-exists`
         from line 1:7 of input.scss
->> a {b: function-exists(12px)}
+>> a {b: variable-exists(12px)}
 
    ------^
 
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
-a {b: function-exists()}
+a {b: variable-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,
-1 | a {b: function-exists()}
+1 | a {b: variable-exists()}
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_few/error-libsass
-Error: Function function-exists is missing argument $name.
+Error: Function variable-exists is missing argument $name.
         on line 1 of input.scss
->> a {b: function-exists()}
+>> a {b: variable-exists()}
 
    ------^
 
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: function-exists(foo, bar)}
+a {b: variable-exists(foo, bar)}
 
 <===> error/argument/too_many/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,
-1 | a {b: function-exists(foo, bar)}
+1 | a {b: variable-exists(foo, bar)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (2 for 1) for `function-exists'
+Error: wrong number of arguments (2 for 1) for `variable-exists'
         on line 1:7 of input.scss
->> a {b: function-exists(foo, bar)}
+>> a {b: variable-exists(foo, bar)}
 
    ------^
 
@@ -249,18 +220,18 @@ Error: wrong number of arguments (2 for 1) for `function-exists'
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: function-exists(member)}
+a {b: variable-exists(member)}
 
 <===> conflict/other1.scss
-@function member() {@return from other1}
+$member: from other1;
 
 <===> conflict/other2.scss
-@function member() {@return from other2}
+$member: from other2;
 
 <===> conflict/error
-Error: Multiple global modules have a function named "member".
+Error: Multiple global modules have a variable named "$member".
   ,
-4 | a {b: function-exists(member)}
+4 | a {b: variable-exists(member)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 4:7  root stylesheet
