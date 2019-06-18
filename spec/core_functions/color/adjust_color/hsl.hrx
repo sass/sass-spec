@@ -1,0 +1,273 @@
+<===> hue/max/input.scss
+a {b: adjust-color(red, $hue: 359)}
+
+<===> hue/max/output.css
+a {
+  b: #ff0004;
+}
+
+<===>
+================================================================================
+<===> hue/above_max/input.scss
+a {b: adjust-color(red, $hue: 540)}
+
+<===> hue/above_max/output.css
+a {
+  b: aqua;
+}
+
+<===> hue/above_max/output-libsass.css
+a {
+  b: cyan;
+}
+
+<===>
+================================================================================
+<===> hue/min/input.scss
+a {b: adjust-color(blue, $hue: 0)}
+
+<===> hue/min/output.css
+a {
+  b: blue;
+}
+
+<===>
+================================================================================
+<===> hue/negative/input.scss
+a {b: adjust-color(red, $hue: -180)}
+
+<===> hue/negative/output.css
+a {
+  b: aqua;
+}
+
+<===> hue/negative/output-libsass.css
+a {
+  b: cyan;
+}
+
+<===>
+================================================================================
+<===> hue/middle/input.scss
+a {b: adjust-color(red, $hue: 123)}
+
+<===> hue/middle/output.css
+a {
+  b: #00ff0d;
+}
+
+<===>
+================================================================================
+<===> hue/fraction/input.scss
+a {b: adjust-color(red, $hue: 0.5)}
+
+<===> hue/fraction/output.css
+a {
+  b: #ff0200;
+}
+
+<===>
+================================================================================
+<===> saturation/max/input.scss
+a {b: adjust-color(plum, $saturation: 100%)}
+
+<===> saturation/max/output.css
+a {
+  b: #ff7eff;
+}
+
+<===>
+================================================================================
+<===> saturation/max_remaining/input.scss
+a {b: adjust-color(plum, $saturation: 53%)}
+
+<===> saturation/max_remaining/output.css
+a {
+  b: #ff7eff;
+}
+
+<===>
+================================================================================
+<===> saturation/zero/input.scss
+a {b: adjust-color(plum, $saturation: 0%)}
+
+<===> saturation/zero/output.css
+a {
+  b: plum;
+}
+
+<===>
+================================================================================
+<===> saturation/min/input.scss
+a {b: adjust-color(plum, $saturation: -100%)}
+
+<===> saturation/min/output.css
+a {
+  b: #bfbfbf;
+}
+
+<===>
+================================================================================
+<===> saturation/min_remaining/input.scss
+a {b: adjust-color(plum, $saturation: -48%)}
+
+<===> saturation/min_remaining/output.css
+a {
+  b: #bfbfbf;
+}
+
+<===>
+================================================================================
+<===> saturation/high/input.scss
+a {b: adjust-color(plum, $saturation: 14%)}
+
+<===> saturation/high/output.css
+a {
+  b: #e697e6;
+}
+
+<===>
+================================================================================
+<===> saturation/low/input.scss
+a {b: adjust-color(plum, $saturation: -14%)}
+
+<===> saturation/low/output.css
+a {
+  b: #d4a9d4;
+}
+
+<===>
+================================================================================
+<===> lightness/max/input.scss
+a {b: adjust-color(red, $lightness: 100%)}
+
+<===> lightness/max/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> lightness/max_remaining/input.scss
+a {b: adjust-color(red, $lightness: 50%)}
+
+<===> lightness/max_remaining/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> lightness/zero/input.scss
+a {b: adjust-color(red, $lightness: 0%)}
+
+<===> lightness/zero/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> lightness/fraction/input.scss
+a {b: adjust-color(red, $lightness: 0.5%)}
+
+<===> lightness/fraction/output.css
+a {
+  b: #ff0303;
+}
+
+<===>
+================================================================================
+<===> lightness/min/input.scss
+a {b: adjust-color(red, $lightness: -100%)}
+
+<===> lightness/min/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> lightness/min_remaining/input.scss
+a {b: adjust-color(red, $lightness: -50%)}
+
+<===> lightness/min_remaining/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> lightness/high/input.scss
+a {b: adjust-color(red, $lightness: 14%)}
+
+<===> lightness/high/output.css
+a {
+  b: #ff4747;
+}
+
+<===>
+================================================================================
+<===> lightness/low/input.scss
+a {b: adjust-color(red, $lightness: -14%)}
+
+<===> lightness/low/output.css
+a {
+  b: #b80000;
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%)}
+
+<===> all/output.css
+a {
+  b: #98695d;
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+a {b: adjust-color(rgba(black, 0.7), $hue: 12, $saturation: 24%, $lightness: 48%)}
+
+<===> alpha_input/output.css
+a {
+  b: rgba(152, 105, 93, 0.7);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%, $alpha: -0.7)}
+
+<===> alpha_arg/output.css
+a {
+  b: rgba(152, 105, 93, 0.3);
+}
+
+<===>
+================================================================================
+<===> alpha_arg_above_max/options.yml
+---
+:todo:
+- sass/dart-sass#708
+
+<===> alpha_arg_above_max/input.scss
+// Regression test for sass/dart-sass#708.
+a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%, $alpha: 0.7)}
+
+<===> alpha_arg_above_max/output.css
+a {
+  b: #98695d;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: adjust-color($color: black, $hue: 12, $saturation: 24%, $lightness: 48%)}
+
+<===> named/output.css
+a {
+  b: #98695d;
+}

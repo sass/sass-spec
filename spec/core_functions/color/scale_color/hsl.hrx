@@ -1,0 +1,167 @@
+<===> saturation/max/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> saturation/max/input.scss
+a {b: scale-color(plum, $saturation: 100%)}
+
+<===> saturation/max/output.css
+a {
+  b: #ff7eff;
+}
+
+<===>
+================================================================================
+<===> saturation/zero/input.scss
+a {b: scale-color(plum, $saturation: 0%)}
+
+<===> saturation/zero/output.css
+a {
+  b: plum;
+}
+
+<===>
+================================================================================
+<===> saturation/min/input.scss
+a {b: scale-color(plum, $saturation: -100%)}
+
+<===> saturation/min/output.css
+a {
+  b: #bfbfbf;
+}
+
+<===>
+================================================================================
+<===> saturation/high/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> saturation/high/input.scss
+a {b: scale-color(plum, $saturation: 67%)}
+
+<===> saturation/high/output.css
+a {
+  b: #f489f4;
+}
+
+<===>
+================================================================================
+<===> saturation/low/input.scss
+a {b: scale-color(plum, $saturation: -43%)}
+
+<===> saturation/low/output.css
+a {
+  b: #d0add0;
+}
+
+<===>
+================================================================================
+<===> lightness/max/input.scss
+a {b: scale-color(red, $lightness: 100%)}
+
+<===> lightness/max/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> lightness/zero/input.scss
+a {b: scale-color(red, $lightness: 0%)}
+
+<===> lightness/zero/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> lightness/min/input.scss
+a {b: scale-color(red, $lightness: -100%)}
+
+<===> lightness/min/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> lightness/high/input.scss
+a {b: scale-color(red, $lightness: 94%)}
+
+<===> lightness/high/output.css
+a {
+  b: #fff0f0;
+}
+
+<===>
+================================================================================
+<===> lightness/low/input.scss
+a {b: scale-color(red, $lightness: -14%)}
+
+<===> lightness/low/output.css
+a {
+  b: #db0000;
+}
+
+<===>
+================================================================================
+<===> all/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> all/input.scss
+a {b: scale-color(turquoise, $saturation: 24%, $lightness: -48%)}
+
+<===> all/output.css
+a {
+  b: #10867a;
+}
+
+<===>
+================================================================================
+<===> alpha_input/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> alpha_input/input.scss
+a {b: scale-color(rgba(turquoise, 0.7), $saturation: 24%, $lightness: -48%)}
+
+<===> alpha_input/output.css
+a {
+  b: rgba(16, 134, 122, 0.7);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> alpha_arg/input.scss
+a {b: scale-color(turquoise, $saturation: 24%, $lightness: -48%, $alpha: -70%)}
+
+<===> alpha_arg/output.css
+a {
+  b: rgba(16, 134, 122, 0.3);
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2903
+
+<===> named/input.scss
+a {b: scale-color($color: turquoise, $saturation: 24%, $lightness: -48%)}
+
+<===> named/output.css
+a {
+  b: #10867a;
+}
