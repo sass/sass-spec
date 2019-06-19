@@ -1,0 +1,139 @@
+<===> zero/input.scss
+a {b: percentage(0)}
+
+<===> zero/output.css
+a {
+  b: 0%;
+}
+
+<===>
+================================================================================
+<===> small/input.scss
+a {b: percentage(0.246)}
+
+<===> small/output.css
+a {
+  b: 24.6%;
+}
+
+<===>
+================================================================================
+<===> large/input.scss
+a {b: percentage(123.456)}
+
+<===> large/output.css
+a {
+  b: 12345.6%;
+}
+
+<===>
+================================================================================
+<===> integer/input.scss
+a {b: percentage(42)}
+
+<===> integer/output.css
+a {
+  b: 4200%;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: percentage(-0.4)}
+
+<===> negative/output.css
+a {
+  b: -40%;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: percentage($number: 1)}
+
+<===> named/output.css
+a {
+  b: 100%;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: percentage(c)}
+
+<===> error/type/error
+Error: $number: c is not a number.
+  ,
+1 | a {b: percentage(c)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$number` of `percentage($number)` must be a number
+        on line 1:7 of input.scss, in function `percentage`
+        from line 1:7 of input.scss
+>> a {b: percentage(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/unit/input.scss
+a {b: percentage(1%)}
+
+<===> error/unit/error
+Error: $number: Expected 1% to have no units.
+  ,
+1 | a {b: percentage(1%)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/unit/error-libsass
+Error: argument $number of `percentage($number)` must be unitless
+        on line 1:7 of input.scss, in function `percentage`
+        from line 1:7 of input.scss
+>> a {b: percentage(1%)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: percentage()}
+
+<===> error/too_few_args/error
+Error: Missing argument $number.
+  ,
+1 | a {b: percentage()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function percentage is missing argument $number.
+        on line 1 of input.scss
+>> a {b: percentage()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: percentage(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: percentage(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `percentage'
+        on line 1:7 of input.scss
+>> a {b: percentage(1, 2)}
+
+   ------^
