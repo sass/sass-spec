@@ -1,0 +1,179 @@
+<===> _util.scss
+// Calls `random()` one thousand times, and throws an error if `$check` returns
+// `false` for any of the values.
+@mixin check-values($arg, $check) {
+  @for $i from 1 through 1000 {
+    $value: random($arg);
+    @if not call($check, $value) {
+      @error "#{$value} did not match expectation";
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> null/options.yml
+---
+:todo:
+- sass/libsass#2915
+
+<===> null/input.scss
+@import "../util";
+@function check($value) {@return $value >= 0 and $value < 1}
+@include check-values(null, get-function(check));
+
+<===> null/output.css
+
+<===>
+================================================================================
+<===> one/input.scss
+@import "../util";
+@function check($value) {@return $value == 1}
+@include check-values(1, get-function(check));
+
+<===> one/output.css
+
+<===>
+================================================================================
+<===> within_precision/input.scss
+// This is within the precision limit to be considered identical to 1.
+a {b: random(1.0000000000001)}
+
+<===> within_precision/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> two/input.scss
+@import "../util";
+@function check($value) {@return $value == 1 or $value == 2}
+@include check-values(2, get-function(check));
+
+<===> two/output.css
+
+<===>
+================================================================================
+<===> one_hundred/input.scss
+@import "../util";
+@function check($value) {@return $value == round($value) and $value > 0 and $value <= 100}
+@include check-values(100, get-function(check));
+
+<===> one_hundred/output.css
+
+<===>
+================================================================================
+<===> no_arg/input.scss
+$value: random();
+a {b: $value >= 0 and $value < 1}
+
+<===> no_arg/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> ignores_units/input.scss
+a {b: random(1px)}
+
+<===> ignores_units/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+$value: random($limit: 10);
+a {b: $value > 0 and $value <= 10}
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: random(c)}
+
+<===> error/type/error
+Error: $limit: c is not a number.
+  ,
+1 | a {b: random(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: $limit: "c" is not a number for `random'
+        on line 1:7 of input.scss, in function `random`
+        from line 1:7 of input.scss
+>> a {b: random(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/decimal/input.scss
+a {b: random(1.5)}
+
+<===> error/decimal/error
+Error: $limit: 1.5 is not an int.
+  ,
+1 | a {b: random(1.5)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/decimal/error-libsass
+Error: Expected $limit to be an integer but got 1.5 for `random'
+        on line 1:7 of input.scss, in function `random`
+        from line 1:7 of input.scss
+>> a {b: random(1.5)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/zero/input.scss
+a {b: random(0)}
+
+<===> error/zero/error
+Error: $limit: Must be greater than 0, was 0.
+  ,
+1 | a {b: random(0)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/zero/error-libsass
+Error: $limit 0 must be greater than or equal to 1 for `random'
+        on line 1:7 of input.scss, in function `random`
+        from line 1:7 of input.scss
+>> a {b: random(0)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/negative/input.scss
+a {b: random(-1)}
+
+<===> error/negative/error
+Error: $limit: Must be greater than 0, was -1.
+  ,
+1 | a {b: random(-1)}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/negative/error-libsass
+Error: $limit -1 must be greater than or equal to 1 for `random'
+        on line 1:7 of input.scss, in function `random`
+        from line 1:7 of input.scss
+>> a {b: random(-1)}
+
+   ------^

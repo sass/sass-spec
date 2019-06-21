@@ -1,0 +1,119 @@
+<===> integer/input.scss
+a {b: floor(1)}
+
+<===> integer/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> high/input.scss
+a {b: floor(2.999999999999999)}
+
+<===> high/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> low/input.scss
+a {b: floor(6.1)}
+
+<===> low/output.css
+a {
+  b: 6;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: floor(-7.2)}
+
+<===> negative/output.css
+a {
+  b: -8;
+}
+
+<===>
+================================================================================
+<===> preserves_units/input.scss
+a {b: floor(7px / 4em) * 1em}
+
+<===> preserves_units/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: floor($number: 1.6)}
+
+<===> named/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: floor(c)}
+
+<===> error/type/error
+Error: $number: c is not a number.
+  ,
+1 | a {b: floor(c)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$number` of `floor($number)` must be a number
+        on line 1:7 of input.scss, in function `round`
+        from line 1:7 of input.scss
+>> a {b: floor(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: floor()}
+
+<===> error/too_few_args/error
+Error: Missing argument $number.
+  ,
+1 | a {b: floor()}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function floor is missing argument $number.
+        on line 1 of input.scss
+>> a {b: floor()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: floor(1, 2)}
+
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: floor(1, 2)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `floor'
+        on line 1:7 of input.scss
+>> a {b: floor(1, 2)}
+
+   ------^
