@@ -271,20 +271,20 @@ Error: Function get-function is missing argument $name.
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: get-function(lighten, true, lighten)}
+a {b: get-function(lighten, true, c, d)}
 
 <===> error/argument/too_many/error
-Error: Only 2 arguments allowed, but 3 were passed.
+Error: Only 3 arguments allowed, but 4 were passed.
   ,
-1 | a {b: get-function(lighten, true, lighten)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: get-function(lighten, true, c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (3 for 2) for `get-function'
+Error: wrong number of arguments (4 for 2) for `get-function'
         on line 1:7 of input.scss
->> a {b: get-function(lighten, true, lighten)}
+>> a {b: get-function(lighten, true, c, d)}
 
    ------^
 
