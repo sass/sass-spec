@@ -1,19 +1,45 @@
-<===> precedence/input.scss
-// Forwarded definitions take precedence over local definitions through imports,
-// to match the behavior of definitions written directly in the imported file.
+<===> precedence/README.md
+Forwarded definitions take precedence over local definitions through imports, to
+match the behavior of definitions written directly in the imported file.
+
+<===>
+================================================================================
+<===> precedence/top_level/input.scss
 $a: in-input;
 
 @import "midstream";
 
 b {c: $a}
 
-<===> precedence/_midstream.scss
+<===> precedence/top_level/_midstream.scss
 @forward "upstream";
 
-<===> precedence/_upstream.scss
+<===> precedence/top_level/_upstream.scss
 $a: in-upstream;
 
-<===> precedence/output.css
+<===> precedence/top_level/output.css
+b {
+  c: in-upstream;
+}
+
+<===>
+================================================================================
+<===> precedence/nested/input.scss
+b {
+  $a: in-input;
+
+  @import "midstream";
+
+  c: $a;
+}
+
+<===> precedence/nested/_midstream.scss
+@forward "upstream";
+
+<===> precedence/nested/_upstream.scss
+$a: in-upstream;
+
+<===> precedence/nested/output.css
 b {
   c: in-upstream;
 }

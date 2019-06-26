@@ -16,7 +16,8 @@ a {
 
 <===> global/first_declaration/top_level/warning
 DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
-declare new variables. Consider adding `$var: null` at the top level.
+declare new variables. Since this assignment is at the root of the stylesheet,
+the !global flag is unnecessary and can safely be removed.
 
   ,
 1 | $var: value !global;
@@ -37,7 +38,8 @@ a {
 
 <===> global/first_declaration/nested/warning
 DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
-declare new variables. Consider adding `$var: null` at the top level.
+declare new variables. Consider adding `$var: null` at the root of the
+stylesheet.
 
   ,
 1 | x {$var: value !global}
