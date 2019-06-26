@@ -1,0 +1,206 @@
+<===> no_lists/options.yml
+---
+:todo:
+- sass/dart-sass#739
+
+<===> no_lists/input.scss
+@import "core_functions/list/utils";
+
+$result: zip();
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> no_lists/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> one_list/empty/input.scss
+@import "core_functions/list/utils";
+
+$result: zip(());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> one_list/empty/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> one_list/space/input.scss
+@import "core_functions/list/utils";
+
+$result: zip(1 2 3);
+$element: nth($result, 2);
+
+a {
+  value: $result;
+  element: $element {
+    type: type-of($element);
+    separator: real-separator($element);
+  }
+}
+
+<===> one_list/space/output.css
+a {
+  value: 1, 2, 3;
+  element: 2;
+  element-type: list;
+  element-separator: space;
+}
+
+<===>
+================================================================================
+<===> one_list/comma/input.scss
+@import "core_functions/list/utils";
+
+$result: zip((1, 2, 3));
+$element: nth($result, 2);
+
+a {
+  value: $result;
+  element: $element {
+    type: type-of($element);
+    separator: real-separator($element);
+  }
+}
+
+<===> one_list/comma/output.css
+a {
+  value: 1, 2, 3;
+  element: 2;
+  element-type: list;
+  element-separator: space;
+}
+
+<===>
+================================================================================
+<===> one_list/bracketed/input.scss
+@import "core_functions/list/utils";
+
+$result: zip([1 2 3]);
+$element: nth($result, 2);
+
+a {
+  value: $result;
+  element: $element {
+    type: type-of($element);
+    separator: real-separator($element);
+  }
+}
+
+<===> one_list/bracketed/output.css
+a {
+  value: 1, 2, 3;
+  element: 2;
+  element-type: list;
+  element-separator: space;
+}
+
+<===>
+================================================================================
+<===> two_lists/first_empty/input.scss
+a {b: inspect(zip((), 1 2 3))}
+
+<===> two_lists/first_empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> two_lists/second_empty/input.scss
+a {b: inspect(zip(1 2 3, ()))}
+
+<===> two_lists/second_empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> two_lists/first_longer/input.scss
+a {b: zip(1 2 3 4, c d)}
+
+<===> two_lists/first_longer/output.css
+a {
+  b: 1 c, 2 d;
+}
+
+<===>
+================================================================================
+<===> two_lists/second_longer/input.scss
+a {b: zip(1 2, c d e f)}
+
+<===> two_lists/second_longer/output.css
+a {
+  b: 1 c, 2 d;
+}
+
+<===>
+================================================================================
+<===> two_lists/same_length/input.scss
+a {b: zip(1 2 3, c d e)}
+
+<===> two_lists/same_length/output.css
+a {
+  b: 1 c, 2 d, 3 e;
+}
+
+<===>
+================================================================================
+<===> three_lists/input.scss
+a {b: zip(1 2 3, c d e, red green blue)}
+
+<===> three_lists/output.css
+a {
+  b: 1 c red, 2 d green, 3 e blue;
+}
+
+<===>
+================================================================================
+<===> map/empty/input.scss
+a {b: inspect(zip(map-remove((c: d), c)))}
+
+<===> map/empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> map/non_empty/input.scss
+a {b: inspect(zip((c: d, e: f, g: h), 1 2 3))}
+
+<===> map/non_empty/output.css
+a {
+  b: (c d) 1, (e f) 2, (g h) 3;
+}
+
+<===>
+================================================================================
+<===> non_list/input.scss
+a {b: zip(c, d, e)}
+
+<===> non_list/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> error/README.md
+`zip()` is unique among built-in functions in that there's no possible
+invocation that produces an error, since it can take any number of arguments and
+any argument can be interpreted as a list. Since we don't normally test for
+passing invalid named parameters, it has no error tests.
