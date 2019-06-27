@@ -1,0 +1,133 @@
+<===> empty/input.scss
+a {b: str-length("")}
+
+<===> empty/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> one_character/input.scss
+a {b: str-length("c")}
+
+<===> one_character/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> multiple_characters/input.scss
+a {b: str-length("fblthp abatement")}
+
+<===> multiple_characters/output.css
+a {
+  b: 16;
+}
+
+<===>
+================================================================================
+<===> double_width_character/input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units.
+a {b: str-length("👭")}
+
+<===> double_width_character/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> combining_character/input.scss
+// Sass does *not* treat strings as sequences of glyphs, so this string which
+// contains "c" followed by a combining umlaut should be considered two separate
+// characters even though it's rendered as only one.
+a {b: str-length("c\0308")}
+
+<===> combining_character/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unquoted/input.scss
+a {b: str-length(loofamonster)}
+
+<===> unquoted/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: str-length($string: "c")}
+
+<===> named/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: str-length(1)}
+
+<===> error/type/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-length(1)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$string` of `str-length($string)` must be a string
+        on line 1:7 of input.scss, in function `str-length`
+        from line 1:7 of input.scss
+>> a {b: str-length(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: str-length()}
+
+<===> error/too_few_args/error
+Error: Missing argument $string.
+  ,
+1 | a {b: str-length()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function str-length is missing argument $string.
+        on line 1 of input.scss
+>> a {b: str-length()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: str-length(c, d)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: str-length(c, d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `str-length'
+        on line 1:7 of input.scss
+>> a {b: str-length(c, d)}
+
+   ------^

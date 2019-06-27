@@ -1,135 +1,121 @@
+<===> empty/input.scss
+a {b: to-upper-case("")}
+
+<===> empty/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> alphabet/input.scss
+a {b: to-upper-case("abcdefghijklmnopqrstuvqxyz")}
+
+<===> alphabet/output.css
+a {
+  b: "ABCDEFGHIJKLMNOPQRSTUVQXYZ";
+}
+
+<===>
+================================================================================
+<===> number/input.scss
+a {b: to-upper-case("1234567890")}
+
+<===> number/output.css
+a {
+  b: "1234567890";
+}
+
+<===>
+================================================================================
+<===> non_ascii/input.scss
+// Only ASCII characters have their case changed.
+a {b: to-upper-case("äçðøþ")}
+
+<===> non_ascii/output.css
+@charset "UTF-8";
+a {
+  b: "äçðøþ";
+}
+
+<===>
+================================================================================
 <===> unquoted/input.scss
-a {b: quote(c)}
+a {b: to-upper-case(aBcDeF)}
 
 <===> unquoted/output.css
 a {
-  b: "c";
-}
-
-<===>
-================================================================================
-<===> quoted_double/input.scss
-a {b: quote("c")}
-
-<===> quoted_double/output.css
-a {
-  b: "c";
-}
-
-<===>
-================================================================================
-<===> quoted_single/input.scss
-a {b: quote('c')}
-
-<===> quoted_single/output.css
-a {
-  b: "c";
-}
-
-<===>
-================================================================================
-<===> quote_unquoted_quote/single/input.scss
-// See sass/libsass#2873
-a {b: quote(unquote('"'))}
-
-<===> quote_unquoted_quote/single/output.css
-a {
-  b: '"';
-}
-
-<===>
-================================================================================
-<===> quote_unquoted_quote/double/input.scss
-// See sass/libsass#2873
-a {b: quote(unquote('"') + unquote("'"))}
-
-<===> quote_unquoted_quote/double/output.css
-a {
-  b: "\"'";
-}
-
-<===>
-================================================================================
-<===> escape/input.scss
-a {b: quote(\0)}
-
-<===> escape/output.css
-a {
-  b: "\\0 ";
-}
-
-<===> escape/output-libsass.css
-a {
-  b: "\\0";
+  b: ABCDEF;
 }
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: quote($string: c)}
+a {b: to-upper-case($string: abcDEF)}
 
 <===> named/output.css
 a {
-  b: "c";
+  b: ABCDEF;
 }
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: quote((1, 2, 3))}
+a {b: to-upper-case(1)}
 
 <===> error/type/error
-Error: $string: 1, 2, 3 is not a string.
+Error: $string: 1 is not a string.
   ,
-1 | a {b: quote((1, 2, 3))}
+1 | a {b: to-upper-case(1)}
   |       ^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$string` of `quote($string)` must be a string
-        on line 1:7 of input.scss, in function `quote`
+Error: argument `$string` of `to-upper-case($string)` must be a string
+        on line 1:7 of input.scss, in function `to-upper-case`
         from line 1:7 of input.scss
->> a {b: quote((1, 2, 3))}
+>> a {b: to-upper-case(1)}
 
    ------^
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: quote()}
+a {b: to-upper-case()}
 
 <===> error/too_few_args/error
 Error: Missing argument $string.
   ,
-1 | a {b: quote()}
-  |       ^^^^^^^
+1 | a {b: to-upper-case()}
+  |       ^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function quote is missing argument $string.
+Error: Function to-upper-case is missing argument $string.
         on line 1 of input.scss
->> a {b: quote()}
+>> a {b: to-upper-case()}
 
    ------^
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: quote(c, d)}
+a {b: to-upper-case("", "")}
+
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,
-1 | a {b: quote(c, d)}
-  |       ^^^^^^^^^^^
+1 | a {b: to-upper-case("", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `quote'
+Error: wrong number of arguments (2 for 1) for `to-upper-case'
         on line 1:7 of input.scss
->> a {b: quote(c, d)}
+>> a {b: to-upper-case("", "")}
 
    ------^
