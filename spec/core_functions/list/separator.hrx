@@ -1,0 +1,140 @@
+<===> empty/space/input.scss
+a {b: list-separator(())}
+
+<===> empty/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> empty/comma/input.scss
+a {b: list-separator(join((), (), comma))}
+
+<===> empty/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> empty/map/options.yml
+---
+:todo:
+- sass/dart-sass#737
+- sass/libsass#2924
+
+<===> empty/map/input.scss
+@import "core_functions/list/utils";
+
+a {b: list-separator($empty-map)}
+
+<===> empty/map/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> single/space/input.scss
+a {b: list-separator([1])}
+
+<===> single/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> single/comma/input.scss
+a {b: list-separator((1,))}
+
+<===> single/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> single/non_list/input.scss
+a {b: list-separator(1)}
+
+<===> single/non_list/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> multi/space/input.scss
+a {b: list-separator(1 2 3)}
+
+<===> multi/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> multi/comma/input.scss
+a {b: list-separator((1, 2, 3))}
+
+<===> multi/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> multi/map/options.yml
+---
+:todo:
+- sass/libsass#2925
+
+<===> multi/map/input.scss
+a {b: list-separator((c: d, e: f, g: h))}
+
+<===> multi/map/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: list-separator()}
+
+<===> error/too_few_args/error
+Error: Missing argument $list.
+  ,
+1 | a {b: list-separator()}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function list-separator is missing argument $list.
+        on line 1 of input.scss
+>> a {b: list-separator()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: list-separator(c, d)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: list-separator(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `list-separator'
+        on line 1:7 of input.scss
+>> a {b: list-separator(c, d)}
+
+   ------^
