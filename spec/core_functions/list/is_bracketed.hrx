@@ -1,18 +1,117 @@
-<===> input.scss
-.is-bracketed {
-  unbracketed-empty: is-bracketed(());
-  unbracketed-singleton: is-bracketed(foo);
-  unbracketed-multiple: is-bracketed(foo bar);
-  bracketed-empty: is-bracketed([]);
-  bracketed-singleton: is-bracketed([foo]);
-  bracketed-multiple: is-bracketed([foo bar]);
+<===> unbracketed/empty/input.scss
+a {b: is-bracketed(())}
+
+<===> unbracketed/empty/output.css
+a {
+  b: false;
 }
-<===> output.css
-.is-bracketed {
-  unbracketed-empty: false;
-  unbracketed-singleton: false;
-  unbracketed-multiple: false;
-  bracketed-empty: true;
-  bracketed-singleton: true;
-  bracketed-multiple: true;
+
+<===>
+================================================================================
+<===> unbracketed/single/input.scss
+a {b: is-bracketed((1,))}
+
+<===> unbracketed/single/output.css
+a {
+  b: false;
 }
+
+<===>
+================================================================================
+<===> unbracketed/multi/input.scss
+a {b: is-bracketed(1 2 3)}
+
+<===> unbracketed/multi/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> unbracketed/non_list/input.scss
+a {b: is-bracketed(1)}
+
+<===> unbracketed/non_list/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> unbracketed/map/input.scss
+a {b: is-bracketed((c: d, e: f, g: h))}
+
+<===> unbracketed/map/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> bracketed/empty/input.scss
+a {b: is-bracketed([])}
+
+<===> bracketed/empty/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> bracketed/single/input.scss
+a {b: is-bracketed([1])}
+
+<===> bracketed/single/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> bracketed/multi/input.scss
+a {b: is-bracketed([1, 2, 3])}
+
+<===> bracketed/multi/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: is-bracketed()}
+
+<===> error/too_few_args/error
+Error: Missing argument $list.
+  ,
+1 | a {b: is-bracketed()}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function is-bracketed is missing argument $list.
+        on line 1 of input.scss
+>> a {b: is-bracketed()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: is-bracketed(a b, c d)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: is-bracketed(a b, c d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `is-bracketed'
+        on line 1:7 of input.scss
+>> a {b: is-bracketed(a b, c d)}
+
+   ------^
