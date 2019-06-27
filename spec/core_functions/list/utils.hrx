@@ -1,0 +1,149 @@
+<===> README.md
+These tests verify that `_utils.scss` works as intended.
+
+<===>
+================================================================================
+<===> real_separator/empty/undecided/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> real_separator/empty/undecided/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator(())}
+
+<===> real_separator/empty/undecided/output.css
+a {
+  b: undecided;
+}
+
+<===>
+================================================================================
+<===> real_separator/empty/space/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator($empty-space-list)}
+
+<===> real_separator/empty/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> real_separator/empty/comma/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator($empty-comma-list)}
+
+<===> real_separator/empty/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> real_separator/single/undecided/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> real_separator/single/undecided/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator([1])}
+
+<===> real_separator/single/undecided/output.css
+a {
+  b: undecided;
+}
+
+<===>
+================================================================================
+<===> real_separator/single/comma/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator((1,))}
+
+<===> real_separator/single/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> real_separator/multi/space/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator(1 2)}
+
+<===> real_separator/multi/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> real_separator/multi/comma/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator((1, 2))}
+
+<===> real_separator/multi/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> with_separator/single/space/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator(with-separator((1,), space))}
+
+<===> with_separator/single/space/output.css
+a {
+  b: space;
+}
+
+<===>
+================================================================================
+<===> with_separator/single/comma/input.scss
+@import "core_functions/list/utils";
+a {b: real-separator(with-separator([1], comma))}
+
+<===> with_separator/single/comma/output.css
+a {
+  b: comma;
+}
+
+<===>
+================================================================================
+<===> with_separator/multi/space/input.scss
+@import "core_functions/list/utils";
+a {b: with-separator((1, 2), space)}
+
+<===> with_separator/multi/space/output.css
+a {
+  b: 1 2;
+}
+
+<===>
+================================================================================
+<===> with_separator/multi/comma/input.scss
+@import "core_functions/list/utils";
+a {b: with-separator(1 2, comma)}
+
+<===> with_separator/multi/comma/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> empty_map/same_as_empty_list/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> empty_map/same_as_empty_list/input.scss
+@import "core_functions/list/utils";
+a {b: $empty-map == ()}
+
+<===> empty_map/same_as_empty_list/output.css
+a {
+  b: true;
+}
