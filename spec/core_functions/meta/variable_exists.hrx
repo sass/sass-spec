@@ -37,14 +37,95 @@ a {
 
 <===>
 ================================================================================
-<===> dash_insensitive/input.scss
+<===> through_use/options.yml
+---
+:todo:
+- sass/libsass#2807
+- sass/dart-sass#554
+
+<===> through_use/input.scss
+@use "other" as *;
+a {b: variable-exists(global-variable)}
+
+<===> through_use/other.scss
 $global-variable: null;
 
-a {b: variable-exists(global_variable)}
-
-<===> dash_insensitive/output.css
+<===> through_use/output.css
 a {
   b: true;
+}
+
+<===>
+================================================================================
+<===> through_forward/options.yml
+---
+:todo:
+- sass/libsass#2807
+- sass/dart-sass#554
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "midstream" as *;
+a {
+  with-prefix: variable-exists(b-c);
+  without-prefix: variable-exists(c);
+}
+
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> through_forward/as/_upstream.scss
+$c: null;
+
+<===> through_forward/as/output.css
+a {
+  with-prefix: true;
+  without-prefix: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "midstream" as *;
+a {
+  shown: variable-exists(b);
+  not-shown: variable-exists(c);
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show $b;
+
+<===> through_forward/show/_upstream.scss
+$b: null;
+$c: null;
+
+<===> through_forward/show/output.css
+a {
+  shown: true;
+  not-shown: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "midstream" as *;
+a {
+  hidden: variable-exists(b);
+  not-hidden: variable-exists(c);
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide $b;
+
+<===> through_forward/hide/_upstream.scss
+$b: null;
+$c: null;
+
+<===> through_forward/hide/output.css
+a {
+  hidden: false;
+  not-hidden: true;
 }
 
 <===>
@@ -129,3 +210,31 @@ Error: wrong number of arguments (2 for 1) for `variable-exists'
 >> a {b: variable-exists(foo, bar)}
 
    ------^
+
+<===>
+================================================================================
+<===> conflict/options.yml
+---
+:todo:
+- sass/libsass#2807
+- sass/dart-sass#554
+
+<===> conflict/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: variable-exists(member)}
+
+<===> conflict/other1.scss
+$member: from other1;
+
+<===> conflict/other2.scss
+$member: from other2;
+
+<===> conflict/error
+Error: Multiple global modules have a variable named "$member".
+  ,
+4 | a {b: variable-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
