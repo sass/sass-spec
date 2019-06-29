@@ -1,0 +1,68 @@
+<===> in_input/before/input.scss
+@use "sass:meta";
+
+d {@extend a}
+@include meta.load-css("other");
+
+<===> in_input/before/_other.scss
+a {b: c}
+
+<===> in_input/before/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> in_input/after/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+d {@extend a}
+
+<===> in_input/after/_other.scss
+a {b: c}
+
+<===> in_input/after/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> in_other/README.md
+Extensions in `_other.scss` don't affect syles in `input.scss`, both because
+`input.scss` is downstream and because the CSS in `_other.scss` is fully
+resolved before it's loaded.
+
+<===>
+================================================================================
+<===> in_other/before/input.scss
+@use "sass:meta";
+
+a {b: c}
+@include meta.load-css("other");
+
+<===> in_other/before/_other.scss
+d {@extend a !optional}
+
+<===> in_other/before/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> in_other/after/input.scss
+@use "sass:meta";
+
+@include meta.load-css("other");
+a {b: c}
+
+<===> in_other/after/_other.scss
+d {@extend a !optional}
+
+<===> in_other/after/output.css
+a {
+  b: c;
+}
