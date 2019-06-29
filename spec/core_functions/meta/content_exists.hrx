@@ -1,0 +1,155 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2938
+
+<===>
+================================================================================
+<===> false/top_level/input.scss
+@mixin a {
+  b {c: content-exists()}
+}
+@include a;
+
+<===> false/top_level/output.css
+b {
+  c: false;
+}
+
+<===> false/top_level/options.yml
+---
+:todo:
+- libsass
+
+<===>
+================================================================================
+<===> false/through_content/input.scss
+@mixin call-content {
+  @content;
+}
+
+@mixin print-content-exists {
+  a {b: content-exists()}
+}
+
+@include call-content {
+  @include print-content-exists;
+}
+
+<===> false/through_content/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> true/empty/input.scss
+@mixin a {
+  b {c: content-exists()}
+  @content;
+}
+@include a {}
+
+<===> true/empty/output.css
+b {
+  c: true;
+}
+
+<===>
+================================================================================
+<===> true/non_empty/input.scss
+@mixin a {
+  b {c: content-exists()}
+  @content;
+}
+@include a {
+  d {e: f}
+}
+
+<===> true/non_empty/output.css
+b {
+  c: true;
+}
+
+d {
+  e: f;
+}
+
+<===> true/non_empty/options.yml
+---
+:todo:
+- libsass
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@mixin a {
+  b {c: content-exists(1)}
+}
+@include a;
+
+<===> error/too_many_args/error
+Error: Only 0 arguments allowed, but 1 was passed.
+  ,
+2 |   b {c: content-exists(1)}
+  |         ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:9  a()
+  input.scss 4:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/outside_mixin/input.scss
+a {b: content-exists()}
+
+<===> error/outside_mixin/error
+Error: content-exists() may only be called within a mixin.
+  ,
+1 | a {b: content-exists()}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/in_content/input.scss
+@mixin call-content {
+  @content;
+}
+
+@include call-content {
+  a {b: content-exists()}
+}
+
+<===> error/in_content/error
+Error: content-exists() may only be called within a mixin.
+  ,
+6 |   a {b: content-exists()}
+  |         ^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:9  @content
+  input.scss 2:3  call-content()
+  input.scss 5:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/in_function_called_by_mixin/input.scss
+@function call-content-exists() {
+  @return content-exists();
+}
+
+@mixin call-function {
+  a {b: call-content-exists()};
+}
+
+@include call-function;
+
+<===> error/in_function_called_by_mixin/error
+Error: content-exists() may only be called within a mixin.
+  ,
+2 |   @return content-exists();
+  |           ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:11  call-content-exists()
+  input.scss 6:9   call-function()
+  input.scss 9:1   root stylesheet
