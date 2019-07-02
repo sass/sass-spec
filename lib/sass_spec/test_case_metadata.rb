@@ -19,6 +19,12 @@ module SassSpec
             existing_opts[key] << v
           end
           existing_opts[key].uniq!
+        elsif key =~ /remove_((?:warning_)?todo)/
+          key = $1.to_sym
+          existing_opts[key] ||= []
+          existing_opts[key]
+            .delete_if {|name| value.include?(_normalize_todo(name))}
+          existing_opts.delete(key) if existing_opts[key].empty?
         elsif key =~ /remove_(.*)/
           key = $1.to_sym
           existing_opts[key] ||= []
@@ -84,9 +90,15 @@ module SassSpec
     def _normalize_todos(options, field)
       if options.include?(field)
         options[field] = options[field]
-          .map {|name| name =~ %r{^sass/(.*)#} ? $1 : name}
+          .map {|name| self.class._normalize_todo(name)}
           .to_set
       end
+    end
+
+    # Normalize a single TODO value to convert a GitHub issue reference to an
+    # implementation name.
+    def self._normalize_todo(value)
+      value =~ %r{^sass/(.*)#} ? $1 : value
     end
 
     def todo?(impl)
