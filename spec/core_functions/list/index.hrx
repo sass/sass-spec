@@ -1,0 +1,168 @@
+<===> found/single/input.scss
+a {b: index([c], c)}
+
+<===> found/single/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> found/first/input.scss
+a {b: index(a b c, a)}
+
+<===> found/first/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> found/last/input.scss
+a {b: index(a b c, c)}
+
+<===> found/last/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> found/sass_equality/input.scss
+a {b: index(1px 1in 1cm, 96px)}
+
+<===> found/sass_equality/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> found/multiple/input.scss
+a {b: index(a b c a b c, b)}
+
+<===> found/multiple/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> found/map/input.scss
+a {b: index((c: d, e: f, g: h), e f)}
+
+<===> found/map/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> found/non_list/input.scss
+a {b: index(c, c)}
+
+<===> found/non_list/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> not_found/empty/input.scss
+a {b: inspect(index((), c))}
+
+<===> not_found/empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> not_found/non_empty/input.scss
+a {b: inspect(index(c d e, f))}
+
+<===> not_found/non_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> not_found/map/empty/input.scss
+@import "core_functions/list/utils";
+a {b: inspect(index($empty-map, e))}
+
+<===> not_found/map/empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> not_found/map/non_empty/input.scss
+a {b: inspect(index((c: d, e: f, g: h), e))}
+
+<===> not_found/map/non_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> not_found/non_list/input.scss
+a {b: inspect(index(c, d))}
+
+<===> not_found/non_list/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: index($list: c d e, $value: d)}
+
+<===> named/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: index(c d e)}
+
+<===> error/too_few_args/error
+Error: Missing argument $value.
+  ,
+1 | a {b: index(c d e)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function index is missing argument $value.
+        on line 1 of input.scss
+>> a {b: index(c d e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: index(c d e, d, e)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: index(c d e, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `index'
+        on line 1:7 of input.scss
+>> a {b: index(c d e, d, e)}
+
+   ------^

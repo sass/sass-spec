@@ -1,0 +1,231 @@
+<===> 1/of_1/input.scss
+a {b: nth(join((), c), 1)}
+
+<===> 1/of_1/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> 1/of_2/input.scss
+a {b: nth(c d, 1)}
+
+<===> 1/of_2/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> 2/of_2/input.scss
+a {b: nth(c d, 2)}
+
+<===> 2/of_2/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> 2/of_4/input.scss
+a {b: nth(c d e f, 2)}
+
+<===> 2/of_4/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> negative/1/of_1/input.scss
+a {b: nth(join((), c), -1)}
+
+<===> negative/1/of_1/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> negative/1/of_2/input.scss
+a {b: nth(c d, -1)}
+
+<===> negative/1/of_2/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> negative/2/of_2/input.scss
+a {b: nth(c d, -2)}
+
+<===> negative/2/of_2/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> negative/2/of_4/input.scss
+a {b: nth(c d e f, -2)}
+
+<===> negative/2/of_4/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> map/input.scss
+a {b: nth((c: d, e: f, g: h), 2)}
+
+<===> map/output.css
+a {
+  b: e f;
+}
+
+<===>
+================================================================================
+<===> non_list/input.scss
+a {b: nth(c, 1)}
+
+<===> non_list/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: nth($list: c d, $n: 1)}
+
+<===> named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: nth(c d, e)}
+
+<===> error/type/error
+Error: $n: e is not a number.
+  ,
+1 | a {b: nth(c d, e)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$n` of `nth($list, $n)` must be a number
+        on line 1:7 of input.scss, in function `nth`
+        from line 1:7 of input.scss
+>> a {b: nth(c d, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/0/input.scss
+a {b: nth(c d, 0)}
+
+<===> error/index/0/error
+Error: $n: List index may not be 0.
+  ,
+1 | a {b: nth(c d, 0)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/0/error-libsass
+Error: argument `$n` of `nth($list, $n)` must be non-zero
+        on line 1:7 of input.scss, in function `nth`
+        from line 1:7 of input.scss
+>> a {b: nth(c d, 0)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_high/input.scss
+a {b: nth(c d, 3)}
+
+<===> error/index/too_high/error
+Error: $n: Invalid index 3 for a list with 2 elements.
+  ,
+1 | a {b: nth(c d, 3)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_high/error-libsass
+Error: index out of bounds for `nth($list, $n)`
+        on line 1:7 of input.scss, in function `nth`
+        from line 1:7 of input.scss
+>> a {b: nth(c d, 3)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_low/input.scss
+a {b: nth(c d, -3)}
+
+<===> error/index/too_low/error
+Error: $n: Invalid index -3 for a list with 2 elements.
+  ,
+1 | a {b: nth(c d, -3)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_low/error-libsass
+Error: index out of bounds for `nth($list, $n)`
+        on line 1:7 of input.scss, in function `nth`
+        from line 1:7 of input.scss
+>> a {b: nth(c d, -3)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: nth(c d)}
+
+<===> error/too_few_args/error
+Error: Missing argument $n.
+  ,
+1 | a {b: nth(c d)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function nth is missing argument $n.
+        on line 1 of input.scss
+>> a {b: nth(c d)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: nth(c d, 1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: nth(c d, 1, 2)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `nth'
+        on line 1:7 of input.scss
+>> a {b: nth(c d, 1, 2)}
+
+   ------^

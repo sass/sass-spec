@@ -1,0 +1,246 @@
+<===> 1/of_1/input.scss
+$result: set-nth(join((), b), 1, c);
+a {
+  result: $result;
+  type: type-of($result);
+}
+
+<===> 1/of_1/output.css
+a {
+  result: c;
+  type: list;
+}
+
+<===>
+================================================================================
+<===> 1/of_2/input.scss
+a {b: set-nth(c d, 1, e)}
+
+<===> 1/of_2/output.css
+a {
+  b: e d;
+}
+
+<===>
+================================================================================
+<===> 2/of_2/input.scss
+a {b: set-nth(c d, 2, e)}
+
+<===> 2/of_2/output.css
+a {
+  b: c e;
+}
+
+<===>
+================================================================================
+<===> 2/of_4/input.scss
+a {b: set-nth(c d e f, 2, g)}
+
+<===> 2/of_4/output.css
+a {
+  b: c g e f;
+}
+
+<===>
+================================================================================
+<===> negative/1/of_1/input.scss
+$result: set-nth(join((), b), -1, c);
+a {
+  result: $result;
+  type: type-of($result);
+}
+
+<===> negative/1/of_1/output.css
+a {
+  result: c;
+  type: list;
+}
+
+<===>
+================================================================================
+<===> negative/1/of_2/input.scss
+a {b: set-nth(c d, -1, e)}
+
+<===> negative/1/of_2/output.css
+a {
+  b: c e;
+}
+
+<===>
+================================================================================
+<===> negative/2/of_2/input.scss
+a {b: set-nth(c d, -2, e)}
+
+<===> negative/2/of_2/output.css
+a {
+  b: e d;
+}
+
+<===>
+================================================================================
+<===> negative/2/of_4/input.scss
+a {b: set-nth(c d e f, -2, g)}
+
+<===> negative/2/of_4/output.css
+a {
+  b: c d g f;
+}
+
+<===>
+================================================================================
+<===> map/input.scss
+a {b: set-nth((c: d, e: f, g: h), 2, i)}
+
+<===> map/output.css
+a {
+  b: c d, i, g h;
+}
+
+<===>
+================================================================================
+<===> non_list/input.scss
+$result: set-nth(b, 1, c);
+a {
+  result: $result;
+  type: type-of($result);
+}
+
+<===> non_list/output.css
+a {
+  result: c;
+  type: list;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: set-nth($list: c d, $n: 1, $value: e)}
+
+<===> named/output.css
+a {
+  b: e d;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: set-nth(c d, e, f)}
+
+<===> error/type/error
+Error: $n: e is not a number.
+  ,
+1 | a {b: set-nth(c d, e, f)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$n` of `set-nth($list, $n, $value)` must be a number
+        on line 1:7 of input.scss, in function `set-nth`
+        from line 1:7 of input.scss
+>> a {b: set-nth(c d, e, f)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/0/input.scss
+a {b: set-nth(c d, 0, e)}
+
+<===> error/index/0/error
+Error: $n: List index may not be 0.
+  ,
+1 | a {b: set-nth(c d, 0, e)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/0/error-libsass
+Error: index out of bounds for `set-nth($list, $n, $value)`
+        on line 1:7 of input.scss, in function `set-nth`
+        from line 1:7 of input.scss
+>> a {b: set-nth(c d, 0, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_high/input.scss
+a {b: set-nth(c d, 3, e)}
+
+<===> error/index/too_high/error
+Error: $n: Invalid index 3 for a list with 2 elements.
+  ,
+1 | a {b: set-nth(c d, 3, e)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_high/error-libsass
+Error: index out of bounds for `set-nth($list, $n, $value)`
+        on line 1:7 of input.scss, in function `set-nth`
+        from line 1:7 of input.scss
+>> a {b: set-nth(c d, 3, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_low/input.scss
+a {b: set-nth(c d, -3, e)}
+
+<===> error/index/too_low/error
+Error: $n: Invalid index -3 for a list with 2 elements.
+  ,
+1 | a {b: set-nth(c d, -3, e)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_low/error-libsass
+Error: index out of bounds for `set-nth($list, $n, $value)`
+        on line 1:7 of input.scss, in function `set-nth`
+        from line 1:7 of input.scss
+>> a {b: set-nth(c d, -3, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_few_args/input.scss
+a {b: set-nth(c d, 1)}
+
+<===> error/index/too_few_args/error
+Error: Missing argument $value.
+  ,
+1 | a {b: set-nth(c d, 1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_few_args/error-libsass
+Error: Function set-nth is missing argument $value.
+        on line 1 of input.scss
+>> a {b: set-nth(c d, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/index/too_many_args/input.scss
+a {b: set-nth(c d, 1, 2, 3)}
+
+<===> error/index/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: set-nth(c d, 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/index/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `set-nth'
+        on line 1:7 of input.scss
+>> a {b: set-nth(c d, 1, 2, 3)}
+
+   ------^

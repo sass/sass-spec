@@ -1,0 +1,275 @@
+<===> both/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: join((), ());
+a {
+  value: inspect($result);
+
+  // `join()` should always produce a real separator, even when the inputs have
+  // undecided separators. It should default to `space`.
+  separator: real-separator($result);
+}
+
+<===> both/undecided/output.css
+a {
+  value: ();
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> both/space/first/input.scss
+@import "core_functions/list/utils";
+
+$result: join($empty-space-list, ());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/space/first/output.css
+a {
+  value: ();
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> both/space/last/input.scss
+@import "core_functions/list/utils";
+
+$result: join((), $empty-space-list);
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/space/last/output.css
+a {
+  value: ();
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> both/comma/first/input.scss
+@import "core_functions/list/utils";
+
+$result: join($empty-comma-list, ());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/comma/first/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> both/comma/last/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> both/comma/last/input.scss
+@import "core_functions/list/utils";
+
+$result: join((), $empty-comma-list);
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/comma/last/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> first/undecided/and_space/input.scss
+a {b: join((), 1 2 3)}
+
+<===> first/undecided/and_space/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> first/undecided/and_comma/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> first/undecided/and_comma/input.scss
+a {b: join((), (1, 2, 3))}
+
+<===> first/undecided/and_comma/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> first/space/input.scss
+@import "core_functions/list/utils";
+a {b: join($empty-space-list, (1, 2, 3))}
+
+<===> first/space/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> first/comma/input.scss
+@import "core_functions/list/utils";
+a {b: join($empty-comma-list, 1 2 3)}
+
+<===> first/comma/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> second/undecided/space/input.scss
+a {b: join(1 2 3, ())}
+
+<===> second/undecided/space/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> second/undecided/comma/input.scss
+a {b: join((1, 2, 3), ())}
+
+<===> second/undecided/comma/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> second/space/input.scss
+@import "core_functions/list/utils";
+a {b: join((1, 2, 3), $empty-space-list)}
+
+<===> second/space/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> second/comma/input.scss
+@import "core_functions/list/utils";
+a {b: join(1 2 3, $empty-comma-list)}
+
+<===> second/comma/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> map/first/undecided/options.yml
+---
+:todo:
+- sass/dart-sass#737
+- sass/libsass#2924
+
+<===> map/first/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: join($empty-map, ());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> map/first/undecided/output.css
+a {
+  value: ();
+  b: space;
+}
+
+<===>
+================================================================================
+<===> map/first/space/options.yml
+---
+:todo:
+- sass/dart-sass#737
+- sass/libsass#2924
+
+<===> map/first/space/input.scss
+@import "core_functions/list/utils";
+a {b: join($empty-map, 1 2 3)}
+
+<===> map/first/space/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> map/first/comma/input.scss
+@import "core_functions/list/utils";
+a {b: join($empty-map, (1, 2, 3))}
+
+<===> map/first/comma/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> map/second/space/input.scss
+@import "core_functions/list/utils";
+a {b: join(1 2 3, $empty-map)}
+
+<===> map/second/space/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> map/second/comma/input.scss
+@import "core_functions/list/utils";
+a {b: join((1, 2, 3), $empty-map)}
+
+<===> map/second/comma/output.css
+a {
+  b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> map/second/undecided/options.yml
+---
+:todo:
+- sass/dart-sass#737
+- sass/libsass#2924
+
+<===> map/second/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: join($empty-map, ());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> map/second/undecided/output.css
+a {
+  value: ();
+  separator: space;
+}
