@@ -1,0 +1,111 @@
+<===> empty/input.scss
+$result: map-keys(());
+a {
+  value: inspect($result);
+  separator: list-separator($result);
+}
+
+<===> empty/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> single/input.scss
+$result: map-keys((1: 2));
+a {
+  value: $result;
+  type: type-of($result);
+  separator: list-separator($result);
+}
+
+<===> single/output.css
+a {
+  value: 1;
+  type: list;
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+a {b: map-keys((c: d, e: f, g: h))}
+
+<===> multiple/output.css
+a {
+  b: c, e, g;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: map-keys($map: (1: 2, 3: 4))}
+
+<===> named/output.css
+a {
+  b: 1, 3;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: map-keys(1)}
+
+<===> error/type/error
+Error: $map: 1 is not a map.
+  ,
+1 | a {b: map-keys(1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$map` of `map-keys($map)` must be a map
+        on line 1:7 of input.scss, in function `map-keys`
+        from line 1:7 of input.scss
+>> a {b: map-keys(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: map-keys()}
+
+<===> error/too_few_args/error
+Error: Missing argument $map.
+  ,
+1 | a {b: map-keys()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function map-keys is missing argument $map.
+        on line 1 of input.scss
+>> a {b: map-keys()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: map-keys((c: d), (e: f))}
+
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: map-keys((c: d), (e: f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `map-keys'
+        on line 1:7 of input.scss
+>> a {b: map-keys((c: d), (e: f))}
+
+   ------^
