@@ -161,13 +161,18 @@ Error: wrong number of arguments (3 for 2) for `invert'
 <===> error/number_with_weight/options.yml
 ---
 :todo:
-- sass/dart-sass#705
 - sass/libsass#2899
 
 <===> error/number_with_weight/input.scss
 a {b: invert(1, 50%)}
 
 <===> error/number_with_weight/error
+Error: Only one argument may be passed to the plain-CSS invert() function.
+  ,
+1 | a {b: invert(1, 50%)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
