@@ -12,20 +12,21 @@ module SassSpec
       existing_opts = existing_opts.dup
 
       new_opts.each do |key, value|
-        if key =~ /add_(.*)/
-          key = $1.to_sym
-          existing_opts[key] ||= []
-          value.each do |v|
-            existing_opts[key] << v
-          end
-          existing_opts[key].uniq!
-        elsif key =~ /remove_(.*)/
-          key = $1.to_sym
-          existing_opts[key] ||= []
-          value.each do |v|
-            existing_opts[key].delete(v)
-          end
-          existing_opts.delete(key) if existing_opts[key].empty?
+        if added_key = key[/^add_(.*)/, 1]
+          added_key = added_key.to_sym
+          (existing_opts[added_key] ||= [])
+            .concat(value)
+            .uniq!
+        elsif removed_key = key[/^remove_((?:warning_)?todo)/, 1]
+          removed_key = removed_key.to_sym
+          (existing_opts[removed_key] ||= [])
+            .delete_if {|name| value.include?(_normalize_todo(name))}
+          existing_opts.delete(removed_key) if existing_opts[removed_key].empty?
+        elsif removed_key = key[/^remove_(.*)/, 1]
+          removed_key = removed_key.to_sym
+          (existing_opts[removed_key] ||= [])
+            .delete_if {|name| value.include?(name)}
+          existing_opts.delete(removed_key) if existing_opts[removed_key].empty?
         elsif value.nil?
           existing_opts.delete(key)
         else
@@ -84,9 +85,15 @@ module SassSpec
     def _normalize_todos(options, field)
       if options.include?(field)
         options[field] = options[field]
-          .map {|name| name =~ %r{^sass/(.*)#} ? $1 : name}
+          .map {|name| self.class._normalize_todo(name)}
           .to_set
       end
+    end
+
+    # Normalize a single TODO value to convert a GitHub issue reference to an
+    # implementation name.
+    def self._normalize_todo(value)
+      value =~ %r{^sass/(.*)#} ? $1 : value
     end
 
     def todo?(impl)
