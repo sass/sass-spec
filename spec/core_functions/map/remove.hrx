@@ -98,11 +98,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/dart-sass#742
-
 <===> named/input.scss
 a {b: inspect(map-remove($map: (c: d), $key: c))}
 
@@ -157,8 +152,15 @@ Error: Function map-remove is missing argument $map.
 <===> error/positional_and_named/options.yml
 ---
 :todo:
-- sass/dart-sass#742
 - sass/libsass#2927
 
 <===> error/positional_and_named/input.scss
 a {b: map-remove((c: d, e: f), c, $key: e)}
+
+<===> error/positional_and_named/error
+Error: Argument $key was passed both by position and by name.
+  ,
+1 | a {b: map-remove((c: d, e: f), c, $key: e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
