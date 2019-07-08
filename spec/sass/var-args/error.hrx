@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:todo:
+- libsass
+
 <===> input.scss
 @mixin bar($x, $y, $z) {
   x: $x;
@@ -9,7 +14,7 @@ div {
   @include bar(a, c d e...);
 }
 
-<===> error-dart-sass
+<===> error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,
 8 |   @include bar(a, c d e...);
@@ -17,15 +22,3 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 8:3  bar()
   input.scss 8:3  root stylesheet
-
-<===> output.css
-div {
-  x: a;
-  y: c;
-  z: d;
-}
-
-<===> warning
-WARNING: Mixin bar takes 3 arguments but 4 were passed.
-        on line 8 of input.scss
-This will be an error in future versions of Sass.

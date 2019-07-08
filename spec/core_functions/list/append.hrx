@@ -134,13 +134,6 @@ a {
   b: [1];
 }
 
-<===>
-================================================================================
-<===> map/empty/options.yml
----
-:todo:
-- sass/libsass#2924
-
 <===> map/empty/input.scss
 @import "core_functions/list/utils";
 
@@ -211,14 +204,6 @@ Error: $separator: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/separator/error-libsass
-Error: argument `$separator` of `append($list, $val, $separator: auto)` must be a string
-        on line 1:7 of input.scss, in function `append`
-        from line 1:7 of input.scss
->> a {b: append(c, d, $separator: 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -231,13 +216,6 @@ Error: Only 3 arguments allowed, but 4 were passed.
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `append'
-        on line 1:7 of input.scss
->> a {b: append(c, d, comma, e)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -252,13 +230,6 @@ Error: Missing argument $val.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function append is missing argument $val.
-        on line 1 of input.scss
->> a {b: append(c)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/unknown_separator/input.scss
@@ -272,10 +243,3 @@ Error: $separator: Must be "space", "comma", or "auto".
   '
   input.scss 1:7  root stylesheet
 
-<===> error/unknown_separator/error-libsass
-Error: argument `$separator` of `append($list, $val, $separator: auto)` must be `space`, `comma`, or `auto`
-        on line 1:7 of input.scss, in function `append`
-        from line 1:7 of input.scss
->> a {b: append(c, d, $separator: e)}
-
-   ------^

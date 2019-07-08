@@ -12,13 +12,6 @@
   x: y;
 }
 
-<===>
-================================================================================
-<===> attribute/modifier/unknown/options.yml
----
-:todo:
-- sass/libsass#2886
-
 <===> attribute/modifier/unknown/input.scss
 // At time of writing, only the modifiers "i" and "s" are allowed by the CSS
 // spec. However, for forwards-compatibility with future CSS additions, any
@@ -49,18 +42,6 @@
 [a=b i] {
   c: d;
 }
-
-<===> attribute/modifier/after_string/output-libsass.css
-[a="b" i] {
-  c: d;
-}
-
-<===>
-================================================================================
-<===> reference_combinator/options.yml
----
-:todo:
-- libsass
 
 <===> reference_combinator/input.scss
 // Reference combinators used to be supported by Sass when they were part of the
@@ -114,13 +95,6 @@ Error: Expected "]".
   '
   input.scss 1:4  root stylesheet
 
-<===> error/attribute/modifier/no_operator/error-libsass
-Error: invalid operator in attribute selector for a
-        on line 1:2 of input.scss
->> [a b] {c: d}
-
-   -^
-
 <===>
 ================================================================================
 <===> error/attribute/modifier/too_long/input.scss
@@ -134,13 +108,6 @@ Error: expected "]".
   |       ^
   '
   input.scss 2:7  root stylesheet
-
-<===> error/attribute/modifier/too_long/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b cd] {e: f}
-
-   ---^
 
 <===>
 ================================================================================
@@ -156,13 +123,6 @@ Error: expected "]".
   '
   input.scss 2:6  root stylesheet
 
-<===> error/attribute/modifier/underscore/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b _] {c: d}
-
-   ---^
-
 <===>
 ================================================================================
 <===> error/attribute/modifier/digit/input.scss
@@ -176,13 +136,6 @@ Error: expected "]".
   |      ^
   '
   input.scss 2:6  root stylesheet
-
-<===> error/attribute/modifier/digit/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b 1] {c: d}
-
-   ---^
 
 <===>
 ================================================================================
@@ -198,9 +151,3 @@ Error: expected "]".
   '
   input.scss 2:6  root stylesheet
 
-<===> error/attribute/modifier/unicode/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b ï] {c: d}
-
-   ---^

@@ -1,8 +1,3 @@
-<===> options.yml
----
-:todo:
-- libsass
-
 <===> input.scss
 $x: ground;
 $y: e;
@@ -59,6 +54,7 @@ d\ v, sp\ n {
     color: blue;
   }
 }
+
 <===> output.css
 div {
   background-image: url(foo.png);
@@ -97,10 +93,44 @@ d\ v a, sp\ n a {
   color: blue;
 }
 
-<===> warning
-WARNING: 5
-         on line 28 of input.scss
+<===> output-libsass.css
+div {
+  background-image: url(foo.png);
+  background-position: 50%;
+}
 
-<===> warning-dart-sass
+span {
+  background-image: url(bar.png);
+  background-position: 100%;
+}
+
+p {
+  border-upper-left: 2px;
+  border-upper-right: 3px;
+}
+
+/* 2 + 3 */
+/* 5 */
+foo|div {
+  color: red;
+}
+
+div sp\ , #abcan {
+  color: red;
+}
+div sp\ p, div sp\ |q, #abcan p, #abcan |q {
+  background: blue;
+  color: hey;
+  width: \10 \ \ ;
+}
+div sp\ p a, div sp\ |q a, #abcan p a, #abcan |q a {
+  height: 1;
+}
+
+d\ v a, sp\ n a {
+  color: blue;
+}
+
+<===> warning
 WARNING: 5
     input.scss 28:1  root stylesheet

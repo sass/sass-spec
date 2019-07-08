@@ -25,11 +25,6 @@ a {
 
 <===>
 ================================================================================
-<===> one_arg/named/options.yml
----
-:todo:
-- sass/libsass#2897
-
 <===> one_arg/named/input.scss
 a {b: saturate($amount: 50%)}
 
@@ -112,11 +107,12 @@ Error: Missing argument $color.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function saturate is missing argument $color.
-        on line 1 of input.scss
->> a {b: saturate()}
-
-   ------^
+Error: Only 2 arguments allowed, but 0 were passed.
+  ,
+1 | a {b: saturate()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -131,13 +127,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `saturate'
-        on line 1:7 of input.scss
->> a {b: saturate(plum, 1%, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/one_arg/type/input.scss
@@ -150,11 +139,6 @@ Error: $amount: red is not a number.
   |       ^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/one_arg/type/options.yml
----
-:todo:
-- sass/libsass#2895
 
 <===>
 ================================================================================
@@ -169,14 +153,6 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/two_args/type/color/error-libsass
-Error: argument `$color` of `saturate($color, $amount: false)` must be a color
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/two_args/type/lightness/input.scss
@@ -189,11 +165,6 @@ Error: $amount: blue is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/two_args/type/lightness/options.yml
----
-:todo:
-- sass/libsass#2896
 
 <===>
 ================================================================================
@@ -208,14 +179,6 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/two_args/bounds/too_low/error-libsass
-Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(plum, -0.001)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/two_args/bounds/too_high/input.scss
@@ -229,10 +192,3 @@ Error: $amount: Expected 100.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/two_args/bounds/too_high/error-libsass
-Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(plum, 100.001)}
-
-   ------^

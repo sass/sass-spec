@@ -13,24 +13,20 @@
 
 }
 <===> error
-Error: You may not @extend an outer selector from within @media.
-       You may only @extend selectors within the same directive.
-       From "@extend .example" on line 9 of input.scss.
-
-<===> error-libsass
-Error: You may not @extend selectors across media queries.
-       Use "@extend .example !optional" to avoid this error.
-        on line 9 of input.scss
->>             @extend .example;
-   --------------------^
-
-<===> error-dart-sass
 Error: From line 1, column 1 of input.scss: 
   ,
 1 | .example {
   | ^^^^^^^^^
   '
 You may not @extend selectors across media queries.
+  ,
+9 |             @extend .example;
+  |             ^^^^^^^^^^^^^^^^
+  '
+  input.scss 9:13  root stylesheet
+
+<===> error-libsass
+Error: You may not @extend selectors across media queries.
   ,
 9 |             @extend .example;
   |             ^^^^^^^^^^^^^^^^

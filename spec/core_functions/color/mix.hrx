@@ -202,13 +202,6 @@ a {
   b: rgba(0, 0, 0, 0);
 }
 
-<===>
-================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/libsass#2894
-
 <===> named/input.scss
 a {b: mix($color1: #91e16f, $color2: #0144bf, $weight: 92%)}
 
@@ -230,13 +223,6 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `mix'
-        on line 1:7 of input.scss
->> a {b: mix(red, blue, 100, 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -249,13 +235,6 @@ Error: Missing argument $color2.
   |       ^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function mix is missing argument $color2.
-        on line 1 of input.scss
->> a {b: mix(red)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -270,14 +249,6 @@ Error: $color1: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/color1/error-libsass
-Error: argument `$color1` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(1, blue)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/color2/input.scss
@@ -290,14 +261,6 @@ Error: $color2: 1 is not a color.
   |       ^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/color2/error-libsass
-Error: argument `$color2` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -312,14 +275,6 @@ Error: $weight: green is not a number.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/weight/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a number
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, green)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
@@ -332,14 +287,6 @@ Error: $weight: Expected -0.001 to be within 0 and 100.
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/bounds/too_low/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, -0.001)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -354,10 +301,3 @@ Error: $weight: Expected 100.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/bounds/too_high/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, 100.001)}
-
-   ------^

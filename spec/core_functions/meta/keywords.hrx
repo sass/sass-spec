@@ -139,13 +139,6 @@ a {
   b: (c: d);
 }
 
-<===>
-================================================================================
-<===> error/type/non_arg_list/options.yml
----
-:todo:
-- sass/libsass#2937
-
 <===> error/type/non_arg_list/input.scss
 a {b: keywords(1 2 3)}
 
@@ -170,14 +163,6 @@ Error: $args: 1 is not an argument list.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/non_list/error-libsass
-Error: argument `$args` of `keywords($args)` must be a list
-        on line 1:7 of input.scss, in function `keywords`
-        from line 1:7 of input.scss
->> a {b: keywords(1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -190,13 +175,6 @@ Error: Missing argument $args.
   |       ^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function keywords is missing argument $args.
-        on line 1 of input.scss
->> a {b: keywords()}
-
-   ------^
 
 <===>
 ================================================================================
@@ -211,9 +189,3 @@ Error: Only 1 argument allowed, but 2 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `keywords'
-        on line 1:7 of input.scss
->> a {b: keywords(1, 2)}
-
-   ------^

@@ -32,11 +32,6 @@ a {
   b: "px*em*rad";
 }
 
-<===> multiple_numerators/output-libsass.css
-a {
-  b: "em*px*rad";
-}
-
 <===>
 ================================================================================
 <===> one_denominator/input.scss
@@ -47,11 +42,6 @@ a {
   b: "px^-1";
 }
 
-<===> one_denominator/output-libsass.css
-a {
-  b: "/px";
-}
-
 <===>
 ================================================================================
 <===> multiple_denominators/input.scss
@@ -60,11 +50,6 @@ a {b: unit(1 / 1px / 3em / 4rad)}
 <===> multiple_denominators/output.css
 a {
   b: "(px*em*rad)^-1";
-}
-
-<===> multiple_denominators/output-libsass.css
-a {
-  b: "/em*px*rad";
 }
 
 <===>
@@ -85,11 +70,6 @@ a {b: unit(1px * 1em / 1rad / 1s)}
 <===> numerator_and_denominator/multiple/output.css
 a {
   b: "px*em/rad*s";
-}
-
-<===> numerator_and_denominator/multiple/output-libsass.css
-a {
-  b: "em*px/rad*s";
 }
 
 <===>
@@ -115,14 +95,6 @@ Error: $number: c is not a number.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/error-libsass
-Error: argument `$number` of `unit($number)` must be a number
-        on line 1:7 of input.scss, in function `unit`
-        from line 1:7 of input.scss
->> a {b: unit(c)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -135,13 +107,6 @@ Error: Missing argument $number.
   |       ^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function unit is missing argument $number.
-        on line 1 of input.scss
->> a {b: unit()}
-
-   ------^
 
 <===>
 ================================================================================
@@ -156,9 +121,3 @@ Error: Only 1 argument allowed, but 2 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `unit'
-        on line 1:7 of input.scss
->> a {b: unit(1, 2)}
-
-   ------^

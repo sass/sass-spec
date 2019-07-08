@@ -79,13 +79,6 @@ Error: Missing argument $amount.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function lighten is missing argument $amount.
-        on line 1 of input.scss
->> a {b: lighten(red)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -98,13 +91,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
   |       ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `lighten'
-        on line 1:7 of input.scss
->> a {b: lighten(red, 1%, 2)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -119,14 +105,6 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/color/error-libsass
-Error: argument `$color` of `lighten($color, $amount)` must be a color
-        on line 1:7 of input.scss, in function `lighten`
-        from line 1:7 of input.scss
->> a {b: lighten(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/lightness/input.scss
@@ -139,14 +117,6 @@ Error: $amount: blue is not a number.
   |       ^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/lightness/error-libsass
-Error: argument `$amount` of `lighten($color, $amount)` must be a number
-        on line 1:7 of input.scss, in function `lighten`
-        from line 1:7 of input.scss
->> a {b: lighten(red, blue)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -161,14 +131,6 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/bounds/too_low/error-libsass
-Error: argument `$amount` of `lighten($color, $amount)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `lighten`
-        from line 1:7 of input.scss
->> a {b: lighten(red, -0.001)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
@@ -182,10 +144,3 @@ Error: $amount: Expected 100.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/bounds/too_high/error-libsass
-Error: argument `$amount` of `lighten($color, $amount)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `lighten`
-        from line 1:7 of input.scss
->> a {b: lighten(red, 100.001)}
-
-   ------^
