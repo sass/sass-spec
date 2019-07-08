@@ -1,0 +1,14 @@
+<===> input.scss
+@function foo($x, $y) { @return null }
+
+a {
+  b: foo(1 2 3...);
+}
+<===> error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+4 |   b: foo(1 2 3...);
+  |      ^^^^^^^^^^^^^
+  '
+  input.scss 4:6  foo()
+  input.scss 4:6  root stylesheet

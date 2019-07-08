@@ -82,14 +82,6 @@ Error: c is not a number.
   '
   input.scss 2:7  root stylesheet
 
-<===> error/type/arg_1/error-libsass
-Error: "c" is not a number for `min'
-        on line 2:7 of input.scss, in function `min`
-        from line 2:7 of input.scss
->> a {b: min($arg)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/arg_2/input.scss
@@ -104,14 +96,6 @@ Error: c is not a number.
   '
   input.scss 2:7  root stylesheet
 
-<===> error/type/arg_2/error-libsass
-Error: "c" is not a number for `min'
-        on line 2:7 of input.scss, in function `min`
-        from line 2:7 of input.scss
->> a {b: min(1, $arg)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/arg_3/input.scss
@@ -125,14 +109,6 @@ Error: c is not a number.
   |       ^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
-
-<===> error/type/arg_3/error-libsass
-Error: "c" is not a number for `min'
-        on line 2:7 of input.scss, in function `min`
-        from line 2:7 of input.scss
->> a {b: min(1, 2, $arg)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -154,12 +130,17 @@ $arg: 1px;
 a {b: min($arg, 2s)}
 
 <===> error/incompatible_units/error
-Error: Incompatible units s and px.
+Error: Incompatible units px and s.
   ,
 2 | a {b: min($arg, 2s)}
   |       ^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
-<===> error/incompatible_units/error-libsass
-Internal Error: Incompatible units: 's' and 'px'.
+<===> error/incompatible_units/error-dart-sass
+Error: Incompatible units s and px.
+  ,
+2 | a {b: min($arg, 2s)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

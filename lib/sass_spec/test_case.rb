@@ -171,7 +171,8 @@ class SassSpec::TestCase
     @dir.with_real_files do
       engine_adapter.compile(
         File.join(@dir.path, @dir.glob("input.*").first),
-        @metadata.precision || 10)
+        @metadata.precision || 10,
+        @metadata.output_style || "expanded")
     end
   end
 

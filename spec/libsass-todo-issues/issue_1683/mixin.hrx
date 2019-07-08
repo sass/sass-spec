@@ -1,0 +1,15 @@
+<===> input.scss
+@mixin foo($x, $y) { }
+
+a {
+  @include foo(1 2 3...);
+}
+
+<===> error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+4 |   @include foo(1 2 3...);
+  |   ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:3  foo()
+  input.scss 4:3  root stylesheet

@@ -1,4 +1,4 @@
-<===> input.scss
+<===> single/input.scss
 $GLOBAL: global;
 
 @function foo($g1, $g2, $g3) {
@@ -20,9 +20,42 @@ div {
   c: a, b, type-of(nth($colors, 2)), d;
 }
 
-<===> output.css
+<===> single/output.css
 div {
   a: 0;
   b: global each 50% 50% type1 number type2 number each cover circle type1 string type2 string each red blue type1 color type2 color map foo foo map bar bar;
+  c: a, b, color, d;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+$GLOBAL: global;
+
+@function foo($g1, $g2, $g3, $g4) {
+  @each $valueA, $valueB in $g1, $g2, $g3, $g4 {
+    $GLOBAL: $GLOBAL eachA $valueA !global;
+    $GLOBAL: $GLOBAL eachB $valueB !global;
+    $GLOBAL: $GLOBAL typeA type-of($valueA) !global;
+    $GLOBAL: $GLOBAL typeB type-of($valueB) !global;
+  }
+  @each $valueA, $valueB in (foo: foo, bar: bar) {
+    $GLOBAL: $GLOBAL mapA $valueA !global;
+    $GLOBAL: $GLOBAL mapB $valueB !global;
+  }
+  @return 0;
+}
+
+div {
+  a: foo(50% 50%, cover circle, red blue, foo bar);
+  b: $GLOBAL;
+  $colors: red green blue;
+  c: a, b, type-of(nth($colors, 2)), d;
+}
+
+<===> multiple/output.css
+div {
+  a: 0;
+  b: global eachA 50% eachB 50% typeA number typeB number eachA cover eachB circle typeA string typeB string eachA red eachB blue typeA color typeB color eachA foo eachB bar typeA string typeB string mapA foo mapB foo mapA bar mapB bar;
   c: a, b, color, d;
 }

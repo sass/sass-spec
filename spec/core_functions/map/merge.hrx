@@ -79,14 +79,6 @@ Error: $map1: 1 is not a map.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/map1/error-libsass
-Error: argument `$map1` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge(1, (c: d))}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/map2/input.scss
@@ -99,14 +91,6 @@ Error: $map2: 1 is not a map.
   |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/map2/error-libsass
-Error: argument `$map2` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge((c: d), 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -121,13 +105,6 @@ Error: Missing argument $map2.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function map-merge is missing argument $map2.
-        on line 1 of input.scss
->> a {b: map-merge((c: d))}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -141,9 +118,3 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `map-merge'
-        on line 1:7 of input.scss
->> a {b: map-merge((c: d), (e: f), (g: h))}
-
-   ------^

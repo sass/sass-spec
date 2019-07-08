@@ -39,11 +39,11 @@ class ExecutableEngineAdapter < EngineAdapter
     @description
   end
 
-  def compile(sass_filename, precision)
+  def compile(sass_filename, precision, style)
     command = File.absolute_path(@command)
     dirname, basename = File.split(sass_filename)
     result = capture3_with_timeout(
-      command, "--precision", precision.to_s, "-t", "expanded",
+      command, "--precision", precision.to_s, "-t", style,
       "-I", File.expand_path("../../../spec", __FILE__), *@args&.split(/\s+/), basename,
       binmode: true, timeout: @timeout, chdir: dirname)
 
@@ -106,7 +106,7 @@ class DartEngineAdapter < EngineAdapter
     "dart-sass"
   end
 
-  def compile(sass_filename, precision)
+  def compile(sass_filename, precision, style)
     dirname, basename = File.split(sass_filename)
     @stdin.puts "!cd #{File.absolute_path(dirname)}"
     @stdin.puts("--no-color --no-unicode -I #{File.expand_path("../../../spec", __FILE__)} " +
