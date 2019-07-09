@@ -22,6 +22,7 @@ end
 
 class ExecutableEngineAdapter < EngineAdapter
   include CaptureWithTimeout
+  attr_accessor :args
 
   def initialize(command, description = nil)
     @command = command
@@ -43,7 +44,7 @@ class ExecutableEngineAdapter < EngineAdapter
     dirname, basename = File.split(sass_filename)
     result = capture3_with_timeout(
       command, "--precision", precision.to_s, "-t", "expanded",
-      "-I", File.absolute_path("spec"), basename,
+      "-I", File.absolute_path("spec"), *@args&.split(/\s+/), basename,
       binmode: true, timeout: @timeout, chdir: dirname)
 
     if result[:timeout]
