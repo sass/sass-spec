@@ -59,3 +59,67 @@ x {
 .parent x {
   var: value;
 }
+
+<===>
+================================================================================
+<===> at_rule/keyframes/input.scss
+a {@import "other"}
+
+<===> at_rule/keyframes/_other.scss
+// This should ignore the parent selector, since Sass knows @keyframes is only
+// valid at the root of a document.
+@keyframes b {
+  0% {c: d}
+}
+
+<===> at_rule/keyframes/output.css
+@keyframes b {
+  0% {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> at_rule/childless/input.scss
+a {@import "other"}
+
+<===> at_rule/childless/_other.scss
+@b c;
+
+<===> at_rule/childless/output.css
+a {
+  @b c;
+}
+
+<===>
+================================================================================
+<===> at_rule/declaration_child/input.scss
+a {@import "other"}
+
+<===> at_rule/declaration_child/_other.scss
+@b {c: d}
+
+<===> at_rule/declaration_child/output.css
+@b {
+  a {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> at_rule/rule_child/input.scss
+a {@import "other"}
+
+<===> at_rule/rule_child/_other.scss
+@b {
+  c {d: e}
+}
+
+<===> at_rule/rule_child/output.css
+@b {
+  a c {
+    d: e;
+  }
+}
