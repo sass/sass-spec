@@ -1,0 +1,224 @@
+<===> _utils.scss
+/// Returns the keyword arguments passed to this function as a map.
+@function args-to-keywords($args...) {
+  @return keywords($args);
+}
+
+<===>
+================================================================================
+<===> empty/no_args/input.scss
+@import "../../utils";
+a {b: inspect(args-to-keywords())}
+
+<===> empty/no_args/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> empty/positional/input.scss
+@import "../../utils";
+a {b: inspect(args-to-keywords(1, 2, 3))}
+
+<===> empty/positional/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> one_arg/input.scss
+@import "../utils";
+a {b: inspect(args-to-keywords($c: d))}
+
+<===> one_arg/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> multi_arg/input.scss
+@import "../utils";
+a {b: inspect(args-to-keywords($c: d, $e: f, $g: h))}
+
+<===> multi_arg/output.css
+a {
+  b: (c: d, e: f, g: h);
+}
+
+<===>
+================================================================================
+<===> forwarded/function/input.scss
+@import "../../utils";
+
+@function args-to-keywords-forward($args...) {
+  @return args-to-keywords($args...);
+}
+
+a {b: inspect(args-to-keywords-forward($c: d))}
+
+<===> forwarded/function/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> forwarded/call/input.scss
+@import "../../utils";
+
+@function args-to-keywords-forward($args...) {
+  @return call(get-function("args-to-keywords"), $args...);
+}
+
+a {b: inspect(args-to-keywords-forward($c: d))}
+
+<===> forwarded/call/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> forwarded/mixin/input.scss
+@import "../../utils";
+
+@mixin args-to-keywords-forward($args...) {
+  a {b: inspect(args-to-keywords($args...))}
+}
+
+@include args-to-keywords-forward($c: d);
+
+<===> forwarded/mixin/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> forwarded/content/input.scss
+@import "../../utils";
+
+@mixin args-to-keywords-forward($args...) {
+  @content($args...);
+}
+
+@include args-to-keywords-forward($c: d) using ($args...) {
+  a {b: inspect(args-to-keywords($args...))}
+}
+
+<===> forwarded/content/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> dash_sensitive/options.yml
+---
+:todo:
+- sass/libsass#2936
+
+<===> dash_sensitive/input.scss
+@import "../utils";
+a {b: inspect(args-to-keywords($c-d: e, $f_g: h))}
+
+<===> dash_sensitive/output.css
+a {
+  b: (c-d: e, f_g: h);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@function args-to-keywords($args...) {
+  @return keywords($args: $args);
+}
+
+a {b: inspect(args-to-keywords($c: d))}
+
+<===> named/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> error/type/non_arg_list/options.yml
+---
+:todo:
+- sass/libsass#2937
+
+<===> error/type/non_arg_list/input.scss
+a {b: keywords(1 2 3)}
+
+<===> error/type/non_arg_list/error
+Error: $args: 1 2 3 is not an argument list.
+  ,
+1 | a {b: keywords(1 2 3)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/non_list/input.scss
+a {b: keywords(1)}
+
+<===> error/type/non_list/error
+Error: $args: 1 is not an argument list.
+  ,
+1 | a {b: keywords(1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/non_list/error-libsass
+Error: argument `$args` of `keywords($args)` must be a list
+        on line 1:7 of input.scss, in function `keywords`
+        from line 1:7 of input.scss
+>> a {b: keywords(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: keywords()}
+
+<===> error/too_few_args/error
+Error: Missing argument $args.
+  ,
+1 | a {b: keywords()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function keywords is missing argument $args.
+        on line 1 of input.scss
+>> a {b: keywords()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: keywords(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: keywords(1, 2)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `keywords'
+        on line 1:7 of input.scss
+>> a {b: keywords(1, 2)}
+
+   ------^

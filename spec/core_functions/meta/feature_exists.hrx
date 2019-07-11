@@ -1,0 +1,159 @@
+<===> README.md
+Obviously, an implementation should not report a feature as supported unless it
+actually fully supports that feature.
+
+<===>
+================================================================================
+<===> global_variable_shadowing/input.scss
+a {b: feature-exists(global-variable-shadowing)}
+
+<===> global_variable_shadowing/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> extend_selector_pseudoclass/input.scss
+a {b: feature-exists(extend-selector-pseudoclass)}
+
+<===> extend_selector_pseudoclass/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> units_level_3/input.scss
+a {b: feature-exists(units-level-3)}
+
+<===> units_level_3/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> at_error/input.scss
+a {b: feature-exists(at-error)}
+
+<===> at_error/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> custom_property/input.scss
+a {b: feature-exists(custom-property)}
+
+<===> custom_property/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> unknown/input.scss
+a {b: feature-exists(unknown)}
+
+<===> unknown/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> dash_sensitive/input.scss
+a {b: feature-exists(at_error)}
+
+<===> dash_sensitive/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> quote_insensitive/input.scss
+a {b: feature-exists("at-error")}
+
+<===> quote_insensitive/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2928
+
+<===> named/input.scss
+a {b: feature-exists($feature: at-error)}
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: feature-exists(1)}
+
+<===> error/type/error
+Error: $feature: 1 is not a string.
+  ,
+1 | a {b: feature-exists(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$name` of `feature-exists($name)` must be a string
+        on line 1:7 of input.scss, in function `feature-exists`
+        from line 1:7 of input.scss
+>> a {b: feature-exists(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: feature-exists()}
+
+<===> error/too_few_args/error
+Error: Missing argument $feature.
+  ,
+1 | a {b: feature-exists()}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function feature-exists is missing argument $name.
+        on line 1 of input.scss
+>> a {b: feature-exists()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: feature-exists(at-error, custom-property)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: feature-exists(at-error, custom-property)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `feature-exists'
+        on line 1:7 of input.scss
+>> a {b: feature-exists(at-error, custom-property)}
+
+   ------^

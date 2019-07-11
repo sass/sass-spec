@@ -1,0 +1,66 @@
+<===> same_value/input.scss
+$lighten-fn: get-function(lighten);
+a {b: $lighten-fn == $lighten-fn}
+
+<===> same_value/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> built_in/same/input.scss
+a {b: get-function(lighten) == get-function(lighten)}
+
+<===> built_in/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> built_in/different/input.scss
+a {b: get-function(lighten) == get-function(darken)}
+
+<===> built_in/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> user_defined/same/input.scss
+@function user-defined() {@return null}
+a {b: get-function(user-defined) == get-function(user-defined)}
+
+<===> user_defined/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> user_defined/different/input.scss
+@function user-defined-1() {@return null}
+@function user-defined-2() {@return null}
+a {b: get-function(user-defined-1) == get-function(user-defined-2)}
+
+<===> user_defined/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> user_defined/redefined/input.scss
+@function user-defined() {@return null}
+$first-reference: get-function(user-defined);
+
+@function user-defined() {@return null}
+$second-reference: get-function(user-defined);
+a {b: $first-reference == $second-reference}
+
+<===> user_defined/redefined/output.css
+a {
+  b: false;
+}

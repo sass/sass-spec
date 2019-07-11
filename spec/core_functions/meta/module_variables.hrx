@@ -1,0 +1,323 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2807
+- sass/dart-sass#554
+
+<===>
+================================================================================
+<===> empty/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-variables("other"))}
+
+<===> empty/_other.scss
+// This module defines no variables.
+
+<===> empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-variables("other"))}
+
+<===> multiple/_other.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> multiple/output.css
+a {
+  b: ("c": c value, "d": d value, "e": e value);
+}
+
+<===>
+================================================================================
+<===> dash_sensitive/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-variables("other"))}
+
+<===> dash_sensitive/_other.scss
+$c-d: c-d value;
+$e_f: e_f value;
+
+<===> dash_sensitive/output.css
+a {
+  b: ("c-d": c-d value, "e_f": e_f value);
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "sass:meta";
+@use "other" as a;
+
+b {c: meta.inspect(meta.module-variables("a"))}
+
+<===> as/_other.scss
+$d: d value;
+$e: e value;
+$f: f value;
+
+<===> as/output.css
+b {
+  c: ("d": d value, "e": e value, "f": f value);
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@use "sass:meta";
+@use "used";
+
+a {b: meta.inspect(meta.module-variables("used"))}
+
+<===> through_import/_used.scss
+@import "imported";
+
+<===> through_import/_imported.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> through_import/output.css
+a {
+  b: ("c": c value, "d": d value, "e": e value);
+}
+
+<===>
+================================================================================
+<===> core_module/input.scss
+@use "sass:meta";
+
+a {b: meta.inspect(meta.module-variables("meta"))}
+
+<===> core_module/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "sass:meta";
+@use "used";
+
+a {b: meta.inspect(meta.module-variables("used"))}
+
+<===> through_forward/bare/_used.scss
+@forward "forwarded";
+
+<===> through_forward/bare/_forwarded.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> through_forward/bare/output.css
+a {
+  b: ("c": c value, "d": d value, "e": e value);
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@use "used";
+
+a {b: meta.inspect(meta.module-variables("used"))}
+
+<===> through_forward/as/_used.scss
+@forward "forwarded" as c-*;
+
+<===> through_forward/as/_forwarded.scss
+$d: d value;
+$e: e value;
+$f: f value;
+
+<===> through_forward/as/output.css
+a {
+  b: ("c-d": d value, "c-e": e value, "c-f": f value);
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@use "used";
+
+a {b: meta.inspect(meta.module-variables("used"))}
+
+<===> through_forward/show/_used.scss
+@forward "forwarded" show $c, $d;
+
+<===> through_forward/show/_forwarded.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> through_forward/show/output.css
+a {
+  b: ("c": c value, "d": d value);
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@use "used";
+
+a {b: meta.inspect(meta.module-variables("used"))}
+
+<===> through_forward/hide/_used.scss
+@forward "forwarded" hide $c, $d;
+
+<===> through_forward/hide/_forwarded.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> through_forward/hide/output.css
+a {
+  b: ("e": e value);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-variables($module: "other"))}
+
+<===> named/_other.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> named/output.css
+a {
+  b: ("c": c value, "d": d value, "e": e value);
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.module-variables(1))}
+
+<===> error/type/error
+Error: $module: 1 is not a string.
+  ,
+2 | a {b: meta.inspect(meta.module-variables(1))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.module-variables())}
+
+<===> error/too_few_args/error
+Error: Missing argument $module.
+  ,
+2 | a {b: meta.inspect(meta.module-variables())}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.module-variables("meta", "c"))}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+2 | a {b: meta.inspect(meta.module-variables("meta", "c"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/missing/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.module-variables("other"))}
+
+<===> error/missing/error
+Error: There is no module with namespace "other".
+  ,
+2 | a {b: meta.inspect(meta.module-variables("other"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/dash_sensitive/input.scss
+@use "sass:meta";
+@use "other-module";
+
+a {b: meta.inspect(meta.module-variables("other_module"))}
+
+<===> error/dash_sensitive/_other-module.scss
+// This module defines no variables.
+
+<===> error/dash_sensitive/error
+Error: There is no module with namespace "other_module".
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other_module"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/global/input.scss
+@use "sass:meta";
+@use "other" as *;
+
+a {b: meta.inspect(meta.module-variables("other"))}
+
+<===> error/global/_other.scss
+// This module defines no variables.
+
+<===> error/global/error
+Error: There is no module with namespace "other".
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:20  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_load/input.scss
+@use "sass:meta";
+
+$variables: meta.module-variables("other");
+
+@use "other";
+
+<===> error/before_load/_other.scss
+// This module defines no variables.
+
+<===> error/before_load/error
+Error: There is no module with namespace "other".
+  ,
+3 | $variables: meta.module-variables("other");
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:13  root stylesheet
