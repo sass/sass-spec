@@ -1,0 +1,61 @@
+<===> scope/function/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  @function local() {
+    @return value;
+  }
+
+  @import 'other';
+}
+
+<===> scope/function/other.scss
+x {
+  function: local();
+}
+
+<===> scope/function/output.css
+.parent x {
+  function: value;
+}
+
+<===>
+================================================================================
+<===> scope/mixin/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  @mixin local {
+    x {y: z}
+  }
+
+  @import 'other';
+}
+
+<===> scope/mixin/other.scss
+@include local;
+
+<===> scope/mixin/output.css
+.parent x {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> scope/variable/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  $var: value;
+  @import 'other';
+}
+
+<===> scope/variable/other.scss
+x {
+  var: $var;
+}
+
+<===> scope/variable/output.css
+.parent x {
+  var: value;
+}
