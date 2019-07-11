@@ -15,20 +15,3 @@ a {b: type-of(get-function(lighten))};
 a {
   b: function;
 }
-
-<===>
-================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/libsass#2807
-- sass/dart-sass#554
-
-<===> named/input.scss
-@use "sass:color";
-a {b: call(get-function($name: "red", $module: "color"), #abcdef)}
-
-<===> named/output.css
-a {
-  b: 171;
-}

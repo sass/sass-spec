@@ -70,18 +70,15 @@ a {
 ================================================================================
 <===> different_module/defined/input.scss
 @use "other";
-a {b: mixin-exists("c", "color")}
+a {b: mixin-exists("c", "other")}
 
 <===> different_module/defined/_other.scss
 @mixin c() {}
 
-<===> different_module/defined/error
-Error: There is no module with the namespace "color".
-  ,
-2 | a {b: mixin-exists("c", "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
+<===> different_module/defined/output.scss
+a {
+  b: true;
+}
 
 <===>
 ================================================================================
@@ -99,12 +96,6 @@ b {
 
 <===>
 ================================================================================
-<===> different_module/through_use/options.yml
----
-:todo:
-- sass/libsass#2807
-- sass/dart-sass#554
-
 <===> different_module/through_use/input.scss
 @use "other" as *;
 a {b: mixin-exists(global-mixin)}
@@ -116,14 +107,6 @@ a {b: mixin-exists(global-mixin)}
 a {
   b: true;
 }
-
-<===>
-================================================================================
-<===> different_module/through_forward/options.yml
----
-:todo:
-- sass/libsass#2807
-- sass/dart-sass#554
 
 <===>
 ================================================================================
