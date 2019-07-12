@@ -1,0 +1,125 @@
+<===> scope/function/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  @function local() {
+    @return value;
+  }
+
+  @import 'other';
+}
+
+<===> scope/function/other.scss
+x {
+  function: local();
+}
+
+<===> scope/function/output.css
+.parent x {
+  function: value;
+}
+
+<===>
+================================================================================
+<===> scope/mixin/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  @mixin local {
+    x {y: z}
+  }
+
+  @import 'other';
+}
+
+<===> scope/mixin/other.scss
+@include local;
+
+<===> scope/mixin/output.css
+.parent x {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> scope/variable/input.scss
+.parent {
+  // This should be visible to the imported stylesheet. There's not really a
+  // good reason for this, but it's the historical behavior so whatever.
+  $var: value;
+  @import 'other';
+}
+
+<===> scope/variable/other.scss
+x {
+  var: $var;
+}
+
+<===> scope/variable/output.css
+.parent x {
+  var: value;
+}
+
+<===>
+================================================================================
+<===> at_rule/keyframes/input.scss
+a {@import "other"}
+
+<===> at_rule/keyframes/_other.scss
+// This should ignore the parent selector, since Sass knows @keyframes is only
+// valid at the root of a document.
+@keyframes b {
+  0% {c: d}
+}
+
+<===> at_rule/keyframes/output.css
+@keyframes b {
+  0% {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> at_rule/childless/input.scss
+a {@import "other"}
+
+<===> at_rule/childless/_other.scss
+@b c;
+
+<===> at_rule/childless/output.css
+a {
+  @b c;
+}
+
+<===>
+================================================================================
+<===> at_rule/declaration_child/input.scss
+a {@import "other"}
+
+<===> at_rule/declaration_child/_other.scss
+@b {c: d}
+
+<===> at_rule/declaration_child/output.css
+@b {
+  a {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> at_rule/rule_child/input.scss
+a {@import "other"}
+
+<===> at_rule/rule_child/_other.scss
+@b {
+  c {d: e}
+}
+
+<===> at_rule/rule_child/output.css
+@b {
+  a c {
+    d: e;
+  }
+}
