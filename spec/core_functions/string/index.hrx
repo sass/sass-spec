@@ -79,14 +79,6 @@ Error: $string: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/string/error-libsass
-Error: argument `$string` of `str-index($string, $substring)` must be a string
-        on line 1:7 of input.scss, in function `str-index`
-        from line 1:7 of input.scss
->> a {b: str-index(1, "c")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/substring/input.scss
@@ -99,14 +91,6 @@ Error: $substring: 1 is not a string.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/substring/error-libsass
-Error: argument `$substring` of `str-index($string, $substring)` must be a string
-        on line 1:7 of input.scss, in function `str-index`
-        from line 1:7 of input.scss
->> a {b: str-index("c", 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -121,14 +105,6 @@ Error: Missing argument $substring.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function str-index is missing argument $substring.
-        on line 1 of input.scss
->> a {b: str-index("c")}
-
-   ------^
-
-<===>
 ================================================================================
 <===> error/too_many_args/input.scss
 a {b: str-index("c", "d", "e")}
@@ -141,9 +117,3 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `str-index'
-        on line 1:7 of input.scss
->> a {b: str-index("c", "d", "e")}
-
-   ------^

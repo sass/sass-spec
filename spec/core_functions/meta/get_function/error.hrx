@@ -9,12 +9,6 @@ Error: $name: 2px is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> argument/type/name/error-libsass
-Error: $name: 2px is not a string for `get-function'
-        on line 1 of /sass/spec/core_functions/get-function/errors/illegal-argument/input.scss
-  Use --trace for backtrace.
-
-
 <===>
 ================================================================================
 <===> argument/type/module/options.yml
@@ -52,12 +46,6 @@ Error: $name: get-function("foo") is not a string.
   '
   input.scss 6:7  root stylesheet
 
-<===> argument/function_ref/error-libsass
-Error: $name: get-function("foo") is not a string for `get-function'
-        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
-  Use --trace for backtrace.
-
-
 <===>
 ================================================================================
 <===> argument/too_few/input.scss
@@ -70,13 +58,6 @@ Error: Missing argument $name.
   |       ^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> argument/too_few/error-libsass
-Error: Function get-function is missing argument $name.
-        on line 1 of input.scss
->> a {b: get-function()}
-
-   ------^
 
 <===>
 ================================================================================
@@ -92,11 +73,12 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> argument/too_many/error-libsass
-Error: wrong number of arguments (4 for 2) for `get-function'
-        on line 1:7 of input.scss
->> a {b: get-function(c, true, d, e)}
-
-   ------^
+Error: Only 2 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: get-function(c, true, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -110,12 +92,6 @@ Error: Function not found: does-not-exist
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> non_existent/error-libsass
-Error: Function not found: does-not-exist
-        on line 1 of /sass/spec/core_functions/get-function/errors/non-existent/input.scss
-  Use --trace for backtrace.
-
 
 <===>
 ================================================================================
@@ -182,12 +158,6 @@ Error: get-function("rgb") isn't a valid CSS value.
   '
   input.scss 1:7  root stylesheet
 
-<===> division/error-libsass
-Error: get-function("rgb") isn't a valid CSS value.
-        on line 3 of /sass/spec/core_functions/get-function/errors/math/division/input.scss
-  Use --trace for backtrace.
-
-
 <===>
 ================================================================================
 <===> function_exists/input.scss
@@ -208,12 +178,6 @@ Error: $name: get-function("add-two") is not a string.
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 8:10  root stylesheet
-
-<===> function_exists/error-libsass
-Error: $name: get-function("add-two") is not a string for `get-function'
-        on line 8 of /sass/spec/core_functions/get-function/errors/get-function/input.scss
-  Use --trace for backtrace.
-
 
 <===>
 ================================================================================

@@ -215,14 +215,6 @@ Error: $name: 12px is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/type/name/error-libsass
-Error: $name: 12px is not a string for `function-exists'
-        on line 1:7 of input.scss, in function `function-exists`
-        from line 1:7 of input.scss
->> a {b: function-exists(12px)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/argument/type/module/options.yml
@@ -255,13 +247,6 @@ Error: Missing argument $name.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/too_few/error-libsass
-Error: Function function-exists is missing argument $name.
-        on line 1 of input.scss
->> a {b: function-exists()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
@@ -276,11 +261,12 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (3 for 1) for `function-exists'
-        on line 1:7 of input.scss
->> a {b: function-exists(c, d, e)}
-
-   ------^
+Error: Only 1 argument allowed, but 3 were passed.
+  ,
+1 | a {b: function-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

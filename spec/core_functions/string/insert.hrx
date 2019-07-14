@@ -198,14 +198,6 @@ Error: $string: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/string/error-libsass
-Error: argument `$string` of `str-insert($string, $insert, $index)` must be a string
-        on line 1:7 of input.scss, in function `str-insert`
-        from line 1:7 of input.scss
->> a {b: str-insert(1, "", 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/insert/input.scss
@@ -219,14 +211,6 @@ Error: $insert: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/insert/error-libsass
-Error: argument `$insert` of `str-insert($string, $insert, $index)` must be a string
-        on line 1:7 of input.scss, in function `str-insert`
-        from line 1:7 of input.scss
->> a {b: str-insert("", 1, 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/index/input.scss
@@ -239,14 +223,6 @@ Error: $index: "" is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/index/error-libsass
-Error: argument `$index` of `str-insert($string, $insert, $index)` must be a number
-        on line 1:7 of input.scss, in function `str-insert`
-        from line 1:7 of input.scss
->> a {b: str-insert("", "", "")}
-
-   ------^
 
 <===>
 ================================================================================
@@ -279,13 +255,6 @@ Error: Missing argument $index.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function str-insert is missing argument $index.
-        on line 1 of input.scss
->> a {b: str-insert("", "")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -299,9 +268,3 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `str-insert'
-        on line 1:7 of input.scss
->> a {b: str-insert("", "", 1, 2)}
-
-   ------^

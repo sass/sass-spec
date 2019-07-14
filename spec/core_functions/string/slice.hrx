@@ -332,14 +332,6 @@ Error: $string: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/string/error-libsass
-Error: argument `$string` of `str-slice($string, $start-at, $end-at:-1)` must be a string
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/start_at/input.scss
@@ -353,14 +345,6 @@ Error: $start-at: "f" is not a number.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/start_at/error-libsass
-Error: argument `$start-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("cde", "f")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/end_at/input.scss
@@ -373,14 +357,6 @@ Error: $end-at: "f" is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/end_at/error-libsass
-Error: argument `$end-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("cde", 1, "f")}
-
-   ------^
 
 <===>
 ================================================================================
@@ -428,13 +404,6 @@ Error: Missing argument $start-at.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function str-slice is missing argument $start-at.
-        on line 1 of input.scss
->> a {b: str-slice("cde")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -448,9 +417,3 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `str-slice'
-        on line 1:7 of input.scss
->> a {b: str-slice("cde", 1, 2, 3)}
-
-   ------^
