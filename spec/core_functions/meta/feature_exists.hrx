@@ -84,11 +84,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/libsass#2928
-
 <===> named/input.scss
 a {b: feature-exists($feature: at-error)}
 
@@ -111,7 +106,7 @@ Error: $feature: 1 is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$name` of `feature-exists($name)` must be a string
+Error: argument `$feature` of `feature-exists($name)` must be a string
         on line 1:7 of input.scss, in function `feature-exists`
         from line 1:7 of input.scss
 >> a {b: feature-exists(1)}
@@ -132,7 +127,7 @@ Error: Missing argument $feature.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function feature-exists is missing argument $name.
+Error: Function feature-exists is missing argument $feature.
         on line 1 of input.scss
 >> a {b: feature-exists()}
 
