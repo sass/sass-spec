@@ -126,6 +126,10 @@ module SassSpec
       @options[:precision]
     end
 
+    def output_style
+      @options[:output_style]
+    end
+
     def valid_for_impl?(impl)
       !ignore_for?(impl)
     end
