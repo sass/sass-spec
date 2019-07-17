@@ -50,10 +50,35 @@ a {
 
 <===>
 ================================================================================
-<===> error/argument_type/input.scss
+<===> escape/input.scss
+a {b: quote(\0)}
+
+<===> escape/output.css
+a {
+  b: "\\0 ";
+}
+
+<===> escape/output-libsass.css
+a {
+  b: "\\0";
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: quote($string: c)}
+
+<===> named/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
 a {b: quote((1, 2, 3))}
 
-<===> error/argument_type/error
+<===> error/type/error
 Error: $string: 1, 2, 3 is not a string.
   ,
 1 | a {b: quote((1, 2, 3))}
@@ -61,7 +86,7 @@ Error: $string: 1, 2, 3 is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument_type/error-libsass
+<===> error/type/error-libsass
 Error: argument `$string` of `quote($string)` must be a string
         on line 1:7 of input.scss, in function `quote`
         from line 1:7 of input.scss
@@ -69,3 +94,42 @@ Error: argument `$string` of `quote($string)` must be a string
 
    ------^
 
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: quote()}
+
+<===> error/too_few_args/error
+Error: Missing argument $string.
+  ,
+1 | a {b: quote()}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function quote is missing argument $string.
+        on line 1 of input.scss
+>> a {b: quote()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: quote(c, d)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: quote(c, d)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `quote'
+        on line 1:7 of input.scss
+>> a {b: quote(c, d)}
+
+   ------^

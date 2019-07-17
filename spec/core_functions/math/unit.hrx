@@ -1,0 +1,164 @@
+<===> README.md
+This function is intended for debugging and as such is not required to have
+totally consistent output across different implementations.
+
+<===>
+================================================================================
+<===> none/input.scss
+a {b: unit(1)}
+
+<===> none/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> one_numerator/input.scss
+a {b: unit(1px)}
+
+<===> one_numerator/output.css
+a {
+  b: "px";
+}
+
+<===>
+================================================================================
+<===> multiple_numerators/input.scss
+a {b: unit(1px * 1em * 1rad)}
+
+<===> multiple_numerators/output.css
+a {
+  b: "px*em*rad";
+}
+
+<===> multiple_numerators/output-libsass.css
+a {
+  b: "em*px*rad";
+}
+
+<===>
+================================================================================
+<===> one_denominator/input.scss
+a {b: unit(1/1px)}
+
+<===> one_denominator/output.css
+a {
+  b: "px^-1";
+}
+
+<===> one_denominator/output-libsass.css
+a {
+  b: "/px";
+}
+
+<===>
+================================================================================
+<===> multiple_denominators/input.scss
+a {b: unit(1 / 1px / 3em / 4rad)}
+
+<===> multiple_denominators/output.css
+a {
+  b: "(px*em*rad)^-1";
+}
+
+<===> multiple_denominators/output-libsass.css
+a {
+  b: "/em*px*rad";
+}
+
+<===>
+================================================================================
+<===> numerator_and_denominator/single/input.scss
+a {b: unit(1px / 1em)}
+
+<===> numerator_and_denominator/single/output.css
+a {
+  b: "px/em";
+}
+
+<===>
+================================================================================
+<===> numerator_and_denominator/multiple/input.scss
+a {b: unit(1px * 1em / 1rad / 1s)}
+
+<===> numerator_and_denominator/multiple/output.css
+a {
+  b: "px*em/rad*s";
+}
+
+<===> numerator_and_denominator/multiple/output-libsass.css
+a {
+  b: "em*px/rad*s";
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: unit($number: 1)}
+
+<===> named/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: unit(c)}
+
+<===> error/type/error
+Error: $number: c is not a number.
+  ,
+1 | a {b: unit(c)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$number` of `unit($number)` must be a number
+        on line 1:7 of input.scss, in function `unit`
+        from line 1:7 of input.scss
+>> a {b: unit(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: unit()}
+
+<===> error/too_few_args/error
+Error: Missing argument $number.
+  ,
+1 | a {b: unit()}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function unit is missing argument $number.
+        on line 1 of input.scss
+>> a {b: unit()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: unit(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: unit(1, 2)}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `unit'
+        on line 1:7 of input.scss
+>> a {b: unit(1, 2)}
+
+   ------^

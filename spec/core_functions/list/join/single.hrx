@@ -1,0 +1,254 @@
+<===>
+================================================================================
+<===> both/undecided/input.scss
+a {b: join([1], [2])}
+
+<===> both/undecided/output.css
+a {
+  b: [1 2];
+}
+
+<===>
+================================================================================
+<===> both/space/first/input.scss
+@import "core_functions/list/utils";
+a {b: join(with-separator(1, space), [2])}
+
+<===> both/space/first/output.css
+a {
+  b: 1 2;
+}
+
+<===>
+================================================================================
+<===> both/space/last/input.scss
+@import "core_functions/list/utils";
+a {b: join([1], with-separator(2, space))}
+
+<===> both/space/last/output.css
+a {
+  b: [1 2];
+}
+
+<===>
+================================================================================
+<===> both/comma/first/input.scss
+@import "core_functions/list/utils";
+a {b: join((1,), [2])}
+
+<===> both/comma/first/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> both/comma/last/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> both/comma/last/input.scss
+@import "core_functions/list/utils";
+
+a {b: join([1], (2,))}
+
+<===> both/comma/last/output.css
+a {
+  b: [1, 2];
+}
+
+<===>
+================================================================================
+<===> first/undecided/and_space/input.scss
+a {b: join([1], 2 3 4)}
+
+<===> first/undecided/and_space/output.css
+a {
+  b: [1 2 3 4];
+}
+
+<===>
+================================================================================
+<===> first/undecided/and_comma/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> first/undecided/and_comma/input.scss
+a {b: join([1], (2, 3, 4))}
+
+<===> first/undecided/and_comma/output.css
+a {
+  b: [1, 2, 3, 4];
+}
+
+<===>
+================================================================================
+<===> first/space/input.scss
+@import "core_functions/list/utils";
+a {b: join(with-separator(1, space), (2, 3, 4))}
+
+<===> first/space/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> first/comma/input.scss
+a {b: join((1,), 2 3 4)}
+
+<===> first/comma/output.css
+a {
+  b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> second/undecided/space/input.scss
+a {b: join(1 2 3, [4])}
+
+<===> second/undecided/space/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> second/undecided/comma/input.scss
+a {b: join((1, 2, 3), [4])}
+
+<===> second/undecided/comma/output.css
+a {
+  b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> second/space/input.scss
+@import "core_functions/list/utils";
+a {b: join((1, 2, 3), with-separator(4, space))}
+
+<===> second/space/output.css
+a {
+  b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> second/comma/input.scss
+a {b: join(1 2 3, (4,))}
+
+<===> second/comma/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> non_list/both/input.scss
+a {b: join(c, d)}
+
+<===> non_list/both/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> non_list/first/space/input.scss
+a {b: inspect(join(c, d e))}
+
+<===> non_list/first/space/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> non_list/first/comma/input.scss
+a {b: join(c, (d, e))}
+
+<===> non_list/first/comma/output.css
+a {
+  b: c, d, e;
+}
+
+<===>
+================================================================================
+<===> non_list/first/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: join(c, ());
+a {
+  value: inspect($result);
+  type: type-of($result);
+
+  // Note: LibSass's output here is strange but not strictly-speaking wrong.
+  // See sass/libsass#2926 for details.
+  separator: real-separator($result);
+}
+
+<===> non_list/first/undecided/output.css
+a {
+  value: c;
+  type: list;
+  separator: space;
+}
+
+<===> non_list/first/undecided/output-libsass.css
+a {
+  value: (c,);
+  type: list;
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> non_list/second/space/input.scss
+a {b: inspect(join(c d, e))}
+
+<===> non_list/second/space/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> non_list/second/comma/input.scss
+a {b: join((c, d), e)}
+
+<===> non_list/second/comma/output.css
+a {
+  b: c, d, e;
+}
+
+<===>
+================================================================================
+<===> non_list/second/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: join((), c);
+a {
+  value: inspect($result);
+  type: type-of($result);
+
+  // Note: LibSass's output here is strange but not strictly-speaking wrong.
+  // See sass/libsass#2926 for details.
+  separator: real-separator($result);
+}
+
+<===> non_list/second/undecided/output.css
+a {
+  value: c;
+  type: list;
+  separator: space;
+}
+
+<===> non_list/second/undecided/output-libsass.css
+a {
+  value: (c,);
+  type: list;
+  separator: space;
+}

@@ -1,0 +1,118 @@
+<===> opaque/input.scss
+a {b: ie-hex-str(#daddee)}
+
+<===> opaque/output.css
+a {
+  b: #FFDADDEE;
+}
+
+<===>
+================================================================================
+<===> translucent/input.scss
+a {b: ie-hex-str(rgba(#daddee, 0.3))}
+
+<===> translucent/output.css
+a {
+  b: #4DDADDEE;
+}
+
+<===>
+================================================================================
+<===> transparent/input.scss
+a {b: ie-hex-str(rgba(turquoise, 0))}
+
+<===> transparent/output.css
+a {
+  b: #0040E0D0;
+}
+
+<===>
+================================================================================
+<===> leading_zero/input.scss
+a {b: ie-hex-str(rgba(#020304, 0.003))}
+
+<===> leading_zero/output.css
+a {
+  b: #01020304;
+}
+
+<===>
+================================================================================
+<===> type/input.scss
+a {b: type-of(ie-hex-str(#daddee))}
+
+<===> type/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: ie-hex-str($color: #daddee)}
+
+<===> named/output.css
+a {
+  b: #FFDADDEE;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: ie-hex-str()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,
+1 | a {b: ie-hex-str()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function ie-hex-str is missing argument $color.
+        on line 1 of input.scss
+>> a {b: ie-hex-str()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: ie-hex-str(red, blue)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: ie-hex-str(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `ie-hex-str'
+        on line 1:7 of input.scss
+>> a {b: ie-hex-str(red, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: ie-hex-str(c)}
+
+<===> error/type/error
+Error: $color: c is not a color.
+  ,
+1 | a {b: ie-hex-str(c)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$color` of `ie-hex-str($color)` must be a color
+        on line 1:7 of input.scss, in function `ie-hex-str`
+        from line 1:7 of input.scss
+>> a {b: ie-hex-str(c)}
+
+   ------^

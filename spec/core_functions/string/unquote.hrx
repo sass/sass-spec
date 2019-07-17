@@ -1,0 +1,187 @@
+<===> README.md
+Many of these specs test the returned string's length and equality to other
+strings to ensure that it's a string with the correct structure, not just some
+value with the same serialization.
+
+<===>
+================================================================================
+<===> unquoted/input.scss
+a {b: unquote(c)}
+
+<===> unquoted/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> quoted/input.scss
+a {b: unquote("c")}
+
+<===> quoted/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> empty/input.scss
+$result: unquote("");
+a {
+  result: $result; // This will not be emitted because the contents is empty.
+  length: str-length($result);
+  same: $result == "";
+}
+
+<===> empty/output.css
+a {
+  length: 0;
+  same: true;
+}
+
+<===>
+================================================================================
+<===> escaped_quotes/unquoted/input.scss
+// Unquoting an unquoted string returns it exactly as-is, leaving escapes
+// totally unchanged (whether they're quotes or not).
+$result: unquote(\"c\");
+a {
+  result: $result;
+  length: str-length($result);
+  same: $result == \"c\";
+}
+
+<===> escaped_quotes/unquoted/output.css
+a {
+  result: \"c\";
+  length: 5;
+  same: true;
+}
+
+<===>
+================================================================================
+<===> escaped_quotes/quoted/input.scss
+// Unquoting a quoted string returns an unquoted string with the same code
+// points. Code points such as quotes that need to be escaped in the original
+// don't need escaping in the output.
+$result: unquote("\"c\"");
+a {
+  result: $result;
+  length: str-length($result);
+  same: $result == "\"c\"";
+}
+
+<===> escaped_quotes/quoted/output.css
+a {
+  result: "c";
+  length: 3;
+  same: true;
+}
+
+<===>
+================================================================================
+<===> meaningful_css_characters/input.scss
+// Unquoted strings aren't required to be valid CSS identifiers, and the
+// `unquote()` function does *not* escape characters that aren't valid
+// identifier characters. This allows it to be used as an escape hatch to
+// produce CSS that Sass doesn't otherwise support.
+$result: unquote("b; c {d: e");
+a {
+  result: $result;
+  length: str-length($result);
+  same: $result == "b; c {d: e";
+}
+
+<===> meaningful_css_characters/output.css
+a {
+  result: b; c {d: e;
+  length: 10;
+  same: true;
+}
+
+<===>
+================================================================================
+<===> escaped_backslash/input.scss
+$result: unquote("\\0 ");
+a {
+  result: $result;
+  length: str-length($result);
+  same-as-argument: $result == "\\0 ";
+  same-as-literal: $result == \0 ;
+}
+
+<===> escaped_backslash/output.css
+a {
+  result: \0 ;
+  length: 3;
+  same-as-argument: true;
+  same-as-literal: true;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: unquote($string: c)}
+
+<===> named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> error/type/options.yml
+---
+:todo:
+- sass/libsass#2923
+
+<===> error/type/input.scss
+a {b: unquote(1)}
+
+<===> error/type/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: unquote(1)}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: unquote()}
+
+<===> error/too_few_args/error
+Error: Missing argument $string.
+  ,
+1 | a {b: unquote()}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function unquote is missing argument $string.
+        on line 1 of input.scss
+>> a {b: unquote()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: unquote(c, d)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: unquote(c, d)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `unquote'
+        on line 1:7 of input.scss
+>> a {b: unquote(c, d)}
+
+   ------^

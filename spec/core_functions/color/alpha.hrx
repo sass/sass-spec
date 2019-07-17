@@ -46,13 +46,6 @@ a {
   b: alpha(c=d);
 }
 
-<===>
-================================================================================
-<===> filter/multi_args/options.yml
----
-:todo:
-- sass/dart-sass#701
-
 <===> filter/multi_args/input.scss
 a {b: alpha(c=d, e=f, g=h)}
 
@@ -101,13 +94,6 @@ a {
   b: opacity(10%);
 }
 
-<===>
-================================================================================
-<===> error/too_few_args/options.yml
----
-:todo:
-- sass/dart-sass#700
-
 <===> error/too_few_args/input.scss
 a {b: alpha()}
 
@@ -115,7 +101,7 @@ a {b: alpha()}
 Error: Missing argument $color.
   ,
 1 | a {b: alpha()}
-  |       ^^^^^^
+  |       ^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -128,11 +114,6 @@ Error: Function alpha is missing argument $color.
 
 <===>
 ================================================================================
-<===> error/too_many_args/options.yml
----
-:todo:
-- sass/dart-sass#700
-
 <===> error/too_many_args/input.scss
 a {b: alpha(red, green)}
 
