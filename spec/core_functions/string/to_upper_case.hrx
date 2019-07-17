@@ -1,0 +1,121 @@
+<===> empty/input.scss
+a {b: to-upper-case("")}
+
+<===> empty/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> alphabet/input.scss
+a {b: to-upper-case("abcdefghijklmnopqrstuvqxyz")}
+
+<===> alphabet/output.css
+a {
+  b: "ABCDEFGHIJKLMNOPQRSTUVQXYZ";
+}
+
+<===>
+================================================================================
+<===> number/input.scss
+a {b: to-upper-case("1234567890")}
+
+<===> number/output.css
+a {
+  b: "1234567890";
+}
+
+<===>
+================================================================================
+<===> non_ascii/input.scss
+// Only ASCII characters have their case changed.
+a {b: to-upper-case("äçðøþ")}
+
+<===> non_ascii/output.css
+@charset "UTF-8";
+a {
+  b: "äçðøþ";
+}
+
+<===>
+================================================================================
+<===> unquoted/input.scss
+a {b: to-upper-case(aBcDeF)}
+
+<===> unquoted/output.css
+a {
+  b: ABCDEF;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: to-upper-case($string: abcDEF)}
+
+<===> named/output.css
+a {
+  b: ABCDEF;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: to-upper-case(1)}
+
+<===> error/type/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: to-upper-case(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$string` of `to-upper-case($string)` must be a string
+        on line 1:7 of input.scss, in function `to-upper-case`
+        from line 1:7 of input.scss
+>> a {b: to-upper-case(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: to-upper-case()}
+
+<===> error/too_few_args/error
+Error: Missing argument $string.
+  ,
+1 | a {b: to-upper-case()}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function to-upper-case is missing argument $string.
+        on line 1 of input.scss
+>> a {b: to-upper-case()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: to-upper-case("", "")}
+
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: to-upper-case("", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `to-upper-case'
+        on line 1:7 of input.scss
+>> a {b: to-upper-case("", "")}
+
+   ------^

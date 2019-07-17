@@ -1,0 +1,108 @@
+<===> unitless/input.scss
+a {b: unitless(1)}
+
+<===> unitless/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> numerator/input.scss
+a {b: unitless(1px)}
+
+<===> numerator/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> denominator/input.scss
+a {b: unitless(1/1px)}
+
+<===> denominator/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> numerator_and_denominator/input.scss
+a {b: unitless(1px/1em)}
+
+<===> numerator_and_denominator/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: unitless($number: 100)}
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: unitless(c)}
+
+<===> error/type/error
+Error: $number: c is not a number.
+  ,
+1 | a {b: unitless(c)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$number` of `unitless($number)` must be a number
+        on line 1:7 of input.scss, in function `unitless`
+        from line 1:7 of input.scss
+>> a {b: unitless(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: unitless()}
+
+<===> error/too_few_args/error
+Error: Missing argument $number.
+  ,
+1 | a {b: unitless()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function unitless is missing argument $number.
+        on line 1 of input.scss
+>> a {b: unitless()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: unitless(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: unitless(1, 2)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `unitless'
+        on line 1:7 of input.scss
+>> a {b: unitless(1, 2)}
+
+   ------^

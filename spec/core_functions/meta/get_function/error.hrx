@@ -2,17 +2,18 @@
 a {b: get-function(2px)}
 
 <===> argument/type/name/error
-Error: $name: 2px is not a string for `get-function'
-        on line 1 of /sass/spec/core_functions/get-function/errors/illegal-argument/input.scss
-  Use --trace for backtrace.
-
-<===> argument/type/name/error-dart-sass
 Error: $name: 2px is not a string.
   ,
 1 | a {b: get-function(2px)}
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> argument/type/name/error-libsass
+Error: $name: 2px is not a string for `get-function'
+        on line 1 of /sass/spec/core_functions/get-function/errors/illegal-argument/input.scss
+  Use --trace for backtrace.
+
 
 <===>
 ================================================================================
@@ -43,17 +44,18 @@ $foo-ref: get-function(foo);
 a {b: get-function($foo-ref)}
 
 <===> argument/function_ref/error
-Error: $name: get-function("foo") is not a string for `get-function'
-        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
-  Use --trace for backtrace.
-
-<===> argument/function_ref/error-dart-sass
 Error: $name: get-function("foo") is not a string.
   ,
 6 | a {b: get-function($foo-ref)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 6:7  root stylesheet
+
+<===> argument/function_ref/error-libsass
+Error: $name: get-function("foo") is not a string for `get-function'
+        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
+  Use --trace for backtrace.
+
 
 <===>
 ================================================================================
@@ -102,16 +104,17 @@ a {b: get-function(does-not-exist)}
 
 <===> non_existent/error
 Error: Function not found: does-not-exist
-        on line 1 of /sass/spec/core_functions/get-function/errors/non-existent/input.scss
-  Use --trace for backtrace.
-
-<===> non_existent/error-dart-sass
-Error: Function not found: does-not-exist
   ,
 1 | a {b: get-function(does-not-exist)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> non_existent/error-libsass
+Error: Function not found: does-not-exist
+        on line 1 of /sass/spec/core_functions/get-function/errors/non-existent/input.scss
+  Use --trace for backtrace.
+
 
 <===>
 ================================================================================
@@ -164,16 +167,17 @@ a {b: get-function(rgb) / get-function(lighten)}
 
 <===> division/error
 Error: get-function("rgb") isn't a valid CSS value.
-        on line 3 of /sass/spec/core_functions/get-function/errors/math/division/input.scss
-  Use --trace for backtrace.
-
-<===> division/error-dart-sass
-Error: get-function("rgb") isn't a valid CSS value.
   ,
 1 | a {b: get-function(rgb) / get-function(lighten)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> division/error-libsass
+Error: get-function("rgb") isn't a valid CSS value.
+        on line 3 of /sass/spec/core_functions/get-function/errors/math/division/input.scss
+  Use --trace for backtrace.
+
 
 <===>
 ================================================================================
@@ -189,17 +193,18 @@ $add-two-fn: get-function(add-two);
 }
 
 <===> function_exists/error
-Error: $name: get-function("add-two") is not a string for `get-function'
-        on line 8 of /sass/spec/core_functions/get-function/errors/get-function/input.scss
-  Use --trace for backtrace.
-
-<===> function_exists/error-dart-sass
 Error: $name: get-function("add-two") is not a string.
   ,
 8 |   error: get-function($add-two-fn);
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 8:10  root stylesheet
+
+<===> function_exists/error-libsass
+Error: $name: get-function("add-two") is not a string for `get-function'
+        on line 8 of /sass/spec/core_functions/get-function/errors/get-function/input.scss
+  Use --trace for backtrace.
+
 
 <===>
 ================================================================================

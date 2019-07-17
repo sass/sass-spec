@@ -164,24 +164,14 @@ class SassSpec::Directory
   def with_real_files
     return yield unless @archive
 
-    files = @archive.entries.select {|entry| entry.is_a?(HRX::File)}
-
-    # If any files in this directory contain "../"s that reach out of this
-    # directory, materialize the appropriate level of parent directory instead.
-    if parent.hrx? &&
-       files.any? do |file|
-         levels_up = file.content.
-            scan(%r{(?:\.\./)+}).
-            map {|s| s.count("/")}.
-            max
-         (levels_up || 0) > file.path.count("/")
-       end
+    files = @archive.entries.select {|entry| entry.is_a?(HRX::File)}.to_a
+    if parent.hrx? && files.any? {|file| _reaches_out?(file)}
       return parent.with_real_files {yield}
     end
 
     outermost_new_dir = SassSpec::Util.each_directory(@path).find {|dir| !Dir.exist?(dir)}
 
-    @archive.entries.select {|entry| entry.is_a?(HRX::File)}.each do |file|
+    files.each do |file|
       path = File.join(@path, file.path)
       FileUtils.mkdir_p(File.dirname(path))
       File.write(path, file.content)
@@ -209,6 +199,13 @@ class SassSpec::Directory
   end
 
   private
+
+  # Returns whether `file` contains enough `../` references to reach outside
+  # this directory.
+  def _reaches_out?(file)
+    depth = file.path.count("/")
+    file.content.scan(%r{(?:\.\./)+}).any? {|match| match.count("/") > depth}
+  end
 
   # Writes `@parent_archive` to disk.
   def _write!

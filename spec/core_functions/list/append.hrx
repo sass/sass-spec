@@ -1,0 +1,281 @@
+<===> empty/undecided/input.scss
+@import "core_functions/list/utils";
+
+$result: append((), 1);
+a {
+  value: $result;
+  type: type-of($result);
+  separator: real-separator($result);
+}
+
+<===> empty/undecided/output.css
+a {
+  value: 1;
+  type: list;
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> empty/space/input.scss
+@import "core_functions/list/utils";
+
+$result: append($empty-space-list, 1);
+a {
+  value: $result;
+  type: type-of($result);
+  separator: real-separator($result);
+}
+
+<===> empty/space/output.css
+a {
+  value: 1;
+  type: list;
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> empty/comma/input.scss
+@import "core_functions/list/utils";
+
+$result: append($empty-comma-list, 1);
+a {
+  value: $result;
+  type: type-of($result);
+  separator: real-separator($result);
+}
+
+<===> empty/comma/output.css
+a {
+  value: 1;
+  type: list;
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> single/undecided/input.scss
+a {b: append(1, 2)}
+
+<===> single/undecided/output.css
+a {
+  b: 1 2;
+}
+
+<===>
+================================================================================
+<===> single/space/input.scss
+@import "core_functions/list/utils";
+a {b: append(with-separator(1, space), 2)}
+
+<===> single/space/output.css
+a {
+  b: 1 2;
+}
+
+<===>
+================================================================================
+<===> single/comma/input.scss
+a {b: append((1,), 2)}
+
+<===> single/comma/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> space/default/input.scss
+a {b: append(1 2 3, 4)}
+
+<===> space/default/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> space/overridden/input.scss
+a {b: append((1, 2, 3), 4, $separator: space)}
+
+<===> space/overridden/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> comma/default/input.scss
+a {b: append((1, 2, 3), 4)}
+
+<===> comma/default/output.css
+a {
+  b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> comma/overridden/input.scss
+a {b: append(1 2 3, 4, $separator: comma)}
+
+<===> comma/overridden/output.css
+a {
+  b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> bracketed/input.scss
+a {b: append([], 1)}
+
+<===> bracketed/output.css
+a {
+  b: [1];
+}
+
+<===>
+================================================================================
+<===> map/empty/options.yml
+---
+:todo:
+- sass/libsass#2924
+
+<===> map/empty/input.scss
+@import "core_functions/list/utils";
+
+$result: append($empty-map, 1);
+a {
+  value: $result;
+  type: type-of($result);
+  separator: real-separator($result);
+}
+
+<===> map/empty/output.css
+a {
+  value: 1;
+  type: list;
+  separator: space;
+}
+
+<===>
+================================================================================
+<===> map/non_empty/input.scss
+a {b: append((c: d, e: f), g)}
+
+<===> map/non_empty/output.css
+a {
+  b: c d, e f, g;
+}
+
+<===>
+================================================================================
+<===> non_list/input.scss
+a {b: append(c, d)}
+
+<===> non_list/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> auto/input.scss
+a {b: append(c d, e, $separator: auto)}
+
+<===> auto/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: append($list: c d, $val: e, $separator: comma)}
+
+<===> named/output.css
+a {
+  b: c, d, e;
+}
+
+<===>
+================================================================================
+<===> error/type/separator/input.scss
+a {b: append(c, d, $separator: 1)}
+
+<===> error/type/separator/error
+Error: $separator: 1 is not a string.
+  ,
+1 | a {b: append(c, d, $separator: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/separator/error-libsass
+Error: argument `$separator` of `append($list, $val, $separator: auto)` must be a string
+        on line 1:7 of input.scss, in function `append`
+        from line 1:7 of input.scss
+>> a {b: append(c, d, $separator: 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: append(c, d, comma, e)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: append(c, d, comma, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `append'
+        on line 1:7 of input.scss
+>> a {b: append(c, d, comma, e)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: append(c)}
+
+<===> error/too_few_args/error
+Error: Missing argument $val.
+  ,
+1 | a {b: append(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function append is missing argument $val.
+        on line 1 of input.scss
+>> a {b: append(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/unknown_separator/input.scss
+a {b: append(c, d, $separator: e)}
+
+<===> error/unknown_separator/error
+Error: $separator: Must be "space", "comma", or "auto".
+  ,
+1 | a {b: append(c, d, $separator: e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/unknown_separator/error-libsass
+Error: argument `$separator` of `append($list, $val, $separator: auto)` must be `space`, `comma`, or `auto`
+        on line 1:7 of input.scss, in function `append`
+        from line 1:7 of input.scss
+>> a {b: append(c, d, $separator: e)}
+
+   ------^

@@ -1,0 +1,250 @@
+<===>
+================================================================================
+<===> auto/separator/input.scss
+a {b: join((c, d), e f, $separator: auto)}
+
+<===> auto/separator/output.css
+a {
+  b: c, d, e, f;
+}
+
+<===>
+================================================================================
+<===> auto/bracketed/input.scss
+a {b: join(c d, e f, $bracketed: auto)}
+
+<===> auto/bracketed/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> comma/both/input.scss
+a {b: join((c, d), (e, f))}
+
+<===> comma/both/output.css
+a {
+  b: c, d, e, f;
+}
+
+<===>
+================================================================================
+<===> comma/first/input.scss
+a {b: join((c, d), e f)}
+
+<===> comma/first/output.css
+a {
+  b: c, d, e, f;
+}
+
+<===>
+================================================================================
+<===> comma/second/input.scss
+a {b: join(c d, (e, f))}
+
+<===> comma/second/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> comma/separator/forces_comma/input.scss
+a {b: join(c, d, $separator: comma)}
+
+<===> comma/separator/forces_comma/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> comma/separator/forces_not_comma/input.scss
+a {b: join((c, d), (e, f), $separator: space)}
+
+<===> comma/separator/forces_not_comma/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> space/both/input.scss
+a {b: join(c d, e f)}
+
+<===> space/both/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> space/separator/forces_space/input.scss
+a {b: join(c, d, $separator: space)}
+
+<===> space/separator/forces_space/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> space/separator/forces_not_space/input.scss
+a {b: join(c d, e f, $separator: comma)}
+
+<===> space/separator/forces_not_space/output.css
+a {
+  b: c, d, e, f;
+}
+
+<===>
+================================================================================
+<===> bracketed/both/input.scss
+a {b: join([c d], [e f])}
+
+<===> bracketed/both/output.css
+a {
+  b: [c d e f];
+}
+
+<===>
+================================================================================
+<===> bracketed/first/input.scss
+a {b: join([c d], e f)}
+
+<===> bracketed/first/output.css
+a {
+  b: [c d e f];
+}
+
+<===>
+================================================================================
+<===> bracketed/second/input.scss
+a {b: join(c d, [e f])}
+
+<===> bracketed/second/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> bracketed/true/input.scss
+a {b: join(c, d, $bracketed: true)}
+
+<===> bracketed/true/output.css
+a {
+  b: [c d];
+}
+
+<===>
+================================================================================
+<===> bracketed/false/input.scss
+a {b: join([c], [d], $bracketed: false)}
+
+<===> bracketed/false/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> bracketed/and_separator/input.scss
+a {b: join(c, d, $bracketed: true, $separator: comma)}
+
+<===> bracketed/and_separator/output.css
+a {
+  b: [c, d];
+}
+
+<===>
+================================================================================
+<===> bracketed/positional/input.scss
+a {b: join(c, d, comma, true)}
+
+<===> bracketed/positional/output.css
+a {
+  b: [c, d];
+}
+
+<===>
+================================================================================
+<===> bracketed/truthy/input.scss
+a {b: join(c, d, $bracketed: e)}
+
+<===> bracketed/truthy/output.css
+a {
+  b: [c d];
+}
+
+<===>
+================================================================================
+<===> bracketed/falsey/input.scss
+a {b: join([c], [d], $bracketed: null)}
+
+<===> bracketed/falsey/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> map/both/input.scss
+a {b: join((c: d, e: f), (g: h, i: j))}
+
+<===> map/both/output.css
+a {
+  b: c d, e f, g h, i j;
+}
+
+<===>
+================================================================================
+<===> map/first/space/input.scss
+a {b: inspect(join((c: d, e: f), g h))}
+
+<===> map/first/space/output.css
+a {
+  b: c d, e f, g, h;
+}
+
+<===>
+================================================================================
+<===> map/first/comma/input.scss
+a {b: join((c: d, e: f), (g, h))}
+
+<===> map/first/comma/output.css
+a {
+  b: c d, e f, g, h;
+}
+
+<===>
+================================================================================
+<===> map/second/space/input.scss
+// Use inspect() to prove that the map is converted to a list of pairs.
+a {b: inspect(join(c d, (e: f, g: h)))}
+
+<===> map/second/space/output.css
+a {
+  b: c d (e f) (g h);
+}
+
+<===>
+================================================================================
+<===> map/second/comma/input.scss
+a {b: join((c, d), (e: f, g: h))}
+
+<===> map/second/comma/output.css
+a {
+  b: c, d, e f, g h;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: join($list1: a b, $list2: c d, $separator: comma, $bracketed: true)}
+
+<===> named/output.css
+a {
+  b: [a, b, c, d];
+}

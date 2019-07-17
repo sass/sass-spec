@@ -1,0 +1,111 @@
+<===> empty/input.scss
+$result: map-values(());
+a {
+  value: inspect($result);
+  separator: list-separator($result);
+}
+
+<===> empty/output.css
+a {
+  value: ();
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> single/input.scss
+$result: map-values((1: 2));
+a {
+  value: $result;
+  type: type-of($result);
+  separator: list-separator($result);
+}
+
+<===> single/output.css
+a {
+  value: 2;
+  type: list;
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+a {b: map-values((c: d, e: f, g: h))}
+
+<===> multiple/output.css
+a {
+  b: d, f, h;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: map-values($map: (1: 2, 3: 4))}
+
+<===> named/output.css
+a {
+  b: 2, 4;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: map-values(1)}
+
+<===> error/type/error
+Error: $map: 1 is not a map.
+  ,
+1 | a {b: map-values(1)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$map` of `map-values($map)` must be a map
+        on line 1:7 of input.scss, in function `map-values`
+        from line 1:7 of input.scss
+>> a {b: map-values(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: map-values()}
+
+<===> error/too_few_args/error
+Error: Missing argument $map.
+  ,
+1 | a {b: map-values()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function map-values is missing argument $map.
+        on line 1 of input.scss
+>> a {b: map-values()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: map-values((c: d), (e: f))}
+
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: map-values((c: d), (e: f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `map-values'
+        on line 1:7 of input.scss
+>> a {b: map-values((c: d), (e: f))}
+
+   ------^

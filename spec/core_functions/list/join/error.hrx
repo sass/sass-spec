@@ -1,0 +1,129 @@
+<===>
+================================================================================
+<===> README.md
+`join()` is unique in that it takes multiple optional arguments that can be
+passed independently of one another. This may necessitate unusual
+implementation, so we go out of our way to verify that it disallows unusual
+invalid calls.
+
+<===>
+================================================================================
+<===> type/separator/input.scss
+a {b: join(c, d, $separator: 1)}
+
+<===> type/separator/error
+Error: $separator: 1 is not a string.
+  ,
+1 | a {b: join(c, d, $separator: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/separator/error-libsass
+Error: argument `$separator` of `join($list1, $list2, $separator: auto, $bracketed: auto)` must be a string
+        on line 1:7 of input.scss, in function `join`
+        from line 1:7 of input.scss
+>> a {b: join(c, d, $separator: 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: join(c, d, comma, true, false)}
+
+<===> too_many_args/error
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,
+1 | a {b: join(c, d, comma, true, false)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (5 for 4) for `join'
+        on line 1:7 of input.scss
+>> a {b: join(c, d, comma, true, false)}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: join(c)}
+
+<===> too_few_args/error
+Error: Missing argument $list2.
+  ,
+1 | a {b: join(c)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_few_args/error-libsass
+Error: Function join is missing argument $list2.
+        on line 1 of input.scss
+>> a {b: join(c)}
+
+   ------^
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: join(c, d, $invalid: true)}
+
+<===> named/error
+Error: No argument named $invalid.
+  ,
+1 | a {b: join(c, d, $invalid: true)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> named/error-libsass
+Error: Function join has no parameter named $invalid
+        on line 1:18 of input.scss
+>> a {b: join(c, d, $invalid: true)}
+
+   -----------------^
+
+<===>
+================================================================================
+<===> positional_and_named/input.scss
+a {b: join(c, d, comma, true, false, $invalid: true)}
+
+<===> positional_and_named/error
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,
+1 | a {b: join(c, d, comma, true, false, $invalid: true)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> positional_and_named/error-libsass
+Error: wrong number of arguments (6 for 4) for `join'
+        on line 1:7 of input.scss
+>> a {b: join(c, d, comma, true, false, $invalid: true)}
+
+   ------^
+
+<===>
+================================================================================
+<===> unknown_separator/input.scss
+a {b: join(c, d, $separator: e)}
+
+<===> unknown_separator/error
+Error: $separator: Must be "space", "comma", or "auto".
+  ,
+1 | a {b: join(c, d, $separator: e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> unknown_separator/error-libsass
+Error: argument `$separator` of `join($list1, $list2, $separator: auto, $bracketed: auto)` must be `space`, `comma`, or `auto`
+        on line 1:7 of input.scss, in function `join`
+        from line 1:7 of input.scss
+>> a {b: join(c, d, $separator: e)}
+
+   ------^
