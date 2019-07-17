@@ -1,0 +1,97 @@
+<===> positional/options.yml
+---
+:todo:
+- sass/libsass#2900
+
+<===> positional/input.scss
+a {b: adjust-color(red)}
+
+<===> positional/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2900
+
+<===> named/input.scss
+a {b: adjust-color($color: red)}
+
+<===> named/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/max/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: 1)}
+
+<===> alpha/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/max_remaining/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: 0.5)}
+
+<===> alpha/max_remaining/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/zero/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: 0)}
+
+<===> alpha/zero/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/min/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: -1)}
+
+<===> alpha/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/min_remaining/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: -0.5)}
+
+<===> alpha/min_remaining/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/high/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: 0.14)}
+
+<===> alpha/high/output.css
+a {
+  b: rgba(255, 0, 0, 0.64);
+}
+
+<===>
+================================================================================
+<===> alpha/low/input.scss
+a {b: adjust-color(rgba(red, 0.5), $alpha: -0.14)}
+
+<===> alpha/low/output.css
+a {
+  b: rgba(255, 0, 0, 0.36);
+}

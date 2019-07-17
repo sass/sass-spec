@@ -1,0 +1,67 @@
+<===> positional/options.yml
+---
+:todo:
+- sass/libsass#2900
+
+<===> positional/input.scss
+a {b: change-color(red)}
+
+<===> positional/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/options.yml
+---
+:todo:
+- sass/libsass#2900
+
+<===> named/input.scss
+a {b: change-color($color: red)}
+
+<===> named/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/max/input.scss
+a {b: change-color(rgba(red, 0.5), $alpha: 1)}
+
+<===> alpha/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/min/input.scss
+a {b: change-color(rgba(red, 0.5), $alpha: 0)}
+
+<===> alpha/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/high/input.scss
+a {b: change-color(rgba(red, 0.5), $alpha: 0.72)}
+
+<===> alpha/high/output.css
+a {
+  b: rgba(255, 0, 0, 0.72);
+}
+
+<===>
+================================================================================
+<===> alpha/low/input.scss
+a {b: change-color(rgba(red, 0.5), $alpha: 0.36)}
+
+<===> alpha/low/output.css
+a {
+  b: rgba(255, 0, 0, 0.36);
+}

@@ -1,0 +1,118 @@
+<===> 0/input.scss
+a {b: length(())}
+
+<===> 0/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> 1/input.scss
+a {b: length(join((), 1))}
+
+<===> 1/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> 2/input.scss
+a {b: length(c d)}
+
+<===> 2/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> many/input.scss
+a {b: length((1, 2, 3, 4, 5))}
+
+<===> many/output.css
+a {
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> map/empty/input.scss
+@import "core_functions/list/utils";
+a {b: length($empty-map)}
+
+<===> map/empty/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> map/non_empty/input.scss
+a {b: length((1: 2, 3: 4))}
+
+<===> map/non_empty/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> non_list/input.scss
+a {b: length(c)}
+
+<===> non_list/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: length($list: 1 2 3)}
+
+<===> named/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: length()}
+
+<===> error/too_few_args/error
+Error: Missing argument $list.
+  ,
+1 | a {b: length()}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function length is missing argument $list.
+        on line 1 of input.scss
+>> a {b: length()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: length(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: length(1, 2)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `length'
+        on line 1:7 of input.scss
+>> a {b: length(1, 2)}
+
+   ------^

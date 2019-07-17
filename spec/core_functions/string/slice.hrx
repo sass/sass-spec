@@ -1,0 +1,456 @@
+<===> empty/start/0/input.scss
+a {b: str-slice("", 0)}
+
+<===> empty/start/0/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/start/1/input.scss
+a {b: str-slice("", 1)}
+
+<===> empty/start/1/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/start/2/input.scss
+a {b: str-slice("", 2)}
+
+<===> empty/start/2/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/start/negative_1/input.scss
+a {b: str-slice("", -1)}
+
+<===> empty/start/negative_1/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/end/0/input.scss
+a {b: str-slice("", 1, 0)}
+
+<===> empty/end/0/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/end/1/input.scss
+a {b: str-slice("", 1, 1)}
+
+<===> empty/end/1/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> empty/end/2/input.scss
+a {b: str-slice("", 1, 2)}
+
+<===> empty/end/2/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> start/positive/0/input.scss
+a {b: str-slice("cde", 0)}
+
+<===> start/positive/0/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> start/positive/1/input.scss
+a {b: str-slice("cde", 1)}
+
+<===> start/positive/1/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> start/positive/2/input.scss
+a {b: str-slice("cde", 2)}
+
+<===> start/positive/2/output.css
+a {
+  b: "de";
+}
+
+<===>
+================================================================================
+<===> start/positive/last/input.scss
+a {b: str-slice("cde", 4)}
+
+<===> start/positive/last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> start/positive/after_last/input.scss
+a {b: str-slice("cde", 100)}
+
+<===> start/positive/after_last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> start/positive/after_end/input.scss
+a {b: str-slice("cdef", 3, 2)}
+
+<===> start/positive/after_end/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> start/negative/1/input.scss
+a {b: str-slice("cde", -1)}
+
+<===> start/negative/1/output.css
+a {
+  b: "e";
+}
+
+<===>
+================================================================================
+<===> start/negative/2/input.scss
+a {b: str-slice("cde", -2)}
+
+<===> start/negative/2/output.css
+a {
+  b: "de";
+}
+
+<===>
+================================================================================
+<===> start/negative/last/input.scss
+a {b: str-slice("cde", -3)}
+
+<===> start/negative/last/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> start/negative/after_last/options.yml
+---
+:todo:
+- sass/libsass#2920
+
+<===> start/negative/after_last/input.scss
+a {b: str-slice("cde", -100)}
+
+<===> start/negative/after_last/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> end/positive/0/input.scss
+a {b: str-slice("cde", 1, 0)}
+
+<===> end/positive/0/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> end/positive/1/input.scss
+a {b: str-slice("cde", 1, 1)}
+
+<===> end/positive/1/output.css
+a {
+  b: "c";
+}
+
+<===>
+================================================================================
+<===> end/positive/2/input.scss
+a {b: str-slice("cde", 1, 2)}
+
+<===> end/positive/2/output.css
+a {
+  b: "cd";
+}
+
+<===>
+================================================================================
+<===> end/positive/last/input.scss
+a {b: str-slice("cde", 1, 3)}
+
+<===> end/positive/last/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> end/positive/after_last/input.scss
+a {b: str-slice("cde", 1, 100)}
+
+<===> end/positive/after_last/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> end/positive/after_start/input.scss
+a {b: str-slice("cdef", 2, 3)}
+
+<===> end/positive/after_start/output.css
+a {
+  b: "de";
+}
+
+<===>
+================================================================================
+<===> end/negative/1/input.scss
+a {b: str-slice("cde", 1, -1)}
+
+<===> end/negative/1/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> end/negative/2/input.scss
+a {b: str-slice("cde", 1, -2)}
+
+<===> end/negative/2/output.css
+a {
+  b: "cd";
+}
+
+<===>
+================================================================================
+<===> end/negative/last/input.scss
+a {b: str-slice("cde", 1, -4)}
+
+<===> end/negative/last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> end/negative/after_last/input.scss
+a {b: str-slice("cde", 1, -100)}
+
+<===> end/negative/after_last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> double_width_character/input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units, so inserting a character
+// at index 2 shouldn't break this emoji in two.
+a {b: str-slice("c👭d", 2, 2)}
+
+<===> double_width_character/output.css
+@charset "UTF-8";
+a {
+  b: "👭";
+}
+
+<===>
+================================================================================
+<===> combining_character/input.scss
+// Sass does *not* treat strings as sequences of glyphs, so this string which
+// contains "c" followed by a combining umlaut should be considered two separate
+// characters even though it's rendered as only one and only the "d" should be
+// sliced out.
+a {b: str-slice("cd\0308e", 2, 2)}
+
+<===> combining_character/output.css
+a {
+  b: "d";
+}
+
+<===>
+================================================================================
+<===> unquoted/input.scss
+a {b: str-slice(cdefgh, 3, 5)}
+
+<===> unquoted/output.css
+a {
+  b: efg;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: str-slice($string: "cde", $start-at: 2, $end-at: 2)}
+
+<===> named/output.css
+a {
+  b: "d";
+}
+
+<===>
+================================================================================
+<===> error/type/string/input.scss
+a {b: str-slice(1, 2)}
+
+<===> error/type/string/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-slice(1, 2)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/string/error-libsass
+Error: argument `$string` of `str-slice($string, $start-at, $end-at:-1)` must be a string
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/start_at/input.scss
+a {b: str-slice("cde", "f")}
+
+<===> error/type/start_at/error
+Error: $start-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/start_at/error-libsass
+Error: argument `$start-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("cde", "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/end_at/input.scss
+a {b: str-slice("cde", 1, "f")}
+
+<===> error/type/end_at/error
+Error: $end-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", 1, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/end_at/error-libsass
+Error: argument `$end-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("cde", 1, "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/decimal/options.yml
+---
+:todo:
+- sass/libsass#2922
+
+<===>
+================================================================================
+<===> error/decimal/start/input.scss
+a {b: str-slice("", 0.5)}
+
+<===> error/decimal/start/error
+Error: 0.5 is not an int.
+  ,
+1 | a {b: str-slice("", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/decimal/end/input.scss
+a {b: str-slice("", 1, 1.5)}
+
+<===> error/decimal/end/error
+Error: 1.5 is not an int.
+  ,
+1 | a {b: str-slice("", 1, 1.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: str-slice("cde")}
+
+<===> error/too_few_args/error
+Error: Missing argument $start-at.
+  ,
+1 | a {b: str-slice("cde")}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function str-slice is missing argument $start-at.
+        on line 1 of input.scss
+>> a {b: str-slice("cde")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: str-slice("cde", 1, 2, 3)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: str-slice("cde", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `str-slice'
+        on line 1:7 of input.scss
+>> a {b: str-slice("cde", 1, 2, 3)}
+
+   ------^

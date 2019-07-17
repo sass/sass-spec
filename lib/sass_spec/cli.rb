@@ -48,18 +48,21 @@ Make sure the command you provide prints to stdout.
 
       opts.on("-c", "--command COMMAND", "Sets a specific binary to run") do |v|
         options[:engine_adapter] = ExecutableEngineAdapter.new(v)
+        options[:engine_adapter].args = options[:cmd_args]
       end
 
       opts.on("--dart PATH", "Run Dart Sass, whose repo should be at the given path.") do |path|
         options[:engine_adapter] = DartEngineAdapter.new(path)
-        options[:engine_adapter].args = options[:dart_args]
+        options[:engine_adapter].args = options[:cmd_args]
       end
 
-      opts.on("--dart-args ARGS", "Pass ARGS to Dart Sass.") do |args|
+      opts.on("--cmd-args ARGS", "Pass ARGS to command or Dart Sass.") do |args|
         if (adapter = options[:engine_adapter]) && adapter.is_a?(DartEngineAdapter)
           adapter.args = args
+        elsif (adapter = options[:engine_adapter]) && adapter.is_a?(ExecutableEngineAdapter)
+          adapter.args = args
         else
-          options[:dart_args] = args
+          options[:cmd_args] = args
         end
       end
 

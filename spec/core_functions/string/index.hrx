@@ -1,0 +1,149 @@
+<===> both_empty/input.scss
+a {b: str-index("", "")}
+
+<===> both_empty/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> empty_substring/input.scss
+a {b: str-index("cde", "")}
+
+<===> empty_substring/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> beginning/input.scss
+a {b: str-index("cde", "c")}
+
+<===> beginning/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: str-index("cde", "d")}
+
+<===> middle/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> end/input.scss
+a {b: str-index("cde", "e")}
+
+<===> end/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> not_found/input.scss
+a {b: inspect(str-index("cde", "f"))}
+
+<===> not_found/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: str-index($string: "cde", $substring: "c")}
+
+<===> named/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/type/string/input.scss
+a {b: str-index(1, "c")}
+
+<===> error/type/string/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-index(1, "c")}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/string/error-libsass
+Error: argument `$string` of `str-index($string, $substring)` must be a string
+        on line 1:7 of input.scss, in function `str-index`
+        from line 1:7 of input.scss
+>> a {b: str-index(1, "c")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/substring/input.scss
+a {b: str-index("c", 1)}
+
+<===> error/type/substring/error
+Error: $substring: 1 is not a string.
+  ,
+1 | a {b: str-index("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/substring/error-libsass
+Error: argument `$substring` of `str-index($string, $substring)` must be a string
+        on line 1:7 of input.scss, in function `str-index`
+        from line 1:7 of input.scss
+>> a {b: str-index("c", 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: str-index("c")}
+
+<===> error/too_few_args/error
+Error: Missing argument $substring.
+  ,
+1 | a {b: str-index("c")}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function str-index is missing argument $substring.
+        on line 1 of input.scss
+>> a {b: str-index("c")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: str-index("c", "d", "e")}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: str-index("c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `str-index'
+        on line 1:7 of input.scss
+>> a {b: str-index("c", "d", "e")}
+
+   ------^

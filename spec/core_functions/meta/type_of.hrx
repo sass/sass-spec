@@ -1,0 +1,191 @@
+<===> boolean/true/input.scss
+a {b: type-of(true)}
+
+<===> boolean/true/output.css
+a {
+  b: bool;
+}
+
+<===>
+================================================================================
+<===> boolean/false/input.scss
+a {b: type-of(false)}
+
+<===> boolean/false/output.css
+a {
+  b: bool;
+}
+
+<===>
+================================================================================
+<===> color/input.scss
+a {b: type-of(red)}
+
+<===> color/output.css
+a {
+  b: color;
+}
+
+<===>
+================================================================================
+<===> list/empty/input.scss
+a {b: type-of(())}
+
+<===> list/empty/output.css
+a {
+  b: list;
+}
+
+<===>
+================================================================================
+<===> list/non_empty/input.scss
+a {b: type-of(1 2 3)}
+
+<===> list/non_empty/output.css
+a {
+  b: list;
+}
+
+<===>
+================================================================================
+<===> map/empty/input.scss
+a {b: type-of(map-remove((c: d), c))}
+
+<===> map/empty/output.css
+a {
+  b: map;
+}
+
+<===>
+================================================================================
+<===> map/non_empty/input.scss
+a {b: type-of((c: d))}
+
+<===> map/non_empty/output.css
+a {
+  b: map;
+}
+
+<===>
+================================================================================
+<===> null/input.scss
+a {b: type-of(null)}
+
+<===> null/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> number/unitless/input.scss
+a {b: type-of(1)}
+
+<===> number/unitless/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> number/unit/input.scss
+a {b: type-of(1.5px * 3.4em)}
+
+<===> number/unit/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+a {b: type-of(get-function("type-of"))}
+
+<===> function/output.css
+a {
+  b: function;
+}
+
+<===>
+================================================================================
+<===> string/quoted/input.scss
+a {b: type-of("c")}
+
+<===> string/quoted/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> string/unquoted/input.scss
+a {b: type-of(c)}
+
+<===> string/unquoted/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> arglist/input.scss
+@function type-of-arglist($args...) {
+  @return type-of($args);
+}
+
+a {b: type-of-arglist()}
+
+<===> arglist/output.css
+a {
+  b: arglist;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: type-of($value: c)}
+
+<===> named/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: type-of()}
+
+<===> error/too_few_args/error
+Error: Missing argument $value.
+  ,
+1 | a {b: type-of()}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function type-of is missing argument $value.
+        on line 1 of input.scss
+>> a {b: type-of()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: type-of(1, 2)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: type-of(1, 2)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `type-of'
+        on line 1:7 of input.scss
+>> a {b: type-of(1, 2)}
+
+   ------^

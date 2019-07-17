@@ -1,0 +1,128 @@
+<===> not_found/empty/input.scss
+a {b: map-has-key((), 1)}
+
+<===> not_found/empty/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> not_found/non_empty/input.scss
+a {b: map-has-key((c: d), d)}
+
+<===> not_found/non_empty/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> found/single/input.scss
+a {b: map-has-key((c: d), c)}
+
+<===> found/single/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> found/first/input.scss
+a {b: map-has-key((1: 2, 3: 4, 5: 6), 1)}
+
+<===> found/first/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> found/middle/input.scss
+a {b: map-has-key((1: 2, 3: 4, 5: 6), 3)}
+
+<===> found/middle/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> found/last/input.scss
+a {b: map-has-key((1: 2, 3: 4, 5: 6), 5)}
+
+<===> found/last/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: map-has-key($map: (c: d), $key: c)}
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/type/map/input.scss
+a {b: map-has-key(1, 2)}
+
+<===> error/type/map/error
+Error: $map: 1 is not a map.
+  ,
+1 | a {b: map-has-key(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/map/error-libsass
+Error: argument `$map` of `map-has-key($map, $key)` must be a map
+        on line 1:7 of input.scss, in function `map-has-key`
+        from line 1:7 of input.scss
+>> a {b: map-has-key(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: map-has-key(1)}
+
+<===> error/too_few_args/error
+Error: Missing argument $key.
+  ,
+1 | a {b: map-has-key(1)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function map-has-key is missing argument $key.
+        on line 1 of input.scss
+>> a {b: map-has-key(1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: map-has-key(1, 2, 3)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: map-has-key(1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (3 for 2) for `map-has-key'
+        on line 1:7 of input.scss
+>> a {b: map-has-key(1, 2, 3)}
+
+   ------^
