@@ -1,47 +1,36 @@
-sudo: false
-
 language: ruby
 
 # Only building master means that we don't run two builds for each pull request.
 branches:
   only: [master]
 
-env:
-  global:
-    - SASS_LIBSASS_PATH=$TRAVIS_BUILD_DIR/../libsass
-    - SASS_SASSC_PATH=$TRAVIS_BUILD_DIR/../sassc
-    - SASS_SPEC_PATH=~$TRAVIS_BUILD_DIR/sass-spec
-
 matrix:
   fast_finish: true
   include:
-    - env: IMPL=libsass COMMAND="../sassc/bin/sassc"
-    - env: IMPL=dart-sass
+    - name: "LibSass"
+      env:
+        - IMPL=libsass
+        - COMMAND="../sassc/bin/sassc"
+        - SASS_LIBSASS_PATH=$TRAVIS_BUILD_DIR/../libsass
+        - SASS_SASSC_PATH=$TRAVIS_BUILD_DIR/../sassc
+        - SASS_SPEC_PATH=~$TRAVIS_BUILD_DIR/sass-spec
+      before_script:
+        - git clone https://github.com/sass/libsass.git $SASS_LIBSASS_PATH
+        - (cd $SASS_LIBSASS_PATH; git checkout $GITISH)
+        - git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH
+        - (cd $SASS_SASSC_PATH; git checkout $GITISH)
+        - make -C $SASS_SASSC_PATH
+      script: bundle exec sass-spec.rb --impl $IMPL -c $COMMAND;
+    - name: "Dart Sass"
+      env: IMPL=dart-sass
+      before_script:
+        - curl -o dart.zip "https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
+        - unzip dart.zip
+        - export PATH="$PATH:`pwd`/dart-sdk/bin"
+        - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
+        - (cd ../dart-sass; pub get)
+      script: bundle exec sass-spec.rb --dart ../dart-sass
 
 before_install:
   - if ./tools/skipped-for-impl.sh; then exit 0; fi
   - rm Gemfile.lock
-
-  - if [ $IMPL == "libsass" ]; then
-      git clone https://github.com/sass/libsass.git $SASS_LIBSASS_PATH;
-      (cd $SASS_LIBSASS_PATH; git checkout $GITISH);
-      git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH;
-      (cd $SASS_SASSC_PATH; git checkout $GITISH);
-      make -C $SASS_SASSC_PATH;
-    fi
-
-  - if [ $IMPL == "dart-sass" ]; then
-      curl -o dart.zip "https://storage.googleapis.com/dart-archive/channels/dev/release/latest/sdk/dartsdk-linux-x64-release.zip";
-      unzip dart.zip;
-      export PATH="$PATH:`pwd`/dart-sdk/bin";
-
-      git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1;
-      (cd ../dart-sass; pub get);
-    fi
-
-script:
-  - if [ $IMPL == "dart-sass" ]; then
-      bundle exec sass-spec.rb --dart ../dart-sass;
-    else
-      bundle exec sass-spec.rb --impl $IMPL -c $COMMAND;
-    fi
