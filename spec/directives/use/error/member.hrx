@@ -178,7 +178,7 @@ $member: from other1;
 $member: from other2;
 
 <===> member_conflict/variable/error
-Error: Multiple global modules have a variable named "$member":
+Error: This variable is available from multiple global modules:
 * other1.scss
 * other2.scss
   ,
@@ -202,7 +202,7 @@ a {b: member()}
 @function member() {@return from other2}
 
 <===> member_conflict/function/error
-Error: Multiple global modules have a function named "member":
+Error: This function is available from multiple global modules:
 * other1.scss
 * other2.scss
   ,
@@ -226,7 +226,7 @@ a {@include member}
 @mixin member {a: from other2}
 
 <===> member_conflict/mixin/error
-Error: Multiple global modules have a mixin named "member":
+Error: This mixin is available from multiple global modules:
 * other1.scss
 * other2.scss
   ,
