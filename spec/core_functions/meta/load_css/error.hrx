@@ -200,7 +200,7 @@ $a: left;
 $a: right;
 
 <===> with/conflict/error
-Error: Multiple global modules have a variable named "$a":
+Error: This variable is available from multiple global modules:
 * _left.scss
 * _right.scss
   ,
@@ -220,7 +220,7 @@ Error: Multiple global modules have a variable named "$a":
 $a-b: c !default;
 
 <===> with/repeated_variable/error
-Error: The variable $a_b was configured twice.
+Error: The variable $a-b was configured twice.
   ,
 2 | @include meta.load-css("other", $with: (a-b: c, a_b: c));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
