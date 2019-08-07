@@ -1,0 +1,247 @@
+<===> selector/type/input.scss
+a {b: selector-parse("c")}
+
+<===> selector/type/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> selector/class/input.scss
+a {b: selector-parse(".c")}
+
+<===> selector/class/output.css
+a {
+  b: .c;
+}
+
+<===>
+================================================================================
+<===> selector/id/input.scss
+a {b: selector-parse("#c")}
+
+<===> selector/id/output.css
+a {
+  b: #c;
+}
+
+<===>
+================================================================================
+<===> selector/placeholder/input.scss
+a {b: selector-parse("%c")}
+
+<===> selector/placeholder/output.css
+a {
+  b: %c;
+}
+
+<===>
+================================================================================
+<===> selector/attribute/input.scss
+a {b: selector-parse("[c^=d]")}
+
+<===> selector/attribute/output.css
+a {
+  b: [c^=d];
+}
+
+<===>
+================================================================================
+<===> selector/universal/input.scss
+a {b: selector-parse("*")}
+
+<===> selector/universal/output.css
+a {
+  b: *;
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/class/no_arg/input.scss
+a {b: selector-parse(":c")}
+
+<===> selector/pseudo/class/no_arg/output.css
+a {
+  b: :c;
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/class/arg/options.yml
+---
+:todo:
+- sass/libsass#2424
+
+<===> selector/pseudo/class/arg/input.scss
+a {b: selector-parse(":c(@#$)")}
+
+<===> selector/pseudo/class/arg/output.css
+a {
+  b: :c(@#$);
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/class/selector_arg/input.scss
+$result: selector-parse(":matches(b, c)");
+a {
+  result: $result;
+  structure: $result == (append((), ":matches(b, c)"),);
+}
+
+<===> selector/pseudo/class/selector_arg/output.css
+a {
+  result: :matches(b, c);
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/class/combined_arg/options.yml
+---
+:todo:
+- sass/libsass#2961
+
+<===> selector/pseudo/class/combined_arg/input.scss
+$result: selector-parse(":nth-child(2n+1 of b, c)");
+a {
+  result: $result;
+  structure: $result == (append((), ":nth-child(2n+1 of b, c)"),);
+}
+
+<===> selector/pseudo/class/combined_arg/output.css
+a {
+  result: :nth-child(2n+1 of b, c);
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/element/no_arg/input.scss
+a {b: selector-parse("::c")}
+
+<===> selector/pseudo/element/no_arg/output.css
+a {
+  b: ::c;
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/element/arg/options.yml
+---
+:todo:
+- sass/libsass#2424
+
+<===> selector/pseudo/element/arg/input.scss
+a {b: selector-parse("::c(@#$)")}
+
+<===> selector/pseudo/element/arg/output.css
+a {
+  b: ::c(@#$);
+}
+
+<===>
+================================================================================
+<===> selector/pseudo/element/selector_arg/input.scss
+$result: selector-parse("::slotted(b, c)");
+a {
+  result: $result;
+  structure: $result == (append((), "::slotted(b, c)"),);
+}
+
+<===> selector/pseudo/element/selector_arg/output.css
+a {
+  result: ::slotted(b, c);
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/compound/input.scss
+$result: selector-parse("b.c:d");
+a {
+  result: $result;
+  structure: $result == (append((), "b.c:d"),);
+}
+
+<===> selector/compound/output.css
+a {
+  result: b.c:d;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/complex/descendant/input.scss
+$result: selector-parse("b c d");
+a {
+  result: $result;
+  structure: $result == (b c d,);
+}
+
+<===> selector/complex/descendant/output.css
+a {
+  result: b c d;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/complex/sibling/input.scss
+$result: selector-parse("b ~ c ~ d");
+a {
+  result: $result;
+  structure: $result == (b "~" c "~" d,);
+}
+
+<===> selector/complex/sibling/output.css
+a {
+  result: b ~ c ~ d;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/complex/adjacent_sibling/input.scss
+$result: selector-parse("b + c + d");
+a {
+  result: $result;
+  structure: $result == (b "+" c "+" d,);
+}
+
+<===> selector/complex/adjacent_sibling/output.css
+a {
+  result: b + c + d;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/complex/child/input.scss
+$result: selector-parse("b > c > d");
+a {
+  result: $result;
+  structure: $result == (b ">" c ">" d,);
+}
+
+<===> selector/complex/child/output.css
+a {
+  result: b > c > d;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> selector/list/input.scss
+$result: selector-parse("b c, d e, f g");
+a {
+  result: $result;
+  structure: $result == (b c, d e, f g);
+}
+
+<===> selector/list/output.css
+a {
+  result: b c, d e, f g;
+  structure: true;
+}
