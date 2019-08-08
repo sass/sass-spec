@@ -1,0 +1,47 @@
+<===> superset/input.scss
+a {b: is-superselector(":host-context(c d, e f, g h)", ":host-context(c d.i, e j f)")}
+
+<===> superset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> subset/input.scss
+a {b: is-superselector(":host-context(c d.i, e j f)", ":host-context(c d, e f, g h)")}
+
+<===> subset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> bare_sub/input.scss
+a {b: is-superselector(":host-context(c d.i, e j f)", "c d, e f, g h")}
+
+<===> bare_sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/superset/input.scss
+a {b: is-superselector(":-pfx-host-context(c d, e f, g h)", ":-pfx-host-context(c d.i, e j f)")}
+
+<===> prefix/superset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> prefix/subset/input.scss
+a {b: is-superselector(":-pfx-host-context(c d.i, e j f)", ":-pfx-host-context(c d, e f, g h)")}
+
+<===> prefix/subset/output.css
+a {
+  b: false;
+}

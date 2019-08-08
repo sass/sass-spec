@@ -1,0 +1,37 @@
+<===> equal/input.scss
+a {b: is-superselector("[c=d]", "[c=d]")}
+
+<===> equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> unequal/name/input.scss
+a {b: is-superselector("[c=d]", "[e=d]")}
+
+<===> unequal/name/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> unequal/value/input.scss
+a {b: is-superselector("[c=d]", "[c=e]")}
+
+<===> unequal/value/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> unequal/operator/input.scss
+a {b: is-superselector("[c=d]", "[c^=d]")}
+
+<===> unequal/operator/output.css
+a {
+  b: false;
+}

@@ -1,0 +1,493 @@
+<===> descendant/single/in_sub/input.scss
+a {b: is-superselector("c", "d c")}
+
+<===> descendant/single/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/single/in_super/input.scss
+a {b: is-superselector("c d", "d")}
+
+<===> descendant/single/in_super/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> descendant/single/in_both/equal/input.scss
+a {b: is-superselector("c d", "c d")}
+
+<===> descendant/single/in_both/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/single/in_both/subset/input.scss
+a {b: is-superselector("c d", "c.e d.f")}
+
+<===> descendant/single/in_both/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/single/in_both/superset/input.scss
+a {b: is-superselector("c.e d.f", "c d")}
+
+<===> descendant/single/in_both/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> descendant/multiple/in_sub/input.scss
+a {b: is-superselector("c", "d e c")}
+
+<===> descendant/multiple/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/multiple/match_first/input.scss
+a {b: is-superselector("d c", "d e c")}
+
+<===> descendant/multiple/match_first/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/multiple/match_second/input.scss
+a {b: is-superselector("e c", "d e c")}
+
+<===> descendant/multiple/match_second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/multiple/match_neither/input.scss
+a {b: is-superselector("f c", "d e c")}
+
+<===> descendant/multiple/match_neither/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> descendant/and_child/super/input.scss
+a {b: is-superselector("d c", "d > c")}
+
+<===> descendant/and_child/super/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/and_child/sub/input.scss
+a {b: is-superselector("d > c", "d c")}
+
+<===> descendant/and_child/sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> descendant/and_child/multiple/first/input.scss
+a {b: is-superselector("d c", "d > e > c")}
+
+<===> descendant/and_child/multiple/first/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/and_child/multiple/second/input.scss
+a {b: is-superselector("e c", "d > e > c")}
+
+<===> descendant/and_child/multiple/second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> descendant/and_child/multiple/neither/input.scss
+a {b: is-superselector("f c", "d > e > c")}
+
+<===> descendant/and_child/multiple/neither/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> sibling/single/in_sub/input.scss
+a {b: is-superselector("c", "d ~ c")}
+
+<===> sibling/single/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/single/in_super/input.scss
+a {b: is-superselector("c ~ d", "d")}
+
+<===> sibling/single/in_super/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> sibling/single/in_both/equal/input.scss
+a {b: is-superselector("c ~ d", "c ~ d")}
+
+<===> sibling/single/in_both/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/single/in_both/subset/input.scss
+a {b: is-superselector("c ~ d", "c.e ~ d.f")}
+
+<===> sibling/single/in_both/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/single/in_both/superset/input.scss
+a {b: is-superselector("c.e ~ d.f", "c ~ d")}
+
+<===> sibling/single/in_both/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> sibling/multiple/in_sub/input.scss
+a {b: is-superselector("c", "d ~ e ~ c")}
+
+<===> sibling/multiple/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/multiple/first/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> sibling/multiple/first/input.scss
+a {b: is-superselector("d ~ c", "d ~ e ~ c")}
+
+<===> sibling/multiple/first/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/multiple/second/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> sibling/multiple/second/input.scss
+a {b: is-superselector("e ~ c", "d ~ e ~ c")}
+
+<===> sibling/multiple/second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/multiple/neither/input.scss
+a {b: is-superselector("f ~ c", "d ~ e ~ c")}
+
+<===> sibling/multiple/neither/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> sibling/and_adjacent_sibling/super/input.scss
+a {b: is-superselector("d ~ c", "d + c")}
+
+<===> sibling/and_adjacent_sibling/super/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/and_adjacent_sibling/sub/input.scss
+a {b: is-superselector("d + c", "d ~ c")}
+
+<===> sibling/and_adjacent_sibling/sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> sibling/and_adjacent_sibling/multiple/first/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> sibling/and_adjacent_sibling/multiple/first/input.scss
+a {b: is-superselector("d ~ c", "d + e + c")}
+
+<===> sibling/and_adjacent_sibling/multiple/first/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/and_adjacent_sibling/multiple/second/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> sibling/and_adjacent_sibling/multiple/second/input.scss
+a {b: is-superselector("e ~ c", "d + e + c")}
+
+<===> sibling/and_adjacent_sibling/multiple/second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> sibling/and_adjacent_sibling/multiple/neither/input.scss
+a {b: is-superselector("f ~ c", "d + e + c")}
+
+<===> sibling/and_adjacent_sibling/multiple/neither/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/single/in_sub/input.scss
+a {b: is-superselector("c", "d + c")}
+
+<===> adjacent_sibling/single/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/single/in_super/input.scss
+a {b: is-superselector("c + d", "d")}
+
+<===> adjacent_sibling/single/in_super/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/single/in_both/equal/input.scss
+a {b: is-superselector("c + d", "c + d")}
+
+<===> adjacent_sibling/single/in_both/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/single/in_both/subset/input.scss
+a {b: is-superselector("c + d", "c.e + d.f")}
+
+<===> adjacent_sibling/single/in_both/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/single/in_both/superset/input.scss
+a {b: is-superselector("c.e + d.f", "c + d")}
+
+<===> adjacent_sibling/single/in_both/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/multiple/in_sub/input.scss
+a {b: is-superselector("c", "d + e + c")}
+
+<===> adjacent_sibling/multiple/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/multiple/first/input.scss
+a {b: is-superselector("d + c", "d + e + c")}
+
+<===> adjacent_sibling/multiple/first/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/multiple/second/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> adjacent_sibling/multiple/second/input.scss
+a {b: is-superselector("e + c", "d + e + c")}
+
+<===> adjacent_sibling/multiple/second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> adjacent_sibling/multiple/neither/input.scss
+a {b: is-superselector("f + c", "d + e + c")}
+
+<===> adjacent_sibling/multiple/neither/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> child/single/in_sub/input.scss
+a {b: is-superselector("c", "d > c")}
+
+<===> child/single/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> child/single/in_super/input.scss
+a {b: is-superselector("c > d", "d")}
+
+<===> child/single/in_super/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> child/single/in_both/equal/input.scss
+a {b: is-superselector("c > d", "c > d")}
+
+<===> child/single/in_both/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> child/single/in_both/subset/input.scss
+a {b: is-superselector("c > d", "c.e > d.f")}
+
+<===> child/single/in_both/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> child/single/in_both/superset/input.scss
+a {b: is-superselector("c.e > d.f", "c > d")}
+
+<===> child/single/in_both/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> child/multiple/in_sub/input.scss
+a {b: is-superselector("c", "d > e > c")}
+
+<===> child/multiple/in_sub/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> child/multiple/first/input.scss
+a {b: is-superselector("d > c", "d > e > c")}
+
+<===> child/multiple/first/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> child/multiple/second/options.yml
+---
+:todo:
+- sass/dart-sass#791
+- sass/libsass#2966
+
+<===> child/multiple/second/input.scss
+a {b: is-superselector("e > c", "d > e > c")}
+
+<===> child/multiple/second/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> child/multiple/neither/input.scss
+a {b: is-superselector("f > c", "d > e > c")}
+
+<===> child/multiple/neither/output.css
+a {
+  b: false;
+}
