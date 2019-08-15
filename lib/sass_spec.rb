@@ -1,7 +1,7 @@
 require 'rubygems/version'
 
 module SassSpec
-  SPEC_DIR = File.expand_path('../../spec', __FILE__)
+  SPEC_DIR = File.expand_path('../../specs', __FILE__)
   LANGUAGE_VERSIONS = %w(
     3.5
     3.6

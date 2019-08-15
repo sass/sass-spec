@@ -22,8 +22,8 @@ Examples:
   Run `sassc --style compressed input.scss`:
   ./sass-spec.rb -c 'sass --style compressed'
 
-  Run tests only in the spec/basic folder:
-  ./sass-spec.rb spec/basic
+  Run tests only in the specs/basic folder:
+  ./sass-spec.rb specs/basic
 
 This script will search for all files under the spec (or specified) directory
 that are named input.scss. It will then run a specified binary and check that

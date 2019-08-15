@@ -44,7 +44,7 @@ class ExecutableEngineAdapter < EngineAdapter
     dirname, basename = File.split(sass_filename)
     result = capture3_with_timeout(
       command, "--precision", precision.to_s, "-t", "expanded",
-      "-I", File.expand_path("../../../spec", __FILE__), *@args&.split(/\s+/), basename,
+      "-I", File.expand_path("../../../specs", __FILE__), *@args&.split(/\s+/), basename,
       binmode: true, timeout: @timeout, chdir: dirname)
 
     if result[:timeout]
@@ -109,7 +109,7 @@ class DartEngineAdapter < EngineAdapter
   def compile(sass_filename, precision)
     dirname, basename = File.split(sass_filename)
     @stdin.puts "!cd #{File.absolute_path(dirname)}"
-    @stdin.puts("--no-color --no-unicode -I #{File.expand_path("../../../spec", __FILE__)} " +
+    @stdin.puts("--no-color --no-unicode -I #{File.expand_path("../../../specs", __FILE__)} " +
                 "#{@args} #{basename}")
     [next_chunk(@stdout), next_chunk(@stderr), next_chunk(@stdout).to_i]
   end
