@@ -12,7 +12,7 @@ module SassSpec::Util
       error.gsub(/(?:\/todo_|_todo\/)/, "/") # hide todo pre/suffix
         .gsub(/\/libsass\-[a-z]+\-tests\//, "/") # hide test directory
         .gsub(/\/libsass\-[a-z]+\-issues\//, "/libsass-issues/") # normalize issue specs
-        .gsub(/(([\w\/.\-\\:]+?[\/\\])|([\/\\]|(?!:\s)))spec[\/\\]+/, "/sass/spec/") # normalize abs paths
+        .gsub(/(([\w\/.\-\\:]+?[\/\\])|([\/\\]|(?!:\s)))spec[\/\\]+/, "/sass/specs/") # normalize abs paths
         .sub(/(?:\r?\n)*\z/, "\n") # make sure we have exactly one trailing linefeed
         .sub(/\A(?:\r?\s)+\z/, "") # clear the whole file if only whitespace
         .gsub(/\r\n/, "\n") # remove Windows line feeds
