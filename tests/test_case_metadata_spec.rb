@@ -18,10 +18,24 @@ describe SassSpec::TestCaseMetadata do
     it { is_expected.to be true }
   end
 
+  context 'should ignore impl when given only_on' do
+    before { create_options_yaml('only_on', only_on: ['dart_sass']) }
+    after { cleanup('only_on') }
+    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/fixtures/only_on')).ignore_for?('libsass') }
+    it { is_expected.to be true }
+  end
+
   context 'should have precision' do
     before { create_options_yaml('precision', precision: 10) }
     after { cleanup('precision') }
     subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/fixtures/precision')).precision }
     it { is_expected.to eq 10 }
+  end
+
+  context 'should have todos for an impl' do
+    before { create_options_yaml('todo', todo: ['sass/libsass#2342']) }
+    after { cleanup('todo') }
+    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/fixtures/todo')).todo?('libsass') }
+    it { is_expected.to be true }
   end
 end
