@@ -283,3 +283,10 @@ X. Exit testing.
 Any option can also be applied to all future occurences of that type of failure
 by adding `!` after it. For example, if you want to mark *all* failing specs as
 `:todo` for the current implementation you'd type `I!`.
+
+## Tests
+The unit tests are located in the `tests/` directory. To run the tests, run
+
+```sh
+bundle exec rspec tests/
+```
