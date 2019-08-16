@@ -38,4 +38,11 @@ describe SassSpec::TestCaseMetadata do
     subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/fixtures/todo')).todo?('libsass') }
     it { is_expected.to be true }
   end
+
+  context 'should have warning todos for an impl' do
+    before { create_options_yaml('warning', warning_todo: ['sass/libsass#2342']) }
+    after { cleanup('warning') }
+    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/fixtures/warning')).warning_todo?('libsass') }
+    it { is_expected.to be true }
+  end
 end
