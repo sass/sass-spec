@@ -1,0 +1,240 @@
+<===> classes/single/input.scss
+a {b: selector-append(".c", ".d")}
+
+<===> classes/single/output.css
+a {
+  b: .c.d;
+}
+
+<===>
+================================================================================
+<===> classes/double/input.scss
+a {b: selector-append(".c, .d", ".e, .f")}
+
+<===> classes/double/output.css
+a {
+  b: .c.e, .c.f, .d.e, .d.f;
+}
+
+<===> classes/double/output-libsass.css
+a {
+  b: .c.e, .d.e, .c.f, .d.f;
+}
+
+<===>
+================================================================================
+<===> suffix/single/input.scss
+a {b: selector-append(".c", "d")}
+
+<===> suffix/single/output.css
+a {
+  b: .cd;
+}
+
+<===>
+================================================================================
+<===> suffix/multiple/input.scss
+a {b: selector-append(".c, .d", "e, f")}
+
+<===> suffix/multiple/output.css
+a {
+  b: .ce, .cf, .de, .df;
+}
+
+<===> suffix/multiple/output-libsass.css
+a {
+  b: .ce, .de, .cf, .df;
+}
+
+<===>
+================================================================================
+<===> suffix/descendant/input.scss
+a {b: selector-append("c d", "e f")}
+
+<===> suffix/descendant/output.css
+a {
+  b: c de f;
+}
+
+<===>
+================================================================================
+<===> one_arg/input.scss
+a {b: selector-append(".c.d")}
+
+<===> one_arg/output.css
+a {
+  b: .c.d;
+}
+
+<===>
+================================================================================
+<===> many_args/input.scss
+a {b: selector-append(".c", ".d", ".e")}
+
+<===> many_args/output.css
+a {
+  b: .c.d.e;
+}
+
+<===>
+================================================================================
+<===> input/input.scss
+// The full set of possible input formats is tested with `selector-parse()`;
+// this spec just verifies one example for `selector-append()`.
+a {b: selector-append((c, d e), (f, g h))}
+
+<===> input/output.css
+a {
+  b: cf, cg h, d ef, d eg h;
+}
+
+<===> input/output-libsass.css
+a {
+  b: cf, d ef, cg h, d eg h;
+}
+
+<===>
+================================================================================
+<===> error/universal/input.scss
+a {b: selector-append(".c", "*")}
+
+<===> error/universal/error
+Error: Can't append * to .c.
+  ,
+1 | a {b: selector-append(".c", "*")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/universal/output-libsass.css
+a {
+  b: .c*;
+}
+
+<===>
+================================================================================
+<===> error/leading_combinator/input.scss
+a {b: selector-append(".c", "> .d")}
+
+<===> error/leading_combinator/error
+Error: Can't append > .d to .c.
+  ,
+1 | a {b: selector-append(".c", "> .d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/leading_combinator/error-libsass
+Error: Can't append "> .d" to ".c" for `selector-append'
+        on line 1:7 of input.scss, in function `selector-append`
+        from line 1:7 of input.scss
+>> a {b: selector-append(".c", "> .d")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/namespace/options.yml
+---
+:todo:
+- sass/libsass#2976
+
+<===> error/namespace/input.scss
+a {b: selector-append("c", "|d")}
+
+<===> error/namespace/error
+Error: Can't append |d to c.
+  ,
+1 | a {b: selector-append("c", "|d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/parent/input.scss
+a {b: selector-append(".c", "&")}
+
+<===> error/parent/error
+Error: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-append(".c", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/parent/output-libsass.css
+a {
+  b: .c;
+}
+
+<===>
+================================================================================
+<===> error/invalid/input.scss
+a {b: selector-append("[c", "d")}
+
+<===> error/invalid/error
+Error: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-append("[c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/invalid/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:24 of input.scss, in function `selector-append`
+        from line 1:7 of input.scss
+>> a {b: selector-append("[c", "d")}
+
+   -----------------------^
+
+<===>
+================================================================================
+<===> error/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> error/type/input.scss
+a {b: selector-append("c", 1)}
+
+<===> error/type/error
+Error: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-append("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: selector-append()}
+
+<===> error/too_few_args/error
+Error: $selectors: At least one selector must be passed.
+  ,
+1 | a {b: selector-append()}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: $selectors: At least one selector must be passed for `selector-append'
+        on line 1:7 of input.scss, in function `selector-append`
+        from line 1:7 of input.scss
+>> a {b: selector-append()}
+
+   ------^
