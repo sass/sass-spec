@@ -101,6 +101,19 @@ Error: $hue: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> type/hue/error-libsass
+Error: $hue: "foo" is not a number.
+  ,
+2 |   x: hsla("foo" 100% 50%);
+  |           ^^^^^
+  '
+  input.scss 2:11  hsla
+  ,
+2 |   x: hsla("foo" 100% 50%);
+  |      ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> type/saturation/input.scss
@@ -115,6 +128,19 @@ Error: $saturation: "foo" is not a number.
   |      ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> type/saturation/error-libsass
+Error: $saturation: "foo" is not a number.
+  ,
+2 |   x: hsla(0 "foo" 50%);
+  |             ^^^^^
+  '
+  input.scss 2:13  hsla
+  ,
+2 |   x: hsla(0 "foo" 50%);
+  |      ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -131,6 +157,19 @@ Error: $lightness: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> type/lightness/error-libsass
+Error: $lightness: "foo" is not a number.
+  ,
+2 |   x: hsla(0 100% "foo");
+  |                  ^^^^^
+  '
+  input.scss 2:18  hsla
+  ,
+2 |   x: hsla(0 100% "foo");
+  |      ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> quoted_var_slash/input.scss
@@ -145,3 +184,16 @@ Error: $lightness: "var(--foo) / 0.4" is not a number.
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> quoted_var_slash/error-libsass
+Error: $lightness: "var(--foo) / 0.4" is not a number.
+  ,
+2 |   x: hsla(0 100% "var(--foo) / 0.4");
+  |                  ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:18  hsla
+  ,
+2 |   x: hsla(0 100% "var(--foo) / 0.4");
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
