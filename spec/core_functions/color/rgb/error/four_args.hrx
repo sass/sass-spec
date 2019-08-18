@@ -11,6 +11,19 @@ Error: $red: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> red/type/error-libsass
+Error: $red: "foo" is not a number.
+  ,
+2 |   x: rgb("foo", 0, 0, 0.5);
+  |          ^^^^^
+  '
+  input.scss 2:10  rgb
+  ,
+2 |   x: rgb("foo", 0, 0, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> green/type/input.scss
@@ -25,6 +38,19 @@ Error: $green: "foo" is not a number.
   |      ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> green/type/error-libsass
+Error: $green: "foo" is not a number.
+  ,
+2 |   x: rgb(0, "foo", 0, 0.5);
+  |             ^^^^^
+  '
+  input.scss 2:13  rgb
+  ,
+2 |   x: rgb(0, "foo", 0, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -41,6 +67,19 @@ Error: $blue: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> blue/type/error-libsass
+Error: $blue: "foo" is not a number.
+  ,
+2 |   x: rgb(0, 0, "foo", 0.5);
+  |                ^^^^^
+  '
+  input.scss 2:16  rgb
+  ,
+2 |   x: rgb(0, 0, "foo", 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> alpha/unit/input.scss
@@ -55,3 +94,16 @@ Error: $alpha: Expected 0.5px to have no units or "%".
   |      ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> alpha/unit/error-libsass
+Error: $alpha: Expected 0.5px to have no units or "%".
+  ,
+2 |   a: rgb(0, 0, 0, 0.5px);
+  |                   ^^^^^
+  '
+  input.scss 2:19  rgb
+  ,
+2 |   a: rgb(0, 0, 0, 0.5px);
+  |      ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
