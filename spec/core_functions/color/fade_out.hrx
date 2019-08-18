@@ -95,6 +95,19 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/color/error-libsass
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: fade-out(1, 0.1)}
+  |                ^
+  '
+  input.scss 1:16  fade-out
+  ,
+1 | a {b: fade-out(1, 0.1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/alpha/input.scss
@@ -107,6 +120,19 @@ Error: $amount: blue is not a number.
   |       ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/type/alpha/error-libsass
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: fade-out(red, blue)}
+  |                     ^^^^
+  '
+  input.scss 1:21  fade-out
+  ,
+1 | a {b: fade-out(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -121,6 +147,19 @@ Error: $amount: Expected -0.001 to be within 0 and 1.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/bounds/too_low/error-libsass
+Error: $amount: Expected -0.001 to be within 0 and 1.
+  ,
+1 | a {b: fade-out(red, -0.001)}
+  |                     ^^^^^^
+  '
+  input.scss 1:21  fade-out
+  ,
+1 | a {b: fade-out(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
@@ -134,3 +173,15 @@ Error: $amount: Expected 1.001 to be within 0 and 1.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/bounds/too_high/error-libsass
+Error: $amount: Expected 1.001 to be within 0 and 1.
+  ,
+1 | a {b: fade-out(red, 1.001)}
+  |                     ^^^^^
+  '
+  input.scss 1:21  fade-out
+  ,
+1 | a {b: fade-out(red, 1.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

@@ -223,6 +223,19 @@ Error: $name: 12px is not a string.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/argument/type/name/error-libsass
+Error: $name: 12px is not a string.
+  ,
+1 | a {b: mixin-exists(12px)}
+  |                    ^^^^
+  '
+  input.scss 1:20  mixin-exists
+  ,
+1 | a {b: mixin-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/argument/type/module/options.yml
@@ -241,6 +254,19 @@ Error: $module: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/argument/type/module/error-libsass
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: mixin-exists(c, 1)}
+  |                       ^
+  '
+  input.scss 1:23  mixin-exists
+  ,
+1 | a {b: mixin-exists(c, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
@@ -254,12 +280,28 @@ Error: Missing argument $name.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/argument/too_few/error-libsass
+Error: Missing argument $name.
+  ,
+1 | a {b: mixin-exists()}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
 a {b: mixin-exists(c, d, e)}
 
 <===> error/argument/too_many/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: mixin-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/argument/too_many/error-libsass
 Error: Only 2 arguments allowed, but 3 were passed.
   ,
 1 | a {b: mixin-exists(c, d, e)}
@@ -295,6 +337,14 @@ Error: Multiple global modules have a mixin named "member".
   '
   input.scss 4:7  root stylesheet
 
+<===> error/conflict/error-libsass
+Error: Multiple global modules have a mixin named "member".
+  ,
+4 | a {b: mixin-exists(member)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/module/options.yml
@@ -316,12 +366,28 @@ Error: There is no module with the namespace "d".
   '
   input.scss 1:7  root stylesheet
 
+<===> error/module/non_existent/error-libsass
+Error: There is no module with the namespace "d".
+  ,
+1 | a {b: mixin-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/module/built_in_but_not_loaded/input.scss
 a {b: mixin-exists("c", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
+Error: There is no module with the namespace "color".
+  ,
+1 | a {b: mixin-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/module/built_in_but_not_loaded/error-libsass
 Error: There is no module with the namespace "color".
   ,
 1 | a {b: mixin-exists("c", "color")}
@@ -336,6 +402,14 @@ Error: There is no module with the namespace "color".
 c {d: mixin-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
+Error: There is no module with the namespace "a_b".
+  ,
+2 | c {d: mixin-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/module/dash_sensitive/error-libsass
 Error: There is no module with the namespace "a_b".
   ,
 2 | c {d: mixin-exists("c", $module: "a_b")}

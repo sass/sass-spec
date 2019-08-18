@@ -14,6 +14,19 @@ Error: This function isn't allowed in plain CSS.
   plain.css 2:6   @import
   input.scss 1:9  root stylesheet
 
+<===> function/built_in/error-libsass
+Error: This function isn't allowed in plain CSS.
+  ,
+2 |   x: index(1 2 3, 1);
+  |      ^^^^^^^^^^^^^^^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> function/variable_arguments/input.scss
@@ -30,6 +43,19 @@ Error: expected ")".
   |                      ^
   '
   plain.css 2:22  @import
+  input.scss 1:9  root stylesheet
+
+<===> function/variable_arguments/error-libsass
+Error: expected ")".
+  ,
+2 |   x: hsl(0, 100%, 50%...);
+  |                      ^
+  '
+  plain.css 2:22  @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -50,6 +76,19 @@ Error: Sass variables aren't allowed in plain CSS.
   plain.css 2:19  @import
   input.scss 1:9  root stylesheet
 
+<===> function/keyword_arguments/error-libsass
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+2 |   x: hsl(0, 100%, $lightness: 50%);
+  |                   ^^^^^^^^^^
+  '
+  plain.css 2:19  @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> list/empty/input.scss
@@ -66,6 +105,19 @@ Error: Parentheses aren't allowed in plain CSS.
   |      ^
   '
   plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===> list/empty/error-libsass
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: ();
+  |      ^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -86,6 +138,19 @@ Error: Parentheses aren't allowed in plain CSS.
   plain.css 2:6   @import
   input.scss 1:9  root stylesheet
 
+<===> list/empty_comma/error-libsass
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (,);
+  |      ^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> map/input.scss
@@ -102,6 +167,19 @@ Error: Parentheses aren't allowed in plain CSS.
   |      ^
   '
   plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===> map/error-libsass
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (y: z);
+  |      ^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -122,6 +200,19 @@ Error: Parentheses aren't allowed in plain CSS.
   plain.css 2:6   @import
   input.scss 1:9  root stylesheet
 
+<===> parentheses/error-libsass
+Error: Parentheses aren't allowed in plain CSS.
+  ,
+2 |   x: (y);
+  |      ^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> parent_selector/input.scss
@@ -138,6 +229,19 @@ Error: The parent selector isn't allowed in plain CSS.
   |      ^
   '
   plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===> parent_selector/error-libsass
+Error: The parent selector isn't allowed in plain CSS.
+  ,
+2 |   x: &;
+  |      ^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -158,6 +262,19 @@ Error: Sass variables aren't allowed in plain CSS.
   plain.css 2:6   @import
   input.scss 1:9  root stylesheet
 
+<===> variable/use/error-libsass
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+2 |   x: $var;
+  |      ^^^^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> variable/declaration/input.scss
@@ -172,6 +289,19 @@ Error: Sass variables aren't allowed in plain CSS.
   | ^^^^
   '
   plain.css 1:1   @import
+  input.scss 1:9  root stylesheet
+
+<===> variable/declaration/error-libsass
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+1 | $var: value;
+  | ^^^^
+  '
+  plain.css 1:1   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -192,6 +322,19 @@ Error: Interpolation isn't allowed in plain CSS.
   plain.css 2:11  @import
   input.scss 1:9  root stylesheet
 
+<===> interpolation/calc/error-libsass
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: calc(#{1px} + 10%);
+  |           ^^^^^^
+  '
+  plain.css 2:11  @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> interpolation/identifier/input.scss
@@ -208,6 +351,19 @@ Error: Interpolation isn't allowed in plain CSS.
   |       ^^^^
   '
   plain.css 2:7   @import
+  input.scss 1:9  root stylesheet
+
+<===> interpolation/identifier/error-libsass
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: x#{y}z;
+  |       ^^^^
+  '
+  plain.css 2:7   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -228,6 +384,19 @@ Error: Interpolation isn't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> interpolation/quoted_string/error-libsass
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: "x#{y}z";
+  |        ^^^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> interpolation/standalone/input.scss
@@ -244,6 +413,19 @@ Error: Interpolation isn't allowed in plain CSS.
   |      ^^^^
   '
   plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===> interpolation/standalone/error-libsass
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: #{x};
+  |      ^^^^
+  '
+  plain.css 2:6   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -264,6 +446,19 @@ Error: Operators aren't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> operation/addition/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y + z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> operation/subtraction/input.scss
@@ -280,6 +475,19 @@ Error: Operators aren't allowed in plain CSS.
   |        ^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> operation/subtraction/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y - z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -300,6 +508,19 @@ Error: Operators aren't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> operation/multiplication/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y * z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> operation/modulo/input.scss
@@ -316,6 +537,19 @@ Error: Operators aren't allowed in plain CSS.
   |        ^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> operation/modulo/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y % z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -336,6 +570,19 @@ Error: Operators aren't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> operation/less_than/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y < z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> operation/less_than_or_equal/input.scss
@@ -352,6 +599,19 @@ Error: Operators aren't allowed in plain CSS.
   |        ^^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> operation/less_than_or_equal/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y <= z;
+  |        ^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -372,6 +632,19 @@ Error: Operators aren't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> operation/greater_than/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y > z;
+  |        ^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> operation/greater_than_or_equal/input.scss
@@ -388,6 +661,19 @@ Error: Operators aren't allowed in plain CSS.
   |        ^^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> operation/greater_than_or_equal/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y >= z;
+  |        ^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -408,6 +694,19 @@ Error: Operators aren't allowed in plain CSS.
   plain.css 2:8   @import
   input.scss 1:9  root stylesheet
 
+<===> operation/equals/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y == z;
+  |        ^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
+  input.scss 1:9  root stylesheet
+
 <===>
 ================================================================================
 <===> operation/not_equals/input.scss
@@ -424,6 +723,19 @@ Error: Operators aren't allowed in plain CSS.
   |        ^^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> operation/not_equals/error-libsass
+Error: Operators aren't allowed in plain CSS.
+  ,
+2 |   x: y != z;
+  |        ^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet
 
 <===>
@@ -444,4 +756,17 @@ Error: Silent comments aren't allowed in plain CSS.
   |        ^^^^
   '
   plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===> silent_comment/error-libsass
+Error: Silent comments aren't allowed in plain CSS.
+  ,
+2 |   b: c // d
+  |        ^^^^
+  '
+  plain.css 2:8   @import
+  ,
+1 | @import 'plain'
+  |         ^^^^^^^
+  '
   input.scss 1:9  root stylesheet

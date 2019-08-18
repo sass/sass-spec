@@ -2,6 +2,7 @@
 foo {
   bar: saturate(red, 125);
 }
+
 <===> error
 Error: $amount: Expected 125 to be within 0 and 100.
   ,
@@ -10,3 +11,15 @@ Error: $amount: Expected 125 to be within 0 and 100.
   '
   input.scss 2:8  root stylesheet
 
+<===> error-libsass
+Error: $amount: Expected 125 to be within 0 and 100.
+  ,
+2 |   bar: saturate(red, 125);
+  |                      ^^^
+  '
+  input.scss 2:22  saturate
+  ,
+2 |   bar: saturate(red, 125);
+  |        ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:8   root stylesheet
