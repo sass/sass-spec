@@ -122,3 +122,74 @@ stylesheet.
    '
     input.scss 24:3  fn()
     input.scss 29:7  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Since this assignment is at the root of the stylesheet,
+the !global flag is unnecessary and can safely be removed.
+
+  ,
+3 | $root_explicit: initial !global;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:1  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$local_explicit: null` at the root of the
+stylesheet.
+
+   ,
+11 |     $local_explicit: outer !global;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:5  fn()
+   ,
+29 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 29:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_implicit: null` at the root of the
+stylesheet.
+
+   ,
+22 |   $check_implicit: $root_implicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 22:3  fn()
+   ,
+29 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 29:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_explicit: null` at the root of the
+stylesheet.
+
+   ,
+23 |   $check_explicit: $root_explicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 23:3  fn()
+   ,
+29 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 29:7  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$check_default: null` at the root of the
+stylesheet.
+
+   ,
+24 |   $check_default: $root_default !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 24:3  fn()
+   ,
+29 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 29:7  root stylesheet

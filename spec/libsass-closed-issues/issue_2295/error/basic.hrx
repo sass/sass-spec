@@ -5,6 +5,7 @@ display: none;
 .my-scope {
   @import 'include.scss';
 }
+
 <===> error
 Error: expected "{".
   ,
@@ -12,4 +13,17 @@ Error: expected "{".
   |              ^
   '
   include.scss 1:14  @import
+  input.scss 2:11    root stylesheet
+
+<===> error-libsass
+Error: expected "{".
+  ,
+1 | display: none;
+  |              ^
+  '
+  include.scss 1:14  @import
+  ,
+2 |   @import 'include.scss';
+  |           ^^^^^^^^^^^^^^
+  '
   input.scss 2:11    root stylesheet

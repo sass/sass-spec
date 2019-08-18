@@ -68,3 +68,29 @@ stylesheet.
    '
     input.scss 19:3  set-variable-outer()
     input.scss 24:1  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Since this assignment is at the root of the stylesheet,
+the !global flag is unnecessary and can safely be removed.
+
+  ,
+3 | $root_explicit: initial !global;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:1  root stylesheet
+
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to
+declare new variables. Consider adding `$local_explicit: null` at the root of the
+stylesheet.
+
+   ,
+19 |   $local_explicit: outer !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:3  set_variable_outer()
+   ,
+24 | @include set_variable_outer(); 
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 24:1  root stylesheet

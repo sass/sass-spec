@@ -69,6 +69,19 @@ Error: $number: c is not a number.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/error-libsass
+Error: $number: c is not a number.
+  ,
+1 | a {b: percentage(c)}
+  |                  ^
+  '
+  input.scss 1:18  percentage()
+  ,
+1 | a {b: percentage(c)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/unit/input.scss
@@ -81,6 +94,19 @@ Error: $number: Expected 1% to have no units.
   |       ^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/unit/error-libsass
+Error: $number: Expected 1% to have no units.
+  ,
+1 | a {b: percentage(1%)}
+  |                  ^^
+  '
+  input.scss 1:18  percentage()
+  ,
+1 | a {b: percentage(1%)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

@@ -21,8 +21,21 @@
 <===> error
 Error: Expected "to" or "from".
   ,
-2 | foo{ test: opacity($percent); }
-  | ^
+2 |   foo{ test: opacity($percent); }
+  |   ^
   '
   input.scss 2:3  opacity()
+  input.scss 6:8  root stylesheet
+
+<===> error-libsass
+Error: Expected "to" or "from".
+  ,
+2 |   foo { test: opacity($percent); }
+  |   ^
+  '
+  input.scss 2:3  opacity()
+  ,
+6 |   0% { @include opacity(0.01); }
+  |        ^^^^^^^^^^^^^^^^^^^^^^
+  '
   input.scss 6:8  root stylesheet

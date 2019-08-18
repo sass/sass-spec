@@ -30,3 +30,21 @@ Error: $string: 3 is not a string.
   '
   input.scss 2:13  spec1()
   input.scss 16:3  root stylesheet
+
+<===> error-libsass
+Error: $string: 3 is not a string.
+   ,
+16 |   @include spec1(3);
+   |                  ^
+   '
+  input.scss 16:18  unquote()
+  ,
+2 |   $decimal: unquote($decimal) * -1;
+  |             ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:13   spec1()
+   ,
+16 |   @include spec1(3);
+   |   ^^^^^^^^^^^^^^^^^
+   '
+  input.scss 16:3   root stylesheet

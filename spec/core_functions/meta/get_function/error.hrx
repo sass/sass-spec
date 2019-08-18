@@ -9,6 +9,19 @@ Error: $name: 2px is not a string.
   '
   input.scss 1:7  root stylesheet
 
+<===> argument/type/name/error-libsass
+Error: $name: 2px is not a string.
+  ,
+1 | a {b: get-function(2px)}
+  |                    ^^^
+  '
+  input.scss 1:20  get-function()
+  ,
+1 | a {b: get-function(2px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> argument/type/module/options.yml
@@ -37,6 +50,19 @@ Error: $name: get-function("foo") is not a string.
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 6:7  root stylesheet
+
+<===> argument/function_ref/error-libsass
+Error: $name: get-function("foo") is not a string.
+  ,
+5 | $foo-ref: get-function(foo);
+  |           ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:11  get-function()
+  ,
+6 | a {b: get-function($foo-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:7   root stylesheet
 
 <===>
 ================================================================================
@@ -142,6 +168,14 @@ Error: get-function("rgb") isn't a valid CSS value.
   '
   input.scss 1:7  root stylesheet
 
+<===> division/error-libsass
+Error: get-function("rgb") isn't a valid CSS value.
+  ,
+1 | a {b: get-function(rgb) / get-function(lighten)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> function_exists/input.scss
@@ -157,6 +191,19 @@ $add-two-fn: get-function(add-two);
 
 <===> function_exists/error
 Error: $name: get-function("add-two") is not a string.
+  ,
+8 |   error: get-function($add-two-fn);
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 8:10  root stylesheet
+
+<===> function_exists/error-libsass
+Error: $name: get-function("add-two") is not a string.
+  ,
+5 | $add-two-fn: get-function(add-two);
+  |              ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:14  get-function()
   ,
 8 |   error: get-function($add-two-fn);
   |          ^^^^^^^^^^^^^^^^^^^^^^^^^

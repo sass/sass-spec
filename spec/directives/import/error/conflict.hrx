@@ -10,15 +10,6 @@ a {partial: true}
 a {partial: false}
 
 <===> partial/error
-Error: It's not clear which file to import for '@import "other"'.
-       Candidates:
-         _other.scss
-         other.scss
-       Please delete or rename all but one of these files.
-        on line 1 of /sass/spec/scss/import/partial_conflict/input.scss
-  Use --trace for backtrace.
-
-<===> partial/error-dart-sass
 Error: It's not clear which file to import. Found:
   _other.scss
   other.scss
@@ -43,18 +34,19 @@ a
 a {syntax: scss}
 
 <===> extension/error
-Error: It's not clear which file to import for '@import "other"'.
-       Candidates:
-         other.sass
-         other.scss
-       Please delete or rename all but one of these files.
-        on line 1 of /sass/spec/scss/import/extension_conflict/input.scss
-  Use --trace for backtrace.
-
-<===> extension/error-dart-sass
 Error: It's not clear which file to import. Found:
   other.sass
   other.scss
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+  input.scss 3:9  root stylesheet
+
+<===> extension/error-libsass
+Error: It's not clear which file to import. Found:
+  other.scss
+  other.sass
   ,
 3 | @import "other";
   |         ^^^^^^^
@@ -85,22 +77,23 @@ a
 a {syntax: scss; partial: true}
 
 <===> all/error
-Error: It's not clear which file to import for '@import "other"'.
-       Candidates:
-         _other.sass
-         other.sass
-         _other.scss
-         other.scss
-       Please delete or rename all but one of these files.
-        on line 1 of /sass/spec/scss/import/all_conflict/input.scss
-  Use --trace for backtrace.
-
-<===> all/error-dart-sass
 Error: It's not clear which file to import. Found:
   _other.sass
   other.sass
   _other.scss
   other.scss
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+  input.scss 3:9  root stylesheet
+
+<===> all/error-libsass
+Error: It's not clear which file to import. Found:
+  _other.scss
+  _other.sass
+  other.scss
+  other.sass
   ,
 3 | @import "other";
   |         ^^^^^^^
@@ -119,15 +112,6 @@ a {partial: true}
 a {partial: false}
 
 <===> index/error
-Error: It's not clear which file to import for '@import "other"'.
-       Candidates:
-         _index.scss
-         index.scss
-       Please delete or rename all but one of these files.
-        on line 1 of spec/directives/import/conflict/index/input.scss
-  Use --trace for backtrace.
-
-<===> index/error-dart-sass
 Error: It's not clear which file to import. Found:
   other/_index.scss
   other/index.scss

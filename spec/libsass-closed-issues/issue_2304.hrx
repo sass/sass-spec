@@ -6,8 +6,10 @@
 .foo, &:before {
   background: red;
 }
+
 <===> input.scss
 @import "module";
+
 <===> error
 Error: Top-level selectors may not contain the parent selector "&".
   ,
@@ -15,4 +17,17 @@ Error: Top-level selectors may not contain the parent selector "&".
   | ^^^^^^^^
   '
   _module.scss 1:1  @import
+  input.scss 1:9    root stylesheet
+
+<===> error-libsass
+Error: Top-level selectors may not contain the parent selector "&".
+  ,
+1 | .foo, & {
+  |       ^
+  '
+  _module.scss 1:7  @import
+  ,
+1 | @import "module";
+  |         ^^^^^^^^
+  '
   input.scss 1:9    root stylesheet

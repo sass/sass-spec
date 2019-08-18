@@ -15,3 +15,16 @@ Error: $string: "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)
   |            ^^^^^^^^^^^^^^
   '
   input.scss 6:12  root stylesheet
+
+<===> error-libsass
+Error: $string: "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)" is not a string.
+  ,
+1 | $list:   '(-webkit-min-device-pixel-ratio: 2)', '(min-resolution: 192dpi)';
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+  '
+  input.scss 1:10  unquote()
+  ,
+6 |   content: unquote($list);
+  |            ^^^^^^^^^^^^^^
+  '
+  input.scss 6:12  root stylesheet

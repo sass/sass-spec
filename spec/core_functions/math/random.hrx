@@ -102,6 +102,19 @@ Error: $limit: c is not a number.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/error-libsass
+Error: $limit: c is not a number.
+  ,
+1 | a {b: random(c)}
+  |              ^
+  '
+  input.scss 1:14  random()
+  ,
+1 | a {b: random(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/decimal/input.scss
@@ -114,6 +127,19 @@ Error: $limit: 1.5 is not an int.
   |       ^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/decimal/error-libsass
+Error: $limit: 1.5 is not an int.
+  ,
+1 | a {b: random(1.5)}
+  |              ^^^
+  '
+  input.scss 1:14  random()
+  ,
+1 | a {b: random(1.5)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

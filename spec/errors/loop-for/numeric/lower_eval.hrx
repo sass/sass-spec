@@ -6,6 +6,7 @@
 }
 
 bar { baz: foo(); }
+
 <===> error
 Error: "foo" is not a number.
   ,
@@ -13,4 +14,17 @@ Error: "foo" is not a number.
   |                  ^^^^^
   '
   input.scss 2:15  foo()
+  input.scss 7:12  root stylesheet
+
+<===> error-libsass
+Error: "foo" is not a number.
+  ,
+2 |     @for $i from "foo" through 4 {
+  |                  ^^^^^
+  '
+  input.scss 2:15  foo()
+  ,
+7 | bar { baz: foo()}
+  |            ^^^^^
+  '
   input.scss 7:12  root stylesheet

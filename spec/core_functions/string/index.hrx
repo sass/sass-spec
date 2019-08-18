@@ -79,6 +79,19 @@ Error: $string: 1 is not a string.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/string/error-libsass
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-index(1, "c")}
+  |                 ^
+  '
+  input.scss 1:17  str-index()
+  ,
+1 | a {b: str-index(1, "c")}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/substring/input.scss
@@ -91,6 +104,19 @@ Error: $substring: 1 is not a string.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/type/substring/error-libsass
+Error: $substring: 1 is not a string.
+  ,
+1 | a {b: str-index("c", 1)}
+  |                      ^
+  '
+  input.scss 1:22  str-index()
+  ,
+1 | a {b: str-index("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
