@@ -1,7 +1,7 @@
 <===> variable_use/input.scss
 @use "midstream";
 
-a {b: $midstream.c}
+a {b: midstream.$c}
 
 <===> variable_use/_midstream.scss
 @forward "upstream";
@@ -21,7 +21,7 @@ a {
 <===> variable_assignment/top_level/input.scss
 @use "midstream";
 
-$midstream.a: new value;
+midstream.$a: new value;
 
 b {
   midstream: midstream.get-midstream-a();

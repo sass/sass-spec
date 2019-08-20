@@ -1,13 +1,13 @@
 <===> missing_member/namespaced/variable_use/input.scss
 @use "other";
 
-a {b: $other.member}
+a {b: other.$member}
 
 <===> missing_member/namespaced/variable_use/other.scss
 <===> missing_member/namespaced/variable_use/error
 Error: Undefined variable.
   ,
-3 | a {b: $other.member}
+3 | a {b: other.$member}
   |       ^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -17,13 +17,13 @@ Error: Undefined variable.
 <===> missing_member/namespaced/variable_declaration/input.scss
 @use "other";
 
-$other.member: value;
+other.$member: value;
 
 <===> missing_member/namespaced/variable_declaration/other.scss
 <===> missing_member/namespaced/variable_declaration/error
 Error: Undefined variable.
   ,
-3 | $other.member: value;
+3 | other.$member: value;
   | ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:1  root stylesheet
@@ -95,7 +95,7 @@ Error: Undefined mixin.
 <===>
 ================================================================================
 <===> member_before_use/variable_use/input.scss
-$variable: $other.member;
+$variable: other.$member;
 @use "other";
 
 <===> member_before_use/variable_use/other.scss
@@ -104,7 +104,7 @@ $member: value;
 <===> member_before_use/variable_use/error
 Error: There is no module with the namespace "other".
   ,
-1 | $variable: $other.member;
+1 | $variable: other.$member;
   |            ^^^^^^^^^^^^^
   '
   input.scss 1:12  root stylesheet
@@ -112,7 +112,7 @@ Error: There is no module with the namespace "other".
 <===>
 ================================================================================
 <===> member_before_use/variable_declaration/input.scss
-$other.member: value;
+other.$member: value;
 @use "other";
 
 <===> member_before_use/variable_declaration/other.scss
@@ -121,7 +121,7 @@ $member: value;
 <===> member_before_use/variable_declaration/error
 Error: There is no module with the namespace "other".
   ,
-1 | $other.member: value;
+1 | other.$member: value;
   | ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:1  root stylesheet

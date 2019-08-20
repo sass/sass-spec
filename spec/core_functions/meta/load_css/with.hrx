@@ -279,7 +279,7 @@ configuration will use the configured module.
 
 <===> multi_load/use/_midstream.scss
 @use "upstream";
-b {c: $upstream.a}
+b {c: upstream.$a}
 
 <===> multi_load/use/_upstream.scss
 $a: original !default;
@@ -297,7 +297,7 @@ b {
 @use "loads";
 @use "midstream";
 
-b {c: $midstream.a}
+b {c: midstream.$a}
 
 <===> multi_load/forward/_loads.scss
 @use "sass:meta";

@@ -37,7 +37,7 @@ Error: This variable was not declared with !default in the @used module.
 
 <===> namespace/_midstream.scss
 @use "upstream";
-$upstream.a: c !default;
+upstream.$a: c !default;
 
 <===> namespace/_upstream.scss
 $a: d;
@@ -132,7 +132,7 @@ Error: Undefined variable.
 <===>
 ================================================================================
 <===> invalid_expression/module_loaded_later/input.scss
-@use "configured" with ($a: $other.b);
+@use "configured" with ($a: other.$b);
 @use "other";
 
 <===> invalid_expression/module_loaded_later/_configured.scss
@@ -144,7 +144,7 @@ $b: d;
 <===> invalid_expression/module_loaded_later/error
 Error: There is no module with the namespace "other".
   ,
-1 | @use "configured" with ($a: $other.b);
+1 | @use "configured" with ($a: other.$b);
   |                             ^^^^^^^^
   '
   input.scss 1:29  root stylesheet

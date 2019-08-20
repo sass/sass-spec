@@ -1,7 +1,7 @@
 <===> variable_use/input.scss
 @use "midstream";
 
-a {b: $midstream.c}
+a {b: midstream.$c}
 
 <===> variable_use/_midstream.scss
 @forward "upstream";
@@ -19,7 +19,7 @@ a {
 <===> variable_assignment/top_level/input.scss
 @use "midstream";
 
-$midstream.a: new value;
+midstream.$a: new value;
 
 b {c: midstream.get-a()};
 
@@ -44,7 +44,7 @@ b {
 a {
   // Namespaced assignments always assign to the other module's variable, even
   // if they're nested in a block scope.
-  $midstream.b: new value;
+  midstream.$b: new value;
 
   c: midstream.get-b();
 }
