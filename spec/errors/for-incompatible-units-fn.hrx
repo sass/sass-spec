@@ -4,6 +4,7 @@
 }
 
 foo { bar: test(); }
+
 <===> error
 Error: Incompatible units % and px.
   ,
@@ -11,4 +12,17 @@ Error: Incompatible units % and px.
   |                ^^^^
   '
   input.scss 2:16  test()
+  input.scss 5:12  root stylesheet
+
+<===> error-libsass
+Error: Incompatible units % and px.
+  ,
+2 |   @for $i from 100% through 42px {}
+  |                ^^^^
+  '
+  input.scss 2:16  test()
+  ,
+5 | foo { bar: test()}
+  |            ^^^^^^
+  '
   input.scss 5:12  root stylesheet

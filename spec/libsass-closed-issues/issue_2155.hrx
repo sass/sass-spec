@@ -29,3 +29,23 @@ Error: Expected identifier.
   '
   input.scss 2:5  root stylesheet
 
+
+<===> error-libsass
+WARNING: You probably don't mean to use the color value yellow in interpolation here.
+It may end up represented as #ff0, which will likely produce invalid CSS.
+Always quote color names when using them as strings or map keys (for example, "yellow").
+If you really want to use the color value here, use '"" + #ff0'.
+
+  ,
+2 |   &.#{#ff0} {
+  |       ^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+Error: Expected identifier.
+  ,
+2 |   &.#ff0 {
+  |     ^
+  '
+  input.scss 2:5  root stylesheet
+

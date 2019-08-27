@@ -4,8 +4,10 @@ pre& {
     bar: baz;
   }
 }
+
 <===> input.scss
 @import "include.scss";
+
 <===> error
 Error: "&" may only used at the beginning of a compound selector.
   ,
@@ -13,4 +15,17 @@ Error: "&" may only used at the beginning of a compound selector.
   |    ^
   '
   include.scss 1:4  @import
+  input.scss 1:9    root stylesheet
+
+<===> error-libsass
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | pre& {
+  |    ^
+  '
+  include.scss 1:4  @import
+  ,
+1 | @import "include.scss";
+  |         ^^^^^^^^^^^^^^
+  '
   input.scss 1:9    root stylesheet

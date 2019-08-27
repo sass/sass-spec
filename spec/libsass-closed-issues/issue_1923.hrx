@@ -29,8 +29,23 @@ You may not @extend selectors across media queries.
 
 <===> error-libsass
 Error: You may not @extend selectors across media queries.
+  ,
+1 | %btnBase {
+  | ^^^^^^^^
+  '
+  input.scss 1:1    @extend
    ,
 13 |     @extend %btnBase;
-   |     ^^^^^^^^^^^^^^^^
+   |             ^^^^^^^^
    '
-  input.scss 13:5  root stylesheet
+  input.scss 13:13  @content
+  ,
+7 |     @content;
+  |     ^^^^^^^^
+  '
+  input.scss 7:5    mobile()
+   ,
+11 | @include mobile {
+   | ^^^^^^^^^^^^^^^
+   '
+  input.scss 11:1   root stylesheet

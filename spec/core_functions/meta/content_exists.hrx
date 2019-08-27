@@ -80,6 +80,19 @@ Error: Only 0 arguments allowed, but 1 was passed.
   input.scss 2:9  a()
   input.scss 4:1  root stylesheet
 
+<===> error/too_many_args/error-libsass
+Error: Only 0 arguments allowed, but 1 was passed.
+  ,
+2 |   b {c: content-exists(1)}
+  |         ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:9  a()
+  ,
+4 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 4:1  root stylesheet
+
 <===>
 ================================================================================
 <===> error/outside_mixin/input.scss
@@ -114,10 +127,23 @@ Error: content-exists() may only be called within a mixin.
   input.scss 2:3  call-content()
   input.scss 5:1  root stylesheet
 
-<===> error/in_content/options.yml
----
-:todo:
-- sass/libsass#2938
+<===> error/in_content/error-libsass
+Error: content-exists() may only be called within a mixin.
+  ,
+6 |   a {b: content-exists()}
+  |         ^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:9  @content
+  ,
+2 |   @content;
+  |   ^^^^^^^^
+  '
+  input.scss 2:3  call-content()
+  ,
+5 | @include call-content {
+  | ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:1  root stylesheet
 
 <===>
 ================================================================================
@@ -140,4 +166,22 @@ Error: content-exists() may only be called within a mixin.
   '
   input.scss 2:11  call-content-exists()
   input.scss 6:9   call-function()
+  input.scss 9:1   root stylesheet
+
+<===> error/in_function_called_by_mixin/error-libsass
+Error: content-exists() may only be called within a mixin.
+  ,
+2 |   @return content-exists();
+  |           ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:11  call-content-exists()
+  ,
+6 |   a {b: call-content-exists()};
+  |         ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:9   call-function()
+  ,
+9 | @include call-function;
+  | ^^^^^^^^^^^^^^^^^^^^^^
+  '
   input.scss 9:1   root stylesheet
