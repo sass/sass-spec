@@ -95,6 +95,11 @@ a {
 
 <===>
 ================================================================================
+<===> error/universal/options.yml
+---
+:todo:
+- sass/libsass#2982
+
 <===> error/universal/input.scss
 a {b: selector-append(".c", "*")}
 
@@ -105,11 +110,6 @@ Error: Can't append * to .c.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/universal/output-libsass.css
-a {
-  b: .c*;
-}
 
 <===>
 ================================================================================
@@ -152,6 +152,11 @@ Error: Can't append |d to c.
 
 <===>
 ================================================================================
+<===> error/parent/options.yml
+---
+:todo:
+- sass/libsass#2983
+
 <===> error/parent/input.scss
 a {b: selector-append(".c", "&")}
 
@@ -167,11 +172,6 @@ Error: Parent selectors aren't allowed here.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/parent/output-libsass.css
-a {
-  b: .c;
-}
 
 <===>
 ================================================================================
