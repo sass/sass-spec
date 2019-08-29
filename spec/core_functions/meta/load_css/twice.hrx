@@ -3,12 +3,12 @@
 @use "shared";
 @include meta.load-css("other");
 
-a {shared-b: $shared.b}
+a {shared-b: shared.$b}
 
 <===> shares_state/_other.scss
 @use "shared";
 
-$shared.b: value set by other;
+shared.$b: value set by other;
 
 <===> shares_state/_shared.scss
 $b: default value;

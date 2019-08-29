@@ -70,7 +70,7 @@ b {
 <===> forward_to_import/variable_assignment/input.scss
 @use "used";
 
-$used.a: new value;
+used.$a: new value;
 
 b {c: used.get-a()};
 
@@ -95,7 +95,7 @@ b {
 <===> forward_to_import/variable_use/input.scss
 @use "used";
 
-a {b: $used.c}
+a {b: used.$c}
 
 <===> forward_to_import/variable_use/_used.scss
 @forward "forwarded";

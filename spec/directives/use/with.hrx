@@ -126,7 +126,7 @@ b {
 ================================================================================
 <===> used_in_input/input.scss
 @use "other" with ($a: configured);
-b {c: $other.a}
+b {c: other.$a}
 
 <===> used_in_input/_other.scss
 $a: original !default;
@@ -294,7 +294,7 @@ configuration will use the configured module.
 
 <===> multi_load/use/_midstream.scss
 @use "upstream";
-b {c: $upstream.a}
+b {c: upstream.$a}
 
 <===> multi_load/use/_upstream.scss
 $a: original !default;
@@ -309,7 +309,7 @@ b {
 <===> multi_load/forward/input.scss
 @use "upstream" with ($a: configured);
 @use "midstream";
-b {c: $midstream.a}
+b {c: midstream.$a}
 
 <===> multi_load/forward/_midstream.scss
 @forward "upstream";

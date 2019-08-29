@@ -149,7 +149,7 @@ Error: $a was not declared with !default in the @used module.
 
 <===> with/namespace/_midstream.scss
 @use "upstream";
-$upstream.a: c !default;
+upstream.$a: c !default;
 
 <===> with/namespace/_upstream.scss
 $a: d;
@@ -582,7 +582,7 @@ Error: Undefined variable.
 @use "sass:meta";
 @meta.load-css("other");
 
-a {b: $other.c}
+a {b: other.$c}
 
 <===> member/namespace/_other.scss
 $c: d;
@@ -590,7 +590,7 @@ $c: d;
 <===> member/namespace/error
 Error: There is no module with the namespace "other".
   ,
-4 | a {b: $other.c}
+4 | a {b: other.$c}
   |       ^^^^^^^^
   '
   input.scss 4:7  root stylesheet
