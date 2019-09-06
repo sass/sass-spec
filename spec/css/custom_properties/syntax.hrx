@@ -1,0 +1,64 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2987
+
+<===>
+================================================================================
+<===> initial_digit/declare/input.scss
+a {--1: b}
+
+<===> initial_digit/declare/output.css
+a {
+  --1: b;
+}
+
+<===>
+================================================================================
+<===> initial_digit/use/input.scss
+a {b: var(--1)}
+
+<===> initial_digit/use/output.css
+a {
+  b: var(--1);
+}
+
+<===>
+================================================================================
+<===> double_dash/declare/input.scss
+a {--: b}
+
+<===> double_dash/declare/output.css
+a {
+  --: b;
+}
+
+<===>
+================================================================================
+<===> double_dash/use/input.scss
+a {b: var(--)}
+
+<===> double_dash/use/output.css
+a {
+  b: var(--);
+}
+
+<===>
+================================================================================
+<===> triple_dash/declare/input.scss
+a {---: b}
+
+<===> triple_dash/declare/output.css
+a {
+  ---: b;
+}
+
+<===>
+================================================================================
+<===> triple_dash/use/input.scss
+a {b: var(---)}
+
+<===> triple_dash/use/output.css
+a {
+  b: var(---);
+}
