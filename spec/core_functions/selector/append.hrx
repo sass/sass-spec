@@ -16,11 +16,6 @@ a {
   b: .c.e, .c.f, .d.e, .d.f;
 }
 
-<===> classes/double/output-libsass.css
-a {
-  b: .c.e, .d.e, .c.f, .d.f;
-}
-
 <===>
 ================================================================================
 <===> suffix/single/input.scss
@@ -39,11 +34,6 @@ a {b: selector-append(".c, .d", "e, f")}
 <===> suffix/multiple/output.css
 a {
   b: .ce, .cf, .de, .df;
-}
-
-<===> suffix/multiple/output-libsass.css
-a {
-  b: .ce, .de, .cf, .df;
 }
 
 <===>
@@ -88,11 +78,6 @@ a {
   b: cf, cg h, d ef, d eg h;
 }
 
-<===> input/output-libsass.css
-a {
-  b: cf, d ef, cg h, d eg h;
-}
-
 <===>
 ================================================================================
 <===> error/universal/options.yml
@@ -123,14 +108,6 @@ Error: Can't append > .d to .c.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/leading_combinator/error-libsass
-Error: Can't append "> .d" to ".c" for `selector-append'
-        on line 1:7 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append(".c", "> .d")}
-
-   ------^
 
 <===>
 ================================================================================
@@ -192,12 +169,17 @@ Error: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:24 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append("[c", "d")}
-
-   -----------------------^
+Error: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  input.scss 1:3  selector-append()
+  ,
+1 | a {b: selector-append("[c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -230,11 +212,3 @@ Error: $selectors: At least one selector must be passed.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: $selectors: At least one selector must be passed for `selector-append'
-        on line 1:7 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append()}
-
-   ------^

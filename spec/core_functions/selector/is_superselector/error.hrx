@@ -16,11 +16,21 @@ Error: $super: Parent selectors aren't allowed here.
 
 <===> super/parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:24 of input.scss, in function `is-superselector`
-        from line 1:7 of input.scss
->> a {b: is-superselector("&", "c")}
-
-   -----------------------^
+  ,
+1 | a {b: is-superselector(&, "c")}
+  |                        ^
+  '
+  input.scss 1:24  #{}
+  ,
+1 | a {b: is-superselector("&", "c")}
+  |                        ^^^
+  '
+  input.scss 1:24  is-superselector()
+  ,
+1 | a {b: is-superselector("&", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -41,12 +51,22 @@ Error: $super: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> super/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:25 of input.scss, in function `is-superselector`
-        from line 1:7 of input.scss
->> a {b: is-superselector("[c", "d")}
-
-   ------------------------^
+Error: expected more input.
+  ,
+1 | a {b: is-superselector([c, "d")}
+  |                          ^
+  '
+  input.scss 1:26  #{}
+  ,
+1 | a {b: is-superselector("[c", "d")}
+  |                        ^^^^
+  '
+  input.scss 1:24  is-superselector()
+  ,
+1 | a {b: is-superselector("[c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -87,11 +107,21 @@ Error: $sub: Parent selectors aren't allowed here.
 
 <===> sub/parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:29 of input.scss, in function `is-superselector`
-        from line 1:7 of input.scss
->> a {b: is-superselector("c", "&")}
-
-   ----------------------------^
+  ,
+1 | a {b: is-superselector("c", &)}
+  |                             ^
+  '
+  input.scss 1:29  #{}
+  ,
+1 | a {b: is-superselector("c", "&")}
+  |                             ^^^
+  '
+  input.scss 1:29  is-superselector()
+  ,
+1 | a {b: is-superselector("c", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -112,12 +142,22 @@ Error: $sub: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> sub/invalid/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:30 of input.scss, in function `is-superselector`
-        from line 1:7 of input.scss
->> a {b: is-superselector("c", "[d")}
-
-   -----------------------------^
+Error: expected more input.
+  ,
+1 | a {b: is-superselector("c", [d)}
+  |                               ^
+  '
+  input.scss 1:31  #{}
+  ,
+1 | a {b: is-superselector("c", "[d")}
+  |                             ^^^^
+  '
+  input.scss 1:29  is-superselector()
+  ,
+1 | a {b: is-superselector("c", "[d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -151,13 +191,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `is-superselector'
-        on line 1:7 of input.scss
->> a {b: is-superselector("c", "d", "e")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> too_few_args/input.scss
@@ -170,10 +203,3 @@ Error: Missing argument $sub.
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> too_few_args/error-libsass
-Error: Function is-superselector is missing argument $sub.
-        on line 1 of input.scss
->> a {b: is-superselector("c")}
-
-   ------^
