@@ -1,0 +1,20 @@
+<===> input.scss
+$a: c;
+
+:scope(a from "#{$a}") {
+  a: b;
+}
+
+a :unknown(even) {
+  &:unknown(a b c) {
+    a: b;
+  }
+}
+<===> output.css
+:scope(a from "c") {
+  a: b;
+}
+
+a :unknown(even):unknown(a b c) {
+  a: b;
+}
