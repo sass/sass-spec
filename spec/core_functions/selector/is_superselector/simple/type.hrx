@@ -1,0 +1,175 @@
+<===> equal/input.scss
+a {b: is-superselector("c", "c")}
+
+<===> equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> unequal/input.scss
+a {b: is-superselector("c", "d")}
+
+<===> unequal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> and_universal/input.scss
+a {b: is-superselector("c", "*")}
+
+<===> and_universal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_explicit/equal/input.scss
+a {b: is-superselector("c|d", "c|d")}
+
+<===> namespace/explicit/and_explicit/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_explicit/unequal/input.scss
+a {b: is-superselector("c|d", "e|d")}
+
+<===> namespace/explicit/and_explicit/unequal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_implicit/input.scss
+a {b: is-superselector("c|d", "d")}
+
+<===> namespace/explicit/and_implicit/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_empty/input.scss
+a {b: is-superselector("c|d", "|d")}
+
+<===> namespace/explicit/and_empty/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_universal/input.scss
+a {b: is-superselector("c|d", "*|d")}
+
+<===> namespace/explicit/and_universal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_explicit/input.scss
+a {b: is-superselector("|c", "d|c")}
+
+<===> namespace/empty/and_explicit/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_implicit/input.scss
+a {b: is-superselector("|c", "c")}
+
+<===> namespace/empty/and_implicit/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_empty/input.scss
+a {b: is-superselector("|c", "|c")}
+
+<===> namespace/empty/and_empty/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_universal/input.scss
+a {b: is-superselector("|c", "*|c")}
+
+<===> namespace/empty/and_universal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_explicit/options.yml
+---
+:todo:
+- sass/dart-sass#789
+- sass/libsass#2962
+
+<===> namespace/universal/and_explicit/input.scss
+a {b: is-superselector("*|c", "d|c")}
+
+<===> namespace/universal/and_explicit/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_implicit/options.yml
+---
+:todo:
+- sass/dart-sass#789
+- sass/libsass#2962
+
+<===> namespace/universal/and_implicit/input.scss
+a {b: is-superselector("*|c", "c")}
+
+<===> namespace/universal/and_implicit/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_empty/options.yml
+---
+:todo:
+- sass/dart-sass#789
+- sass/libsass#2962
+
+<===> namespace/universal/and_empty/input.scss
+a {b: is-superselector("*|c", "|c")}
+
+<===> namespace/universal/and_empty/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_universal/input.scss
+a {b: is-superselector("*|c", "*|c")}
+
+<===> namespace/universal/and_universal/output.css
+a {
+  b: true;
+}
