@@ -97,26 +97,3 @@ a {
 b {
   c: d;
 }
-
-<===>
-================================================================================
-<===> through_forward_and_use/input.scss
-// Regression test for sass/sass#2744.
-@use "forwarder" with ($c: e);
-
-a {b: forwarder.$c}
-
-<===> through_forward_and_use/_forwarder.scss
-@forward "definition";
-@forward "user";
-
-<===> through_forward_and_use/_definition.scss
-$c: d !default;
-
-<===> through_forward_and_use/_user.scss
-@use "definition";
-
-<===> through_forward_and_use/output.css
-a {
-  b: e;
-}
