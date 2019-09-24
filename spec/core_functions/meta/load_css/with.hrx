@@ -313,3 +313,24 @@ $a: original !default;
 b {
   c: configured;
 }
+
+<===>
+================================================================================
+<===> multi_load/empty/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// An empty configuration map counts as no configuration.
+@include meta.load-css("midstream", $with: ());
+
+<===> multi_load/empty/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> multi_load/empty/_upstream.scss
+$a: original !default;
+
+<===> multi_load/empty/output.css
+b {
+  c: configured;
+}

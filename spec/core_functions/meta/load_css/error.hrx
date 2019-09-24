@@ -249,26 +249,6 @@ identical.
 
 <===>
 ================================================================================
-<===> with/multi_configuration/double_load/empty/input.scss
-@use "sass:meta";
-
-// An empty `$with` still counts as a configuration.
-@include meta.load-css("other", $with: ());
-@include meta.load-css("other", $with: ());
-
-<===> with/multi_configuration/double_load/empty/_other.scss
-$a: c !default;
-
-<===> with/multi_configuration/double_load/empty/error
-Error: _other.scss was already loaded, so it can't be configured using "with".
-  ,
-5 | @include meta.load-css("other", $with: ());
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 5:1  root stylesheet
-
-<===>
-================================================================================
 <===> with/multi_configuration/double_load/both_configured/input.scss
 @use "sass:meta";
 @include meta.load-css("other", $with: (a: b));
@@ -327,27 +307,6 @@ Error: This module was already loaded, so it can't be configured using "with".
   '
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet
-
-<===>
-================================================================================
-<===> with/multi_configuration/use_and_load/empty/input.scss
-@use "sass:meta";
-
-@use "other";
-
-// An empty `$with` still counts as a configuration.
-@include meta.load-css("other", $with: ());
-
-<===> with/multi_configuration/use_and_load/empty/_other.scss
-$a: c !default;
-
-<===> with/multi_configuration/use_and_load/empty/error
-Error: _other.scss was already loaded, so it can't be configured using "with".
-  ,
-6 | @include meta.load-css("other", $with: ());
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
