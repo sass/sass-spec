@@ -312,6 +312,29 @@ a {
 
 <===>
 ================================================================================
+<===> global/multiple/input.scss
+@use "left" as *;
+@use "right" as *;
+
+a {
+  left: $left;
+  right: $right;
+}
+
+<===> global/multiple/left.scss
+$left: left;
+
+<===> global/multiple/right.scss
+$right: right;
+
+<===> global/multiple/output.css
+a {
+  left: left;
+  right: right;
+}
+
+<===>
+================================================================================
 <===> use_to_import/variable_use/input.scss
 @use "midstream";
 
