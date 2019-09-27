@@ -1,0 +1,80 @@
+<===> superset/input.scss
+a {b: is-superselector(":current(c d, e f, g h)", ":current(c d.i, e j f)")}
+
+<===> superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> subset/input.scss
+a {b: is-superselector(":current(c d.i, e j f)", ":current(c d, e f, g h)")}
+
+<===> subset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> equal/input.scss
+a {b: is-superselector(":current(c d, e f)", ":current(c d, e f)")}
+
+<===> equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> bare_sub/input.scss
+a {b: is-superselector(":current(c d, e f)", "c d, e f")}
+
+<===> bare_sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/superset/input.scss
+a {
+  b: is-superselector(
+      ":-pfx-current(c d, e f, g h)",
+      ":-pfx-current(c d.i, e j f)");
+}
+
+<===> prefix/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/subset/input.scss
+a {
+  b: is-superselector(
+      ":-pfx-current(c d.i, e j f)",
+      ":-pfx-current(c d, e f, g h)");
+}
+
+<===> prefix/subset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/equal/options.yml
+---
+:todo:
+- sass/libsass#2973
+
+<===> prefix/equal/input.scss
+a {b: is-superselector(":-pfx-current(c d, e f)", ":-pfx-current(c d, e f)")}
+
+<===> prefix/equal/output.css
+a {
+  b: true;
+}

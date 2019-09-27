@@ -43,6 +43,7 @@ an exception. Thorough testing trumps style.
   * [DO use type selectors as placeholders](#do-use-type-selectors-as-placeholders)
   * [DO use descriptive names for multiple placeholders](#do-use-descriptive-names-for-multiple-placeholders)
   * [DO use single-letter names for irrelevant placeholders](#do-use-single-letter-names-for-irrelevant-placeholders)
+  * [DO use `pfx` for vendor prefixes](#do-use-pfx-for-vendor-prefixes)
   * [DO use style rules for expression-level tests](#do-use-style-rules-for-expression-level-tests)
   * [PREFER making imported files partials](#prefer-making-imported-files-partials)
   * [DO name single imported or used files "other"](#do-name-single-imported-or-used-files-other)
@@ -616,6 +617,45 @@ property name.
 [repeated]: #do-use-descriptive-names-for-multiple-placeholders
 [its path]: #do-use-descriptive-paths
 [one thing]: #do-test-only-one-thing-per-spec
+
+###  DO use `pfx` for vendor prefixes
+
+<details>
+<summary>Example</summary>
+
+#### Good
+
+```hrx
+<===> input.scss
+a {b: is-superselector(":-pfx-matches(c d)", "c d")}
+
+<===> output.css
+a {
+  b: true;
+}
+```
+
+#### Bad
+
+```hrx
+<===> input.scss
+a {b: is-superselector(":-webkit-matches(c d)", "c d")}
+
+<===> output.css
+a {
+  b: true;
+}
+```
+
+</details>
+
+There are a few situation in which Sass specifically parses vendor prefixes. In
+these cases, *all* vendor prefixes should be treated equivalently, whether
+they're from a real browser or not. To test this, use the non-existent vendor
+prefix `pfx`.
+
+If multiple different vendor prefixes are needed, index them by letter, as
+`-pfxa-`, `-pfxb`, and so on.
 
 ### DO use style rules for expression-level tests
 

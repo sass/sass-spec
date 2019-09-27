@@ -37,6 +37,30 @@ a {
 
 <===>
 ================================================================================
+<===> same_module/dash_insensitive/dash_to_underscore/input.scss
+@function a_b() {@return null}
+
+c {d: function-exists(a-b)}
+
+<===> same_module/dash_insensitive/dash_to_underscore/output.css
+c {
+  d: true;
+}
+
+<===>
+================================================================================
+<===> same_module/dash_insensitive/underscore_to_dash/input.scss
+@function a-b() {@return null}
+
+c {d: function-exists(a_b)}
+
+<===> same_module/dash_insensitive/underscore_to_dash/output.css
+c {
+  d: true;
+}
+
+<===>
+================================================================================
 <===> same_module/non_existent/input.scss
 a {
   b: function-exists(non-existent);

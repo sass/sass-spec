@@ -1,0 +1,84 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2424
+
+<===>
+================================================================================
+<===> class/equal/input.scss
+a {b: is-superselector(":c(@#$)", ":c(@#$)")}
+
+<===> class/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> class/unequal/name/input.scss
+a {b: is-superselector(":c(@#$)", ":d(@#$)")}
+
+<===> class/unequal/name/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> class/unequal/argument/input.scss
+a {b: is-superselector(":c(@#$)", ":c(*&^)")}
+
+<===> class/unequal/argument/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> class/unequal/has_argument/input.scss
+a {b: is-superselector(":c(@#$)", ":c")}
+
+<===> class/unequal/has_argument/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> element/equal/input.scss
+a {b: is-superselector("::c(@#$)", "::c(@#$)")}
+
+<===> element/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> element/unequal/name/input.scss
+a {b: is-superselector("::c(@#$)", ":d(@#$)")}
+
+<===> element/unequal/name/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> element/unequal/argument/input.scss
+a {b: is-superselector("::c(@#$)", "::c(*&^)")}
+
+<===> element/unequal/argument/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> element/unequal/has_argument/input.scss
+a {b: is-superselector("::c(@#$)", "::c")}
+
+<===> element/unequal/has_argument/output.css
+a {
+  b: false;
+}
