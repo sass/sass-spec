@@ -30,7 +30,7 @@ matrix:
         - curl -o dart.zip "https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
         - unzip dart.zip
         - export PATH="$PATH:`pwd`/dart-sdk/bin"
-        - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch feature.use
+        - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
         - (cd ../dart-sass; pub get)
       script: bundle exec sass-spec.rb --dart ../dart-sass
 
