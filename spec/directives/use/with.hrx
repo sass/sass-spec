@@ -282,6 +282,54 @@ c {
 
 <===>
 ================================================================================
+<===> through_forward/with_unrelated_config/input.scss
+@use "used" with ($from-used: configured);
+
+<===> through_forward/with_unrelated_config/_used.scss
+@forward "forwarded";
+
+$from-used: original !default;
+
+a {from-used: $from-used}
+
+<===> through_forward/with_unrelated_config/_forwarded.scss
+$from-forwarded: original !default;
+b {from-forwarded: $from-forwarded}
+
+<===> through_forward/with_unrelated_config/output.css
+b {
+  from-forwarded: original;
+}
+
+a {
+  from-used: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/and_use/input.scss
+// Regression test for sass/sass#2744.
+@use "forwarder" with ($c: e);
+
+a {b: forwarder.$c}
+
+<===> through_forward/and_use/_forwarder.scss
+@forward "definition";
+@forward "user";
+
+<===> through_forward/and_use/_definition.scss
+$c: d !default;
+
+<===> through_forward/and_use/_user.scss
+@use "definition";
+
+<===> through_forward/and_use/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
 <===> multi_load/README.md
 If a module is first loaded with a configuration, future loads with no
 configuration will use the configured module.
