@@ -1,0 +1,114 @@
+<===> superset/input.scss
+a {b: is-superselector(":not(c d, e f, g h)", ":not(c d.i, e j f)")}
+
+<===> superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> subset/input.scss
+a {b: is-superselector(":not(c d.i, e j f)", ":not(c d, e f, g h)")}
+
+<===> subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> bare_sub/input.scss
+a {b: is-superselector(":not(c d, e f, g h)", "c d, e f, g h")}
+
+<===> bare_sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> type/input.scss
+a {b: is-superselector(":not(c.d)", "e")}
+
+<===> type/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> id/input.scss
+a {b: is-superselector(":not(#c.d)", "#e")}
+
+<===> id/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> equivalence/README.md
+
+Because the set of elements a `:not()` matches gets smaller the larger the set
+of elements matched by its selector gets, `:not(X, Y)` is equivalent to
+`:not(X):not(Y)`.
+
+<===>
+================================================================================
+<===> equivalence/split_super/superset/input.scss
+a {b: is-superselector(":not(c d):not(e f):not(g h)", ":not(c d.i, e j f)")}
+<===> equivalence/split_super/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> equivalence/split_super/subset/input.scss
+a {b: is-superselector(":not(c d.i):not(e j f)", ":not(c d, e f, g h)")}
+
+<===> equivalence/split_super/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> equivalence/split_sub/superset/input.scss
+a {b: is-superselector(":not(c d, e f, g h)", ":not(c d.i):not(e j f)")}
+
+<===> equivalence/split_sub/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> equivalence/split_sub/subset/input.scss
+a {b: is-superselector(":not(c d.i, e j f)", ":not(c d):not(e f):not(g h)")}
+
+<===> equivalence/split_sub/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> prefix/superset/input.scss
+a {b: is-superselector(":-pfx-not(c d, e f, g h)", ":-pfx-not(c d.i, e j f)")}
+
+<===> prefix/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/subset/input.scss
+a {b: is-superselector(":-pfx-not(c d.i, e j f)", ":-pfx-not(c d, e f, g h)")}
+
+<===> prefix/subset/output.css
+a {
+  b: true;
+}

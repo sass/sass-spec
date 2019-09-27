@@ -250,11 +250,6 @@ Error: argument `$index` of `str-insert($string, $insert, $index)` must be a num
 
 <===>
 ================================================================================
-<===> error/decimal/options.yml
----
-:todo:
-- sass/libsass#2921
-
 <===> error/decimal/input.scss
 a {b: str-insert("", "", 0.5)}
 
@@ -265,6 +260,14 @@ Error: $index: 0.5 is not an int.
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/decimal/error-libsass
+Error: $index: 0.500000 is not an int
+        on line 1:7 of input.scss, in function `str-insert`
+        from line 1:7 of input.scss
+>> a {b: str-insert("", "", 0.5)}
+
+   ------^
 
 <===>
 ================================================================================

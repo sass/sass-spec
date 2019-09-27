@@ -1,0 +1,125 @@
+<===> README.md
+Given two compound selectors Q and R without pseudo-elements such that Q's
+simple selectors are a subset of R's, Q is always a superselector of R. This is
+because additional simple selectors can only ever eliminate possible matches,
+not add new ones.
+
+The only exception is pseudo-ELEMENTS, which change the target of the selector.
+A Q and R's pseudo-elements must match in order for either to be a superselector
+of the other.
+
+<===>
+================================================================================
+<===> same_order/input.scss
+a {b: is-superselector("c", "c.d")}
+
+<===> same_order/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_order/input.scss
+a {b: is-superselector("c.e", "c:d.e")}
+
+<===> different_order/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> superset/input.scss
+a {b: is-superselector("c.d", "c")}
+
+<===> superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/present/input.scss
+a {b: is-superselector("::d", "c::d")}
+
+<===> pseudo_element/present/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/absent/input.scss
+a {b: is-superselector("c", "c::d")}
+
+<===> pseudo_element/absent/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/same_order/input.scss
+a {b: is-superselector("::d:e", "::d:e")}
+
+<===> pseudo_element/same_order/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/different_order/options.yml
+---
+:todo:
+- sass/dart-sass#790
+- sass/libsass#2963
+
+<===> pseudo_element/different_order/input.scss
+a {b: is-superselector(":e::d", "::d:e")}
+
+<===> pseudo_element/different_order/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/class_syntax/before/input.scss
+a {b: is-superselector("c", "c:before")}
+
+<===> pseudo_element/class_syntax/before/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/class_syntax/after/input.scss
+a {b: is-superselector("c", "c:after")}
+
+<===> pseudo_element/class_syntax/after/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/class_syntax/first_line/input.scss
+a {b: is-superselector("c", "c:first-line")}
+
+<===> pseudo_element/class_syntax/first_line/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/class_syntax/first_letter/input.scss
+a {b: is-superselector("c", "c:first-letter")}
+
+<===> pseudo_element/class_syntax/first_letter/output.css
+a {
+  b: false;
+}
