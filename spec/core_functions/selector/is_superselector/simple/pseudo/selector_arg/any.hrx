@@ -1,0 +1,49 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2972
+
+<===> README.md
+`:any()` is a deprecated alias for `:matches()` that Sass still supports for
+legacy reasons. It should support the full range of behavior of `:matches()`,
+but only a small range is tested here.
+
+<===>
+================================================================================
+<===> superset/input.scss
+a {b: is-superselector(":any(c d, e f, g h)", "c d.i, e j f")}
+
+<===> superset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> subset/input.scss
+a {b: is-superselector(":any(c d.i, e j f)", "c d, e f, g h")}
+
+<===> subset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> prefix/superset/input.scss
+a {b: is-superselector(":-pfx-any(c d, e f, g h)", "c d.i, e j f")}
+
+<===> prefix/superset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> prefix/subset/input.scss
+a {b: is-superselector(":-pfx-any(c d.i, e j f)", "c d, e f, g h")}
+
+<===> prefix/subset/output.css
+a {
+  b: false;
+}
