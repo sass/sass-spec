@@ -69,3 +69,27 @@ a {
   sass-fn: #ff9999;
   css-fn: lighten(red, 30%);
 }
+
+<===>
+================================================================================
+<===> dash_insensitive/dash_to_underscore/input.scss
+@function add_two($v) {@return $v + 2}
+
+a {b: call(get-function(add-two), 10)}
+
+<===> dash_insensitive/dash_to_underscore/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/underscore_to_dash/input.scss
+@function add-two($v) {@return $v + 2}
+
+a {b: call(get-function(add_two), 10)}
+
+<===> dash_insensitive/underscore_to_dash/output.css
+a {
+  b: 12;
+}

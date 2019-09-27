@@ -1,0 +1,98 @@
+<===> two/in_sub/input.scss
+a {b: is-superselector("c", "c, d")}
+
+<===> two/in_sub/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> two/in_super/input.scss
+a {b: is-superselector("c, d", "c")}
+
+<===> two/in_super/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> two/in_both/equal/input.scss
+a {b: is-superselector("c, d", "c, d")}
+
+<===> two/in_both/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> two/in_both/subset/input.scss
+a {b: is-superselector("c, d", "c.e, d.f")}
+
+<===> two/in_both/subset/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> two/in_both/superset/input.scss
+a {b: is-superselector("c.e, d.f", "c, d")}
+
+<===> two/in_both/superset/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> two/both_satisfied_by_one_superselector/input.scss
+a {b: is-superselector(".c", "d.c, e.c")}
+
+<===> two/both_satisfied_by_one_superselector/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> three/match_one/input.scss
+a {b: is-superselector("c, d, e", "d")}
+
+<===> three/match_one/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> three/match_two/input.scss
+a {b: is-superselector("c, d, e", "e, c")}
+
+<===> three/match_two/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> three/match_three/input.scss
+a {b: is-superselector("c, d, e", "d, c, e")}
+
+<===> three/match_three/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> three/miss_one/input.scss
+a {b: is-superselector("c, d, e", "c, f")}
+
+<===> three/miss_one/output.css
+a {
+  b: false;
+}
+

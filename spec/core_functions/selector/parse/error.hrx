@@ -1,0 +1,188 @@
+<===> parent/input.scss
+a {b: selector-parse("&")}
+
+<===> parent/error
+Error: $selector: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-parse("&")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:22 of input.scss, in function `selector-parse`
+        from line 1:7 of input.scss
+>> a {b: selector-parse("&")}
+
+   ---------------------^
+
+<===>
+================================================================================
+<===> parse/invalid/input.scss
+a {b: selector-parse("[c")}
+
+<===> parse/invalid/error
+Error: $selector: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-parse("[c")}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> parse/invalid/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:23 of input.scss, in function `selector-parse`
+        from line 1:7 of input.scss
+>> a {b: selector-parse("[c")}
+
+   ----------------------^
+
+<===>
+================================================================================
+<===> parse/extra/options.yml
+---
+:todo:
+- sass/libsass#2965
+
+<===> parse/extra/input.scss
+a {b: selector-parse("c {")}
+
+<===> parse/extra/error
+Error: $selector: expected selector.
+  ,
+1 | c {
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-parse("c {")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_nested/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> too_nested/input.scss
+a {b: selector-parse((append((), append((), c)),))}
+
+<===> too_nested/error
+Error: c is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse((append((), append((), c)),))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> inner_comma/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> inner_comma/input.scss
+a {b: selector-parse(((c,),))}
+
+<===> inner_comma/error
+Error: $selector: ((c,),) is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(((c,),))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> outer_space/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> outer_space/input.scss
+a {b: selector-parse(append((), append((), c)))}
+
+<===> outer_space/error
+Error: $selector: c is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(append((), append((), c)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> type/input.scss
+a {b: selector-parse(1)}
+
+<===> type/error
+Error: $selector: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: selector-parse(c, d)}
+
+<===> too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: selector-parse(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `selector-parse'
+        on line 1:7 of input.scss
+>> a {b: selector-parse(c, d)}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: selector-parse()}
+
+<===> too_few_args/error
+Error: Missing argument $selector.
+  ,
+1 | a {b: selector-parse()}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_few_args/error-libsass
+Error: Function selector-parse is missing argument $selector.
+        on line 1 of input.scss
+>> a {b: selector-parse()}
+
+   ------^

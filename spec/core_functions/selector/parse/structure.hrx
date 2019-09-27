@@ -1,0 +1,177 @@
+<===> full_string/quoted/input.scss
+a {b: selector-parse("c d, e f")}
+
+<===> full_string/quoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> full_string/unquoted/input.scss
+a {b: selector-parse(unquote("c d, e f"))}
+
+<===> full_string/unquoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/full/quoted/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/full/quoted/input.scss
+a {b: selector-parse(("c" "d", "e" "f"))}
+
+<===> decomposed/full/quoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/full/unquoted/input.scss
+a {b: selector-parse((c d, e f))}
+
+<===> decomposed/full/unquoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/full/mixed/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/full/mixed/input.scss
+a {b: selector-parse((c "d", e "f"))}
+
+<===> decomposed/full/mixed/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/partial/quoted/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/partial/quoted/input.scss
+a {b: selector-parse(("c d", "e f"))}
+
+<===> decomposed/partial/quoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/partial/unquoted/input.scss
+a {b: selector-parse((unquote("c d"), unquote("e f")))}
+
+<===> decomposed/partial/unquoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/partial/mixed/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/partial/mixed/input.scss
+a {b: selector-parse((c d, unquote("e f")))}
+
+<===> decomposed/partial/mixed/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/middle/quoted/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/middle/quoted/input.scss
+a {b: selector-parse("c" "d, e" "f")}
+
+<===> decomposed/middle/quoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/middle/unquoted/input.scss
+a {b: selector-parse(c unquote("d, e") f)}
+
+<===> decomposed/middle/unquoted/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/middle/mixed/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/middle/mixed/input.scss
+a {b: selector-parse(c "d, e" f)}
+
+<===> decomposed/middle/mixed/output.css
+a {
+  b: c d, e f;
+}
+
+<===>
+================================================================================
+<===> decomposed/complex/quoted/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/complex/quoted/input.scss
+a {b: selector-parse("c" "d" "e")}
+
+<===> decomposed/complex/quoted/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> decomposed/complex/unquoted/input.scss
+a {b: selector-parse(c d e)}
+
+<===> decomposed/complex/unquoted/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> decomposed/complex/mixed/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> decomposed/complex/mixed/input.scss
+a {b: selector-parse(c "d" e)}
+
+<===> decomposed/complex/mixed/output.css
+a {
+  b: c d e;
+}

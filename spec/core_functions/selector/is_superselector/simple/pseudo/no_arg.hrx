@@ -1,0 +1,57 @@
+<===> class/equal/input.scss
+a {b: is-superselector(":c", ":c")}
+
+<===> class/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> class/unequal/input.scss
+a {b: is-superselector(":c", ":d")}
+
+<===> class/unequal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> class/and_element/input.scss
+a {b: is-superselector(":c", "::c")}
+
+<===> class/and_element/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> element/equal/input.scss
+a {b: is-superselector("::c", "::c")}
+
+<===> element/equal/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> element/unequal/input.scss
+a {b: is-superselector("::c", "::d")}
+
+<===> element/unequal/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> element/and_class/input.scss
+a {b: is-superselector("::c", ":c")}
+
+<===> element/and_class/output.css
+a {
+  b: false;
+}

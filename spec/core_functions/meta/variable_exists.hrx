@@ -23,6 +23,30 @@ a {
 
 <===>
 ================================================================================
+<===> dash_insensitive/dash_to_underscore/input.scss
+$a_b: null;
+
+c {d: variable-exists(a-b)}
+
+<===> dash_insensitive/dash_to_underscore/output.css
+c {
+  d: true;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/underscore_to_dash/input.scss
+$a-b: null;
+
+c {d: variable-exists(a_b)}
+
+<===> dash_insensitive/underscore_to_dash/output.css
+c {
+  d: true;
+}
+
+<===>
+================================================================================
 <===> through_import/input.scss
 @import "other";
 a {b: variable-exists(global-variable)}
