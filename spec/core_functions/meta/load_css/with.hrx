@@ -1,0 +1,336 @@
+<===> README.md
+Most changes here should also be reflected in directives/use/with.hrx.
+
+<===> empty/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ());
+
+<===> empty/_other.scss
+a {b: c}
+
+<===> empty/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> single/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
+
+<===> single/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> single/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a_b: configured));
+
+<===> dash_insensitive/_other.scss
+$a-b: original !default;
+b {c: $a-b}
+
+<===> dash_insensitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (
+  a: configured a,
+  b: configured b,
+  c: configured c
+));
+
+<===> multiple/_other.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> multiple/output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}
+
+<===>
+================================================================================
+<===> some_unconfigured/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured a));
+
+<===> some_unconfigured/_other.scss
+$a: original a !default;
+$b: original b !default;
+
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> some_unconfigured/output.css
+c {
+  a: configured a;
+  b: original b;
+}
+
+<===>
+================================================================================
+<===> doesnt_run_default/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
+
+<===> doesnt_run_default/_other.scss
+// This will throw an error if it's evaluated, but it shouldn't be because `$a`
+// already has a value.
+$a: 1px + 1em !default;
+b {c: $a}
+
+<===> doesnt_run_default/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> variable_exists/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
+
+<===> variable_exists/_other.scss
+$before-declaration: variable-exists(a);
+$a: original !default;
+b {
+  before-declaration: $before-declaration;
+  after-declaration: variable-exists(a);
+}
+
+<===> variable_exists/output.css
+b {
+  before-declaration: false;
+  after-declaration: true;
+}
+
+<===>
+================================================================================
+<===> through_import/direct/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_import/direct/_loaded.scss
+@import "imported";
+
+<===> through_import/direct/_imported.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_import/direct/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_import/transitive/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_import/transitive/_loaded.scss
+@import "midstream";
+
+<===> through_import/transitive/_midstream.scss
+@import "upstream";
+
+<===> through_import/transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_import/transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_forward/bare/_loaded.scss
+@forward "forwarded";
+
+<===> through_forward/bare/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/bare/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/transitive/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_forward/transitive/_loaded.scss
+@forward "midstream";
+
+<===> through_forward/transitive/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_forward/show/_loaded.scss
+@forward "forwarded" show $a;
+
+<===> through_forward/show/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/show/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> through_forward/hide/_loaded.scss
+@forward "forwarded" hide $b;
+
+<===> through_forward/hide/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/hide/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (b-a: configured));
+
+<===> through_forward/as/_loaded.scss
+@forward "forwarded" as b-*;
+
+<===> through_forward/as/_forwarded.scss
+$a: original !default;
+c {d: $a}
+
+<===> through_forward/as/output.css
+c {
+  d: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/README.md
+If a module is first loaded with a configuration, future loads with no
+configuration will use the configured module.
+
+<===>
+================================================================================
+<===> multi_load/use/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// We have to load this dynamically, because we can't have a `@use` after an
+// `@include`.
+@include meta.load-css("midstream");
+
+<===> multi_load/use/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> multi_load/use/_upstream.scss
+$a: original !default;
+
+<===> multi_load/use/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/forward/input.scss
+// This indirection is necessary so that we can execute `meta.load-css()` before
+// we begin loading `used`.
+@use "loads";
+@use "midstream";
+
+b {c: midstream.$a}
+
+<===> multi_load/forward/_loads.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+<===> multi_load/forward/_midstream.scss
+@forward "upstream";
+
+<===> multi_load/forward/_upstream.scss
+$a: original !default;
+
+<===> multi_load/forward/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/empty/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// An empty configuration map counts as no configuration.
+@include meta.load-css("midstream", $with: ());
+
+<===> multi_load/empty/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> multi_load/empty/_upstream.scss
+$a: original !default;
+
+<===> multi_load/empty/output.css
+b {
+  c: configured;
+}

@@ -65,7 +65,6 @@ a {
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> through_use/input.scss
 @use "other" as *;
@@ -85,7 +84,6 @@ a {
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===>
 ================================================================================
@@ -241,7 +239,6 @@ Error: wrong number of arguments (2 for 1) for `variable-exists'
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> conflict/input.scss
 @use "other1" as *;
@@ -256,7 +253,9 @@ $member: from other1;
 $member: from other2;
 
 <===> conflict/error
-Error: Multiple global modules have a variable named "$member".
+Error: This variable is available from multiple global modules:
+* other1.scss
+* other2.scss
   ,
 4 | a {b: variable-exists(member)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^

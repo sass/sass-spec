@@ -1,0 +1,24 @@
+<===> README.md
+`@forward` should handle extensions in the same way as `@use`, and as such
+should produce the same errors when extensions fail. We assume that they use
+shared infrastructure, though, and as such only test a basic case.
+
+<===> input.scss
+@use "midstream";
+
+in-input {a: b}
+
+<===> _midstream.scss
+@forward "upstream";
+
+<===> _upstream.scss
+in-upstream {@extend in-input}
+
+<===> error
+Error: The target selector was not found.
+Use "@extend in-input !optional" to avoid this error.
+  ,
+1 | in-upstream {@extend in-input}
+  |              ^^^^^^^^^^^^^^^^
+  '
+  _upstream.scss 1:14  root stylesheet

@@ -136,3 +136,57 @@ Error: It's not clear which file to import. Found:
   |         ^^^^^^^
   '
   input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> import_only/options.yml
+---
+:todo:
+- libsass
+
+<===>
+================================================================================
+<===> import_only/no_extension/input.scss
+// This import can't be resolved because it could refer to either the Sass or
+// the SCSS import-only file.
+@import "other";
+
+<===> import_only/no_extension/other.import.scss
+a {syntax: scss}
+
+<===> import_only/no_extension/other.import.sass
+a
+  syntax: sass
+
+<===> import_only/no_extension/error
+Error: It's not clear which file to import. Found:
+  other.import.sass
+  other.import.scss
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+  input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> import_only/with_extension/input.scss
+// This import can't be resolved because it could refer to either the partial or
+// the non-partial.
+@import "other.scss";
+
+<===> import_only/with_extension/other.import.scss
+a {partial: false}
+
+<===> import_only/with_extension/_other.import.scss
+a {partial: true}
+
+<===> import_only/with_extension/error
+Error: It's not clear which file to import. Found:
+  _other.import.scss
+  other.import.scss
+  ,
+3 | @import "other.scss";
+  |         ^^^^^^^^^^^^
+  '
+  input.scss 3:9  root stylesheet

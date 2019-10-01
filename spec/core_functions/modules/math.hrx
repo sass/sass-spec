@@ -1,0 +1,147 @@
+<===> percentage/input.scss
+@use "sass:math";
+a {b: math.percentage(0.5)}
+
+<===> percentage/output.css
+a {
+  b: 50%;
+}
+
+
+<===>
+================================================================================
+<===> round/input.scss
+@use "sass:math";
+a {b: math.round(0.5)}
+
+<===> round/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> ceil/input.scss
+@use "sass:math";
+a {b: math.ceil(0.5)}
+
+<===> ceil/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> floor/input.scss
+@use "sass:math";
+a {b: math.floor(0.5)}
+
+<===> floor/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> abs/input.scss
+@use "sass:math";
+a {b: math.abs(-1)}
+
+<===> abs/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+@use "sass:math";
+a {b: math.min(1, 2, 3)}
+
+<===> min/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> max/input.scss
+@use "sass:math";
+a {b: math.max(1, 2, 3)}
+
+<===> max/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> random/input.scss
+@use "sass:math";
+a {b: math.random(5) <= 5}
+
+<===> random/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> unit/input.scss
+@use "sass:math";
+a {b: math.unit(5px)}
+
+<===> unit/output.css
+a {
+  b: "px";
+}
+
+<===>
+================================================================================
+<===> is_unitless/input.scss
+@use "sass:math";
+a {b: math.is-unitless(1)}
+
+<===> is_unitless/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> compatible/input.scss
+@use "sass:math";
+a {b: math.compatible(1px, 1in)}
+
+<===> compatible/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/unitless/input.scss
+@use "sass:math";
+a {b: math.unitless(1)}
+
+<===> error/unitless/error
+Error: Undefined function.
+  ,
+2 | a {b: math.unitless(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/comparable/input.scss
+@use "sass:math";
+a {b: math.comparable(1px, 1in)}
+
+<===> error/comparable/error
+Error: Undefined function.
+  ,
+2 | a {b: math.comparable(1px, 1in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

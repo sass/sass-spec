@@ -21,7 +21,6 @@ Error: $name: 2px is not a string for `get-function'
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> argument/type/module/input.scss
 a {b: get-function(c, $module: 1)}
@@ -119,14 +118,6 @@ Error: Function not found: does-not-exist
 
 <===>
 ================================================================================
-<===> through_forward/options.yml
----
-:todo:
-- sass/libsass#2807
-- sass/dart-sass#554
-
-<===>
-================================================================================
 <===> through_forward/show/input.scss
 @use "midstream" as *;
 a {
@@ -221,7 +212,6 @@ Error: $name: get-function("add-two") is not a string for `get-function'
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> conflict/input.scss
 @use "other1" as *;
@@ -236,7 +226,9 @@ a {b: get-function(member)}
 @function member() {@return from other2}
 
 <===> conflict/error
-Error: Multiple global modules have a function named "member".
+Error: This function is available from multiple global modules:
+* other1.scss
+* other2.scss
   ,
 4 | a {b: get-function(member)}
   |       ^^^^^^^^^^^^^^^^^^^^
@@ -249,7 +241,6 @@ Error: Multiple global modules have a function named "member".
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===>
 ================================================================================

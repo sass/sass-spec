@@ -1,0 +1,155 @@
+<===> optional_and_mandatory/README.md
+If an optional and a mandatory version of the same extension both exist, the
+mandatory version should still fail.
+
+<===>
+================================================================================
+<===> optional_and_mandatory/same_file/input.scss
+@use "other";
+
+in-input {
+  @extend %-in-other !optional;
+  @extend %-in-other;
+}
+
+<===> optional_and_mandatory/same_file/_other.scss
+%-in-other {x: y}
+
+<===> optional_and_mandatory/same_file/error
+Error: The target selector was not found.
+Use "@extend %-in-other !optional" to avoid this error.
+  ,
+5 |   @extend %-in-other;
+  |   ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:3  root stylesheet
+
+<===>
+================================================================================
+<===> optional_and_mandatory/different_files/input.scss
+@use "optional";
+@use "mandatory";
+
+<===> optional_and_mandatory/different_files/_optional.scss
+@use "shared";
+
+downstream {@extend %-in-other !optional};
+
+<===> optional_and_mandatory/different_files/_mandatory.scss
+@use "shared";
+
+downstream {@extend %-in-other};
+
+<===> optional_and_mandatory/different_files/_shared.scss
+%-in-other {x: y}
+
+<===> optional_and_mandatory/different_files/error
+Error: The target selector was not found.
+Use "@extend %-in-other !optional" to avoid this error.
+  ,
+3 | downstream {@extend %-in-other};
+  |             ^^^^^^^^^^^^^^^^^^
+  '
+  _mandatory.scss 3:13  root stylesheet
+
+<===>
+================================================================================
+<===> scope/README.md
+All tests in this directory use mandatory extends to test extensions that don't
+have matches. Each test should have a counterpart in the non-error extend tests
+that tests the same thing but with `!optional` to verify that it doesn't produce
+an error message.
+
+<===>
+================================================================================
+<===> scope/sibling/input.scss
+@use "left";
+@use "right";
+
+<===> scope/sibling/_left.scss
+left-extendee {in: left}
+left-extender {@extend right-extendee}
+
+<===> scope/sibling/_right.scss
+right-extendee {in: right}
+
+<===> scope/sibling/error
+Error: The target selector was not found.
+Use "@extend right-extendee !optional" to avoid this error.
+  ,
+2 | left-extender {@extend right-extendee}
+  |                ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  _left.scss 2:16  root stylesheet
+
+<===>
+================================================================================
+<===> scope/downstream/input.scss
+@use "other";
+
+in-input {x: y}
+
+<===> scope/downstream/_other.scss
+in-other {@extend in-input}
+
+<===> scope/downstream/error
+Error: The target selector was not found.
+Use "@extend in-input !optional" to avoid this error.
+  ,
+1 | in-other {@extend in-input}
+  |           ^^^^^^^^^^^^^^^^
+  '
+  _other.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> scope/private/input.scss
+@use "other";
+
+in-input {@extend %-in-other}
+
+<===> scope/private/_other.scss
+%-in-other {x: y}
+
+in-other {@extend %-in-other}
+
+<===> scope/private/error
+Error: The target selector was not found.
+Use "@extend %-in-other !optional" to avoid this error.
+  ,
+3 | in-input {@extend %-in-other}
+  |           ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  root stylesheet
+
+<===>
+================================================================================
+<===> scope/diamond/input.scss
+// Even though left-extendee and right-extendee both end up in the style rule
+// defined in _shared.scss, they aren't extended by the other file because those
+// files don't use one another.
+@use "left";
+@use "right";
+
+<===> scope/diamond/_left.scss
+@use "shared";
+
+left-extendee {@extend in-shared}
+left-extender {@extend right-extendee}
+
+<===> scope/diamond/_right.scss
+@use "shared";
+
+right-extendee {@extend in-shared}
+
+<===> scope/diamond/_shared.scss
+in-shared {x: y}
+
+<===> scope/diamond/error
+Error: The target selector was not found.
+Use "@extend right-extendee !optional" to avoid this error.
+  ,
+4 | left-extender {@extend right-extendee}
+  |                ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  _left.scss 4:16  root stylesheet

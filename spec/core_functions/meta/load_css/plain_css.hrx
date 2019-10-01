@@ -1,0 +1,149 @@
+<===> empty/user_defined/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+/* No output other than this */
+
+<===> empty/user_defined/_other.scss
+// No CSS here!
+
+<===> empty/user_defined/output.css
+/* No output other than this */
+
+<===>
+================================================================================
+<===> empty/built_in/input.scss
+@use "sass:meta";
+@include meta.load-css("sass:color");
+
+/* No output other than this */
+
+<===> empty/built_in/output.css
+/* No output other than this */
+
+<===>
+================================================================================
+<===> style_rule/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> style_rule/_other.scss
+a {b: c}
+
+<===> style_rule/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> at_rule/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> at_rule/_other.scss
+@media screen {a {b: c}}
+
+<===> at_rule/output.css
+@media screen {
+  a {
+    b: c;
+  }
+}
+
+<===>
+================================================================================
+<===> plain_css_import/input.scss
+@use "sass:meta";
+
+a {b: c}
+
+@include meta.load-css("other");
+
+<===> plain_css_import/_other.scss
+d {e: f}
+
+// This should be lifted to the top of the output stylesheet.
+@import "style.css";
+
+<===> plain_css_import/output.css
+@import "style.css";
+
+a {
+  b: c;
+}
+
+d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> through_other_mixin/input.scss
+@use "subdir/midstream";
+@include midstream.load-css("upstream");
+
+<===> through_other_mixin/subdir/_midstream.scss
+@use "sass:meta";
+
+// This should load relative to _midstream.scss, not input.scss.
+@mixin load-css($module) {
+  @include meta.load-css($module);
+}
+
+<===> through_other_mixin/subdir/_upstream.scss
+a {b: in subdir}
+
+<===> through_other_mixin/_upstream.scss
+a {b: in main dir}
+
+<===> through_other_mixin/output.css
+a {
+  b: in subdir;
+}
+
+<===>
+================================================================================
+<===> nested/plain_plain_css/input.scss
+@use "sass:meta";
+a {@include meta.load-css("other")}
+
+<===> nested/plain_plain_css/_other.scss
+b {c: d}
+
+<===> nested/plain_plain_css/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nested/parent_selector/input.scss
+@use "sass:meta";
+a {@include meta.load-css("other")}
+
+<===> nested/parent_selector/_other.scss
+b {
+  // This & should *not* refer to the `a` in `input.scss`, because the CSS is
+  // resolved context-independently.
+  c & {x: y}
+}
+
+<===> nested/parent_selector/output.css
+a c b {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+@include meta.load-css($module: "other");
+
+<===> named/_other.scss
+a {b: c}
+
+<===> named/output.css
+a {
+  b: c;
+}

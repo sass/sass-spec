@@ -1,0 +1,108 @@
+<===> README.md
+`@forward` should handle CSS in the same way as `@use`. We assume that they use
+shared infrastructure, though, and as such only test basic cases.
+
+<===>
+================================================================================
+<===> forward_only/input.scss
+@forward "other";
+
+<===> forward_only/_other.scss
+a {b: c}
+
+<===> forward_only/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> once/multiple_forwards/input.scss
+@forward "other";
+@forward "other";
+@forward "other";
+
+<===> once/multiple_forwards/_other.scss
+a {b: c}
+
+<===> once/multiple_forwards/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> once/forward_and_use/input.scss
+@forward "other";
+@use "other";
+
+<===> once/forward_and_use/_other.scss
+a {b: c}
+
+<===> once/forward_and_use/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> order/input.scss
+@forward "other1";
+@use "other2";
+@forward "other3";
+
+a {file: input}
+
+<===> order/_other1.scss
+a {file: other1}
+
+<===> order/_other2.scss
+a {file: other2}
+
+<===> order/_other3.scss
+a {file: other3}
+
+<===> order/output.css
+a {
+  file: other1;
+}
+
+a {
+  file: other2;
+}
+
+a {
+  file: other3;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> forward_into_import/input.scss
+@forward "forwarded";
+
+in-input {a: b}
+
+<===> forward_into_import/_forwarded.scss
+@import "imported";
+
+in-forwarded {a: b}
+
+<===> forward_into_import/_imported.scss
+in-imported {a: b}
+
+<===> forward_into_import/output.css
+in-imported {
+  a: b;
+}
+
+in-forwarded {
+  a: b;
+}
+
+in-input {
+  a: b;
+}

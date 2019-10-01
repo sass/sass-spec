@@ -1,0 +1,165 @@
+<===> shares_state/input.scss
+@use "sass:meta";
+@use "shared";
+@include meta.load-css("other");
+
+a {shared-b: shared.$b}
+
+<===> shares_state/_other.scss
+@use "shared";
+
+shared.$b: value set by other;
+
+<===> shares_state/_shared.scss
+$b: default value;
+
+<===> shares_state/output.css
+a {
+  shared-b: value set by other;
+}
+
+<===>
+================================================================================
+<===> use/different_nesting/input.scss
+@use "sass:meta";
+@use "other";
+a {@include meta.load-css("other")}
+
+<===> use/different_nesting/_other.scss
+b {c: d}
+
+<===> use/different_nesting/output.css
+b {
+  c: d;
+}
+
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> use/different_extend/input.scss
+@use "sass:meta";
+@use "midstream";
+@include meta.load-css("other")
+
+<===> use/different_extend/_midstream.scss
+@use "other";
+
+// This extension should only apply to the copy of `_other.scss` loaded from
+// `@use`, *not* the copy loaded from `load-css()`.
+a {@extend b}
+
+<===> use/different_extend/_other.scss
+b {c: d}
+
+<===> use/different_extend/output.css
+b, a {
+  c: d;
+}
+
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> use/runs_once/same_text/input.scss
+@use "sass:meta";
+@use "other";
+@include meta.load-css("other");
+
+/* No output other than this */
+
+<===> use/runs_once/same_text/_other.scss
+@debug "in other";
+
+<===> use/runs_once/same_text/output.css
+/* No output other than this */
+
+<===> use/runs_once/same_text/warning
+_other.scss:1 DEBUG: in other
+
+<===>
+================================================================================
+<===> use/runs_once/different_text/input.scss
+@use "sass:meta";
+@use "other";
+@include meta.load-css("_other");
+
+/* No output other than this */
+
+<===> use/runs_once/different_text/_other.scss
+@debug "in other";
+
+<===> use/runs_once/different_text/output.css
+/* No output other than this */
+
+<===> use/runs_once/different_text/warning
+_other.scss:1 DEBUG: in other
+
+<===>
+================================================================================
+<===> load_css/different_nesting/input.scss
+@use "sass:meta";
+a {@include meta.load-css("other")}
+b {@include meta.load-css("other")}
+
+<===> load_css/different_nesting/_other.scss
+c {d: e}
+
+<===> load_css/different_nesting/output.css
+a c {
+  d: e;
+}
+
+b c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> load_css/different_extend/input.scss
+@use "left";
+@use "right";
+
+<===> load_css/different_extend/_left.scss
+@use "sass:meta";
+@include meta.load-css("other");
+left {@extend a}
+
+<===> load_css/different_extend/_right.scss
+@use "sass:meta";
+@include meta.load-css("other");
+right {@extend a}
+
+<===> load_css/different_extend/_other.scss
+a {b: c}
+
+<===> load_css/different_extend/output.css
+a, left {
+  b: c;
+}
+
+a, right {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> load_css/runs_once/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+@include meta.load-css("other");
+
+/* No output other than this */
+
+<===> load_css/runs_once/_other.scss
+@debug "in other";
+
+<===> load_css/runs_once/output.css
+/* No output other than this */
+
+<===> load_css/runs_once/warning
+_other.scss:1 DEBUG: in other

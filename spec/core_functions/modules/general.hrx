@@ -1,0 +1,123 @@
+<===> global/input.scss
+@use "sass:math" as *;
+a {b: compatible(1px, 1in)}
+
+<===> global/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "sass:math" as m;
+a {b: m.round(0.7)}
+
+<===> as/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/set_variable/input.scss
+@use "sass:math";
+math.$a: b;
+
+<===> error/set_variable/error
+Error: Undefined variable.
+  ,
+2 | math.$a: b;
+  | ^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> forward/bare/input.scss
+@use "other";
+a {b: other.round(0.7)}
+
+<===> forward/bare/_other.scss
+@forward "sass:math";
+
+<===> forward/bare/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> forward/show/input.scss
+@use "other";
+a {b: other.round(0.7)}
+
+<===> forward/show/_other.scss
+@forward "sass:math" show round;
+
+<===> forward/show/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> forward/hide/input.scss
+@use "other";
+a {b: other.round(0.7)}
+
+<===> forward/hide/_other.scss
+@forward "sass:math" hide ceil;
+
+<===> forward/hide/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> forward/as/input.scss
+@use "other";
+a {b: other.s-round(0.7)}
+
+<===> forward/as/_other.scss
+@forward "sass:math" as s-*;
+
+<===> forward/as/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> forward/error/show/input.scss
+@use "other";
+a {b: other.round(0.7)}
+
+<===> forward/error/show/_other.scss
+@forward "sass:math" show ceil;
+
+<===> forward/error/show/error
+Error: Undefined function.
+  ,
+2 | a {b: other.round(0.7)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> forward/error/hide/input.scss
+@use "other";
+a {b: other.round(0.7)}
+
+<===> forward/error/hide/_other.scss
+@forward "sass:math" hide round;
+
+<===> forward/error/hide/error
+Error: Undefined function.
+  ,
+2 | a {b: other.round(0.7)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -77,7 +77,6 @@ a {
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===>
 ================================================================================
@@ -118,6 +117,8 @@ b {
   c: true;
 }
 
+<===>
+================================================================================
 <===> different_module/through_use/input.scss
 @use "other" as *;
 a {b: global-variable-exists(global-variable)}
@@ -218,7 +219,6 @@ a {
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> named/input.scss
 @use "other";
@@ -259,7 +259,6 @@ Error: argument `$name` of `global-variable-exists($name)` must be a string
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> error/argument/type/module/input.scss
 a {b: global-variable-exists("c", 1)}
@@ -318,7 +317,6 @@ Error: wrong number of arguments (3 for 1) for `global-variable-exists'
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===> error/conflict/input.scss
 @use "other1" as *;
@@ -333,7 +331,9 @@ $member: from other1;
 $member: from other2;
 
 <===> error/conflict/error
-Error: Multiple global modules have a variable named "$member".
+Error: This variable is available from multiple global modules:
+* other1.scss
+* other2.scss
   ,
 4 | a {b: global-variable-exists(member)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -346,7 +346,6 @@ Error: Multiple global modules have a variable named "$member".
 ---
 :todo:
 - sass/libsass#2807
-- sass/dart-sass#554
 
 <===>
 ================================================================================
