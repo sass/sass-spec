@@ -1,0 +1,59 @@
+<===> input.scss
+@mixin test($name: false) {
+    $a: "";
+    $b: "";
+    @if $name {
+        $a: "-#{$name}";    // works as expected
+        $b: -$name;         // here occurs the bug
+    } @else {
+        $a: "";
+        $b: "";
+    }
+    
+    .test-a#{$a} {
+        display: block;
+    }
+    .test-b#{$b} {
+        display: block;
+    }
+}
+
+@include test;
+@include test(asdf);
+@include test(foo1);
+@include test(bar1);
+// @include test("foo2");
+// @include test("bar2");
+
+<===> output.css
+.test-a {
+  display: block;
+}
+
+.test-b {
+  display: block;
+}
+
+.test-a-asdf {
+  display: block;
+}
+
+.test-b-asdf {
+  display: block;
+}
+
+.test-a-foo1 {
+  display: block;
+}
+
+.test-b-foo1 {
+  display: block;
+}
+
+.test-a-bar1 {
+  display: block;
+}
+
+.test-b-bar1 {
+  display: block;
+}
