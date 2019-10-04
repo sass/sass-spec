@@ -1,0 +1,83 @@
+<===> input.scss
+$titles: "foo", "bar", "BaZ";
+
+%border {
+        border: 1px solid;
+}
+
+@mixin border-red {
+        border-color: red;
+}
+
+@mixin border-blue {
+        border-color: blue;
+}
+
+@each $t in $titles {
+        p[title="#{$t}" i] {
+                @extend %border;
+                @include border-red;
+        }
+        p[title="#{$t}"] {
+                @extend %border;
+                @include border-blue;
+        }
+}
+
+<===> output.css
+p[title=BaZ], p[title=BaZ i], p[title=bar], p[title=bar i], p[title=foo], p[title=foo i] {
+  border: 1px solid;
+}
+
+p[title=foo i] {
+  border-color: red;
+}
+
+p[title=foo] {
+  border-color: blue;
+}
+
+p[title=bar i] {
+  border-color: red;
+}
+
+p[title=bar] {
+  border-color: blue;
+}
+
+p[title=BaZ i] {
+  border-color: red;
+}
+
+p[title=BaZ] {
+  border-color: blue;
+}
+
+<===> output-libsass.css
+p[title="foo" i], p[title="foo"], p[title="bar" i], p[title="bar"], p[title="BaZ" i], p[title="BaZ"] {
+  border: 1px solid;
+}
+
+p[title="foo" i] {
+  border-color: red;
+}
+
+p[title="foo"] {
+  border-color: blue;
+}
+
+p[title="bar" i] {
+  border-color: red;
+}
+
+p[title="bar"] {
+  border-color: blue;
+}
+
+p[title="BaZ" i] {
+  border-color: red;
+}
+
+p[title="BaZ"] {
+  border-color: blue;
+}
