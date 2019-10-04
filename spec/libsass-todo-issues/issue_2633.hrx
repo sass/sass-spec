@@ -1,0 +1,13 @@
+<===> input.scss
+$sel1: '.something__child + .something__child--mod1';
+$sel2: '.something__child ~ .something__child--mod2';
+$result1: selector-unify($sel1, $sel2);
+
+#{$result1} {
+  /* nothing */
+}
+
+<===> output.css
+.something__child + .something__child--mod1.something__child--mod2 {
+  /* nothing */
+}
