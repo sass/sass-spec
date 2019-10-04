@@ -1,0 +1,45 @@
+<===> input.scss
+$config: (
+        phone: (
+                break-point-width:0px,
+                break-point-name: xs
+        ),
+        tablet: (
+                break-point-width:600px,
+                break-point-name: sm
+        ),
+        laptop: (
+                break-point-width:900px,
+                break-point-name: md
+        ),
+        desktop: (
+                break-point-width:1200px,
+                break-point-name:lg
+        ),
+);
+
+@each $key, $map in $config {
+  $break-point-width: map_get($map, break-point-width);
+  $break-point-name: map_get($map, break-point-name);
+  $infix: if($break-point-width == 0px, null, -$break-point-name);
+      .foo#{$infix} {
+        content: '#{$break-point-name}';
+      }
+}
+
+<===> output.css
+.foo {
+  content: "xs";
+}
+
+.foo-sm {
+  content: "sm";
+}
+
+.foo-md {
+  content: "md";
+}
+
+.foo-lg {
+  content: "lg";
+}
