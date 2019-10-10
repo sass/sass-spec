@@ -263,6 +263,25 @@ c {
 
 <===>
 ================================================================================
+<===> core_module/indirect/input.scss
+// Regression test for sass/dart-sass#838.
+@use "sass:meta";
+@include meta.load-css("other", $with: (c: e));
+
+<===> core_module/indirect/_other.scss
+@use "sass:color";
+
+$c: d !default;
+
+a {b: $c}
+
+<===> core_module/indirect/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
 <===> multi_load/README.md
 If a module is first loaded with a configuration, future loads with no
 configuration will use the configured module.
