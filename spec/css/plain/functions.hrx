@@ -1,33 +1,123 @@
 <===> options.yml
 ---
 :todo:
-- libsass
+- sass/libsass#2699
 
-<===> input.scss
-@function defined-elsewhere() {@return 12}
+<===>
+================================================================================
+<===> defined_elsewhere/input.scss
+@function a() {@return b}
 
 @import "plain";
 
-<===> plain.css
-a {
-  hsl: hsl(0, 100%, 50%);
-  hsla: hsla(0, 100%, 50%, 0.5);
-  rgb: rgb(10, 20, 30);
-  rgba: rgb(10, 20, 30, 0.5);
-  grayscale: grayscale(0.1);
-  invert: invert(0.1);
-  alpha: alpha(0.1);
-  defined-elsewhere: defined-elsewhere();
+<===> defined_elsewhere/plain.css
+c {d: a()}
+
+<===> defined_elsewhere/output.css
+c {
+  d: a();
 }
 
-<===> output.css
+<===>
+================================================================================
+<===> hsl/input.scss
+@import "plain";
+
+<===> hsl/plain.css
+a {b: hsl(0, 100%, 50%)}
+
+<===> hsl/output.css
 a {
-  hsl: hsl(0, 100%, 50%);
-  hsla: hsla(0, 100%, 50%, 0.5);
-  rgb: rgb(10, 20, 30);
-  rgba: rgb(10, 20, 30, 0.5);
-  grayscale: grayscale(0.1);
-  invert: invert(0.1);
-  alpha: alpha(0.1);
-  defined-elsewhere: defined-elsewhere();
+  b: hsl(0, 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> hsla/input.scss
+@import "plain";
+
+<===> hsla/plain.css
+a {b: hsla(0, 100%, 50%, 0.5)}
+
+<===> hsla/output.css
+a {
+  b: hsla(0, 100%, 50%, 0.5);
+}
+
+<===>
+================================================================================
+<===> rgb/input.scss
+@import "plain";
+
+<===> rgb/plain.css
+a {b: rgb(10, 20, 30)}
+
+<===> rgb/output.css
+a {
+  b: rgb(10, 20, 30);
+}
+
+<===>
+================================================================================
+<===> rgba/input.scss
+@import "plain";
+
+<===> rgba/plain.css
+a {b: rgba(10, 20, 30, 0.5)}
+
+<===> rgba/output.css
+a {
+  b: rgba(10, 20, 30, 0.5);
+}
+
+<===>
+================================================================================
+<===> grayscale/input.scss
+@import "plain";
+
+<===> grayscale/plain.css
+a {b: grayscale(0.1)}
+
+<===> grayscale/output.css
+a {
+  b: grayscale(0.1);
+}
+
+<===>
+================================================================================
+<===> invert/input.scss
+@import "plain";
+
+<===> invert/plain.css
+a {b: invert(0.1)}
+
+<===> invert/output.css
+a {
+  b: invert(0.1);
+}
+
+<===>
+================================================================================
+<===> alpha/input.scss
+@import "plain";
+
+<===> alpha/plain.css
+a {b: alpha(0.1)}
+
+<===> alpha/output.css
+a {
+  b: alpha(0.1);
+}
+
+<===>
+================================================================================
+<===> saturate/input.scss
+@import "plain";
+
+<===> saturate/plain.css
+a {b: saturate(0.1)}
+
+<===> saturate/output.css
+a {
+  b: saturate(0.1);
 }
