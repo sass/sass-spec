@@ -330,18 +330,36 @@ a {
 
 <===>
 ================================================================================
-<===> core_module/indirect/input.scss
+<===> core_module/indirect/use/input.scss
 // Regression test for sass/dart-sass#838.
 @use "other" with ($c: e);
 
 a {b: other.$c}
 
-<===> core_module/indirect/_other.scss
+<===> core_module/indirect/use/_other.scss
 @use "sass:color";
 
 $c: d !default;
 
-<===> core_module/indirect/output.css
+<===> core_module/indirect/use/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> core_module/indirect/forward/input.scss
+// Regression test for sass/dart-sass#838.
+@use "other" with ($c: e);
+
+a {b: other.$c}
+
+<===> core_module/indirect/forward/_other.scss
+@forward "sass:color";
+
+$c: d !default;
+
+<===> core_module/indirect/forward/output.css
 a {
   b: e;
 }
@@ -386,4 +404,37 @@ $a: original !default;
 <===> multi_load/forward/output.css
 b {
   c: configured;
+}
+
+<===>
+================================================================================
+<===> multi_load/transitive/input.scss
+// Regression test for sass/dart-sass#854.
+@use "midstream1" with ($a: overridden 1);
+@use "midstream2" with ($a: overridden 2);
+
+b {
+  midstream1: midstream1.$a;
+  midstream2: midstream2.$a;
+}
+
+<===> multi_load/transitive/_midstream1.scss
+@use "upstream";
+$a: default 1 !default;
+
+<===> multi_load/transitive/_midstream2.scss
+@use "upstream";
+$a: default 2 !default;
+
+<===> multi_load/transitive/_upstream.scss
+c {d: e}
+
+<===> multi_load/transitive/output.css
+c {
+  d: e;
+}
+
+b {
+  midstream1: overridden 1;
+  midstream2: overridden 2;
 }
