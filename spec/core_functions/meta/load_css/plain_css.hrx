@@ -136,6 +136,32 @@ a c b {
 
 <===>
 ================================================================================
+<===> nested/media_query/input.scss
+// Regression test for dart-sass#843
+@use "sass:meta";
+@include meta.load-css("midstream")
+
+<===> nested/media_query/_midstream.scss
+@use "upstream";
+
+a {
+  @media b {c: d}
+}
+
+<===> nested/media_query/_upstream.scss
+/**/
+
+<===> nested/media_query/output.css
+/**/
+
+@media b {
+  a {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @include meta.load-css($module: "other");
