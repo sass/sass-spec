@@ -14,7 +14,7 @@ b {
     unquote: unquote($foo);
 }
 
-<===> error-dart-sass
+<===> error
 Error: $string: null is not a string.
   ,
 7 |     unquote: unquote($foo);
@@ -22,15 +22,6 @@ Error: $string: null is not a string.
   '
   input.scss 7:14  root stylesheet
 
-<===> output.css
-a {
-  foo: bar;
-}
-
-<===> warning
-DEPRECATION WARNING: Passing null, a non-string value, to unquote()
-will be an error in future versions of Sass.
-        on line 7 of input.scss
-DEPRECATION WARNING: Passing null, a non-string value, to unquote()
-will be an error in future versions of Sass.
-        on line 13 of input.scss
+<===> error-libsass
+Internal Error: Invalid Data Type for unquote
+>> unquote: unquote($foo);
