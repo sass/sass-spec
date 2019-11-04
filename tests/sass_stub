@@ -6,5 +6,8 @@
 if ARGV.last == '-v'
   puts '0.1'
 else
-  puts ["input: #{ARGV.inspect}", "file: #{File.read(ARGV.last)}"].join("\n")
+  # sass-spec passes in full paths to some commands. We should
+  # use the last portion of the path instead.
+  args = ARGV.map { |a| a[0] == '/' ? a.split('/').last : a }
+  puts ["input: #{args.inspect}", "file: #{File.read(ARGV.last)}"].join("\n")
 end
