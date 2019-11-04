@@ -88,6 +88,7 @@ Make sure the command you provide prints to stdout.
       end
 
       opts.on("--limit NUMBER", "Limit the number of tests run to this positive integer.") do |limit|
+        raise "--limit must receive a positive integer" if limit.to_i < 0
         options[:limit] = limit.to_i
       end
 
