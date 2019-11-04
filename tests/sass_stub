@@ -6,8 +6,11 @@
 if ARGV.last == '-v'
   puts '0.1'
 else
-  # sass-spec passes in full paths to some commands. We should
-  # use the last portion of the path instead.
-  args = ARGV.map { |a| a[0] == '/' ? a.split('/').last : a }
+  # sass-spec passes in full paths to the -I command. We should
+  # omit that path.
+  args = ARGV
+  arg_position_I = ARGV.index("-I")
+  # Array is shifted post_delete, so -I path will be at arg_position_I on second delete.
+  2.times { ARGV.delete_at(arg_position_I) } if arg_position_I
   puts ["input: #{args.inspect}", "file: #{File.read(ARGV.last)}"].join("\n")
 end
