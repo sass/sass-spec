@@ -13,6 +13,7 @@ module SassSpec::CLI
       verbose: false,
       filter: "",
       limit: -1,
+      implementation: 'sass'
     }
 
     OptionParser.new do |opts|
