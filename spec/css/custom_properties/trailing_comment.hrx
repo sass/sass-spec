@@ -1,0 +1,48 @@
+<===> scss/silent/input.scss
+a {
+  --b: c // comment;
+}
+
+<===> scss/silent/output.css
+a {
+  --b: c // comment;
+}
+
+<===>
+================================================================================
+<===> scss/loud/input.scss
+a {
+  --b: c /* comment */;
+}
+
+<===> scss/loud/output.css
+a {
+  --b: c /* comment */;
+}
+
+<===>
+================================================================================
+<===> sass/silent/options.yml
+---
+:todo:
+- sass/libsass#3026
+
+<===> sass/silent/input.sass
+a
+  --b: c // comment
+
+<===> sass/silent/output.css
+a {
+  --b: c // comment;
+}
+
+<===>
+================================================================================
+<===> sass/loud/input.sass
+a
+  --b: c /* comment */
+
+<===> sass/loud/output.css
+a {
+  --b: c /* comment */;
+}
