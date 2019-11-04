@@ -32,4 +32,12 @@ RSpec.describe 'run tests', type: :aruba do
                 "#{Dir.pwd}/tests/fixtures/basic"
     expect(last_command_started).to_not be_successfully_executed
   end
+
+  it 'should not allow limit to take a negative number' do
+    run_command "#{Dir.pwd}/sass-spec.rb --run-todo --limit 1 --command "\
+                "'#{Dir.pwd}/tests/sass_stub' "\
+                "#{Dir.pwd}/tests/fixtures/todo"
+    expect(last_command_started).to be_successfully_executed
+    expect(test_results(last_command_started.output)[:runs]).to eq 1
+  end
 end
