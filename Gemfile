@@ -7,3 +7,4 @@ gem "diffy", '~> 3.1'
 gem "hrx", '~> 1.0'
 
 gem 'rspec'
+gem 'aruba'
