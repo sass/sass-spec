@@ -2,11 +2,9 @@
 # This program stubs out the Sass CLI. It does not apply any Sass
 # transformations and simply outputs the input file to stdout.
 
-require 'hrx'
-
 # Version flag needs to return a value.
 if ARGV.last == '-v'
   puts '0.1'
 else
-  puts File.read(ARGV.last)
+  puts ["input: #{ARGV.inspect}", "file: #{File.read(ARGV.last)}"].join("\n")
 end
