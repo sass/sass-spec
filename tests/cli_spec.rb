@@ -15,7 +15,7 @@ RSpec.describe 'run tests', type: :aruba do
                 "'#{Dir.pwd}/tests/sass_stub' "\
                 "#{Dir.pwd}/tests/fixtures/todo"
     expect(last_command_started).to be_successfully_executed
-    expect(test_results(last_command_started.output)[:skips]).to eq 0
+    expect(test_results(last_command_started.output)[:skips]).to eq 1
   end
 
   it 'should run todo specs with --run-todo flag' do
@@ -23,6 +23,6 @@ RSpec.describe 'run tests', type: :aruba do
                 "'#{Dir.pwd}/tests/sass_stub' "\
                 "#{Dir.pwd}/tests/fixtures/todo"
     expect(last_command_started).to be_successfully_executed
-    expect(test_results(last_command_started.output)[:skips]).to eq 1
+    expect(test_results(last_command_started.output)[:skips]).to eq 0
   end
 end
