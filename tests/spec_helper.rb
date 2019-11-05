@@ -18,8 +18,8 @@ end
 # Gives a command string that Aruba should run for a unit test.
 # This command calls sass-spec using the sass stub.
 # It takes in the name of a fixture folder and an array of additional flags.
-def command(fixture_folder, additional_flags = [])
-  ["#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
+def run_sass(fixture_folder, additional_flags = [])
+  run_command(["#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
   "--command '#{Dir.pwd}/tests/sass_stub'",
-  "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' ')
+  "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' '))
 end
