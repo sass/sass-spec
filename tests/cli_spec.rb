@@ -24,15 +24,15 @@ RSpec.describe 'run tests', type: :aruba do
   end
 
   it 'should not allow limit to take a negative number' do
-    run_command command('basic', ["--limit -10"])
+    run_command command('limit', ["--limit -10"])
 
     expect(last_command_started).to_not be_successfully_executed
   end
 
   it 'should not allow limit to take a negative number' do
-    run_command command('todo', ["--run-todo", "--limit 1"])
+    run_command command('limit', ["--run-todo", "--limit 3"])
 
     expect(last_command_started).to be_successfully_executed
-    expect(test_results(last_command_started.output)[:runs]).to eq 1
+    expect(test_results(last_command_started.output)[:runs]).to eq 3
   end
 end
