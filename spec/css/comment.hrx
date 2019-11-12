@@ -113,3 +113,115 @@ should include their own tests for CR LF newlines.
 /*
   foo
   bar */
+
+
+<===>
+================================================================================
+<===> inline/silent/scss/input.scss
+a {
+  b: c // d
+}
+
+<===> inline/silent/scss/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> inline/silent/sass/input.sass
+a
+  b: c // d
+
+<===> inline/silent/sass/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> inline/loud/scss/input.scss
+a {
+  b: c /* d */ e;
+}
+
+<===> inline/loud/scss/output.css
+a {
+  b: c e;
+}
+
+<===>
+================================================================================
+<===> inline/loud/sass/input.sass
+a
+  b: c /* d */ e
+
+<===> inline/loud/sass/output.css
+a {
+  b: c e;
+}
+
+<===>
+================================================================================
+<===> error/loud/unterminated/scss/input.scss
+a {
+  b: c /* d
+}
+
+<===> error/loud/unterminated/scss/error
+Error: expected more input.
+  ,
+3 | }
+  |  ^
+  '
+  input.scss 3:2  root stylesheet
+
+<===> error/loud/unterminated/scss/error-libsass
+Error: Invalid CSS after "  b: c /": expected expression (e.g. 1px, bold), was "* d"
+        on line 2:8 of input.scss
+>>   b: c /* d
+
+   -------^
+
+<===>
+================================================================================
+<===> error/loud/unterminated/sass/input.sass
+a
+  b: c /* d
+
+<===> error/loud/unterminated/sass/error
+Error: expected */.
+  ,
+2 |   b: c /* d
+  |            ^
+  '
+  input.sass 2:12  root stylesheet
+
+<===> error/loud/unterminated/sass/error-libsass
+Error: Invalid CSS after "  b: c /": expected expression (e.g. 1px, bold), was "* d; }"
+        on line 2:8 of input.sass
+>>   b: c /* d; }
+
+   -------^
+
+<===>
+================================================================================
+<===> error/loud/multi_line/sass/input.sass
+a
+  b: c /* d
+          e */ f
+
+<===> error/loud/multi_line/sass/error
+Error: expected */.
+  ,
+2 |   b: c /* d
+  |            ^
+  '
+  input.sass 2:12  root stylesheet
+
+<===> error/loud/multi_line/sass/error-libsass
+Error: Invalid CSS after "...    e */ f {} }": expected selector or at-rule, was "}"
+        on line 3:22 of input.sass
+>>           e */ f {} } }
+
+   ---------------------^
