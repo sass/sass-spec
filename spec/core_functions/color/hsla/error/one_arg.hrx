@@ -5,12 +5,12 @@
 
 <===>
 ================================================================================
-<===> error/list/empty/input.scss
+<===> list/empty/input.scss
 a {
   b: hsla(());
 }
 
-<===> error/list/empty/error
+<===> list/empty/error
 Error: Missing element $hue.
   ,
 2 |   b: hsla(());
@@ -20,12 +20,12 @@ Error: Missing element $hue.
 
 <===>
 ================================================================================
-<===> error/list/comma_separated/input.scss
+<===> list/comma_separated/input.scss
 a {
   b: hsla((0, 100%, 50%));
 }
 
-<===> error/list/comma_separated/error
+<===> list/comma_separated/error
 Error: $channels must be a space-separated list.
   ,
 2 |   b: hsla((0, 100%, 50%));
@@ -35,12 +35,12 @@ Error: $channels must be a space-separated list.
 
 <===>
 ================================================================================
-<===> error/list/bracketed/input.scss
+<===> list/bracketed/input.scss
 a {
   b: hsla([0 100% 50%]);
 }
 
-<===> error/list/bracketed/error
+<===> list/bracketed/error
 Error: $channels must be an unbracketed list.
   ,
 2 |   b: hsla([0 100% 50%]);
@@ -50,12 +50,12 @@ Error: $channels must be an unbracketed list.
 
 <===>
 ================================================================================
-<===> error/list/one_element/input.scss
+<===> list/one_element/input.scss
 a {
   b: hsla(0);
 }
 
-<===> error/list/one_element/error
+<===> list/one_element/error
 Error: Missing element $saturation.
   ,
 2 |   b: hsla(0);
@@ -65,12 +65,12 @@ Error: Missing element $saturation.
 
 <===>
 ================================================================================
-<===> error/list/two_elements/input.scss
+<===> list/two_elements/input.scss
 a {
   b: hsla(0 100%);
 }
 
-<===> error/list/two_elements/error
+<===> list/two_elements/error
 Error: Missing element $lightness.
   ,
 2 |   b: hsla(0 100%);
@@ -80,12 +80,12 @@ Error: Missing element $lightness.
 
 <===>
 ================================================================================
-<===> error/list/four_elements/input.scss
+<===> list/four_elements/input.scss
 a {
   b: hsla(0 100% 50% 0.4);
 }
 
-<===> error/list/four_elements/error
+<===> list/four_elements/error
 Error: Only 3 elements allowed, but 4 were passed.
   ,
 2 |   b: hsla(0 100% 50% 0.4);
@@ -95,12 +95,12 @@ Error: Only 3 elements allowed, but 4 were passed.
 
 <===>
 ================================================================================
-<===> error/type/hue/input.scss
+<===> type/hue/input.scss
 a {
   b: hsla("foo" 100% 50%);
 }
 
-<===> error/type/hue/error
+<===> type/hue/error
 Error: $hue: "foo" is not a number.
   ,
 2 |   b: hsla("foo" 100% 50%);
@@ -110,12 +110,12 @@ Error: $hue: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> error/type/saturation/input.scss
+<===> type/saturation/input.scss
 a {
   b: hsla(0 "foo" 50%);
 }
 
-<===> error/type/saturation/error
+<===> type/saturation/error
 Error: $saturation: "foo" is not a number.
   ,
 2 |   b: hsla(0 "foo" 50%);
@@ -125,12 +125,12 @@ Error: $saturation: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> error/type/lightness/input.scss
+<===> type/lightness/input.scss
 a {
   b: hsla(0 100% "foo");
 }
 
-<===> error/type/lightness/error
+<===> type/lightness/error
 Error: $lightness: "foo" is not a number.
   ,
 2 |   b: hsla(0 100% "foo");
@@ -140,12 +140,12 @@ Error: $lightness: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> error/quoted_var_slash/input.scss
+<===> quoted_var_slash/input.scss
 a {
   b: hsla(0 100% "var(--foo) / 0.4");
 }
 
-<===> error/quoted_var_slash/error
+<===> quoted_var_slash/error
 Error: $lightness: "var(--foo) / 0.4" is not a number.
   ,
 2 |   b: hsla(0 100% "var(--foo) / 0.4");
