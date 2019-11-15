@@ -1,12 +1,19 @@
-<===> input.scss
-zero-args {
-  x: hsl();
+<===> error/too_few_args/input.scss
+a {
+  b: hsl();
 }
 
-<===> error
+<===> error/too_few_args/error
 Error: Missing argument $channels.
   ,
-2 |   x: hsl();
+2 |   b: hsl();
   |      ^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function hsl is missing argument $hue.
+        on line 2 of input.scss
+>>   b: hsl();
+
+   -----^

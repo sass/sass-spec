@@ -1,19 +1,19 @@
-<===> input.scss
-five-arg {
-  x: hsl(0, 100%, 50%, 0.5, 0);
+<===> error/too_many_args/input.scss
+a {
+  b: hsl(0, 100%, 50%, 0.5, 0);
 }
 
-<===> error
+<===> error/too_many_args/error
 Error: Only 4 arguments allowed, but 5 were passed.
   ,
-2 |   x: hsl(0, 100%, 50%, 0.5, 0);
+2 |   b: hsl(0, 100%, 50%, 0.5, 0);
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
-<===> error-libsass
+<===> error/too_many_args/error-libsass
 Error: wrong number of arguments (5 for 3) for `hsl'
         on line 2 of input.scss
->>   x: hsl(0, 100%, 50%, 0.5, 0);
+>>   b: hsl(0, 100%, 50%, 0.5, 0);
 
    -----^

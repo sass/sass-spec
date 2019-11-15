@@ -1,17 +1,19 @@
-<===> input.scss
-a {b: hsla(#123, 0.5)}
+<===> error/missing_arg/input.scss
+a {
+  b: hsla(#123, 0.5);
+}
 
-<===> error
+<===> error/missing_arg/error
 Error: Missing argument $lightness.
   ,
-1 | a {b: hsla(#123, 0.5)}
-  |       ^^^^^^^^^^^^^^^
+2 |   b: hsla(#123, 0.5);
+  |      ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:6  root stylesheet
 
-<===> error-libsass
+<===> error/missing_arg/error-libsass
 Error: Function hsla is missing argument $lightness.
         on line 1 of input.scss
->> a {b: hsla(#123, 0.5)}
+>>   b: hsla(#123, 0.5);
 
-   ------^
+    ------^

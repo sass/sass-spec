@@ -1,12 +1,19 @@
-<===> input.scss
-zero-args {
-  x: rgb();
+<===> error/too_few_args/input.scss
+a {
+  b: rgb();
 }
 
-<===> error
+<===> error/too_few_args/error
 Error: Missing argument $channels.
   ,
-2 |   x: rgb();
+2 |   b: rgb();
   |      ^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function rgb is missing argument $red.
+        on line 2 of input.scss
+>>   b: rgb();
+
+   -----^

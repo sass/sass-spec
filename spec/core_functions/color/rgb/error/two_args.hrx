@@ -5,45 +5,45 @@
 
 <===>
 ================================================================================
-<===> color/type/input.scss
-color-type {
-  x: rgb("foo", 0.5);
+<===> error/color/type/input.scss
+a {
+  b: rgb("foo", 0.5);
 }
 
-<===> color/type/error
+<===> error/color/type/error
 Error: $color: "foo" is not a color.
   ,
-2 |   x: rgb("foo", 0.5);
+2 |   b: rgb("foo", 0.5);
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
 <===>
 ================================================================================
-<===> alpha/type/input.scss
-alpha-type {
-  x: rgb(#123, "foo");
+<===> error/alpha/type/input.scss
+a {
+  b: rgb(#123, "foo");
 }
 
-<===> alpha/type/error
+<===> error/alpha/type/error
 Error: $alpha: "foo" is not a number.
   ,
-2 |   x: rgb(#123, "foo");
+2 |   b: rgb(#123, "foo");
   |      ^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
 <===>
 ================================================================================
-<===> alpha/unit/input.scss
-.alpha-unit {
-  a: rgb(#123, 0.5px);
+<===> error/alpha/unit/input.scss
+a {
+  b: rgb(#123, 0.5px);
 }
 
-<===> alpha/unit/error
+<===> error/alpha/unit/error
 Error: $alpha: Expected 0.5px to have no units or "%".
   ,
-2 |   a: rgb(#123, 0.5px);
+2 |   b: rgb(#123, 0.5px);
   |      ^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet

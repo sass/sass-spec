@@ -1,19 +1,19 @@
-<===> input.scss
-five-args {
-  x: rgba(1, 2, 3, 0.4, 5);
+<===> error/too_many_args/input.scss
+a {
+  b: rgba(1, 2, 3, 0.4, 5);
 }
 
-<===> error
+<===> error/too_many_args/error
 Error: Only 4 arguments allowed, but 5 were passed.
   ,
-2 |   x: rgba(1, 2, 3, 0.4, 5);
+2 |   b: rgba(1, 2, 3, 0.4, 5);
   |      ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
-<===> error-libsass
+<===> error/too_many_args/error-libsass
 Error: overloaded function `rgba` given wrong number of arguments
         on line 2 of input.scss
->>   x: rgba(1, 2, 3, 0.4, 5);
+>>   b: rgba(1, 2, 3, 0.4, 5);
 
    -----^

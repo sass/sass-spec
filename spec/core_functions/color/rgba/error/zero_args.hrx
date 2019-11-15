@@ -1,12 +1,19 @@
-<===> input.scss
-zero-args {
-  x: rgba();
+<===> error/too_few_args/input.scss
+a {
+  b: rgba();
 }
 
-<===> error
+<===> error/too_few_args/error
 Error: Missing argument $channels.
   ,
-2 |   x: rgba();
+2 |   b: rgba();
   |      ^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: overloaded function `rgba` given wrong number of arguments
+        on line 2 of input.scss
+>>   b: rgba();
+
+   -----^
