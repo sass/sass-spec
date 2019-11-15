@@ -6,14 +6,14 @@
 <===>
 ================================================================================
 <===> list/empty/input.scss
-empty {
-  x: rgba(());
+a {
+  b: rgba(());
 }
 
 <===> list/empty/error
 Error: Missing element $red.
   ,
-2 |   x: rgba(());
+2 |   b: rgba(());
   |      ^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -21,14 +21,14 @@ Error: Missing element $red.
 <===>
 ================================================================================
 <===> list/one_element/input.scss
-one-element {
-  x: rgba(1);
+a {
+  b: rgba(1);
 }
 
 <===> list/one_element/error
 Error: Missing element $green.
   ,
-2 |   x: rgba(1);
+2 |   b: rgba(1);
   |      ^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -36,14 +36,14 @@ Error: Missing element $green.
 <===>
 ================================================================================
 <===> list/two_elements/input.scss
-two-elements {
-  x: rgba(1 2);
+a {
+  b: rgba(1 2);
 }
 
 <===> list/two_elements/error
 Error: Missing element $blue.
   ,
-2 |   x: rgba(1 2);
+2 |   b: rgba(1 2);
   |      ^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -51,14 +51,14 @@ Error: Missing element $blue.
 <===>
 ================================================================================
 <===> list/four_elements/input.scss
-four-elements {
-  x: rgba(1 2 3 0.4);
+a {
+  b: rgba(1 2 3 0.4);
 }
 
 <===> list/four_elements/error
 Error: Only 3 elements allowed, but 4 were passed.
   ,
-2 |   x: rgba(1 2 3 0.4);
+2 |   b: rgba(1 2 3 0.4);
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -66,14 +66,14 @@ Error: Only 3 elements allowed, but 4 were passed.
 <===>
 ================================================================================
 <===> list/comma_separated/input.scss
-comma-separated {
-  x: rgba((1, 2, 3));
+a {
+  b: rgba((1, 2, 3));
 }
 
 <===> list/comma_separated/error
 Error: $channels must be a space-separated list.
   ,
-2 |   x: rgba((1, 2, 3));
+2 |   b: rgba((1, 2, 3));
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -81,14 +81,14 @@ Error: $channels must be a space-separated list.
 <===>
 ================================================================================
 <===> list/bracketed/input.scss
-bracketed {
-  x: rgba([1 2 3]);
+a {
+  b: rgba([1 2 3]);
 }
 
 <===> list/bracketed/error
 Error: $channels must be an unbracketed list.
   ,
-2 |   x: rgba([1 2 3]);
+2 |   b: rgba([1 2 3]);
   |      ^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -96,14 +96,14 @@ Error: $channels must be an unbracketed list.
 <===>
 ================================================================================
 <===> type/red/input.scss
-red-type {
-  x: rgba("foo" 2 3);
+a {
+  b: rgba("foo" 2 3);
 }
 
 <===> type/red/error
 Error: $red: "foo" is not a number.
   ,
-2 |   x: rgba("foo" 2 3);
+2 |   b: rgba("foo" 2 3);
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -111,14 +111,14 @@ Error: $red: "foo" is not a number.
 <===>
 ================================================================================
 <===> type/green/input.scss
-green-type {
-  x: rgba(1 "foo" 3);
+a {
+  b: rgba(1 "foo" 3);
 }
 
 <===> type/green/error
 Error: $green: "foo" is not a number.
   ,
-2 |   x: rgba(1 "foo" 3);
+2 |   b: rgba(1 "foo" 3);
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -126,14 +126,14 @@ Error: $green: "foo" is not a number.
 <===>
 ================================================================================
 <===> type/blue/input.scss
-blue-type {
-  x: rgba(1 2 "foo");
+a {
+  b: rgba(1 2 "foo");
 }
 
 <===> type/blue/error
 Error: $blue: "foo" is not a number.
   ,
-2 |   x: rgba(1 2 "foo");
+2 |   b: rgba(1 2 "foo");
   |      ^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -141,14 +141,14 @@ Error: $blue: "foo" is not a number.
 <===>
 ================================================================================
 <===> quoted_var_slash/input.scss
-quoted-var-slash {
-  x: rgba(1 2 "var(--foo) / 0.4");
+a {
+  b: rgba(1 2 "var(--foo) / 0.4");
 }
 
 <===> quoted_var_slash/error
 Error: $blue: "var(--foo) / 0.4" is not a number.
   ,
-2 |   x: rgba(1 2 "var(--foo) / 0.4");
+2 |   b: rgba(1 2 "var(--foo) / 0.4");
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet

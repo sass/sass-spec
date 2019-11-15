@@ -6,14 +6,14 @@
 <===>
 ================================================================================
 <===> list/empty/input.scss
-empty {
-  x: hsla(());
+a {
+  b: hsla(());
 }
 
 <===> list/empty/error
 Error: Missing element $hue.
   ,
-2 |   x: hsla(());
+2 |   b: hsla(());
   |      ^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -21,14 +21,14 @@ Error: Missing element $hue.
 <===>
 ================================================================================
 <===> list/comma_separated/input.scss
-comma-separated {
-  x: hsla((0, 100%, 50%));
+a {
+  b: hsla((0, 100%, 50%));
 }
 
 <===> list/comma_separated/error
 Error: $channels must be a space-separated list.
   ,
-2 |   x: hsla((0, 100%, 50%));
+2 |   b: hsla((0, 100%, 50%));
   |      ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -36,14 +36,14 @@ Error: $channels must be a space-separated list.
 <===>
 ================================================================================
 <===> list/bracketed/input.scss
-bracketed {
-  x: hsla([0 100% 50%]);
+a {
+  b: hsla([0 100% 50%]);
 }
 
 <===> list/bracketed/error
 Error: $channels must be an unbracketed list.
   ,
-2 |   x: hsla([0 100% 50%]);
+2 |   b: hsla([0 100% 50%]);
   |      ^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -51,14 +51,14 @@ Error: $channels must be an unbracketed list.
 <===>
 ================================================================================
 <===> list/one_element/input.scss
-one-arg {
-  x: hsla(0);
+a {
+  b: hsla(0);
 }
 
 <===> list/one_element/error
 Error: Missing element $saturation.
   ,
-2 |   x: hsla(0);
+2 |   b: hsla(0);
   |      ^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -66,14 +66,14 @@ Error: Missing element $saturation.
 <===>
 ================================================================================
 <===> list/two_elements/input.scss
-two-elements {
-  x: hsla(0 100%);
+a {
+  b: hsla(0 100%);
 }
 
 <===> list/two_elements/error
 Error: Missing element $lightness.
   ,
-2 |   x: hsla(0 100%);
+2 |   b: hsla(0 100%);
   |      ^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -81,14 +81,14 @@ Error: Missing element $lightness.
 <===>
 ================================================================================
 <===> list/four_elements/input.scss
-four-elements {
-  x: hsla(0 100% 50% 0.4);
+a {
+  b: hsla(0 100% 50% 0.4);
 }
 
 <===> list/four_elements/error
 Error: Only 3 elements allowed, but 4 were passed.
   ,
-2 |   x: hsla(0 100% 50% 0.4);
+2 |   b: hsla(0 100% 50% 0.4);
   |      ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -96,14 +96,14 @@ Error: Only 3 elements allowed, but 4 were passed.
 <===>
 ================================================================================
 <===> type/hue/input.scss
-hue-type {
-  x: hsla("foo" 100% 50%);
+a {
+  b: hsla("foo" 100% 50%);
 }
 
 <===> type/hue/error
 Error: $hue: "foo" is not a number.
   ,
-2 |   x: hsla("foo" 100% 50%);
+2 |   b: hsla("foo" 100% 50%);
   |      ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -111,14 +111,14 @@ Error: $hue: "foo" is not a number.
 <===>
 ================================================================================
 <===> type/saturation/input.scss
-saturation-type {
-  x: hsla(0 "foo" 50%);
+a {
+  b: hsla(0 "foo" 50%);
 }
 
 <===> type/saturation/error
 Error: $saturation: "foo" is not a number.
   ,
-2 |   x: hsla(0 "foo" 50%);
+2 |   b: hsla(0 "foo" 50%);
   |      ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -126,14 +126,14 @@ Error: $saturation: "foo" is not a number.
 <===>
 ================================================================================
 <===> type/lightness/input.scss
-lightness-type {
-  x: hsla(0 100% "foo");
+a {
+  b: hsla(0 100% "foo");
 }
 
 <===> type/lightness/error
 Error: $lightness: "foo" is not a number.
   ,
-2 |   x: hsla(0 100% "foo");
+2 |   b: hsla(0 100% "foo");
   |      ^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
@@ -141,14 +141,14 @@ Error: $lightness: "foo" is not a number.
 <===>
 ================================================================================
 <===> quoted_var_slash/input.scss
-quoted-var-slash {
-  x: hsla(0 100% "var(--foo) / 0.4");
+a {
+  b: hsla(0 100% "var(--foo) / 0.4");
 }
 
 <===> quoted_var_slash/error
 Error: $lightness: "var(--foo) / 0.4" is not a number.
   ,
-2 |   x: hsla(0 100% "var(--foo) / 0.4");
+2 |   b: hsla(0 100% "var(--foo) / 0.4");
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
