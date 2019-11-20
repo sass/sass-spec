@@ -5,131 +5,225 @@
 
 <===>
 ================================================================================
-<===> same-file/input.scss
-$d-a: configured;
-@import "other";
-
-<===> same-file/_other.scss
-$a: original !default;
-b {c: $a}
-
-<===> same-file/_other.import.scss
-@forward "other" as d-*;
-
-<===> same-file/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
-<===> separate-file/input.scss
-@import "config";
-@import "configurable";
-
-<===> separate-file/_config.scss
-$d-a: configured;
-
-<===> separate-file/_configurable.scss
-$a: original !default;
-b {c: $a}
-
-<===> separate-file/_configurable.import.scss
-@forward "configurable" as d-*;
-
-<===> separate-file/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
-<===> import-twice/no-change/input.scss
-$d-a: configured;
-@import "other";
-@import "other";
-
-<===> import-twice/no-change/_other.scss
-$a: original !default;
-b {c: $a}
-
-<===> import-twice/no-change/_other.import.scss
-@forward "other" as d-*;
-
-<===> import-twice/no-change/output.css
-b {
-  c: configured;
-}
-
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
-<===> import-twice/with-change/input.scss
-$d-a: configured;
-@import "other";
-$d-a: changed; // This should be ignored
-@import "other";
-
-<===> import-twice/with-change/_other.scss
-$a: original !default;
-b {c: $a}
-
-<===> import-twice/with-change/_other.import.scss
-@forward "other" as d-*;
-
-<===> import-twice/with-change/output.css
-b {
-  c: configured;
-}
-
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
-<===> indirect/through-import/input.scss
-$d-a: configured;
+<===> same_file/input.scss
+$a: configured;
 @import "midstream";
 
-<===> indirect/through-import/_midstream.scss
-@import "upstream";
-
-<===> indirect/through-import/_upstream.scss
-$a: original !default;
-b {c: $a}
-
-<===> indirect/through-import/_upstream.import.scss
-@forward "upstream" as d-*;
-
-<===> indirect/through-import/output.css
-b {
-  c: configured;
-}
-
-<===>
-================================================================================
-<===> indirect/through-forward/input.scss
-$d-a: configured;
-@import "midstream";
-
-<===> indirect/through-forward/_midstream.scss
+<===> same_file/_midstream.scss
 @forward "upstream";
 
-<===> indirect/through-forward/_midstream.import.scss
-@forward "midstream" as d-*;
-
-<===> indirect/through-forward/_upstream.scss
+<===> same_file/_upstream.scss
 $a: original !default;
 b {c: $a}
 
-<===> indirect/through-forward/_upstream.import.scss
+<===> same_file/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> nested/input.scss
+a {
+  $a: configured;
+  @import "midstream";
+}
+
+<===> nested/_midstream.scss
+@forward "upstream";
+
+<===> nested/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> nested/output.css
+a b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> prefixed_as/input.scss
+$d-a: configured;
+@import "midstream";
+
+<===> prefixed_as/_midstream.scss
 @forward "upstream" as d-*;
 
-<===> indirect/through-forward/output.css
+<===> prefixed_as/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> prefixed_as/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> separate_file/input.scss
+@import "config";
+@import "midstream";
+
+<===> separate_file/_config.scss
+$a: configured;
+
+<===> separate_file/_midstream.scss
+@forward "upstream";
+
+<===> separate_file/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> separate_file/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> unrelated_variable/input.scss
+$a: configured;
+$d: other;
+@import "midstream";
+
+<===> unrelated_variable/_midstream.scss
+@forward "upstream";
+
+<===> unrelated_variable/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> unrelated_variable/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> midstream_definition/with_config/input.scss
+$a: configured;
+@import "midstream";
+
+<===> midstream_definition/with_config/_midstream.scss
+$a: midstream;
+@forward "upstream";
+
+<===> midstream_definition/with_config/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> midstream_definition/with_config/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> midstream_definition/no_config/input.scss
+@import "midstream";
+
+<===> midstream_definition/no_config/_midstream.scss
+$a: midstream;
+@forward "upstream";
+
+<===> midstream_definition/no_config/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> midstream_definition/no_config/output.css
+b {
+  c: original;
+}
+
+<===>
+================================================================================
+<===> import_twice/no_change/input.scss
+$a: configured;
+@import "other";
+@import "other";
+
+<===> import_twice/no_change/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> import_twice/no_change/_other.import.scss
+@forward "other";
+
+<===> import_twice/no_change/output.css
+b {
+  c: configured;
+}
+
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> import_twice/with_change/input.scss
+$a: configured;
+@import "other";
+$a: changed; // This should be ignored
+@import "other";
+
+<===> import_twice/with_change/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> import_twice/with_change/_other.import.scss
+@forward "other";
+
+<===> import_twice/with_change/output.css
+b {
+  c: configured;
+}
+
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> indirect/through_import/input.scss
+$a: configured;
+@import "midstream";
+
+<===> indirect/through_import/_midstream.scss
+@import "upstream";
+
+<===> indirect/through_import/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> indirect/through_import/_upstream.import.scss
+@forward "upstream";
+
+<===> indirect/through_import/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> indirect/through_forward/input.scss
+$a: configured;
+@import "midstream";
+
+<===> indirect/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> indirect/through_forward/_midstream.import.scss
+@forward "midstream";
+
+<===> indirect/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> indirect/through_forward/_upstream.import.scss
+@forward "upstream";
+
+<===> indirect/through_forward/output.css
 b {
   c: configured;
 }
