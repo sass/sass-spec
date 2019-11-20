@@ -1,0 +1,62 @@
+<===> inaccessible/nested/variable/input.scss
+a {@import "other"}
+
+b {c: $d}
+
+<===> inaccessible/nested/variable/_other.scss
+$d: e;
+
+<===> inaccessible/nested/variable/error
+Error: Undefined variable.
+  ,
+3 | b {c: $d}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> inaccessible/nested/variable/error-libsass
+Error: Undefined variable: "$d".
+        on line 3:7 of input.scss
+>> b {c: $d}
+
+   ------^
+
+<===>
+================================================================================
+<===> inaccessible/nested/mixin/input.scss
+a {@import "other"}
+
+b {@include c}
+
+<===> inaccessible/nested/mixin/_other.scss
+@mixin c() {d: e};
+
+<===> inaccessible/nested/mixin/error
+Error: Undefined mixin.
+  ,
+3 | b {@include c}
+  |    ^^^^^^^^^^
+  '
+  input.scss 3:4  root stylesheet
+
+<===> inaccessible/nested/mixin/error-libsass
+Error: no mixin named c
+        on line 3:13 of input.scss
+>> b {@include c}
+
+   ------------^
+
+<===>
+================================================================================
+<===> inaccessible/nested/function/input.scss
+a {@import "other"}
+
+b {c: d()}
+
+<===> inaccessible/nested/function/_other.scss
+@function d() {@return e}
+
+<===> inaccessible/nested/function/output.css
+b {
+  c: d();
+}
