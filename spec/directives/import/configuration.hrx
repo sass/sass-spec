@@ -185,6 +185,37 @@ b {
 
 <===>
 ================================================================================
+<===> import_twice/still_changes_in_same_file/input.scss
+@import "other";
+$a: changed;
+@import "other";
+
+d {
+  e: $a;
+}
+
+<===> import_twice/still_changes_in_same_file/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> import_twice/still_changes_in_same_file/_other.import.scss
+@forward "other";
+
+<===> import_twice/still_changes_in_same_file/output.css
+b {
+  c: original;
+}
+
+b {
+  c: original;
+}
+
+d {
+  e: changed;
+}
+
+<===>
+================================================================================
 <===> indirect/through_import/input.scss
 $a: configured;
 @import "midstream";
