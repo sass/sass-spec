@@ -423,3 +423,63 @@ Error: Undefined mixin.
   | ^^^^^^^^^^^^
   '
   input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> import_to_forward/nested/variable/input.scss
+a {@import "midstream"}
+
+b {c: $d}
+
+<===> import_to_forward/nested/variable/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/nested/variable/_upstream.scss
+$d: e;
+
+<===> import_to_forward/nested/variable/error
+Error: Undefined variable.
+  ,
+3 | b {c: $d}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> import_to_forward/nested/mixin/input.scss
+a {@import "midstream"}
+
+b {@include c}
+
+<===> import_to_forward/nested/mixin/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/nested/mixin/_upstream.scss
+@mixin c {d: e}
+
+<===> import_to_forward/nested/mixin/error
+Error: Undefined mixin.
+  ,
+3 | b {@include c}
+  |    ^^^^^^^^^^
+  '
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> import_to_forward/nested/function/input.scss
+a {@import "midstream"}
+
+b {c: d()}
+
+<===> import_to_forward/nested/function/_midstream.scss
+@forward "upstream";
+
+<===> import_to_forward/nested/function/_upstream.scss
+@function d() {@return e}
+
+<===> import_to_forward/nested/function/output.css
+b {
+  c: d();
+}
