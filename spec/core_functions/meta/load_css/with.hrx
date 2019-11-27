@@ -1,5 +1,6 @@
 <===> README.md
-Most changes here should also be reflected in directives/use/with.hrx.
+Most changes here should also be reflected in directives/use/with.hrx and
+directives/forward/with.hrx.
 
 <===> empty/input.scss
 @use "sass:meta";
@@ -205,6 +206,65 @@ b {c: $a}
 <===> through_forward/transitive/output.css
 b {
   c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/default/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: from input));
+
+<===> through_forward/with/default/_loaded.scss
+@forward "forwarded" with ($a: from loaded !default);
+
+<===> through_forward/with/default/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> through_forward/with/default/output.css
+b {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/null/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: null));
+
+<===> through_forward/with/null/_loaded.scss
+@forward "forwarded" with ($a: from loaded !default);
+
+<===> through_forward/with/null/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> through_forward/with/null/output.css
+b {
+  c: from loaded;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/unconfigured/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: from input));
+
+<===> through_forward/with/unconfigured/_loaded.scss
+@forward "forwarded" with ($b: from loaded);
+
+<===> through_forward/with/unconfigured/_forwarded.scss
+$a: from forwarded !default;
+$b: from forwarded !default;
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> through_forward/with/unconfigured/output.css
+c {
+  a: from input;
+  b: from loaded;
 }
 
 <===>

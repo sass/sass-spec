@@ -487,15 +487,28 @@ Error: expected "$".
 <===>
 ================================================================================
 <===> with/extra_comma/input.scss
-@use "other" with ($a,,);
+@use "other" with ($a: b,,);
 
 <===> with/extra_comma/error
-Error: expected ":".
+Error: expected ")".
   ,
-1 | @use "other" with ($a,,);
-  |                      ^
+1 | @use "other" with ($a: b,,);
+  |                          ^
   '
-  input.scss 1:22  root stylesheet
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> with/default/input.scss
+@use "other" with ($a: b !default);
+
+<===> with/default/error
+Error: expected ")".
+  ,
+1 | @use "other" with ($a: b !default);
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
 
 <===>
 ================================================================================

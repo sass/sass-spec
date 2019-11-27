@@ -347,3 +347,133 @@ Error: @forward rules must be written before any other rules.
   | ^^^^^^^^^^^^
   '
   input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> with/empty/input.scss
+@forward "other" with ();
+
+<===> with/empty/error
+Error: expected "$".
+  ,
+1 | @forward "other" with ();
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> with/missing_keyword/input.scss
+@forward "other" with (a);
+
+<===> with/missing_keyword/error
+Error: expected "$".
+  ,
+1 | @forward "other" with (a);
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> with/missing_value/input.scss
+@forward "other" with ($a);
+
+<===> with/missing_value/error
+Error: expected ":".
+  ,
+1 | @forward "other" with ($a);
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> with/space_after_dollar/input.scss
+@forward "other" with ($ a: b);
+
+<===> with/space_after_dollar/error
+Error: Expected identifier.
+  ,
+1 | @forward "other" with ($ a: b);
+  |                         ^
+  '
+  input.scss 1:25  root stylesheet
+
+<===>
+================================================================================
+<===> with/namespace_variable/input.scss
+@forward "other" with (a.$b: c);
+
+<===> with/namespace_variable/error
+Error: expected "$".
+  ,
+1 | @forward "other" with (a.$b: c);
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> with/extra_comma/input.scss
+@forward "other" with ($a: b,,);
+
+<===> with/extra_comma/error
+Error: expected ")".
+  ,
+1 | @forward "other" with ($a: b,,);
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet
+
+<===>
+================================================================================
+<===> with/no_arguments/input.scss
+@forward "other" with;
+
+<===> with/no_arguments/error
+Error: expected "(".
+  ,
+1 | @forward "other" with;
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
+
+<===>
+================================================================================
+<===> with/before_as/input.scss
+@forward "other" with ($a: b) as c-*;
+
+<===> with/before_as/error
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) as c-*;
+  |                               ^
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> with/before_show/input.scss
+@forward "other" with ($a: b) show c;
+
+<===> with/before_show/error
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) show c;
+  |                               ^
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> with/before_hide/input.scss
+@forward "other" with ($a: b) hide c;
+
+<===> with/before_hide/error
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) hide c;
+  |                               ^
+  '
+  input.scss 1:31  root stylesheet

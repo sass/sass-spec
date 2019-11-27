@@ -1,13 +1,10 @@
-<===> README.md
-Most changes here should also be reflected in
-core_functions/meta/load_css/with.hrx and directives/forward/with.hrx.
-
-<===>
-================================================================================
 <===> single/input.scss
-@use "other" with ($a: configured);
+@use "midstream";
 
-<===> single/_other.scss
+<===> single/_midstream.scss
+@forward "upstream" with ($a: configured);
+
+<===> single/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -18,10 +15,30 @@ b {
 
 <===>
 ================================================================================
-<===> trailing_comma/input.scss
-@use "other" with ($a: configured,);
+<===> default/input.scss
+@use "midstream";
 
-<===> trailing_comma/_other.scss
+<===> default/_midstream.scss
+@forward "upstream" with ($a: configured !default);
+
+<===> default/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> default/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> trailing_comma/input.scss
+@use "midstream";
+
+<===> trailing_comma/_midstream.scss
+@forward "upstream" with ($a: configured,);
+
+<===> trailing_comma/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -33,9 +50,12 @@ b {
 <===>
 ================================================================================
 <===> dash_insensitive/input.scss
-@use "other" with ($a_b: configured);
+@use "midstream";
 
-<===> dash_insensitive/_other.scss
+<===> dash_insensitive/_midstream.scss
+@forward "upstream" with ($a_b: configured);
+
+<===> dash_insensitive/_upstream.scss
 $a-b: original !default;
 b {c: $a-b}
 
@@ -47,13 +67,16 @@ b {
 <===>
 ================================================================================
 <===> multiple/input.scss
-@use "other" with (
+@use "midstream";
+
+<===> multiple/_midstream.scss
+@forward "upstream" with (
   $a: configured a,
   $b: configured b,
   $c: configured c
 );
 
-<===> multiple/_other.scss
+<===> multiple/_upstream.scss
 $a: original a !default;
 $b: original b !default;
 $c: original c !default;
@@ -74,9 +97,12 @@ d {
 <===>
 ================================================================================
 <===> some_unconfigured/input.scss
-@use "other" with ($a: configured a);
+@use "midstream";
 
-<===> some_unconfigured/_other.scss
+<===> some_unconfigured/_midstream.scss
+@forward "upstream" with ($a: configured a);
+
+<===> some_unconfigured/_upstream.scss
 $a: original a !default;
 $b: original b !default;
 
@@ -94,10 +120,13 @@ c {
 <===>
 ================================================================================
 <===> from_variable/input.scss
-$a: configured;
-@use "other" with ($a: $a);
+@use "midstream";
 
-<===> from_variable/_other.scss
+<===> from_variable/_midstream.scss
+$a: configured;
+@forward "upstream" with ($a: $a);
+
+<===> from_variable/_upstream.scss
 $a: original a !default;
 b {c: $a}
 
@@ -109,9 +138,12 @@ b {
 <===>
 ================================================================================
 <===> doesnt_run_default/input.scss
-@use "other" with ($a: configured);
+@use "midstream";
 
-<===> doesnt_run_default/_other.scss
+<===> doesnt_run_default/_midstream.scss
+@forward "upstream" with ($a: configured);
+
+<===> doesnt_run_default/_upstream.scss
 // This will throw an error if it's evaluated, but it shouldn't be because `$a`
 // already has a value.
 $a: 1px + 1em !default;
@@ -125,10 +157,13 @@ b {
 <===>
 ================================================================================
 <===> used_in_input/input.scss
-@use "other" with ($a: configured);
-b {c: other.$a}
+@use "midstream";
+b {c: midstream.$a}
 
-<===> used_in_input/_other.scss
+<===> used_in_input/_midstream.scss
+@forward "upstream" with ($a: configured);
+
+<===> used_in_input/_upstream.scss
 $a: original !default;
 
 <===> used_in_input/output.css
@@ -139,9 +174,12 @@ b {
 <===>
 ================================================================================
 <===> variable_exists/input.scss
-@use "other" with ($a: configured);
+@use "midstream";
 
-<===> variable_exists/_other.scss
+<===> variable_exists/_midstream.scss
+@forward "upstream" with ($a: configured);
+
+<===> variable_exists/_upstream.scss
 $before-declaration: variable-exists(a);
 $a: original !default;
 b {
@@ -158,12 +196,15 @@ b {
 <===>
 ================================================================================
 <===> through_import/direct/input.scss
-@use "used" with ($a: configured);
+@use "downstream";
 
-<===> through_import/direct/_used.scss
-@import "imported";
+<===> through_import/direct/_downstream.scss
+@forward "midstream" with ($a: configured);
 
-<===> through_import/direct/_imported.scss
+<===> through_import/direct/_midstream.scss
+@import "upstream";
+
+<===> through_import/direct/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -175,15 +216,18 @@ b {
 <===>
 ================================================================================
 <===> through_import/transitive/input.scss
-@use "used" with ($a: configured);
+@use "used";
 
 <===> through_import/transitive/_used.scss
-@import "midstream";
+@forward "forwarded" with ($a: configured);
 
-<===> through_import/transitive/_midstream.scss
-@import "upstream";
+<===> through_import/transitive/_forwarded.scss
+@import "imported_downstream";
 
-<===> through_import/transitive/_upstream.scss
+<===> through_import/transitive/_imported_downstream.scss
+@import "imported_upstream";
+
+<===> through_import/transitive/_imported_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -195,12 +239,15 @@ b {
 <===>
 ================================================================================
 <===> through_forward/bare/input.scss
-@use "used" with ($a: configured);
+@use "downstream";
 
-<===> through_forward/bare/_used.scss
-@forward "forwarded";
+<===> through_forward/bare/_downstream.scss
+@forward "midstream" with ($a: configured);
 
-<===> through_forward/bare/_forwarded.scss
+<===> through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/bare/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -211,33 +258,81 @@ b {
 
 <===>
 ================================================================================
-<===> through_forward/transitive/input.scss
-@use "used" with ($a: configured);
+<===> through_forward/with/default/input.scss
+@use "downstream";
 
-<===> through_forward/transitive/_used.scss
-@forward "midstream";
+<===> through_forward/with/default/_downstream.scss
+@forward "midstream" with ($a: from downstream);
 
-<===> through_forward/transitive/_midstream.scss
-@forward "upstream";
+<===> through_forward/with/default/_midstream.scss
+@forward "upstream" with ($a: from midstream !default);
 
-<===> through_forward/transitive/_upstream.scss
-$a: original !default;
+<===> through_forward/with/default/_upstream.scss
+$a: from upstream !default;
 b {c: $a}
 
-<===> through_forward/transitive/output.css
+<===> through_forward/with/default/output.css
 b {
-  c: configured;
+  c: from downstream;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/null/input.scss
+@use "downstream";
+
+<===> through_forward/with/null/_downstream.scss
+@forward "midstream" with ($a: null);
+
+<===> through_forward/with/null/_midstream.scss
+@forward "upstream" with ($a: from midstream !default);
+
+<===> through_forward/with/null/_upstream.scss
+$a: from upstream !default;
+b {c: $a}
+
+<===> through_forward/with/null/output.css
+b {
+  c: from midstream;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/unconfigured/input.scss
+@use "downstream";
+
+<===> through_forward/with/unconfigured/_downstream.scss
+@forward "midstream" with ($a: from downstream);
+
+<===> through_forward/with/unconfigured/_midstream.scss
+@forward "upstream" with ($b: from midstream !default);
+
+<===> through_forward/with/unconfigured/_upstream.scss
+$a: from upstream !default;
+$b: from upstream !default;
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> through_forward/with/unconfigured/output.css
+c {
+  a: from downstream;
+  b: from midstream;
 }
 
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
-@use "used" with ($a: configured);
+@use "downstream";
 
-<===> through_forward/show/_used.scss
-@forward "forwarded" show $a;
+<===> through_forward/show/_downstream.scss
+@forward "midstream" with ($a: configured);
 
-<===> through_forward/show/_forwarded.scss
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show $a;
+
+<===> through_forward/show/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -248,69 +343,16 @@ b {
 
 <===>
 ================================================================================
-<===> through_forward/with/default/input.scss
-@use "used" with ($a: from input);
-
-<===> through_forward/with/default/_used.scss
-@forward "forwarded" with ($a: from used !default);
-
-<===> through_forward/with/default/_forwarded.scss
-$a: from forwarded !default;
-b {c: $a}
-
-<===> through_forward/with/default/output.css
-b {
-  c: from input;
-}
-
-<===>
-================================================================================
-<===> through_forward/with/null/input.scss
-@use "used" with ($a: null);
-
-<===> through_forward/with/null/_used.scss
-@forward "forwarded" with ($a: from used !default);
-
-<===> through_forward/with/null/_forwarded.scss
-$a: from forwarded !default;
-b {c: $a}
-
-<===> through_forward/with/null/output.css
-b {
-  c: from used;
-}
-
-<===>
-================================================================================
-<===> through_forward/with/unconfigured/input.scss
-@use "used" with ($a: from input);
-
-<===> through_forward/with/unconfigured/_used.scss
-@forward "forwarded" with ($b: from used);
-
-<===> through_forward/with/unconfigured/_forwarded.scss
-$a: from forwarded !default;
-$b: from forwarded !default;
-c {
-  a: $a;
-  b: $b;
-}
-
-<===> through_forward/with/unconfigured/output.css
-c {
-  a: from input;
-  b: from used;
-}
-
-<===>
-================================================================================
 <===> through_forward/hide/input.scss
-@use "used" with ($a: configured);
+@use "downstream";
 
-<===> through_forward/hide/_used.scss
-@forward "forwarded" hide $b;
+<===> through_forward/hide/_downstream.scss
+@forward "midstream" with ($a: configured);
 
-<===> through_forward/hide/_forwarded.scss
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide $b;
+
+<===> through_forward/hide/_upstream.scss
 $a: original !default;
 b {c: $a}
 
@@ -322,12 +364,15 @@ b {
 <===>
 ================================================================================
 <===> through_forward/as/input.scss
-@use "used" with ($b-a: configured);
+@use "downstream";
 
-<===> through_forward/as/_used.scss
-@forward "forwarded" as b-*;
+<===> through_forward/as/_downstream.scss
+@forward "midstream" with ($b-a: configured);
 
-<===> through_forward/as/_forwarded.scss
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> through_forward/as/_upstream.scss
 $a: original !default;
 c {d: $a}
 
@@ -339,37 +384,43 @@ c {
 <===>
 ================================================================================
 <===> through_forward/with_unrelated_config/input.scss
-@use "used" with ($from-used: configured);
+@use "downstream";
 
-<===> through_forward/with_unrelated_config/_used.scss
-@forward "forwarded";
+<===> through_forward/with_unrelated_config/_downstream.scss
+@forward "midstream" with ($from-midstream: configured);
 
-$from-used: original !default;
+<===> through_forward/with_unrelated_config/_midstream.scss
+@forward "upstream";
 
-a {from-used: $from-used}
+$from-midstream: original !default;
 
-<===> through_forward/with_unrelated_config/_forwarded.scss
-$from-forwarded: original !default;
-b {from-forwarded: $from-forwarded}
+a {from-midstream: $from-midstream}
+
+<===> through_forward/with_unrelated_config/_upstream.scss
+$from-upstream: original !default;
+b {from-upstream: $from-upstream}
 
 <===> through_forward/with_unrelated_config/output.css
 b {
-  from-forwarded: original;
+  from-upstream: original;
 }
 
 a {
-  from-used: configured;
+  from-midstream: configured;
 }
 
 <===>
 ================================================================================
 <===> through_forward/and_use/input.scss
+@use "downstream";
+
+<===> through_forward/and_use/_downstream.scss
 // Regression test for sass/sass#2744.
-@use "forwarder" with ($c: e);
+@use "midstream" with ($c: e);
 
-a {b: forwarder.$c}
+a {b: midstream.$c}
 
-<===> through_forward/and_use/_forwarder.scss
+<===> through_forward/and_use/_midstream.scss
 @forward "definition";
 @forward "user";
 
@@ -387,12 +438,15 @@ a {
 <===>
 ================================================================================
 <===> core_module/indirect/use/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
+<===> core_module/indirect/use/_midstream.scss
 // Regression test for sass/dart-sass#838.
-@use "other" with ($c: e);
+@forward "upstream" with ($c: e);
 
-a {b: other.$c}
-
-<===> core_module/indirect/use/_other.scss
+<===> core_module/indirect/use/_upstream.scss
 @use "sass:color";
 
 $c: d !default;
@@ -405,12 +459,15 @@ a {
 <===>
 ================================================================================
 <===> core_module/indirect/forward/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
+<===> core_module/indirect/forward/_midstream.scss
 // Regression test for sass/dart-sass#838.
-@use "other" with ($c: e);
+@forward "upstream" with ($c: e);
 
-a {b: other.$c}
-
-<===> core_module/indirect/forward/_other.scss
+<===> core_module/indirect/forward/_upstream.scss
 @forward "sass:color";
 
 $c: d !default;
@@ -429,7 +486,7 @@ configuration will use the configured module.
 <===>
 ================================================================================
 <===> multi_load/use/input.scss
-@use "upstream" with ($a: configured);
+@forward "upstream" with ($a: configured);
 @use "midstream";
 
 <===> multi_load/use/_midstream.scss
@@ -447,7 +504,7 @@ b {
 <===>
 ================================================================================
 <===> multi_load/forward/input.scss
-@use "upstream" with ($a: configured);
+@forward "upstream" with ($a: configured);
 @use "midstream";
 b {c: midstream.$a}
 
@@ -465,14 +522,17 @@ b {
 <===>
 ================================================================================
 <===> multi_load/transitive/input.scss
-// Regression test for sass/dart-sass#854.
-@use "midstream1" with ($a: overridden 1);
-@use "midstream2" with ($a: overridden 2);
+@use "downstream";
 
 b {
-  midstream1: midstream1.$a;
-  midstream2: midstream2.$a;
+  midstream1: downstream.$m1-a;
+  midstream2: downstream.$m2-a;
 }
+
+<===> multi_load/transitive/_downstream.scss
+// Regression test for sass/dart-sass#854.
+@forward "midstream1" as m1-* with ($a: overridden 1);
+@forward "midstream2" as m2-* with ($a: overridden 2);
 
 <===> multi_load/transitive/_midstream1.scss
 @use "upstream";

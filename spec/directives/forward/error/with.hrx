@@ -1,37 +1,48 @@
 <===> undefined/input.scss
-@use "other" with ($a: b);
+@use "midstream";
 
-<===> undefined/_other.scss
+<===> undefined/_midstream.scss
+@forward "upstream" with ($a: b);
+
+<===> undefined/_upstream.scss
 // This file defines no variables.
 
 <===> undefined/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "other" with ($a: b);
-  |                    ^^^^^
+1 | @forward "upstream" with ($a: b);
+  |                           ^^^^^
   '
-  input.scss 1:20  root stylesheet
+  _midstream.scss 1:27  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> not_default/input.scss
-@use "other" with ($a: b);
+@use "midstream";
 
-<===> not_default/_other.scss
+<===> not_default/_midstream.scss
+@forward "upstream" with ($a: b);
+
+<===> not_default/_upstream.scss
 $a: c;
 
 <===> not_default/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "other" with ($a: b);
-  |                    ^^^^^
+1 | @forward "upstream" with ($a: b);
+  |                           ^^^^^
   '
-  input.scss 1:20  root stylesheet
+  _midstream.scss 1:27  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> namespace/input.scss
-@use "midstream" with ($a: b);
+@use "downstream";
+
+<===> namespace/_downstream.scss
+@forward "midstream" with ($a: b);
 
 <===> namespace/_midstream.scss
 @use "upstream";
@@ -43,31 +54,39 @@ $a: d;
 <===> namespace/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "midstream" with ($a: b);
-  |                        ^^^^^
+1 | @forward "midstream" with ($a: b);
+  |                            ^^^^^
   '
-  input.scss 1:24  root stylesheet
+  _downstream.scss 1:28  @use
+  input.scss 1:1         root stylesheet
 
 <===>
 ================================================================================
 <===> nested/input.scss
-@use "other" with ($a: b);
+@use "midstream";
 
-<===> nested/_other.scss
+<===> nested/_midstream.scss
+@forward "upstream" with ($a: b);
+
+<===> nested/_upstream.scss
 c {$a: d !default}
 
 <===> nested/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "other" with ($a: b);
-  |                    ^^^^^
+1 | @forward "upstream" with ($a: b);
+  |                           ^^^^^
   '
-  input.scss 1:20  root stylesheet
+  _midstream.scss 1:27  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> conflict/input.scss
-@use "midstream" with ($a: b);
+@use "downstream";
+
+<===> conflict/_downstream.scss
+@forward "midstream" with ($a: b);
 
 <===> conflict/_midstream.scss
 @use "left" as *;
@@ -89,87 +108,108 @@ Error: This variable is available from multiple global modules:
 4 | $a: c !default;
   | ^^^^^^^^^^^^^^
   '
-  _midstream.scss 4:1  @use
-  input.scss 1:1       root stylesheet
+  _midstream.scss 4:1   @forward
+  _downstream.scss 1:1  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> invalid_expression/error/input.scss
-@use "other" with ($a: 1px + 1em);
+@use "midstream";
 
-<===> invalid_expression/error/_other.scss
+<===> invalid_expression/error/_midstream.scss
+@forward "upstream" with ($a: 1px + 1em);
+
+<===> invalid_expression/error/_upstream.scss
 $a: c !default;
 
 <===> invalid_expression/error/error
 Error: Incompatible units em and px.
   ,
-1 | @use "other" with ($a: 1px + 1em);
-  |                        ^^^^^^^^^
+1 | @forward "upstream" with ($a: 1px + 1em);
+  |                               ^^^^^^^^^
   '
-  input.scss 1:24  root stylesheet
+  _midstream.scss 1:31  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> invalid_expression/variable_defined_later/input.scss
-@use "other" with ($a: $b);
+@use "midstream";
+
+<===> invalid_expression/variable_defined_later/_midstream.scss
+@forward "upstream" with ($a: $b);
 $b: c;
 
-<===> invalid_expression/variable_defined_later/_other.scss
+<===> invalid_expression/variable_defined_later/_upstream.scss
 $a: d !default;
 
 <===> invalid_expression/variable_defined_later/error
 Error: Undefined variable.
   ,
-1 | @use "other" with ($a: $b);
-  |                        ^^
+1 | @forward "upstream" with ($a: $b);
+  |                               ^^
   '
-  input.scss 1:24  root stylesheet
+  _midstream.scss 1:31  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> invalid_expression/module_loaded_later/input.scss
-@use "configured" with ($a: other.$b);
-@use "other";
+@use "midstream";
+
+<===> invalid_expression/module_loaded_later/_midstream.scss
+@forward "configured" with ($a: upstream.$b);
+@use "upstream";
 
 <===> invalid_expression/module_loaded_later/_configured.scss
 $a: c !default;
 
-<===> invalid_expression/module_loaded_later/_other.scss
+<===> invalid_expression/module_loaded_later/_upstream.scss
 $b: d;
 
 <===> invalid_expression/module_loaded_later/error
-Error: There is no module with the namespace "other".
+Error: There is no module with the namespace "upstream".
   ,
-1 | @use "configured" with ($a: other.$b);
-  |                             ^^^^^^^^
+1 | @forward "configured" with ($a: upstream.$b);
+  |                                 ^^^^^^^^^^^
   '
-  input.scss 1:29  root stylesheet
+  _midstream.scss 1:33  @use
+  input.scss 1:1        root stylesheet
 
 <===>
 ================================================================================
 <===> repeated_variable/input.scss
-@use "other" with ($a: b, $a: c);
+@use "other";
+
+<===> repeated_variable/_other.scss
+@forward "upstream" with ($a: b, $a: c);
 
 <===> repeated_variable/error
 Error: The same variable may only be configured once.
   ,
-1 | @use "other" with ($a: b, $a: c);
-  |                           ^^^^^
+1 | @forward "upstream" with ($a: b, $a: c);
+  |                                  ^^^^^
   '
-  input.scss 1:27  root stylesheet
+  _other.scss 1:34  @use
+  input.scss 1:1    root stylesheet
 
 <===>
 ================================================================================
 <===> core_module/input.scss
-@use "sass:color" with ($a: b);
+@use "other";
+
+<===> core_module/_other.scss
+@forward "sass:color" with ($a: b);
 
 <===> core_module/error
 Error: Built-in modules can't be configured.
   ,
-1 | @use "sass:color" with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | @forward "sass:color" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:1  root stylesheet
+  _other.scss 1:1  @use
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -180,8 +220,8 @@ identical.
 <===>
 ================================================================================
 <===> multi_configuration/one_file/input.scss
-@use "other" as o1 with ($a: b);
-@use "other" as o2 with ($a: b);
+@forward "other" with ($a: b);
+@forward "other" with ($a: b);
 
 <===> multi_configuration/one_file/_other.scss
 $a: c !default;
@@ -189,8 +229,8 @@ $a: c !default;
 <===> multi_configuration/one_file/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
-2 | @use "other" as o2 with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | @forward "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -201,10 +241,10 @@ Error: This module was already loaded, so it can't be configured using "with".
 @use "right";
 
 <===> multi_configuration/multi_file/_left.scss
-@use "other" with ($a: b);
+@forward "other" with ($a: b);
 
 <===> multi_configuration/multi_file/_right.scss
-@use "other" with ($a: b);
+@forward "other" with ($a: b);
 
 <===> multi_configuration/multi_file/_other.scss
 $a: c !default;
@@ -212,8 +252,8 @@ $a: c !default;
 <===> multi_configuration/multi_file/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
-1 | @use "other" with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | @forward "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   _right.scss 1:1  @use
   input.scss 2:1   root stylesheet
@@ -221,8 +261,8 @@ Error: This module was already loaded, so it can't be configured using "with".
 <===>
 ================================================================================
 <===> multi_configuration/unconfigured_first/input.scss
-@use "other" as o1;
-@use "other" as o2 with ($a: b);
+@forward "other";
+@forward "other" with ($a: b);
 
 <===> multi_configuration/unconfigured_first/_other.scss
 $a: c !default;
@@ -230,107 +270,107 @@ $a: c !default;
 <===> multi_configuration/unconfigured_first/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
-2 | @use "other" as o2 with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | @forward "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
 <===>
 ================================================================================
 <===> multi_configuration/through_forward/input.scss
-@use "forwarded";
-@use "midstream" with ($a: b);
+@use "upstream";
+@forward "midstream" with ($a: b);
 
 <===> multi_configuration/through_forward/_midstream.scss
-@forward "forwarded";
+@forward "upstream";
 
 $a: c !default;
 
-<===> multi_configuration/through_forward/_forwarded.scss
+<===> multi_configuration/through_forward/_upstream.scss
 // This file defines no variables, but it still may not be loaded both with and
 // without configuration.
 
 <===> multi_configuration/through_forward/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
-1 | @forward "forwarded";
-  | ^^^^^^^^^^^^^^^^^^^^
+1 | @forward "upstream";
+  | ^^^^^^^^^^^^^^^^^^^
   '
-  _midstream.scss 1:1  @use
+  _midstream.scss 1:1  @forward
   input.scss 2:1       root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
-@use "used" with ($a: b);
+@forward "midstream" with ($a: b);
 
-<===> through_forward/show/_used.scss
-@forward "forwarded" show $b;
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show $b;
 
-<===> through_forward/show/_forwarded.scss
+<===> through_forward/show/_upstream.scss
 $a: d !default;
 
 <===> through_forward/show/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "used" with ($a: b);
-  |                   ^^^^^
+1 | @forward "midstream" with ($a: b);
+  |                            ^^^^^
   '
-  input.scss 1:19  root stylesheet
+  input.scss 1:28  root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
-@use "used" with ($a: b);
+@forward "midstream" with ($a: b);
 
-<===> through_forward/hide/_used.scss
-@forward "forwarded" hide $a;
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide $a;
 
-<===> through_forward/hide/_forwarded.scss
+<===> through_forward/hide/_upstream.scss
 $a: d !default;
 
 <===> through_forward/hide/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "used" with ($a: b);
-  |                   ^^^^^
+1 | @forward "midstream" with ($a: b);
+  |                            ^^^^^
   '
-  input.scss 1:19  root stylesheet
+  input.scss 1:28  root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/as/input.scss
-@use "used" with ($a: b);
+@forward "midstream" with ($a: b);
 
-<===> through_forward/as/_used.scss
-@forward "forwarded" as c-*;
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as c-*;
 
-<===> through_forward/as/_forwarded.scss
+<===> through_forward/as/_upstream.scss
 $a: d !default;
 
 <===> through_forward/as/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "used" with ($a: b);
-  |                   ^^^^^
+1 | @forward "midstream" with ($a: b);
+  |                            ^^^^^
   '
-  input.scss 1:19  root stylesheet
+  input.scss 1:28  root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/with/input.scss
-@use "used" with ($a: b);
+@forward "midstream" with ($a: b);
 
-<===> through_forward/with/_used.scss
-@forward "forwarded" with ($a: c);
+<===> through_forward/with/_midstream.scss
+@forward "upstream" with ($a: c);
 
-<===> through_forward/with/_forwarded.scss
+<===> through_forward/with/_upstream.scss
 $a: d !default;
 
 <===> through_forward/with/error
 Error: This variable was not declared with !default in the @used module.
   ,
-1 | @use "used" with ($a: b);
-  |                   ^^^^^
+1 | @forward "midstream" with ($a: b);
+  |                            ^^^^^
   '
-  input.scss 1:19  root stylesheet
+  input.scss 1:28  root stylesheet
