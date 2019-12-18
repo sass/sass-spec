@@ -113,6 +113,29 @@ a {
 
 <===>
 ================================================================================
+<===> forward_to_import/with/input.scss
+@use "used";
+
+a {b: used.get-c()};
+
+<===> forward_to_import/with/_used.scss
+@forward "forwarded" with ($c: new value);
+
+<===> forward_to_import/with/_forwarded.scss
+@import "imported";
+
+<===> forward_to_import/with/_imported.scss
+$c: old value !default;
+
+@function get-c() {@return $c}
+
+<===> forward_to_import/with/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
 <===> import_to_forward/mixin/input.scss
 @import "midstream";
 
@@ -167,4 +190,68 @@ $c: d;
 <===> import_to_forward/variable_use/output.css
 a {
   b: d;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/with/default/input.scss
+@import "midstream";
+
+a {b: get-c()};
+
+<===> import_to_forward/with/default/_midstream.scss
+@forward "upstream" with ($c: midstream);
+
+<===> import_to_forward/with/default/_upstream.scss
+$c: upstream !default;
+
+@function get-c() {@return $c}
+
+<===> import_to_forward/with/default/output.css
+a {
+  b: midstream;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/with/non_overridable/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> import_to_forward/with/non_overridable/_midstream.scss
+@forward "upstream" with ($a: midstream);
+
+<===> import_to_forward/with/non_overridable/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> import_to_forward/with/non_overridable/output.css
+b {
+  c: midstream;
+}
+
+<===>
+================================================================================
+<===> import_to_forward/with/overridden/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> import_to_forward/with/overridden/_midstream.scss
+@forward "upstream" with ($a: midstream !default);
+
+<===> import_to_forward/with/overridden/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> import_to_forward/with/overridden/output.css
+b {
+  c: input;
 }
