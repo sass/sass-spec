@@ -120,7 +120,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -138,7 +137,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -160,7 +158,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("midstream", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -178,7 +175,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -410,7 +406,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("used", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -431,7 +426,6 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("used", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
   input.scss 2:1  root stylesheet
 
 <===>
@@ -452,7 +446,26 @@ Error: $a was not declared with !default in the @used module.
 2 | @include meta.load-css("used", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:1  load-css()
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> with/through_forward/with/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> with/through_forward/with/_used.scss
+@forward "forwarded" with ($a: c);
+
+<===> with/through_forward/with/_forwarded.scss
+$a: d !default;
+
+<===> with/through_forward/with/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
   input.scss 2:1  root stylesheet
 
 <===>
