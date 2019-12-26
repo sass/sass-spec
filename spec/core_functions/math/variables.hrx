@@ -1,0 +1,54 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> e/input.scss
+@use "sass:math" as math;
+a {b: math.$e}
+
+<===> e/output.css
+a {
+  b: 2.7182818285;
+}
+
+<===>
+================================================================================
+<===> pi/input.scss
+@use "sass:math" as math;
+a {b: math.$pi}
+
+<===> pi/output.css
+a {
+  b: 3.1415926536;
+}
+
+<===>
+================================================================================
+<===> error/assignment/e/input.scss
+@use "sass:math" as math;
+a {math.$e: 0}
+
+<===> error/assignment/e/error
+Error: Cannot modify built-in variable $e.
+  ,
+2 | a {math.$e: 0}
+  |    ^^^^^^^^^^
+  '
+  input.scss 2:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/pi/input.scss
+@use "sass:math" as math;
+a {math.$pi: 0}
+
+<===> error/assignment/pi/error
+Error: Cannot modify built-in variable $pi.
+  ,
+2 | a {math.$pi: 0}
+  |    ^^^^^^^^^^^
+  '
+  input.scss 2:4  root stylesheet
