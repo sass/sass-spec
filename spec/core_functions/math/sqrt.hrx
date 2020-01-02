@@ -49,12 +49,37 @@ a {
 
 <===>
 ================================================================================
+<===> named_arg/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt($number: 2)}
+
+<===> named_arg/output.css
+a {
+  b: 1.4142135624;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.sqrt("0")}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/units/input.scss
 @use "sass:math" as math;
 a {b: math.sqrt(1px)}
 
 <===> error/units/error
-Error: Expected 1px to have no units.
+Error: $number: Expected 1px to have no units.
   ,
 2 | a {b: math.sqrt(1px)}
   |       ^^^^^^^^^^^^^^

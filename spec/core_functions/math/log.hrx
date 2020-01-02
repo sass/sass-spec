@@ -5,17 +5,6 @@
 
 <===>
 ================================================================================
-<===> input.scss
-@use "sass:math" as math;
-a {b: math.log(2)}
-
-<===> output.css
-a {
-  b: 0.6931471806;
-}
-
-<===>
-================================================================================
 <===> negative/input.scss
 @use "sass:math" as math;
 a {b: math.log(-1)}
@@ -38,6 +27,17 @@ a {
 
 <===>
 ================================================================================
+<===> positive/input.scss
+@use "sass:math" as math;
+a {b: math.log(2)}
+
+<===> positive/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
 <===> infinity/input.scss
 @use "sass:math" as math;
 a {b: math.log(1 / 0)}
@@ -49,13 +49,13 @@ a {
 
 <===>
 ================================================================================
-<===> base/input.scss
+<===> base/null/input.scss
 @use "sass:math" as math;
-a {b: math.log(2, 10)}
+a {b: math.log(2, null)}
 
-<===> base/output.css
+<===> base/null/output.css
 a {
-  b: 0.3010299957;
+  b: 0.6931471806;
 }
 
 <===>
@@ -82,6 +82,17 @@ a {
 
 <===>
 ================================================================================
+<===> base/between_zero_and_one/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 0.5)}
+
+<===> base/between_zero_and_one/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
 <===> base/one/input.scss
 @use "sass:math" as math;
 a {b: math.log(2, 1)}
@@ -93,12 +104,59 @@ a {
 
 <===>
 ================================================================================
+<===> base/positive/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 10)}
+
+<===> base/positive/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> named_arg/number/input.scss
+@use "sass:math" as math;
+a {b: math.log($number: 2)}
+
+<===> named_arg/number/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> named_args/number_with_base/input.scss
+@use "sass:math" as math;
+a {b: math.log($number: 2, $base: 10)}
+
+<===> named_args/number_with_base/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:math" as math;
+a {b: math.log("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.log("0")}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/number_has_units/input.scss
 @use "sass:math" as math;
 a {b: math.log(1px)}
 
 <===> error/number_has_units/error
-Error: Expected 1px to have no units.
+Error: $number: Expected 1px to have no units.
   ,
 2 | a {b: math.log(1px)}
   |       ^^^^^^^^^^^^^
@@ -112,24 +170,10 @@ Error: Expected 1px to have no units.
 a {b: math.log(1, 1px)}
 
 <===> error/base_has_units/error
-Error: Expected $base to have no units.
+Error: $base: Expected 1px to have no units.
   ,
 2 | a {b: math.log(1, 1px)}
   |       ^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/number_and_base_have_units/input.scss
-@use "sass:math" as math;
-a {b: math.log(1px, 1px)}
-
-<===> error/number_and_base_have_units/error
-Error: Expected $number to have no units.
-  ,
-2 | a {b: math.log(1px, 1px)}
-  |       ^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
