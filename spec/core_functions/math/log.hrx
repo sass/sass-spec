@@ -27,6 +27,17 @@ a {
 
 <===>
 ================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: -Infinity;
+}
+
+<===>
+================================================================================
 <===> positive/input.scss
 @use "sass:math" as math;
 a {b: math.log(2)}
@@ -82,6 +93,17 @@ a {
 
 <===>
 ================================================================================
+<===> base/zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 0.000000000001)}
+
+<===> base/zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
 <===> base/between_zero_and_one/input.scss
 @use "sass:math" as math;
 a {b: math.log(2, 0.5)}
@@ -98,6 +120,17 @@ a {
 a {b: math.log(2, 1)}
 
 <===> base/one/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> base/one_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 1.00000000001)}
+
+<===> base/one_fuzzy/output.css
 a {
   b: Infinity;
 }
