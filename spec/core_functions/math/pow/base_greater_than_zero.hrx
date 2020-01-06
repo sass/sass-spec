@@ -5,61 +5,6 @@
 
 <===>
 ================================================================================
-<===> with_exponent/zero/input.scss
-@use "sass:math" as math;
-a {b: math.pow(2, 0)}
-
-<===> with_exponent/zero/output.css
-a {
-  b: 1;
-}
-
-<===>
-================================================================================
-<===> with_exponent/zero_fuzzy/input.scss
-@use "sass:math" as math;
-a {b: math.pow(2, 0.00000000001)}
-
-<===> with_exponent/zero_fuzzy/output.css
-a {
-  b: 1;
-}
-
-<===>
-================================================================================
-<===> with_exponent/decimal/input.scss
-@use "sass:math" as math;
-a {b: math.pow(2, 0.5)}
-
-<===> with_exponent/decimal/output.css
-a {
-  b: 1.4142135624;
-}
-
-<===>
-================================================================================
-<===> with_exponent/integer/input.scss
-@use "sass:math" as math;
-a {b: math.pow(2, 3)}
-
-<===> with_exponent/integer/output.css
-a {
-  b: 8;
-}
-
-<===>
-================================================================================
-<===> with_exponent/integer_fuzzy/input.scss
-@use "sass:math" as math;
-a {b: math.pow(2, 3.00000000001)}
-
-<===> with_exponent/integer_fuzzy/output.css
-a {
-  b: 8.0000000001;
-}
-
-<===>
-================================================================================
 <===> base/less_than_one/with_exponent/negative_infinity/input.scss
 @use "sass:math" as math;
 a {b: math.pow(0.5, -1 / 0)}
@@ -95,7 +40,7 @@ a {
 ================================================================================
 <===> base/one_fuzzy/with_exponent/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(1.00000000001, -1 / 0)}
+a {b: math.pow(1.000000000001, -1 / 0)}
 
 <===> base/one_fuzzy/with_exponent/negative_infinity/output.css
 a {
@@ -117,7 +62,7 @@ a {
 ================================================================================
 <===> base/one_fuzzy/with_exponent/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(1.00000000001, 1 / 0)}
+a {b: math.pow(1.000000000001, 1 / 0)}
 
 <===> base/one_fuzzy/with_exponent/infinity/output.css
 a {
@@ -133,6 +78,61 @@ a {b: math.pow(2, -1 / 0)}
 <===> base/greater_than_one/with_exponent/negative_infinity/output.css
 a {
   b: 0;
+}
+
+<===>
+================================================================================
+<===> base/greater_than_one/with_exponent/zero/input.scss
+@use "sass:math" as math;
+a {b: math.pow(2, 0)}
+
+<===> base/greater_than_one/with_exponent/zero/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> base/greater_than_one/with_exponent/zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.pow(2, 0.000000000001)}
+
+<===> base/greater_than_one/with_exponent/zero_fuzzy/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> base/greater_than_one/with_exponent/integer/input.scss
+@use "sass:math" as math;
+a {b: math.pow(2, 3)}
+
+<===> base/greater_than_one/with_exponent/integer/output.css
+a {
+  b: 8;
+}
+
+<===>
+================================================================================
+<===> base/greater_than_one/with_exponent/integer_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.pow(2, 3.000000000001)}
+
+<===> base/greater_than_one/with_exponent/integer_fuzzy/output.css
+a {
+  b: 8;
+}
+
+<===>
+================================================================================
+<===> base/greater_than_one/with_exponent/decimal/input.scss
+@use "sass:math" as math;
+a {b: math.pow(2, 0.5)}
+
+<===> base/greater_than_one/with_exponent/decimal/output.css
+a {
+  b: 1.4142135624;
 }
 
 <===>

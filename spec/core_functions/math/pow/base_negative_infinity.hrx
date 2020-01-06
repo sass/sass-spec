@@ -5,22 +5,11 @@
 
 <===>
 ================================================================================
-<===> with_exponent/negative_odd_integer/input.scss
+<===> with_exponent/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, -3)}
+a {b: math.pow(-1 / 0, -1 / 0)}
 
-<===> with_exponent/negative_odd_integer/output.css
-a {
-  b: 0;
-}
-
-<===>
-================================================================================
-<===> with_exponent/negative_odd_integer_fuzzy/input.scss
-@use "sass:math" as math;
-a {b: math.pow(-1 / 0, -3.00000000001)}
-
-<===> with_exponent/negative_odd_integer_fuzzy/output.css
+<===> with_exponent/negative_infinity/output.css
 a {
   b: 0;
 }
@@ -40,7 +29,7 @@ a {
 ================================================================================
 <===> with_exponent/negative_even_integer_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, -2.00000000001)}
+a {b: math.pow(-1 / 0, -2.000000000001)}
 
 <===> with_exponent/negative_even_integer_fuzzy/output.css
 a {
@@ -49,11 +38,33 @@ a {
 
 <===>
 ================================================================================
-<===> with_exponent/negative_real/input.scss
+<===> with_exponent/negative_odd_integer/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, -2.3)}
+a {b: math.pow(-1 / 0, -3)}
 
-<===> with_exponent/negative_real/output.css
+<===> with_exponent/negative_odd_integer/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> with_exponent/negative_odd_integer_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.pow(-1 / 0, -3.000000000001)}
+
+<===> with_exponent/negative_odd_integer_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> with_exponent/negative_decimal/input.scss
+@use "sass:math" as math;
+a {b: math.pow(-1 / 0, -2.5)}
+
+<===> with_exponent/negative_decimal/output.css
 a {
   b: 0;
 }
@@ -73,7 +84,7 @@ a {
 ================================================================================
 <===> with_exponent/zero_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, 0.00000000001)}
+a {b: math.pow(-1 / 0, 0.000000000001)}
 
 <===> with_exponent/zero_fuzzy/output.css
 a {
@@ -82,55 +93,66 @@ a {
 
 <===>
 ================================================================================
-<===> with_exponent/positive_odd_integer/input.scss
-@use "sass:math" as math;
-a {b: math.pow(-1 / 0, 3)}
-
-<===> with_exponent/positive_odd_integer/output.css
-a {
-  b: -Infinity;
-}
-
-<===>
-================================================================================
-<===> with_exponent/positive_odd_integer_fuzzy/input.scss
-@use "sass:math" as math;
-a {b: math.pow(-1 / 0, 3.00000000001)}
-
-<===> with_exponent/positive_odd_integer_fuzzy/output.css
-a {
-  b: -Infinity;
-}
-
-<===>
-================================================================================
-<===> with_exponent/positive_even_integer/input.scss
+<===> with_exponent/even_integer/input.scss
 @use "sass:math" as math;
 a {b: math.pow(-1 / 0, 2)}
 
-<===> with_exponent/positive_even_integer/output.css
+<===> with_exponent/even_integer/output.css
 a {
   b: Infinity;
 }
 
 <===>
 ================================================================================
-<===> with_exponent/positive_even_integer_fuzzy/input.scss
+<===> with_exponent/even_integer_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, 2.00000000001)}
+a {b: math.pow(-1 / 0, 2.000000000001)}
 
-<===> with_exponent/positive_even_integer_fuzzy/output.css
+<===> with_exponent/even_integer_fuzzy/output.css
 a {
   b: Infinity;
 }
 
 <===>
 ================================================================================
-<===> with_exponent/positive_real/input.scss
+<===> with_exponent/odd_integer/input.scss
 @use "sass:math" as math;
-a {b: math.pow(-1 / 0, 2.3)}
+a {b: math.pow(-1 / 0, 3)}
 
-<===> with_exponent/positive_real/output.css
+<===> with_exponent/odd_integer/output.css
+a {
+  b: -Infinity;
+}
+
+<===>
+================================================================================
+<===> with_exponent/odd_integer_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.pow(-1 / 0, 3.000000000001)}
+
+<===> with_exponent/odd_integer_fuzzy/output.css
+a {
+  b: -Infinity;
+}
+
+<===>
+================================================================================
+<===> with_exponent/decimal/input.scss
+@use "sass:math" as math;
+a {b: math.pow(-1 / 0, 2.5)}
+
+<===> with_exponent/decimal/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> with_exponent/infinity/input.scss
+@use "sass:math" as math;
+a {b: math.pow(-1 / 0, 1 / 0)}
+
+<===> with_exponent/infinity/output.css
 a {
   b: Infinity;
 }
