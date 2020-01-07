@@ -1,0 +1,138 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> named_args/input.scss
+@use "sass:math" as math;
+a {b: math.atan2($y: 1, $x: -1)}
+
+<===> named_args/output.css
+a {
+  b: 135deg;
+}
+
+<===>
+================================================================================
+<===> compatible_units/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1cm, -10mm)}
+
+<===> compatible_units/output.css
+a {
+  b: 135deg;
+}
+
+<===>
+================================================================================
+<===> error/y_type/input.scss
+@use "sass:math" as math;
+a {b: math.atan2("0", 0)}
+
+<===> error/y_type/error
+Error: $y: "0" is not a number.
+  ,
+2 | a {b: math.atan2("0", 0)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/x_type/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(0, "0")}
+
+<===> error/x_type/error
+Error: $x: "0" is not a number.
+  ,
+2 | a {b: math.atan2(0, "0")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1px, 1deg)}
+
+<===> error/incompatible_units/error
+Error: Incompatible units deg and px.
+  ,
+2 | a {b: math.atan2(1px, 1deg)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_y/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1, 1px)}
+
+<===> error/unitless_y/error
+Error: $y is unitless but $x has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.atan2(1, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_x/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1px, 1)}
+
+<===> error/unitless_x/error
+Error: $y has unit px but $x is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.atan2(1px, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.atan2()}
+
+<===> error/zero_args/error
+Error: Missing argument $y.
+  ,
+2 | a {b: math.atan2()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(0)}
+
+<===> error/one_arg/error
+Error: Missing argument $x.
+  ,
+2 | a {b: math.atan2(0)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: math.atan2(0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

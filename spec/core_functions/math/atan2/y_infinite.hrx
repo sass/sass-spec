@@ -1,0 +1,158 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> negative/with_x/negative_infinity/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, -1 / 0)}
+
+<===> negative/with_x/negative_infinity/output.css
+a {
+  b: -135deg;
+}
+
+<===>
+================================================================================
+<===> negative/with_x/negative_finite/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, -1)}
+
+<===> negative/with_x/negative_finite/output.css
+a {
+  b: -90deg;
+}
+
+<===>
+================================================================================
+<===> negative/with_x/negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, -0.0)}
+
+<===> negative/with_x/negative_zero/output.css
+a {
+  b: -90deg;
+}
+
+<===>
+================================================================================
+<===> negative/with_x/zero/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, 0)}
+
+<===> negative/with_x/zero/output.css
+a {
+  b: -90deg;
+}
+
+<===>
+================================================================================
+<===> negative/with_x/finite/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, 1)}
+
+<===> negative/with_x/finite/output.css
+a {
+  b: -90deg;
+}
+
+<===>
+================================================================================
+<===> negative/with_x/infinity/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(-1 / 0, 1 / 0)}
+
+<===> negative/with_x/infinity/output.css
+a {
+  b: -45deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/negative_infinity/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, -1 / 0)}
+
+<===> positive/with_x/negative_infinity/output.css
+a {
+  b: 135deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/negative_finite/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, -1)}
+
+<===> positive/with_x/negative_finite/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, -0.0)}
+
+<===> positive/with_x/negative_zero/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/negative_zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, -0.000000000001)}
+
+<===> positive/with_x/negative_zero_fuzzy/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/zero/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, 0)}
+
+<===> positive/with_x/zero/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, 0.000000000001)}
+
+<===> positive/with_x/zero_fuzzy/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/finite/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, 1)}
+
+<===> positive/with_x/finite/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> positive/with_x/infinity/input.scss
+@use "sass:math" as math;
+a {b: math.atan2(1 / 0, 1 / 0)}
+
+<===> positive/with_x/infinity/output.css
+a {
+  b: 45deg;
+}
