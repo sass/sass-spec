@@ -97,11 +97,64 @@ a {
 
 <===>
 ================================================================================
-<===> error/incompatible_units/first_and_second/input.scss
+<===> named_args/input.scss
+@use "sass:math" as math;
+a {b: math.clamp($min: 0, $number: 1, $max: 2)}
+
+<===> named_args/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/type/min/input.scss
+@use "sass:math" as math;
+a {b: math.clamp("0", 1, 2)}
+
+<===> error/type/min/error
+Error: $min: "0" is not a number.
+  ,
+2 | a {b: math.clamp("0", 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1, "0", 2)}
+
+<===> error/type/number/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.clamp(1, "0", 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1, 2, "0")}
+
+<===> error/type/max/error
+Error: $max: "0" is not a number.
+  ,
+2 | a {b: math.clamp(1, 2, "0")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/min_and_number/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(1deg, 1px, 1turn)}
 
-<===> error/incompatible_units/first_and_second/error
+<===> error/incompatible_units/min_and_number/error
 Error: Incompatible units px and deg.
   ,
 2 | a {b: math.clamp(1deg, 1px, 1turn)}
@@ -111,11 +164,11 @@ Error: Incompatible units px and deg.
 
 <===>
 ================================================================================
-<===> error/incompatible_units/first_and_third/input.scss
+<===> error/incompatible_units/min_and_max/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(1deg, 1turn, 1px)}
 
-<===> error/incompatible_units/first_and_third/error
+<===> error/incompatible_units/min_and_max/error
 Error: Incompatible units px and deg.
   ,
 2 | a {b: math.clamp(1deg, 1turn, 1px)}
@@ -125,11 +178,11 @@ Error: Incompatible units px and deg.
 
 <===>
 ================================================================================
-<===> error/incompatible_units/second_and_third/input.scss
+<===> error/incompatible_units/number_and_max/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(1turn, 1deg, 1px)}
 
-<===> error/incompatible_units/second_and_third/error
+<===> error/incompatible_units/number_and_max/error
 Error: Incompatible units px and turn.
   ,
 2 | a {b: math.clamp(1turn, 1deg, 1px)}
@@ -153,11 +206,11 @@ Error: Incompatible units s and deg.
 
 <===>
 ================================================================================
-<===> error/some_unitless/first/input.scss
+<===> error/some_unitless/min/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0, 1px, 2px)}
 
-<===> error/some_unitless/first/error
+<===> error/some_unitless/min/error
 Error: $min is unitless but $number has unit px. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0, 1px, 2px)}
@@ -167,11 +220,11 @@ Error: $min is unitless but $number has unit px. Arguments must all have units o
 
 <===>
 ================================================================================
-<===> error/some_unitless/second/input.scss
+<===> error/some_unitless/number/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0px, 1, 2px)}
 
-<===> error/some_unitless/second/error
+<===> error/some_unitless/number/error
 Error: $min has unit px but $number is unitless. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0px, 1, 2px)}
@@ -181,11 +234,11 @@ Error: $min has unit px but $number is unitless. Arguments must all have units o
 
 <===>
 ================================================================================
-<===> error/some_unitless/third/input.scss
+<===> error/some_unitless/max/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0px, 1px, 2)}
 
-<===> error/some_unitless/third/error
+<===> error/some_unitless/max/error
 Error: $min has unit px but $max is unitless. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0px, 1px, 2)}
@@ -195,11 +248,11 @@ Error: $min has unit px but $max is unitless. Arguments must all have units or a
 
 <===>
 ================================================================================
-<===> error/some_unitless/first_and_second/input.scss
+<===> error/some_unitless/min_and_number/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0, 1, 2px)}
 
-<===> error/some_unitless/first_and_second/error
+<===> error/some_unitless/min_and_number/error
 Error: $min is unitless but $max has unit px. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0, 1, 2px)}
@@ -209,11 +262,11 @@ Error: $min is unitless but $max has unit px. Arguments must all have units or a
 
 <===>
 ================================================================================
-<===> error/some_unitless/first_and_third/input.scss
+<===> error/some_unitless/min_and_max/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0, 1px, 2)}
 
-<===> error/some_unitless/first_and_third/error
+<===> error/some_unitless/min_and_max/error
 Error: $min is unitless but $number has unit px. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0, 1px, 2)}
@@ -223,11 +276,11 @@ Error: $min is unitless but $number has unit px. Arguments must all have units o
 
 <===>
 ================================================================================
-<===> error/some_unitless/second_and_third/input.scss
+<===> error/some_unitless/number_and_max/input.scss
 @use "sass:math" as math;
 a {b: math.clamp(0px, 1, 2)}
 
-<===> error/some_unitless/second_and_third/error
+<===> error/some_unitless/number_and_max/error
 Error: $min has unit px but $number is unitless. Arguments must all have units or all be unitless.
   ,
 2 | a {b: math.clamp(0px, 1, 2)}

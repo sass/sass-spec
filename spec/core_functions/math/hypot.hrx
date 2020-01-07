@@ -60,6 +60,48 @@ a {
 
 <===>
 ================================================================================
+<===> error/type/first/input.scss
+@use "sass:math" as math;
+a {b: math.hypot("0", 1px, 1px)}
+
+<===> error/type/first/error
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot("0", 1px, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/second/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1px, "0", 1px)}
+
+<===> error/type/second/error
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot(1px, "0", 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1px, 1px, "0")}
+
+<===> error/type/third/error
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot(1px, 1px, "0")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/incompatible_units/first_and_second/input.scss
 @use "sass:math" as math;
 a {b: math.hypot(1deg, 1px, 1turn)}
