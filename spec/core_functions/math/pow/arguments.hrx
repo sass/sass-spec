@@ -1,0 +1,114 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> named_args/input.scss
+@use "sass:math" as math;
+a {b: math.pow($base: 2, $exponent: 3)}
+
+<===> named_args/output.css
+a {
+  b: 8;
+}
+
+<===>
+================================================================================
+<===> error/base_type/input.scss
+@use "sass:math" as math;
+a {b: math.pow("0", 0)}
+
+<===> error/base_type/error
+Error: $base: "0" is not a number.
+  ,
+2 | a {b: math.pow("0", 0)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/exponent_type/input.scss
+@use "sass:math" as math;
+a {b: math.pow(0, "0")}
+
+<===> error/exponent_type/error
+Error: $exponent: "0" is not a number.
+  ,
+2 | a {b: math.pow(0, "0")}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/base_has_units/input.scss
+@use "sass:math" as math;
+a {b: math.pow(1px, 0)}
+
+<===> error/base_has_units/error
+Error: $base: Expected 1px to have no units.
+  ,
+2 | a {b: math.pow(1px, 0)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/exponent_has_units/input.scss
+@use "sass:math" as math;
+a {b: math.pow(0, 1px)}
+
+<===> error/exponent_has_units/error
+Error: $exponent: Expected 1px to have no units.
+  ,
+2 | a {b: math.pow(0, 1px)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.pow()}
+
+<===> error/zero_args/error
+Error: Missing argument $base.
+  ,
+2 | a {b: math.pow()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+@use "sass:math" as math;
+a {b: math.pow(0)}
+
+<===> error/one_arg/error
+Error: Missing argument $exponent.
+  ,
+2 | a {b: math.pow(0)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math" as math;
+a {b: math.pow(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: math.pow(0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

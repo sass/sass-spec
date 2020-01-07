@@ -1,0 +1,115 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(2)}
+
+<===> output.css
+a {
+  b: 1.4142135624;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(-1)}
+
+<===> negative/output.css
+a {
+  b: NaN;
+}
+
+<===>
+================================================================================
+<===> negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(-0.0)}
+
+<===> negative_zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(1 / 0)}
+
+<===> infinity/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> named_arg/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt($number: 2)}
+
+<===> named_arg/output.css
+a {
+  b: 1.4142135624;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.sqrt("0")}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(1px)}
+
+<===> error/units/error
+Error: $number: Expected 1px to have no units.
+  ,
+2 | a {b: math.sqrt(1px)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt()}
+
+<===> error/zero_args/error
+Error: Missing argument $number.
+  ,
+2 | a {b: math.sqrt()}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+2 | a {b: math.sqrt(0, 0)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
