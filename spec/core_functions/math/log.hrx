@@ -1,0 +1,239 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> negative/input.scss
+@use "sass:math" as math;
+a {b: math.log(-1)}
+
+<===> negative/output.css
+a {
+  b: NaN;
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+@use "sass:math" as math;
+a {b: math.log(0)}
+
+<===> zero/output.css
+a {
+  b: -Infinity;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: -Infinity;
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+@use "sass:math" as math;
+a {b: math.log(2)}
+
+<===> positive/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+@use "sass:math" as math;
+a {b: math.log(1 / 0)}
+
+<===> infinity/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> base/null/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, null)}
+
+<===> base/null/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> base/negative/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, -1)}
+
+<===> base/negative/output.css
+a {
+  b: NaN;
+}
+
+<===>
+================================================================================
+<===> base/zero/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 0)}
+
+<===> base/zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> base/zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 0.000000000001)}
+
+<===> base/zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> base/between_zero_and_one/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 0.5)}
+
+<===> base/between_zero_and_one/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> base/one/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 1)}
+
+<===> base/one/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> base/one_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 1.000000000001)}
+
+<===> base/one_fuzzy/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> base/positive/input.scss
+@use "sass:math" as math;
+a {b: math.log(2, 10)}
+
+<===> base/positive/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> named_arg/number/input.scss
+@use "sass:math" as math;
+a {b: math.log($number: 2)}
+
+<===> named_arg/number/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> named_args/number_with_base/input.scss
+@use "sass:math" as math;
+a {b: math.log($number: 2, $base: 10)}
+
+<===> named_args/number_with_base/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:math" as math;
+a {b: math.log("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.log("0")}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/number_has_units/input.scss
+@use "sass:math" as math;
+a {b: math.log(1px)}
+
+<===> error/number_has_units/error
+Error: $number: Expected 1px to have no units.
+  ,
+2 | a {b: math.log(1px)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/base_has_units/input.scss
+@use "sass:math" as math;
+a {b: math.log(1, 1px)}
+
+<===> error/base_has_units/error
+Error: $base: Expected 1px to have no units.
+  ,
+2 | a {b: math.log(1, 1px)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.log()}
+
+<===> error/zero_args/error
+Error: Missing argument $number.
+  ,
+2 | a {b: math.log()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math" as math;
+a {b: math.log(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: math.log(0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
