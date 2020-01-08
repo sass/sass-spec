@@ -49,6 +49,28 @@ a {
 
 <===>
 ================================================================================
+<===> zero/input.scss
+@use "sass:math" as math;
+a {b: math.atan(0)}
+
+<===> zero/output.css
+a {
+  b: 0deg;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.atan(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 0deg;
+}
+
+<===>
+================================================================================
 <===> positive/input.scss
 @use "sass:math" as math;
 a {b: math.atan(1)}
@@ -90,7 +112,7 @@ Error: $number: "0" is not a number.
 a {b: math.atan(1px)}
 
 <===> error/units/error
-Error: Expected 1px to have no units.
+Error: $number: Expected 1px to have no units.
   ,
 2 | a {b: math.atan(1px)}
   |       ^^^^^^^^^^^^^^

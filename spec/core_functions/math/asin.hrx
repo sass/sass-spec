@@ -29,7 +29,7 @@ a {
 ================================================================================
 <===> negative_zero/input.scss
 @use "sass:math" as math;
-a {b: math.asin(-0)}
+a {b: math.asin(-0.0)}
 
 <===> negative_zero/output.css
 a {
@@ -46,6 +46,29 @@ a {b: math.asin(-0.000000000001)}
 a {
   b: 0deg;
 }
+
+<===>
+================================================================================
+<===> zero/input.scss
+@use "sass:math" as math;
+a {b: math.asin(0)}
+
+<===> zero/output.css
+a {
+  b: 0deg;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.asin(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 0deg;
+}
+
 
 <===>
 ================================================================================
@@ -112,7 +135,7 @@ Error: $number: "0" is not a number.
 a {b: math.asin(1px)}
 
 <===> error/units/error
-Error: Expected 1px to have no units.
+Error: $number: Expected 1px to have no units.
   ,
 2 | a {b: math.asin(1px)}
   |       ^^^^^^^^^^^^^^

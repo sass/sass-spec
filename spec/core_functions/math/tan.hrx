@@ -71,6 +71,28 @@ a {
 
 <===>
 ================================================================================
+<===> zero/input.scss
+@use "sass:math" as math;
+a {b: math.tan(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.tan(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
 <===> deg/input.scss
 @use "sass:math" as math;
 a {b: math.tan(1deg)}
@@ -156,7 +178,7 @@ Error: $number: "0" is not a number.
 a {b: math.tan(1px)}
 
 <===> error/unit/error
-Error: Expected 1px to be an angle.
+Error: $number: Expected 1px to be an angle.
   ,
 2 | a {b: math.tan(1px)}
   |       ^^^^^^^^^^^^^

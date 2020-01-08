@@ -5,17 +5,6 @@
 
 <===>
 ================================================================================
-<===> input.scss
-@use "sass:math" as math;
-a {b: math.sqrt(2)}
-
-<===> output.css
-a {
-  b: 1.4142135624;
-}
-
-<===>
-================================================================================
 <===> negative/input.scss
 @use "sass:math" as math;
 a {b: math.sqrt(-1)}
@@ -34,6 +23,50 @@ a {b: math.sqrt(-0.0)}
 <===> negative_zero/output.css
 a {
   b: 0;
+}
+
+<===>
+================================================================================
+<===> negative_zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(-0.000000000001)}
+
+<===> negative_zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+@use "sass:math" as math;
+a {b: math.sqrt(2)}
+
+<===> positive/output.css
+a {
+  b: 1.4142135624;
 }
 
 <===>
