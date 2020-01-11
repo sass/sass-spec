@@ -178,13 +178,16 @@ $member: from other1;
 $member: from other2;
 
 <===> member_conflict/variable/error
-Error: This variable is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: $member}
-  |       ^^^^^^^
-  '
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes variable
+2   | @use "other2" as *;
+    | ================== includes variable
+... |
+4   | a {b: $member}
+    |       ^^^^^^^ variable use
+    '
   input.scss 4:7  root stylesheet
 
 <===>
@@ -202,13 +205,16 @@ a {b: member()}
 @function member() {@return from other2}
 
 <===> member_conflict/function/error
-Error: This function is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: member()}
-  |       ^^^^^^^^
-  '
+Error: This function is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes function
+2   | @use "other2" as *;
+    | ================== includes function
+... |
+4   | a {b: member()}
+    |       ^^^^^^^^ function use
+    '
   input.scss 4:7  root stylesheet
 
 <===>
@@ -226,13 +232,16 @@ a {@include member}
 @mixin member {a: from other2}
 
 <===> member_conflict/mixin/error
-Error: This mixin is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {@include member}
-  |    ^^^^^^^^^^^^^^^
-  '
+Error: This mixin is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes mixin
+2   | @use "other2" as *;
+    | ================== includes mixin
+... |
+4   | a {@include member}
+    |    ^^^^^^^^^^^^^^^ mixin use
+    '
   input.scss 4:4  root stylesheet
 
 <===>

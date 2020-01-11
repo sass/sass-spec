@@ -253,11 +253,14 @@ $member: from other1;
 $member: from other2;
 
 <===> conflict/error
-Error: This variable is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: variable-exists(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes variable
+2   | @use "other2" as *;
+    | ================== includes variable
+... |
+4   | a {b: variable-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^ variable use
+    '
   input.scss 4:7  root stylesheet

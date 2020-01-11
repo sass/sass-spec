@@ -82,13 +82,16 @@ $a: left;
 $a: right;
 
 <===> conflict/error
-Error: This variable is available from multiple global modules:
-* _left.scss
-* _right.scss
-  ,
-4 | $a: c !default;
-  | ^^^^^^^^^^^^^^
-  '
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "left" as *;
+    | ================ includes variable
+2   | @use "right" as *;
+    | ================= includes variable
+... |
+4   | $a: c !default;
+    | ^^^^^^^^^^^^^^ variable use
+    '
   _midstream.scss 4:1  @use
   input.scss 1:1       root stylesheet
 
@@ -189,8 +192,10 @@ $a: c !default;
 <===> multi_configuration/one_file/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
+1 | @use "other" as o1 with ($a: b);
+  | =============================== original load
 2 | @use "other" as o2 with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 2:1  root stylesheet
 
@@ -211,9 +216,13 @@ $a: c !default;
 
 <===> multi_configuration/multi_file/error
 Error: This module was already loaded, so it can't be configured using "with".
-  ,
+  ,--> _right.scss
 1 | @use "other" with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> _left.scss
+1 | @use "other" with ($a: b);
+  | ========================= original load
   '
   _right.scss 1:1  @use
   input.scss 2:1   root stylesheet
@@ -230,8 +239,10 @@ $a: c !default;
 <===> multi_configuration/unconfigured_first/error
 Error: This module was already loaded, so it can't be configured using "with".
   ,
+1 | @use "other" as o1;
+  | ================== original load
 2 | @use "other" as o2 with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 2:1  root stylesheet
 
@@ -252,9 +263,13 @@ $a: c !default;
 
 <===> multi_configuration/through_forward/error
 Error: This module was already loaded, so it can't be configured using "with".
-  ,
+  ,--> _midstream.scss
 1 | @forward "forwarded";
-  | ^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+1 | @use "forwarded";
+  | ================ original load
   '
   _midstream.scss 1:1  @use
   input.scss 2:1       root stylesheet

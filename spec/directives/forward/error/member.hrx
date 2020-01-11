@@ -16,10 +16,12 @@ $a: from other1;
 $a: from other2;
 
 <===> conflict/variable/error
-Error: Module _other1.scss and the new module both forward a variable named $a.
+Error: Two forwarded modules both define a variable named $a.
   ,
+1 | @forward "other1";
+  | ================= original @forward
 2 | @forward "other2";
-  | ^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
@@ -36,10 +38,12 @@ Error: Module _other1.scss and the new module both forward a variable named $a.
 @function a() {@return from other2}
 
 <===> conflict/function/error
-Error: Module _other1.scss and the new module both forward a function named a.
+Error: Two forwarded modules both define a function named a.
   ,
+1 | @forward "other1";
+  | ================= original @forward
 2 | @forward "other2";
-  | ^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
@@ -56,10 +60,12 @@ Error: Module _other1.scss and the new module both forward a function named a.
 @mixin a {b: from other2}
 
 <===> conflict/mixin/error
-Error: Module _other1.scss and the new module both forward a mixin named a.
+Error: Two forwarded modules both define a mixin named a.
   ,
+1 | @forward "other1";
+  | ================= original @forward
 2 | @forward "other2";
-  | ^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
@@ -73,10 +79,12 @@ Error: Module _other1.scss and the new module both forward a mixin named a.
 $a: b;
 
 <===> conflict/same_file/error
-Error: Module _other.scss and the new module both forward a variable named $a.
+Error: Two forwarded modules both define a variable named $a.
   ,
+1 | @forward "other";
+  | ================ original @forward
 2 | @forward "other";
-  | ^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
@@ -93,10 +101,12 @@ $b: from other1;
 $a-b: from other2;
 
 <===> conflict/because_of_as/first/error
-Error: Module _other1.scss and the new module both forward a variable named $a-b.
+Error: Two forwarded modules both define a variable named $a-b.
   ,
+1 | @forward "other1" as a-*;
+  | ======================== original @forward
 2 | @forward "other2";
-  | ^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
@@ -113,10 +123,12 @@ $a-b: from other1;
 $b: from other2;
 
 <===> conflict/because_of_as/last/error
-Error: Module _other1.scss and the new module both forward a variable named $a-b.
+Error: Two forwarded modules both define a variable named $a-b.
   ,
+1 | @forward "other1";
+  | ================= original @forward
 2 | @forward "other2" as a-*;
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 

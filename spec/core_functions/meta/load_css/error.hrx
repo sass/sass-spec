@@ -196,13 +196,16 @@ $a: left;
 $a: right;
 
 <===> with/conflict/error
-Error: This variable is available from multiple global modules:
-* _left.scss
-* _right.scss
-  ,
-4 | $a: c !default;
-  | ^^^^^^^^^^^^^^
-  '
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "left" as *;
+    | ================ includes variable
+2   | @use "right" as *;
+    | ================= includes variable
+... |
+4   | $a: c !default;
+    | ^^^^^^^^^^^^^^ variable use
+    '
   _midstream.scss 4:1  load-css()
   input.scss 2:1       root stylesheet
 
@@ -256,8 +259,10 @@ $a: c !default;
 <===> with/multi_configuration/double_load/both_configured/error
 Error: _other.scss was already loaded, so it can't be configured using "with".
   ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ============================================== original load
 3 | @include meta.load-css("other", $with: (a: b));
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 3:1  root stylesheet
 
@@ -274,8 +279,10 @@ $a: c !default;
 <===> with/multi_configuration/double_load/unconfigured_first/error
 Error: _other.scss was already loaded, so it can't be configured using "with".
   ,
+2 | @include meta.load-css("other");
+  | =============================== original load
 3 | @include meta.load-css("other", $with: (a: b));
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 3:1  root stylesheet
 
@@ -297,9 +304,13 @@ $a: c !default;
 
 <===> with/multi_configuration/double_load/through_forward/error
 Error: This module was already loaded, so it can't be configured using "with".
-  ,
+  ,--> _midstream.scss
 1 | @forward "forwarded";
-  | ^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+2 | @include meta.load-css("forwarded");
+  | =================================== original load
   '
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet
@@ -317,8 +328,10 @@ $a: c !default;
 <===> with/multi_configuration/use_and_load/both_configured/error
 Error: _other.scss was already loaded, so it can't be configured using "with".
   ,
+2 | @use "other" with ($a: b);
+  | ========================= original load
 3 | @include meta.load-css("other", $with: (a: b));
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 3:1  root stylesheet
 
@@ -339,9 +352,13 @@ $a: c !default;
 
 <===> with/multi_configuration/use_and_load/load_first/error
 Error: This module was already loaded, so it can't be configured using "with".
-  ,
+  ,--> input.scss
 4 | @use "other" with ($a: b);
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> _loads.scss
+2 | @include meta.load-css("other", $with: (a: b));
+  | ============================================== original load
   '
   input.scss 4:1  root stylesheet
 
@@ -358,8 +375,10 @@ $a: c !default;
 <===> with/multi_configuration/use_and_load/unconfigured_first/error
 Error: _other.scss was already loaded, so it can't be configured using "with".
   ,
+2 | @use "other";
+  | ============ original load
 3 | @include meta.load-css("other", $with: (a: b));
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
   '
   input.scss 3:1  root stylesheet
 
@@ -381,9 +400,13 @@ $a: c !default;
 
 <===> with/multi_configuration/use_and_load/through_forward/error
 Error: This module was already loaded, so it can't be configured using "with".
-  ,
+  ,--> _midstream.scss
 1 | @forward "forwarded";
-  | ^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+2 | @use "forwarded";
+  | ================ original load
   '
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet

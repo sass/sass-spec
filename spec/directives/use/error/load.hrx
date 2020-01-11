@@ -242,8 +242,10 @@ Error: Module loop: this module is already being loaded.
 <===> conflicting_namespace/explicit/error
 Error: There's already a module with namespace "other".
   ,
+1 | @use "other1" as other;
+  | ====================== original @use
 2 | @use "other2" as other;
-  | ^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^ new @use
   '
   input.scss 2:1  root stylesheet
 
@@ -258,8 +260,10 @@ Error: There's already a module with namespace "other".
 <===> conflicting_namespace/implicit/error
 Error: There's already a module with namespace "other".
   ,
+1 | @use "dir1/other";
+  | ================= original @use
 2 | @use "dir2/other";
-  | ^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^ new @use
   '
   input.scss 2:1  root stylesheet
 
@@ -274,7 +278,9 @@ Error: There's already a module with namespace "other".
 <===> conflicting_namespace/mixed/error
 Error: There's already a module with namespace "other".
   ,
+1 | @use "other";
+  | ============ original @use
 2 | @use "other2" as other;
-  | ^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^ new @use
   '
   input.scss 2:1  root stylesheet

@@ -323,13 +323,16 @@ a {b: function-exists(member)}
 @function member() {@return from other2}
 
 <===> error/conflict/error
-Error: This function is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: function-exists(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This function is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes function
+2   | @use "other2" as *;
+    | ================== includes function
+... |
+4   | a {b: function-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^ function use
+    '
   input.scss 4:7  root stylesheet
 
 <===>

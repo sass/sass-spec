@@ -307,13 +307,16 @@ a {b: mixin-exists(member)}
 @mixin member() {}
 
 <===> error/conflict/error
-Error: This mixin is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: mixin-exists(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This mixin is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes mixin
+2   | @use "other2" as *;
+    | ================== includes mixin
+... |
+4   | a {b: mixin-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^ mixin use
+    '
   input.scss 4:7  root stylesheet
 
 <===>
