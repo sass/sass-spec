@@ -123,9 +123,13 @@ a {b: invert()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
-  ,
+  ,--> input.scss
 1 | a {b: invert()}
-  |       ^^^^^^^^
+  |       ^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function invert($color, $weight: 100%) {
+  |           ============================= declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -143,9 +147,13 @@ a {b: invert(turquoise, 0%, 1)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: invert(turquoise, 0%, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function invert($color, $weight: 100%) {
+  |           ============================= declaration
   '
   input.scss 1:7  root stylesheet
 

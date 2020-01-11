@@ -8,10 +8,13 @@
 
 <===> none_passed/error
 Error: Missing argument $arg1.
-  ,
-3 |   @content;
-  |   ^^^^^^^^
-  '
+    ,
+3   |   @content;
+    |   ^^^^^^^^ invocation
+... |
+6   | @include mixin using ($arg1, $arg2) {}
+    |                ==================== declaration
+    '
   input.scss 3:3  @content
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
@@ -36,10 +39,13 @@ Error: Mixin @content is missing argument $arg1.
 
 <===> none_expected/error
 Error: Only 0 arguments allowed, but 1 was passed.
-  ,
-3 |   @content(value);
-  |   ^^^^^^^^^^^^^^^
-  '
+    ,
+3   |   @content(value);
+    |   ^^^^^^^^^^^^^^^ invocation
+... |
+6   | @include mixin {}
+    |          ===== declaration
+    '
   input.scss 3:3  @content
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
@@ -65,10 +71,13 @@ Error: wrong number of arguments (1 for 0) for `@content'
 
 <===> named/error
 Error: No argument named $invalid.
-  ,
-3 |   @content($invalid: value);
-  |   ^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
+    ,
+3   |   @content($invalid: value);
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+... |
+6   | @include mixin using ($valid: value) {}
+    |                ===================== declaration
+    '
   input.scss 3:3  @content
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
@@ -94,10 +103,13 @@ Error: Mixin @content has no parameter named $invalid
 
 <===> too_few/error
 Error: Missing argument $arg2.
-  ,
-3 |   @content(1);
-  |   ^^^^^^^^^^^
-  '
+    ,
+3   |   @content(1);
+    |   ^^^^^^^^^^^ invocation
+... |
+6   | @include mixin using ($arg1, $arg2) {}
+    |                ==================== declaration
+    '
   input.scss 3:3  @content
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
@@ -122,10 +134,13 @@ Error: Mixin @content is missing argument $arg2.
 
 <===> too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
-3 |   @content(1, 2, 3);
-  |   ^^^^^^^^^^^^^^^^^
-  '
+    ,
+3   |   @content(1, 2, 3);
+    |   ^^^^^^^^^^^^^^^^^ invocation
+... |
+6   | @include mixin using ($arg1, $arg2) {}
+    |                ==================== declaration
+    '
   input.scss 3:3  @content
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet

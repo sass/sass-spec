@@ -157,9 +157,13 @@ a {b: type-of()}
 
 <===> error/too_few_args/error
 Error: Missing argument $value.
-  ,
+  ,--> input.scss
 1 | a {b: type-of()}
-  |       ^^^^^^^^^
+  |       ^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function type-of($value) {
+  |           =============== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -177,9 +181,13 @@ a {b: type-of(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: type-of(1, 2)}
-  |       ^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function type-of($value) {
+  |           =============== declaration
   '
   input.scss 1:7  root stylesheet
 

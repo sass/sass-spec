@@ -63,9 +63,13 @@ a {b: fade-out(red)}
 
 <===> error/too_few_args/error
 Error: Missing argument $amount.
-  ,
+  ,--> input.scss
 1 | a {b: fade-out(red)}
-  |       ^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function fade-out($color, $amount) {
+  |           ========================= declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -83,9 +87,13 @@ a {b: fade-out(red, 0.1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: fade-out(red, 0.1, 2)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function fade-out($color, $amount) {
+  |           ========================= declaration
   '
   input.scss 1:7  root stylesheet
 

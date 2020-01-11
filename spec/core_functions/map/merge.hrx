@@ -115,9 +115,13 @@ a {b: map-merge((c: d))}
 
 <===> error/too_few_args/error
 Error: Missing argument $map2.
-  ,
+  ,--> input.scss
 1 | a {b: map-merge((c: d))}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:map
+1 | @function merge($map1, $map2) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -135,9 +139,13 @@ a {b: map-merge((c: d), (e: f), (g: h))}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: map-merge((c: d), (e: f), (g: h))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:map
+1 | @function merge($map1, $map2) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 

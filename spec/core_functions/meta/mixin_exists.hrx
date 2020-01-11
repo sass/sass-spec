@@ -254,9 +254,13 @@ a {b: mixin-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: mixin-exists()}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function mixin-exists($name, $module: null) {
+  |           ================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -274,9 +278,13 @@ a {b: mixin-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: mixin-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function mixin-exists($name, $module: null) {
+  |           ================================== declaration
   '
   input.scss 1:7  root stylesheet
 

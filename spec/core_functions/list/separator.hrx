@@ -100,9 +100,13 @@ a {b: list-separator()}
 
 <===> error/too_few_args/error
 Error: Missing argument $list.
-  ,
+  ,--> input.scss
 1 | a {b: list-separator()}
-  |       ^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function separator($list) {
+  |           ================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -120,9 +124,13 @@ a {b: list-separator(c, d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: list-separator(c, d)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function separator($list) {
+  |           ================ declaration
   '
   input.scss 1:7  root stylesheet
 

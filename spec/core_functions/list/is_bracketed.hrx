@@ -83,9 +83,13 @@ a {b: is-bracketed()}
 
 <===> error/too_few_args/error
 Error: Missing argument $list.
-  ,
+  ,--> input.scss
 1 | a {b: is-bracketed()}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function is-bracketed($list) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -103,9 +107,13 @@ a {b: is-bracketed(a b, c d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: is-bracketed(a b, c d)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function is-bracketed($list) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 

@@ -64,9 +64,13 @@ a {b: get-function()}
 
 <===> argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: get-function()}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-function($name, $css: false, $module: null) {
+  |           =============================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -84,9 +88,13 @@ a {b: get-function(c, true, d, e)}
 
 <===> argument/too_many/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: get-function(c, true, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-function($name, $css: false, $module: null) {
+  |           =============================================== declaration
   '
   input.scss 1:7  root stylesheet
 

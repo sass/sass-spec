@@ -276,9 +276,13 @@ a {b: str-insert("", "")}
 
 <===> error/too_few_args/error
 Error: Missing argument $index.
-  ,
+  ,--> input.scss
 1 | a {b: str-insert("", "")}
-  |       ^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function insert($string, $insert, $index) {
+  |           ================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -296,9 +300,13 @@ a {b: str-insert("", "", 1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: str-insert("", "", 1, 2)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function insert($string, $insert, $index) {
+  |           ================================ declaration
   '
   input.scss 1:7  root stylesheet
 

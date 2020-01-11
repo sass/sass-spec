@@ -94,9 +94,13 @@ a {b: map-has-key(1)}
 
 <===> error/too_few_args/error
 Error: Missing argument $key.
-  ,
+  ,--> input.scss
 1 | a {b: map-has-key(1)}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:map
+1 | @function has-key($map, $key) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -114,9 +118,13 @@ a {b: map-has-key(1, 2, 3)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: map-has-key(1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:map
+1 | @function has-key($map, $key) {
+  |           =================== declaration
   '
   input.scss 1:7  root stylesheet
 

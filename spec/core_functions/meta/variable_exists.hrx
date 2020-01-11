@@ -200,9 +200,13 @@ a {b: variable-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: variable-exists()}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function variable-exists($name) {
+  |           ====================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -220,9 +224,13 @@ a {b: variable-exists(foo, bar)}
 
 <===> error/argument/too_many/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: variable-exists(foo, bar)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function variable-exists($name) {
+  |           ====================== declaration
   '
   input.scss 1:7  root stylesheet
 

@@ -15,8 +15,11 @@ Error: Mixin "foo" does not accept a content block.
 
 <===> error-dart-sass
 Error: Mixin doesn't accept a content block.
-  ,
-6 |   @include foo { bar: baz }
-  |   ^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
+    ,
+1   | @mixin foo() {
+    |        ===== declaration
+... |
+6   |   @include foo { bar: baz }
+    |   ^^^^^^^^^^^^ invocation
+    '
   input.scss 6:3  root stylesheet

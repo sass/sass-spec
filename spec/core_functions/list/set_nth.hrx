@@ -212,9 +212,13 @@ a {b: set-nth(c d, 1)}
 
 <===> error/index/too_few_args/error
 Error: Missing argument $value.
-  ,
+  ,--> input.scss
 1 | a {b: set-nth(c d, 1)}
-  |       ^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function set-nth($list, $n, $value) {
+  |           ========================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -232,9 +236,13 @@ a {b: set-nth(c d, 1, 2, 3)}
 
 <===> error/index/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: set-nth(c d, 1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function set-nth($list, $n, $value) {
+  |           ========================== declaration
   '
   input.scss 1:7  root stylesheet
 

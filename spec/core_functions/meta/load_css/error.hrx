@@ -46,9 +46,13 @@ Error: $with key: 1 is not a string.
 
 <===> too_few_args/error
 Error: Missing argument $module.
-  ,
+  ,--> input.scss
 2 | @include meta.load-css();
-  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin load-css($module, $with: null) {
+  |        ============================== declaration
   '
   input.scss 2:1  root stylesheet
 
@@ -60,9 +64,13 @@ Error: Missing argument $module.
 
 <===> too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 2 | @include meta.load-css("other", (), "a");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin load-css($module, $with: null) {
+  |        ============================== declaration
   '
   input.scss 2:1  root stylesheet
 
