@@ -319,6 +319,8 @@ Error: This module was already loaded, so it can't be configured using "with".
   ,--> input.scss
 2 | @include meta.load-css("forwarded");
   | =================================== original load
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ================================================== configuration
   '
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet
@@ -415,6 +417,8 @@ Error: This module was already loaded, so it can't be configured using "with".
   ,--> input.scss
 2 | @use "forwarded";
   | ================ original load
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ================================================== configuration
   '
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet
