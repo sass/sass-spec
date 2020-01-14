@@ -1,0 +1,213 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> unitless/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(3, 4, 5, 6, 7)}
+
+<===> unitless/output.css
+a {
+  b: 11.6189500386;
+}
+
+<===>
+================================================================================
+<===> compatible_units/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(3cm, 4mm * 10, 5q * 40, 6in / 2.54, 7px * 96 / 2.54)}
+
+<===> compatible_units/output.css
+a {
+  b: 11.6189500386cm;
+}
+
+<===>
+================================================================================
+<===> infinity/first/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1/0, 1, 1)}
+
+<===> infinity/first/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> infinity/second/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1, 1/0, 1)}
+
+<===> infinity/second/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> infinity/third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1, 1, 1/0)}
+
+<===> infinity/third/output.css
+a {
+  b: Infinity;
+}
+
+<===>
+================================================================================
+<===> error/incompatible_units/first_and_second/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1deg, 1px, 1turn)}
+
+<===> error/incompatible_units/first_and_second/error
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.hypot(1deg, 1px, 1turn)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/first_and_third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1deg, 1turn, 1px)}
+
+<===> error/incompatible_units/first_and_third/error
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.hypot(1deg, 1turn, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/second_and_third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1turn, 1deg, 1px)}
+
+<===> error/incompatible_units/second_and_third/error
+Error: Incompatible units px and turn.
+  ,
+2 | a {b: math.hypot(1turn, 1deg, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/all/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(1turn, 1px, 1s)}
+
+<===> error/incompatible_units/all/error
+Error: Incompatible units px and turn.
+  ,
+2 | a {b: math.hypot(1turn, 1px, 1s)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/first/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0, 1px, 2px)}
+
+<===> error/some_unitless/first/error
+Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0, 1px, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/second/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0px, 1, 2px)}
+
+<===> error/some_unitless/second/error
+Error: Argument 1 has unit px but argument 2 is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0px, 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0px, 1px, 2)}
+
+<===> error/some_unitless/third/error
+Error: Argument 1 has unit px but argument 3 is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0px, 1px, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/first_and_second/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0, 1, 2px)}
+
+<===> error/some_unitless/first_and_second/error
+Error: Argument 1 is unitless but argument 3 has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0, 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/first_and_third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0, 1px, 2)}
+
+<===> error/some_unitless/first_and_third/error
+Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0, 1px, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/second_and_third/input.scss
+@use "sass:math" as math;
+a {b: math.hypot(0px, 1, 2)}
+
+<===> error/some_unitless/second_and_third/error
+Error: Argument 1 has unit px but argument 2 is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.hypot(0px, 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.hypot()}
+
+<===> error/zero_args/error
+Error: At least one argument must be passed.
+  ,
+2 | a {b: math.hypot()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
