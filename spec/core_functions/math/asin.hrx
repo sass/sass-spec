@@ -5,102 +5,125 @@
 
 <===>
 ================================================================================
-<===> negative/input.scss
+<===> less_than_negative_one/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(-1)}
+a {b: math.asin(-2)}
 
-<===> negative/output.css
+<===> less_than_negative_one/output.css
 a {
-  b: NaN;
+  b: NaNdeg;
+}
+
+<===>
+================================================================================
+<===> negative_decimal/input.scss
+@use "sass:math" as math;
+a {b: math.asin(-0.5)}
+
+<===> negative_decimal/output.css
+a {
+  b: -30deg;
 }
 
 <===>
 ================================================================================
 <===> negative_zero/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(-0.0)}
+a {b: math.asin(-0.0)}
 
 <===> negative_zero/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
 ================================================================================
 <===> negative_zero_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(-0.000000000001)}
+a {b: math.asin(-0.000000000001)}
 
 <===> negative_zero_fuzzy/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
 ================================================================================
 <===> zero/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(0)}
+a {b: math.asin(0)}
 
 <===> zero/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
 ================================================================================
 <===> zero_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(0.000000000001)}
+a {b: math.asin(0.000000000001)}
 
 <===> zero_fuzzy/output.css
 a {
-  b: 0;
+  b: 0deg;
+}
+
+
+<===>
+================================================================================
+<===> decimal/input.scss
+@use "sass:math" as math;
+a {b: math.asin(0.5)}
+
+<===> decimal/output.css
+a {
+  b: 30deg;
 }
 
 <===>
 ================================================================================
-<===> positive/input.scss
+<===> one/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(2)}
+a {b: math.asin(1)}
 
-<===> positive/output.css
+<===> one/output.css
 a {
-  b: 1.4142135624;
+  b: 90deg;
 }
 
 <===>
 ================================================================================
-<===> infinity/input.scss
+<===> one_fuzzy/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(1 / 0)}
+a {b: math.asin(1.000000000001)}
 
-<===> infinity/output.css
+<===> one_fuzzy/output.css
 a {
-  b: Infinity;
+  b: 90deg;
 }
 
 <===>
 ================================================================================
-<===> named_arg/input.scss
+<===> greater_than_one/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt($number: 2)}
+a {b: math.asin(2)}
 
-<===> named_arg/output.css
+<===> greater_than_one/output.css
 a {
-  b: 1.4142135624;
+  b: NaNdeg;
 }
 
 <===>
 ================================================================================
 <===> error/type/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt("0")}
+a {b: math.asin("0")}
 
 <===> error/type/error
 Error: $number: "0" is not a number.
   ,
-2 | a {b: math.sqrt("0")}
+2 | a {b: math.asin("0")}
   |       ^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
@@ -109,12 +132,12 @@ Error: $number: "0" is not a number.
 ================================================================================
 <===> error/units/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(1px)}
+a {b: math.asin(1px)}
 
 <===> error/units/error
 Error: $number: Expected 1px to have no units.
   ,
-2 | a {b: math.sqrt(1px)}
+2 | a {b: math.asin(1px)}
   |       ^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
@@ -123,12 +146,12 @@ Error: $number: Expected 1px to have no units.
 ================================================================================
 <===> error/zero_args/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt()}
+a {b: math.asin()}
 
 <===> error/zero_args/error
 Error: Missing argument $number.
   ,
-2 | a {b: math.sqrt()}
+2 | a {b: math.asin()}
   |       ^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
@@ -137,12 +160,12 @@ Error: Missing argument $number.
 ================================================================================
 <===> error/too_many_args/input.scss
 @use "sass:math" as math;
-a {b: math.sqrt(0, 0)}
+a {b: math.asin(0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,
-2 | a {b: math.sqrt(0, 0)}
+2 | a {b: math.asin(0, 0)}
   |       ^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
