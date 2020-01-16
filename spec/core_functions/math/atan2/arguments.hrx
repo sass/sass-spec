@@ -98,9 +98,13 @@ a {b: math.atan2()}
 
 <===> error/zero_args/error
 Error: Missing argument $y.
-  ,
+  ,--> input.scss
 2 | a {b: math.atan2()}
-  |       ^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function atan2($y, $x) {
+  |           ============= declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -112,9 +116,13 @@ a {b: math.atan2(0)}
 
 <===> error/one_arg/error
 Error: Missing argument $x.
-  ,
+  ,--> input.scss
 2 | a {b: math.atan2(0)}
-  |       ^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function atan2($y, $x) {
+  |           ============= declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -126,8 +134,12 @@ a {b: math.atan2(0, 0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.atan2(0, 0, 0)}
-  |       ^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function atan2($y, $x) {
+  |           ============= declaration
   '
   input.scss 2:7  root stylesheet

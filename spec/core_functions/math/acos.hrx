@@ -105,9 +105,13 @@ a {b: math.acos()}
 
 <===> error/zero_args/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 2 | a {b: math.acos()}
-  |       ^^^^^^^^^^^
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function acos($number) {
+  |           ============= declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -119,8 +123,12 @@ a {b: math.acos(0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.acos(0, 0)}
-  |       ^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function acos($number) {
+  |           ============= declaration
   '
   input.scss 2:7  root stylesheet

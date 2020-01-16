@@ -171,9 +171,13 @@ a {b: math.sin()}
 
 <===> error/zero_args/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 2 | a {b: math.sin()}
-  |       ^^^^^^^^^^
+  |       ^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function sin($number) {
+  |           ============ declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -185,8 +189,12 @@ a {b: math.sin(0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.sin(0, 0)}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function sin($number) {
+  |           ============ declaration
   '
   input.scss 2:7  root stylesheet

@@ -73,9 +73,13 @@ a {b: math.pow()}
 
 <===> error/zero_args/error
 Error: Missing argument $base.
-  ,
+  ,--> input.scss
 2 | a {b: math.pow()}
-  |       ^^^^^^^^^^
+  |       ^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function pow($base, $exponent) {
+  |           ===================== declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -88,9 +92,13 @@ a {b: math.pow(0)}
 
 <===> error/one_arg/error
 Error: Missing argument $exponent.
-  ,
+  ,--> input.scss
 2 | a {b: math.pow(0)}
-  |       ^^^^^^^^^^^
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function pow($base, $exponent) {
+  |           ===================== declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -102,8 +110,12 @@ a {b: math.pow(0, 0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.pow(0, 0, 0)}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function pow($base, $exponent) {
+  |           ===================== declaration
   '
   input.scss 2:7  root stylesheet

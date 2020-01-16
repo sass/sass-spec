@@ -218,9 +218,13 @@ a {b: math.log()}
 
 <===> error/zero_args/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 2 | a {b: math.log()}
-  |       ^^^^^^^^^^
+  |       ^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function log($number, $base: null) {
+  |           ========================= declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -232,8 +236,12 @@ a {b: math.log(0, 0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.log(0, 0, 0)}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function log($number, $base: null) {
+  |           ========================= declaration
   '
   input.scss 2:7  root stylesheet

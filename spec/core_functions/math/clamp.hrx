@@ -296,9 +296,13 @@ a {b: math.clamp()}
 
 <===> error/zero_args/error
 Error: Missing argument $min.
-  ,
+  ,--> input.scss
 2 | a {b: math.clamp()}
-  |       ^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -310,9 +314,13 @@ a {b: math.clamp(0)}
 
 <===> error/one_arg/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 2 | a {b: math.clamp(0)}
-  |       ^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -324,9 +332,13 @@ a {b: math.clamp(0, 0)}
 
 <===> error/two_args/error
 Error: Missing argument $max.
-  ,
+  ,--> input.scss
 2 | a {b: math.clamp(0, 0)}
-  |       ^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
   '
   input.scss 2:7  root stylesheet
 
@@ -338,8 +350,12 @@ a {b: math.clamp(0, 0, 0, 0)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: math.clamp(0, 0, 0, 0)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
   '
   input.scss 2:7  root stylesheet
