@@ -63,9 +63,13 @@ a {b: desaturate(plum)}
 
 <===> error/too_few_args/error
 Error: Missing argument $amount.
-  ,
+  ,--> input.scss
 1 | a {b: desaturate(plum)}
-  |       ^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -83,9 +87,13 @@ a {b: desaturate(plum, 1%, 2)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: desaturate(plum, 1%, 2)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -103,9 +111,13 @@ a {b: desaturate(red)}
 
 <===> error/one_arg/type/error
 Error: Missing argument $amount.
-  ,
+  ,--> input.scss
 1 | a {b: desaturate(red)}
-  |       ^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
   '
   input.scss 1:7  root stylesheet
 

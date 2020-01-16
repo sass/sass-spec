@@ -30,9 +30,13 @@ a {b: unique-id(c)}
 
 <===> error/too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.
-  ,
+  ,--> input.scss
 1 | a {b: unique-id(c)}
-  |       ^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function unique-id() {
+  |           =========== declaration
   '
   input.scss 1:7  root stylesheet
 

@@ -145,9 +145,13 @@ a {b: is-superselector("c", "d", "e")}
 
 <===> too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: is-superselector("c", "d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function is-superselector($super, $sub) {
+  |           ============================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -165,9 +169,13 @@ a {b: is-superselector("c")}
 
 <===> too_few_args/error
 Error: Missing argument $sub.
-  ,
+  ,--> input.scss
 1 | a {b: is-superselector("c")}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function is-superselector($super, $sub) {
+  |           ============================== declaration
   '
   input.scss 1:7  root stylesheet
 

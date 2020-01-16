@@ -134,9 +134,13 @@ a {b: map-remove()}
 
 <===> error/too_few_args/error
 Error: Missing argument $map.
-  ,
+  ,--> input.scss
 1 | a {b: map-remove()}
-  |       ^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,
+1 | @function remove($map) {
+  |           ============ declaration
   '
   input.scss 1:7  root stylesheet
 

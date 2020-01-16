@@ -13,9 +13,13 @@ Error: An @import loop has been found: _susy.scss imports itself
 
 <===> error-dart-sass
 Error: This file is already being loaded.
-  ,
+  ,--> _susy.scss
 1 | @import 'susy';
-  |         ^^^^^^
+  |         ^^^^^^ new load
+  '
+  ,--> input.scss
+1 | @import 'susy';
+  |         ====== original load
   '
   _susy.scss 1:9  @import
   input.scss 1:9  root stylesheet

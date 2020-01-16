@@ -3,9 +3,13 @@ a {b: scale-color()}
 
 <===> too_few/error
 Error: Missing argument $color.
-  ,
+  ,--> input.scss
 1 | a {b: scale-color()}
-  |       ^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function scale($color, $kwargs...) {
+  |           ========================= declaration
   '
   input.scss 1:7  root stylesheet
 

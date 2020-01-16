@@ -84,9 +84,13 @@ a {b: floor()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 1 | a {b: floor()}
-  |       ^^^^^^^
+  |       ^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function floor($number) {
+  |           ============== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -105,9 +109,13 @@ a {b: floor(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: floor(1, 2)}
-  |       ^^^^^^^^^^^
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function floor($number) {
+  |           ============== declaration
   '
   input.scss 1:7  root stylesheet
 

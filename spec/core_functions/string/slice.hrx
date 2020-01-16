@@ -426,9 +426,13 @@ a {b: str-slice("cde")}
 
 <===> error/too_few_args/error
 Error: Missing argument $start-at.
-  ,
+  ,--> input.scss
 1 | a {b: str-slice("cde")}
-  |       ^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function slice($string, $start-at, $end-at: -1) {
+  |           ====================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -446,9 +450,13 @@ a {b: str-slice("cde", 1, 2, 3)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: str-slice("cde", 1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function slice($string, $start-at, $end-at: -1) {
+  |           ====================================== declaration
   '
   input.scss 1:7  root stylesheet
 

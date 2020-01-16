@@ -3,9 +3,13 @@ a {b: adjust-color()}
 
 <===> too_few/error
 Error: Missing argument $color.
-  ,
+  ,--> input.scss
 1 | a {b: adjust-color()}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function adjust($color, $kwargs...) {
+  |           ========================== declaration
   '
   input.scss 1:7  root stylesheet
 

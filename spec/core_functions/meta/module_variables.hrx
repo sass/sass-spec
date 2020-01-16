@@ -229,9 +229,13 @@ a {b: meta.inspect(meta.module-variables())}
 
 <===> error/too_few_args/error
 Error: Missing argument $module.
-  ,
+  ,--> input.scss
 2 | a {b: meta.inspect(meta.module-variables())}
-  |                    ^^^^^^^^^^^^^^^^^^^^^^^
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function module-variables($module) {
+  |           ========================= declaration
   '
   input.scss 2:20  root stylesheet
 
@@ -243,9 +247,13 @@ a {b: meta.inspect(meta.module-variables("meta", "c"))}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 2 | a {b: meta.inspect(meta.module-variables("meta", "c"))}
-  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function module-variables($module) {
+  |           ========================= declaration
   '
   input.scss 2:20  root stylesheet
 

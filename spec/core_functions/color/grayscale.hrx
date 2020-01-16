@@ -84,9 +84,13 @@ a {b: grayscale()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
-  ,
+  ,--> input.scss
 1 | a {b: grayscale()}
-  |       ^^^^^^^^^^^
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function grayscale($color) {
+  |           ================= declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -104,9 +108,13 @@ a {b: grayscale(red, 1)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: grayscale(red, 1)}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function grayscale($color) {
+  |           ================= declaration
   '
   input.scss 1:7  root stylesheet
 

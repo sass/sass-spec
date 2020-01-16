@@ -278,9 +278,13 @@ a {b: global-variable-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: global-variable-exists()}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function global-variable-exists($name, $module: null) {
+  |           ============================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -298,9 +302,13 @@ a {b: global-variable-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: global-variable-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function global-variable-exists($name, $module: null) {
+  |           ============================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -331,13 +339,16 @@ $member: from other1;
 $member: from other2;
 
 <===> error/conflict/error
-Error: This variable is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: global-variable-exists(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes variable
+2   | @use "other2" as *;
+    | ================== includes variable
+... |
+4   | a {b: global-variable-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
+    '
   input.scss 4:7  root stylesheet
 
 <===>
