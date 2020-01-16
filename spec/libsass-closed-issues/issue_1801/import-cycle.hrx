@@ -19,9 +19,13 @@ Error: An @import loop has been found:
 
 <===> error-dart-sass
 Error: This file is already being loaded.
-  ,
+  ,--> _beta.scss
 1 | @import 'alpha';
-  |         ^^^^^^^
+  |         ^^^^^^^ new load
+  '
+  ,--> input.scss
+1 | @import 'alpha';
+  |         ======= original load
   '
   _beta.scss 1:9   @import
   _alpha.scss 1:9  @import

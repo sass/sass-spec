@@ -7,10 +7,13 @@ a {
 
 <===> error-dart-sass
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
-4 |   @include foo(1 2 3...);
-  |   ^^^^^^^^^^^^^^^^^^^^^^
-  '
+    ,
+1   | @mixin foo($x, $y) { }
+    |        =========== declaration
+... |
+4   |   @include foo(1 2 3...);
+    |   ^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
   input.scss 4:3  foo()
   input.scss 4:3  root stylesheet
 

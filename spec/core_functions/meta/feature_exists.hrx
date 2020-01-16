@@ -120,9 +120,13 @@ a {b: feature-exists()}
 
 <===> error/too_few_args/error
 Error: Missing argument $feature.
-  ,
+  ,--> input.scss
 1 | a {b: feature-exists()}
-  |       ^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function feature-exists($feature) {
+  |           ======================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -140,9 +144,13 @@ a {b: feature-exists(at-error, custom-property)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: feature-exists(at-error, custom-property)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function feature-exists($feature) {
+  |           ======================== declaration
   '
   input.scss 1:7  root stylesheet
 

@@ -197,9 +197,13 @@ a {b: nth(c d)}
 
 <===> error/too_few_args/error
 Error: Missing argument $n.
-  ,
+  ,--> input.scss
 1 | a {b: nth(c d)}
-  |       ^^^^^^^^
+  |       ^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function nth($list, $n) {
+  |           ============== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -217,9 +221,13 @@ a {b: nth(c d, 1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: nth(c d, 1, 2)}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function nth($list, $n) {
+  |           ============== declaration
   '
   input.scss 1:7  root stylesheet
 

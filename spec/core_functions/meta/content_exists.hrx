@@ -90,9 +90,13 @@ d {
 
 <===> error/too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.
-  ,
+  ,--> input.scss
 2 |   b {c: content-exists(1)}
-  |         ^^^^^^^^^^^^^^^^^
+  |         ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function content-exists() {
+  |           ================ declaration
   '
   input.scss 2:9  a()
   input.scss 4:1  root stylesheet

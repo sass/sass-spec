@@ -142,9 +142,13 @@ a {b: call()}
 
 <===> error/too_few_args/error
 Error: Missing argument $function.
-  ,
+  ,--> input.scss
 1 | a {b: call()}
-  |       ^^^^^^
+  |       ^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function call($function, $args...) {
+  |           ========================= declaration
   '
   input.scss 1:7  root stylesheet
 

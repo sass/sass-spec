@@ -64,9 +64,13 @@ a {b: get-function()}
 
 <===> argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: get-function()}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-function($name, $css: false, $module: null) {
+  |           =============================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -84,9 +88,13 @@ a {b: get-function(c, true, d, e)}
 
 <===> argument/too_many/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: get-function(c, true, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-function($name, $css: false, $module: null) {
+  |           =============================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -226,13 +234,16 @@ a {b: get-function(member)}
 @function member() {@return from other2}
 
 <===> conflict/error
-Error: This function is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: get-function(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This function is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes function
+2   | @use "other2" as *;
+    | ================== includes function
+... |
+4   | a {b: get-function(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^ function use
+    '
   input.scss 4:7  root stylesheet
 
 <===>

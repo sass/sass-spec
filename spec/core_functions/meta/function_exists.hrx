@@ -270,9 +270,13 @@ a {b: function-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
-  ,
+  ,--> input.scss
 1 | a {b: function-exists()}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function function-exists($name, $module: null) {
+  |           ===================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -290,9 +294,13 @@ a {b: function-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: function-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function function-exists($name, $module: null) {
+  |           ===================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -323,13 +331,16 @@ a {b: function-exists(member)}
 @function member() {@return from other2}
 
 <===> error/conflict/error
-Error: This function is available from multiple global modules:
-* other1.scss
-* other2.scss
-  ,
-4 | a {b: function-exists(member)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
-  '
+Error: This function is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes function
+2   | @use "other2" as *;
+    | ================== includes function
+... |
+4   | a {b: function-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^ function use
+    '
   input.scss 4:7  root stylesheet
 
 <===>

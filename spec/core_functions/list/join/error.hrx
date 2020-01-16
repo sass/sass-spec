@@ -34,9 +34,13 @@ a {b: join(c, d, comma, true, false)}
 
 <===> too_many_args/error
 Error: Only 4 arguments allowed, but 5 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: join(c, d, comma, true, false)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function join($list1, $list2, $separator: auto, $bracketed: auto) {
+  |           ======================================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -54,9 +58,13 @@ a {b: join(c)}
 
 <===> too_few_args/error
 Error: Missing argument $list2.
-  ,
+  ,--> input.scss
 1 | a {b: join(c)}
-  |       ^^^^^^^
+  |       ^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function join($list1, $list2, $separator: auto, $bracketed: auto) {
+  |           ======================================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -74,9 +82,13 @@ a {b: join(c, d, $invalid: true)}
 
 <===> named/error
 Error: No argument named $invalid.
-  ,
+  ,--> input.scss
 1 | a {b: join(c, d, $invalid: true)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function join($list1, $list2, $separator: auto, $bracketed: auto) {
+  |           ======================================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -94,9 +106,13 @@ a {b: join(c, d, comma, true, false, $invalid: true)}
 
 <===> positional_and_named/error
 Error: Only 4 positional arguments allowed, but 5 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: join(c, d, comma, true, false, $invalid: true)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:list
+1 | @function join($list1, $list2, $separator: auto, $bracketed: auto) {
+  |           ======================================================== declaration
   '
   input.scss 1:7  root stylesheet
 

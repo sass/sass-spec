@@ -275,9 +275,13 @@ $a: meta.module-functions();
 
 <===> error/too_few_args/error
 Error: Missing argument $module.
-  ,
+  ,--> input.scss
 2 | $a: meta.module-functions();
-  |     ^^^^^^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function module-functions($module) {
+  |           ========================= declaration
   '
   input.scss 2:5  root stylesheet
 
@@ -289,9 +293,13 @@ $a: meta.module-functions("meta", "c");
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 2 | $a: meta.module-functions("meta", "c");
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function module-functions($module) {
+  |           ========================= declaration
   '
   input.scss 2:5  root stylesheet
 

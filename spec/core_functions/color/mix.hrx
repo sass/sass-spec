@@ -219,9 +219,13 @@ a {b: mix(red, blue, 100, 1)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: mix(red, blue, 100, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%) {
+  |           =================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -239,9 +243,13 @@ a {b: mix(red)}
 
 <===> error/too_few_args/error
 Error: Missing argument $color2.
-  ,
+  ,--> input.scss
 1 | a {b: mix(red)}
-  |       ^^^^^^^^
+  |       ^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%) {
+  |           =================================== declaration
   '
   input.scss 1:7  root stylesheet
 

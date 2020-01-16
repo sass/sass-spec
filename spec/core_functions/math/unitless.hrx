@@ -74,9 +74,13 @@ a {b: unitless()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
-  ,
+  ,--> input.scss
 1 | a {b: unitless()}
-  |       ^^^^^^^^^^
+  |       ^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function is-unitless($number) {
+  |           ==================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -94,9 +98,13 @@ a {b: unitless(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: unitless(1, 2)}
-  |       ^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function is-unitless($number) {
+  |           ==================== declaration
   '
   input.scss 1:7  root stylesheet
 

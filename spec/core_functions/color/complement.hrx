@@ -83,9 +83,13 @@ a {b: complement()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
-  ,
+  ,--> input.scss
 1 | a {b: complement()}
-  |       ^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function complement($color) {
+  |           ================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -103,9 +107,13 @@ a {b: complement(red, 1)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,
+  ,--> input.scss
 1 | a {b: complement(red, 1)}
-  |       ^^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function complement($color) {
+  |           ================== declaration
   '
   input.scss 1:7  root stylesheet
 
