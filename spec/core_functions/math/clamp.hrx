@@ -1,0 +1,361 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3044
+
+<===>
+================================================================================
+<===> chooses_min/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1, 0, 2)}
+
+<===> chooses_min/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> chooses_number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 1, 2)}
+
+<===> chooses_number/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> chooses_max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 2, 1)}
+
+<===> chooses_max/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> min_equals_max/input.scss
+@use "sass:math" as math;
+a {
+  b: math.clamp(1, 2, 1);
+}
+
+<===> min_equals_max/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> min_greater_than_max/input.scss
+@use "sass:math" as math;
+a {
+  b: math.clamp(1, 2, 0);
+}
+
+<===> min_greater_than_max/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> preserves_units/min/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(180deg, 0.5turn, 360deg)}
+
+<===> preserves_units/min/output.css
+a {
+  b: 180deg;
+}
+
+<===>
+================================================================================
+<===> preserves_units/number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(180deg, 0.75turn, 360deg)}
+
+<===> preserves_units/number/output.css
+a {
+  b: 0.75turn;
+}
+
+<===>
+================================================================================
+<===> preserves_units/max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(180deg, 1turn, 360deg)}
+
+<===> preserves_units/max/output.css
+a {
+  b: 360deg;
+}
+
+<===>
+================================================================================
+<===> named_args/input.scss
+@use "sass:math" as math;
+a {b: math.clamp($min: 0, $number: 1, $max: 2)}
+
+<===> named_args/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/type/min/input.scss
+@use "sass:math" as math;
+a {b: math.clamp("0", 1, 2)}
+
+<===> error/type/min/error
+Error: $min: "0" is not a number.
+  ,
+2 | a {b: math.clamp("0", 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1, "0", 2)}
+
+<===> error/type/number/error
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.clamp(1, "0", 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1, 2, "0")}
+
+<===> error/type/max/error
+Error: $max: "0" is not a number.
+  ,
+2 | a {b: math.clamp(1, 2, "0")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/min_and_number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1deg, 1px, 1turn)}
+
+<===> error/incompatible_units/min_and_number/error
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.clamp(1deg, 1px, 1turn)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/min_and_max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1deg, 1turn, 1px)}
+
+<===> error/incompatible_units/min_and_max/error
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.clamp(1deg, 1turn, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/number_and_max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1turn, 1deg, 1px)}
+
+<===> error/incompatible_units/number_and_max/error
+Error: Incompatible units px and turn.
+  ,
+2 | a {b: math.clamp(1turn, 1deg, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/all/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(1deg, 1px, 1s)}
+
+<===> error/incompatible_units/all/error
+Error: Incompatible units s and deg.
+  ,
+2 | a {b: math.clamp(1deg, 1px, 1s)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/min/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 1px, 2px)}
+
+<===> error/some_unitless/min/error
+Error: $min is unitless but $number has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0, 1px, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0px, 1, 2px)}
+
+<===> error/some_unitless/number/error
+Error: $min has unit px but $number is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0px, 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0px, 1px, 2)}
+
+<===> error/some_unitless/max/error
+Error: $min has unit px but $max is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0px, 1px, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/min_and_number/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 1, 2px)}
+
+<===> error/some_unitless/min_and_number/error
+Error: $min is unitless but $max has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0, 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/min_and_max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 1px, 2)}
+
+<===> error/some_unitless/min_and_max/error
+Error: $min is unitless but $number has unit px. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0, 1px, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/some_unitless/number_and_max/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0px, 1, 2)}
+
+<===> error/some_unitless/number_and_max/error
+Error: $min has unit px but $number is unitless. Arguments must all have units or all be unitless.
+  ,
+2 | a {b: math.clamp(0px, 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:math" as math;
+a {b: math.clamp()}
+
+<===> error/zero_args/error
+Error: Missing argument $min.
+  ,--> input.scss
+2 | a {b: math.clamp()}
+  |       ^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0)}
+
+<===> error/one_arg/error
+Error: Missing argument $number.
+  ,--> input.scss
+2 | a {b: math.clamp(0)}
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 0)}
+
+<===> error/two_args/error
+Error: Missing argument $max.
+  ,--> input.scss
+2 | a {b: math.clamp(0, 0)}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math" as math;
+a {b: math.clamp(0, 0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+2 | a {b: math.clamp(0, 0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function clamp($min, $number, $max) {
+  |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
