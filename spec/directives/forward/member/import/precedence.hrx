@@ -1,0 +1,45 @@
+<===> README.md
+Forwarded definitions take precedence over local definitions through imports, to
+match the behavior of definitions written directly in the imported file.
+
+<===>
+================================================================================
+<===> top_level/input.scss
+$a: in-input;
+
+@import "midstream";
+
+b {c: $a}
+
+<===> top_level/_midstream.scss
+@forward "upstream";
+
+<===> top_level/_upstream.scss
+$a: in-upstream;
+
+<===> top_level/output.css
+b {
+  c: in-upstream;
+}
+
+<===>
+================================================================================
+<===> nested/input.scss
+b {
+  $a: in-input;
+
+  @import "midstream";
+
+  c: $a;
+}
+
+<===> nested/_midstream.scss
+@forward "upstream";
+
+<===> nested/_upstream.scss
+$a: in-upstream;
+
+<===> nested/output.css
+b {
+  c: in-upstream;
+}

@@ -1,0 +1,407 @@
+<===> top_level/mixin/input.scss
+@import "midstream";
+
+@include a;
+
+<===> top_level/mixin/_midstream.scss
+@forward "upstream";
+
+<===> top_level/mixin/_upstream.scss
+@mixin a() {b {c: d}}
+
+<===> top_level/mixin/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> top_level/variable_assignment/input.scss
+@import "midstream";
+
+$a: new value;
+
+b {c: get-a()}
+
+<===> top_level/variable_assignment/_midstream.scss
+@forward "upstream";
+
+<===> top_level/variable_assignment/_upstream.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> top_level/variable_assignment/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> top_level/variable_use/input.scss
+@import "midstream";
+
+a {b: $c}
+
+<===> top_level/variable_use/_midstream.scss
+@forward "upstream";
+
+<===> top_level/variable_use/_upstream.scss
+$c: d;
+
+<===> top_level/variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> nested/mixin/input.scss
+a {
+  @import "midstream";
+
+  @include b;
+}
+
+<===> nested/mixin/_midstream.scss
+@forward "upstream";
+
+<===> nested/mixin/_upstream.scss
+@mixin b() {c: d}
+
+<===> nested/mixin/output.css
+a {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nested/variable_assignment/input.scss
+a {
+  @import "midstream";
+
+  $b: new value;
+  c: get-b();
+}
+
+<===> nested/variable_assignment/_midstream.scss
+@forward "upstream";
+
+<===> nested/variable_assignment/_upstream.scss
+$b: old value;
+
+@function get-b() {@return $b}
+
+<===> nested/variable_assignment/output.css
+a {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> nested/variable_use/input.scss
+a {
+  @import "midstream";
+
+  b: $c;
+}
+
+<===> nested/variable_use/_midstream.scss
+@forward "upstream";
+
+<===> nested/variable_use/_upstream.scss
+$c: d;
+
+<===> nested/variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> override/README.md
+Regression tests for sass/dart-sass#888.
+
+<===>
+================================================================================
+<===> override/variable/input.scss
+@import "midstream1";
+after-first {a: $b}
+
+@import "midstream2";
+after-second {a: $b}
+
+<===> override/variable/_midstream1.scss
+@forward "upstream1";
+
+<===> override/variable/_upstream1.scss
+$b: 1;
+
+<===> override/variable/_midstream2.scss
+@forward "upstream2";
+
+<===> override/variable/_upstream2.scss
+$b: 2;
+
+<===> override/variable/output.css
+after-first {
+  a: 1;
+}
+
+after-second {
+  a: 2;
+}
+
+<===>
+================================================================================
+<===> override/mixin/input.scss
+@import "midstream1";
+after-first {@include a}
+
+@import "midstream2";
+after-second {@include a}
+
+<===> override/mixin/_midstream1.scss
+@forward "upstream1";
+
+<===> override/mixin/_upstream1.scss
+@mixin a {b: 1};
+
+<===> override/mixin/_midstream2.scss
+@forward "upstream2";
+
+<===> override/mixin/_upstream2.scss
+@mixin a {b: 2};
+
+<===> override/mixin/output.css
+after-first {
+  b: 1;
+}
+
+after-second {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> override/function/input.scss
+@import "midstream1";
+after-first {a: b()}
+
+@import "midstream2";
+after-second {a: b()}
+
+<===> override/function/_midstream1.scss
+@forward "upstream1";
+
+<===> override/function/_upstream1.scss
+@function b() {@return 1};
+
+<===> override/function/_midstream2.scss
+@forward "upstream2";
+
+<===> override/function/_upstream2.scss
+@function b() {@return 2};
+
+<===> override/function/output.css
+after-first {
+  a: 1;
+}
+
+after-second {
+  a: 2;
+}
+
+<===>
+================================================================================
+<===> transitive/variable/input.scss
+@import "downstream";
+
+a {b: $c}
+
+<===> transitive/variable/_downstream.scss
+@import "midstream";
+
+<===> transitive/variable/_midstream.scss
+@forward "upstream";
+
+<===> transitive/variable/_upstream.scss
+$c: d;
+
+<===> transitive/variable/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> transitive/mixin/input.scss
+@import "downstream";
+
+a {@include b}
+
+<===> transitive/mixin/_downstream.scss
+@import "midstream";
+
+<===> transitive/mixin/_midstream.scss
+@forward "upstream";
+
+<===> transitive/mixin/_upstream.scss
+@mixin b {c: d}
+
+<===> transitive/mixin/output.css
+a {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> transitive/function/input.scss
+@import "downstream";
+
+a {b: c()}
+
+<===> transitive/function/_downstream.scss
+@import "midstream";
+
+<===> transitive/function/_midstream.scss
+@forward "upstream";
+
+<===> transitive/function/_upstream.scss
+@function c() {@return d}
+
+<===> transitive/function/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> use_to_mixin/input.scss
+@use "used";
+
+@include used.a;
+
+<===> use_to_mixin/_used.scss
+@import "imported";
+
+<===> use_to_mixin/_imported.scss
+@forward "forwarded";
+
+<===> use_to_mixin/_forwarded.scss
+@mixin a() {b {c: d}}
+
+<===> use_to_mixin/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> use_to_variable_assignment/input.scss
+@use "used";
+
+used.$a: new value;
+
+b {c: used.get-a()}
+
+<===> use_to_variable_assignment/_used.scss
+@import "imported";
+
+<===> use_to_variable_assignment/_imported.scss
+@forward "forwarded";
+
+<===> use_to_variable_assignment/_forwarded.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> use_to_variable_assignment/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> use_to_variable_use/input.scss
+@use "used";
+
+a {b: used.$c}
+
+<===> use_to_variable_use/_used.scss
+@import "imported";
+
+<===> use_to_variable_use/_imported.scss
+@forward "forwarded";
+
+<===> use_to_variable_use/_forwarded.scss
+$c: d;
+
+<===> use_to_variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> with/default/input.scss
+@import "midstream";
+
+a {b: get-c()};
+
+<===> with/default/_midstream.scss
+@forward "upstream" with ($c: midstream);
+
+<===> with/default/_upstream.scss
+$c: upstream !default;
+
+@function get-c() {@return $c}
+
+<===> with/default/output.css
+a {
+  b: midstream;
+}
+
+<===>
+================================================================================
+<===> with/non_overridable/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> with/non_overridable/_midstream.scss
+@forward "upstream" with ($a: midstream);
+
+<===> with/non_overridable/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> with/non_overridable/output.css
+b {
+  c: midstream;
+}
+
+<===>
+================================================================================
+<===> with/overridden/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> with/overridden/_midstream.scss
+@forward "upstream" with ($a: midstream !default);
+
+<===> with/overridden/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> with/overridden/output.css
+b {
+  c: input;
+}
