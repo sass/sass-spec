@@ -129,3 +129,19 @@ a {
   left: left;
   right: right;
 }
+
+<===>
+================================================================================
+<===> no_conflict/input.scss
+@use "other" as *;
+@use "other" as *;
+
+a {b: $c}
+
+<===> no_conflict/_other.scss
+$c: d;
+
+<===> no_conflict/output.css
+a {
+  b: d;
+}

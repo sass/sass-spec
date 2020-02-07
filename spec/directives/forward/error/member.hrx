@@ -71,20 +71,23 @@ Error: Two forwarded modules both define a mixin named a.
 
 <===>
 ================================================================================
-<===> conflict/same_file/input.scss
-@forward "other";
-@forward "other";
+<===> conflict/same_value/input.scss
+@forward "other1";
+@forward "other2";
 
-<===> conflict/same_file/_other.scss
+<===> conflict/same_value/_other1.scss
 $a: b;
 
-<===> conflict/same_file/error
+<===> conflict/same_value/_other2.scss
+$a: b;
+
+<===> conflict/same_value/error
 Error: Two forwarded modules both define a variable named $a.
   ,
-1 | @forward "other";
-  | ================ original @forward
-2 | @forward "other";
-  | ^^^^^^^^^^^^^^^^ new @forward
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
   '
   input.scss 2:1  root stylesheet
 
