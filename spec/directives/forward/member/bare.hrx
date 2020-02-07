@@ -97,3 +97,22 @@ a {
 b {
   c: d;
 }
+
+<===>
+================================================================================
+<===> no_conflict/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
+<===> no_conflict/_midstream.scss
+@forward "upstream";
+@forward "upstream";
+
+<===> no_conflict/_upstream.scss
+$c: d;
+
+<===> no_conflict/output.css
+a {
+  b: d;
+}

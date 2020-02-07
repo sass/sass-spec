@@ -1,0 +1,46 @@
+<===> direct/input.scss
+@use "other";
+
+a {b: inspect(other.$member)}
+
+<===> direct/other.scss
+x {
+  @if false {
+    // Even though this assignment is deeply nested and never evaluated, it
+    // creates a variable slot in the module that defaults to null. This ensures
+    // that a module will always expose the same members regardless of how it's
+    // evaluated.
+    $member: value !global;
+  }
+}
+
+<===> direct/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@use "used";
+
+a {b: inspect(used.$member)}
+
+<===> through_import/used.scss
+@import "imported";
+
+<===> through_import/imported.scss
+x {
+  @if false {
+    // Even though this assignment is deeply nested and never evaluated, it
+    // creates a variable slot in the module that defaults to null. This ensures
+    // that a module will always expose the same members regardless of how it's
+    // evaluated.
+    $member: value !global;
+  }
+}
+
+<===> through_import/output.css
+a {
+  b: null;
+}

@@ -1,0 +1,233 @@
+<===> default/variable_use/input.scss
+@use "other";
+
+a {b: other.$member}
+
+<===> default/variable_use/other.scss
+$member: value;
+
+<===> default/variable_use/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> default/variable_assignment/top_level/input.scss
+@use "other";
+
+other.$member: new value;
+
+a {b: other.get-member()};
+
+<===> default/variable_assignment/top_level/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> default/variable_assignment/top_level/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
+<===> default/variable_assignment/nested/input.scss
+@use "other";
+
+a {
+  // Namespaced assignments always assign to the other module's variable, even
+  // if they're nested in a block scope.
+  other.$member: new value;
+
+  b: other.get-member();
+}
+
+<===> default/variable_assignment/nested/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> default/variable_assignment/nested/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
+<===> default/variable_assignment/in_function/input.scss
+@use "other";
+
+@function a() {
+  // Test assignments within a function specially, because functions disallow
+  // property declarations and variable assignments need to be disambiguated
+  // with those.
+  other.$member: new value;
+
+  @return other.get-member();
+}
+
+b {c: a()}
+
+<===> default/variable_assignment/in_function/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> default/variable_assignment/in_function/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> default/variable_assignment/in_declaration/input.scss
+@use "other";
+
+a {
+  b: {
+    // Test assignments within a declaration specially, because declarations
+    // disallow style rules and variable assignments need to be disambiguated
+    // with those.
+    other.$member: new value;
+
+    c: other.get-member();
+  }
+}
+
+<===> default/variable_assignment/in_declaration/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> default/variable_assignment/in_declaration/output.css
+a {
+  b-c: new value;
+}
+
+<===>
+================================================================================
+<===> default/function/input.scss
+@use "other";
+
+a {b: other.member()}
+
+<===> default/function/other.scss
+@function member() {@return value}
+
+<===> default/function/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> default/mixin/input.scss
+@use "other";
+
+@include other.member;
+
+<===> default/mixin/other.scss
+@mixin member() {a {b: c}}
+
+<===> default/mixin/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> default/basename/input.scss
+// Only the basename of the URL is used for the namespace. Previous components
+// are discarded.
+@use "foo/bar/../baz/qux/other";
+
+a {b: other.$variable}
+
+<===> default/basename/foo/baz/qux/other.scss
+$variable: value;
+
+<===> default/basename/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> default/without_extensions/input.scss
+// All extensions on the URL are discarded before determining the namespace.
+@use "other.foo.bar.baz.scss";
+
+a {b: other.$variable}
+
+<===> default/without_extensions/other.foo.bar.baz.scss
+$variable: value;
+
+<===> default/without_extensions/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> explicit/variable_use/input.scss
+@use "other" as o;
+
+a {b: o.$member}
+
+<===> explicit/variable_use/other.scss
+$member: value;
+
+<===> explicit/variable_use/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> explicit/variable_assignment/input.scss
+@use "other" as o;
+
+o.$member: new value;
+
+a {b: o.get-member()}
+
+<===> explicit/variable_assignment/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> explicit/variable_assignment/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
+<===> explicit/function/input.scss
+@use "other" as o;
+
+a {b: o.member()}
+
+<===> explicit/function/other.scss
+@function member() {@return value}
+
+<===> explicit/function/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> explicit/mixin/input.scss
+@use "other" as o;
+
+@include o.member;
+
+<===> explicit/mixin/other.scss
+@mixin member() {a {b: c}}
+
+<===> explicit/mixin/output.css
+a {
+  b: c;
+}
