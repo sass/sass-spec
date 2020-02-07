@@ -1,10 +1,10 @@
-<===> missing_member/namespaced/variable_use/input.scss
+<===> missing/namespaced/variable_use/input.scss
 @use "other";
 
 a {b: other.$member}
 
-<===> missing_member/namespaced/variable_use/other.scss
-<===> missing_member/namespaced/variable_use/error
+<===> missing/namespaced/variable_use/other.scss
+<===> missing/namespaced/variable_use/error
 Error: Undefined variable.
   ,
 3 | a {b: other.$member}
@@ -14,13 +14,13 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> missing_member/namespaced/variable_declaration/input.scss
+<===> missing/namespaced/variable_declaration/input.scss
 @use "other";
 
 other.$member: value;
 
-<===> missing_member/namespaced/variable_declaration/other.scss
-<===> missing_member/namespaced/variable_declaration/error
+<===> missing/namespaced/variable_declaration/other.scss
+<===> missing/namespaced/variable_declaration/error
 Error: Undefined variable.
   ,
 3 | other.$member: value;
@@ -30,13 +30,13 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> missing_member/namespaced/function/input.scss
+<===> missing/namespaced/function/input.scss
 @use "other";
 
 a {b: other.member()}
 
-<===> missing_member/namespaced/function/other.scss
-<===> missing_member/namespaced/function/error
+<===> missing/namespaced/function/other.scss
+<===> missing/namespaced/function/error
 Error: Undefined function.
   ,
 3 | a {b: other.member()}
@@ -46,13 +46,13 @@ Error: Undefined function.
 
 <===>
 ================================================================================
-<===> missing_member/namespaced/mixin/input.scss
+<===> missing/namespaced/mixin/input.scss
 @use "other";
 
 @include other.member;
 
-<===> missing_member/namespaced/mixin/other.scss
-<===> missing_member/namespaced/mixin/error
+<===> missing/namespaced/mixin/other.scss
+<===> missing/namespaced/mixin/error
 Error: Undefined mixin.
   ,
 3 | @include other.member;
@@ -62,13 +62,13 @@ Error: Undefined mixin.
 
 <===>
 ================================================================================
-<===> missing_member/global/variable/input.scss
+<===> missing/global/variable/input.scss
 @use "other";
 
 a {b: $member}
 
-<===> missing_member/global/variable/other.scss
-<===> missing_member/global/variable/error
+<===> missing/global/variable/other.scss
+<===> missing/global/variable/error
 Error: Undefined variable.
   ,
 3 | a {b: $member}
@@ -78,13 +78,13 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> missing_member/global/mixin/input.scss
+<===> missing/global/mixin/input.scss
 @use "other";
 
 @include member;
 
-<===> missing_member/global/mixin/other.scss
-<===> missing_member/global/mixin/error
+<===> missing/global/mixin/other.scss
+<===> missing/global/mixin/error
 Error: Undefined mixin.
   ,
 3 | @include member;
@@ -94,14 +94,14 @@ Error: Undefined mixin.
 
 <===>
 ================================================================================
-<===> member_before_use/variable_use/input.scss
+<===> before_use/variable_use/input.scss
 $variable: other.$member;
 @use "other";
 
-<===> member_before_use/variable_use/other.scss
+<===> before_use/variable_use/other.scss
 $member: value;
 
-<===> member_before_use/variable_use/error
+<===> before_use/variable_use/error
 Error: There is no module with the namespace "other".
   ,
 1 | $variable: other.$member;
@@ -111,14 +111,14 @@ Error: There is no module with the namespace "other".
 
 <===>
 ================================================================================
-<===> member_before_use/variable_declaration/input.scss
+<===> before_use/variable_declaration/input.scss
 other.$member: value;
 @use "other";
 
-<===> member_before_use/variable_declaration/other.scss
+<===> before_use/variable_declaration/other.scss
 $member: value;
 
-<===> member_before_use/variable_declaration/error
+<===> before_use/variable_declaration/error
 Error: There is no module with the namespace "other".
   ,
 1 | other.$member: value;
@@ -128,17 +128,17 @@ Error: There is no module with the namespace "other".
 
 <===>
 ================================================================================
-<===> member_before_use/variable_declaration_without_namespace/input.scss
+<===> before_use/variable_declaration_without_namespace/input.scss
 $member: from input;
 
 @use "other" as *;
 
 a {b: $member}
 
-<===> member_before_use/variable_declaration_without_namespace/other.scss
+<===> before_use/variable_declaration_without_namespace/other.scss
 $member: from other;
 
-<===> member_before_use/variable_declaration_without_namespace/error
+<===> before_use/variable_declaration_without_namespace/error
 Error: This module and the new module both define a variable named "$member".
   ,
 3 | @use "other" as *;
@@ -148,14 +148,14 @@ Error: This module and the new module both define a variable named "$member".
 
 <===>
 ================================================================================
-<===> member_before_use/function/input.scss
+<===> before_use/function/input.scss
 $variable: other.member();
 @use "other";
 
-<===> member_before_use/function/other.scss
+<===> before_use/function/other.scss
 @function member() {@return null}
 
-<===> member_before_use/function/error
+<===> before_use/function/error
 Error: There is no module with the namespace "other".
   ,
 1 | $variable: other.member();
@@ -165,19 +165,19 @@ Error: There is no module with the namespace "other".
 
 <===>
 ================================================================================
-<===> member_conflict/variable/input.scss
+<===> conflict/variable/input.scss
 @use "other1" as *;
 @use "other2" as *;
 
 a {b: $member}
 
-<===> member_conflict/variable/other1.scss
+<===> conflict/variable/other1.scss
 $member: from other1;
 
-<===> member_conflict/variable/other2.scss
+<===> conflict/variable/other2.scss
 $member: from other2;
 
-<===> member_conflict/variable/error
+<===> conflict/variable/error
 Error: This variable is available from multiple global modules.
     ,
 1   | @use "other1" as *;
@@ -192,19 +192,19 @@ Error: This variable is available from multiple global modules.
 
 <===>
 ================================================================================
-<===> member_conflict/function/input.scss
+<===> conflict/function/input.scss
 @use "other1" as *;
 @use "other2" as *;
 
 a {b: member()}
 
-<===> member_conflict/function/other1.scss
+<===> conflict/function/other1.scss
 @function member() {@return from other1}
 
-<===> member_conflict/function/other2.scss
+<===> conflict/function/other2.scss
 @function member() {@return from other2}
 
-<===> member_conflict/function/error
+<===> conflict/function/error
 Error: This function is available from multiple global modules.
     ,
 1   | @use "other1" as *;
@@ -219,19 +219,19 @@ Error: This function is available from multiple global modules.
 
 <===>
 ================================================================================
-<===> member_conflict/mixin/input.scss
+<===> conflict/mixin/input.scss
 @use "other1" as *;
 @use "other2" as *;
 
 a {@include member}
 
-<===> member_conflict/mixin/other1.scss
+<===> conflict/mixin/other1.scss
 @mixin member {a: from other1}
 
-<===> member_conflict/mixin/other2.scss
+<===> conflict/mixin/other2.scss
 @mixin member {a: from other2}
 
-<===> member_conflict/mixin/error
+<===> conflict/mixin/error
 Error: This mixin is available from multiple global modules.
     ,
 1   | @use "other1" as *;
@@ -246,18 +246,18 @@ Error: This mixin is available from multiple global modules.
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive/variable/input.scss
+<===> inaccessible/transitive/variable/input.scss
 @use "midstream" as *;
 
 a {b: $upstream};
 
-<===> inaccessible_member/transitive/variable/midstream.scss
+<===> inaccessible/transitive/variable/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive/variable/upstream.scss
+<===> inaccessible/transitive/variable/upstream.scss
 $upstream: value;
 
-<===> inaccessible_member/transitive/variable/error
+<===> inaccessible/transitive/variable/error
 Error: Undefined variable.
   ,
 3 | a {b: $upstream};
@@ -267,38 +267,38 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive/function/input.scss
+<===> inaccessible/transitive/function/input.scss
 @use "midstream" as *;
 
 // This is technically not a compile error, since `-member()` is treated as
 // plain CSS, but it's included here for consistency with the other specs.
 a {b: upstream()};
 
-<===> inaccessible_member/transitive/function/midstream.scss
+<===> inaccessible/transitive/function/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive/function/upstream.scss
+<===> inaccessible/transitive/function/upstream.scss
 @function upstream() {@return value}
 
-<===> inaccessible_member/transitive/function/output.css
+<===> inaccessible/transitive/function/output.css
 a {
   b: upstream();
 }
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive/mixin/input.scss
+<===> inaccessible/transitive/mixin/input.scss
 @use "midstream" as *;
 
 @include upstream;
 
-<===> inaccessible_member/transitive/mixin/midstream.scss
+<===> inaccessible/transitive/mixin/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive/mixin/upstream.scss
+<===> inaccessible/transitive/mixin/upstream.scss
 @mixin upstream {a {b: c}}
 
-<===> inaccessible_member/transitive/mixin/error
+<===> inaccessible/transitive/mixin/error
 Error: Undefined mixin.
   ,
 3 | @include upstream;
@@ -308,18 +308,18 @@ Error: Undefined mixin.
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive_from_import/variable/input.scss
+<===> inaccessible/transitive_from_import/variable/input.scss
 @import "midstream";
 
 a {b: $upstream};
 
-<===> inaccessible_member/transitive_from_import/variable/midstream.scss
+<===> inaccessible/transitive_from_import/variable/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive_from_import/variable/upstream.scss
+<===> inaccessible/transitive_from_import/variable/upstream.scss
 $upstream: value;
 
-<===> inaccessible_member/transitive_from_import/variable/error
+<===> inaccessible/transitive_from_import/variable/error
 Error: Undefined variable.
   ,
 3 | a {b: $upstream};
@@ -329,38 +329,38 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive_from_import/function/input.scss
+<===> inaccessible/transitive_from_import/function/input.scss
 @import "midstream";
 
 // This is technically not a compile error, since `upstream()` is treated as
 // plain CSS, but it's included here for consistency with the other specs.
 a {b: upstream()};
 
-<===> inaccessible_member/transitive_from_import/function/midstream.scss
+<===> inaccessible/transitive_from_import/function/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive_from_import/function/upstream.scss
+<===> inaccessible/transitive_from_import/function/upstream.scss
 @function upstream() {@return value}
 
-<===> inaccessible_member/transitive_from_import/function/output.css
+<===> inaccessible/transitive_from_import/function/output.css
 a {
   b: upstream();
 }
 
 <===>
 ================================================================================
-<===> inaccessible_member/transitive_from_import/mixin/input.scss
+<===> inaccessible/transitive_from_import/mixin/input.scss
 @import "midstream";
 
 @include upstream;
 
-<===> inaccessible_member/transitive_from_import/mixin/midstream.scss
+<===> inaccessible/transitive_from_import/mixin/midstream.scss
 @use "upstream" as *;
 
-<===> inaccessible_member/transitive_from_import/mixin/upstream.scss
+<===> inaccessible/transitive_from_import/mixin/upstream.scss
 @mixin upstream {a {b: c}}
 
-<===> inaccessible_member/transitive_from_import/mixin/error
+<===> inaccessible/transitive_from_import/mixin/error
 Error: Undefined mixin.
   ,
 3 | @include upstream;
@@ -370,15 +370,15 @@ Error: Undefined mixin.
 
 <===>
 ================================================================================
-<===> inaccessible_member/private/variable/input.scss
+<===> inaccessible/private/variable/input.scss
 @use "other" as *;
 
 a {b: $-member};
 
-<===> inaccessible_member/private/variable/other.scss
+<===> inaccessible/private/variable/other.scss
 $-member: value;
 
-<===> inaccessible_member/private/variable/error
+<===> inaccessible/private/variable/error
 Error: Undefined variable.
   ,
 3 | a {b: $-member};
@@ -388,32 +388,32 @@ Error: Undefined variable.
 
 <===>
 ================================================================================
-<===> inaccessible_member/private/function/input.scss
+<===> inaccessible/private/function/input.scss
 @use "other" as *;
 
 // This is technically not a compile error, since `-member()` is treated as
 // plain CSS, but it's included here for consistency with the other specs.
 a {b: -member()};
 
-<===> inaccessible_member/private/function/other.scss
+<===> inaccessible/private/function/other.scss
 @function -member() {@return value}
 
-<===> inaccessible_member/private/function/output.css
+<===> inaccessible/private/function/output.css
 a {
   b: -member();
 }
 
 <===>
 ================================================================================
-<===> inaccessible_member/private/mixin/input.scss
+<===> inaccessible/private/mixin/input.scss
 @use "other" as *;
 
 @include -member;
 
-<===> inaccessible_member/private/mixin/other.scss
+<===> inaccessible/private/mixin/other.scss
 @mixin -member {a {b: c}}
 
-<===> inaccessible_member/private/mixin/error
+<===> inaccessible/private/mixin/error
 Error: Undefined mixin.
   ,
 3 | @include -member;
