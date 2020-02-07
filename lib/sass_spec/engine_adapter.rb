@@ -95,7 +95,7 @@ class DartEngineAdapter < EngineAdapter
           }
         }
       DART
-      @stdin, @stdout, @stderr = Open3.popen3("dart --packages=#{@path}/.packages #{f.path}")
+      @stdin, @stdout, @stderr = Open3.popen3("dart --enable-asserts --packages=#{@path}/.packages #{f.path}")
       @stdout.set_encoding 'binary'
       @stderr.set_encoding 'binary'
     end
