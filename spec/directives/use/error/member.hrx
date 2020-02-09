@@ -246,19 +246,19 @@ Error: This mixin is available from multiple global modules.
 
 <===>
 ================================================================================
-<===> conflict/same_value/input.scss
+<===> conflict/same_value/variable/input.scss
 @use "other1" as *;
 @use "other2" as *;
 
 a {b: $c}
 
-<===> conflict/same_value/_other1.scss
+<===> conflict/same_value/variable/_other1.scss
 $c: d;
 
-<===> conflict/same_value/_other2.scss
+<===> conflict/same_value/variable/_other2.scss
 $c: d;
 
-<===> conflict/same_value/error
+<===> conflict/same_value/variable/error
 Error: This variable is available from multiple global modules.
     ,
 1   | @use "other1" as *;
@@ -270,6 +270,60 @@ Error: This variable is available from multiple global modules.
     |       ^^ variable use
     '
   input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/same_value/function/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: c()}
+
+<===> conflict/same_value/function/_other1.scss
+@function c() {@return d}
+
+<===> conflict/same_value/function/_other2.scss
+@function c() {@return d}
+
+<===> conflict/same_value/function/error
+Error: This function is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes function
+2   | @use "other2" as *;
+    | ================== includes function
+... |
+4   | a {b: c()}
+    |       ^^^ function use
+    '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/same_value/mixin/input.scss
+@use "other1" as *;
+@use "other2" as *;
+
+a {@include b}
+
+<===> conflict/same_value/mixin/_other1.scss
+@mixin b {c: d}
+
+<===> conflict/same_value/mixin/_other2.scss
+@mixin b {c: d}
+
+<===> conflict/same_value/mixin/error
+Error: This mixin is available from multiple global modules.
+    ,
+1   | @use "other1" as *;
+    | ================== includes mixin
+2   | @use "other2" as *;
+    | ================== includes mixin
+... |
+4   | a {@include b}
+    |    ^^^^^^^^^^ mixin use
+    '
+  input.scss 4:4  root stylesheet
 
 <===>
 ================================================================================
