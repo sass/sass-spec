@@ -53,3 +53,25 @@ $c: d;
 a {
   b: d;
 }
+
+<===>
+================================================================================
+<===> post_facto/input.scss
+@import "other";
+@import "midstream";
+
+@include a;
+
+<===> post_facto/_other.scss
+@mixin a {b {c: $d}}
+
+<===> post_facto/_midstream.scss
+@forward "upstream";
+
+<===> post_facto/_upstream.scss
+$d: e;
+
+<===> post_facto/output.css
+b {
+  c: e;
+}
