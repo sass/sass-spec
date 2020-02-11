@@ -132,16 +132,48 @@ a {
 
 <===>
 ================================================================================
-<===> no_conflict/input.scss
+<===> no_conflict/variable/input.scss
 @use "other" as *;
 @use "other" as *;
 
 a {b: $c}
 
-<===> no_conflict/_other.scss
+<===> no_conflict/variable/_other.scss
 $c: d;
 
-<===> no_conflict/output.css
+<===> no_conflict/variable/output.css
 a {
   b: d;
+}
+
+<===>
+================================================================================
+<===> no_conflict/function/input.scss
+@use "other" as *;
+@use "other" as *;
+
+a {b: c()}
+
+<===> no_conflict/function/_other.scss
+@function c() {@return d}
+
+<===> no_conflict/function/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> no_conflict/mixin/input.scss
+@use "other" as *;
+@use "other" as *;
+
+a {@include b}
+
+<===> no_conflict/mixin/_other.scss
+@mixin b {c: d}
+
+<===> no_conflict/mixin/output.css
+a {
+  c: d;
 }
