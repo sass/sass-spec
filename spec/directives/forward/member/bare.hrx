@@ -100,19 +100,57 @@ b {
 
 <===>
 ================================================================================
-<===> no_conflict/input.scss
+<===> no_conflict/variable/input.scss
 @use "midstream";
 
 a {b: midstream.$c}
 
-<===> no_conflict/_midstream.scss
+<===> no_conflict/variable/_midstream.scss
 @forward "upstream";
 @forward "upstream";
 
-<===> no_conflict/_upstream.scss
+<===> no_conflict/variable/_upstream.scss
 $c: d;
 
-<===> no_conflict/output.css
+<===> no_conflict/variable/output.css
 a {
   b: d;
+}
+
+<===>
+================================================================================
+<===> no_conflict/function/input.scss
+@use "midstream";
+
+a {b: midstream.c()}
+
+<===> no_conflict/function/_midstream.scss
+@forward "upstream";
+@forward "upstream";
+
+<===> no_conflict/function/_upstream.scss
+@function c() {@return d}
+
+<===> no_conflict/function/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> no_conflict/mixin/input.scss
+@use "midstream";
+
+a {@include midstream.b}
+
+<===> no_conflict/mixin/_midstream.scss
+@forward "upstream";
+@forward "upstream";
+
+<===> no_conflict/mixin/_upstream.scss
+@mixin b {c: d}
+
+<===> no_conflict/mixin/output.css
+a {
+  c: d;
 }
