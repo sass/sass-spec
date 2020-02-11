@@ -1,0 +1,147 @@
+<===> variable_use/input.scss
+@use "other" as *;
+
+a {b: $member}
+
+<===> variable_use/other.scss
+$member: value;
+
+<===> variable_use/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/top_level/input.scss
+@use "other" as *;
+
+$member: new value;
+
+a {b: get-member()}
+
+<===> variable_assignment/top_level/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> variable_assignment/top_level/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/nested/local/input.scss
+@use "other" as *;
+
+a {
+  // A nested variable assignment that doesn't have a namespace and isn't
+  // !global creates a new local variable rather than assigning to a variable
+  // imported from a module.
+  $member: new value;
+
+  b: get-member();
+}
+
+<===> variable_assignment/nested/local/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> variable_assignment/nested/local/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/nested/input.scss
+@use "other" as *;
+
+a {
+  // A nested variable assignment that doesn't have a namespace but is !global
+  // assigns to a global module's variable if one exists.
+  $member: new value !global;
+
+  b: get-member();
+}
+
+<===> variable_assignment/nested/other.scss
+$member: value;
+
+@function get-member() {@return $member}
+
+<===> variable_assignment/nested/output.css
+a {
+  b: new value;
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+@use "other" as *;
+
+a {b: member()}
+
+<===> function/other.scss
+@function member() {@return value}
+
+<===> function/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> mixin/input.scss
+@use "other" as *;
+
+@include member;
+
+<===> mixin/other.scss
+@mixin member() {a {b: c}}
+
+<===> mixin/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "left" as *;
+@use "right" as *;
+
+a {
+  left: $left;
+  right: $right;
+}
+
+<===> multiple/left.scss
+$left: left;
+
+<===> multiple/right.scss
+$right: right;
+
+<===> multiple/output.css
+a {
+  left: left;
+  right: right;
+}
+
+<===>
+================================================================================
+<===> no_conflict/input.scss
+@use "other" as *;
+@use "other" as *;
+
+a {b: $c}
+
+<===> no_conflict/_other.scss
+$c: d;
+
+<===> no_conflict/output.css
+a {
+  b: d;
+}

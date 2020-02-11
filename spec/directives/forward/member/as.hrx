@@ -169,3 +169,22 @@ c {
 c {
   d: e;
 }
+
+<===>
+================================================================================
+<===> no_conflict/input.scss
+@use "midstream";
+
+a {b: midstream.$c-d}
+
+<===> no_conflict/_midstream.scss
+@forward "upstream" as c-*;
+@forward "upstream" as c-*;
+
+<===> no_conflict/_upstream.scss
+$d: e;
+
+<===> no_conflict/output.css
+a {
+  b: e;
+}
