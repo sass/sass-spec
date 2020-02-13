@@ -1,0 +1,61 @@
+<===> default/input.scss
+@import "midstream";
+
+a {b: get-c()};
+
+<===> default/_midstream.scss
+@forward "upstream" with ($c: midstream);
+
+<===> default/_upstream.scss
+$c: upstream !default;
+
+@function get-c() {@return $c}
+
+<===> default/output.css
+a {
+  b: midstream;
+}
+
+<===>
+================================================================================
+<===> non_overridable/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> non_overridable/_midstream.scss
+@forward "upstream" with ($a: midstream);
+
+<===> non_overridable/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> non_overridable/output.css
+b {
+  c: midstream;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+$a: input;
+
+@import "midstream";
+
+b {c: get-a()};
+
+<===> overridden/_midstream.scss
+@forward "upstream" with ($a: midstream !default);
+
+<===> overridden/_upstream.scss
+$a: upstream !default;
+
+@function get-a() {@return $a}
+
+<===> overridden/output.css
+b {
+  c: input;
+}
