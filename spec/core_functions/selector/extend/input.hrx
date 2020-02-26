@@ -1,0 +1,79 @@
+<===> non_string/README.md
+These specs verify that all the arguments to `selector-extend()` can take the
+generalized selector format. The full set of possible input formats is tested
+with `selector-parse()`; this spec just verifies one example for each parameter.
+
+<===>
+================================================================================
+<===> non_string/selector/input.scss
+a {b: selector-extend((c, d c), "c", "e")}
+
+<===> non_string/selector/output.css
+a {
+  b: c, e, d c;
+}
+
+<===>
+================================================================================
+<===> non_string/extendee/options.yml
+---
+:todo:
+- sass/libsass#3068
+
+<===> non_string/extendee/input.scss
+a {b: selector-extend("c.d", (c, ".d"), ".e")}
+
+<===> non_string/extendee/output.css
+a {
+  b: c.d, .e;
+}
+
+<===>
+================================================================================
+<===> non_string/extender/input.scss
+a {b: selector-extend("c", "c", (d, e f))}
+
+<===> non_string/extender/output.css
+a {
+  b: c, d, e f;
+}
+
+<===>
+================================================================================
+<===> multiple_extendees/compound/input.scss
+a {b: selector-extend("c.d", "c.d", ".e")}
+
+<===> multiple_extendees/compound/output.css
+a {
+  b: c.d, .e;
+}
+
+<===>
+================================================================================
+<===> multiple_extendees/list/options.yml
+---
+:todo:
+- sass/libsass#3067
+
+<===> multiple_extendees/list/input.scss
+a {b: selector-extend("c.d", "c, .d", ".e")}
+
+<===> multiple_extendees/list/output.css
+a {
+  b: c.d, .e;
+}
+
+<===>
+================================================================================
+<===> multiple_extendees/list_of_compound/options.yml
+---
+:todo:
+- sass/libsass#3067
+
+<===> multiple_extendees/list_of_compound/input.scss
+a {b: selector-extend("c.d.e.f", "c.d, .e.f", ".g")}
+
+<===> multiple_extendees/list_of_compound/output.css
+a {
+  b: c.d.e.f, .g;
+}
