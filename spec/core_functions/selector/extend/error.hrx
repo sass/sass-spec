@@ -1,0 +1,291 @@
+<===> selector/parent/input.scss
+a {b: selector-extend("&", "c", "d")}
+
+<===> selector/parent/error
+Error: $selector: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-extend("&", "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:23 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("&", "c", "d")}
+
+   ----------------------^
+
+<===>
+================================================================================
+<===> selector/invalid/input.scss
+a {b: selector-extend("[c", "d", "e")}
+
+<===> selector/invalid/error
+Error: $selector: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-extend("[c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector/invalid/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:24 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("[c", "d", "e")}
+
+   -----------------------^
+
+<===>
+================================================================================
+<===> selector/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> selector/type/input.scss
+a {b: selector-extend(1, "c", "d")}
+
+<===> selector/type/error
+Error: $selector: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-extend(1, "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/parent/input.scss
+a {b: selector-extend("c", "&", "d")}
+
+<===> extendee/parent/error
+Error: $extendee: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-extend("c", "&", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> extendee/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:28 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("c", "&", "d")}
+
+   ---------------------------^
+
+<===>
+================================================================================
+<===> extendee/complex/options.yml
+---
+:todo:
+- sass/libsass#3066
+
+<===>
+================================================================================
+<===> extendee/complex/string/input.scss
+a {b: selector-extend("c", "d e", "f")}
+
+<===> extendee/complex/string/error
+Error: Can't extend complex selector d e.
+  ,
+1 | a {b: selector-extend("c", "d e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/complex/list/input.scss
+a {b: selector-extend("c", d e, "f")}
+
+<===> extendee/complex/list/error
+Error: Can't extend complex selector d e.
+  ,
+1 | a {b: selector-extend("c", d e, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/invalid/input.scss
+a {b: selector-extend("c", "[d", "e")}
+
+<===> extendee/invalid/error
+Error: $extendee: expected more input.
+  ,
+1 | [d
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-extend("c", "[d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> extendee/invalid/error-libsass
+Error: invalid operator in attribute selector for d
+        on line 1:29 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("c", "[d", "e")}
+
+   ----------------------------^
+
+<===>
+================================================================================
+<===> extendee/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> extendee/type/input.scss
+a {b: selector-extend("c", 1, "d")}
+
+<===> extendee/type/error
+Error: $extendee: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-extend("c", 1, "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> extender/parent/input.scss
+a {b: selector-extend("c", "d", "&")}
+
+<===> extender/parent/error
+Error: $extender: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-extend("c", "d", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> extender/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:33 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("c", "d", "&")}
+
+   --------------------------------^
+
+<===>
+================================================================================
+<===> extender/invalid/input.scss
+a {b: selector-extend("c", "d", "[e")}
+
+<===> extender/invalid/error
+Error: $extender: expected more input.
+  ,
+1 | [e
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-extend("c", "d", "[e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> extender/invalid/error-libsass
+Error: invalid operator in attribute selector for e
+        on line 1:34 of input.scss, in function `selector-extend`
+        from line 1:7 of input.scss
+>> a {b: selector-extend("c", "d", "[e")}
+
+   ---------------------------------^
+
+<===>
+================================================================================
+<===> extender/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> extender/type/input.scss
+a {b: selector-extend("c", "d", 1)}
+
+<===> extender/type/error
+Error: $extender: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-extend("c", "d", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: selector-extend("c", "d", "e", "f")}
+
+<===> too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: selector-extend("c", "d", "e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function extend($selector, $extendee, $extender) {
+  |           ======================================= declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `selector-extend'
+        on line 1:7 of input.scss
+>> a {b: selector-extend("c", "d", "e", "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: selector-extend("c", "d")}
+
+<===> too_few_args/error
+Error: Missing argument $extender.
+  ,--> input.scss
+1 | a {b: selector-extend("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function extend($selector, $extendee, $extender) {
+  |           ======================================= declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_few_args/error-libsass
+Error: Function selector-extend is missing argument $extender.
+        on line 1 of input.scss
+>> a {b: selector-extend("c", "d")}
+
+   ------^

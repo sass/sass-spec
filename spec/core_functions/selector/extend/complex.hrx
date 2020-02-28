@@ -1,0 +1,87 @@
+<===> parent/without_grandparent/simple/input.scss
+a {b: selector-extend(".c .d", ".c", ".e")}
+
+<===> parent/without_grandparent/simple/output.css
+a {
+  b: .c .d, .e .d;
+}
+
+<===>
+================================================================================
+<===> parent/without_grandparent/complex/input.scss
+a {b: selector-extend(".c .d", ".c", ".e .f")}
+
+<===> parent/without_grandparent/complex/output.css
+a {
+  b: .c .d, .e .f .d;
+}
+
+<===>
+================================================================================
+<===> parent/without_grandparent/list/input.scss
+a {b: selector-extend(".c .d", ".c", ".e, .f")}
+
+<===> parent/without_grandparent/list/output.css
+a {
+  b: .c .d, .e .d, .f .d;
+}
+
+<===>
+================================================================================
+<===> parent/with_grandparent/simple/input.scss
+a {b: selector-extend(".c .d .e", ".d", ".f")}
+
+<===> parent/with_grandparent/simple/output.css
+a {
+  b: .c .d .e, .c .f .e;
+}
+
+<===>
+================================================================================
+<===> parent/with_grandparent/complex/input.scss
+a {b: selector-extend(".c .d .e", ".d", ".f .g")}
+
+<===> parent/with_grandparent/complex/output.css
+a {
+  b: .c .d .e, .c .f .g .e, .f .c .g .e;
+}
+
+<===>
+================================================================================
+<===> parent/with_grandparent/list/input.scss
+a {b: selector-extend(".c .d .e", ".d", ".f, .g")}
+
+<===> parent/with_grandparent/list/output.css
+a {
+  b: .c .d .e, .c .f .e, .c .g .e;
+}
+
+<===>
+================================================================================
+<===> trailing_combinator/child/input.scss
+a {b: selector-extend(".c .d", ".c", ".e >")}
+
+<===> trailing_combinator/child/output.css
+a {
+  b: .c .d, .e > .d;
+}
+
+<===>
+================================================================================
+<===> trailing_combinator/sibling/input.scss
+a {b: selector-extend(".c .d", ".c", ".e ~")}
+
+<===> trailing_combinator/sibling/output.css
+a {
+  b: .c .d, .e ~ .d;
+}
+
+<===>
+================================================================================
+<===> trailing_combinator/next_sibling/input.scss
+a {b: selector-extend(".c .d", ".c", ".e +")}
+
+<===> trailing_combinator/next_sibling/output.css
+a {
+  b: .c .d, .e + .d;
+}

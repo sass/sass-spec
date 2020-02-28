@@ -1,0 +1,123 @@
+<===> README.md
+Nesting one of these selector pseudoclasses within an identical selector
+pseudoclass changes its semantics, so Sass never flattens these nestings.
+
+<===>
+================================================================================
+<===> has/simple/input.scss
+a {b: selector-extend(":has(.c)", ".c", ".d")}
+
+<===> has/simple/output.css
+a {
+  b: :has(.c, .d);
+}
+
+<===>
+================================================================================
+<===> has/list/input.scss
+a {b: selector-extend(":has(.c)", ".c", ".d, .e")}
+
+<===> has/list/output.css
+a {
+  b: :has(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> has/has_in_extender/input.scss
+a {b: selector-extend(":has(.c)", ".c", ":has(.d)")}
+
+<===> has/has_in_extender/output.css
+a {
+  b: :has(.c, :has(.d));
+}
+
+<===>
+================================================================================
+<===> host/simple/input.scss
+a {b: selector-extend(":host(.c)", ".c", ".d")}
+
+<===> host/simple/output.css
+a {
+  b: :host(.c, .d);
+}
+
+<===>
+================================================================================
+<===> host/list/input.scss
+a {b: selector-extend(":host(.c)", ".c", ".d, .e")}
+
+<===> host/list/output.css
+a {
+  b: :host(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> host/host_in_extender/input.scss
+a {b: selector-extend(":host(.c)", ".c", ":host(.d)")}
+
+<===> host/host_in_extender/output.css
+a {
+  b: :host(.c, :host(.d));
+}
+
+<===>
+================================================================================
+<===> host_context/simple/input.scss
+a {b: selector-extend(":host-context(.c)", ".c", ".d")}
+
+<===> host_context/simple/output.css
+a {
+  b: :host-context(.c, .d);
+}
+
+<===>
+================================================================================
+<===> host_context/list/input.scss
+a {b: selector-extend(":host-context(.c)", ".c", ".d, .e")}
+
+<===> host_context/list/output.css
+a {
+  b: :host-context(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> host_context/host_context_in_extender/input.scss
+a {b: selector-extend(":host-context(.c)", ".c", ":host-context(.d)")}
+
+<===> host_context/host_context_in_extender/output.css
+a {
+  b: :host-context(.c, :host-context(.d));
+}
+
+<===>
+================================================================================
+<===> slotted/simple/input.scss
+a {b: selector-extend("::slotted(.c)", ".c", ".d")}
+
+<===> slotted/simple/output.css
+a {
+  b: ::slotted(.c, .d);
+}
+
+<===>
+================================================================================
+<===> slotted/list/input.scss
+a {b: selector-extend("::slotted(.c)", ".c", ".d, .e")}
+
+<===> slotted/list/output.css
+a {
+  b: ::slotted(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> slotted/slotted_in_extender/input.scss
+a {b: selector-extend("::slotted(.c)", ".c", "::slotted(.d)")}
+
+<===> slotted/slotted_in_extender/output.css
+a {
+  b: ::slotted(.c, ::slotted(.d));
+}
