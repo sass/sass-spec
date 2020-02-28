@@ -170,6 +170,22 @@ a {
 
 <===>
 ================================================================================
+<===> default/without_underscore/input.scss
+// A single leading underscore is removed before determining the namespace.
+@use "_other";
+
+a {b: other.$variable}
+
+<===> default/without_underscore/_other.scss
+$variable: value;
+
+<===> default/without_underscore/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
 <===> explicit/variable_use/input.scss
 @use "other" as o;
 

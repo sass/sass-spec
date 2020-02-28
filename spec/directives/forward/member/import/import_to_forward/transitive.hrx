@@ -1,0 +1,60 @@
+<===> transitive/variable/input.scss
+@import "downstream";
+
+a {b: $c}
+
+<===> transitive/variable/_downstream.scss
+@import "midstream";
+
+<===> transitive/variable/_midstream.scss
+@forward "upstream";
+
+<===> transitive/variable/_upstream.scss
+$c: d;
+
+<===> transitive/variable/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> transitive/mixin/input.scss
+@import "downstream";
+
+a {@include b}
+
+<===> transitive/mixin/_downstream.scss
+@import "midstream";
+
+<===> transitive/mixin/_midstream.scss
+@forward "upstream";
+
+<===> transitive/mixin/_upstream.scss
+@mixin b {c: d}
+
+<===> transitive/mixin/output.css
+a {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> transitive/function/input.scss
+@import "downstream";
+
+a {b: c()}
+
+<===> transitive/function/_downstream.scss
+@import "midstream";
+
+<===> transitive/function/_midstream.scss
+@forward "upstream";
+
+<===> transitive/function/_upstream.scss
+@function c() {@return d}
+
+<===> transitive/function/output.css
+a {
+  b: d;
+}

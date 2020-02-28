@@ -1,0 +1,77 @@
+<===> mixin/input.scss
+@import "midstream";
+
+@include a;
+
+<===> mixin/_midstream.scss
+@forward "upstream";
+
+<===> mixin/_upstream.scss
+@mixin a() {b {c: d}}
+
+<===> mixin/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/input.scss
+@import "midstream";
+
+$a: new value;
+
+b {c: get-a()}
+
+<===> variable_assignment/_midstream.scss
+@forward "upstream";
+
+<===> variable_assignment/_upstream.scss
+$a: old value;
+
+@function get-a() {@return $a}
+
+<===> variable_assignment/output.css
+b {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> variable_use/input.scss
+@import "midstream";
+
+a {b: $c}
+
+<===> variable_use/_midstream.scss
+@forward "upstream";
+
+<===> variable_use/_upstream.scss
+$c: d;
+
+<===> variable_use/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> post_facto/input.scss
+@import "other";
+@import "midstream";
+
+@include a;
+
+<===> post_facto/_other.scss
+@mixin a {b {c: $d}}
+
+<===> post_facto/_midstream.scss
+@forward "upstream";
+
+<===> post_facto/_upstream.scss
+$d: e;
+
+<===> post_facto/output.css
+b {
+  c: e;
+}

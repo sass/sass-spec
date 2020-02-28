@@ -1,0 +1,60 @@
+<===> mixin/input.scss
+a {
+  @import "midstream";
+
+  @include b;
+}
+
+<===> mixin/_midstream.scss
+@forward "upstream";
+
+<===> mixin/_upstream.scss
+@mixin b() {c: d}
+
+<===> mixin/output.css
+a {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> variable_assignment/input.scss
+a {
+  @import "midstream";
+
+  $b: new value;
+  c: get-b();
+}
+
+<===> variable_assignment/_midstream.scss
+@forward "upstream";
+
+<===> variable_assignment/_upstream.scss
+$b: old value;
+
+@function get-b() {@return $b}
+
+<===> variable_assignment/output.css
+a {
+  c: new value;
+}
+
+<===>
+================================================================================
+<===> variable_use/input.scss
+a {
+  @import "midstream";
+
+  b: $c;
+}
+
+<===> variable_use/_midstream.scss
+@forward "upstream";
+
+<===> variable_use/_upstream.scss
+$c: d;
+
+<===> variable_use/output.css
+a {
+  b: d;
+}

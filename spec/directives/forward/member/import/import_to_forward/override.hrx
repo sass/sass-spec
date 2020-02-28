@@ -1,0 +1,92 @@
+<===> override/README.md
+Regression tests for sass/dart-sass#888.
+
+<===>
+================================================================================
+<===> override/variable/input.scss
+@import "midstream1";
+after-first {a: $b}
+
+@import "midstream2";
+after-second {a: $b}
+
+<===> override/variable/_midstream1.scss
+@forward "upstream1";
+
+<===> override/variable/_upstream1.scss
+$b: 1;
+
+<===> override/variable/_midstream2.scss
+@forward "upstream2";
+
+<===> override/variable/_upstream2.scss
+$b: 2;
+
+<===> override/variable/output.css
+after-first {
+  a: 1;
+}
+
+after-second {
+  a: 2;
+}
+
+<===>
+================================================================================
+<===> override/mixin/input.scss
+@import "midstream1";
+after-first {@include a}
+
+@import "midstream2";
+after-second {@include a}
+
+<===> override/mixin/_midstream1.scss
+@forward "upstream1";
+
+<===> override/mixin/_upstream1.scss
+@mixin a {b: 1};
+
+<===> override/mixin/_midstream2.scss
+@forward "upstream2";
+
+<===> override/mixin/_upstream2.scss
+@mixin a {b: 2};
+
+<===> override/mixin/output.css
+after-first {
+  b: 1;
+}
+
+after-second {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> override/function/input.scss
+@import "midstream1";
+after-first {a: b()}
+
+@import "midstream2";
+after-second {a: b()}
+
+<===> override/function/_midstream1.scss
+@forward "upstream1";
+
+<===> override/function/_upstream1.scss
+@function b() {@return 1};
+
+<===> override/function/_midstream2.scss
+@forward "upstream2";
+
+<===> override/function/_upstream2.scss
+@function b() {@return 2};
+
+<===> override/function/output.css
+after-first {
+  a: 1;
+}
+
+after-second {
+  a: 2;
+}
