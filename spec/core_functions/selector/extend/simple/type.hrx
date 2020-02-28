@@ -1,0 +1,163 @@
+<===> equal/input.scss
+a {b: selector-extend("c", "c", "e")}
+
+<===> equal/output.css
+a {
+  b: c, e;
+}
+
+<===>
+================================================================================
+<===> unequal/input.scss
+a {b: selector-extend("c", "d", "e")}
+
+<===> unequal/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_universal/input.scss
+a {b: selector-extend("c", "*", "d")}
+
+<===> and_universal/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_explicit/equal/input.scss
+a {b: selector-extend("c|d", "c|d", "e")}
+
+<===> namespace/explicit/and_explicit/equal/output.css
+a {
+  b: c|d, e;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_explicit/unequal/input.scss
+a {b: selector-extend("c|d", "e|d", "e")}
+
+<===> namespace/explicit/and_explicit/unequal/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_implicit/input.scss
+a {b: selector-extend("c|d", "d", "e")}
+
+<===> namespace/explicit/and_implicit/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_empty/input.scss
+a {b: selector-extend("c|d", "|d", "e")}
+
+<===> namespace/explicit/and_empty/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> namespace/explicit/and_universal/input.scss
+a {b: selector-extend("c|d", "*|d", "e")}
+
+<===> namespace/explicit/and_universal/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_explicit/input.scss
+a {b: selector-extend("|c", "d|c", "e")}
+
+<===> namespace/empty/and_explicit/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_implicit/input.scss
+a {b: selector-extend("|c", "c", "d")}
+
+<===> namespace/empty/and_implicit/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_empty/input.scss
+a {b: selector-extend("|c", "|c", "d")}
+
+<===> namespace/empty/and_empty/output.css
+a {
+  b: |c, d;
+}
+
+<===>
+================================================================================
+<===> namespace/empty/and_universal/input.scss
+a {b: selector-extend("|c", "*|c", "d")}
+
+<===> namespace/empty/and_universal/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/README.md
+Although many of these extendees are subselectors of the targets, they're not
+matched because this phase only cares about full structural equality.
+
+<===>
+================================================================================
+<===> namespace/universal/and_explicit/input.scss
+a {b: selector-extend("*|c", "d|c", "d")}
+
+<===> namespace/universal/and_explicit/output.css
+a {
+  b: *|c;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_implicit/input.scss
+a {b: selector-extend("*|c", "c", "d")}
+
+<===> namespace/universal/and_implicit/output.css
+a {
+  b: *|c;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_empty/input.scss
+a {b: selector-extend("*|c", "|c", "d")}
+
+<===> namespace/universal/and_empty/output.css
+a {
+  b: *|c;
+}
+
+<===>
+================================================================================
+<===> namespace/universal/and_universal/input.scss
+a {b: selector-extend("*|c", "*|c", "d")}
+
+<===> namespace/universal/and_universal/output.css
+a {
+  b: *|c, d;
+}

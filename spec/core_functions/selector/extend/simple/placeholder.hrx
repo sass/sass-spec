@@ -1,0 +1,17 @@
+<===> equal/input.scss
+a {b: selector-extend("%c", "%c", "e")}
+
+<===> equal/output.css
+a {
+  b: %c, e;
+}
+
+<===>
+================================================================================
+<===> unequal/input.scss
+a {b: selector-extend("%c", "%d", "e")}
+
+<===> unequal/output.css
+a {
+  b: %c;
+}

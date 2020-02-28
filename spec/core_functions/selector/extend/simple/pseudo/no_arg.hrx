@@ -1,0 +1,57 @@
+<===> class/equal/input.scss
+a {b: selector-extend(":c", ":c", "e")}
+
+<===> class/equal/output.css
+a {
+  b: :c, e;
+}
+
+<===>
+================================================================================
+<===> class/unequal/input.scss
+a {b: selector-extend(":c", ":d", "e")}
+
+<===> class/unequal/output.css
+a {
+  b: :c;
+}
+
+<===>
+================================================================================
+<===> class/and_element/input.scss
+a {b: selector-extend(":c", "::c", "e")}
+
+<===> class/and_element/output.css
+a {
+  b: :c;
+}
+
+<===>
+================================================================================
+<===> element/equal/input.scss
+a {b: selector-extend("::c", "::c", "e")}
+
+<===> element/equal/output.css
+a {
+  b: ::c, e;
+}
+
+<===>
+================================================================================
+<===> element/unequal/input.scss
+a {b: selector-extend("::c", "::d", "e")}
+
+<===> element/unequal/output.css
+a {
+  b: ::c;
+}
+
+<===>
+================================================================================
+<===> element/and_class/input.scss
+a {b: selector-extend("::c", ":c", "e")}
+
+<===> element/and_class/output.css
+a {
+  b: ::c;
+}

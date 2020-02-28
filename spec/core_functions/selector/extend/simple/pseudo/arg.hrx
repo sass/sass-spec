@@ -1,0 +1,84 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3068
+
+<===>
+================================================================================
+<===> class/equal/input.scss
+a {b: selector-extend(":c(@#$)", ":c(@#$)", "e")}
+
+<===> class/equal/output.css
+a {
+  b: :c(@#$), e;
+}
+
+<===>
+================================================================================
+<===> class/unequal/name/input.scss
+a {b: selector-extend(":c(@#$)", ":d(@#$)", "e")}
+
+<===> class/unequal/name/output.css
+a {
+  b: :c(@#$);
+}
+
+<===>
+================================================================================
+<===> class/unequal/argument/input.scss
+a {b: selector-extend(":c(@#$)", ":c(*&^)", "e")}
+
+<===> class/unequal/argument/output.css
+a {
+  b: :c(@#$);
+}
+
+<===>
+================================================================================
+<===> class/unequal/has_argument/input.scss
+a {b: selector-extend(":c(@#$)", ":c", "e")}
+
+<===> class/unequal/has_argument/output.css
+a {
+  b: :c(@#$);
+}
+
+<===>
+================================================================================
+<===> element/equal/input.scss
+a {b: selector-extend("::c(@#$)", "::c(@#$)", "e")}
+
+<===> element/equal/output.css
+a {
+  b: ::c(@#$), e;
+}
+
+<===>
+================================================================================
+<===> element/unequal/name/input.scss
+a {b: selector-extend("::c(@#$)", ":d(@#$)", "e")}
+
+<===> element/unequal/name/output.css
+a {
+  b: ::c(@#$);
+}
+
+<===>
+================================================================================
+<===> element/unequal/argument/input.scss
+a {b: selector-extend("::c(@#$)", "::c(*&^)", "e")}
+
+<===> element/unequal/argument/output.css
+a {
+  b: ::c(@#$);
+}
+
+<===>
+================================================================================
+<===> element/unequal/has_argument/input.scss
+a {b: selector-extend("::c(@#$)", "::c", "e")}
+
+<===> element/unequal/has_argument/output.css
+a {
+  b: ::c(@#$);
+}
