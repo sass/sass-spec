@@ -1,0 +1,384 @@
+<===> README.md
+Nesting one of these selector pseudoclasses within an identical selector
+pseudoclass has no additional effect. As such, Sass flattens these nestings when
+`@extend` would otherwise cause them to occur.
+
+<===>
+================================================================================
+<===> not/README.md
+Unlike other pseudo-selectors, when extending into `:not()` we add additional
+`:not()`s to the compound selector, rather than adding selectors within the
+original `:not()`. We're able to do this because (uniquely among selector
+pseudos) `:not(X, Y)` is equivalent to `:not(X):not(Y)`. We *want* to do this
+because older browsers only support a compound selector within `:not()` rather
+than a selector list.
+
+<===>
+================================================================================
+<===> not/simple/input.scss
+a {b: selector-extend(":not(.c)", ".c", ".d")}
+
+<===> not/simple/output.css
+a {
+  b: :not(.c):not(.d);
+}
+
+<===>
+================================================================================
+<===> not/list/input.scss
+a {b: selector-extend(":not(.c)", ".c", ".d, .e")}
+
+<===> not/list/output.css
+a {
+  b: :not(.c):not(.d):not(.e);
+}
+
+<===>
+================================================================================
+<===> not/complex/input.scss
+a {b: selector-extend(":not(.c .d)", ".d", ".e .f")}
+
+<===> not/complex/output.css
+a {
+  b: :not(.c .d):not(.c .e .f):not(.e .c .f);
+}
+
+<===>
+================================================================================
+<===> not/component/input.scss
+a {b: selector-extend(":not(.c.d)", ".c", ".e")}
+
+<===> not/component/output.css
+a {
+  b: :not(.c.d):not(.d.e);
+}
+
+<===>
+================================================================================
+<===> not/list_in_not/input.scss
+// If the original :not() already contains a selector list, we add new selectors
+// to that list because there's no risk of breaking additional browsers.
+a {b: selector-extend(":not(.c, .d)", ".c", ".e")}
+
+<===> not/list_in_not/output.css
+a {
+  b: :not(.c, .e, .d);
+}
+
+<===>
+================================================================================
+<===> not/matches/list/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":matches(.d, .e)")}
+
+<===> not/matches/list/output.css
+a {
+  b: :not(.c):not(.d):not(.e);
+}
+
+<===>
+================================================================================
+<===> not/matches/list_of_complex/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":matches(.d .e, .f .g)")}
+
+<===> not/matches/list_of_complex/output.css
+a {
+  b: :not(.c):not(.d .e):not(.f .g);
+}
+
+<===>
+================================================================================
+<===> not/matches/in_compound/input.scss
+a {b: selector-extend(":not(.c)", ".c", ".d:matches(.e, .f)")}
+
+<===> not/matches/in_compound/output.css
+a {
+  b: :not(.c):not(.d:matches(.e, .f));
+}
+
+<===>
+================================================================================
+<===> not/not_in_extender/input.scss
+// Ideally, this should emit `.d, :not(.c)`, but that would be the only
+// situation where extending a pseudo selector could produce a full-on selector
+// list. For the sake of simplicity of the `@extend` algorithm, we just ignore
+// nested `:not()`s instead.
+a {b: selector-extend(":not(.c)", ".c", ":not(.d)")}
+
+<===> not/not_in_extender/output.css
+a {
+  b: :not(.c);
+}
+
+<===>
+================================================================================
+<===> matches/simple/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ".d")}
+
+<===> matches/simple/output.css
+a {
+  b: :matches(.c, .d);
+}
+
+<===>
+================================================================================
+<===> matches/list/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ".d, .e")}
+
+<===> matches/list/output.css
+a {
+  b: :matches(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> matches/matches_in_extender/options.yml
+---
+:todo:
+- sass/libsass#3069
+
+<===> matches/matches_in_extender/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ":matches(.d, .e)")}
+
+<===> matches/matches_in_extender/output.css
+a {
+  b: :matches(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> any/simple/input.scss
+a {b: selector-extend(":any(.c)", ".c", ".d")}
+
+<===> any/simple/output.css
+a {
+  b: :any(.c, .d);
+}
+
+<===>
+================================================================================
+<===> any/list/input.scss
+a {b: selector-extend(":any(.c)", ".c", ".d, .e")}
+
+<===> any/list/output.css
+a {
+  b: :any(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> any/any_in_extender/options.yml
+---
+:todo:
+- sass/libsass#3069
+
+<===> any/any_in_extender/input.scss
+a {b: selector-extend(":any(.c)", ".c", ":any(.d, .e)")}
+
+<===> any/any_in_extender/output.css
+a {
+  b: :any(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> current/simple/input.scss
+a {b: selector-extend(":current(.c)", ".c", ".d")}
+
+<===> current/simple/output.css
+a {
+  b: :current(.c, .d);
+}
+
+<===>
+================================================================================
+<===> current/list/input.scss
+a {b: selector-extend(":current(.c)", ".c", ".d, .e")}
+
+<===> current/list/output.css
+a {
+  b: :current(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> current/current_in_extender/options.yml
+---
+:todo:
+- sass/libsass#3069
+
+<===> current/current_in_extender/input.scss
+a {b: selector-extend(":current(.c)", ".c", ":current(.d, .e)")}
+
+<===> current/current_in_extender/output.css
+a {
+  b: :current(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> nth_child/options.yml
+---
+:todo:
+- sass/libsass#2961
+
+<===>
+================================================================================
+<===> nth_child/simple/input.scss
+a {b: selector-extend(":nth-child(2n + 1 of .c)", ".c", ".d")}
+
+<===> nth_child/simple/output.css
+a {
+  b: :nth-child(2n+1 of .c, .d);
+}
+
+<===>
+================================================================================
+<===> nth_child/list/input.scss
+a {b: selector-extend(":nth-child(2n + 1 of .c)", ".c", ".d, .e")}
+
+<===> nth_child/list/output.css
+a {
+  b: :nth-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> nth_child/same_arg_in_extender/input.scss
+a {
+  b: selector-extend(
+      ":nth-child(2n + 1 of .c)",
+      ".c",
+      ":nth-child(2n + 1 of .d, .e)");
+}
+
+<===> nth_child/same_arg_in_extender/output.css
+a {
+  b: :nth-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> nth_child/different_arg_in_extender/input.scss
+// This should produce `:nth-child(2n + 1 of .c, :nth-child(2n + 1 of .d, .e))`.
+// See sass/sass#2828.
+a {
+  b: selector-extend(
+      ":nth-child(2n + 1 of .c)",
+      ".c",
+      ":nth-child(2n + 2 of .d, .e)");
+}
+
+<===> nth_child/different_arg_in_extender/output.css
+a {
+  b: :nth-child(2n+1 of .c);
+}
+
+<===>
+================================================================================
+<===> nth_last_child/options.yml
+---
+:todo:
+- sass/libsass#2961
+
+<===>
+================================================================================
+<===> nth_last_child/simple/input.scss
+a {b: selector-extend(":nth-last-child(2n + 1 of .c)", ".c", ".d")}
+
+<===> nth_last_child/simple/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d);
+}
+
+<===>
+================================================================================
+<===> nth_last_child/list/input.scss
+a {b: selector-extend(":nth-last-child(2n + 1 of .c)", ".c", ".d, .e")}
+
+<===> nth_last_child/list/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> nth_last_child/same_arg_in_extender/input.scss
+a {
+  b: selector-extend(
+      ":nth-last-child(2n + 1 of .c)",
+      ".c",
+      ":nth-last-child(2n + 1 of .d, .e)");
+}
+
+<===> nth_last_child/same_arg_in_extender/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> nth_last_child/different_arg_in_extender/input.scss
+// This should produce
+// `:nth-last-child(2n + 1 of .c, :nth-last-child(2n + 1 of .d, .e))`.
+// See sass/sass#2828.
+a {
+  b: selector-extend(
+      ":nth-last-child(2n + 1 of .c)",
+      ".c",
+      ":nth-last-child(2n + 2 of .d, .e)");
+}
+
+<===> nth_last_child/different_arg_in_extender/output.css
+a {
+  b: :nth-last-child(2n+1 of .c);
+}
+
+<===>
+================================================================================
+<===> prefixed/simple/input.scss
+a {b: selector-extend(":-ms-matches(.c)", ".c", ".d")}
+
+<===> prefixed/simple/output.css
+a {
+  b: :-ms-matches(.c, .d);
+}
+
+<===>
+================================================================================
+<===> prefixed/list/input.scss
+a {b: selector-extend(":-ms-matches(.c)", ".c", ".d, .e")}
+
+<===> prefixed/list/output.css
+a {
+  b: :-ms-matches(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> prefixed/same_prefix_in_extender/options.yml
+---
+:todo:
+- sass/libsass#3069
+
+<===> prefixed/same_prefix_in_extender/input.scss
+a {b: selector-extend(":-ms-matches(.c)", ".c", ":-ms-matches(.d, .e)")}
+
+<===> prefixed/same_prefix_in_extender/output.css
+a {
+  b: :-ms-matches(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> prefixed/different_prefix_in_extender/input.scss
+a {b: selector-extend(":-ms-matches(.c)", ".c", ":-moz-matches(.d, .e)")}
+
+<===> prefixed/different_prefix_in_extender/output.css
+a {
+  b: :-ms-matches(.c);
+}
+
+<===> prefixed/different_prefix_in_extender/output-libsass.css
+a {
+  b: :-ms-matches(.c, :-moz-matches(.d, .e));
+}
