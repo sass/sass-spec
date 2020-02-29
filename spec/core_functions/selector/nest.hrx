@@ -1,0 +1,437 @@
+<===> one_arg/input.scss
+a {b: selector-nest("c")}
+
+<===> one_arg/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> many_args/input.scss
+a {b: selector-nest("c", "d", "e", "f", "g")}
+
+<===> many_args/output.css
+a {
+  b: c d e f g;
+}
+
+<===>
+================================================================================
+<===> parent/alone/input.scss
+a {b: selector-nest("c", "&")}
+
+<===> parent/alone/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> parent/compound/input.scss
+a {b: selector-nest("c", "&.d")}
+
+<===> parent/compound/output.css
+a {
+  b: c.d;
+}
+
+<===>
+================================================================================
+<===> parent/suffix/input.scss
+a {b: selector-nest("c", "&d")}
+
+<===> parent/suffix/output.css
+a {
+  b: cd;
+}
+
+<===>
+================================================================================
+<===> parent/complex/simple_parent/input.scss
+a {b: selector-nest("c", "d &.e")}
+
+<===> parent/complex/simple_parent/output.css
+a {
+  b: d c.e;
+}
+
+<===>
+================================================================================
+<===> parent/complex/complex_parent/input.scss
+a {b: selector-nest("c d", "e &.f")}
+
+<===> parent/complex/complex_parent/output.css
+a {
+  b: e c d.f;
+}
+
+<===>
+================================================================================
+<===> parent/selector_pseudo/simple_parent/input.scss
+a {b: selector-nest("c", ":matches(&)")}
+
+<===> parent/selector_pseudo/simple_parent/output.css
+a {
+  b: :matches(c);
+}
+
+<===>
+================================================================================
+<===> parent/selector_pseudo/complex_parent/input.scss
+a {b: selector-nest("c d", ":matches(&)")}
+
+<===> parent/selector_pseudo/complex_parent/output.css
+a {
+  b: :matches(c d);
+}
+
+<===>
+================================================================================
+<===> parent/multiple/input.scss
+a {b: selector-nest("c", "&.d &.e")}
+
+<===> parent/multiple/output.css
+a {
+  b: c.d c.e;
+}
+
+<===>
+================================================================================
+<===> parent/in_one_complex/input.scss
+a {b: selector-nest("c", "&.d, e")}
+
+<===> parent/in_one_complex/output.css
+a {
+  b: c.d, c e;
+}
+
+<===>
+================================================================================
+<===> list/initial/input.scss
+a {b: selector-nest("c, d", "e")}
+
+<===> list/initial/output.css
+a {
+  b: c e, d e;
+}
+
+<===>
+================================================================================
+<===> list/final/input.scss
+a {b: selector-nest("c", "d, e")}
+
+<===> list/final/output.css
+a {
+  b: c d, c e;
+}
+
+<===>
+================================================================================
+<===> list/many/input.scss
+a {b: selector-nest("c, d", "e, f", "g, h")}
+
+<===> list/many/output.css
+a {
+  b: c e g, c e h, c f g, c f h, d e g, d e h, d f g, d f h;
+}
+
+<===> list/many/output-libsass.css
+a {
+  b: c e g, d e g, c f g, d f g, c e h, d e h, c f h, d f h;
+}
+
+<===>
+================================================================================
+<===> list/parent/alone/input.scss
+a {b: selector-nest("c, d", "&")}
+
+<===> list/parent/alone/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> list/parent/compound/input.scss
+a {b: selector-nest("c, d", "&.e")}
+
+<===> list/parent/compound/output.css
+a {
+  b: c.e, d.e;
+}
+
+<===>
+================================================================================
+<===> list/parent/suffix/input.scss
+a {b: selector-nest("c, d", "&e")}
+
+<===> list/parent/suffix/output.css
+a {
+  b: ce, de;
+}
+
+<===>
+================================================================================
+<===> list/parent/complex/input.scss
+a {b: selector-nest("c, d", "e &.f")}
+
+<===> list/parent/complex/output.css
+a {
+  b: e c.f, e d.f;
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/input.scss
+a {b: selector-nest("c, d", ":matches(&)")}
+
+<===> list/parent/selector_pseudo/output.css
+a {
+  b: :matches(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/multiple/input.scss
+a {b: selector-nest("c, d", "&.e &.f")}
+
+<===> list/parent/multiple/output.css
+a {
+  b: c.e c.f, c.e d.f, d.e c.f, d.e d.f;
+}
+
+<===>
+================================================================================
+<===> list/parent/in_one_complex/input.scss
+a {b: selector-nest("c, d", "&.e, f")}
+
+<===> list/parent/in_one_complex/output.css
+a {
+  b: c.e, c f, d.e, d f;
+}
+
+<===> list/parent/in_one_complex/output-libsass.css
+a {
+  b: c.e, d.e, c f, d f;
+}
+
+<===>
+================================================================================
+<===> format/README.md
+These specs verify that all the arguments to `selector-nest()` can take the
+parsed selector format, and that the function returns a selector in that format.
+The full set of possible input formats is tested with `selector-parse()`; this
+spec just verifies one example for each parameter.
+
+<===>
+================================================================================
+<===> format/input/initial/input.scss
+a {b: selector-nest((c, d e), "f")}
+
+<===> format/input/initial/output.css
+a {
+  b: c f, d e f;
+}
+
+<===>
+================================================================================
+<===> format/input/later/input.scss
+a {b: selector-nest("c", (d, e f))}
+
+<===> format/input/later/output.css
+a {
+  b: c d, c e f;
+}
+
+<===>
+================================================================================
+<===> error/parent/first_arg/options.yml
+---
+:todo:
+- sass/dart-sass#966
+- sass/libsass#3070
+
+<===> error/parent/first_arg/input.scss
+a {b: selector-nest("&")}
+
+<===> error/parent/first_arg/error
+Error: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-nest("&")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/parent/non_initial/input.scss
+a {b: selector-nest("c", "[d]&")}
+
+<===> error/parent/non_initial/error
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | [d]&
+  |    ^
+  '
+  - 1:4  root stylesheet
+  ,
+1 | a {b: selector-nest("c", "[d]&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/parent/non_initial/error-libsass
+Error: Invalid CSS after "[d]": expected "{", was "&"
+
+       "&" may only be used at the beginning of a compound selector.
+        on line 1:4 of input.scss, in function `selector-nest`
+        from line 1:7 of input.scss
+>> a {b: selector-nest("c", "[d]&")}
+
+   ---^
+
+<===>
+================================================================================
+<===> error/parent/prefix/input.scss
+a {b: selector-nest("c", "d&")}
+
+<===> error/parent/prefix/error
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | d&
+  |  ^
+  '
+  - 1:2  root stylesheet
+  ,
+1 | a {b: selector-nest("c", "d&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/parent/prefix/error-libsass
+Error: Invalid CSS after "d": expected "{", was "&"
+
+       "&" may only be used at the beginning of a compound selector.
+        on line 1:2 of input.scss, in function `selector-nest`
+        from line 1:7 of input.scss
+>> a {b: selector-nest("c", "d&")}
+
+   -^
+
+<===>
+================================================================================
+<===> error/invalid/initial/input.scss
+a {b: selector-nest("[c")}
+
+<===> error/invalid/initial/error
+Error: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-nest("[c")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/invalid/initial/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:2 of input.scss, in function `selector-nest`
+        from line 1:7 of input.scss
+>> a {b: selector-nest("[c")}
+
+   -^
+
+<===>
+================================================================================
+<===> error/invalid/later/input.scss
+a {b: selector-nest("c", "[d")}
+
+<===> error/invalid/later/error
+Error: expected more input.
+  ,
+1 | [d
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-nest("c", "[d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/invalid/later/error-libsass
+Error: invalid operator in attribute selector for d
+        on line 1:2 of input.scss, in function `selector-nest`
+        from line 1:7 of input.scss
+>> a {b: selector-nest("c", "[d")}
+
+   -^
+
+<===>
+================================================================================
+<===> error/type/initial/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> error/type/initial/input.scss
+a {b: selector-nest(1)}
+
+<===> error/type/initial/error
+Error: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-nest(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/later/options.yml
+---
+:todo:
+- sass/libsass#2960
+
+<===> error/type/later/input.scss
+a {b: selector-nest("c", 1)}
+
+<===> error/type/later/error
+Error: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-nest("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: selector-nest()}
+
+
+<===> error/too_few_args/error
+Error: $selectors: At least one selector must be passed.
+  ,
+1 | a {b: selector-nest()}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: $selectors: At least one selector must be passed for `selector-nest'
+        on line 1:7 of input.scss, in function `selector-nest`
+        from line 1:7 of input.scss
+>> a {b: selector-nest()}
+
+   ------^
