@@ -78,19 +78,45 @@ a {
 
 <===>
 ================================================================================
-<===> input/input.scss
-// The full set of possible input formats is tested with `selector-parse()`;
-// this spec just verifies one example for `selector-append()`.
-a {b: selector-append((c, d e), (f, g h))}
+<===> format/README.md
+These specs verify that all the arguments to `selector-append()` can take the
+parsed selector format, and that the function returns a selector in that format.
+The full set of possible input formats is tested with `selector-parse()`; this
+spec just verifies one example for each parameter.
 
-<===> input/output.css
+<===>
+================================================================================
+<===> format/input/initial/input.scss
+a {b: selector-append((c, d e), f)}
+
+<===> format/input/initial/output.css
 a {
-  b: cf, cg h, d ef, d eg h;
+  b: cf, d ef;
 }
 
-<===> input/output-libsass.css
+<===>
+================================================================================
+<===> format/input/later/input.scss
+a {b: selector-append(c, (d, e f))}
+
+<===> format/input/later/output.css
 a {
-  b: cf, d ef, cg h, d eg h;
+  b: cd, ce f;
+}
+
+<===>
+================================================================================
+<===> format/output/input.scss
+$result: selector-append("c d, e f", "g");
+a {
+  result: $result;
+  structure: $result == ("c" "dg", "e" "fg");
+}
+
+<===> format/output/output.css
+a {
+  result: c dg, e fg;
+  structure: true;
 }
 
 <===>
