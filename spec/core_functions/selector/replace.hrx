@@ -1,0 +1,477 @@
+<===> README.md
+`selector-replace()` is expected to have all the same complexity of behavior as
+`selector-extend()`, but to avoid unnecessary duplication those specs aren't
+repeated here. Instead, these specs cover the major differences between the two
+functions.
+
+<===>
+================================================================================
+<===> simple/input.scss
+a {b: selector-replace("c", "c", "d")}
+
+<===> simple/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> compound/input.scss
+a {b: selector-replace("c.d", "c", "e")}
+
+<===> compound/output.css
+a {
+  b: e.d;
+}
+
+<===>
+================================================================================
+<===> complex/input.scss
+a {b: selector-replace("c d", "d", "e f")}
+
+<===> complex/output.css
+a {
+  b: c e f, e c f;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/matches/input.scss
+a {b: selector-replace(":matches(c)", "c", "d")}
+
+<===> selector_pseudo/matches/output.css
+a {
+  b: :matches(d);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/not/input.scss
+a {b: selector-replace(":not(c)", "c", "d")}
+
+<===> selector_pseudo/not/output.css
+a {
+  b: :not(d);
+}
+
+<===>
+================================================================================
+<===> no_op/input.scss
+a {b: selector-replace("c", "d", "e")}
+
+<===> no_op/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> partial_no_op/input.scss
+a {b: selector-replace("c, d", "d", "e")}
+
+<===> partial_no_op/output.css
+a {
+  b: c, e;
+}
+
+<===>
+================================================================================
+<===> format/input/non_string/README.md
+These specs verify that all the arguments to `selector-extend()` can take the
+parsed selector format, and that the function returns a selector in that format.
+The full set of possible input formats is tested with `selector-parse()`; this
+spec just verifies one example for each parameter.
+
+<===>
+================================================================================
+<===> format/input/non_string/selector/input.scss
+a {b: selector-replace((c, d c), "c", "e")}
+
+<===> format/input/non_string/selector/output.css
+a {
+  b: e, d e;
+}
+
+<===>
+================================================================================
+<===> format/input/non_string/extendee/options.yml
+---
+:todo:
+- sass/libsass#3068
+
+<===> format/input/non_string/extendee/input.scss
+a {b: selector-replace("c.d", (c, ".d"), ".e")}
+
+<===> format/input/non_string/extendee/output.css
+a {
+  b: .e;
+}
+
+<===>
+================================================================================
+<===> format/input/non_string/extender/input.scss
+a {b: selector-replace("c", "c", (d, e f))}
+
+<===> format/input/non_string/extender/output.css
+a {
+  b: d, e f;
+}
+
+<===>
+================================================================================
+<===> format/input/multiple_extendees/compound/input.scss
+a {b: selector-replace("c.d", "c.d", ".e")}
+
+<===> format/input/multiple_extendees/compound/output.css
+a {
+  b: .e;
+}
+
+<===>
+================================================================================
+<===> format/input/multiple_extendees/list/options.yml
+---
+:todo:
+- sass/libsass#3067
+
+<===> format/input/multiple_extendees/list/input.scss
+a {b: selector-replace("c.d", "c, .d", ".e")}
+
+<===> format/input/multiple_extendees/list/output.css
+a {
+  b: .e;
+}
+
+<===>
+================================================================================
+<===> format/input/multiple_extendees/list_of_compound/options.yml
+---
+:todo:
+- sass/libsass#3067
+
+<===> format/input/multiple_extendees/list_of_compound/input.scss
+a {b: selector-replace("c.d.e.f", "c.d, .e.f", ".g")}
+
+<===> format/input/multiple_extendees/list_of_compound/output.css
+a {
+  b: .g;
+}
+
+<===>
+================================================================================
+<===> format/output/input.scss
+$result: selector-replace("c d, e f", "g", "g");
+a {
+  result: $result;
+  structure: $result == ("c" "d", "e" "f");
+}
+
+<===> format/output/output.css
+a {
+  result: c d, e f;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: selector-replace($selector: "c.d", $original: "c", $replacement: "e")}
+
+<===> named/output.css
+a {
+  b: e.d;
+}
+
+<===>
+================================================================================
+<===> error/selector/parent/input.scss
+a {b: selector-replace("&", "c", "d")}
+
+<===> error/selector/parent/error
+Error: $selector: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-replace("&", "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/selector/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:23 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("&", "c", "d")}
+
+   ----------------------^
+
+<===>
+================================================================================
+<===> error/selector/invalid/input.scss
+a {b: selector-replace("[c", "d", "e")}
+
+<===> error/selector/invalid/error
+Error: $selector: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-replace("[c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/selector/invalid/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:24 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("[c", "d", "e")}
+
+   -----------------------^
+
+<===>
+================================================================================
+<===> error/selector/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> error/selector/type/input.scss
+a {b: selector-replace(1, "c", "d")}
+
+<===> error/selector/type/error
+Error: $selector: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace(1, "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/extendee/parent/input.scss
+a {b: selector-replace("c", "&", "d")}
+
+<===> error/extendee/parent/error
+Error: $original: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-replace("c", "&", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/extendee/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:28 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("c", "&", "d")}
+
+   ---------------------------^
+
+<===>
+================================================================================
+<===> error/extendee/complex/options.yml
+---
+:todo:
+- sass/libsass#3066
+
+<===>
+================================================================================
+<===> error/extendee/complex/string/input.scss
+a {b: selector-replace("c", "d e", "f")}
+
+<===> error/extendee/complex/string/error
+Error: Can't extend complex selector d e.
+  ,
+1 | a {b: selector-replace("c", "d e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/extendee/complex/list/input.scss
+a {b: selector-replace("c", d e, "f")}
+
+<===> error/extendee/complex/list/error
+Error: Can't extend complex selector d e.
+  ,
+1 | a {b: selector-replace("c", d e, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/extendee/invalid/input.scss
+a {b: selector-replace("c", "[d", "e")}
+
+<===> error/extendee/invalid/error
+Error: $original: expected more input.
+  ,
+1 | [d
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-replace("c", "[d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/extendee/invalid/error-libsass
+Error: invalid operator in attribute selector for d
+        on line 1:29 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("c", "[d", "e")}
+
+   ----------------------------^
+
+<===>
+================================================================================
+<===> error/extendee/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> error/extendee/type/input.scss
+a {b: selector-replace("c", 1, "d")}
+
+<===> error/extendee/type/error
+Error: $original: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace("c", 1, "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/extender/parent/input.scss
+a {b: selector-replace("c", "d", "&")}
+
+<===> error/extender/parent/error
+Error: $replacement: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-replace("c", "d", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/extender/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:33 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("c", "d", "&")}
+
+   --------------------------------^
+
+<===>
+================================================================================
+<===> error/extender/invalid/input.scss
+a {b: selector-replace("c", "d", "[e")}
+
+<===> error/extender/invalid/error
+Error: $replacement: expected more input.
+  ,
+1 | [e
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-replace("c", "d", "[e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/extender/invalid/error-libsass
+Error: invalid operator in attribute selector for e
+        on line 1:34 of input.scss, in function `selector-replace`
+        from line 1:7 of input.scss
+>> a {b: selector-replace("c", "d", "[e")}
+
+   ---------------------------------^
+
+<===>
+================================================================================
+<===> error/extender/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> error/extender/type/input.scss
+a {b: selector-replace("c", "d", 1)}
+
+<===> error/extender/type/error
+Error: $replacement: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace("c", "d", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: selector-replace("c", "d", "e", "f")}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: selector-replace("c", "d", "e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function replace($selector, $original, $replacement) {
+  |           =========================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `selector-replace'
+        on line 1:7 of input.scss
+>> a {b: selector-replace("c", "d", "e", "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: selector-replace("c", "d")}
+
+<===> error/too_few_args/error
+Error: Missing argument $replacement.
+  ,--> input.scss
+1 | a {b: selector-replace("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:selector
+1 | @function replace($selector, $original, $replacement) {
+  |           =========================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function selector-replace is missing argument $replacement.
+        on line 1 of input.scss
+>> a {b: selector-replace("c", "d")}
+
+   ------^
