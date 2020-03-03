@@ -1,0 +1,117 @@
+<===> boolean/true/input.scss
+$left: #000;
+$right: true;
+a {b: $left + $right}
+
+<===> boolean/true/output.css
+a {
+  b: #000true;
+}
+
+<===>
+<==============================================================================>
+<===> boolean/false/input.scss
+$left: #000;
+$right: false;
+a {b: $left + $right}
+
+<===> boolean/false/output.css
+a {
+  b: #000false;
+}
+
+<===>
+<==============================================================================>
+<===> list/input.scss
+$left: #000;
+$right: [0];
+a {b: $left + $right}
+
+<===> list/output.css
+a {
+  b: #000[0];
+}
+
+<===>
+<==============================================================================>
+<===> null/options.yml
+---
+:todo:
+- sass/libsass#2413
+
+<===> null/input.scss
+$left: #000;
+$right: null;
+a {b: $left + $right}
+
+<===> null/output.css
+a {
+  b: #000;
+}
+
+<===>
+<==============================================================================>
+<===> string/input.scss
+$left: #000;
+$right: "0";
+a {b: $left + $right}
+
+<===> string/output.css
+a {
+  b: "#0000";
+}
+
+<===>
+<==============================================================================>
+<===> error/color/options.yml
+---
+:todo:
+- sass/libsass#2413
+
+<===> error/color/input.scss
+$left: #000;
+$right: #000;
+a {b: $left + $right}
+
+<===> error/color/error
+Error: Undefined operation "#000 + #000".
+  ,
+3 | a {b: $left + $right}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+<==============================================================================>
+<===> error/map/input.scss
+$left: #000;
+$right: ("key": 0);
+a {b: $left + $right}
+
+<===> error/map/error
+Error: ("key": 0) isn't a valid CSS value.
+  ,
+3 | a {b: $left + $right}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+<==============================================================================>
+<===> error/number/options.yml
+---
+:todo:
+- sass/libsass#2413
+
+<===> error/number/input.scss
+$left: #000;
+$right: 0;
+a {b: $left + $right}
+
+<===> error/number/error
+Error: Undefined operation "#000 + 0".
+  ,
+3 | a {b: $left + $right}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
