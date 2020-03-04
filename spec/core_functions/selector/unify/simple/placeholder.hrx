@@ -1,0 +1,17 @@
+<===> same/input.scss
+a {b: selector-unify("%c", "%c")}
+
+<===> same/output.css
+a {
+  b: %c;
+}
+
+<===>
+================================================================================
+<===> different/input.scss
+a {b: selector-unify("%c", "%d")}
+
+<===> different/output.css
+a {
+  b: %c%d;
+}

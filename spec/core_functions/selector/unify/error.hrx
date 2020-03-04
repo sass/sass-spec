@@ -1,0 +1,139 @@
+<===> selector1/parent/input.scss
+a {b: selector-unify("&", "c")}
+
+<===> selector1/parent/error
+Error: $selector1: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-unify("&", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector1/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:22 of input.scss, in function `selector-unify`
+        from line 1:7 of input.scss
+>> a {b: selector-unify("&", "c")}
+
+   ---------------------^
+
+<===>
+================================================================================
+<===> selector1/invalid/input.scss
+a {b: selector-unify("[c", "d")}
+
+<===> selector1/invalid/error
+Error: $selector1: expected more input.
+  ,
+1 | [c
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-unify("[c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector1/invalid/error-libsass
+Error: invalid operator in attribute selector for c
+        on line 1:23 of input.scss, in function `selector-unify`
+        from line 1:7 of input.scss
+>> a {b: selector-unify("[c", "d")}
+
+   ----------------------^
+
+<===>
+================================================================================
+<===> selector1/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> selector1/type/input.scss
+a {b: selector-unify(1, "c")}
+
+<===> selector1/type/error
+Error: $selector1: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-unify(1, "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> selector2/parent/input.scss
+a {b: selector-unify("c", "&")}
+
+<===> selector2/parent/error
+Error: $selector2: Parent selectors aren't allowed here.
+  ,
+1 | &
+  | ^
+  '
+  - 1:1  root stylesheet
+  ,
+1 | a {b: selector-unify("c", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector2/parent/error-libsass
+Error: Parent selectors aren't allowed here.
+        on line 1:27 of input.scss, in function `selector-unify`
+        from line 1:7 of input.scss
+>> a {b: selector-unify("c", "&")}
+
+   --------------------------^
+
+<===>
+================================================================================
+<===> selector2/invalid/input.scss
+a {b: selector-unify("c", "[d")}
+
+<===> selector2/invalid/error
+Error: $selector2: expected more input.
+  ,
+1 | [d
+  |   ^
+  '
+  - 1:3  root stylesheet
+  ,
+1 | a {b: selector-unify("c", "[d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> selector2/invalid/error-libsass
+Error: invalid operator in attribute selector for d
+        on line 1:28 of input.scss, in function `selector-unify`
+        from line 1:7 of input.scss
+>> a {b: selector-unify("c", "[d")}
+
+   ---------------------------^
+
+<===>
+================================================================================
+<===> selector2/type/options.yml
+---
+:todo:
+- sass/libsass#2964
+
+<===> selector2/type/input.scss
+a {b: selector-unify("c", 1)}
+
+<===> selector2/type/error
+Error: $selector2: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-unify("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

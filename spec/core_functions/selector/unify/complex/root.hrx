@@ -1,0 +1,84 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2071
+
+<===>
+================================================================================
+<===> in_one/selector1/two_layer/input.scss
+a {b: selector-unify(":root .c", ".d .e")}
+
+<===> in_one/selector1/two_layer/output.css
+a {
+  b: :root .d .c.e;
+}
+
+<===>
+================================================================================
+<===> in_one/selector1/three_layer/options.yml
+---
+:todo:
+- sass/dart-sass#969
+
+<===> in_one/selector1/three_layer/input.scss
+a {b: selector-unify(":root .c .d", ".e .f")}
+
+<===> in_one/selector1/three_layer/output.css
+a {
+  b: :root .c .e .d.f, :root .e .c .d.f;
+}
+
+<===>
+================================================================================
+<===> in_one/selector2/two_layer/input.scss
+a {b: selector-unify(".c .d", ":root .e")}
+
+<===> in_one/selector2/two_layer/output.css
+a {
+  b: :root .c .d.e;
+}
+
+<===>
+================================================================================
+<===> in_one/selector2/three_layer/options.yml
+---
+:todo:
+- sass/dart-sass#969
+
+<===> in_one/selector2/three_layer/input.scss
+a {b: selector-unify(".c .d", ":root .e .f")}
+
+<===> in_one/selector2/three_layer/output.css
+a {
+  b: :root .c .e .d.f, :root .e .c .d.f;
+}
+
+<===>
+================================================================================
+<===> in_both/cant_unify/input.scss
+a {b: inspect(selector-unify("c:root .d", "e:root .f"))}
+
+<===> in_both/cant_unify/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> in_both/superselector/input.scss
+a {b: selector-unify("c:root .d", ":root .e")}
+
+<===> in_both/superselector/output.css
+a {
+  b: c:root .d.e;
+}
+
+<===>
+================================================================================
+<===> in_both/can_unify/input.scss
+a {b: selector-unify(".c:root .d", ".e:root .f")}
+
+<===> in_both/can_unify/output.css
+a {
+  b: .e.c:root .d.f;
+}

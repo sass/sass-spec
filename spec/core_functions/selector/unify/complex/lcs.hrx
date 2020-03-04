@@ -1,0 +1,48 @@
+<===> README.md
+Test the logic for determining the longest common subsequence of parent
+selectors that should be unified. "Common" in this case includes superselectors,
+where the most specific selector will be chosen as the canonical selector.
+
+<===>
+================================================================================
+<===> two_versus_one/input.scss
+// The longest common subsequence is `.c .d`, which is longer than `.e`, so `.c
+// .d` gets unified while `.e` gets duplicated.
+a {b: selector-unify(".c .d .e .s1", ".e .c .d .s2")}
+
+<===> two_versus_one/output.css
+a {
+  b: .e .c .d .e .s1.s2;
+}
+
+<===>
+================================================================================
+<===> three_versus_two/input.scss
+// The longest common subsequence is `.c .d .e`, which is longer than `.f g`, so
+// `.c .d .e` gets unified while `.f .g` gets duplicated.
+a {b: selector-unify(".c .d .e .f .g .s1", ".f .g .c .d .e .s2")}
+
+<===> three_versus_two/output.css
+a {
+  b: .f .g .c .d .e .f .g .s1.s2;
+}
+
+<===>
+================================================================================
+<===> non_contiguous/same_positions/input.scss
+a {b: selector-unify(".s1-1 .c .d .s1-2 .e .s1-3", ".s2-1 .c .d .s2-2 .e .s2-3")}
+
+<===> non_contiguous/same_positions/output.css
+a {
+  b: .s1-1 .s2-1 .c .d .s1-2 .s2-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s1-2 .s2-2 .e .s1-3.s2-3, .s1-1 .s2-1 .c .d .s2-2 .s1-2 .e .s1-3.s2-3, .s2-1 .s1-1 .c .d .s2-2 .s1-2 .e .s1-3.s2-3;
+}
+
+<===>
+================================================================================
+<===> non_contiguous/different_positions/input.scss
+a {b: selector-unify(".s1-1 .c .d .s1-2 .e .s1-3", ".c .s2-1 .d .e .s2-2 .s2-3")}
+
+<===> non_contiguous/different_positions/output.css
+a {
+  b: .s1-1 .c .s2-1 .d .s1-2 .e .s2-2 .s1-3.s2-3;
+}

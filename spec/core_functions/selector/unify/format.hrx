@@ -1,0 +1,50 @@
+<===> input/non_string/README.md
+These specs verify that all the arguments to `selector-unify()` can take the
+parsed selector format, and that the function returns a selector in that format.
+The full set of possible input formats is tested with `selector-parse()`; this
+spec just verifies one example for each parameter.
+
+<===>
+================================================================================
+<===> input/non_string/selector1/input.scss
+a {b: selector-unify((c, d c), ".e")}
+
+<===> input/non_string/selector1/output.css
+a {
+  b: c.e, d c.e;
+}
+
+<===>
+================================================================================
+<===> input/non_string/selector2/input.scss
+a {b: selector-unify(".e", (c, d c))}
+
+<===> input/non_string/selector2/output.css
+a {
+  b: c.e, d c.e;
+}
+
+<===>
+================================================================================
+<===> input/two_lists/input.scss
+a {b: selector-unify(".c, .d", ".e, .f")}
+
+<===> input/two_lists/output.css
+a {
+  b: .c.e, .c.f, .d.e, .d.f;
+}
+
+<===>
+================================================================================
+<===> output/input.scss
+$result: selector-unify("c d, e f", ".g");
+a {
+  result: $result;
+  structure: $result == ("c" "d.g", "e" "f.g");
+}
+
+<===> output/output.css
+a {
+  result: c d.g, e f.g;
+  structure: true;
+}

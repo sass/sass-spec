@@ -1,0 +1,451 @@
+<===> child/and_descendant/distinct/input.scss
+a {b: selector-unify(".c > .d", ".e .f")}
+
+<===> child/and_descendant/distinct/output.css
+a {
+  b: .e .c > .d.f;
+}
+
+<===>
+================================================================================
+<===> child/and_descendant/identical/input.scss
+a {b: selector-unify(".c > .s1", ".c .s2")}
+
+<===> child/and_descendant/identical/output.css
+a {
+  b: .c > .s1.s2;
+}
+
+<===>
+================================================================================
+<===> child/and_descendant/superselector/input.scss
+a {b: selector-unify(".c.s1-1 > .s1-2", ".c .s2")}
+
+<===> child/and_descendant/superselector/output.css
+a {
+  b: .c.s1-1 > .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> child/and_descendant/overlap/input.scss
+a {b: selector-unify(".c.s1-1 > .s1-2", ".c.s2-1 .s2-2")}
+
+<===> child/and_descendant/overlap/output.css
+a {
+  b: .c.s2-1 .c.s1-1 > .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> child/and_child/distinct/input.scss
+a {b: selector-unify(".c > .d", ".e > .f")}
+
+<===> child/and_child/distinct/output.css
+a {
+  b: .e.c > .d.f;
+}
+
+<===>
+================================================================================
+<===> child/and_child/superselector/input.scss
+a {b: selector-unify(".c.s1-1 > .s1-2", ".c > .s2")}
+
+<===> child/and_child/superselector/output.css
+a {
+  b: .c.s1-1 > .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> child/and_child/overlap/input.scss
+a {b: selector-unify(".c.s1-1 > .s1-2", ".c.s2-1 > .s2-2")}
+
+<===> child/and_child/overlap/output.css
+a {
+  b: .c.s2-1.s1-1 > .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> child/and_child/conflict/input.scss
+a {b: inspect(selector-unify("#s1-1 > .s1-2", "#s2-1 > .s2-2"))}
+
+<===> child/and_child/conflict/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> child/and_sibling/input.scss
+a {b: selector-unify(".c > .s1", ".c ~ .s2")}
+
+<===> child/and_sibling/output.css
+a {
+  b: .c > .c ~ .s1.s2;
+}
+
+<===>
+================================================================================
+<===> child/and_next_sibling/input.scss
+a {b: selector-unify(".c > .s1", ".c + .s2")}
+
+<===> child/and_next_sibling/output.css
+a {
+  b: .c > .c + .s1.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_descendant/input.scss
+a {b: selector-unify(".c ~ .s1", ".c .s2")}
+
+<===> sibling/and_descendant/output.css
+a {
+  b: .c .c ~ .s1.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_child/input.scss
+a {b: selector-unify(".c ~ .s1", ".c > .s2")}
+
+<===> sibling/and_child/output.css
+a {
+  b: .c > .c ~ .s1.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_sibling/distinct/input.scss
+a {b: selector-unify(".c ~ .d", ".e ~ .f")}
+
+<===> sibling/and_sibling/distinct/output.css
+a {
+  b: .c ~ .e ~ .d.f, .e ~ .c ~ .d.f, .e.c ~ .d.f;
+}
+
+<===>
+================================================================================
+<===> sibling/and_sibling/identical/input.scss
+a {b: selector-unify(".c ~ .s1", ".c ~ .s2")}
+
+<===> sibling/and_sibling/identical/output.css
+a {
+  b: .c ~ .s1.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_sibling/superselector/input.scss
+a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c ~ .s2")}
+
+<===> sibling/and_sibling/superselector/output.css
+a {
+  b: .c.s1-1 ~ .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_sibling/overlap/input.scss
+a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c.s2-1 ~ .s2-2")}
+
+<===> sibling/and_sibling/overlap/output.css
+a {
+  b: .c.s1-1 ~ .c.s2-1 ~ .s1-2.s2-2, .c.s2-1 ~ .c.s1-1 ~ .s1-2.s2-2, .c.s2-1.s1-1 ~ .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_sibling/conflict/input.scss
+a {b: selector-unify("#s1-1 ~ .s1-2", "#s2-1 ~ .s2-2")}
+
+<===> sibling/and_sibling/conflict/output.css
+a {
+  b: #s1-1 ~ #s2-1 ~ .s1-2.s2-2, #s2-1 ~ #s1-1 ~ .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_next_sibling/distinct/input.scss
+a {b: selector-unify(".c ~ .d", ".e + .f")}
+
+<===> sibling/and_next_sibling/distinct/output.css
+a {
+  b: .c ~ .e + .d.f, .e.c + .d.f;
+}
+
+<===>
+================================================================================
+<===> sibling/and_next_sibling/identical/input.scss
+a {b: selector-unify(".c ~ .s1", ".c + .s2")}
+
+<===> sibling/and_next_sibling/identical/output.css
+a {
+  b: .c + .s1.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_next_sibling/superselector/input.scss
+a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c + .s2")}
+
+<===> sibling/and_next_sibling/superselector/output.css
+a {
+  b: .c.s1-1 ~ .c + .s1-2.s2, .c.s1-1 + .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_next_sibling/overlap/input.scss
+a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c.s2-1 + .s2-2")}
+
+<===> sibling/and_next_sibling/overlap/output.css
+a {
+  b: .c.s1-1 ~ .c.s2-1 + .s1-2.s2-2, .c.s2-1.s1-1 + .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> sibling/and_next_sibling/conflict/input.scss
+a {b: selector-unify("#s1-1 ~ .s1-2", "#s2-1 + .s2-2")}
+
+<===> sibling/and_next_sibling/conflict/output.css
+a {
+  b: #s1-1 ~ #s2-1 + .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_descendant/input.scss
+a {b: selector-unify(".c + .s1", ".c .s2")}
+
+<===> next_sibling/and_descendant/output.css
+a {
+  b: .c .c + .s1.s2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_child/input.scss
+a {b: selector-unify(".c + .s1", ".c > .s2")}
+
+<===> next_sibling/and_child/output.css
+a {
+  b: .c > .c + .s1.s2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_sibling/distinct/input.scss
+a {b: selector-unify(".c + .d", ".e ~ .f")}
+
+<===> next_sibling/and_sibling/distinct/output.css
+a {
+  b: .e ~ .c + .d.f, .e.c + .d.f;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_sibling/identical/input.scss
+a {b: selector-unify(".c + .s1", ".c ~ .s2")}
+
+<===> next_sibling/and_sibling/identical/output.css
+a {
+  b: .c + .s1.s2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_sibling/superselector/input.scss
+a {b: selector-unify(".c.s1-1 + .s1-2", ".c ~ .s2")}
+
+<===> next_sibling/and_sibling/superselector/output.css
+a {
+  b: .c.s1-1 + .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_sibling/overlap/input.scss
+a {b: selector-unify(".c.s1-1 + .s1-2", ".c.s2-1 ~ .s2-2")}
+
+<===> next_sibling/and_sibling/overlap/output.css
+a {
+  b: .c.s2-1 ~ .c.s1-1 + .s1-2.s2-2, .c.s2-1.s1-1 + .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_sibling/conflict/input.scss
+a {b: selector-unify("#s1-1 + .s1-2", "#s2-1 ~ .s2-2")}
+
+<===> next_sibling/and_sibling/conflict/output.css
+a {
+  b: #s2-1 ~ #s1-1 + .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_next_sibling/distinct/input.scss
+a {b: selector-unify(".c + .d", ".e + .f")}
+
+<===> next_sibling/and_next_sibling/distinct/output.css
+a {
+  b: .e.c + .d.f;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_next_sibling/superselector/input.scss
+a {b: selector-unify(".c.s1-1 + .s1-2", ".c + .s2")}
+
+<===> next_sibling/and_next_sibling/superselector/output.css
+a {
+  b: .c.s1-1 + .s1-2.s2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_next_sibling/overlap/input.scss
+a {b: selector-unify(".c.s1-1 + .s1-2", ".c.s2-1 + .s2-2")}
+
+<===> next_sibling/and_next_sibling/overlap/output.css
+a {
+  b: .c.s2-1.s1-1 + .s1-2.s2-2;
+}
+
+<===>
+================================================================================
+<===> next_sibling/and_next_sibling/conflict/input.scss
+a {b: inspect(selector-unify("#s1-1 + .s1-2", "#s2-1 + .s2-2"))}
+
+<===> next_sibling/and_next_sibling/conflict/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> initial/README.md
+The specific semantics of (explicit) combinators isn't considered when handling
+initial combinators, so we cycle through possible combinators in these specs.
+Any of these specs should pass with any combination of combinators.
+
+<===>
+================================================================================
+<===> initial/only_one/selector1/input.scss
+a {b: selector-unify("> .c", ".d")}
+
+<===> initial/only_one/selector1/output.css
+a {
+  b: > .c.d;
+}
+
+<===>
+================================================================================
+<===> initial/only_one/selector2/input.scss
+a {b: selector-unify(".c", "~ .d")}
+
+<===> initial/only_one/selector2/output.css
+a {
+  b: ~ .c.d;
+}
+
+<===>
+================================================================================
+<===> initial/same/input.scss
+a {b: selector-unify("+ .c", "+ .d")}
+
+<===> initial/same/output.css
+a {
+  b: + .c.d;
+}
+
+<===>
+================================================================================
+<===> initial/supersequence/contiguous/input.scss
+a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
+
+<===> initial/supersequence/contiguous/output.css
+a {
+  b: > + ~ > > .c.d;
+}
+
+<===>
+================================================================================
+<===> initial/supersequence/non_contiguous/input.scss
+a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
+
+<===> initial/supersequence/non_contiguous/output.css
+a {
+  b: + > ~ ~ > .c.d;
+}
+
+<===>
+================================================================================
+<===> initial/different/input.scss
+a {b: inspect(selector-unify("+ ~ > .c", "+ > ~ ~ .d"))}
+
+<===> initial/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+a {b: selector-unify(".c > .d + .e", ".f .g ~ .h")}
+
+<===> multiple/output.css
+a {
+  b: .f .c > .g ~ .d + .e.h, .f .c > .g.d + .e.h;
+}
+
+<===>
+================================================================================
+<===> multiple/in_a_row/README.md
+The specific semantics of combinators isn't considered when handling multiple
+combinators in a row, so we choose combinators for these specs effectively at
+random. Any of these specs should pass with any combination of combinators.
+
+<===>
+================================================================================
+<===> multiple/in_a_row/same/input.scss
+a {b: selector-unify(".c + ~ > .d", ".e + ~ > .f")}
+
+<===> multiple/in_a_row/same/output.css
+a {
+  b: .c .e + ~ > .d.f, .e .c + ~ > .d.f;
+}
+
+<===>
+================================================================================
+<===> multiple/in_a_row/supersequence/contiguous/input.scss
+a {b: selector-unify(".c + ~ > .d", ".e > + ~ > > .f")}
+
+<===> multiple/in_a_row/supersequence/contiguous/output.css
+a {
+  b: .c .e > + ~ > > .d.f, .e .c > + ~ > > .d.f;
+}
+
+<===>
+================================================================================
+<===> multiple/in_a_row/supersequence/non_contiguous/input.scss
+a {b: selector-unify(".c + ~ > .d", ".e + > ~ ~ > .f")}
+
+<===> multiple/in_a_row/supersequence/non_contiguous/output.css
+a {
+  b: .c .e + > ~ ~ > .d.f, .e .c + > ~ ~ > .d.f;
+}
+
+<===>
+================================================================================
+<===> multiple/in_a_row/different/input.scss
+a {b: inspect(selector-unify(".c + ~ > .d", ".e + > ~ ~ .f"))}
+
+<===> multiple/in_a_row/different/output.css
+a {
+  b: null;
+}

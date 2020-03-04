@@ -1,0 +1,144 @@
+<===> no_arg/class/same/input.scss
+a {b: selector-unify(":c", ":c")}
+
+<===> no_arg/class/same/output.css
+a {
+  b: :c;
+}
+
+<===>
+================================================================================
+<===> no_arg/class/different/input.scss
+a {b: selector-unify(":c", ":d")}
+
+<===> no_arg/class/different/output.css
+a {
+  b: :c:d;
+}
+
+<===>
+================================================================================
+<===> no_arg/element/same/input.scss
+a {b: selector-unify("::c", "::c")}
+
+<===> no_arg/element/same/output.css
+a {
+  b: ::c;
+}
+
+<===>
+================================================================================
+<===> no_arg/element/different/input.scss
+a {b: inspect(selector-unify("::c", "::d"))}
+
+<===> no_arg/element/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> no_arg/different_syntax_same_semantics/before/input.scss
+a {b: selector-unify(":before", "::before")}
+
+<===> no_arg/different_syntax_same_semantics/before/output.css
+a {
+  b: :before;
+}
+
+<===>
+================================================================================
+<===> no_arg/different_syntax_same_semantics/after/input.scss
+a {b: selector-unify(":after", "::after")}
+
+<===> no_arg/different_syntax_same_semantics/after/output.css
+a {
+  b: :after;
+}
+
+<===>
+================================================================================
+<===> no_arg/different_syntax_same_semantics/first_line/input.scss
+a {b: selector-unify(":first-line", "::first-line")}
+
+<===> no_arg/different_syntax_same_semantics/first_line/output.css
+a {
+  b: :first-line;
+}
+
+<===>
+================================================================================
+<===> no_arg/different_syntax_same_semantics/first_letter/input.scss
+a {b: selector-unify(":first-letter", "::first-letter")}
+
+<===> no_arg/different_syntax_same_semantics/first_letter/output.css
+a {
+  b: :first-letter;
+}
+
+<===>
+================================================================================
+<===> arg/options.yml
+---
+:todo:
+- sass/libsass#3068
+
+<===>
+================================================================================
+<===> arg/class/same/input.scss
+a {b: selector-unify(":c(@#$)", ":c(@#$)")}
+
+<===> arg/class/same/output.css
+a {
+  b: :c(@#$);
+}
+
+<===>
+================================================================================
+<===> arg/class/different/input.scss
+a {b: selector-unify(":c(@#$)", ":c(*&^)")}
+
+<===> arg/class/different/output.css
+a {
+  b: :c(@#$):c(*&^);
+}
+
+<===>
+================================================================================
+<===> arg/element/same/input.scss
+a {b: selector-unify("::c(@#$)", "::c(@#$)")}
+
+<===> arg/element/same/output.css
+a {
+  b: ::c(@#$);
+}
+
+<===>
+================================================================================
+<===> arg/element/different/input.scss
+a {b: inspect(selector-unify("::c(@#$)", "::c(*&^)"))}
+
+<===> arg/element/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> selector_arg/same/input.scss
+a {b: selector-unify(":matches(.c)", ":matches(.c)")}
+
+<===> selector_arg/same/output.css
+a {
+  b: :matches(.c);
+}
+
+<===>
+================================================================================
+<===> selector_arg/different/input.scss
+a {b: selector-unify(":matches(.c)", ":matches(.d)")}
+
+<===> selector_arg/different/output.css
+a {
+  b: :matches(.c):matches(.d);
+}

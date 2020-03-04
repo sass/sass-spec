@@ -1,0 +1,43 @@
+<===> README.md
+These tests verify that, if one selector is a superselector of the other, the
+subselector is returned (since it's more specific).
+
+<===>
+================================================================================
+<===> whole_selector/selector1/input.scss
+a {b: selector-unify("c", "d c.e")}
+
+<===> whole_selector/selector1/output.css
+a {
+  b: d c.e;
+}
+
+<===>
+================================================================================
+<===> whole_selector/selector2/input.scss
+a {b: selector-unify("d c.e", "c")}
+
+<===> whole_selector/selector2/output.css
+a {
+  b: d c.e;
+}
+
+<===>
+================================================================================
+<===> parent/selector1/input.scss
+a {b: selector-unify("c d", "c.e .f")}
+
+<===> parent/selector1/output.css
+a {
+  b: c.e d.f;
+}
+
+<===>
+================================================================================
+<===> parent/selector2/input.scss
+a {b: selector-unify("c.e .f", "c d")}
+
+<===> parent/selector2/output.css
+a {
+  b: c.e d.f;
+}
