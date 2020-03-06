@@ -1,0 +1,17 @@
+<===> two_level/input.scss
+a {b: selector-unify(".c .d", ".e .f")}
+
+<===> two_level/output.css
+a {
+  b: .c .e .d.f, .e .c .d.f;
+}
+
+<===>
+================================================================================
+<===> three_level/input.scss
+a {b: selector-unify(".c .d .e", ".f .g .h")}
+
+<===> three_level/output.css
+a {
+  b: .c .d .f .g .e.h, .f .g .c .d .e.h;
+}

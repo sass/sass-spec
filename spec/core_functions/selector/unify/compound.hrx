@@ -1,0 +1,87 @@
+<===> no_overlap/input.scss
+a {b: selector-unify(".c.d", ".e.f")}
+
+<===> no_overlap/output.css
+a {
+  b: .c.d.e.f;
+}
+
+<===>
+================================================================================
+<===> partial_overlap/input.scss
+a {b: selector-unify(".c.d", ".d.e")}
+
+<===> partial_overlap/output.css
+a {
+  b: .c.d.e;
+}
+
+<===>
+================================================================================
+<===> full_overlap/input.scss
+a {b: selector-unify(".c.d", ".c.d")}
+
+<===> full_overlap/output.css
+a {
+  b: .c.d;
+}
+
+<===>
+================================================================================
+<===> order/preserved_by_default/input.scss
+a {b: selector-unify(".c.d", ".e.f")}
+
+<===> order/preserved_by_default/output.css
+a {
+  b: .c.d.e.f;
+}
+
+<===>
+================================================================================
+<===> order/element_at_start/input.scss
+a {b: selector-unify(".c", "d")}
+
+<===> order/element_at_start/output.css
+a {
+  b: d.c;
+}
+
+<===>
+================================================================================
+<===> order/pseudo_element_at_end/input.scss
+a {b: selector-unify("::c", ".d")}
+
+<===> order/pseudo_element_at_end/output.css
+a {
+  b: .d::c;
+}
+
+<===>
+================================================================================
+<===> order/pseudo_class_at_end/input.scss
+a {b: selector-unify(":c", ".d")}
+
+<===> order/pseudo_class_at_end/output.css
+a {
+  b: .d:c;
+}
+
+<===>
+================================================================================
+<===> order/pseudo_element_after_pseudo_class/element_first/input.scss
+a {b: selector-unify("::c", ":d")}
+
+<===> order/pseudo_element_after_pseudo_class/element_first/output.css
+a {
+  b: :d::c;
+}
+
+<===>
+================================================================================
+<===> order/pseudo_element_after_pseudo_class/class_first/input.scss
+a {b: selector-unify(":c", "::d")}
+
+<===> order/pseudo_element_after_pseudo_class/class_first/output.css
+a {
+  b: :c::d;
+}

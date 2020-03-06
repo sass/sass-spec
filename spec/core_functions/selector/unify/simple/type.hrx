@@ -1,0 +1,437 @@
+<===> and_type/default/and_explicit/input.scss
+a {b: inspect(selector-unify("c", "d|c"))}
+
+<===> and_type/default/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/default/and_empty/input.scss
+a {b: inspect(selector-unify("c", "|c"))}
+
+<===> and_type/default/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/default/and_default/same/input.scss
+a {b: selector-unify("c", "c")}
+
+<===> and_type/default/and_default/same/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_type/default/and_default/different/input.scss
+a {b: inspect(selector-unify("c", "d"))}
+
+<===> and_type/default/and_default/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/default/and_any/same_type/input.scss
+a {b: selector-unify("c", "*|c")}
+
+<===> and_type/default/and_any/same_type/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_type/default/and_any/different_type/input.scss
+a {b: inspect(selector-unify("c", "*|d"))}
+
+<===> and_type/default/and_any/different_type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_explicit/same/input.scss
+a {b: selector-unify("c|d", "c|d")}
+
+<===> and_type/explicit/and_explicit/same/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_explicit/different/namespace/input.scss
+a {b: inspect(selector-unify("c|d", "e|d"))}
+
+<===> and_type/explicit/and_explicit/different/namespace/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_explicit/different/type/input.scss
+a {b: inspect(selector-unify("c|d", "c|e"))}
+
+<===> and_type/explicit/and_explicit/different/type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_empty/input.scss
+a {b: inspect(selector-unify("c|d", "|d"))}
+
+<===> and_type/explicit/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_default/input.scss
+a {b: inspect(selector-unify("c|d", "d"))}
+
+<===> and_type/explicit/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_any/same_type/input.scss
+a {b: selector-unify("c|d", "*|d")}
+
+<===> and_type/explicit/and_any/same_type/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> and_type/explicit/and_any/different_type/input.scss
+a {b: inspect(selector-unify("c|d", "*|e"))}
+
+<===> and_type/explicit/and_any/different_type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_explicit/input.scss
+a {b: inspect(selector-unify("|c", "e|c"))}
+
+<===> and_type/empty/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_empty/same/input.scss
+a {b: selector-unify("|c", "|c")}
+
+<===> and_type/empty/and_empty/same/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_empty/different/input.scss
+a {b: inspect(selector-unify("|c", "|d"))}
+
+<===> and_type/empty/and_empty/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_default/input.scss
+a {b: inspect(selector-unify("|c", "c"))}
+
+<===> and_type/empty/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_any/same_type/input.scss
+a {b: selector-unify("|c", "*|c")}
+
+<===> and_type/empty/and_any/same_type/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_type/empty/and_any/different_type/input.scss
+a {b: selector-unify("|c", "*|c")}
+
+<===> and_type/empty/and_any/different_type/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_explicit/same_type/input.scss
+a {b: selector-unify("*|c", "d|c")}
+
+<===> and_type/any/and_explicit/same_type/output.css
+a {
+  b: d|c;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_explicit/different_type/input.scss
+a {b: inspect(selector-unify("*|c", "d|e"))}
+
+<===> and_type/any/and_explicit/different_type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_empty/same_type/input.scss
+a {b: selector-unify("*|c", "|c")}
+
+<===> and_type/any/and_empty/same_type/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_empty/different_type/input.scss
+a {b: inspect(selector-unify("*|c", "|d"))}
+
+<===> and_type/any/and_empty/different_type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_default/same_type/input.scss
+a {b: selector-unify("*|c", "c")}
+
+<===> and_type/any/and_default/same_type/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_default/different_type/input.scss
+a {b: inspect(selector-unify("*|c", "d"))}
+
+<===> and_type/any/and_default/different_type/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_any/same/input.scss
+a {b: selector-unify("*|c", "*|c")}
+
+<===> and_type/any/and_any/same/output.css
+a {
+  b: *|c;
+}
+
+<===>
+================================================================================
+<===> and_type/any/and_any/different/input.scss
+a {b: inspect(selector-unify("*|c", "*|d"))}
+
+<===> and_type/any/and_any/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/default/and_explicit/input.scss
+a {b: inspect(selector-unify("c", "e|*"))}
+
+<===> and_universal/default/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/default/and_empty/input.scss
+a {b: inspect(selector-unify("c", "|*"))}
+
+<===> and_universal/default/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/default/and_default/input.scss
+a {b: selector-unify("c", "*")}
+
+<===> and_universal/default/and_default/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_universal/default/and_any/input.scss
+a {b: selector-unify("c", "*|*")}
+
+<===> and_universal/default/and_any/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_universal/explicit/and_explicit/same/input.scss
+a {b: selector-unify("c|d", "c|*")}
+
+<===> and_universal/explicit/and_explicit/same/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> and_universal/explicit/and_explicit/different/input.scss
+a {b: inspect(selector-unify("c|d", "e|*"))}
+
+<===> and_universal/explicit/and_explicit/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/explicit/and_empty/input.scss
+a {b: inspect(selector-unify("c|d", "|*"))}
+
+<===> and_universal/explicit/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/explicit/and_default/input.scss
+a {b: inspect(selector-unify("c|d", "*"))}
+
+<===> and_universal/explicit/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/explicit/and_any/input.scss
+a {b: selector-unify("c|d", "*|*")}
+
+<===> and_universal/explicit/and_any/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> and_universal/empty/and_explicit/input.scss
+a {b: inspect(selector-unify("|c", "e|*"))}
+
+<===> and_universal/empty/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/empty/and_empty/input.scss
+a {b: selector-unify("|c", "|*")}
+
+<===> and_universal/empty/and_empty/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_universal/empty/and_default/input.scss
+a {b: inspect(selector-unify("|c", "*"))}
+
+<===> and_universal/empty/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> and_universal/empty/and_any/input.scss
+a {b: selector-unify("|c", "*|*")}
+
+<===> and_universal/empty/and_any/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_universal/any/and_explicit/input.scss
+a {b: selector-unify("*|c", "d|*")}
+
+<===> and_universal/any/and_explicit/output.css
+a {
+  b: d|c;
+}
+
+<===>
+================================================================================
+<===> and_universal/any/and_empty/input.scss
+a {b: selector-unify("*|c", "|*")}
+
+<===> and_universal/any/and_empty/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> and_universal/any/and_default/input.scss
+a {b: selector-unify("*|c", "*")}
+
+<===> and_universal/any/and_default/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and_universal/any/and_any/input.scss
+a {b: selector-unify("*|c", "*|*")}
+
+<===> and_universal/any/and_any/output.css
+a {
+  b: *|c;
+}
