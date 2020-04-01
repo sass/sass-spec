@@ -99,7 +99,7 @@ Make sure the command you provide prints to stdout.
         options[:silent] = true
       end
 
-      opts.on("--check-annotations", "Check if any test annotations are unecessary.") do
+      opts.on("--check-annotations", "Check if any test annotations are unnecessary.") do
         options[:check_annotations] = true
       end
 
