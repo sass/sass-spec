@@ -1,0 +1,14 @@
+<===> input.scss
+$abc: 'qux';
+
+.foo {
+  > .bar.#{$abc},
+  & > .baz {
+    color: blue;
+  }
+}
+
+<===> output.css
+.foo > .bar.qux, .foo > .baz {
+  color: blue;
+}
