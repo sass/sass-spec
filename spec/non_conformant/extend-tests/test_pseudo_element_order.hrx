@@ -1,0 +1,20 @@
+<===> options.yml
+---
+:todo:
+- dart-sass
+
+<===> input.scss
+.foo {
+  color: #e50026;
+}
+
+a.nested:before {
+  &.bar {
+    @extend .foo;
+  }
+}
+
+<===> output.css
+.foo, a.nested.bar:before {
+  color: #e50026;
+}
