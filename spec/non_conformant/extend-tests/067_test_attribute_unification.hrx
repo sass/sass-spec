@@ -1,8 +1,13 @@
+<===> options.yml
+---
+:todo:
+- dart-sass
+
 <===> input.scss
 %-a [foo=bar].baz {a: b}
 [foot=bar] {@extend .baz} -a {@extend %-a}
 
 <===> output.css
--a [foo=bar].baz, -a [foo=bar][foot=bar] {
+-a .baz[foo=bar], -a [foo=bar][foot=bar] {
   a: b;
 }
