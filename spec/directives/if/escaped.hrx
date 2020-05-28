@@ -3,11 +3,24 @@
 :todo:
 - sass/libsass#2700
 
-<===> input.scss
+<===> if_only/input.scss
 // Escapes should be normalized before directives are parsed.
 @\69 f true {a {b: c}}
 
-<===> output.css
+<===> if_only/output.css
 a {
   b: c;
 }
+
+<===>
+================================================================================
+<===> with_else/input.scss
+// See sass/dart-sass#1011
+@if false {}
+@\65lse {a {b: c}}
+
+<===> with_else/output.css
+a {
+  b: c;
+}
+
