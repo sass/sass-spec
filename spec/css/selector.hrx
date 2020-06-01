@@ -57,6 +57,58 @@
 
 <===>
 ================================================================================
+<===> attribute/quoted_non_identifier/input.scss
+// Quotes should be preserved when the string they contain is not an identifier.
+// See https://github.com/sass/dart-sass/issues/598.
+[a="b."] {c: d}
+
+<===> attribute/quoted_non_identifier/output.css
+[a="b."] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/options.yml
+---
+:todo:
+- sass/libsass#2422
+
+<===> placeholder/pseudoselectors/matches/input.scss
+// Style rules with placeholders should only be deleted if they can't match
+// *any* real elements.
+a:matches(%b) {w: x}
+a:matches(%b, c) {y: z}
+
+<===> placeholder/pseudoselectors/matches/output.css
+a:matches(c) {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/input.scss
+// Style rules with placeholders should only be deleted if they can't match
+// *any* real elements.
+a:not(%b) {u: v}
+a:not(%b, c) {w: x}
+:not(%b) {y: z}
+
+<===> placeholder/pseudoselectors/not/output.css
+a {
+  u: v;
+}
+
+a:not(c) {
+  w: x;
+}
+
+* {
+  y: z;
+}
+
+<===>
+================================================================================
 <===> reference_combinator/options.yml
 ---
 :todo:
