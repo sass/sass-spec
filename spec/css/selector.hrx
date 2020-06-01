@@ -69,42 +69,69 @@
 
 <===>
 ================================================================================
-<===> placeholder/pseudoselectors/options.yml
+<===> placeholder/pseudoselectors/matches/solo/options.yml
 ---
 :todo:
 - sass/libsass#2422
 
-<===> placeholder/pseudoselectors/matches/input.scss
+<===> placeholder/pseudoselectors/matches/solo/input.scss
+// Style rules with placeholders should be deleted if they can't match any real
+// elements.
+a:matches(%b) {x: y}
+
+<===> placeholder/pseudoselectors/matches/solo/output.css
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/matches/with_real/input.scss
 // Style rules with placeholders should only be deleted if they can't match
 // *any* real elements.
-a:matches(%b) {w: x}
-a:matches(%b, c) {y: z}
+a:matches(%b, c) {x: y}
 
-<===> placeholder/pseudoselectors/matches/output.css
+<===> placeholder/pseudoselectors/matches/with_real/output.css
 a:matches(c) {
-  y: z;
+  x: y;
 }
 
 <===>
 ================================================================================
-<===> placeholder/pseudoselectors/not/input.scss
+<===> placeholder/pseudoselectors/not/solo/input.scss
 // Style rules with placeholders should only be deleted if they can't match
 // *any* real elements.
-a:not(%b) {u: v}
-a:not(%b, c) {w: x}
-:not(%b) {y: z}
+a:not(%b) {x: y}
 
-<===> placeholder/pseudoselectors/not/output.css
+<===> placeholder/pseudoselectors/not/solo/output.css
 a {
-  u: v;
+  x: y;
 }
 
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/with_real/input.scss
+// Style rules with placeholders should only be deleted if they can't match
+// *any* real elements.
+a:not(%b, c) {x: y}
+
+<===> placeholder/pseudoselectors/not/with_real/output.css
 a:not(c) {
-  w: x;
+  x: y;
 }
 
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/universal/options.yml
+---
+:todo:
+- sass/libsass#2422
+
+<===> placeholder/pseudoselectors/not/universal/input.scss
+// Style rules with placeholders should only be deleted if they can't match
+// *any* real elements.
+:not(%b) {x: y}
+
+<===> placeholder/pseudoselectors/not/universal/output.css
 * {
-  y: z;
+  x: y;
 }
 
 <===>
