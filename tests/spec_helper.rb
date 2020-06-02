@@ -23,3 +23,14 @@ def run_sass(fixture_folder, additional_flags = [])
   "--command '#{Dir.pwd}/tests/sass_stub'",
   "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' '))
 end
+
+shared_context :uses_temp_dir do
+  around do |example|
+    Dir.mktmpdir("sass-spec-tests-") do |dir|
+      @dir = dir
+      example.run
+    end
+  end
+
+  attr_reader :dir
+end

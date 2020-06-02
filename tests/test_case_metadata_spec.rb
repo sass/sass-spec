@@ -3,48 +3,100 @@
 require_relative 'spec_helper'
 require 'sass_spec'
 
-def create_options_yaml(folder, dictionary)
-  FileUtils.mkdir_p("tests/metadata/#{folder}")
-  File.write("tests/metadata/#{folder}/options.yml", dictionary.to_yaml)
-end
-
-def cleanup(folder)
-  FileUtils.remove_dir("tests/metadata/#{folder}")
-end
-
 describe SassSpec::TestCaseMetadata do
-  context 'should ignore impl when given ignore_for' do
-    before { create_options_yaml('ignore', ignore_for: ['dart_sass']) }
-    after { cleanup('ignore') }
-    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/metadata/ignore')).ignore_for?('dart_sass') }
-    it { is_expected.to be true }
+  include_context :uses_temp_dir
+  after(:each) { SassSpec::TestCaseMetadata.cache.clear }
+
+  def create_options_yaml(folder=nil, dictionary)
+    dir = folder ? File.join(self.dir, folder) : self.dir
+    FileUtils.mkdir_p(dir)
+    File.write("#{dir}/options.yml", dictionary.to_yaml)
   end
 
-  context 'should ignore impl when given only_on' do
-    before { create_options_yaml('only_on', only_on: ['dart_sass']) }
-    after { cleanup('only_on') }
-    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/metadata/only_on')).ignore_for?('libsass') }
-    it { is_expected.to be true }
+  def metadata(folder=nil)
+    SassSpec::TestCaseMetadata.new(
+      SassSpec::Directory.new(folder ? File.join(self.dir, folder) : self.dir))
   end
 
-  context 'should have precision' do
-    before { create_options_yaml('precision', precision: 10) }
-    after { cleanup('precision') }
-    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/metadata/precision')).precision }
-    it { is_expected.to eq 10 }
+  describe '#initialize' do
+    it 'should load all options from the directory' do
+      create_options_yaml(foo: 'bar', baz: 'qux', zip: 'zap')
+      expect(metadata.options).to be == {foo: 'bar', baz: 'qux', zip: 'zap'}
+    end
+
+    context 'with a parent directory' do
+      it 'should include options from the parent and child' do
+        create_options_yaml(foo: 'bar')
+        create_options_yaml('child', baz: 'qux')
+        create_options_yaml('child/grandchild', zip: 'zap')
+        expect(metadata('child/grandchild').options).to be == {foo: 'bar', baz: 'qux', zip: 'zap'}
+      end
+
+      it 'should prefer child options to parent options' do
+        create_options_yaml(foo: 'parent')
+        create_options_yaml('child', foo: 'child')
+        expect(metadata('child').options).to be == {foo: 'child'}
+      end
+
+      it 'should consider directories without options to have empty options' do
+        create_options_yaml(foo: 'bar')
+        create_options_yaml('child/grandchild', baz: 'qux')
+        expect(metadata('child/grandchild').options).to be == {foo: 'bar', baz: 'qux'}
+      end
+
+      context 'and mergeable options' do
+        it 'should add each value to a list' do
+          create_options_yaml(ignore_for: 'dart-sass')
+          create_options_yaml('child', ignore_for: 'libsass')
+          create_options_yaml('child/grandchild', ignore_for: 'future-sass')
+          expect(metadata('child/grandchild').options).to(
+            be == {ignore_for: %w[dart-sass libsass future-sass]})
+        end
+
+        it 'should concatenate list values' do
+          create_options_yaml(ignore_for: 'dart-sass')
+          create_options_yaml('child', ignore_for: ['libsass', 'future-sass'])
+          expect(metadata('child').options).to(
+            be == {ignore_for: %w[dart-sass libsass future-sass]})
+        end
+      end
+    end
   end
 
-  context 'should have todos for an impl' do
-    before { create_options_yaml('todo', todo: ['sass/libsass#2342']) }
-    after { cleanup('todo') }
-    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/metadata/todo')).todo?('libsass') }
-    it { is_expected.to be true }
+  it 'should ignore impl when given ignore_for' do
+    create_options_yaml(ignore_for: ['dart-sass'])
+    expect(metadata.ignore_for?('dart-sass')).to be true
   end
 
-  context 'should have warning todos for an impl' do
-    before { create_options_yaml('warning', warning_todo: ['sass/libsass#2342']) }
-    after { cleanup('warning') }
-    subject { SassSpec::TestCaseMetadata.new(SassSpec::Directory.new('tests/metadata/warning')).warning_todo?('libsass') }
-    it { is_expected.to be true }
+  it 'should ignore impl when given only_on' do
+    create_options_yaml(only_on: ['dart-sass'])
+    expect(metadata.ignore_for?('libsass')).to be true
+  end
+
+  it 'should have precision' do
+    create_options_yaml(precision: 10)
+    expect(metadata.precision).to eq 10
+  end
+
+  context 'with todos' do
+    it 'should load todos from implementation names' do
+      create_options_yaml(todo: ['libsass'])
+      expect(metadata.todo?('libsass')).to be true
+    end
+
+    it 'should load warning_todos from implementation names' do
+      create_options_yaml(warning_todo: ['libsass'])
+      expect(metadata.warning_todo?('libsass')).to be true
+    end
+
+    it 'should load todos from issue numbers' do
+      create_options_yaml(todo: ['sass/libsass#2342'])
+      expect(metadata.todo?('libsass')).to be true
+    end
+
+    it 'should load warning_todos from issue numbers' do
+      create_options_yaml(warning_todo: ['sass/libsass#2342'])
+      expect(metadata.warning_todo?('libsass')).to be true
+    end
   end
 end
