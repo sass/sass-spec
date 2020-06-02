@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'fakefs/spec_helpers'
 require 'rspec'
 require 'aruba/rspec'
 
@@ -24,13 +25,13 @@ def run_sass(fixture_folder, additional_flags = [])
   "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' '))
 end
 
-shared_context :uses_temp_dir do
-  around do |example|
-    Dir.mktmpdir("sass-spec-tests-") do |dir|
-      @dir = dir
-      example.run
-    end
-  end
+# A context with a mocked filesystem.
+shared_context :uses_fs do
+  include FakeFS::SpecHelpers
 
-  attr_reader :dir
+  # Returns `subdir` within the root spec directory. If `subdir` isn't passed,
+  # returns `'spec'` on its own.
+  def dir(subdir=nil)
+    subdir ? File.join('spec', subdir) : 'spec'
+  end
 end
