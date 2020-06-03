@@ -57,6 +57,81 @@
 
 <===>
 ================================================================================
+<===> attribute/quoted_non_identifier/input.scss
+// Quotes should be preserved when the string they contain is not an identifier.
+// See https://github.com/sass/dart-sass/issues/598.
+[a="b."] {c: d}
+
+<===> attribute/quoted_non_identifier/output.css
+[a="b."] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/matches/solo/options.yml
+---
+:todo:
+- sass/libsass#2422
+
+<===> placeholder/pseudoselectors/matches/solo/input.scss
+// Since `%b` doesn't exist, no selectors can match it, so this rule should be
+// removed.
+a:matches(%b) {x: y}
+
+<===> placeholder/pseudoselectors/matches/solo/output.css
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/matches/with_real/input.scss
+// Since `%b` doesn't exist, an element matches `%b` or `c` iff it matches `c`.
+a:matches(%b, c) {x: y}
+
+<===> placeholder/pseudoselectors/matches/with_real/output.css
+a:matches(c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/solo/input.scss
+// Since `%b` doesn't exist, all `a` elements match `a:not(%b)`.
+a:not(%b) {x: y}
+
+<===> placeholder/pseudoselectors/not/solo/output.css
+a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/with_real/input.scss
+// Since `%b` doesn't exist, it can be removed from the `:not` pseudoselector.
+a:not(%b, c) {x: y}
+
+<===> placeholder/pseudoselectors/not/with_real/output.css
+a:not(c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/not/universal/options.yml
+---
+:todo:
+- sass/libsass#2422
+
+<===> placeholder/pseudoselectors/not/universal/input.scss
+// Since `%b` doesn't exist, all elements match `:not(%b)`.
+:not(%b) {x: y}
+
+<===> placeholder/pseudoselectors/not/universal/output.css
+* {
+  x: y;
+}
+
+<===>
+================================================================================
 <===> reference_combinator/options.yml
 ---
 :todo:
