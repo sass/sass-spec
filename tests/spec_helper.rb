@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 
 require 'fakefs/spec_helpers'
@@ -31,6 +32,23 @@ shared_context :uses_fs do
 
   # Returns `subdir` within the root spec directory. If `subdir` isn't passed,
   # returns `'spec'` on its own.
+  def dir(subdir=nil)
+    subdir ? File.join('spec', subdir) : 'spec'
+  end
+end
+
+# A context with a real temporary filesystem, for cases where mock_fs doesn't
+# quite work.
+shared_context :uses_real_fs do
+  before(:each) { FakeFS.deactivate! }
+
+  around do |example|
+    Dir.mktmpdir('sass-spec-tests-') do |dir|
+      @dir = dir
+      Dir.chdir(dir) { example.run }
+    end
+  end
+
   def dir(subdir=nil)
     subdir ? File.join('spec', subdir) : 'spec'
   end
