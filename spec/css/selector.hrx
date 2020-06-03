@@ -75,8 +75,8 @@
 - sass/libsass#2422
 
 <===> placeholder/pseudoselectors/matches/solo/input.scss
-// Style rules with placeholders should be deleted if they can't match any real
-// elements.
+// Since `%b` doesn't exist, no selectors can match it, so this rule should be
+// removed.
 a:matches(%b) {x: y}
 
 <===> placeholder/pseudoselectors/matches/solo/output.css
@@ -84,8 +84,7 @@ a:matches(%b) {x: y}
 <===>
 ================================================================================
 <===> placeholder/pseudoselectors/matches/with_real/input.scss
-// Style rules with placeholders should only be deleted if they can't match
-// *any* real elements.
+// Since `%b` doesn't exist, an element matches `%b` or `c` iff it matches `c`.
 a:matches(%b, c) {x: y}
 
 <===> placeholder/pseudoselectors/matches/with_real/output.css
@@ -96,8 +95,7 @@ a:matches(c) {
 <===>
 ================================================================================
 <===> placeholder/pseudoselectors/not/solo/input.scss
-// Style rules with placeholders should only be deleted if they can't match
-// *any* real elements.
+// Since `%b` doesn't exist, all `a` elements match `a:not(%b)`.
 a:not(%b) {x: y}
 
 <===> placeholder/pseudoselectors/not/solo/output.css
@@ -108,8 +106,7 @@ a {
 <===>
 ================================================================================
 <===> placeholder/pseudoselectors/not/with_real/input.scss
-// Style rules with placeholders should only be deleted if they can't match
-// *any* real elements.
+// Since `%b` doesn't exist, it can be removed from the `:not` pseudoselector.
 a:not(%b, c) {x: y}
 
 <===> placeholder/pseudoselectors/not/with_real/output.css
@@ -125,8 +122,7 @@ a:not(c) {
 - sass/libsass#2422
 
 <===> placeholder/pseudoselectors/not/universal/input.scss
-// Style rules with placeholders should only be deleted if they can't match
-// *any* real elements.
+// Since `%b` doesn't exist, all elements match `:not(%b)`.
 :not(%b) {x: y}
 
 <===> placeholder/pseudoselectors/not/universal/output.css
