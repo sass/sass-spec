@@ -4,18 +4,17 @@ require_relative 'spec_helper'
 require 'sass_spec'
 
 describe SassSpec::TestCaseMetadata do
-  include_context :uses_temp_dir
+  include_context :uses_fs
   after(:each) { SassSpec::TestCaseMetadata.cache.clear }
 
   def create_options_yaml(folder=nil, dictionary)
-    dir = folder ? File.join(self.dir, folder) : self.dir
+    dir = self.dir(folder)
     FileUtils.mkdir_p(dir)
-    File.write("#{dir}/options.yml", dictionary.to_yaml)
+    File.write(File.join(dir, 'options.yml'), dictionary.to_yaml)
   end
 
   def metadata(folder=nil)
-    SassSpec::TestCaseMetadata.new(
-      SassSpec::Directory.new(folder ? File.join(self.dir, folder) : self.dir))
+    SassSpec::TestCaseMetadata.new(SassSpec::Directory.new(self.dir(folder)))
   end
 
   describe '#initialize' do

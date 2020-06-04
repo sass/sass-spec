@@ -25,12 +25,14 @@ class SassSpec::Directory
   # exists, this will load `subdir` from within `path/to/archive.hrx`.
   def initialize(path)
     @path = Pathname.new(path)
-    @path = @path.relative_path_from(Pathname.new(Dir.pwd)) if Pathname.new(path).absolute?
+    @path = @path.relative_path_from(Pathname.new(Dir.pwd)) if @path.absolute?
 
     # Always use forward slashes on Windows, because HRX requires them.
     @path = Pathname.new(@path.to_s.gsub(/\\/, '/')) if Gem.win_platform?
 
-    raise ArgumentError.new("#{@path} must be relative.") if @path.absolute?
+    if %w[.. .].include?(@path.each_filename.first)
+      raise ArgumentError.new("#{path} must be beneath the working directory")
+    end
 
     return if Dir.exist?(@path)
 
@@ -52,7 +54,7 @@ class SassSpec::Directory
       end
     end
 
-    raise "#{path} doesn't exist"
+    raise ArgumentError.new("#{path} doesn't exist")
   end
 
   # Returns the parent as a SassSpec::Directory, or `nil` if this is the root
@@ -86,11 +88,8 @@ class SassSpec::Directory
 
   # Returns whether a file exists at `path` within this directory.
   def file?(path)
-    if hrx?
-      @archive[path].is_a?(HRX::File)
-    else
-      File.exist?(File.join(@path, path))
-    end
+    return @archive[path].is_a?(HRX::File) if hrx?
+    File.exist?(File.join(@path, path))
   end
 
   # Reads the file at `path` within this directory.

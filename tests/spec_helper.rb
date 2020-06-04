@@ -1,5 +1,7 @@
+# coding: utf-8
 # frozen_string_literal: true
 
+require 'fakefs/spec_helpers'
 require 'rspec'
 require 'aruba/rspec'
 
@@ -19,18 +21,38 @@ end
 # This command calls sass-spec using the sass stub.
 # It takes in the name of a fixture folder and an array of additional flags.
 def run_sass(fixture_folder, additional_flags = [])
-  run_command(["#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
-  "--command '#{Dir.pwd}/tests/sass_stub'",
-  "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' '))
+  copy "#{Dir.pwd}/tests/fixtures/#{fixture_folder}", 'tmp/aruba/spec'
+  run_command([
+    "#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
+    "--command '#{Dir.pwd}/tests/sass_stub'",
+    'tmp/aruba/spec'
+  ].join(' '))
 end
 
-shared_context :uses_temp_dir do
+# A context with a mocked filesystem.
+shared_context :uses_fs do
+  include FakeFS::SpecHelpers
+
+  # Returns `subdir` within the root spec directory. If `subdir` isn't passed,
+  # returns `'spec'` on its own.
+  def dir(subdir=nil)
+    subdir ? File.join('spec', subdir) : 'spec'
+  end
+end
+
+# A context with a real temporary filesystem, for cases where mock_fs doesn't
+# quite work.
+shared_context :uses_real_fs do
+  before(:each) { FakeFS.deactivate! }
+
   around do |example|
-    Dir.mktmpdir("sass-spec-tests-") do |dir|
+    Dir.mktmpdir('sass-spec-tests-') do |dir|
       @dir = dir
-      example.run
+      Dir.chdir(dir) { example.run }
     end
   end
 
-  attr_reader :dir
+  def dir(subdir=nil)
+    subdir ? File.join('spec', subdir) : 'spec'
+  end
 end
