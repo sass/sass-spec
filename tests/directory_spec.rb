@@ -64,7 +64,59 @@ describe SassSpec::Directory do
     end
 
     describe '#glob' do
-      # TODO(nweiz): Write these specs.
+      it 'returns matching physical files in the directory' do
+        File.write(dir('foo.txt'), '')
+        File.write(dir('bar.txt'), '')
+        File.write(dir('baz'), '')
+        expect(directory.glob('*.txt')).to contain_exactly('foo.txt', 'bar.txt')
+      end
+
+      it 'returns matching physical files recursively beneath the directory' do
+        FileUtils.mkdir_p(dir('foo/bar/baz'))
+        File.write(dir('foo/bar/baz/zip'), '')
+        File.write(dir('foo/bar/zap.txt'), '')
+        File.write(dir('foo/zop'), '')
+        File.write(dir('qux.txt'), '')
+        expect(directory.glob('**/*.txt')).to contain_exactly('foo/bar/zap.txt', 'qux.txt')
+      end
+
+      it 'returns files recursively within an HRX archive' do
+        FileUtils.mkdir_p(dir('foo'))
+        File.write(dir('foo/bar.hrx'), <<END)
+<===> baz/zip.txt
+zip
+<===> qux/zap
+zap
+<===> zop.txt
+zop
+END
+        expect(directory.glob('**/*.txt'))
+          .to contain_exactly('foo/bar/baz/zip.txt', 'foo/bar/zop.txt')
+      end
+
+      it 'returns all files recursively within the directory or an HRX archive' do
+        FileUtils.mkdir_p(dir('foo'))
+        File.write(dir('foo/bar.hrx'), <<END)
+<===> baz/zip
+zip
+<===> zap
+zap
+END
+        File.write(dir('foo/qux'), '')
+        File.write(dir('bang'), '')
+        expect(directory.glob('**/*'))
+          .to contain_exactly('foo/bar/baz/zip', 'foo/bar/zap', 'foo/qux', 'bang')
+      end
+
+      it "doesn't return an HRX archive itself" do
+        File.write(dir('foo.hrx'), '')
+        expect(directory.glob('*')).to be_empty
+      end
+
+      it "ignores HRX archives when run non-recursively" do
+        File.write(dir('foo.hrx'), '<===> bar.txt\nbar')
+        expect(directory.glob('*.txt')).to be_empty
+      end
     end
 
     describe '#file?' do

@@ -65,7 +65,7 @@ class SassSpec::Directory
     dirname == "." ? nil : SassSpec::Directory.new(dirname)
   end
 
-  # Returns a list of all paths in this directory that match `pattern`, relative
+  # Returns a list of all files in this directory that match `pattern`, relative
   # to the directory root.
   #
   # This includes files within HRX files in this directory.
@@ -92,7 +92,8 @@ class SassSpec::Directory
 
         absolute = Pathname.new(path).expand_path
         relative = absolute.relative_path_from(@path.expand_path).to_s
-        next relative unless recursive && path.end_with?(".hrx")
+        next relative unless path.end_with?(".hrx")
+        next [] unless recursive
 
         dir = path[0...-".hrx".length]
         relative_dir = relative[0...-".hrx".length]
