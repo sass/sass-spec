@@ -21,9 +21,12 @@ end
 # This command calls sass-spec using the sass stub.
 # It takes in the name of a fixture folder and an array of additional flags.
 def run_sass(fixture_folder, additional_flags = [])
-  run_command(["#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
-  "--command '#{Dir.pwd}/tests/sass_stub'",
-  "#{Dir.pwd}/tests/fixtures/#{fixture_folder}"].join(' '))
+  copy "#{Dir.pwd}/tests/fixtures/#{fixture_folder}", 'tmp/aruba/spec'
+  run_command([
+    "#{Dir.pwd}/sass-spec.rb #{additional_flags.join(' ')}",
+    "--command '#{Dir.pwd}/tests/sass_stub'",
+    'tmp/aruba/spec'
+  ].join(' '))
 end
 
 # A context with a mocked filesystem.
