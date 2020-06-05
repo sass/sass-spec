@@ -110,7 +110,7 @@ class SassSpec::Directory
     elsif (dir, basename = split_if_nested(path))
       dir.file?(basename)
     else
-      File.exist?(File.join(@path, path))
+      File.file?(File.join(@path, path))
     end
   rescue ArgumentError, HRX::Error
     # If we get a directory-doesn't-exist error for a nested directory, return

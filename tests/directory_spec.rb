@@ -162,7 +162,7 @@ END
 
       it "returns false if a directory with the given name exists" do
         FileUtils.mkdir dir('subdir')
-        expect(directory.file?('qux.txt')).to be false
+        expect(directory.file?('subdir')).to be false
       end
     end
 
