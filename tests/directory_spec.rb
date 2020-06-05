@@ -73,6 +73,21 @@ describe SassSpec::Directory do
         expect(directory.file?('qux.txt')).to be true
       end
 
+      it 'returns true if the given file exists in a subdirectory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        expect(directory.file?('foo/bar/baz/qux.txt')).to be true
+      end
+
+      it 'returns true if the given file exists in an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), <<END)
+<===> baz/qux.txt
+hello!
+END
+        expect(directory.file?('foo/bar/baz/qux.txt')).to be true
+      end
+
       it 'treats the path as relative to the directory' do
         FileUtils.mkdir_p dir('foo/bar/baz')
         File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
@@ -81,6 +96,16 @@ describe SassSpec::Directory do
 
       it "returns false if the given file doesn't exist" do
         expect(directory.file?('qux.txt')).to be false
+      end
+
+      it "returns false if the given file doesn't exist in a subdirectory" do
+        expect(directory.file?('foo/bar/baz/qux.txt')).to be false
+      end
+
+      it "returns false if the given file doesn't exist in an HRX archive" do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        expect(directory.file?('foo/bar/baz/qux.txt')).to be false
       end
 
       it "returns false if a directory with the given name exists" do
@@ -93,6 +118,18 @@ describe SassSpec::Directory do
       it 'returns the contents of the given file' do
         File.write(dir('qux.txt'), 'hello!')
         expect(directory.read('qux.txt')).to be == 'hello!'
+      end
+
+      it 'returns the contents of a file in a subdirectory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        expect(directory.read('foo/bar/baz/qux.txt')).to be == 'hello!'
+      end
+
+      it 'returns the contents of a file in an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), "<===> baz/qux.txt\nhello!")
+        expect(directory.read('foo/bar/baz/qux.txt')).to be == 'hello!'
       end
 
       it 'treats the path as relative to the directory' do
@@ -116,30 +153,286 @@ describe SassSpec::Directory do
       it "throws an error if the file doesn't exist" do
         expect { directory.read('qux.txt') }.to raise_error /No such file or directory/
       end
+
+      it "throws an error if the given file doesn't exist in a subdirectory" do
+        expect { expect(directory.read('foo/bar/baz/qux.txt')) }.to raise_error /doesn\'t exist/
+      end
+
+      it "throws an error if the given file doesn't exist in an HRX archive" do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        expect { directory.read('foo/bar/baz/qux.txt') }.to raise_error /There is no directory/
+      end
     end
 
     describe '#write' do
-      # TODO(nweiz): Write these specs.
+      it 'writes the contents of the given file' do
+        directory.write('qux.txt', 'hello!')
+        expect(File.read(dir('qux.txt'))).to be == 'hello!'
+      end
+
+      it 'writes the file in a subdirectory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        directory.write('foo/bar/baz/qux.txt', 'hello!')
+        expect(File.read(dir('foo/bar/baz/qux.txt'))).to be == 'hello!'
+      end
+
+      it 'writes the file in an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        directory.write('foo/bar/baz.txt', 'hello!')
+        expect(File.read(dir('foo/bar.hrx'))).to be == "<===> baz.txt\nhello!"
+      end
+
+      it 'returns the contents of a file in an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), "<===> baz/qux.txt\nhello!")
+        expect(directory.read('foo/bar/baz/qux.txt')).to be == 'hello!'
+      end
+
+      it 'treats the path as relative to the directory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        directory('foo/bar/baz').write('qux.txt', 'hello!')
+        expect(File.read(dir('foo/bar/baz/qux.txt'))).to be == 'hello!'
+      end
+
+      it "throws an error if the given subdirectory doesn't exist" do
+        expect { expect(directory.write('foo/bar/baz/qux.txt', 'hello!')) }
+          .to raise_error /doesn\'t exist/
+      end
+
+      it "throws an error if the given subdirectory doesn't exist within an HRX archive" do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        expect { expect(directory.write('foo/bar/baz/qux.txt', 'hello!')) }
+          .to raise_error /There is no directory/
+      end
     end
 
     describe '#delete' do
-      # TODO(nweiz): Write these specs.
+      it 'deletes the given file' do
+        File.write(dir('qux.txt'), '')
+        directory.delete('qux.txt')
+        expect(File.exists?(dir('qux.txt'))).to be false
+      end
+
+      it 'deletes the file in a subdirectory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        directory.delete('foo/bar/baz/qux.txt')
+        expect(File.exists?(dir('foo/bar/baz/qux.txt'))).to be false
+      end
+
+      it 'deletes the file in an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), <<END)
+<===> baz/bang.txt
+bang!
+<===> baz/qux.txt
+qux?
+<===> zip/zap.txt
+zop~
+END
+        directory.delete('foo/bar/baz/qux.txt')
+        expect(File.read(dir('foo/bar.hrx'))).to be == <<END
+<===> baz/bang.txt
+bang!
+<===> zip/zap.txt
+zop~
+END
+      end
+
+      it 'treats the path as relative to the directory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), '')
+        directory('foo/bar/baz').delete('qux.txt')
+        expect(File.exists?(dir('foo/bar/baz/qux.txt'))).to be false
+      end
+
+      it "throws an error if the file doesn't exist" do
+        expect { directory.delete('qux.txt') }.to raise_error /No such file or directory/
+      end
+
+      it "throws an error if the given subdirectory doesn't exist" do
+        expect { expect(directory.delete('foo/bar/baz/qux.txt')) }.to raise_error /doesn\'t exist/
+      end
+
+      it "throws an error if the given subdirectory doesn't exist within an HRX archive" do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        expect { expect(directory.delete('foo/bar/baz/qux.txt')) }
+          .to raise_error /There is no directory/
+      end
+
+      context 'with if_exists' do
+        it 'deletes the given file' do
+          File.write(dir('qux.txt'), '')
+          directory.delete('qux.txt', if_exists: true)
+          expect(File.exists?(dir('qux.txt'))).to be false
+        end
+
+        it "does nothing if the file doesn't exist" do
+          expect { directory.delete('qux.txt', if_exists: true) }.not_to raise_error
+        end
+      end
     end
 
     describe '#rename' do
-      # TODO(nweiz): Write these specs.
+      it 'moves the given file' do
+        File.write(dir('qux.txt'), 'hello!')
+        directory.rename('qux.txt', 'zip.txt')
+        expect(File.read(dir('zip.txt'))).to be == 'hello!'
+        expect(File.exists?(dir('qux.txt'))).to be false
+      end
+
+      it 'moves the file within a subdirectory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        directory.rename('foo/bar/baz/qux.txt', 'foo/bar/baz/zip.txt')
+        expect(File.read(dir('foo/bar/baz/zip.txt'))).to be == 'hello!'
+        expect(File.exists?(dir('foo/bar/baz/qux.txt'))).to be false
+      end
+
+      it 'moves the file between subdirectories' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        FileUtils.mkdir_p dir('do/re/me')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        directory.rename('foo/bar/baz/qux.txt', 'do/re/me/fa.txt')
+        expect(File.read(dir('do/re/me/fa.txt'))).to be == 'hello!'
+        expect(File.exists?(dir('foo/bar/baz/qux.txt'))).to be false
+      end
+
+      it 'moves the file within an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), "<===> baz/qux.txt\nhello!")
+        directory.rename('foo/bar/baz/qux.txt', 'foo/bar/baz/zap.txt')
+        expect(File.read(dir('foo/bar.hrx'))).to be == "<===> baz/zap.txt\nhello!"
+      end
+
+      it 'moves the file out of an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), "<===> baz/qux.txt\nhello!")
+        directory.rename('foo/bar/baz/qux.txt', 'qux.txt')
+        expect(File.exists?(dir('foo/bar.hrx'))).to be false
+        expect(File.read(dir('qux.txt'))).to be === 'hello!'
+      end
+
+      it 'moves the file into an HRX archive' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), '')
+        File.write(dir('qux.txt'), 'hello!')
+        directory.rename('qux.txt', 'foo/bar/baz.txt')
+        expect(File.exists?(dir('qux.txt'))).to be false
+        expect(File.read(dir('foo/bar.hrx'))).to be === "<===> baz.txt\nhello!"
+      end
+
+      it 'moves the file between HRX archives' do
+        FileUtils.mkdir_p dir('foo')
+        File.write(dir('foo/bar.hrx'), "<===> baz/qux.txt\nhello!")
+        File.write(dir('foo/zip.hrx'), '')
+        directory.rename('foo/bar/baz/qux.txt', 'foo/zip/zap.txt')
+        expect(File.exists?(dir('foo/bar.hrx'))).to be false
+        expect(File.read(dir('foo/zip.hrx'))).to be === "<===> zap.txt\nhello!"
+      end
+
+      it 'treats the path as relative to the directory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        directory('foo/bar/baz').rename('qux.txt', 'zip.txt')
+        expect(File.read(dir('foo/bar/baz/zip.txt'))).to be == 'hello!'
+        expect(File.exists?(dir('foo/bar/baz/qux.txt'))).to be false
+      end
+
+      it "throws an error if the file doesn't exist" do
+        expect { directory.rename('qux.txt', 'zap.txt') }.to raise_error /No such file or directory/
+      end
+
+      it "throws an error if the target directory doesn't exist" do
+        expect { directory.rename('qux.txt', 'foo/zap.txt') }.to raise_error /doesn\'t exist/
+      end
     end
 
     describe '#delete_dir!' do
-      # TODO(nweiz): Write these specs.
+      it 'deletes the directory' do
+        directory.delete_dir!
+        expect(Dir.exists?(dir)).to be false
+      end
+
+      it 'deletes the directory even if it contains files' do
+        File.write(dir('foo.txt'), '')
+        File.write(dir('bar.txt'), '')
+        File.write(dir('baz.txt'), '')
+        directory.delete_dir!
+        expect(Dir.exists?(dir)).to be false
+      end
+
+      it 'deletes the directory even if it contains subdirectories' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        File.write(dir('foo/bar/baz/qux.txt'), '')
+        directory.delete_dir!
+      end
+
+      it 'treats the path as relative to the directory' do
+        FileUtils.mkdir_p dir('foo/bar/baz')
+        directory('foo/bar/baz').delete_dir!
+        expect(Dir.exists?(dir('foo/bar/baz'))).to be false
+        expect(Dir.exists?(dir('foo/bar'))).to be true
+      end
     end
 
     describe '#with_real_files' do
-      # TODO(nweiz): Write these specs.
+      it 'runs the block without any filesystem changes' do
+        dir = directory
+        dir.write('qux.txt', 'hello!')
+        dir.with_real_files do
+          expect(File.read(dir('qux.txt'))).to be == 'hello!'
+        end
+      end
+
+      it 'forwards the return value from the block' do
+        expect(directory.with_real_files {:result}).to be :result
+      end
     end
 
     describe '#to_hrx' do
-      # TODO(nweiz): Write these specs.
+      it 'returns an empty string for an empty directory' do
+        expect(directory.to_hrx).to be_empty
+      end
+
+      it 'returns files in the directory' do
+        dir = directory
+        dir.write('foo.txt', 'foo')
+        dir.write('bar.txt', 'bar')
+        dir.write('baz.txt', 'baz')
+
+        # Slice the string because directory ordering is not guaranteed.
+        expect(dir.to_hrx.split("\n").each_slice(2).map {|s| s.join("\n")}).to contain_exactly(
+          "<===> spec/foo.txt\nfoo",
+          "<===> spec/bar.txt\nbar",
+          "<===> spec/baz.txt\nbaz"
+        )
+      end
+
+      it 'returns files in subdirectories' do
+        FileUtils.mkdir_p(dir('foo/bar/baz'))
+        File.write(dir('foo/bar/baz/qux.txt'), 'hello!')
+        expect(directory.to_hrx).to be == "<===> spec/foo/bar/baz/qux.txt\nhello!"
+      end
+
+      it 'returns files in HRX archives' do
+        File.write(dir('archive.hrx'), <<END)
+<===> foo.txt
+foo
+<===> subdir/bar.txt
+bar
+END
+        expect(directory.to_hrx).to be == <<END
+<===> spec/archive/foo.txt
+foo
+<===> spec/archive/subdir/bar.txt
+bar
+END
+      end
     end
   end
 

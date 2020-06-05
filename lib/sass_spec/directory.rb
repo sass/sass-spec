@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'hrx'
 require 'pathname'
+require 'set'
 
 require_relative 'util'
 
@@ -73,9 +74,24 @@ class SassSpec::Directory
       @archive.glob(pattern).select {|e| e.is_a?(HRX::File)}.map(&:path)
     else
       recursive = pattern.include?("**")
-      physical_pattern = recursive ? "{#{pattern},**/*.hrx}" : pattern
-      Dir.glob(File.join(@path, physical_pattern), File::FNM_EXTGLOB).flat_map do |path|
-        relative = Pathname.new(path).relative_path_from(@path).to_s
+      physical_pattern =
+        if recursive
+          "{#{File.join(@path, pattern)},#{File.join(@path, '**/*.hrx')}}"
+        else
+          File.join(@path, pattern)
+        end
+
+      seen = Set.new
+      Dir.glob(physical_pattern, File::FNM_EXTGLOB).flat_map do |path|
+        # Dir.glob() can emit the same path multiple times if multiple `{}`
+        # patterns cover it.
+        next [] if seen.include?(path)
+        seen << path
+
+        next [] if Dir.exists?(path)
+
+        absolute = Pathname.new(path).expand_path
+        relative = absolute.relative_path_from(@path.expand_path).to_s
         next relative unless recursive && path.end_with?(".hrx")
 
         dir = path[0...-".hrx".length]
@@ -88,14 +104,29 @@ class SassSpec::Directory
 
   # Returns whether a file exists at `path` within this directory.
   def file?(path)
-    return @archive[path].is_a?(HRX::File) if hrx?
-    File.exist?(File.join(@path, path))
+    if hrx?
+      @archive[path].is_a?(HRX::File)
+    elsif (dir, basename = split_if_nested(path))
+      dir.file?(basename)
+    else
+      File.exist?(File.join(@path, path))
+    end
+  rescue ArgumentError, HRX::Error
+    # If we get a directory-doesn't-exist error for a nested directory, return
+    # false. This could catch unrelated errors, but it's probably not likely
+    # enough to be worth creating a custom exception class.
+    return false
   end
 
   # Reads the file at `path` within this directory.
   def read(path)
-    return @archive.read(path) if hrx?
-    File.read(File.join(@path, path), binmode: true, encoding: "ASCII-8BIT")
+    if hrx?
+      @archive.read(path)
+    elsif (dir, basename = split_if_nested(path))
+      dir.read(basename)
+    else
+      File.read(File.join(@path, path), binmode: true, encoding: "ASCII-8BIT")
+    end
   end
 
   # Writes `contents` to `path` within this directory.
@@ -103,6 +134,8 @@ class SassSpec::Directory
     if hrx?
       @archive.write(path, contents, comment: :copy)
       _write!
+    elsif (dir, basename = split_if_nested(path))
+      dir.write(basename, contents)
     else
       File.write(File.join(@path, path), contents, binmode: true)
     end
@@ -116,6 +149,8 @@ class SassSpec::Directory
     if hrx?
       @archive.delete(path)
       _write!
+    elsif (dir, basename = split_if_nested(path))
+      dir.delete(basename, if_exists: if_exists)
     else
       File.unlink(File.join(@path, path))
     end
@@ -123,17 +158,23 @@ class SassSpec::Directory
 
   # Renames the file at `old` to `new`.
   def rename(old, new)
-    if hrx?
-      unless old_file = @archive[old]
+    old_dir, old_basename = split_if_nested(old) || [self, old]
+    new_dir, new_basename = split_if_nested(new) || [self, new]
+
+    if old_dir.hrx? && new_dir.hrx?
+      unless old_file = old_dir.archive[old_basename]
         raise "#@path/old doesn't exist"
       end
 
-      @archive.add(HRX::File.new(new, old_file.contents, comment: old_file.comment),
-                   after: old_file)
-      @archive.delete(old)
-      _write!
+      new_dir.archive.add(
+        HRX::File.new(new_basename, old_file.content, comment: old_file.comment),
+        after: new_dir == old_dir ? old_file : nil)
+      new_dir._write!
+
+      old_dir.delete(old_basename)
     else
-      File.rename(File.join(@path, old), File.join(@path, new))
+      new_dir.write(new_basename, old_dir.read(old_basename))
+      old_dir.delete(old_basename)
     end
   end
 
@@ -144,11 +185,7 @@ class SassSpec::Directory
         _delete_parent!
       else
         @parent_archive.delete(@path_in_parent, recursive: true)
-        if @parent_archive.entries.empty?
-          _delete_parent!
-        else
-          _write!
-        end
+        _write!
       end
     else
       FileUtils.rm_rf(@path)
@@ -197,18 +234,34 @@ class SassSpec::Directory
     @path.to_s
   end
 
+  protected
+
+  # The directory's underlying HRX archive. `nil` if `hrx?` is `false`.
+  attr_reader :archive
+
+  # Writes `@parent_archive` to disk.
+  def _write!
+    if @parent_archive.entries.empty?
+      _delete_parent!
+    else
+      @parent_archive.write!(@parent_archive_path)
+    end
+  end
+
   private
+
+  # If `path` points to a subdirectory of this directory, returns the nested
+  # `Directory` object and the basename of the file. Otherwise, returns `nil`.
+  def split_if_nested(path)
+    dirname, basename = File.split(path)
+    dirname == '.' ? nil : [SassSpec::Directory.new(@path.join(dirname)), basename]
+  end
 
   # Returns whether `file` contains enough `../` references to reach outside
   # this directory.
   def _reaches_out?(file)
     depth = file.path.count("/")
     file.content.scan(%r{(?:\.\./)+}).any? {|match| match.count("/") > depth}
-  end
-
-  # Writes `@parent_archive` to disk.
-  def _write!
-    @parent_archive.write!(@parent_archive_path)
   end
 
   # Deletes `@parent_archive` from disk and from the archive cache.

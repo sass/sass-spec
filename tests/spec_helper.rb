@@ -5,6 +5,10 @@ require 'fakefs/spec_helpers'
 require 'rspec'
 require 'aruba/rspec'
 
+Aruba.configure do |config|
+  config.allow_absolute_paths = true
+end
+
 # Given the output of sass-spec,
 # return the number of tests in
 # each state (success, failed, etc)
