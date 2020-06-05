@@ -168,7 +168,7 @@ class SassSpec::Directory
 
       new_dir.archive.add(
         HRX::File.new(new_basename, old_file.content, comment: old_file.comment),
-        new_dir == old_dir ? {after: old_file} : {})
+        after: new_dir == old_dir ? old_file : nil)
       new_dir._write!
 
       old_dir.delete(old_basename)
