@@ -1,4 +1,4 @@
-<===> none_passed/input.scss
+<===> args/none_passed/input.scss
 // It's an error to pass no arguments to a content block that requires them.
 @mixin mixin {
   @content;
@@ -6,7 +6,7 @@
 
 @include mixin using ($arg1, $arg2) {}
 
-<===> none_passed/error
+<===> args/none_passed/error
 Error: Missing argument $arg1.
     ,
 3   |   @content;
@@ -19,7 +19,7 @@ Error: Missing argument $arg1.
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
 
-<===> none_passed/error-libsass
+<===> args/none_passed/error-libsass
 Error: Mixin @content is missing argument $arg1.
         on line 2:3 of test.scss, in mixin `mixin`
         from line 5:10 of test.scss
@@ -29,7 +29,7 @@ Error: Mixin @content is missing argument $arg1.
 
 <===>
 ================================================================================
-<===> none_expected/input.scss
+<===> args/none_expected/input.scss
 // It's an error to pass argments to a content block that doesn't take them.
 @mixin mixin {
   @content(value);
@@ -37,7 +37,7 @@ Error: Mixin @content is missing argument $arg1.
 
 @include mixin {}
 
-<===> none_expected/error
+<===> args/none_expected/error
 Error: Only 0 arguments allowed, but 1 was passed.
     ,
 3   |   @content(value);
@@ -50,7 +50,7 @@ Error: Only 0 arguments allowed, but 1 was passed.
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
 
-<===> none_expected/error-libsass
+<===> args/none_expected/error-libsass
 Error: wrong number of arguments (1 for 0) for `@content'
         on line 2:3 of test.scss, in mixin `@content`
         from line 2:3 of test.scss, in mixin `mixin`
@@ -61,7 +61,7 @@ Error: wrong number of arguments (1 for 0) for `@content'
 
 <===>
 ================================================================================
-<===> named/input.scss
+<===> args/named/input.scss
 // It's an error to pass a named argument that doesn't exist.
 @mixin mixin {
   @content($invalid: value);
@@ -69,7 +69,7 @@ Error: wrong number of arguments (1 for 0) for `@content'
 
 @include mixin using ($valid: value) {}
 
-<===> named/error
+<===> args/named/error
 Error: No argument named $invalid.
     ,
 3   |   @content($invalid: value);
@@ -82,7 +82,7 @@ Error: No argument named $invalid.
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
 
-<===> named/error-libsass
+<===> args/named/error-libsass
 Error: Mixin @content has no parameter named $invalid
         on line 2:12 of test.scss, in mixin `@content`
         from line 2:3 of test.scss, in mixin `mixin`
@@ -93,7 +93,7 @@ Error: Mixin @content has no parameter named $invalid
 
 <===>
 ================================================================================
-<===> too_few/input.scss
+<===> args/too_few/input.scss
 // It's an error to pass fewer positional arguments than are required.
 @mixin mixin {
   @content(1);
@@ -101,7 +101,7 @@ Error: Mixin @content has no parameter named $invalid
 
 @include mixin using ($arg1, $arg2) {}
 
-<===> too_few/error
+<===> args/too_few/error
 Error: Missing argument $arg2.
     ,
 3   |   @content(1);
@@ -114,7 +114,7 @@ Error: Missing argument $arg2.
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
 
-<===> too_few/error-libsass
+<===> args/too_few/error-libsass
 Error: Mixin @content is missing argument $arg2.
         on line 2:3 of test.scss, in mixin `mixin`
         from line 5:10 of test.scss
@@ -124,7 +124,7 @@ Error: Mixin @content is missing argument $arg2.
 
 <===>
 ================================================================================
-<===> too_many/input.scss
+<===> args/too_many/input.scss
 // It's an error to pass more positional arguments than are required.
 @mixin mixin {
   @content(1, 2, 3);
@@ -132,7 +132,7 @@ Error: Mixin @content is missing argument $arg2.
 
 @include mixin using ($arg1, $arg2) {}
 
-<===> too_many/error
+<===> args/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
     ,
 3   |   @content(1, 2, 3);
@@ -145,7 +145,7 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 3:3  mixin()
   input.scss 6:1  root stylesheet
 
-<===> too_many/error-libsass
+<===> args/too_many/error-libsass
 Error: wrong number of arguments (3 for 2) for `@content'
         on line 2:3 of test.scss, in mixin `@content`
         from line 2:3 of test.scss, in mixin `mixin`
@@ -153,3 +153,123 @@ Error: wrong number of arguments (3 for 2) for `@content'
 >>   @content(1, 2, 3);
 
    --^
+
+<===>
+================================================================================
+<===> syntax/arglist/invalid/input.scss
+@mixin mixin {
+  @content;
+}
+
+@include mixin() using ($arg1: ) {}
+
+<===> syntax/arglist/invalid/error
+Error: Expected expression.
+  ,
+5 | @include mixin() using ($arg1: ) {}
+  |                                ^
+  '
+  input.scss 5:32  root stylesheet
+
+<===> syntax/arglist/invalid/error-libsass
+Error: Invalid CSS after "...) using ($arg1:": expected expression (e.g. 1px, bold), was ") {}"
+        on line 5:32 of test.scss
+>> @include mixin() using ($arg1: ) {}
+
+   -------------------------------^
+
+<===>
+================================================================================
+<===> syntax/arglist/missing/input.scss
+@mixin mixin {
+  @content;
+}
+
+@include mixin using {}
+
+<===> syntax/arglist/missing/error
+Error: expected "(".
+  ,
+5 | @include mixin using {}
+  |                      ^
+  '
+  input.scss 5:22  root stylesheet
+
+<===> syntax/arglist/missing/error-libsass
+Error: Invalid CSS after "...ude mixin using": expected "(", was "{}"
+        on line 5:16 of test.scss
+>> @include mixin using {}
+
+   ---------------^
+
+<===>
+================================================================================
+<===> syntax/arglist/missing_parens/input.scss
+@mixin mixin {
+  @content;
+}
+
+@include mixin using $arg1 {}
+
+<===> syntax/arglist/missing_parens/error
+Error: expected "(".
+  ,
+5 | @include mixin using $arg1 {}
+  |                      ^
+  '
+  input.scss 5:22  root stylesheet
+
+<===> syntax/arglist/missing_parens/error-libsass
+Error: Invalid CSS after "...ude mixin using": expected "(", was "$arg1 {}"
+        on line 5:16 of test.scss
+>> @include mixin using $arg1 {}
+
+   ---------------^
+
+<===>
+================================================================================
+<===> syntax/missing_using/input.scss
+@mixin mixin {
+  @content;
+}
+
+@include mixin() () {}
+
+<===> syntax/missing_using/error
+Error: expected ";".
+  ,
+5 | @include mixin() () {}
+  |                  ^
+  '
+  input.scss 5:18  root stylesheet
+
+<===> syntax/missing_using/error-libsass
+Error: Invalid CSS after "@include mixin()": expected ";", was "() {}"
+        on line 5:16 of test.scss
+>> @include mixin() () {}
+
+   ---------------^
+
+<===>
+================================================================================
+<===> syntax/missing_block/input.scss
+@mixin mixin {
+  @content;
+}
+
+@include mixin using ();
+
+<===> syntax/missing_block/error
+Error: expected "{".
+  ,
+5 | @include mixin using ();
+  |                        ^
+  '
+  input.scss 5:24  root stylesheet
+
+<===> syntax/missing_block/error-libsass
+Error: Invalid CSS after "... mixin using ()": expected "{", was ";"
+        on line 5:23 of test.scss
+>> @include mixin using ();
+
+   ----------------------^

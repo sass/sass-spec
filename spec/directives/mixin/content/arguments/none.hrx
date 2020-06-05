@@ -1,0 +1,105 @@
+<===> no_parens/no_using/input.scss
+@mixin mixin {
+  @content;
+}
+
+a {
+  @include mixin {
+    x: y;
+  }
+}
+
+<===> no_parens/no_using/output.css
+a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> no_parens/empty_using/input.scss
+@mixin mixin {
+  @content;
+}
+
+a {
+  @include mixin using () {
+    x: y;
+  }
+}
+
+<===> no_parens/empty_using/output.css
+a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> no_parens/default_using/input.scss
+@mixin mixin {
+  @content;
+}
+
+a {
+  @include mixin using ($arg: value) {
+    arg: $arg;
+  }
+}
+
+<===> no_parens/default_using/output.css
+a {
+  arg: value;
+}
+
+<===>
+================================================================================
+<===> with_parens/no_using/input.scss
+@mixin mixin {
+  @content();
+}
+
+a {
+  @include mixin {
+    x: y;
+  }
+}
+
+<===> with_parens/no_using/output.css
+a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> with_parens/empty_using/input.scss
+@mixin mixin {
+  @content();
+}
+
+a {
+  @include mixin using () {
+    x: y;
+  }
+}
+
+<===> with_parens/empty_using/output.css
+a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> with_parens/default_using/input.scss
+@mixin mixin {
+  @content();
+}
+
+a {
+  @include mixin using ($arg: value) {
+    arg: $arg;
+  }
+}
+
+<===> with_parens/default_using/output.css
+a {
+  arg: value;
+}
