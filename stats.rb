@@ -1,11 +1,12 @@
 #!/usr/bin/env ruby
 
-require_relative 'lib/sass_spec'
-
 module SassSpec
   module Stats
   end
 end
+
+require_relative 'lib/sass_spec'
+require_relative 'lib/sass_spec/stats'
 
 exceptions = [
   OptionParser::InvalidOption,
@@ -13,14 +14,13 @@ exceptions = [
   OptionParser::MissingArgument,
 ]
 
-if ARGV[0] == "todo"
-  require_relative 'lib/sass_spec/stats/todo'
-  begin
-    (cli = SassSpec::Stats::Todo.parse(ARGV[1..-1])) || exit(1)
-  rescue *exceptions => e
-    warn e.message + "\n\n"
-    SassSpec::Stats::Todo.parse(%w(-h))
-    exit 1
-  end
-  cli.stats() || exit(1)
+begin
+  cli = SassSpec::Stats::CLI.parse(ARGV)
+  cli.stats()
+rescue *exceptions => e
+  warn e.message + "\n\n"
+  SassSpec::Stats::CLI.parse(%w(-h))
+  exit 1
+rescue
+  exit 1
 end
