@@ -110,7 +110,7 @@ class SassSpec::Directory
     elsif (dir, basename = split_if_nested(path))
       dir.file?(basename)
     else
-      File.exist?(File.join(@path, path))
+      File.file?(File.join(@path, path))
     end
   rescue ArgumentError, HRX::Error
     # If we get a directory-doesn't-exist error for a nested directory, return
@@ -169,7 +169,7 @@ class SassSpec::Directory
 
       new_dir.archive.add(
         HRX::File.new(new_basename, old_file.content, comment: old_file.comment),
-        after: new_dir == old_dir ? old_file : nil)
+        after: new_dir == old_dir ? old_file.path : nil)
       new_dir._write!
 
       old_dir.delete(old_basename)
@@ -202,7 +202,7 @@ class SassSpec::Directory
     return yield unless @archive
 
     files = @archive.entries.select {|entry| entry.is_a?(HRX::File)}.to_a
-    if parent.hrx? && files.any? {|file| _reaches_out?(file)}
+    if parent && parent.hrx? && files.any? {|file| _reaches_out?(file)}
       return parent.with_real_files {yield}
     end
 
