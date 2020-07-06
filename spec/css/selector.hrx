@@ -132,6 +132,19 @@ a:not(c) {
 
 <===>
 ================================================================================
+<===> pseudoselector/nested/adjacent_combinators/input.scss
+// Regression test for sass/dart-sass#1038
+a {
+  b:c, > d {x: y}
+}
+
+<===> pseudoselector/nested/adjacent_combinators/output.css
+a b:c, a > d {
+  x: y;
+}
+
+<===>
+================================================================================
 <===> reference_combinator/options.yml
 ---
 :todo:
