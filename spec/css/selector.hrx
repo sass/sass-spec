@@ -69,6 +69,68 @@
 
 <===>
 ================================================================================
+<===> inline_comments/silent/input.sass
+a, // comment
+b
+  x: y
+
+<===> inline_comments/silent/output.css
+a,
+b {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> inline_comments/silent/with_comma_in_comment/input.sass
+// A comma within a comment, even at the end of the line, should not cause the
+// parser to continue the selector on a new line, so this should parse as an
+// empty rule with selector "a", followed by the rule with selector "b".
+a // comment,
+b
+  x: y
+
+<===> inline_comments/silent/with_comma_in_comment/output.css
+b {
+  x: y;
+}
+
+<===> inline_comments/silent/with_comma_in_comment/warning
+WARNING on line 4, column 1 of input.sass: 
+This selector doesn't have any properties and won't be rendered.
+  ,
+4 | a // comment,
+  | ^^^^^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> inline_comments/loud/comma_before/input.sass
+a, /* comment */
+b
+  x: y
+
+<===> inline_comments/loud/comma_before/output.css
+a,
+b {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> inline_comments/loud/comma_after/input.sass
+a /* comment */,
+b
+  x: y
+
+<===> inline_comments/loud/comma_after/output.css
+a,
+b {
+  x: y;
+}
+
+<===>
+================================================================================
 <===> placeholder/pseudoselectors/matches/solo/options.yml
 ---
 :todo:
