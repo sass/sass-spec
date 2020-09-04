@@ -269,6 +269,23 @@ Error: There's already a module with namespace "other".
 
 <===>
 ================================================================================
+<===> conflicting_namespace/built_in/input.scss
+// Regression test for sass/dart-sass#1047
+@use "sass:math";
+@use "sass:math";
+
+<===> conflicting_namespace/built_in/error
+Error: There's already a module with namespace "math".
+  ,
+2 | @use "sass:math";
+  | ================ original @use
+3 | @use "sass:math";
+  | ^^^^^^^^^^^^^^^^ new @use
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
 <===> conflicting_namespace/mixed/input.scss
 @use "other";
 @use "other2" as other;
