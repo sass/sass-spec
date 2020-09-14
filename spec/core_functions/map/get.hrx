@@ -104,23 +104,32 @@ a {
 <===>
 ================================================================================
 <===> nested/not_found/top_level/input.scss
-a {b: map-get((c: (d: (e: f))), d)}
+a {b: inspect(map-get((c: (d: (e: f))), d))}
 
 <===> nested/not_found/top_level/output.css
+a {
+  b: null;
+}
 
 <===>
 ================================================================================
 <===> nested/not_found/deep/input.scss
-a {b: map-get((c: (d: (e: f))), c, d, g)}
+a {b: inspect(map-get((c: (d: (e: f))), c, d, g))}
 
 <===> nested/not_found/deep/output.css
+a {
+  b: null;
+}
 
 <===>
 ================================================================================
 <===> nested/not_found/too_many_keys/input.scss
-a {b: map-get((c: (d: (e: f))), c, d, e, f)}
+a {b: inspect(map-get((c: (d: (e: f))), c, d, e, f))}
 
 <===> nested/not_found/too_many_keys/output.css
+a {
+  b: null;
+}
 
 <===>
 ================================================================================
