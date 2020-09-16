@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3127
+
 <===> empty/both/input.scss
 a {b: inspect(map-merge((), ()))}
 
@@ -58,6 +63,86 @@ a {
 
 <===>
 ================================================================================
+<===> nested/empty/both/input.scss
+a {b: inspect(map-merge((c: ()), c, ()))}
+
+<===> nested/empty/both/output.css
+a {
+  b: (c: ());
+}
+
+<===>
+================================================================================
+<===> nested/empty/first/input.scss
+a {b: inspect(map-merge((c: ()), c, (d: e, f: g)))}
+
+<===> nested/empty/first/output.css
+a {
+  b: (c: (d: e, f: g));
+}
+
+<===>
+================================================================================
+<===> nested/empty/second/input.scss
+a {b: inspect(map-merge((c: (d: e, f: g)), c, ()))}
+
+<===> nested/empty/second/output.css
+a {
+  b: (c: (d: e, f: g));
+}
+
+<===>
+================================================================================
+<===> nested/different_keys/input.scss
+a {b: inspect(map-merge((c: (d: e, f: g)), c, (1: 2, 3: 4)))}
+
+<===> nested/different_keys/output.css
+a {
+  b: (c: (d: e, f: g, 1: 2, 3: 4));
+}
+
+<===>
+================================================================================
+<===> nested/same_keys/input.scss
+a {b: inspect(map-merge((c: (d: e, f: g)), c, (d: 1, f: 2)))}
+
+<===> nested/same_keys/output.css
+a {
+  b: (c: (d: 1, f: 2));
+}
+
+<===>
+================================================================================
+<===> nested/overlapping_keys/input.scss
+a {b: inspect(map-merge((c: (d: e, f: g, h: i)), c, (j: 1, f: 2, k: 3)))}
+
+<===> nested/overlapping_keys/output.css
+a {
+  b: (c: (d: e, f: 2, h: i, j: 1, k: 3));
+}
+
+<===>
+================================================================================
+<===> nested/value_is_not_a_map/input.scss
+a {b: inspect(map-merge((c: 1), c, (d: e)))}
+
+<===> nested/value_is_not_a_map/output.css
+a {
+  b: (c: (d: e));
+}
+
+<===>
+================================================================================
+<===> nested/multiple_keys/input.scss
+a {b: inspect(map-merge((c: (d: (e: (f: (g: h))))), c, d, e, f, (g: 1)))}
+
+<===> nested/multiple_keys/output.css
+a {
+  b: (c: (d: (e: (f: (g: 1)))));
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 a {b: inspect(map-merge($map1: (c: d), $map2: (1: 2)))}
 
@@ -110,48 +195,56 @@ Error: argument `$map2` of `map-merge($map1, $map2)` must be a map
 
 <===>
 ================================================================================
-<===> error/too_few_args/input.scss
-a {b: map-merge((c: d))}
+<===> error/type/nested/map1/input.scss
+a {b: map-merge(1, c, (d: e))}
 
-<===> error/too_few_args/error
-Error: Missing argument $map2.
-  ,--> input.scss
-1 | a {b: map-merge((c: d))}
-  |       ^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:map
-1 | @function merge($map1, $map2) {
-  |           =================== declaration
+<===> error/type/nested/map1/error
+Error: $map1: 1 is not a map.
+  ,
+1 | a {b: map-merge(1, c, (d: e))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function map-merge is missing argument $map2.
-        on line 1 of input.scss
->> a {b: map-merge((c: d))}
-
-   ------^
 
 <===>
 ================================================================================
-<===> error/too_many_args/input.scss
-a {b: map-merge((c: d), (e: f), (g: h))}
+<===> error/type/nested/map2/input.scss
+a {b: map-merge((c: d), e, 1)}
 
-<===> error/too_many_args/error
-Error: Only 2 arguments allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: map-merge((c: d), (e: f), (g: h))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:map
-1 | @function merge($map1, $map2) {
-  |           =================== declaration
+<===> error/type/nested/map2/error
+Error: $map2: 1 is not a map.
+  ,
+1 | a {b: map-merge((c: d), e, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `map-merge'
-        on line 1:7 of input.scss
->> a {b: map-merge((c: d), (e: f), (g: h))}
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+a {b: map-merge()}
 
-   ------^
+<===> error/zero_args/error
+Error: Missing argument $map1.
+  ,--> input.scss
+1 | a {b: map-merge()}
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,
+1 | @function merge($map1, $args...) {
+  |           ====================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+a {b: map-merge((c: d))}
+
+<===> error/one_arg/error
+Error: Expected $args to contain a key.
+  ,
+1 | a {b: map-merge((c: d))}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
