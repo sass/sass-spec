@@ -32,7 +32,12 @@ matrix:
         - curl -o dart.zip "https://storage.googleapis.com/dart-archive/channels/stable/release/latest/sdk/dartsdk-linux-x64-release.zip"
         - unzip dart.zip
         - export PATH="$PATH:`pwd`/dart-sdk/bin"
-        - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch feature.nested-maps
+        - if [[ "$TRAVIS_BRANCH" == feature.* ]]; then
+            branch="$TRAVIS_BRANCH";
+          else
+            branch=master;
+          fi
+        - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
         - (cd ../dart-sass; pub get)
       script: bundle exec sass-spec.rb --dart ../dart-sass
 
