@@ -1,0 +1,98 @@
+<===> alpha/in_gamut/transparent/input.scss
+@use 'sass:color';
+a {b: color.hwb(180 30% 40% / 0)}
+
+<===> alpha/in_gamut/transparent/output.css
+a {
+  b: rgba(77, 153, 153, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/opaque/input.scss
+@use 'sass:color';
+a {b: color.hwb(180 30% 40% / 1)}
+
+<===> alpha/in_gamut/opaque/output.css
+a {
+  b: #4d9999;
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/partial/input.scss
+@use 'sass:color';
+a {b: color.hwb(180 30% 40% / 0.5)}
+
+<===> alpha/in_gamut/partial/output.css
+a {
+  b: rgba(77, 153, 153, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/named/input.scss
+@use 'sass:color';
+a {b: color.hwb($channels: 180 30% 40% / 0.4)}
+
+<===> alpha/in_gamut/named/output.css
+a {
+  b: rgba(77, 153, 153, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/parenthesized/input.scss
+@use 'sass:color';
+
+// Extra parens shouldn't cause the slash to be forced into division.
+a {b: (color.hwb(180 30% 40% / 0.4))}
+
+<===> alpha/in_gamut/parenthesized/output.css
+a {
+  b: rgba(77, 153, 153, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/above/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% 40% / 1.1)}
+
+<===> alpha/clamped/above/output.css
+a {
+  b: #994d4d;
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/below/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% 40% / -0.1)}
+
+<===> alpha/clamped/below/output.css
+a {
+  b: rgba(153, 77, 77, 0);
+}
+
+<===>
+================================================================================
+<===> no_alpha/input.scss
+@use 'sass:color';
+a {b: color.hwb(180 30% 40%)}
+
+<===> no_alpha/output.css
+a {
+  b: #4d9999;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'sass:color';
+a {b: color.hwb($channels: 180 30% 40% / 0.4)}
+
+<===> named/output.css
+a {
+  b: rgba(77, 153, 153, 0.4);
+}
