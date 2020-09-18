@@ -123,12 +123,12 @@ a {
 
 <===>
 ================================================================================
-<===> nested/value_is_not_a_map/input.scss
-a {b: inspect(map-merge((c: 1), c, (d: e)))}
+<===> nested/intermediate_value_is_not_a_map/input.scss
+a {b: inspect(map-merge((c: 1), c, d, (e: f)))}
 
-<===> nested/value_is_not_a_map/output.css
+<===> nested/intermediate_value_is_not_a_map/output.css
 a {
-  b: (c: (d: e));
+  b: (c: (d: (e: f)));
 }
 
 <===>
@@ -216,6 +216,19 @@ Error: $map2: 1 is not a map.
   ,
 1 | a {b: map-merge((c: d), e, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/nested/value/input.scss
+a {b: map-merge((c: 1), c, (d: e))}
+
+<===> error/type/nested/value/error
+Error: 1 is not a map.
+  ,
+1 | a {b: map-merge((c: 1), c, (d: e))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
