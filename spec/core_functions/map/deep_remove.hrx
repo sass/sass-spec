@@ -1,0 +1,139 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3127
+
+<===>
+================================================================================
+<===> not_found/empty/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((), 1))}
+
+<===> not_found/empty/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> not_found/top_level/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: d), d))}
+
+<===> not_found/top_level/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> not_found/nested/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: (d: e)), c, e))}
+
+<===> not_found/nested/output.css
+a {
+  b: (c: (d: e));
+}
+
+<===>
+================================================================================
+<===> found/top_level/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: d), c))}
+
+<===> found/top_level/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> found/nested/single/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: (d: e)), c, d))}
+
+<===> found/nested/single/output.css
+a {
+  b: (c: ());
+}
+
+<===>
+================================================================================
+<===> found/nested/first/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, d))}
+
+<===> found/nested/first/output.css
+a {
+  b: (c: (f: g, h: i));
+}
+
+<===>
+================================================================================
+<===> found/nested/middle/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, f))}
+
+<===> found/nested/middle/output.css
+a {
+  b: (c: (d: e, h: i));
+}
+
+<===>
+================================================================================
+<===> found/nested/last/input.scss
+@use 'sass:map';
+a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, h))}
+
+<===> found/nested/last/output.css
+a {
+  b: (c: (d: e, f: g));
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use 'sass:map';
+a {b: map.deep-remove(1, 2)}
+
+<===> error/type/error
+Error: $map: 1 is not a map.
+  ,
+2 | a {b: map.deep-remove(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$map1` of `map.deep-remove($map, $key, $keys...)` must be a map
+        on line 1:7 of input.scss, in function `map.deep-remove`
+        from line 1:7 of input.scss
+>> a {b: map.deep-remove(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use 'sass:map';
+a {b: map.deep-remove((c: d))}
+
+<===> error/too_few_args/error
+Error: Missing argument $key.
+  ,--> input.scss
+2 | a {b: map.deep-remove((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:map
+1 | @function deep-remove($map, $key, $keys...) {
+  |           ================================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function map.deep-remove is missing argument $key.
+        on line 1 of input.scss
+>> a {b: map.deep-remove((c: d))}
+
+   ------^
