@@ -1,0 +1,64 @@
+@mixin reset-list
+  margin: 0
+  padding: 0
+  list-style: none
+@mixin horizontal-list
+  @include reset-list
+
+  li
+    display: inline-block
+    margin:
+      left: -2px
+      right: 2em
+
+nav ul
+  @include horizontal-list
+
+/* Mixins */
+@mixin col($cols, $mleft: 0, $mright: 0, $include-margin: false, $border: 0, \
+           $pleft: 0, $pright: 0, $include-padding: true, $extra: 0, $clear: false, \
+           $lead: true, $container: false)
+    width: $cols
+    color: red
+    display: block
+
+div
+    @include col(5)
+
+/* Font faces */
+@font-face
+    font-family: 'SPEdessa'
+    src: url('fonts/spedessa-webfont.eot')
+    src: url('fonts/spedessa-webfont.eot?#iefix') format('embedded-opentype'), \
+        url('fonts/spedessa-webfont.woff') format('woff'), \
+        url('fonts/spedessa-webfont.ttf') format('truetype')
+    font-weight: normal
+    font-style: normal
+
+/* List */
+$list:  (1,  "value"), \
+    (5,  "value"), \
+    (23, "value"), \
+    (85, "value"), \
+    (32, "value"), \
+    (11, "value"), \
+    (35, "value"), \
+    (89, "value")
+
+@each $item in $list
+    .icon-#{$item} 
+        font-size: $item
+
+/* Maps */
+$susy: ( columns: 12, \
+  gutters: 1/3, \
+  gutter-position: after, \
+  math: fluid, \
+  output: float, \
+  flow: ltr, \
+  global-box-sizing: border-box )
+
+@each $key, $value in $susy
+    div-#{$key}
+        color: red
+        test : $value
