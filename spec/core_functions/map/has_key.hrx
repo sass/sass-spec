@@ -68,6 +68,61 @@ a {
 
 <===>
 ================================================================================
+<===> nested/options.yml
+---
+:todo:
+- sass/libsass#3127
+
+<===> nested/found/partial_path/input.scss
+a {b: map-has-key((c: (d: (e: f))), c, d)}
+
+<===> nested/found/partial_path/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> nested/found/full_path/input.scss
+a {b: map-has-key((c: (d: (e: f))), c, d, e)}
+
+<===> nested/found/full_path/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> nested/not_found/top_level/input.scss
+a {b: map-has-key((c: (d: (e: f))), d)}
+
+<===> nested/not_found/top_level/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> nested/not_found/deep/input.scss
+a {b: map-has-key((c: (d: (e: f))), c, d, g)}
+
+<===> nested/not_found/deep/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> nested/not_found/too_many_keys/input.scss
+a {b: map-has-key((c: (d: (e: f))), c, d, e, f)}
+
+<===> nested/not_found/too_many_keys/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> error/type/map/input.scss
 a {b: map-has-key(1, 2)}
 
@@ -99,8 +154,8 @@ Error: Missing argument $key.
   |       ^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:map
-1 | @function has-key($map, $key) {
-  |           =================== declaration
+1 | @function has-key($map, $key, $keys...) {
+  |           ============================= declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -108,29 +163,5 @@ Error: Missing argument $key.
 Error: Function map-has-key is missing argument $key.
         on line 1 of input.scss
 >> a {b: map-has-key(1)}
-
-   ------^
-
-<===>
-================================================================================
-<===> error/too_many_args/input.scss
-a {b: map-has-key(1, 2, 3)}
-
-<===> error/too_many_args/error
-Error: Only 2 arguments allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: map-has-key(1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:map
-1 | @function has-key($map, $key) {
-  |           =================== declaration
-  '
-  input.scss 1:7  root stylesheet
-
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `map-has-key'
-        on line 1:7 of input.scss
->> a {b: map-has-key(1, 2, 3)}
 
    ------^
