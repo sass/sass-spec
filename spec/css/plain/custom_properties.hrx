@@ -1,0 +1,54 @@
+<===> README.md
+Regression tests for sass/dart-sass#1104.
+
+<===>
+================================================================================
+<===> identifier/input.scss
+@import "plain";
+
+<===> identifier/plain.css
+a {--b: c}
+
+<===> identifier/output.css
+a {
+  --b: c;
+}
+
+<===>
+================================================================================
+<===> color/input.scss
+@import "plain";
+
+<===> color/plain.css
+a {--b: #ff0000}
+
+<===> color/output.css
+a {
+  --b: #ff0000;
+}
+
+<===>
+================================================================================
+<===> nested/input.scss
+@import "plain";
+
+<===> nested/plain.css
+a {--b: {c: d}}
+
+<===> nested/output.css
+a {
+  --b: {c: d};
+}
+
+<===>
+================================================================================
+<===> arbitrary_tokens/input.scss
+@import "plain";
+
+<===> arbitrary_tokens/plain.css
+a {--b: `~@#$%^&*()_-+={[]}|?/><}
+
+<===> arbitrary_tokens/output.css
+a {
+  --b: `~@#$%^&*()_-+={[]}|?/><;
+}
