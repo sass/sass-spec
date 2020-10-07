@@ -1,0 +1,163 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3127
+
+<===>
+================================================================================
+<===> empty/input.scss
+@use "sass:map";
+a {b: inspect(map.set((), c, d))}
+
+<===> empty/output.css
+a {
+  b: (c: d);
+}
+
+<===>
+================================================================================
+<===> update_existing_key/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: d), c, e))}
+
+<===> update_existing_key/output.css
+a {
+  b: (c: e);
+}
+
+<===>
+================================================================================
+<===> new_key/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: d), e, f))}
+
+<===> new_key/output.css
+a {
+  b: (c: d, e: f);
+}
+
+<===>
+================================================================================
+<===> nested/empty/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: ()), c, d, e, f))}
+
+<===> nested/empty/output.css
+a {
+  b: (c: (d: (e: f)));
+}
+
+<===>
+================================================================================
+<===> nested/update_existing_key/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: (d: e)), c, d, f))}
+
+<===> nested/update_existing_key/output.css
+a {
+  b: (c: (d: f));
+}
+
+<===>
+================================================================================
+<===> nested/new_key/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: (d: e)), c, f, g))}
+
+<===> nested/new_key/output.css
+a {
+  b: (c: (d: e, f: g));
+}
+
+<===>
+================================================================================
+<===> nested/value_is_not_a_map/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: 1), c, d, f))}
+
+<===> nested/value_is_not_a_map/output.css
+a {
+  b: (c: (d: f));
+}
+
+<===>
+================================================================================
+<===> nested/long/input.scss
+@use "sass:map";
+a {b: inspect(map.set((c: (d: (e: (f: (g: h))))), c, d, e, f, g, i))}
+
+<===> nested/long/output.css
+a {
+  b: (c: (d: (e: (f: (g: i)))));
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:map";
+a {b: inspect(map.set($map: (c: d), $key: c, $value: e))}
+
+<===> named/output.css
+a {
+  b: (c: e);
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:map";
+a {b: map.set(1, c, d)}
+
+<===> error/type/error
+Error: $map: 1 is not a map.
+  ,
+2 | a {b: map.set(1, c, d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+@use "sass:map";
+a {b: map.set()}
+
+<===> error/zero_args/error
+Error: Missing argument $map.
+  ,--> input.scss
+2 | a {b: map.set()}
+  |       ^^^^^^^^^ invocation
+  '
+  ,
+1 | @function set($map, $args...) {
+  |           =================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+@use "sass:map";
+a {b: map.set((c: d))}
+
+<===> error/one_arg/error
+Error: Expected $args to contain a key.
+  ,
+2 | a {b: map.set((c: d))}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/input.scss
+@use "sass:map";
+a {b: map.set((c: d), e)}
+
+<===> error/two_args/error
+Error: Expected $args to contain a value.
+  ,
+2 | a {b: map.set((c: d), e)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
