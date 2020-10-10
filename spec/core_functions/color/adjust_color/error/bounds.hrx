@@ -247,3 +247,64 @@ Error: argument `$alpha` of `adjust-color($color, $red: false, $green: false, $b
 >> a {b: adjust-color(red, $alpha: 1.001)}
 
    ------^
+<===>
+================================================================================
+<===> blackness/options.yml
+---
+:todo:
+- sass/libsass#3128
+
+<===> blackness/too_low/input.scss
+a {b: adjust-color(red, $blackness: -100.001)}
+
+<===> blackness/too_low/error
+Error: $blackness: Expected -100.001 to be within -100 and 100.
+  ,
+1 | a {b: adjust-color(red, $blackness: -100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/too_high/input.scss
+a {b: adjust-color(red, $blackness: 100.001)}
+
+<===> blackness/too_high/error
+Error: $blackness: Expected 100.001 to be within -100 and 100.
+  ,
+1 | a {b: adjust-color(red, $blackness: 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/options.yml
+---
+:todo:
+- sass/libsass#3128
+
+<===> whiteness/too_low/input.scss
+a {b: adjust-color(red, $whiteness: -100.001)}
+
+<===> whiteness/too_low/error
+Error: $whiteness: Expected -100.001 to be within -100 and 100.
+  ,
+1 | a {b: adjust-color(red, $whiteness: -100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/too_high/input.scss
+a {b: adjust-color(red, $whiteness: 100.001)}
+
+<===> whiteness/too_high/error
+Error: $whiteness: Expected 100.001 to be within -100 and 100.
+  ,
+1 | a {b: adjust-color(red, $whiteness: 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
