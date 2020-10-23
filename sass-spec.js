@@ -34,7 +34,8 @@ function getTestCases(directory) {
 }
 
 async function readHrx() {
-  const archive = await archiveFromStream(fs.createReadStream('spec/css/comment.hrx', 'utf-8'))
+  const archive = await archiveFromStream(fs.createReadStream('tests/fixtures/basic/basic.hrx', 'utf-8'))
+  // const archive = await archiveFromStream(fs.createReadStream('spec/css/comment.hrx', 'utf-8'))
   return getTestCases(archive)
 }
 
