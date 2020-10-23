@@ -34,15 +34,14 @@ function getTestCases(directory) {
 }
 
 async function readHrx() {
-  const archive = await archiveFromStream(fs.createReadStream('tests/fixtures/basic/basic.hrx', 'utf-8'))
-  // const archive = await archiveFromStream(fs.createReadStream('spec/css/comment.hrx', 'utf-8'))
+  const archive = await archiveFromStream(fs.createReadStream('spec/css/comment.hrx', 'utf-8'))
   return getTestCases(archive)
 }
 
 function runTest(testCase) {
   const { input, output } = testCase
   const actual = execSync(`${bin} -s -t expanded`, { input, encoding: "utf-8" })
-  if (output !== actual) {
+  if (output.trim() !== actual.trim()) {
     console.error(`Expected ${output}\n\nGot: ${actual}`)
   }
 }
