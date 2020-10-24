@@ -1,9 +1,9 @@
-const { promisify } = require('util')
-const fs = require('fs')
-const path = require('path')
-const { archiveFromStream } = require('node-hrx')
+const { promisify } = require("util")
+const fs = require("fs")
+const path = require("path")
+const { archiveFromStream } = require("node-hrx")
 const { execSync } = require("child_process")
-const { error } = require('console')
+const { error } = require("console")
 
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
@@ -14,16 +14,16 @@ function getArchiveTestCases(directory) {
     return []
   }
   // TODO handle .sass syntax as well
-  if (directory.contents['input.scss']) {
+  if (directory.contents["input.scss"]) {
     const test = {
       path: directory.path,
-      input: directory.contents['input.scss'].body,
+      input: directory.contents["input.scss"].body,
     }
-    if (directory.contents['output.css']) {
+    if (directory.contents["output.css"]) {
       test.output = directory.contents[`output.css`].body
     }
-    if (directory.contents['error']) {
-      test.error = directory.contents['error'].body
+    if (directory.contents["error"]) {
+      test.error = directory.contents["error"].body
     }
     return [test]
     // TODO errors and file specific stuff
@@ -37,7 +37,7 @@ function getArchiveTestCases(directory) {
 }
 
 async function readHrx(path) {
-  const archive = await archiveFromStream(fs.createReadStream(path, 'utf-8'))
+  const archive = await archiveFromStream(fs.createReadStream(path, "utf-8"))
   return getTestCases(archive)
 }
 
@@ -48,7 +48,7 @@ const bin = DART_PATH
 
 function runTest(basePath, testCase) {
   const { input, output, path } = testCase
-  if (input.includes('@import')) {
+  if (input.includes("@import")) {
     console.warn("@import non supported, skipping")
     return
   }
@@ -65,7 +65,7 @@ function runTest(basePath, testCase) {
       execSync(bin, { input, encoding: "utf-8" })
       console.error(`Expected an error, but passed`)
     } catch (e) {
-      const actual = e.stderr 
+      const actual = e.stderr
       if (error.trim() !== actual.trim()) {
         console.error(`${fullPath}\nExpected:\n${error}\n\nGot:\n${actual}`)
       } else {
@@ -84,8 +84,10 @@ async function getAllTestCases(directory) {
     if (fileStat.isDirectory()) {
       const newTestCases = await getAllTestCases(file)
       testCases = testCases.concat(newTestCases)
-    } else if (file.endsWith('.hrx')) {
-      const archive = await archiveFromStream(fs.createReadStream(file, 'utf-8'))
+    } else if (file.endsWith(".hrx")) {
+      const archive = await archiveFromStream(
+        fs.createReadStream(file, "utf-8")
+      )
       const newTestCases = await getArchiveTestCases(archive)
       testCases = testCases.concat(newTestCases)
     } // TODO handle raw .sass files
@@ -94,7 +96,7 @@ async function getAllTestCases(directory) {
 }
 
 async function runner() {
-  const testCases = await getAllTestCases('spec')
+  const testCases = await getAllTestCases("spec")
   for (const testCase of testCases) {
     console.log(testCase)
   }
