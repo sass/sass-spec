@@ -31,7 +31,7 @@ function getTestCases(directory) {
   return tests
 }
 
-const specPath = 'spec/css/media/range/error.hrx'
+const specPath = 'spec/css/plain/null.hrx'
 
 async function readHrx(path) {
   const archive = await archiveFromStream(fs.createReadStream(path, 'utf-8'))
@@ -45,6 +45,10 @@ const bin = DART_PATH
 
 function runTest(basePath, testCase) {
   const { input, output, path } = testCase
+  if (input.includes('@import')) {
+    console.warn("@import non supported")
+    return
+  }
   const fullPath = `${basePath}/${path}`
   if (output) {
     const actual = execSync(bin, { input, encoding: "utf-8" })
