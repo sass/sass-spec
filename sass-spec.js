@@ -1,10 +1,14 @@
+const { promisify } = require('util')
 const fs = require('fs')
 const path = require('path')
 const { archiveFromStream } = require('node-hrx')
 const { execSync } = require("child_process")
 const { error } = require('console')
 
-function getTestCases(directory) {
+const readdir = promisify(fs.readdir)
+const stat = promisify(fs.stat)
+
+function getArchiveTestCases(directory) {
   // if the directory contains an input file, it's a single test directory
   if (!directory.contents) {
     return []
@@ -27,12 +31,10 @@ function getTestCases(directory) {
   // otherwise, recurse and compile test cases
   let tests = []
   for (const dirname of directory) {
-    tests = tests.concat(getTestCases(directory.contents[dirname]))
+    tests = tests.concat(getArchiveTestCases(directory.contents[dirname]))
   }
   return tests
 }
-
-const specPath = 'spec/css/plain/null.hrx'
 
 async function readHrx(path) {
   const archive = await archiveFromStream(fs.createReadStream(path, 'utf-8'))
@@ -73,29 +75,29 @@ function runTest(basePath, testCase) {
   }
 }
 
-async function runHrx(path) {
-  const testCases = await readHrx(path)
-  for (const testCase of testCases) {
-    if (testCase.output) {
-      runTest(path, testCase)
-    }
-  }
-}
-
-/**
- * Run HRX tests on all paths in the given directory.
- */
-async function runDirectory(directory) {
-  const list = fs.readdirSync(directory)
+async function getAllTestCases(directory) {
+  const list = await readdir(directory)
+  let testCases = []
   for (const filename of list) {
     const file = path.resolve(directory, filename)
-    const stat = fs.statSync(file)
-    if (stat.isDirectory()) {
-      runDirectory(file)
+    const fileStat = await stat(file)
+    if (fileStat.isDirectory()) {
+      const newTestCases = await getAllTestCases(file)
+      testCases = testCases.concat(newTestCases)
     } else if (file.endsWith('.hrx')) {
-      runHrx(file)
-    }
+      const archive = await archiveFromStream(fs.createReadStream(file, 'utf-8'))
+      const newTestCases = await getArchiveTestCases(archive)
+      testCases = testCases.concat(newTestCases)
+    } // TODO handle raw .sass files
+  }
+  return testCases
+}
+
+async function runner() {
+  const testCases = await getAllTestCases('spec')
+  for (const testCase of testCases) {
+    console.log(testCase)
   }
 }
 
-runDirectory('spec')
+runner()
