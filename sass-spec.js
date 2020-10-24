@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const { archiveFromStream } = require('node-hrx')
 const { execSync } = require("child_process")
 const { error } = require('console')
@@ -46,7 +47,7 @@ const bin = DART_PATH
 function runTest(basePath, testCase) {
   const { input, output, path } = testCase
   if (input.includes('@import')) {
-    console.warn("@import non supported")
+    console.warn("@import non supported, skipping")
     return
   }
   const fullPath = `${basePath}/${path}`
@@ -54,6 +55,8 @@ function runTest(basePath, testCase) {
     const actual = execSync(bin, { input, encoding: "utf-8" })
     if (output.trim() !== actual.trim()) {
       console.error(`${fullPath}\nExpected:\n${output}\n\nGot:\n${actual}`)
+    } else {
+      // console.log(`${fullPath} ✅`)
     }
   } else if (error) {
     try {
@@ -63,6 +66,8 @@ function runTest(basePath, testCase) {
       const actual = e.stderr 
       if (error.trim() !== actual.trim()) {
         console.error(`${fullPath}\nExpected:\n${error}\n\nGot:\n${actual}`)
+      } else {
+        // console.log(`${fullPath} ✅`)
       }
     }
   }
@@ -81,7 +86,16 @@ async function runHrx(path) {
  * Run HRX tests on all paths in the given directory.
  */
 async function runDirectory(directory) {
-  
+  const list = fs.readdirSync(directory)
+  for (const filename of list) {
+    const file = path.resolve(directory, filename)
+    const stat = fs.statSync(file)
+    if (stat.isDirectory()) {
+      runDirectory(file)
+    } else if (file.endsWith('.hrx')) {
+      runHrx(file)
+    }
+  }
 }
 
-runHrx(specPath)
+runDirectory('spec')
