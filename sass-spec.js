@@ -11,7 +11,8 @@ function getTestCases(directory) {
   // TODO handle .sass syntax as well
   if (directory.contents['input.scss']) {
     const test = {
-      input: directory.contents['input.scss'].body
+      path: directory.path,
+      input: directory.contents['input.scss'].body,
     }
     if (directory.contents['output.css']) {
       test.output = directory.contents[`output.css`].body
@@ -30,7 +31,7 @@ function getTestCases(directory) {
   return tests
 }
 
-const specPath = 'spec/css/comment.hrx'
+const specPath = 'spec/css/media/range/error.hrx'
 
 async function readHrx(path) {
   const archive = await archiveFromStream(fs.createReadStream(path, 'utf-8'))
@@ -42,12 +43,13 @@ const LIBSASS_PATH = "../libsass/sassc/bin/sassc --stdin --style expanded"
 
 const bin = DART_PATH
 
-function runTest(testCase) {
-  const { input, output } = testCase
+function runTest(basePath, testCase) {
+  const { input, output, path } = testCase
+  const fullPath = `${basePath}/${path}`
   if (output) {
     const actual = execSync(bin, { input, encoding: "utf-8" })
     if (output.trim() !== actual.trim()) {
-      console.error(`Expected:\n${output}\n\nGot:\n${actual}`)
+      console.error(`${fullPath}\nExpected:\n${output}\n\nGot:\n${actual}`)
     }
   } else if (error) {
     try {
@@ -56,7 +58,7 @@ function runTest(testCase) {
     } catch (e) {
       const actual = e.stderr 
       if (error.trim() !== actual.trim()) {
-        console.error(`Expected:\n${error}\n\nGot:\n${actual}`)
+        console.error(`${fullPath}\nExpected:\n${error}\n\nGot:\n${actual}`)
       }
     }
   }
@@ -66,12 +68,16 @@ async function runHrx(path) {
   const testCases = await readHrx(path)
   for (const testCase of testCases) {
     if (testCase.output) {
-      runTest(testCase)
+      runTest(path, testCase)
     }
   }
 }
 
-runHrx(specPath)
+/**
+ * Run HRX tests on all paths in the given directory.
+ */
+async function runDirectory(directory) {
+  
+}
 
-// TODO lol this is probably unsafe
-// console.log(execSync(`${bin} -s`, { input, encoding: "utf-8" }))
+runHrx(specPath)
