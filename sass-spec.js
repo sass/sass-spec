@@ -19,6 +19,7 @@ function getArchiveTestCases(directory) {
       path: directory.path,
       input: directory.contents["input.scss"].body,
     }
+
     if (directory.contents["output.css"]) {
       test.output = directory.contents[`output.css`].body
     }
@@ -34,11 +35,6 @@ function getArchiveTestCases(directory) {
     tests = tests.concat(getArchiveTestCases(directory.contents[dirname]))
   }
   return tests
-}
-
-async function readHrx(path) {
-  const archive = await archiveFromStream(fs.createReadStream(path, "utf-8"))
-  return getTestCases(archive)
 }
 
 const DART_PATH = "sass --stdin"
