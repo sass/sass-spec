@@ -1,27 +1,24 @@
 const fs = require('fs')
 const { archiveFromStream } = require('node-hrx')
 const { execSync } = require("child_process")
-
-// get the binary to execute
-const bin = process.argv[2]
-
-const input = `
-.button {
-  color black;
-}
-`
+const { error } = require('console')
 
 function getTestCases(directory) {
   // if the directory contains an input file, it's a single test directory
   if (!directory.contents) {
     return []
   }
+  // TODO handle .sass syntax as well
   if (directory.contents['input.scss']) {
     const test = {
       input: directory.contents['input.scss'].body
     }
-    if (directory.contents['output.css'])
-    test.output = directory.contents[`output.css`].body
+    if (directory.contents['output.css']) {
+      test.output = directory.contents[`output.css`].body
+    }
+    if (directory.contents['error']) {
+      test.error = directory.contents['error'].body
+    }
     return [test]
     // TODO errors and file specific stuff
   }
@@ -33,16 +30,35 @@ function getTestCases(directory) {
   return tests
 }
 
+const specPath = 'spec/css/comment.hrx'
+
 async function readHrx() {
-  const archive = await archiveFromStream(fs.createReadStream('spec/css/comment.hrx', 'utf-8'))
+  const archive = await archiveFromStream(fs.createReadStream(specPath, 'utf-8'))
   return getTestCases(archive)
 }
 
+const DART_PATH = "sass --stdin"
+const LIBSASS_PATH = "../libsass/sassc/bin/sassc --stdin --style expanded"
+
+const bin = DART_PATH
+
 function runTest(testCase) {
   const { input, output } = testCase
-  const actual = execSync(`${bin} -s -t expanded`, { input, encoding: "utf-8" })
-  if (output.trim() !== actual.trim()) {
-    console.error(`Expected ${output}\n\nGot: ${actual}`)
+  if (output) {
+    const actual = execSync(bin, { input, encoding: "utf-8" })
+    if (output.trim() !== actual.trim()) {
+      console.error(`Expected:\n${output}\n\nGot:\n${actual}`)
+    }
+  } else if (error) {
+    try {
+      execSync(bin, { input, encoding: "utf-8" })
+      console.error(`Expected an error, but passed`)
+    } catch (e) {
+      const actual = e.stderr 
+      if (error.trim() !== actual.trim()) {
+        console.error(`Expected:\n${error}\n\nGot:\n${actual}`)
+      }
+    }
   }
 }
 
