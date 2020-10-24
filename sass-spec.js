@@ -32,8 +32,8 @@ function getTestCases(directory) {
 
 const specPath = 'spec/css/comment.hrx'
 
-async function readHrx() {
-  const archive = await archiveFromStream(fs.createReadStream(specPath, 'utf-8'))
+async function readHrx(path) {
+  const archive = await archiveFromStream(fs.createReadStream(path, 'utf-8'))
   return getTestCases(archive)
 }
 
@@ -62,8 +62,8 @@ function runTest(testCase) {
   }
 }
 
-async function runAll() {
-  const testCases = await readHrx()
+async function runHrx(path) {
+  const testCases = await readHrx(path)
   for (const testCase of testCases) {
     if (testCase.output) {
       runTest(testCase)
@@ -71,7 +71,7 @@ async function runAll() {
   }
 }
 
-runAll()
+runHrx(specPath)
 
 // TODO lol this is probably unsafe
 // console.log(execSync(`${bin} -s`, { input, encoding: "utf-8" }))
