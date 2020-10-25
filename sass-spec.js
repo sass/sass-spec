@@ -120,7 +120,7 @@ async function runner() {
     tap.test(path, (t) => {
       if (output) {
         const actual = execSync(bin, { input, encoding: "utf-8" })
-        t.equal(actual, output)
+        t.equal(actual, output, path)
       }
       t.end()
     })
