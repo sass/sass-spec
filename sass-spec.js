@@ -20,7 +20,6 @@ const outputs = {
 }
 
 function getArchiveTestCases(rootPath, directory) {
-  console.log(rootPath)
   // if the directory contains an input file, it's a single test directory
   if (!directory.contents) {
     return []
@@ -28,7 +27,7 @@ function getArchiveTestCases(rootPath, directory) {
   // TODO handle .sass syntax as well
   if (directory.contents["input.scss"]) {
     const test = {
-      path: directory.path,
+      path: path.resolve(rootPath, directory.path),
       input: directory.contents["input.scss"].body,
     }
 
@@ -111,7 +110,7 @@ async function getAllTestCases(directory) {
 async function runner() {
   const testCases = await getAllTestCases("spec")
   for (const testCase of testCases) {
-    console.log(testCase)
+    console.log(testCase.path)
   }
 }
 
