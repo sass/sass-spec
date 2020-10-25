@@ -83,23 +83,31 @@ async function getAllTestCases(directory) {
 
 let testCases
 
+function normalizeOutput(output) {
+  return output.replace(/\n+/, "\n").trim()
+}
+
 async function runner() {
-  testCases = await getAllTestCases("spec/core_functions/color/rgb")
+  testCases = await getAllTestCases("spec")
   for (const test of testCases) {
     const { path, input, output, error } = test
     tap.test(path, (t) => {
+      if (input.includes("@use") || input.includes("@import")) {
+        return t.end()
+      }
       if (output) {
         const actual = execSync(bin, { input, encoding: "utf-8" })
+        const realOutput = test.outputDartSass || output
         // FIXME proper way to handle this?
-        t.equal(actual.trim(), output.trim(), path)
+        t.equal(normalizeOutput(actual), realOutput.trim(), path)
       } else if (error) {
         // try {
         //   // FIXME use .toThrow
         //   execSync(bin, { input, encoding: "utf-8" })
-        //   //
+        //   // FIXME fail if it doesn't throw
         // } catch (e) {
         //   const actual = e.stderr
-        //   t.equal(actual, error, path)
+        //   t.equal(actual, error.replace("input.scss", "-"), path)
         // }
       }
       t.end()
