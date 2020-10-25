@@ -5,7 +5,6 @@ const fs = require("fs")
 const path = require("path")
 const { archiveFromStream } = require("node-hrx")
 const { execSync } = require("child_process")
-const { error } = require("console")
 
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
@@ -58,35 +57,6 @@ const DART_PATH = "sass --stdin"
 const LIBSASS_PATH = "../libsass/sassc/bin/sassc --stdin --style expanded"
 
 const bin = DART_PATH
-
-function runTest(basePath, testCase) {
-  const { input, output, path } = testCase
-  if (input.includes("@import")) {
-    console.warn("@import non supported, skipping")
-    return
-  }
-  const fullPath = `${basePath}/${path}`
-  if (output) {
-    const actual = execSync(bin, { input, encoding: "utf-8" })
-    if (output.trim() !== actual.trim()) {
-      console.error(`${fullPath}\nExpected:\n${output}\n\nGot:\n${actual}`)
-    } else {
-      // console.log(`${fullPath} ✅`)
-    }
-  } else if (error) {
-    try {
-      execSync(bin, { input, encoding: "utf-8" })
-      console.error(`Expected an error, but passed`)
-    } catch (e) {
-      const actual = e.stderr
-      if (error.trim() !== actual.trim()) {
-        console.error(`${fullPath}\nExpected:\n${error}\n\nGot:\n${actual}`)
-      } else {
-        // console.log(`${fullPath} ✅`)
-      }
-    }
-  }
-}
 
 async function getAllTestCases(directory) {
   const list = await readdir(directory)
