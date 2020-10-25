@@ -114,13 +114,23 @@ async function getAllTestCases(directory) {
 let testCases
 
 async function runner() {
-  testCases = await getAllTestCases("spec")
+  testCases = await getAllTestCases("spec/core_functions/color/rgb")
   for (const test of testCases) {
-    const { path, input, output } = test
+    const { path, input, output, error } = test
     tap.test(path, (t) => {
       if (output) {
         const actual = execSync(bin, { input, encoding: "utf-8" })
-        t.equal(actual, output, path)
+        // FIXME proper way to handle this?
+        t.equal(actual.trim(), output.trim(), path)
+      } else if (error) {
+        // try {
+        //   // FIXME use .toThrow
+        //   execSync(bin, { input, encoding: "utf-8" })
+        //   //
+        // } catch (e) {
+        //   const actual = e.stderr
+        //   t.equal(actual, error, path)
+        // }
       }
       t.end()
     })
