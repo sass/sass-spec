@@ -84,25 +84,37 @@ async function getAllTestCases(directory) {
 let testCases
 
 function normalizeOutput(output) {
-  return output.replace(/\n+/, "\n").trim()
+  return output.replace(/\n+/g, "\n").trim()
 }
 
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
-    const { path, input, output, error, options } = test
+    const { path, input, output, error, options = {} } = test
     tap.test(path, (t) => {
       if (input.includes("@use") || input.includes("@import")) {
         return t.end()
       }
       if (output) {
-        if (options[":ignore_for:"].includes("dart-sass")) {
+        if (
+          options[":ignore_for"] &&
+          options[":ignore_for"].includes("dart-sass")
+        ) {
+          return t.end()
+        }
+        if (
+          options[":todo"] &&
+          options[":todo"].some((item) => item.includes("dart-sass"))
+        ) {
+          return t.end()
+        }
+        if (test.errorDartSass) {
           return t.end()
         }
         const actual = execSync(bin, { input, encoding: "utf-8" })
         const realOutput = test.outputDartSass || output
         // FIXME proper way to handle this?
-        t.equal(normalizeOutput(actual), realOutput.trim(), path)
+        t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
       } else if (error) {
         // try {
         //   // FIXME use .toThrow
