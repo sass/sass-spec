@@ -1,4 +1,5 @@
 const { promisify } = require("util")
+const yaml = require("js-yaml")
 const fs = require("fs")
 const path = require("path")
 const { archiveFromStream } = require("node-hrx")
@@ -8,7 +9,18 @@ const { error } = require("console")
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
 
-function getArchiveTestCases(directory) {
+// List of the possible supported spec output files
+const outputs = {
+  "output.css": "output",
+  "output-dart-sass.css": "outputDartSass",
+  "output-libsass.css": "outputLibSass",
+  error: "error",
+  "error-dart-sass": "errorDartSass",
+  "error-libsass": "errorLibSass",
+}
+
+function getArchiveTestCases(rootPath, directory) {
+  console.log(rootPath)
   // if the directory contains an input file, it's a single test directory
   if (!directory.contents) {
     return []
@@ -20,19 +32,24 @@ function getArchiveTestCases(directory) {
       input: directory.contents["input.scss"].body,
     }
 
-    if (directory.contents["output.css"]) {
-      test.output = directory.contents[`output.css`].body
+    for (const [filename, outputProp] of Object.entries(outputs)) {
+      if (directory.contents[filename]) {
+        test[outputProp] = directory.contents[filename].body
+      }
     }
-    if (directory.contents["error"]) {
-      test.error = directory.contents["error"].body
+
+    if (directory.contents["options.yml"]) {
+      test.options = yaml.safeLoad(directory.contents["options.yml"].body)
     }
+
     return [test]
-    // TODO errors and file specific stuff
   }
   // otherwise, recurse and compile test cases
   let tests = []
   for (const dirname of directory) {
-    tests = tests.concat(getArchiveTestCases(directory.contents[dirname]))
+    tests = tests.concat(
+      getArchiveTestCases(rootPath, directory.contents[dirname])
+    )
   }
   return tests
 }
@@ -84,7 +101,7 @@ async function getAllTestCases(directory) {
       const archive = await archiveFromStream(
         fs.createReadStream(file, "utf-8")
       )
-      const newTestCases = await getArchiveTestCases(archive)
+      const newTestCases = await getArchiveTestCases(file, archive)
       testCases = testCases.concat(newTestCases)
     } // TODO handle raw .sass files
   }
