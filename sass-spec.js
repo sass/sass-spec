@@ -100,7 +100,10 @@ async function getAllTestCases(directory) {
       const archive = await archiveFromStream(
         fs.createReadStream(file, "utf-8")
       )
-      const newTestCases = await getArchiveTestCases(file, archive)
+      const newTestCases = await getArchiveTestCases(
+        file.replace(".hrx", ""),
+        archive
+      )
       testCases = testCases.concat(newTestCases)
     } // TODO handle raw .sass files
   }
@@ -110,7 +113,7 @@ async function getAllTestCases(directory) {
 async function runner() {
   const testCases = await getAllTestCases("spec")
   for (const testCase of testCases) {
-    console.log(testCase.path)
+    console.log(testCase)
   }
 }
 
