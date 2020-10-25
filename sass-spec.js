@@ -90,12 +90,15 @@ function normalizeOutput(output) {
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
-    const { path, input, output, error } = test
+    const { path, input, output, error, options } = test
     tap.test(path, (t) => {
       if (input.includes("@use") || input.includes("@import")) {
         return t.end()
       }
       if (output) {
+        if (options[":ignore_for:"].includes("dart-sass")) {
+          return t.end()
+        }
         const actual = execSync(bin, { input, encoding: "utf-8" })
         const realOutput = test.outputDartSass || output
         // FIXME proper way to handle this?
