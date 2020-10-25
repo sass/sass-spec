@@ -1,3 +1,4 @@
+const tap = require("tap")
 const { promisify } = require("util")
 const yaml = require("js-yaml")
 const fs = require("fs")
@@ -110,10 +111,19 @@ async function getAllTestCases(directory) {
   return testCases
 }
 
+let testCases
+
 async function runner() {
-  const testCases = await getAllTestCases("spec")
-  for (const testCase of testCases) {
-    console.log(testCase)
+  testCases = await getAllTestCases("spec")
+  for (const test of testCases) {
+    const { path, input, output } = test
+    tap.test(path, (t) => {
+      if (output) {
+        const actual = execSync(bin, { input, encoding: "utf-8" })
+        t.equal(actual, output)
+      }
+      t.end()
+    })
   }
 }
 
