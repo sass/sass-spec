@@ -28,17 +28,15 @@ function getArchiveTestCases(rootPath, directory) {
   if (directory.contents["input.scss"]) {
     const test = {
       path: path.resolve(rootPath, directory.path),
-      input: directory.contents["input.scss"].body,
+      files: {},
     }
 
-    for (const [filename, outputProp] of Object.entries(outputs)) {
-      if (directory.contents[filename]) {
-        test[outputProp] = directory.contents[filename].body
-      }
+    for (const [filename, { body }] of Object.entries(directory.contents)) {
+      test.files[filename] = body
     }
 
-    if (directory.contents["options.yml"]) {
-      test.options = yaml.safeLoad(directory.contents["options.yml"].body)
+    if (test.files["options.yml"]) {
+      test.options = yaml.safeLoad(test.files["options.yml"])
     }
 
     return [test]
@@ -90,8 +88,14 @@ function normalizeOutput(output) {
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
-    const { path, input, output, error, options = {} } = test
+    // const { path, input, output, error, options = {} } = test
+    // console.log(test)
+    // continue
+    const { path, options = {}, files } = test
+    const input = files["input.scss"]
+    const output = files["output.css"]
     tap.test(path, (t) => {
+      // FIXME handle imports
       if (input.includes("@use") || input.includes("@import")) {
         return t.end()
       }
@@ -102,20 +106,21 @@ async function runner() {
         ) {
           return t.end()
         }
+        // Ignore if it's a todo for this implementation
         if (
           options[":todo"] &&
           options[":todo"].some((item) => item.includes("dart-sass"))
         ) {
           return t.end()
         }
-        if (test.errorDartSass) {
+        if (test.files["error-dart-sass"]) {
           return t.end()
         }
         const actual = execSync(bin, { input, encoding: "utf-8" })
-        const realOutput = test.outputDartSass || output
+        const realOutput = test.files["output-dart-sass.css"] || output
         // FIXME proper way to handle this?
         t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
-      } else if (error) {
+        // } else if (error) {
         // try {
         //   // FIXME use .toThrow
         //   execSync(bin, { input, encoding: "utf-8" })
