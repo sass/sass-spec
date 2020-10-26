@@ -4,20 +4,24 @@ const yaml = require("js-yaml")
 const fs = require("fs")
 const path = require("path")
 const { archiveFromStream } = require("node-hrx")
-const { execSync } = require("child_process")
+const child_process = require("child_process")
 
 const readdir = promisify(fs.readdir)
 const stat = promisify(fs.stat)
+const mkdtemp = promisify(fs.mkdtemp)
+const rmdir = promisify(fs.rmdir)
+const writeFile = promisify(fs.writeFile)
+const exec = promisify(child_process.exec)
 
-// List of the possible supported spec output files
-const outputs = {
-  "output.css": "output",
-  "output-dart-sass.css": "outputDartSass",
-  "output-libsass.css": "outputLibSass",
-  error: "error",
-  "error-dart-sass": "errorDartSass",
-  "error-libsass": "errorLibSass",
-}
+// All possible output files, to be ignored when writing to directory
+const outputFiles = [
+  "output.css",
+  "output-dart-sass.css",
+  "output-libsass.css",
+  "error",
+  "error-dart-sass",
+  "error-libsass",
+]
 
 function getArchiveTestCases(rootPath, directory) {
   // if the directory contains an input file, it's a single test directory
@@ -29,10 +33,17 @@ function getArchiveTestCases(rootPath, directory) {
     const test = {
       path: path.resolve(rootPath, directory.path),
       files: {},
+      outputs: {},
     }
 
     for (const [filename, { body }] of Object.entries(directory.contents)) {
-      test.files[filename] = body
+      if (filename === "options.yml") {
+        test.options = yaml.safeLoad(body)
+      } else if (outputFiles.includes(filename)) {
+        test.outputs[filename] = body
+      } else {
+        test.files[filename] = body
+      }
     }
 
     if (test.files["options.yml"]) {
@@ -51,8 +62,8 @@ function getArchiveTestCases(rootPath, directory) {
   return tests
 }
 
-const DART_PATH = "sass --stdin"
-const LIBSASS_PATH = "../libsass/sassc/bin/sassc --stdin --style expanded"
+const DART_PATH = "sass"
+const LIBSASS_PATH = "../libsass/sassc/bin/sassc --style expanded"
 
 const bin = DART_PATH
 
@@ -85,16 +96,22 @@ function normalizeOutput(output) {
   return output.replace(/\n+/g, "\n").trim()
 }
 
+/**
+ * Writes the given file contents to a temporary directory
+ */
+async function writeToDisk(dir, files) {
+  for (const [filename, contents] of Object.entries(files)) {
+    await writeFile(path.resolve(dir, filename), contents)
+  }
+}
+
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
-    // const { path, input, output, error, options = {} } = test
-    // console.log(test)
-    // continue
-    const { path, options = {}, files } = test
+    const { path, options = {}, files, outputs } = test
     const input = files["input.scss"]
-    const output = files["output.css"]
-    tap.test(path, (t) => {
+    const output = outputs["output.css"]
+    tap.test(path, async (t) => {
       // FIXME handle imports
       if (input.includes("@use") || input.includes("@import")) {
         return t.end()
@@ -113,13 +130,22 @@ async function runner() {
         ) {
           return t.end()
         }
-        if (test.files["error-dart-sass"]) {
+        if (outputs["error-dart-sass"]) {
           return t.end()
         }
-        const actual = execSync(bin, { input, encoding: "utf-8" })
-        const realOutput = test.files["output-dart-sass.css"] || output
+        // write the test files to the directory
+        const testDir = await mkdtemp("archive-")
+        await writeToDisk(testDir, files)
+        const inputPath = `${testDir}/input.scss`
+
+        // const actual = execSync(bin, { input, encoding: "utf-8" })
+        const actual = child_process.execSync(`${bin} ${inputPath}`, {
+          encoding: "utf-8",
+        })
+        const realOutput = outputs["output-dart-sass.css"] || output
         // FIXME proper way to handle this?
         t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
+        await rmdir(testDir, { recursive: true, force: true })
         // } else if (error) {
         // try {
         //   // FIXME use .toThrow
@@ -133,6 +159,7 @@ async function runner() {
       t.end()
     })
   }
+  // TODO delete even if cancelled
 }
 
 runner()
