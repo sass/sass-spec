@@ -62,7 +62,7 @@ function getArchiveTestCases(rootPath, directory) {
   return tests
 }
 
-const DART_PATH = "sass"
+const DART_PATH = "sass --load-path=spec"
 const LIBSASS_PATH = "../libsass/sassc/bin/sassc --style expanded"
 
 const bin = DART_PATH
