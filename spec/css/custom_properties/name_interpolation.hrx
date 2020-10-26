@@ -1,4 +1,6 @@
-<===> input.scss
+<===> non_conformant/input.scss
+// TODO: rewrite these test cases to follow the style guide.
+
 .name-interpolation {
   // If the entire name is interpolated, SassScript is allowed on the
   // right-hand side because we don't know it's a custom property at parse time.
@@ -19,7 +21,7 @@
   --#{doub}le-int#{erp}: 1 + 2;
 }
 
-<===> output.css
+<===> non_conformant/output.css
 .name-interpolation {
   --entire: 3;
   --first-hyphen: 3;
@@ -29,4 +31,17 @@
   --middle-interp: 1 + 2;
   --final-interp: 1 + 2;
   --double-interp: 1 + 2;
+}
+
+<===>
+================================================================================
+<===> nested_properties/input.scss
+// Regression test for sass/dart-sass#1095
+a {
+  #{--b}: {c: d}
+}
+
+<===> nested_properties/output.css
+a {
+  --b-c: d;
 }

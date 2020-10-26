@@ -424,6 +424,24 @@ Error: Interpolation isn't allowed in plain CSS.
 
 <===>
 ================================================================================
+<===> style_rule/interpolation/custom_property/input.scss
+@import 'plain'
+<===> style_rule/interpolation/custom_property/plain.css
+a {
+  --b: #{c};
+}
+
+<===> style_rule/interpolation/custom_property/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   --b: #{c};
+  |        ^^^^
+  '
+  plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
 <===> silent_comment/input.scss
 @import 'plain'
 

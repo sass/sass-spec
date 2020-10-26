@@ -1,0 +1,41 @@
+<===> mixin/error/positional_after_named/input.scss
+@mixin a($b, $c) {}
+
+@include a($b: 1, 2) {}
+
+<===> mixin/error/positional_after_named/error
+Error: Positional arguments must come before keyword arguments.
+  ,
+3 | @include a($b: 1, 2) {}
+  |                   ^
+  '
+  input.scss 3:19  root stylesheet
+
+<===> mixin/error/positional_after_named/error-libsass
+Error: ordinal arguments must precede named arguments
+        on line 3 of input.scss
+>> @include a($b: 1, 2) {}
+
+   ------------------^
+
+<===>
+================================================================================
+<===> function/error/positional_after_named/input.scss
+@function a($b, $c) {@return null}
+
+$d: a($b: 1, 2);
+
+<===> function/error/positional_after_named/error
+Error: Positional arguments must come before keyword arguments.
+  ,
+3 | $d: a($b: 1, 2);
+  |              ^
+  '
+  input.scss 3:14  root stylesheet
+
+<===> function/error/positional_after_named/error-libsass
+Error: ordinal arguments must precede named arguments
+        on line 3 of input.scss
+>> $d: a($b: 1, 2);
+
+   -------------^
