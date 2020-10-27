@@ -120,13 +120,21 @@ function escape(text) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
 }
 
+/**
+ * Return whether the file should have a successful output
+ */
+function hasOutput(outputs) {
+  return (
+    outputs[`output-${impl}.css`] ||
+    (outputs["output.css"] && !outputs[`error-${impl}`])
+  )
+}
+
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
     const { path, options = {}, files, outputs } = test
     const input = files["input.scss"]
-    const output = outputs["output.css"]
-    const error = outputs["error"]
     tap.test(path, async (t) => {
       // FIXME handle imports
       if (input.includes("@use") || input.includes("@import")) {
@@ -145,21 +153,18 @@ async function runner() {
       ) {
         return t.end()
       }
-      if (output) {
-        if (outputs[`error-${impl}`]) {
-          return t.end()
-        }
+      if (hasOutput(outputs)) {
         // write the test files to the directory
+        const output = outputs[`output-${impl}.css`] || outputs["output.css"]
 
         const actual = child_process.execSync(`${bin} ${inputPath}`, {
           encoding: "utf-8",
         })
-        const realOutput = outputs[`output-${impl}.css`] || output
         // FIXME proper way to handle this?
-        t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
+        t.equal(normalizeOutput(actual), normalizeOutput(output), path)
         await rmdir(testDir, { recursive: true, force: true })
-      } else if (error) {
-        const realError = outputs[`error-${impl}`] || error
+      } else {
+        const error = outputs[`error-${impl}`] || outputs["error"]
         try {
           // FIXME test that it doesn't pass
           process.chdir(testDir)
@@ -169,7 +174,7 @@ async function runner() {
           // FIXME fail if it doesn't throw
         } catch (e) {
           const actual = normalizeError(e.stderr)
-          t.equal(actual, realError, path)
+          t.equal(actual, error, path)
         }
         process.chdir("..")
         await rmdir(testDir, { recursive: true, force: true })
