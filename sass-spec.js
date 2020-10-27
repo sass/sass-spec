@@ -62,7 +62,7 @@ function getArchiveTestCases(rootPath, directory) {
   return tests
 }
 
-const DART_PATH = "sass --load-path=spec"
+const DART_PATH = "sass --load-path=spec --no-unicode"
 const LIBSASS_PATH = "../libsass/sassc/bin/sassc --style expanded"
 
 const bin = DART_PATH
@@ -96,6 +96,10 @@ function normalizeOutput(output) {
   return output.replace(/\n+/g, "\n").trim()
 }
 
+function normalizeError(error) {
+  return error.replace(/\r\n/g, "\n")
+}
+
 /**
  * Writes the given file contents to a temporary directory
  */
@@ -105,40 +109,44 @@ async function writeToDisk(dir, files) {
   }
 }
 
+function escape(text) {
+  return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
+}
+
 async function runner() {
   testCases = await getAllTestCases("spec")
   for (const test of testCases) {
     const { path, options = {}, files, outputs } = test
     const input = files["input.scss"]
     const output = outputs["output.css"]
+    const error = outputs["error"]
     tap.test(path, async (t) => {
       // FIXME handle imports
       if (input.includes("@use") || input.includes("@import")) {
         return t.end()
       }
+      const testDir = await mkdtemp("archive-")
+      await writeToDisk(testDir, files)
+      const inputPath = `${testDir}/input.scss`
+      if (
+        options[":ignore_for"] &&
+        options[":ignore_for"].includes("dart-sass")
+      ) {
+        return t.end()
+      }
+      // Ignore if it's a todo for this implementation
+      if (
+        options[":todo"] &&
+        options[":todo"].some((item) => item.includes("dart-sass"))
+      ) {
+        return t.end()
+      }
       if (output) {
-        if (
-          options[":ignore_for"] &&
-          options[":ignore_for"].includes("dart-sass")
-        ) {
-          return t.end()
-        }
-        // Ignore if it's a todo for this implementation
-        if (
-          options[":todo"] &&
-          options[":todo"].some((item) => item.includes("dart-sass"))
-        ) {
-          return t.end()
-        }
         if (outputs["error-dart-sass"]) {
           return t.end()
         }
         // write the test files to the directory
-        const testDir = await mkdtemp("archive-")
-        await writeToDisk(testDir, files)
-        const inputPath = `${testDir}/input.scss`
 
-        // const actual = execSync(bin, { input, encoding: "utf-8" })
         const actual = child_process.execSync(`${bin} ${inputPath}`, {
           encoding: "utf-8",
         })
@@ -146,15 +154,21 @@ async function runner() {
         // FIXME proper way to handle this?
         t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
         await rmdir(testDir, { recursive: true, force: true })
-        // } else if (error) {
-        // try {
-        //   // FIXME use .toThrow
-        //   execSync(bin, { input, encoding: "utf-8" })
-        //   // FIXME fail if it doesn't throw
-        // } catch (e) {
-        //   const actual = e.stderr
-        //   t.equal(actual, error.replace("input.scss", "-"), path)
-        // }
+      } else if (error) {
+        const realError = outputs["error-dart-sass"] || error
+        try {
+          // FIXME use .toThrow
+          process.chdir(testDir)
+          child_process.execSync(`${bin} input.scss`, {
+            encoding: "utf-8",
+          })
+          // FIXME fail if it doesn't throw
+        } catch (e) {
+          const actual = normalizeError(e.stderr)
+          t.equal(actual, realError, path)
+        }
+        process.chdir("..")
+        await rmdir(testDir, { recursive: true, force: true })
       }
       t.end()
     })
