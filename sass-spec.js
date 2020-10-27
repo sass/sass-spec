@@ -163,7 +163,6 @@ async function runner() {
           child_process.execSync(`${bin} input.scss`, {
             encoding: "utf-8",
           })
-          throw new Error(`${path} should have failed`)
           // FIXME fail if it doesn't throw
         } catch (e) {
           const actual = normalizeError(e.stderr)
