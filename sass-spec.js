@@ -156,12 +156,14 @@ async function runner() {
         await rmdir(testDir, { recursive: true, force: true })
       } else if (error) {
         const realError = outputs["error-dart-sass"] || error
+        process.chdir(testDir)
         try {
           // FIXME use .toThrow
           process.chdir(testDir)
           child_process.execSync(`${bin} input.scss`, {
             encoding: "utf-8",
           })
+          throw new Error(`${path} should have failed`)
           // FIXME fail if it doesn't throw
         } catch (e) {
           const actual = normalizeError(e.stderr)
