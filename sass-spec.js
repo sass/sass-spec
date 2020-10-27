@@ -62,10 +62,17 @@ function getArchiveTestCases(rootPath, directory) {
   return tests
 }
 
-const DART_PATH = "sass --load-path=spec --no-unicode"
-const LIBSASS_PATH = "../libsass/sassc/bin/sassc --style expanded"
+const bins = {
+  "dart-sass": "sass --load-path=spec --no-unicode",
+  libsass: `${path.resolve(
+    process.cwd(),
+    "../libsass/sassc/bin/sassc"
+  )} --style expanded --load-path=spec`,
+}
 
-const bin = DART_PATH
+const impl = "dart-sass"
+
+const bin = bins[impl]
 
 async function getAllTestCases(directory) {
   const list = await readdir(directory)
@@ -128,21 +135,18 @@ async function runner() {
       const testDir = await mkdtemp("archive-")
       await writeToDisk(testDir, files)
       const inputPath = `${testDir}/input.scss`
-      if (
-        options[":ignore_for"] &&
-        options[":ignore_for"].includes("dart-sass")
-      ) {
+      if (options[":ignore_for"] && options[":ignore_for"].includes(impl)) {
         return t.end()
       }
       // Ignore if it's a todo for this implementation
       if (
         options[":todo"] &&
-        options[":todo"].some((item) => item.includes("dart-sass"))
+        options[":todo"].some((item) => item.includes(impl))
       ) {
         return t.end()
       }
       if (output) {
-        if (outputs["error-dart-sass"]) {
+        if (outputs[`error-${impl}`]) {
           return t.end()
         }
         // write the test files to the directory
@@ -150,15 +154,14 @@ async function runner() {
         const actual = child_process.execSync(`${bin} ${inputPath}`, {
           encoding: "utf-8",
         })
-        const realOutput = outputs["output-dart-sass.css"] || output
+        const realOutput = outputs[`output-${impl}.css`] || output
         // FIXME proper way to handle this?
         t.equal(normalizeOutput(actual), normalizeOutput(realOutput), path)
         await rmdir(testDir, { recursive: true, force: true })
       } else if (error) {
-        const realError = outputs["error-dart-sass"] || error
-        process.chdir(testDir)
+        const realError = outputs[`error-${impl}`] || error
         try {
-          // FIXME use .toThrow
+          // FIXME test that it doesn't pass
           process.chdir(testDir)
           child_process.execSync(`${bin} input.scss`, {
             encoding: "utf-8",
