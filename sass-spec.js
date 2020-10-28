@@ -174,6 +174,7 @@ async function runTest(dir, opts) {
           cwd: dir,
           encoding: "utf-8",
         })
+        t.fail(`${relPath}: should have errored`)
         // TODO fail if the command executes
       } catch (e) {
         const actual = normalizeError(e.stderr)
@@ -186,11 +187,8 @@ async function runTest(dir, opts) {
   // run the implementation
 }
 
-async function fake(dir) {
-  console.log(dir)
-}
-
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
 const testDir = "spec"
+// TODO this might ignore TODOs in a higher directory
 iterateDir(testDir, { impl, rootDir }, runTest)
