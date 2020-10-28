@@ -85,9 +85,7 @@ async function iterateDir(dir, opts, cb) {
 
       // Delete the directory when we're done
       await fs.rmdir(unarchivedDir, { recursive: true, force: true })
-
       // TODO cleanup on error
-      // FIXME handle .hrx
     } else if (filename === "input.scss" || filename === "input.sass") {
       // If this directory contains an input file, then run the test on it
       await cb(dir, opts)
@@ -129,7 +127,8 @@ function escape(text) {
  * Run a sass spec test on the given directory with the given options
  */
 async function runTest(dir, opts) {
-  const { impl } = opts
+  const { rootDir, impl } = opts
+  const relPath = path.relative(rootDir, dir)
   const files = await fs.readdir(dir)
   // determine whether the syntax is indented or not
   const indented = files.includes("input.sass")
@@ -148,9 +147,9 @@ async function runTest(dir, opts) {
   // determine whether this test has a valid output or an error
   const isSuccessCase = hasOutputFile(files, impl)
 
-  tap.test(dir, async (t) => {
+  // process.chdir(dir)
+  tap.test(relPath, async (t) => {
     if (isSuccessCase) {
-      process.chdir(dir)
       // valid case
       const outputFilename = files.includes(`output-${impl}.css`)
         ? `output-${impl}.css`
@@ -158,8 +157,11 @@ async function runTest(dir, opts) {
       const expected = await fs.readFile(path.resolve(dir, outputFilename), {
         encoding: "utf-8",
       })
-      const actual = child_process.execSync(cmd, { encoding: "utf-8" })
-      t.equal(normalizeOutput(actual), normalizeOutput(expected), dir)
+      const actual = child_process.execSync(cmd, {
+        cwd: dir,
+        encoding: "utf-8",
+      })
+      t.equal(normalizeOutput(actual), normalizeOutput(expected), relPath)
     } else {
       // error case
       const errorFilename = files.includes(`error-${impl}`)
@@ -169,11 +171,14 @@ async function runTest(dir, opts) {
         encoding: "utf-8",
       })
       try {
-        child_process.execSync(cmd, { encoding: "utf-8" })
+        child_process.execSync(cmd, {
+          cwd: dir,
+          encoding: "utf-8",
+        })
         // TODO fail if the command executes
       } catch (e) {
         const actual = normalizeError(e.stderr)
-        t.equal(actual, expected, dir)
+        t.equal(actual, expected, relPath)
       }
     }
   })
@@ -187,4 +192,4 @@ async function fake(dir) {
 
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
-iterateDir(rootDir, { impl }, fake)
+iterateDir(rootDir, { impl, rootDir }, runTest)
