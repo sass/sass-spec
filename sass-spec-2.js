@@ -79,7 +79,13 @@ async function iterateDir(dir, opts, cb) {
       await iterateDir(filepath, opts, cb)
     } else if (filename.endsWith(".hrx")) {
       // If HRX, expand it into a directory and recurse into it
+      await unarchive(dir, filename)
+      const unarchivedDir = filepath.replace(".hrx", "")
+      await iterateDir(unarchivedDir, opts, cb)
+
       // Delete the directory when we're done
+      await fs.rm(unarchivedDir, { recursive: true, force: true })
+
       // TODO cleanup on error
       // FIXME handle .hrx
     } else if (filename === "input.scss" || filename === "input.sass") {
