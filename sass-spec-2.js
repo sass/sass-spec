@@ -1,5 +1,6 @@
+const { archiveFromStream } = require("node-hrx")
 const tap = require("tap")
-const fs = require("fs").promises
+const { promises: fs, createReadStream } = require("fs")
 const path = require("path")
 const yaml = require("js-yaml")
 const child_process = require("child_process")
@@ -13,6 +14,37 @@ function hasTodo(options, impl) {
 function hasIgnore(options, impl) {
   if (!options[":ignore_for"]) return false
   return options[":ignore_for"].includes(impl)
+}
+
+async function writeArchive(basePath, item) {
+  const fullPath = path.resolve(basePath, item.path)
+  if (item.isDirectory()) {
+    // If a directory, make the directory and recurse
+    await fs.mkdir(fullPath)
+    for (const subitem of item) {
+      await writeArchive(basePath, item.contents[subitem])
+    }
+  } else {
+    // We're a file, so write to it
+    await fs.writeFile(fullPath, item.body, { encoding: "utf-8" })
+  }
+}
+
+/**
+ * Unarchives the given HRX archive into the filesystem
+ */
+async function unarchive(parentDir, archiveName) {
+  // make a directory for the archive in the given directory
+  const dirName = archiveName.replace(".hrx", "")
+  const dirPath = path.resolve(parentDir, dirName)
+  // await fs.mkdir(dirPath)
+
+  // Unarchive and read the contents
+  const archivePath = path.resolve(parentDir, archiveName)
+  const archive = await archiveFromStream(
+    createReadStream(archivePath, { encoding: "utf-8" })
+  )
+  await writeArchive(dirPath, archive)
 }
 
 /**
@@ -43,10 +75,6 @@ async function iterateDir(dir, opts, cb) {
     const filepath = path.resolve(dir, filename)
     const filestat = await fs.stat(filepath)
     if (filestat.isDirectory()) {
-      // if (filepath.includes("libsass-closed-issues")) {
-      //   console.log("going into", filepath)
-      //   // return
-      // }
       // If we run into a subdirectory, recurse into it
       await iterateDir(filepath, opts, cb)
     } else if (filename.endsWith(".hrx")) {
@@ -153,4 +181,5 @@ async function fake(dir) {
 
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
-iterateDir(rootDir, { impl }, runTest)
+// iterateDir(rootDir, { impl }, runTest)
+unarchive(path.resolve("spec/css"), "comment.hrx")
