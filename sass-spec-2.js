@@ -1,14 +1,8 @@
 const tap = require("tap")
-const { promisify } = require("util")
-const fs = require("fs")
+const fs = require("fs").promises
 const path = require("path")
 const yaml = require("js-yaml")
 const child_process = require("child_process")
-const { assert } = require("console")
-
-const readdir = promisify(fs.readdir)
-const stat = promisify(fs.stat)
-const readFile = promisify(fs.readFile)
 
 /** Returns whether an options.yml object has a todo for the given impl */
 function hasTodo(options, impl) {
@@ -32,12 +26,12 @@ function hasIgnore(options, impl) {
 async function iterateDir(dir, opts, cb) {
   // console.log(dir)
   const { impl } = opts
-  const files = await readdir(dir)
+  const files = await fs.readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
   if (files.includes("options.yml")) {
     const optsFile = path.resolve(dir, "options.yml")
     const options = yaml.safeLoad(
-      await readFile(optsFile, { encoding: "utf-8" })
+      await fs.readFile(optsFile, { encoding: "utf-8" })
     )
     // FIXME differentiate behavior of todos
     // If the directory should be ignored or is a todo for this impl, do nothing else
@@ -47,7 +41,7 @@ async function iterateDir(dir, opts, cb) {
   }
   for (const filename of files) {
     const filepath = path.resolve(dir, filename)
-    const filestat = await stat(filepath)
+    const filestat = await fs.stat(filepath)
     if (filestat.isDirectory()) {
       // if (filepath.includes("libsass-closed-issues")) {
       //   console.log("going into", filepath)
@@ -66,8 +60,6 @@ async function iterateDir(dir, opts, cb) {
     }
   }
 }
-
-const impl = "dart-sass"
 
 /**
  * Return whether the file should have a successful output
@@ -104,7 +96,7 @@ function escape(text) {
  */
 async function runTest(dir, opts) {
   const { impl } = opts
-  const files = await readdir(dir)
+  const files = await fs.readdir(dir)
   // determine whether the syntax is indented or not
   const indented = files.includes("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
@@ -129,7 +121,7 @@ async function runTest(dir, opts) {
       const outputFilename = files.includes(`output-${impl}.css`)
         ? `output-${impl}.css`
         : "output.css"
-      const expected = await readFile(path.resolve(dir, outputFilename), {
+      const expected = await fs.readFile(path.resolve(dir, outputFilename), {
         encoding: "utf-8",
       })
       const actual = child_process.execSync(cmd, { encoding: "utf-8" })
@@ -139,7 +131,7 @@ async function runTest(dir, opts) {
       const errorFilename = files.includes(`error-${impl}`)
         ? `error-${impl}`
         : "error"
-      const expected = await readFile(path.resolve(dir, errorFilename), {
+      const expected = await fs.readFile(path.resolve(dir, errorFilename), {
         encoding: "utf-8",
       })
       try {
@@ -159,5 +151,6 @@ async function fake(dir) {
   console.log(dir)
 }
 
+const impl = "dart-sass"
 const rootDir = path.resolve("spec")
 iterateDir(rootDir, { impl }, runTest)
