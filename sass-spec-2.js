@@ -147,7 +147,6 @@ async function runTest(dir, opts) {
   // determine whether this test has a valid output or an error
   const isSuccessCase = hasOutputFile(files, impl)
 
-  // process.chdir(dir)
   tap.test(relPath, async (t) => {
     if (isSuccessCase) {
       // valid case
@@ -191,5 +190,5 @@ async function fake(dir) {
 }
 
 const impl = "dart-sass"
-const rootDir = path.resolve("spec")
+const rootDir = path.resolve("spec/libsass/base-level-parent/imported")
 iterateDir(rootDir, { impl, rootDir }, runTest)
