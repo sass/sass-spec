@@ -103,11 +103,14 @@ function hasOutputFile(files, impl) {
 }
 
 const bins = {
-  "dart-sass": "sass --load-path=spec --no-unicode",
+  "dart-sass": `${path.resolve(
+    process.cwd(),
+    "../dart-sass/bin/sass.exe"
+  )} --no-unicode`,
   libsass: `${path.resolve(
     process.cwd(),
     "../libsass/sassc/bin/sassc"
-  )} --style expanded --load-path=spec`,
+  )} --style expanded`,
 }
 
 function normalizeOutput(output = "") {
