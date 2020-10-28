@@ -1,0 +1,57 @@
+<===> error/single_equals/no_lhs/input.scss
+a {b: c(=d)}
+
+<===> error/single_equals/no_lhs/error
+Error: expected ")".
+  ,
+1 | a {b: c(=d)}
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===> error/single_equals/no_lhs/error-libsass
+Error: Invalid CSS after "a {b: c(": expected expression (e.g. 1px, bold), was "=d)}"
+        on line 1:8 of input.scss
+>> a {b: c(=d)}
+
+   -------^
+
+<===>
+================================================================================
+<===> error/single_equals/no_rhs/input.scss
+a {b: c(d=)}
+
+<===> error/single_equals/no_rhs/error
+Error: Expected expression.
+  ,
+1 | a {b: c(d=)}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/single_equals/no_rhs/error-libsass
+Error: Invalid CSS after "a {b: c(d": expected expression (e.g. 1px, bold), was "=)}"
+        on line 1:9 of input.scss
+>> a {b: c(d=)}
+
+   --------^
+
+<===>
+================================================================================
+<===> error/single_equals/no_lhs_or_rhs/input.scss
+a {b: c(=)}
+
+<===> error/single_equals/no_lhs_or_rhs/error
+Error: expected ")".
+  ,
+1 | a {b: c(=)}
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===> error/single_equals/no_lhs_or_rhs/error-libsass
+Error: Invalid CSS after "a {b: c(": expected expression (e.g. 1px, bold), was "=)}"
+        on line 1:8 of input.scss
+>> a {b: c(=)}
+
+   -------^
