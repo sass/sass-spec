@@ -117,22 +117,16 @@ function normalizeOutput(output = "") {
   return output.replace(/\r?\n+/g, "\n").trim()
 }
 
-function normalizeError(error) {
-  return error.replace(/\r?\n+/g, "\n").trim()
-}
-
 function escape(text) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
 }
 
 /**
- * Run a sass spec test on the given directory with the given options
+ * Executes the spec at `dir` and return an object representing the test results of that spec.
  */
-async function runTest(dir, opts) {
+async function executeSpec(dir, opts) {
   const { rootDir, impl } = opts
-  const relPath = path.relative(rootDir, dir)
   const files = await fs.readdir(dir)
-  // determine whether the syntax is indented or not
   const indented = files.includes("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
@@ -145,49 +139,62 @@ async function runTest(dir, opts) {
   cmdOpts.push(inputFile)
   const cmd = `${bin} ${cmdOpts.join(" ")}`
 
-  // determine whether this test has a valid output or an error
   const isSuccessCase = hasOutputFile(files, impl)
+  let expectedFilename
 
+  if (isSuccessCase) {
+    expectedFilename = files.includes(`output-${impl}.css`)
+      ? `output-${impl}.css`
+      : "output.css"
+  } else {
+    expectedFilename = files.includes(`error-${impl}`)
+      ? `error-${impl}`
+      : "error"
+  }
+  const expected = await fs.readFile(path.resolve(dir, expectedFilename), {
+    encoding: "utf-8",
+  })
+  let actual, resultType
+  try {
+    actual = child_process.execSync(cmd, {
+      cwd: dir,
+      encoding: "utf-8",
+      stdio: "pipe",
+    })
+    resultType = "success"
+  } catch (e) {
+    resultType = "error"
+    actual = e.stderr
+  }
+
+  return {
+    expected,
+    actual,
+    expectedType: isSuccessCase ? "success" : "error",
+    actualType: resultType,
+  }
+}
+
+async function runTest(dir, opts) {
+  const { rootDir } = opts
+  const relPath = path.relative(rootDir, dir)
   await tap.test(relPath, async (t) => {
-    if (isSuccessCase) {
-      // valid case
-      const outputFilename = files.includes(`output-${impl}.css`)
-        ? `output-${impl}.css`
-        : "output.css"
-      const expected = await fs.readFile(path.resolve(dir, outputFilename), {
-        encoding: "utf-8",
-      })
-      const actual = child_process.execSync(cmd, {
-        cwd: dir,
-        encoding: "utf-8",
-        stdio: "pipe",
-      })
-      t.equal(normalizeOutput(actual), normalizeOutput(expected), relPath)
-    } else {
-      // error case
-      const errorFilename = files.includes(`error-${impl}`)
-        ? `error-${impl}`
-        : "error"
-      const expected = await fs.readFile(path.resolve(dir, errorFilename), {
-        encoding: "utf-8",
-      })
-      try {
-        child_process.execSync(cmd, {
-          cwd: dir,
-          encoding: "utf-8",
-          stdio: "pipe",
-        })
-        t.fail(`${relPath}: should have errored`)
-        // TODO fail if the command executes
-      } catch (e) {
-        const actual = normalizeError(e.stderr)
-        t.equal(actual, normalizeError(expected), relPath)
-      }
-    }
+    const { expected, actual, expectedType, actualType } = await executeSpec(
+      dir,
+      opts
+    )
+    t.equal(
+      actualType,
+      expectedType,
+      `${relPath} expected ${expectedType} but got ${actualType}`
+    )
+    t.equal(
+      normalizeOutput(actual),
+      normalizeOutput(expected),
+      `${relPath} output differs`
+    )
     t.end()
   })
-
-  // run the implementation
 }
 
 const impl = "dart-sass"
