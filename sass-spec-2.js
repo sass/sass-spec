@@ -30,6 +30,7 @@ function hasIgnore(options, impl) {
  * @param cb the callback to run on each directory
  */
 async function iterateDir(dir, opts, cb) {
+  // console.log(dir)
   const { impl } = opts
   const files = await readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
@@ -48,6 +49,10 @@ async function iterateDir(dir, opts, cb) {
     const filepath = path.resolve(dir, filename)
     const filestat = await stat(filepath)
     if (filestat.isDirectory()) {
+      // if (filepath.includes("libsass-closed-issues")) {
+      //   console.log("going into", filepath)
+      //   // return
+      // }
       // If we run into a subdirectory, recurse into it
       await iterateDir(filepath, opts, cb)
     } else if (filename.endsWith(".hrx")) {
@@ -86,6 +91,10 @@ function normalizeOutput(output = "") {
   return output.replace(/\r?\n+/g, "\n").trim()
 }
 
+function normalizeError(error) {
+  return error.replace(/\r\n/g, "\n")
+}
+
 function escape(text) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
 }
@@ -113,9 +122,9 @@ async function runTest(dir, opts) {
   // determine whether this test has a valid output or an error
   const isSuccessCase = hasOutputFile(files, impl)
 
-  process.chdir(dir)
   tap.test(dir, async (t) => {
     if (isSuccessCase) {
+      process.chdir(dir)
       // valid case
       const outputFilename = files.includes(`output-${impl}.css`)
         ? `output-${impl}.css`
@@ -124,15 +133,31 @@ async function runTest(dir, opts) {
         encoding: "utf-8",
       })
       const actual = child_process.execSync(cmd, { encoding: "utf-8" })
-      // console.log(escape(expected))
-      // console.log(escape(actual))
       t.equal(normalizeOutput(actual), normalizeOutput(expected), dir)
     } else {
       // error case
+      const errorFilename = files.includes(`error-${impl}`)
+        ? `error-${impl}`
+        : "error"
+      const expected = await readFile(path.resolve(dir, errorFilename), {
+        encoding: "utf-8",
+      })
+      try {
+        child_process.execSync(cmd, { encoding: "utf-8" })
+        // TODO fail if the command executes
+      } catch (e) {
+        const actual = normalizeError(e.stderr)
+        t.equal(actual, expected, dir)
+      }
     }
   })
 
   // run the implementation
 }
 
-iterateDir("spec", { impl }, runTest)
+async function fake(dir) {
+  console.log(dir)
+}
+
+const rootDir = path.resolve("spec")
+iterateDir(rootDir, { impl }, runTest)
