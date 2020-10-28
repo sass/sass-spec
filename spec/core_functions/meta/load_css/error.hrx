@@ -3,7 +3,7 @@
 @include meta.load-css(1);
 
 <===> type/url/error
-Error: $module: 1 is not a string.
+Error: $url: 1 is not a string.
   ,
 2 | @include meta.load-css(1);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -45,14 +45,14 @@ Error: $with key: 1 is not a string.
 @include meta.load-css();
 
 <===> too_few_args/error
-Error: Missing argument $module.
+Error: Missing argument $url.
   ,--> input.scss
 2 | @include meta.load-css();
   | ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
-1 | @mixin load-css($module, $with: null) {
-  |        ============================== declaration
+1 | @mixin load-css($url, $with: null) {
+  |        =========================== declaration
   '
   input.scss 2:1  root stylesheet
 
@@ -69,8 +69,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
-1 | @mixin load-css($module, $with: null) {
-  |        ============================== declaration
+1 | @mixin load-css($url, $with: null) {
+  |        =========================== declaration
   '
   input.scss 2:1  root stylesheet
 

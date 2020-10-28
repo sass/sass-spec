@@ -1,0 +1,42 @@
+<===> nan/options.yml
+---
+:todo:
+- sass/libsass#3126
+
+<===> nan/input.scss
+a {b: inspect(map-get(((0/0): b), 0/0))}
+
+<===> nan/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> infinity/positive/options.yml
+---
+:todo:
+- sass/libsass#3126
+
+<===> infinity/positive/input.scss
+a {b: inspect(map-get(((1/0): b), 1/0))}
+
+<===> infinity/positive/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> infinity/negative/options.yml
+---
+:todo:
+- sass/libsass#3126
+
+<===> infinity/negative/input.scss
+a {b: inspect(map-get(((-1/0): b), -1/0))}
+
+<===> infinity/negative/output.css
+a {
+  b: null;
+}
