@@ -84,7 +84,7 @@ async function iterateDir(dir, opts, cb) {
       await iterateDir(unarchivedDir, opts, cb)
 
       // Delete the directory when we're done
-      // await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+      await fs.rmdir(unarchivedDir, { recursive: true, force: true })
       // TODO cleanup on error
     } else if (filename === "input.scss" || filename === "input.sass") {
       // If this directory contains an input file, then run the test on it
@@ -147,7 +147,7 @@ async function runTest(dir, opts) {
   // determine whether this test has a valid output or an error
   const isSuccessCase = hasOutputFile(files, impl)
 
-  tap.test(relPath, async (t) => {
+  await tap.test(relPath, async (t) => {
     if (isSuccessCase) {
       // valid case
       const outputFilename = files.includes(`output-${impl}.css`)
@@ -180,6 +180,7 @@ async function runTest(dir, opts) {
         t.equal(actual, normalizeError(expected), relPath)
       }
     }
+    t.end()
   })
 
   // run the implementation
