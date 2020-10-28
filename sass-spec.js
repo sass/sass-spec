@@ -1,65 +1,106 @@
-const tap = require("tap")
-const { promisify } = require("util")
-const yaml = require("js-yaml")
-const fs = require("fs")
-const path = require("path")
 const { archiveFromStream } = require("node-hrx")
+const tap = require("tap")
+const { promises: fs, createReadStream, rmdir } = require("fs")
+const path = require("path")
+const yaml = require("js-yaml")
 const child_process = require("child_process")
 
-const readdir = promisify(fs.readdir)
-const stat = promisify(fs.stat)
-const mkdtemp = promisify(fs.mkdtemp)
-const rmdir = promisify(fs.rmdir)
-const writeFile = promisify(fs.writeFile)
-const exec = promisify(child_process.exec)
+/** Returns whether an options.yml object has a todo for the given impl */
+function hasTodo(options, impl) {
+  if (!options[":todo"]) return false
+  return options[":todo"].some((item) => item.includes(impl))
+}
 
-// All possible output files, to be ignored when writing to directory
-const outputFiles = [
-  "output.css",
-  "output-dart-sass.css",
-  "output-libsass.css",
-  "error",
-  "error-dart-sass",
-  "error-libsass",
-]
+function hasIgnore(options, impl) {
+  if (!options[":ignore_for"]) return false
+  return options[":ignore_for"].includes(impl)
+}
 
-function getArchiveTestCases(rootPath, directory) {
-  // if the directory contains an input file, it's a single test directory
-  if (!directory.contents) {
-    return []
+async function writeArchive(basePath, item) {
+  const fullPath = path.resolve(basePath, item.path)
+  if (item.isDirectory()) {
+    // If a directory, make the directory and recurse
+    await fs.mkdir(fullPath)
+    for (const subitem of item) {
+      await writeArchive(basePath, item.contents[subitem])
+    }
+  } else {
+    // We're a file, so write to it
+    await fs.writeFile(fullPath, item.body, { encoding: "utf-8" })
   }
-  // TODO handle .sass syntax as well
-  if (directory.contents["input.scss"]) {
-    const test = {
-      path: path.resolve(rootPath, directory.path),
-      files: {},
-      outputs: {},
-    }
+}
 
-    for (const [filename, { body }] of Object.entries(directory.contents)) {
-      if (filename === "options.yml") {
-        test.options = yaml.safeLoad(body)
-      } else if (outputFiles.includes(filename)) {
-        test.outputs[filename] = body
-      } else {
-        test.files[filename] = body
-      }
-    }
+/**
+ * Unarchives the given HRX archive into the filesystem
+ */
+async function unarchive(parentDir, archiveName) {
+  // make a directory for the archive in the given directory
+  const dirName = archiveName.replace(".hrx", "")
+  const dirPath = path.resolve(parentDir, dirName)
+  // await fs.mkdir(dirPath)
 
-    if (test.files["options.yml"]) {
-      test.options = yaml.safeLoad(test.files["options.yml"])
-    }
+  // Unarchive and read the contents
+  const archivePath = path.resolve(parentDir, archiveName)
+  const archive = await archiveFromStream(
+    createReadStream(archivePath, { encoding: "utf-8" })
+  )
+  await writeArchive(dirPath, archive)
+}
 
-    return [test]
-  }
-  // otherwise, recurse and compile test cases
-  let tests = []
-  for (const dirname of directory) {
-    tests = tests.concat(
-      getArchiveTestCases(rootPath, directory.contents[dirname])
+/**
+ * Run through the given directory
+ * @param dir the directory to iterate over
+ * @param opts the options to run the thing with:
+ *    - impl -- the sass implementation to use
+ *    - todo -- whether todos should be run
+ * @param cb the callback to run on each directory
+ */
+async function iterateDir(dir, opts, cb) {
+  // console.log(dir)
+  const { impl } = opts
+  const files = await fs.readdir(dir)
+  // If we find an options.yml file, read it and determine if we should go further
+  if (files.includes("options.yml")) {
+    const optsFile = path.resolve(dir, "options.yml")
+    const options = yaml.safeLoad(
+      await fs.readFile(optsFile, { encoding: "utf-8" })
     )
+    // FIXME differentiate behavior of todos
+    // If the directory should be ignored or is a todo for this impl, do nothing else
+    if (hasTodo(options, impl) || hasIgnore(options, impl)) {
+      return
+    }
   }
-  return tests
+  for (const filename of files) {
+    const filepath = path.resolve(dir, filename)
+    const filestat = await fs.stat(filepath)
+    if (filestat.isDirectory()) {
+      // If we run into a subdirectory, recurse into it
+      await iterateDir(filepath, opts, cb)
+    } else if (filename.endsWith(".hrx")) {
+      // If HRX, expand it into a directory and recurse into it
+      await unarchive(dir, filename)
+      const unarchivedDir = filepath.replace(".hrx", "")
+      await iterateDir(unarchivedDir, opts, cb)
+
+      // Delete the directory when we're done
+      // await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+      // TODO cleanup on error
+    } else if (filename === "input.scss" || filename === "input.sass") {
+      // If this directory contains an input file, then run the test on it
+      await cb(dir, opts)
+    }
+  }
+}
+
+/**
+ * Return whether the file should have a successful output
+ */
+function hasOutputFile(files, impl) {
+  return (
+    files.includes(`output-${impl}.css`) ||
+    (files.includes("output.css") && !files.includes(`error-${impl}`))
+  )
 }
 
 const bins = {
@@ -70,50 +111,12 @@ const bins = {
   )} --style expanded --load-path=spec`,
 }
 
-const impl = "dart-sass"
-
-const bin = bins[impl]
-
-async function getAllTestCases(directory) {
-  const list = await readdir(directory)
-  let testCases = []
-  for (const filename of list) {
-    const file = path.resolve(directory, filename)
-    const fileStat = await stat(file)
-    if (fileStat.isDirectory()) {
-      const newTestCases = await getAllTestCases(file)
-      testCases = testCases.concat(newTestCases)
-    } else if (file.endsWith(".hrx")) {
-      const archive = await archiveFromStream(
-        fs.createReadStream(file, "utf-8")
-      )
-      const newTestCases = await getArchiveTestCases(
-        file.replace(".hrx", ""),
-        archive
-      )
-      testCases = testCases.concat(newTestCases)
-    } // TODO handle raw .sass files
-  }
-  return testCases
-}
-
-let testCases
-
-function normalizeOutput(output) {
-  return output.replace(/\n+/g, "\n").trim()
+function normalizeOutput(output = "") {
+  return output.replace(/\r?\n+/g, "\n").trim()
 }
 
 function normalizeError(error) {
-  return error.replace(/\r\n/g, "\n")
-}
-
-/**
- * Writes the given file contents to a temporary directory
- */
-async function writeToDisk(dir, files) {
-  for (const [filename, contents] of Object.entries(files)) {
-    await writeFile(path.resolve(dir, filename), contents)
-  }
+  return error.replace(/\r?\n+/g, "\n").trim()
 }
 
 function escape(text) {
@@ -121,68 +124,72 @@ function escape(text) {
 }
 
 /**
- * Return whether the file should have a successful output
+ * Run a sass spec test on the given directory with the given options
  */
-function hasOutput(outputs) {
-  return (
-    outputs[`output-${impl}.css`] ||
-    (outputs["output.css"] && !outputs[`error-${impl}`])
-  )
-}
+async function runTest(dir, opts) {
+  const { rootDir, impl } = opts
+  const relPath = path.relative(rootDir, dir)
+  const files = await fs.readdir(dir)
+  // determine whether the syntax is indented or not
+  const indented = files.includes("input.sass")
+  const inputFile = indented ? "input.sass" : "input.scss"
 
-async function runner() {
-  testCases = await getAllTestCases("spec")
-  for (const test of testCases) {
-    const { path, options = {}, files, outputs } = test
-    const input = files["input.scss"]
-    tap.test(path, async (t) => {
-      // FIXME handle imports
-      if (input.includes("@use") || input.includes("@import")) {
-        return t.end()
-      }
-      const testDir = await mkdtemp("archive-")
-      await writeToDisk(testDir, files)
-      const inputPath = `${testDir}/input.scss`
-      if (options[":ignore_for"] && options[":ignore_for"].includes(impl)) {
-        return t.end()
-      }
-      // Ignore if it's a todo for this implementation
-      if (
-        options[":todo"] &&
-        options[":todo"].some((item) => item.includes(impl))
-      ) {
-        return t.end()
-      }
-      if (hasOutput(outputs)) {
-        // write the test files to the directory
-        const output = outputs[`output-${impl}.css`] || outputs["output.css"]
+  const bin = bins[impl]
+  // TODO does this work when the cwd is the current directory?
+  const cmdOpts = [`--load-path=${rootDir}`]
+  // Pass in the indentend option to the command
+  if (indented) {
+    cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
+  }
+  cmdOpts.push(inputFile)
+  const cmd = `${bin} ${cmdOpts.join(" ")}`
 
-        const actual = child_process.execSync(`${bin} ${inputPath}`, {
+  // determine whether this test has a valid output or an error
+  const isSuccessCase = hasOutputFile(files, impl)
+
+  tap.test(relPath, async (t) => {
+    if (isSuccessCase) {
+      // valid case
+      const outputFilename = files.includes(`output-${impl}.css`)
+        ? `output-${impl}.css`
+        : "output.css"
+      const expected = await fs.readFile(path.resolve(dir, outputFilename), {
+        encoding: "utf-8",
+      })
+      const actual = child_process.execSync(cmd, {
+        cwd: dir,
+        encoding: "utf-8",
+      })
+      t.equal(normalizeOutput(actual), normalizeOutput(expected), relPath)
+    } else {
+      // error case
+      const errorFilename = files.includes(`error-${impl}`)
+        ? `error-${impl}`
+        : "error"
+      const expected = await fs.readFile(path.resolve(dir, errorFilename), {
+        encoding: "utf-8",
+      })
+      try {
+        child_process.execSync(cmd, {
+          cwd: dir,
           encoding: "utf-8",
         })
-        // FIXME proper way to handle this?
-        t.equal(normalizeOutput(actual), normalizeOutput(output), path)
-        await rmdir(testDir, { recursive: true, force: true })
-      } else {
-        const error = outputs[`error-${impl}`] || outputs["error"]
-        try {
-          // FIXME test that it doesn't pass
-          process.chdir(testDir)
-          child_process.execSync(`${bin} input.scss`, {
-            encoding: "utf-8",
-          })
-          // FIXME fail if it doesn't throw
-        } catch (e) {
-          const actual = normalizeError(e.stderr)
-          t.equal(actual, error, path)
-        }
-        process.chdir("..")
-        await rmdir(testDir, { recursive: true, force: true })
+        // TODO fail if the command executes
+      } catch (e) {
+        const actual = normalizeError(e.stderr)
+        t.equal(actual, normalizeError(expected), relPath)
       }
-      t.end()
-    })
-  }
-  // TODO delete even if cancelled
+    }
+  })
+
+  // run the implementation
 }
 
-runner()
+async function fake(dir) {
+  console.log(dir)
+}
+
+const impl = "dart-sass"
+const rootDir = path.resolve("spec")
+const testDir = "spec"
+iterateDir(testDir, { impl, rootDir }, runTest)
