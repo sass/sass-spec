@@ -37,7 +37,6 @@ async function unarchive(parentDir, archiveName) {
   // make a directory for the archive in the given directory
   const dirName = archiveName.replace(".hrx", "")
   const dirPath = path.resolve(parentDir, dirName)
-  // await fs.mkdir(dirPath)
 
   // Unarchive and read the contents
   const archivePath = path.resolve(parentDir, archiveName)
@@ -85,7 +84,7 @@ async function iterateDir(dir, opts, cb) {
 
       // Delete the directory when we're done
       await fs.rmdir(unarchivedDir, { recursive: true, force: true })
-      // TODO cleanup on error
+      // TODO cleanup on error/process exit
     } else if (filename === "input.scss" || filename === "input.sass") {
       // If this directory contains an input file, then run the test on it
       await cb(dir, opts)
@@ -135,7 +134,6 @@ async function runTest(dir, opts) {
   const inputFile = indented ? "input.sass" : "input.scss"
 
   const bin = bins[impl]
-  // TODO does this work when the cwd is the current directory?
   const cmdOpts = [`--load-path=${rootDir}`]
   // Pass in the indentend option to the command
   if (indented) {
