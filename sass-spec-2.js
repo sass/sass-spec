@@ -116,7 +116,7 @@ function normalizeOutput(output = "") {
 }
 
 function normalizeError(error) {
-  return error.replace(/\r\n/g, "\n")
+  return error.replace(/\r?\n+/g, "\n").trim()
 }
 
 function escape(text) {
@@ -177,7 +177,7 @@ async function runTest(dir, opts) {
         // TODO fail if the command executes
       } catch (e) {
         const actual = normalizeError(e.stderr)
-        t.equal(actual, expected, relPath)
+        t.equal(actual, normalizeError(expected), relPath)
       }
     }
   })
