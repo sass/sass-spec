@@ -84,7 +84,7 @@ async function iterateDir(dir, opts, cb) {
       await iterateDir(unarchivedDir, opts, cb)
 
       // Delete the directory when we're done
-      await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+      // await fs.rmdir(unarchivedDir, { recursive: true, force: true })
       // TODO cleanup on error
     } else if (filename === "input.scss" || filename === "input.sass") {
       // If this directory contains an input file, then run the test on it
@@ -136,7 +136,7 @@ async function runTest(dir, opts) {
 
   const bin = bins[impl]
   // TODO does this work when the cwd is the current directory?
-  const cmdOpts = [`--load-path=spec`]
+  const cmdOpts = [`--load-path=${rootDir}`]
   // Pass in the indentend option to the command
   if (indented) {
     cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
@@ -191,4 +191,5 @@ async function fake(dir) {
 
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
-iterateDir(rootDir, { impl, rootDir }, runTest)
+const testDir = "spec"
+iterateDir(testDir, { impl, rootDir }, runTest)
