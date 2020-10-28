@@ -190,5 +190,5 @@ async function fake(dir) {
 }
 
 const impl = "dart-sass"
-const rootDir = path.resolve("spec/libsass/base-level-parent/imported")
+const rootDir = path.resolve("spec")
 iterateDir(rootDir, { impl, rootDir }, runTest)
