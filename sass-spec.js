@@ -157,6 +157,7 @@ async function runTest(dir, opts) {
       const actual = child_process.execSync(cmd, {
         cwd: dir,
         encoding: "utf-8",
+        stdio: "pipe",
       })
       t.equal(normalizeOutput(actual), normalizeOutput(expected), relPath)
     } else {
@@ -171,6 +172,7 @@ async function runTest(dir, opts) {
         child_process.execSync(cmd, {
           cwd: dir,
           encoding: "utf-8",
+          stdio: "pipe",
         })
         t.fail(`${relPath}: should have errored`)
         // TODO fail if the command executes
