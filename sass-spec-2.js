@@ -1,6 +1,6 @@
 const { archiveFromStream } = require("node-hrx")
 const tap = require("tap")
-const { promises: fs, createReadStream } = require("fs")
+const { promises: fs, createReadStream, rmdir } = require("fs")
 const path = require("path")
 const yaml = require("js-yaml")
 const child_process = require("child_process")
@@ -84,7 +84,7 @@ async function iterateDir(dir, opts, cb) {
       await iterateDir(unarchivedDir, opts, cb)
 
       // Delete the directory when we're done
-      await fs.rm(unarchivedDir, { recursive: true, force: true })
+      await fs.rmdir(unarchivedDir, { recursive: true, force: true })
 
       // TODO cleanup on error
       // FIXME handle .hrx
@@ -187,5 +187,4 @@ async function fake(dir) {
 
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
-// iterateDir(rootDir, { impl }, runTest)
-unarchive(path.resolve("spec/css"), "comment.hrx")
+iterateDir(rootDir, { impl }, fake)
