@@ -1,0 +1,153 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3128
+
+<===>
+================================================================================
+<===> max/input.scss
+@use 'sass:color';
+a {b: color.blackness(black)}
+
+<===> max/output.css
+a {
+  b: 100%;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+@use 'sass:color';
+a {b: color.blackness(white)}
+
+<===> min/output.css
+a {
+  b: 0%;
+}
+
+<===>
+================================================================================
+<===> middle/zero_whiteness/input.scss
+@use 'sass:color';
+a {b: color.blackness(color.hwb(0, 0%, 50%))}
+
+<===> middle/zero_whiteness/output.css
+a {
+  b: 49.8039215686%;
+}
+
+<===>
+================================================================================
+<===> middle/half_whiteness/input.scss
+@use 'sass:color';
+a {b: color.blackness(color.hwb(0, 50%, 50%))}
+
+<===> middle/half_whiteness/output.css
+a {
+  b: 49.8039215686%;
+}
+
+<===>
+================================================================================
+<===> middle/high_whiteness/input.scss
+@use 'sass:color';
+a {b: color.blackness(color.hwb(0, 70%, 70%))}
+
+<===> middle/high_whiteness/output.css
+a {
+  b: 49.8039215686%;
+}
+
+<===>
+================================================================================
+<===> fraction/input.scss
+@use 'sass:color';
+a {b: color.blackness(color.hwb(0, 0%, 0.5%))}
+
+<===> fraction/output.css
+a {
+  b: 0.3921568627%;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'sass:color';
+a {b: color.blackness($color: color.hwb(0, 0%, 42%))}
+
+<===> named/output.css
+a {
+  b: 41.9607843137%;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use 'sass:color';
+a {b: color.blackness()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,--> input.scss
+2 | a {b: color.blackness()}
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function blackness($color) {
+  |           ================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_few_args/error-libsass
+Error: Function color.blackness is missing argument $color.
+        on line 1 of input.scss
+>> a {b: color.blackness()}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use 'sass:color';
+a {b: color.blackness(red, green)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: color.blackness(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function blackness($color) {
+  |           ================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `color.blackness'
+        on line 1:7 of input.scss
+>> a {b: color.blackness(red, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use 'sass:color';
+a {b: color.blackness(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.blackness(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/type/error-libsass
+Error: argument `$color` of `color.blackness($color)` must be a color
+        on line 1:7 of input.scss, in function `color.blackness`
+        from line 1:7 of input.scss
+>> a {b: color.blackness(1)}
+
+   ------^

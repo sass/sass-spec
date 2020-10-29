@@ -1,0 +1,118 @@
+<===> alpha/percent/negative/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, -10%)}
+
+<===> alpha/percent/negative/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/percent/min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 0%)}
+
+<===> alpha/percent/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/percent/positive/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 45.6%)}
+
+<===> alpha/percent/positive/output.css
+a {
+  b: rgba(255, 0, 0, 0.456);
+}
+
+<===>
+================================================================================
+<===> alpha/percent/max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 100%)}
+
+<===> alpha/percent/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/percent/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 250%)}
+
+<===> alpha/percent/above_max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/unitless/negative/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, -10)}
+
+<===> alpha/unitless/negative/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/unitless/min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 0)}
+
+<===> alpha/unitless/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/unitless/positive/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 0.456)}
+
+<===> alpha/unitless/positive/output.css
+a {
+  b: rgba(255, 0, 0, 0.456);
+}
+
+<===>
+================================================================================
+<===> alpha/unitless/max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 1)}
+
+<===> alpha/unitless/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/unitless/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 250)}
+
+<===> alpha/unitless/above_max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'sass:color';
+a {b: color.hwb($hue: 180, $whiteness: 30%, $blackness: 40%, $alpha: 0.4)}
+
+<===> named/output.css
+a {
+  b: rgba(77, 153, 153, 0.4);
+}
