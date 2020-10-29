@@ -16,13 +16,16 @@ function hasIgnore(options, impl) {
   return options[":ignore_for"].includes(impl)
 }
 
-async function writeArchive(basePath, item) {
+/**
+ * Writes the HRX item (file or directory) to disk as physical files at the given archive base path.
+ */
+async function writeToDisk(basePath, item) {
   const fullPath = path.resolve(basePath, item.path)
   if (item.isDirectory()) {
     // If a directory, make the directory and recurse
     await fs.mkdir(fullPath)
     for (const subitem of item) {
-      await writeArchive(basePath, item.contents[subitem])
+      await writeToDisk(basePath, item.contents[subitem])
     }
   } else {
     // We're a file, so write to it
@@ -33,17 +36,29 @@ async function writeArchive(basePath, item) {
 /**
  * Unarchives the given HRX archive into the filesystem
  */
-async function unarchive(parentDir, archiveName) {
+async function unarchive(filepath) {
+  const { dir, name } = path.parse(filepath)
   // make a directory for the archive in the given directory
-  const dirName = archiveName.replace(".hrx", "")
-  const dirPath = path.resolve(parentDir, dirName)
+  const dirPath = path.resolve(dir, name)
 
   // Unarchive and read the contents
-  const archivePath = path.resolve(parentDir, archiveName)
   const archive = await archiveFromStream(
-    createReadStream(archivePath, { encoding: "utf-8" })
+    createReadStream(filepath, { encoding: "utf-8" })
   )
-  await writeArchive(dirPath, archive)
+  await writeToDisk(dirPath, archive)
+}
+
+/**
+ * Run the given callback on the HRX archive at the given path
+ */
+async function withArchive(filepath, callback) {
+  await unarchive(filepath)
+  const unarchivedDir = filepath.replace(".hrx", "")
+  await callback(unarchivedDir)
+
+  // Delete the directory when we're done
+  await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+  // TODO handle errors and process exit
 }
 
 /**
@@ -52,10 +67,9 @@ async function unarchive(parentDir, archiveName) {
  * @param opts the options to run the thing with:
  *    - impl -- the sass implementation to use
  *    - todo -- whether todos should be run
- * @param cb the callback to run on each directory
+ * @param iteratee the callback to run on each directory
  */
-async function iterateDir(dir, opts, cb) {
-  // console.log(dir)
+async function iterateDir(dir, opts, iteratee) {
   const { impl } = opts
   const files = await fs.readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
@@ -75,19 +89,15 @@ async function iterateDir(dir, opts, cb) {
     const filestat = await fs.stat(filepath)
     if (filestat.isDirectory()) {
       // If we run into a subdirectory, recurse into it
-      await iterateDir(filepath, opts, cb)
+      await iterateDir(filepath, opts, iteratee)
     } else if (filename.endsWith(".hrx")) {
       // If HRX, expand it into a directory and recurse into it
-      await unarchive(dir, filename)
-      const unarchivedDir = filepath.replace(".hrx", "")
-      await iterateDir(unarchivedDir, opts, cb)
-
-      // Delete the directory when we're done
-      await fs.rmdir(unarchivedDir, { recursive: true, force: true })
-      // TODO cleanup on error/process exit
+      await withArchive(filepath, async (unarchivedDir) => {
+        await iterateDir(unarchivedDir, opts, iteratee)
+      })
     } else if (filename === "input.scss" || filename === "input.sass") {
       // If this directory contains an input file, then run the test on it
-      await cb(dir, opts)
+      await iteratee(dir, opts)
     }
   }
 }
