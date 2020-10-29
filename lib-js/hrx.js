@@ -40,10 +40,13 @@ async function unarchive(filepath) {
 async function withArchive(filepath, callback) {
   await unarchive(filepath)
   const unarchivedDir = filepath.replace(".hrx", "")
-  await callback(unarchivedDir)
+  try {
+    await callback(unarchivedDir)
+  } finally {
+    // Delete the directory when we're done
+    await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+  }
 
-  // Delete the directory when we're done
-  await fs.rmdir(unarchivedDir, { recursive: true, force: true })
   // TODO handle errors and process exit
 }
 
