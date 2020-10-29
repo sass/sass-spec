@@ -2,7 +2,6 @@ const tap = require("tap")
 const { withArchive } = require("../lib-js/hrx")
 const path = require("path")
 const fs = require("fs")
-const fsp = fs.promises
 
 tap.test("withArchive", (t) => {
   t.test("success case", async (t) => {
