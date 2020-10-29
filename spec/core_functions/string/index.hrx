@@ -58,6 +58,31 @@ a {
 
 <===>
 ================================================================================
+<===> double_width_character/input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units.
+a {b: str-index("👭a", "a")}
+
+<===> double_width_character/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> combining_character/input.scss
+// Sass does *not* treat strings as sequences of glyphs, so this string which
+// contains "c" followed by a combining umlaut should be considered two separate
+// characters even though it's rendered as only one.
+a {b: str-index("c\0308 a", "a")}
+
+<===> combining_character/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 a {b: str-index($string: "cde", $substring: "c")}
 
