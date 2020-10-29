@@ -1,9 +1,11 @@
 const { archiveFromStream } = require("node-hrx")
 const tap = require("tap")
-const { promises: fs, createReadStream, rmdir } = require("fs")
+const { promises: fs, createReadStream } = require("fs")
 const path = require("path")
 const yaml = require("js-yaml")
 const child_process = require("child_process")
+const { promisify } = require("util")
+const exec = promisify(child_process.exec)
 
 /** Returns whether an options.yml object has a todo for the given impl */
 function hasTodo(options, impl) {
@@ -166,11 +168,12 @@ async function executeSpec(dir, opts) {
   })
   let actual, resultType
   try {
-    actual = child_process.execSync(cmd, {
+    const { stdout } = await exec(cmd, {
       cwd: dir,
       encoding: "utf-8",
       stdio: "pipe",
     })
+    actual = stdout
     resultType = "success"
   } catch (e) {
     resultType = "error"
@@ -212,3 +215,12 @@ const rootDir = path.resolve("spec")
 const testDir = "spec"
 // TODO this might ignore TODOs in a higher directory
 iterateDir(testDir, { impl, rootDir }, runTest)
+
+// async function timeTest() {
+//   const start = Date.now()
+//   await iterateDir(testDir, { impl, rootDir }, executeSpec)
+//   const end = Date.now()
+//   console.log((end - start) / 1000)
+// }
+
+// timeTest()
