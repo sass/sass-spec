@@ -91,12 +91,23 @@ async function executeSpec(dir, opts) {
   }
 }
 
+function getTestFn(mode, t) {
+  switch (mode) {
+    case "todo":
+      return t.todo
+    case "ignore":
+      return t.skip
+    default:
+      return t.test
+  }
+}
+
 async function runTest(dir, opts) {
   const { rootDir, mode } = opts
   // TODO run t.todo, etc. when mode is enabled
-  if (mode) return
   const relPath = path.relative(rootDir, dir)
-  await tap.test(relPath, async (t) => {
+  const testFn = getTestFn(mode, tap)
+  await testFn(relPath, async (t) => {
     const { expected, actual, expectedType, actualType } = await executeSpec(
       dir,
       opts
