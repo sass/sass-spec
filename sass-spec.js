@@ -66,28 +66,43 @@ async function executeSpec(dir, opts) {
       ? `error-${impl}`
       : "error"
   }
+
+  let expectedWarning
+  // check if there's a warning
+  if (files.includes("warning")) {
+    const warningFilename = files.includes(`warning-${impl}`)
+      ? `warning-${impl}`
+      : "warning"
+    expectedWarning = await fs.readFile(path.resolve(dir, warningFilename), {
+      encoding: "utf-8",
+    })
+  }
+
   const expected = await fs.readFile(path.resolve(dir, expectedFilename), {
     encoding: "utf-8",
   })
-  let actual, resultType
+  let actual, resultType, actualWarning
   try {
-    const { stdout } = await exec(cmd, {
+    const { stdout, stderr } = await exec(cmd, {
       cwd: dir,
       encoding: "utf-8",
       stdio: "pipe",
     })
     actual = stdout
     resultType = "success"
+    actualWarning = stderr
   } catch (e) {
     resultType = "error"
     actual = e.stderr
   }
 
   return {
+    actualType: resultType,
     expected,
     actual,
     expectedType: isSuccessCase ? "success" : "error",
-    actualType: resultType,
+    expectedWarning,
+    actualWarning,
   }
 }
 
@@ -103,15 +118,19 @@ function getTestFn(mode, t) {
 }
 
 async function runTest(dir, opts) {
-  const { rootDir, mode } = opts
+  const { rootDir, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(mode, tap)
   await testFn(relPath, async (t) => {
-    const { expected, actual, expectedType, actualType } = await executeSpec(
-      dir,
-      opts
-    )
+    const {
+      expected,
+      actual,
+      expectedType,
+      actualType,
+      expectedWarning,
+      actualWarning,
+    } = await executeSpec(dir, opts)
     t.equal(
       actualType,
       expectedType,
@@ -120,8 +139,15 @@ async function runTest(dir, opts) {
     t.equal(
       normalizeOutput(actual),
       normalizeOutput(expected),
-      `${relPath} output differs`
+      `${relPath} output should match`
     )
+    if (expectedWarning && expectedType !== "error" && !todoWarning) {
+      t.equal(
+        normalizeOutput(actualWarning),
+        normalizeOutput(expectedWarning),
+        `${relPath} warnings should match`
+      )
+    }
     t.end()
   })
 }
