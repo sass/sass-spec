@@ -92,7 +92,9 @@ async function executeSpec(dir, opts) {
 }
 
 async function runTest(dir, opts) {
-  const { rootDir } = opts
+  const { rootDir, mode } = opts
+  // TODO run t.todo, etc. when mode is enabled
+  if (mode) return
   const relPath = path.relative(rootDir, dir)
   await tap.test(relPath, async (t) => {
     const { expected, actual, expectedType, actualType } = await executeSpec(
