@@ -9,16 +9,18 @@ function hasOptionForImpl(option, impl) {
   return option.some((item) => item.includes(impl))
 }
 
-function getMode(options, impl) {
-  if (hasOptionForImpl(options[":ignore_for"], impl)) {
-    return "ignore"
-  }
+function getOptionOverrides(options, impl) {
+  const opts = {}
   if (hasOptionForImpl(options[":warning_todo"], impl)) {
-    return "warning"
+    opts.todoWarning = true
+  }
+  if (hasOptionForImpl(options[":ignore_for"], impl)) {
+    opts.mode = "ignore"
   }
   if (hasOptionForImpl(options[":todo"], impl)) {
-    return "todo"
+    opts.mode = "todo"
   }
+  return opts
 }
 
 /**
@@ -34,16 +36,16 @@ async function iterateDir(dir, opts, iteratee) {
   const { impl } = opts
   const files = await fs.readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
-  let mode
+  let overrides
   if (files.includes("options.yml")) {
     const optsFile = path.resolve(dir, "options.yml")
     const options = yaml.safeLoad(
       await fs.readFile(optsFile, { encoding: "utf-8" })
     )
-    mode = getMode(options, impl)
+    overrides = getOptionOverrides(options, impl)
   }
   // Override the mode of options passed in
-  const _opts = mode ? { ...opts, mode } : opts
+  const _opts = { ...opts, ...overrides }
 
   for (const filename of files) {
     const filepath = path.resolve(dir, filename)
