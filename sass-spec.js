@@ -29,7 +29,14 @@ const bins = {
 }
 
 function normalizeOutput(output = "") {
-  return output.replace(/\r?\n+/g, "\n").trim()
+  return (
+    output
+      .replace(/\r?\n+/g, "\n")
+      // Normalize paths
+      // TODO what is expected here?
+      .replace(/[-_/a-zA-Z0-9]+input\.scss/g, "input.scss")
+      .trim()
+  )
 }
 
 function escape(text) {
@@ -69,10 +76,10 @@ async function executeSpec(dir, opts) {
 
   let expectedWarning
   // check if there's a warning
-  if (files.includes("warning")) {
-    const warningFilename = files.includes(`warning-${impl}`)
-      ? `warning-${impl}`
-      : "warning"
+  const warningFilename = files.includes(`warning-${impl}`)
+    ? `warning-${impl}`
+    : "warning"
+  if (files.includes(warningFilename)) {
     expectedWarning = await fs.readFile(path.resolve(dir, warningFilename), {
       encoding: "utf-8",
     })
