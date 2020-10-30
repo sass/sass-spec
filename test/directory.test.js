@@ -36,7 +36,14 @@ tap.test("iterateDir", (t) => {
         "todo",
         "marks :todo when given a github issue"
       )
+
       t.equal(directories["options/ignore"].mode, "ignore", "marks :ignore_for")
+
+      t.equal(
+        directories["options/warning"].mode,
+        "warning",
+        "marks :warning_todo"
+      )
 
       t.equal(
         directories["options/nested/subdir"].mode,

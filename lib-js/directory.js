@@ -4,15 +4,21 @@ const path = require("path")
 
 const { withArchive } = require("./hrx")
 
-/** Returns whether an options.yml object has a todo for the given impl */
-function hasTodo(options, impl) {
-  if (!options[":todo"]) return false
-  return options[":todo"].some((item) => item.includes(impl))
+function hasOptionForImpl(option, impl) {
+  if (!option || !(option instanceof Array)) return false
+  return option.some((item) => item.includes(impl))
 }
 
-function hasIgnore(options, impl) {
-  if (!options[":ignore_for"]) return false
-  return options[":ignore_for"].includes(impl)
+function getMode(options, impl) {
+  if (hasOptionForImpl(options[":ignore_for"], impl)) {
+    return "ignore"
+  }
+  if (hasOptionForImpl(options[":warning_todo"], impl)) {
+    return "warning"
+  }
+  if (hasOptionForImpl(options[":todo"], impl)) {
+    return "todo"
+  }
 }
 
 /**
@@ -34,11 +40,7 @@ async function iterateDir(dir, opts, iteratee) {
     const options = yaml.safeLoad(
       await fs.readFile(optsFile, { encoding: "utf-8" })
     )
-    if (hasTodo(options, impl)) {
-      mode = "todo"
-    } else if (hasIgnore(options, impl)) {
-      mode = "ignore"
-    }
+    mode = getMode(options, impl)
   }
   // Override the mode of options passed in
   const _opts = mode ? { ...opts, mode } : opts
