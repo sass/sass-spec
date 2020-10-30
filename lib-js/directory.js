@@ -20,6 +20,9 @@ function getOptionOverrides(options, impl) {
   if (hasOptionForImpl(options[":todo"], impl)) {
     opts.mode = "todo"
   }
+  if (options[":precision"]) {
+    opts.precision = options[":precision"]
+  }
   return opts
 }
 

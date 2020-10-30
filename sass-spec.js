@@ -47,7 +47,7 @@ function escape(text) {
  * Executes the spec at `dir` and return an object representing the test results of that spec.
  */
 async function executeSpec(dir, opts) {
-  const { rootDir, impl } = opts
+  const { rootDir, impl, precision } = opts
   const files = await fs.readdir(dir)
   const indented = files.includes("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
@@ -57,6 +57,9 @@ async function executeSpec(dir, opts) {
   // Pass in the indentend option to the command
   if (indented) {
     cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
+  }
+  if (precision) {
+    cmdOpts.push(`--precision ${precision}`)
   }
   cmdOpts.push(inputFile)
   const cmd = `${bin} ${cmdOpts.join(" ")}`
@@ -124,6 +127,20 @@ function getTestFn(mode, t) {
   }
 }
 
+function extractErrorMessage(msg) {
+  return normalizeOutput(msg)
+    .split("\n")
+    .find((line) => line.startsWith("Error:"))
+}
+
+function extractWarningMessages(msg) {
+  // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
+  // and only prints out the first warning
+  return normalizeOutput(msg)
+    .split("\n")
+    .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
+}
+
 async function runTest(dir, opts) {
   const { rootDir, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
@@ -143,17 +160,34 @@ async function runTest(dir, opts) {
       expectedType,
       `${relPath} expected ${expectedType} but got ${actualType}`
     )
-    t.equal(
-      normalizeOutput(actual),
-      normalizeOutput(expected),
-      `${relPath} output should match`
-    )
-    if (expectedWarning && expectedType !== "error" && !todoWarning) {
+    // TODO this should be the default for non-dart-sass implementations
+    if (expectedType === "error" && impl === "libsass") {
       t.equal(
-        normalizeOutput(actualWarning),
-        normalizeOutput(expectedWarning),
-        `${relPath} warnings should match`
+        extractErrorMessage(actual),
+        extractErrorMessage(expected),
+        `${relPath} errors should match`
       )
+    } else {
+      t.equal(
+        normalizeOutput(actual),
+        normalizeOutput(expected),
+        `${relPath} output should match`
+      )
+    }
+    if (expectedWarning && expectedType !== "error" && !todoWarning) {
+      if (impl === "dart-sass") {
+        t.equal(
+          normalizeOutput(actualWarning),
+          normalizeOutput(expectedWarning),
+          `${relPath} warnings should match`
+        )
+      } else {
+        t.equal(
+          extractWarningMessages(actualWarning),
+          extractWarningMessages(expectedWarning),
+          `${relPath} warnings should match`
+        )
+      }
     }
     t.end()
   })
