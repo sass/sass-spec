@@ -41,6 +41,8 @@ tap.test("iterateDir", (t) => {
 
       t.ok(directories["options/warning"].todoWarning, "marks :warning_todo")
 
+      t.equal(directories["options/precision"].precision, 4, "marks :precision")
+
       t.equal(
         directories["options/nested/subdir"].mode,
         "ignore",
