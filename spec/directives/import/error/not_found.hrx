@@ -44,3 +44,34 @@ Error: Can't find stylesheet to import.
   |         ^^^^^^^
   '
   input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> parent_relative/input.scss
+// A file in a subdirectory shouldn't be able to load a URL relative
+// to the importing file.
+// Regression test for scssphp/scssphp#242
+@import "dir/child"
+
+<===> parent_relative/sibling.scss
+a {b: ""}
+
+<===> parent_relative/dir/child.scss
+@import "sibling"
+
+<===> parent_relative/error
+Error: Can't find stylesheet to import.
+  ,
+1 | @import "sibling"
+  |         ^^^^^^^^^
+  '
+  dir/child.scss 1:9  @import
+  input.scss 4:9      root stylesheet
+
+<===> parent_relative/error-libsass
+Error: File to import not found or unreadable: sibling.
+        on line 1:1 of dir/child.scss
+        from line 4:1 of input.scss
+>> @import "sibling"
+
+   ^
