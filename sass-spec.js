@@ -1,32 +1,8 @@
 const tap = require("tap")
-const { promises: fs } = require("fs")
 const path = require("path")
-const child_process = require("child_process")
-const { promisify } = require("util")
-const exec = promisify(child_process.exec)
 
 const { iterateDir } = require("./lib-js/directory")
-
-/**
- * Return whether the file should have a successful output
- */
-function hasOutputFile(files, impl) {
-  return (
-    files.includes(`output-${impl}.css`) ||
-    (files.includes("output.css") && !files.includes(`error-${impl}`))
-  )
-}
-
-const bins = {
-  "dart-sass": `${path.resolve(
-    process.cwd(),
-    "../dart-sass/bin/sass.exe"
-  )} --no-unicode`,
-  libsass: `${path.resolve(
-    process.cwd(),
-    "../libsass/sassc/bin/sassc"
-  )} --style expanded`,
-}
+const { getExpectedResult, getActualResult } = require("./lib-js/execute")
 
 function normalizeOutput(output = "") {
   return (
@@ -41,79 +17,6 @@ function normalizeOutput(output = "") {
 
 function escape(text) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
-}
-
-/**
- * Executes the spec at `dir` and return an object representing the test results of that spec.
- */
-async function executeSpec(dir, opts) {
-  const { rootDir, impl, precision } = opts
-  const files = await fs.readdir(dir)
-  const indented = files.includes("input.sass")
-  const inputFile = indented ? "input.sass" : "input.scss"
-
-  const bin = bins[impl]
-  const cmdOpts = [`--load-path=${rootDir}`]
-  // Pass in the indentend option to the command
-  if (indented) {
-    cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
-  }
-  if (precision) {
-    cmdOpts.push(`--precision ${precision}`)
-  }
-  cmdOpts.push(inputFile)
-  const cmd = `${bin} ${cmdOpts.join(" ")}`
-
-  const isSuccessCase = hasOutputFile(files, impl)
-  let expectedFilename
-
-  if (isSuccessCase) {
-    expectedFilename = files.includes(`output-${impl}.css`)
-      ? `output-${impl}.css`
-      : "output.css"
-  } else {
-    expectedFilename = files.includes(`error-${impl}`)
-      ? `error-${impl}`
-      : "error"
-  }
-
-  let expectedWarning
-  // check if there's a warning
-  const warningFilename = files.includes(`warning-${impl}`)
-    ? `warning-${impl}`
-    : "warning"
-  if (files.includes(warningFilename)) {
-    expectedWarning = await fs.readFile(path.resolve(dir, warningFilename), {
-      encoding: "utf-8",
-    })
-  }
-
-  const expected = await fs.readFile(path.resolve(dir, expectedFilename), {
-    encoding: "utf-8",
-  })
-  let actual, resultType, actualWarning
-  try {
-    const { stdout, stderr } = await exec(cmd, {
-      cwd: dir,
-      encoding: "utf-8",
-      stdio: "pipe",
-    })
-    actual = stdout
-    resultType = "success"
-    actualWarning = stderr
-  } catch (e) {
-    resultType = "error"
-    actual = e.stderr
-  }
-
-  return {
-    actualType: resultType,
-    expected,
-    actual,
-    expectedType: isSuccessCase ? "success" : "error",
-    expectedWarning,
-    actualWarning,
-  }
 }
 
 function getTestFn(mode, t) {
@@ -142,52 +45,43 @@ function extractWarningMessages(msg) {
 }
 
 async function runTest(dir, opts) {
-  const { rootDir, mode, todoWarning } = opts
+  const { rootDir, impl, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(mode, tap)
   await testFn(relPath, async (t) => {
-    const {
-      expected,
-      actual,
-      expectedType,
-      actualType,
-      expectedWarning,
-      actualWarning,
-    } = await executeSpec(dir, opts)
-    t.equal(
-      actualType,
-      expectedType,
-      `${relPath} expected ${expectedType} but got ${actualType}`
-    )
-    // TODO this should be the default for non-dart-sass implementations
-    if (expectedType === "error" && impl === "libsass") {
+    const expected = await getExpectedResult(dir, impl)
+    const actual = await getActualResult(dir, opts)
+    if (expected.isSuccess) {
+      t.ok(actual.isSuccess, `${relPath} expected success`)
       t.equal(
-        extractErrorMessage(actual),
-        extractErrorMessage(expected),
-        `${relPath} errors should match`
-      )
-    } else {
-      t.equal(
-        normalizeOutput(actual),
-        normalizeOutput(expected),
+        normalizeOutput(actual.output),
+        normalizeOutput(expected.output),
         `${relPath} output should match`
       )
-    }
-    if (expectedWarning && expectedType !== "error" && !todoWarning) {
-      if (impl === "dart-sass") {
-        t.equal(
-          normalizeOutput(actualWarning),
-          normalizeOutput(expectedWarning),
-          `${relPath} warnings should match`
-        )
-      } else {
-        t.equal(
-          extractWarningMessages(actualWarning),
-          extractWarningMessages(expectedWarning),
-          `${relPath} warnings should match`
-        )
+
+      if (expected.warning && !todoWarning) {
+        if (impl === "dart-sass") {
+          t.equal(
+            normalizeOutput(actual.warning),
+            normalizeOutput(expected.warning),
+            `${relPath} warnings should match`
+          )
+        } else {
+          t.equal(
+            extractWarningMessages(actual.warning),
+            extractWarningMessages(expected.warning),
+            `${relPath} warnings should match`
+          )
+        }
       }
+    } else {
+      t.notOk(actual.isSuccess, `${relPath} expected error`)
+      t.equal(
+        extractErrorMessage(actual.error),
+        extractErrorMessage(expected.error),
+        `${relPath} errors should match`
+      )
     }
     t.end()
   })
