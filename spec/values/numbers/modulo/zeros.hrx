@@ -1,0 +1,56 @@
+<===> positive_positive/input.scss
+a {
+  b: +0 % +1;
+}
+
+<===> positive_positive/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> positive_negative/input.scss
+a {
+  b: +0 % -1;
+}
+<===> positive_negative/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> negative_positive/input.scss
+a {
+  b: -0 % 1;
+}
+
+<===> negative_positive/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> negative_negative/input.scss
+a {
+  b: -0 % -1;
+}
+
+<===> negative_negative/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero_divider/input.scss
+a {
+  b: inspect(1 % 0);
+}
+
+<===> zero_divider/output.css
+a {
+  b: NaN;
+}
