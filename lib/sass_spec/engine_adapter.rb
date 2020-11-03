@@ -28,7 +28,7 @@ class ExecutableEngineAdapter < EngineAdapter
     @command = command
     @timeout = 90
     @description = description || command
-    @version = `#{@command} -v`
+    @version = `#{@command} --version`
   end
 
   def set_description(description)
@@ -43,7 +43,7 @@ class ExecutableEngineAdapter < EngineAdapter
     command = File.absolute_path(@command)
     dirname, basename = File.split(sass_filename)
     result = capture3_with_timeout(
-      command, "--precision", precision.to_s, "-t", "expanded",
+      command, "--precision", precision.to_s, "--style", "expanded",
       "-I", File.expand_path("../../../spec", __FILE__), *@args&.split(/\s+/), basename,
       binmode: true, timeout: @timeout, chdir: dirname)
 
