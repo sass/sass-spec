@@ -1,0 +1,730 @@
+<===> syntax/declaration/plain/ident/input.scss
+@supports (a: b) {@c}
+
+<===> syntax/declaration/plain/ident/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/declaration/plain/quoted_rhs/input.scss
+@supports (a: "b") {@c}
+
+<===> syntax/declaration/plain/quoted_rhs/output.css
+@supports (a: "b") {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/declaration/dynamic/lhs/input.scss
+@supports (1 + 1: b) {@c}
+
+<===> syntax/declaration/dynamic/lhs/output.css
+@supports (2: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/declaration/dynamic/rhs/input.scss
+@supports (a: 1 + 1) {@c}
+
+<===> syntax/declaration/dynamic/rhs/output.css
+@supports (a: 2) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/declaration/nested/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/declaration/nested/input.scss
+@supports ((((a: b)))) {@c}
+
+<===> syntax/declaration/nested/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/not/input.scss
+@supports not (a: b) {@c}
+
+<===> syntax/operator/not/output.css
+@supports not (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/and/input.scss
+@supports (a: b) and (c: d) and (e: f) {@g}
+
+<===> syntax/operator/and/output.css
+@supports (a: b) and (c: d) and (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/or/input.scss
+@supports (a: b) or (c: d) or (e: f) {@g}
+
+<===> syntax/operator/or/output.css
+@supports (a: b) or (c: d) or (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/mixed/and_in_not/input.scss
+@supports not ((a: b) and (c: d)) {@e}
+
+<===> syntax/operator/mixed/and_in_not/output.css
+@supports not ((a: b) and (c: d)) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/mixed/or_in_and/input.scss
+@supports (a: b) and ((c: d) or (e: f)) {@g}
+
+<===> syntax/operator/mixed/or_in_and/output.css
+@supports (a: b) and ((c: d) or (e: f)) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> syntax/operator/mixed/and_in_or/input.scss
+@supports ((a: b) and (c: d)) or (e: f) {@g}
+
+<===> syntax/operator/mixed/and_in_or/output.css
+@supports ((a: b) and (c: d)) or (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/ident_only/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/ident_only/input.scss
+@supports (a) {@b}
+
+<===> syntax/anything/ident_only/output.css
+@supports (a) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/idents/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/idents/input.scss
+@supports (a b) {@c}
+
+<===> syntax/anything/idents/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/symbols/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/symbols/input.scss
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {@b}
+
+<===> syntax/anything/symbols/output.css
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/no_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/no_space/input.scss
+@supports (a!) {@b}
+
+<===> syntax/anything/no_space/output.css
+@supports (a!) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/only_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/only_space/input.scss
+@supports (a ) {@b}
+
+<===> syntax/anything/only_space/output.css
+@supports (a ) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/interpolated_ident/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/interpolated_ident/full/input.scss
+@supports (#{"a"} b) {@c}
+
+<===> syntax/anything/interpolated_ident/full/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/interpolated_ident/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/interpolated_ident/partial/input.scss
+@supports (a#{"b"}c d) {@e}
+
+<===> syntax/anything/interpolated_ident/partial/output.css
+@supports (abc d) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/interpolated_any_value/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/interpolated_any_value/full/input.scss
+@supports (a #{1 + 1}) {@b}
+
+<===> syntax/anything/interpolated_any_value/full/output.css
+@supports (a 2) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/anything/interpolated_any_value/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/anything/interpolated_any_value/partial/input.scss
+@supports (a <#{1 + 1}>) {@b}
+
+<===> syntax/anything/interpolated_any_value/partial/output.css
+@supports (a <2>) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/function/no_arg/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/no_arg/input.scss
+@supports a() {@b}
+
+<===> syntax/function/no_arg/output.css
+@supports a() {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/function/plain/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/plain/input.scss
+@supports a(b) {@c}
+
+<===> syntax/function/plain/output.css
+@supports a(b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/function/space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/space/input.scss
+@supports a( ) {@b}
+
+<===> syntax/function/space/output.css
+@supports a( ) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/function/symbols/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/symbols/input.scss
+@supports a(!&$ZH()&;*{&A}_=-+#/>:<) {@b}
+
+<===> syntax/function/symbols/output.css
+@supports a(!&$ZH()&;*{&A}_=-+#/>:<) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/function/after_not/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/after_not/input.scss
+@supports not a() {@b}
+
+<===> syntax/function/after_not/output.css
+@supports not a() {
+  @b;
+}
+
+<===>
+================================================================================
+<===> syntax/function/interpolated_name/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/interpolated_name/full/input.scss
+@supports #{"a"}(b) {@c}
+
+<===> syntax/function/interpolated_name/full/output.css
+@supports a(b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/function/interpolated_name/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/interpolated_name/partial/input.scss
+@supports a#{"b"}c(d) {@e}
+
+<===> syntax/function/interpolated_name/partial/output.css
+@supports abc(d) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> syntax/function/interpolated_value/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/interpolated_value/full/input.scss
+@supports a(#{1 + 1}) {@c}
+
+<===> syntax/function/interpolated_value/full/output.css
+@supports a(2) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/function/interpolated_value/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> syntax/function/interpolated_value/partial/input.scss
+@supports a(<#{1 + 1}>) {@c}
+
+<===> syntax/function/interpolated_value/partial/output.css
+@supports a(<2>) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> syntax/lone_interpolation/input.scss
+@supports #{"(a: b)"} {@c}
+
+<===> syntax/lone_interpolation/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> error/syntax/ident/plain/input.scss
+@supports a {@b}
+
+<===> error/syntax/ident/plain/error
+Error: Expected @supports condition.
+  ,
+1 | @supports a {@b}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/syntax/ident/plain/error-libsass
+Error: Invalid CSS after "@supports ": expected @supports condition (e.g. (display: flexbox)), was "a {@b}"
+        on line 1:10 of input.scss
+>> @supports a {@b}
+
+   ---------^
+
+<===>
+================================================================================
+<===> error/syntax/ident/interpolated_after/input.scss
+@supports a#{b} {@c}
+
+<===> error/syntax/ident/interpolated_after/error
+Error: Expected @supports condition.
+  ,
+1 | @supports a#{b} {@c}
+  |           ^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/syntax/ident/interpolated_after/error-libsass
+Error: Invalid CSS after "@supports ": expected @supports condition (e.g. (display: flexbox)), was "a#{b} {@c}"
+        on line 1:10 of input.scss
+>> @supports a#{b} {@c}
+
+   ---------^
+
+<===>
+================================================================================
+<===> error/syntax/ident/interpolated_before/input.scss
+@supports #{a}b {@c}
+
+<===> error/syntax/ident/interpolated_before/error
+Error: Expected @supports condition.
+  ,
+1 | @supports #{a}b {@c}
+  |           ^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/syntax/ident/interpolated_before/error-libsass
+Error: Invalid CSS after "@supports #{a}": expected "{", was "b {@c}"
+        on line 1:11 of input.scss
+>> @supports #{a}b {@c}
+
+   ----------^
+
+<===>
+================================================================================
+<===> error/syntax/raw_declaration/input.scss
+@supports a: b {@c}
+
+<===> error/syntax/raw_declaration/error
+Error: Expected @supports condition.
+  ,
+1 | @supports a: b {@c}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/syntax/raw_declaration/error-libsass
+Error: Invalid CSS after "@supports ": expected @supports condition (e.g. (display: flexbox)), was "a: b {@c}"
+        on line 1:10 of input.scss
+>> @supports a: b {@c}
+
+   ---------^
+
+<===>
+================================================================================
+<===> error/syntax/ident_after_not/input.scss
+@supports not a {@b}
+
+<===> error/syntax/ident_after_not/error
+Error: Expected @supports condition.
+  ,
+1 | @supports not a {@b}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===> error/syntax/ident_after_not/error-libsass
+Error: Invalid CSS after "@supports not ": expected @supports condition (e.g. (display: flexbox)), was "a {@b}"
+        on line 1:11 of input.scss
+>> @supports not a {@b}
+
+   ----------^
+
+<===>
+================================================================================
+<===> error/syntax/declaration/multiple/input.scss
+@supports (a: b) (c: d) {@e}
+
+<===> error/syntax/declaration/multiple/error
+Error: expected "{".
+  ,
+1 | @supports (a: b) (c: d) {@e}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===> error/syntax/declaration/multiple/error-libsass
+Error: Invalid CSS after "@supports (a: b)": expected "{", was "(c: d) {@e}"
+        on line 1:17 of input.scss
+>> @supports (a: b) (c: d) {@e}
+
+   ----------------^
+
+<===>
+================================================================================
+<===> error/syntax/declaration/not/input.scss
+@supports (not a: b) {@c}
+
+<===> error/syntax/declaration/not/error
+Error: Expected @supports condition.
+  ,
+1 | @supports (not a: b) {@c}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===> error/syntax/declaration/not/error-libsass
+Error: Invalid CSS after "@supports (not ": expected @supports condition (e.g. (display: flexbox)), was "a: b) {@c}"
+        on line 1:12 of input.scss
+>> @supports (not a: b) {@c}
+
+   -----------^
+
+<===>
+================================================================================
+<===> error/syntax/declaration/parens/input.scss
+@supports ((a): b) {c}
+
+<===> error/syntax/declaration/parens/error
+Error: expected ")".
+  ,
+1 | @supports ((a): b) {c}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===> error/syntax/declaration/parens/error-libsass
+Error: @supports condition expected declaration
+        on line 1:13 of input.scss
+>> @supports ((a): b) {c}
+
+   ------------^
+
+<===>
+================================================================================
+<===> error/syntax/operator/and_after_not/input.scss
+@supports not (a: b) and (c: d) {@e}
+
+<===> error/syntax/operator/and_after_not/error
+Error: expected "{".
+  ,
+1 | @supports not (a: b) and (c: d) {@e}
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
+
+<===> error/syntax/operator/and_after_not/error-libsass
+Error: Invalid CSS after "...orts not (a: b)": expected "{", was "and (c: d) {@e}"
+        on line 1:21 of input.scss
+>> @supports not (a: b) and (c: d) {@e}
+
+   --------------------^
+
+<===>
+================================================================================
+<===> error/syntax/operator/or_after_and/options.yml
+---
+:todo:
+- sass/libsass#3134
+
+<===> error/syntax/operator/or_after_and/input.scss
+@supports (a: b) and (c: d) or (e: f) {@g}
+
+<===> error/syntax/operator/or_after_and/error
+Error: Expected "and".
+  ,
+1 | @supports (a: b) and (c: d) or (e: f) {@g}
+  |                             ^
+  '
+  input.scss 1:29  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/operator/not_after_and/input.scss
+@supports (a: b) and (not c: d) {@e}
+
+<===> error/syntax/operator/not_after_and/error
+Error: Expected @supports condition.
+  ,
+1 | @supports (a: b) and (not c: d) {@e}
+  |                           ^
+  '
+  input.scss 1:27  root stylesheet
+
+<===> error/syntax/operator/not_after_and/error-libsass
+Error: Invalid CSS after "...a: b) and (not ": expected @supports condition (e.g. (display: flexbox)), was "c: d) {@e}"
+        on line 1:23 of input.scss
+>> @supports (a: b) and (not c: d) {@e}
+
+   ----------------------^
+
+<===>
+================================================================================
+<===> error/syntax/operator/not_function_after_and/input.scss
+@supports (a: b) and not() {@c}
+
+<===> error/syntax/operator/not_function_after_and/error
+Error: "not" is not a valid identifier here.
+  ,
+1 | @supports (a: b) and not() {@c}
+  |                      ^^^
+  '
+  input.scss 1:22  root stylesheet
+
+<===> error/syntax/operator/not_function_after_and/error-libsass
+Error: Invalid CSS after "...rts (a: b) and ": expected @supports condition (e.g. (display: flexbox)), was "not() {@c}"
+        on line 1:21 of input.scss
+>> @supports (a: b) and not() {@c}
+
+   --------------------^
+
+<===>
+================================================================================
+<===> error/syntax/anything/non_identifier_start/input.scss
+@supports (1 a) {@b}
+
+<===> error/syntax/anything/non_identifier_start/error
+Error: Expected identifier.
+  ,
+1 | @supports (1 a) {@b}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===> error/syntax/anything/non_identifier_start/error-libsass
+Error: @supports condition expected declaration
+        on line 1:12 of input.scss
+>> @supports (1 a) {@b}
+
+   -----------^
+
+<===>
+================================================================================
+<===> error/syntax/anything/not/input.scss
+@supports (not a) {@b}
+
+<===> error/syntax/anything/not/error
+Error: Expected @supports condition.
+  ,
+1 | @supports (not a) {@b}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===> error/syntax/anything/not/error-libsass
+Error: Invalid CSS after "@supports (not ": expected @supports condition (e.g. (display: flexbox)), was "a) {@b}"
+        on line 1:12 of input.scss
+>> @supports (not a) {@b}
+
+   -----------^
+
+<===>
+================================================================================
+<===> error/syntax/anything/colon/input.scss
+@supports (a !:$) {@b}
+
+<===> error/syntax/anything/colon/error
+Error: expected ":".
+  ,
+1 | @supports (a !:$) {@b}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===> error/syntax/anything/colon/error-libsass
+Error: @supports condition expected declaration
+        on line 1:12 of input.scss
+>> @supports (a !:$) {@b}
+
+   -----------^
+
+<===>
+================================================================================
+<===> error/syntax/function/space_before_arg/input.scss
+@supports a (b) {@b}
+
+<===> error/syntax/function/space_before_arg/error
+Error: Expected @supports condition.
+  ,
+1 | @supports a (b) {@b}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> error/syntax/function/space_before_arg/error-libsass
+Error: Invalid CSS after "@supports ": expected @supports condition (e.g. (display: flexbox)), was "a (b) {@b}"
+        on line 1:10 of input.scss
+>> @supports a (b) {@b}
+
+   ---------^
+
+<===>
+================================================================================
+<===> error/syntax/function/not/input.scss
+@supports not(:) {@b}
+
+<===> error/syntax/function/not/error
+Error: Expected identifier.
+  ,
+1 | @supports not(:) {@b}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===> error/syntax/function/not/error-libsass
+Error: Invalid CSS after "@supports not(": expected expression (e.g. 1px, bold), was ":) {@b}"
+        on line 1:14 of input.scss
+>> @supports not(:) {@b}
+
+   -------------^
