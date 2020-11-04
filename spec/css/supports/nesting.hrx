@@ -1,0 +1,99 @@
+<===> style_rule/input.scss
+a {
+  @supports (b: c) {d: e}
+}
+
+<===> style_rule/output.css
+@supports (b: c) {
+  a {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> supports/input.scss
+@supports (a: b) {
+  @supports (c: d) {
+    e {f: g}
+  }
+}
+
+<===> supports/output.css
+@supports (a: b) {
+  @supports (c: d) {
+    e {
+      f: g;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> media/top/input.scss
+@media screen {
+  @supports (a: b) {
+    c {d: e}
+  }
+}
+
+<===> media/top/output.css
+@media screen {
+  @supports (a: b) {
+    c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> media/in_style_rule/input.scss
+c {
+  @media screen {
+    @supports (a: b) {d: e}
+  }
+}
+
+<===> media/in_style_rule/output.css
+@media screen {
+  @supports (a: b) {
+    c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> loud_comment/input.scss
+// Regression test for sass/libsass#2158
+
+@supports (a: b) {
+  /* c */
+  d {e: f}
+}
+
+<===> loud_comment/output.css
+@supports (a: b) {
+  /* c */
+  d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> empty/input.scss
+@supports (a: b) {}
+
+<===> empty/output.css
+
+<===>
+================================================================================
+<===> invisible/input.scss
+@supports (a: b) {
+  %c {d: e}
+}
+
+<===> invisible/output.css

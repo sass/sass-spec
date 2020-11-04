@@ -1,3 +1,23 @@
+<===> syntax/none/input.scss
+@supports {@a}
+
+<===> syntax/none/error
+Error: expected "(".
+  ,
+1 | @supports {@a}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===> syntax/none/error-libsass
+Error: Invalid CSS after "@supports ": expected @supports condition (e.g. (display: flexbox)), was "{@a}"
+        on line 1:10 of input.scss
+>> @supports {@a}
+
+   ---------^
+
+<===>
+================================================================================
 <===> syntax/ident/plain/input.scss
 @supports a {@b}
 
@@ -233,6 +253,66 @@ Error: Invalid CSS after "...rts (a: b) and ": expected @supports condition (e.g
 >> @supports (a: b) and not() {@c}
 
    --------------------^
+
+<===>
+================================================================================
+<===> syntax/operator/lonely_not/input.scss
+@supports not {@c}
+
+<===> syntax/operator/lonely_not/error
+Error: expected "(".
+  ,
+1 | @supports not {@c}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===> syntax/operator/lonely_not/error-libsass
+Error: Invalid CSS after "@supports not ": expected @supports condition (e.g. (display: flexbox)), was "{@c}"
+        on line 1:11 of input.scss
+>> @supports not {@c}
+
+   ----------^
+
+<===>
+================================================================================
+<===> syntax/operator/trailing_and/input.scss
+@supports (a: b) and {@c}
+
+<===> syntax/operator/trailing_and/error
+Error: expected "(".
+  ,
+1 | @supports (a: b) and {@c}
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
+
+<===> syntax/operator/trailing_and/error-libsass
+Error: Invalid CSS after "...rts (a: b) and ": expected @supports condition (e.g. (display: flexbox)), was "{@c}"
+        on line 1:21 of input.scss
+>> @supports (a: b) and {@c}
+
+   --------------------^
+
+<===>
+================================================================================
+<===> syntax/operator/trailing_or/input.scss
+@supports (a: b) or {@c}
+
+<===> syntax/operator/trailing_or/error
+Error: expected "(".
+  ,
+1 | @supports (a: b) or {@c}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===> syntax/operator/trailing_or/error-libsass
+Error: Invalid CSS after "...orts (a: b) or ": expected @supports condition (e.g. (display: flexbox)), was "{@c}"
+        on line 1:20 of input.scss
+>> @supports (a: b) or {@c}
+
+   -------------------^
 
 <===>
 ================================================================================
