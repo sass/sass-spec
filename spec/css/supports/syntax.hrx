@@ -1,0 +1,392 @@
+<===> declaration/plain/ident/input.scss
+@supports (a: b) {@c}
+
+<===> declaration/plain/ident/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/plain/quoted_rhs/input.scss
+@supports (a: "b") {@c}
+
+<===> declaration/plain/quoted_rhs/output.css
+@supports (a: "b") {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/dynamic/lhs/input.scss
+@supports (1 + 1: b) {@c}
+
+<===> declaration/dynamic/lhs/output.css
+@supports (2: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/dynamic/rhs/input.scss
+@supports (a: 1 + 1) {@c}
+
+<===> declaration/dynamic/rhs/output.css
+@supports (a: 2) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/nested/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> declaration/nested/input.scss
+@supports ((((a: b)))) {@c}
+
+<===> declaration/nested/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> operator/not/input.scss
+@supports not (a: b) {@c}
+
+<===> operator/not/output.css
+@supports not (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> operator/and/input.scss
+@supports (a: b) and (c: d) and (e: f) {@g}
+
+<===> operator/and/output.css
+@supports (a: b) and (c: d) and (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> operator/or/input.scss
+@supports (a: b) or (c: d) or (e: f) {@g}
+
+<===> operator/or/output.css
+@supports (a: b) or (c: d) or (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> operator/mixed/and_in_not/input.scss
+@supports not ((a: b) and (c: d)) {@e}
+
+<===> operator/mixed/and_in_not/output.css
+@supports not ((a: b) and (c: d)) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> operator/mixed/or_in_and/input.scss
+@supports (a: b) and ((c: d) or (e: f)) {@g}
+
+<===> operator/mixed/or_in_and/output.css
+@supports (a: b) and ((c: d) or (e: f)) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> operator/mixed/and_in_or/input.scss
+@supports ((a: b) and (c: d)) or (e: f) {@g}
+
+<===> operator/mixed/and_in_or/output.css
+@supports ((a: b) and (c: d)) or (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> anything/ident_only/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/ident_only/input.scss
+@supports (a) {@b}
+
+<===> anything/ident_only/output.css
+@supports (a) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> anything/idents/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/idents/input.scss
+@supports (a b) {@c}
+
+<===> anything/idents/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> anything/symbols/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/symbols/input.scss
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {@b}
+
+<===> anything/symbols/output.css
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> anything/no_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/no_space/input.scss
+@supports (a!) {@b}
+
+<===> anything/no_space/output.css
+@supports (a!) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> anything/only_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/only_space/input.scss
+@supports (a ) {@b}
+
+<===> anything/only_space/output.css
+@supports (a ) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> anything/interpolated_ident/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/interpolated_ident/full/input.scss
+@supports (#{"a"} b) {@c}
+
+<===> anything/interpolated_ident/full/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> anything/interpolated_ident/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/interpolated_ident/partial/input.scss
+@supports (a#{"b"}c d) {@e}
+
+<===> anything/interpolated_ident/partial/output.css
+@supports (abc d) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> anything/interpolated_any_value/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/interpolated_any_value/full/input.scss
+@supports (a #{1 + 1}) {@b}
+
+<===> anything/interpolated_any_value/full/output.css
+@supports (a 2) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> anything/interpolated_any_value/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> anything/interpolated_any_value/partial/input.scss
+@supports (a <#{1 + 1}>) {@b}
+
+<===> anything/interpolated_any_value/partial/output.css
+@supports (a <2>) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> function/no_arg/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/no_arg/input.scss
+@supports a() {@b}
+
+<===> function/no_arg/output.css
+@supports a() {
+  @b;
+}
+
+<===>
+================================================================================
+<===> function/plain/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/plain/input.scss
+@supports a(b) {@c}
+
+<===> function/plain/output.css
+@supports a(b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> function/space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/space/input.scss
+@supports a( ) {@b}
+
+<===> function/space/output.css
+@supports a( ) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> function/symbols/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/symbols/input.scss
+@supports a(!&$ZH()&;*{&A}_=-+#/>:<) {@b}
+
+<===> function/symbols/output.css
+@supports a(!&$ZH()&;*{&A}_=-+#/>:<) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> function/after_not/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/after_not/input.scss
+@supports not a() {@b}
+
+<===> function/after_not/output.css
+@supports not a() {
+  @b;
+}
+
+<===>
+================================================================================
+<===> function/interpolated_name/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/interpolated_name/full/input.scss
+@supports #{"a"}(b) {@c}
+
+<===> function/interpolated_name/full/output.css
+@supports a(b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> function/interpolated_name/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/interpolated_name/partial/input.scss
+@supports a#{"b"}c(d) {@e}
+
+<===> function/interpolated_name/partial/output.css
+@supports abc(d) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> function/interpolated_value/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/interpolated_value/full/input.scss
+@supports a(#{1 + 1}) {@c}
+
+<===> function/interpolated_value/full/output.css
+@supports a(2) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> function/interpolated_value/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> function/interpolated_value/partial/input.scss
+@supports a(<#{1 + 1}>) {@c}
+
+<===> function/interpolated_value/partial/output.css
+@supports a(<2>) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> lone_interpolation/input.scss
+@supports #{"(a: b)"} {@c}
+
+<===> lone_interpolation/output.css
+@supports (a: b) {
+  @c;
+}
