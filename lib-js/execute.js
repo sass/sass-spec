@@ -13,6 +13,9 @@ function hasOutputFile(files, impl) {
   )
 }
 
+/**
+ * Get the expected result from running a spec on a directory.
+ */
 async function getExpectedResult(dir, impl) {
   const files = await fs.readdir(dir)
 
