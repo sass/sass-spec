@@ -3,11 +3,11 @@ const path = require("path")
 const { getExpectedResult } = require("../lib-js/execute")
 const { withArchive } = require("../lib-js/hrx")
 
-tap.test("getExpectedResult", async (t) => {
-  await withArchive(
-    path.resolve(__dirname, "./fixtures/expected.hrx"),
-    async (baseDir) => {
-      await t.test("success cases", async (t) => {
+withArchive(
+  path.resolve(__dirname, "./fixtures/expected.hrx"),
+  async (baseDir) => {
+    await tap.test("getExpectedResult", async (t) => {
+      t.test("success cases", async (t) => {
         const expectedSuccess = {
           output: "OUTPUT",
           error: undefined,
@@ -34,7 +34,7 @@ tap.test("getExpectedResult", async (t) => {
         )
         t.end()
       })
-      await t.test("error cases", async (t) => {
+      t.test("error cases", async (t) => {
         const expected = {
           output: undefined,
           error: "ERROR",
@@ -66,7 +66,7 @@ tap.test("getExpectedResult", async (t) => {
         t.end()
       })
 
-      await t.test("warning cases", async (t) => {
+      t.test("warning cases", async (t) => {
         const expected = {
           output: "OUTPUT",
           error: undefined,
@@ -93,8 +93,8 @@ tap.test("getExpectedResult", async (t) => {
         )
         t.end()
       })
-    }
-  )
-  t.todo("throws error if neither input nor error found")
-  t.end()
-})
+      t.todo("throws error if neither input nor error found")
+      t.end()
+    })
+  }
+)
