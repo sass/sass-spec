@@ -59,24 +59,13 @@ async function getExpectedResult(dir, impl) {
   }
 }
 
-const bins = {
-  "dart-sass": `${path.resolve(
-    process.cwd(),
-    "../dart-sass/bin/sass.exe"
-  )} --no-unicode`,
-  libsass: `${path.resolve(
-    process.cwd(),
-    "../libsass/sassc/bin/sassc"
-  )} --style expanded`,
-}
-
 async function getActualResult(dir, opts) {
-  const { rootDir, impl, precision } = opts
+  const { rootDir, impl, bin, precision } = opts
   const files = await fs.readdir(dir)
   const indented = files.includes("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
-  const bin = bins[impl]
+  // const bin = bins[impl]
   const cmdOpts = [`--load-path=${rootDir}`]
   // Pass in the indentend option to the command
   if (indented) {

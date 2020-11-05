@@ -44,6 +44,17 @@ function extractWarningMessages(msg) {
     .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
 }
 
+const bins = {
+  "dart-sass": `${path.resolve(
+    process.cwd(),
+    "../dart-sass/bin/sass.exe"
+  )} --no-unicode`,
+  libsass: `${path.resolve(
+    process.cwd(),
+    "../libsass/sassc/bin/sassc"
+  )} --style expanded`,
+}
+
 async function runTest(dir, opts) {
   const { rootDir, impl, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
@@ -51,7 +62,7 @@ async function runTest(dir, opts) {
   const testFn = getTestFn(mode, tap)
   await testFn(relPath, async (t) => {
     const expected = await getExpectedResult(dir, impl)
-    const actual = await getActualResult(dir, opts)
+    const actual = await getActualResult(dir, { ...opts, bin: bins[impl] })
     if (expected.isSuccess) {
       t.ok(actual.isSuccess, `${relPath} expected success`)
       t.equal(
