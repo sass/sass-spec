@@ -95,5 +95,6 @@ tap.test("getExpectedResult", async (t) => {
       })
     }
   )
+  t.todo("throws error if neither input nor error found")
   t.end()
 })
