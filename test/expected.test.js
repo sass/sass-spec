@@ -5,7 +5,7 @@ const { withArchive } = require("../lib-js/hrx")
 
 tap.test("getExpectedResult", async (t) => {
   await withArchive(
-    path.resolve(__dirname, "./fixtures/execute.hrx"),
+    path.resolve(__dirname, "./fixtures/expected.hrx"),
     async (baseDir) => {
       await t.test("success cases", async (t) => {
         const expectedSuccess = {
