@@ -10,7 +10,6 @@ const baseOpts = {
 }
 withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
   await tap.test("executeSpec", async (t) => {
-    // TODO how to run the spec without it being "counted" and without it failing?
     async function runWithOpts(subdir, opts) {
       // Create a new `Test` object so it won't be run as part of the suite
       const t = new tap.Test()
@@ -22,6 +21,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       // console.log(subdir, t.counts)
       return t
     }
+    // TODO there's gotta be a better way to tally this
     t.equal(
       (await runWithOpts("output")).counts.fail,
       0,
