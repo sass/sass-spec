@@ -35,7 +35,7 @@ async function runSpec(tap, dir, opts) {
         `${relPath} output should match`
       )
 
-      if (expected.warning && !todoWarning) {
+      if ((expected.warning || actual.warning) && !todoWarning) {
         t.equal(
           extractWarningMessages(actual.warning, impl),
           extractWarningMessages(expected.warning, impl),

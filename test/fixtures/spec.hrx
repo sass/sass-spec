@@ -38,7 +38,7 @@ stderr: |
 Error: expected "(".
 <===>
 ================================================================================
-<===> warning/input.scss
+<===> warning/pass/input.scss
 status: 0
 stdout: |
   p {
@@ -46,9 +46,53 @@ stdout: |
   }
 stderr: |
   WARNING: test
-<===> warning/output.css
+<===> warning/pass/output.css
 p {
   color: #ff8000;
 }
-<===> warning/warning
+<===> warning/pass/warning
 WARNING: test
+<===>
+================================================================================
+<===> warning/mismatch/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: failure
+<===> warning/mismatch/output.css
+p {
+  color: #ff8000;
+}
+<===> warning/mismatch/warning
+WARNING: test
+<===>
+================================================================================
+<===> warning/missing/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> warning/missing/output.css
+p {
+  color: #ff8000;
+}
+<===> warning/missing/warning
+WARNING: test
+<===>
+================================================================================
+<===> warning/extraneous/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: test
+<===> warning/extraneous/output.css
+p {
+  color: #ff8000;
+}

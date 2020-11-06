@@ -45,13 +45,35 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
 
     t.test("warning cases", async (t) => {
       t.equal(
-        (await runWithOpts("warning")).counts.fail,
+        (await runWithOpts("warning/pass")).counts.fail,
         0,
-        "expected warning success case"
+        "success case"
       )
 
-      t.todo("warning success case")
-      t.todo("handle warning failure case")
+      t.notEqual(
+        (await runWithOpts("warning/mismatch")).counts.fail,
+        0,
+        "fail when warnings are different"
+      )
+
+      t.notEqual(
+        (await runWithOpts("warning/missing")).counts.fail,
+        0,
+        "fail when warning is missing"
+      )
+
+      t.notEqual(
+        (await runWithOpts("warning/extraneous")).counts.fail,
+        0,
+        "fail when extraneous warning is present"
+      )
+
+      t.equal(
+        (await runWithOpts("warning/mismatch", { todoWarning: true })).counts
+          .fail,
+        0,
+        "skip warning checks if `todoWarning` option enabled"
+      )
       t.todo("handle todoWarning")
       t.end()
     })
