@@ -43,7 +43,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       "expected error failure case"
     )
 
-    t.todo("warning cases", async (t) => {
+    t.test("warning cases", async (t) => {
       t.equal(
         (await runWithOpts("warning")).counts.fail,
         0,
