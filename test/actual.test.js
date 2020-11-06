@@ -10,7 +10,8 @@ withArchive(
       async function getResults(subdir) {
         return getActualResult(path.resolve(baseDir, subdir), {
           impl: "sass-mock",
-          bin: "node " + path.resolve(__dirname, "./fixtures/sass-mock.js"),
+          bin:
+            "node " + path.resolve(__dirname, "./fixtures/sass-exec-mock.js"),
         })
       }
       t.todo("does not print to parent stderr")

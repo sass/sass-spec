@@ -50,17 +50,6 @@ function extractWarningMessages(msg) {
     .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
 }
 
-const bins = {
-  "dart-sass": `${path.resolve(
-    process.cwd(),
-    "../dart-sass/bin/sass.exe"
-  )} --no-unicode`,
-  libsass: `${path.resolve(
-    process.cwd(),
-    "../libsass/sassc/bin/sassc"
-  )} --style expanded`,
-}
-
 async function runTest(dir, opts) {
   const { rootDir, impl, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
@@ -68,7 +57,7 @@ async function runTest(dir, opts) {
   const testFn = getTestFn(mode, tap)
   await testFn(relPath, async (t) => {
     const expected = await getExpectedResult(dir, impl)
-    const actual = await getActualResult(dir, { ...opts, bin: bins[impl] })
+    const actual = await getActualResult(dir, opts)
     if (expected.isSuccess) {
       t.ok(actual.isSuccess, `${relPath} expected success`)
       t.equal(
@@ -96,11 +85,23 @@ async function runTest(dir, opts) {
   })
 }
 
+const bins = {
+  "dart-sass": `${path.resolve(
+    process.cwd(),
+    "../dart-sass/bin/sass.exe"
+  )} --no-unicode`,
+  libsass: `${path.resolve(
+    process.cwd(),
+    "../libsass/sassc/bin/sassc"
+  )} --style expanded`,
+}
+
 const impl = "dart-sass"
 const rootDir = path.resolve("spec")
 const testDir = "spec"
+const bin = bins[impl]
 // TODO this might ignore TODOs in a higher directory
-iterateDir(testDir, { impl, rootDir }, runTest)
+iterateDir(testDir, { impl, rootDir, bin }, runTest)
 
 // async function timeTest() {
 //   const start = Date.now()
