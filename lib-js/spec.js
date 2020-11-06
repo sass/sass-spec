@@ -36,8 +36,6 @@ async function runSpec(tap, dir, opts) {
       )
 
       if (expected.warning && !todoWarning) {
-        console.log(actual.warning)
-        console.log(expected.warning)
         t.equal(
           extractWarningMessages(actual.warning, impl),
           extractWarningMessages(expected.warning, impl),

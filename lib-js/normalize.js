@@ -26,7 +26,7 @@ function extractErrorMessage(msg, impl) {
     .find((line) => line.startsWith("Error:"))
 }
 
-function extractWarningMessages(msg) {
+function extractWarningMessages(msg, impl) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
