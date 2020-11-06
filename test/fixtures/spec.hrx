@@ -1,40 +1,60 @@
-<===> output/input.scss
+<===> output/pass/input.scss
 status: 0
 stdout: |
   p {
     color: #ff8000;
   }
-<===> output/output.css
+<===> output/pass/output.css
 p {
   color: #ff8000;
 }
 <===>
 ================================================================================
-<===> output-fail/input.scss
+<===> output/fail-mismatch/input.scss
 status: 0
 stdout: |
   p {
     color: #ff8000;
   }
-<===> output-fail/output.css
+<===> output/fail-mismatch/output.css
 p {
   color: #000000;
 }
 <===>
 ================================================================================
-<===> error/input.scss
+<===> output/fail-error/input.scss
 status: 1
 stderr: |
   Error: expected ")".
-<===> error/error
+<===> output/fail-error/output.css
+p {
+  color: #000000;
+}
+<===>
+================================================================================
+<===> error/pass/input.scss
+status: 1
+stderr: |
+  Error: expected ")".
+<===> error/pass/error
 Error: expected ")".
 <===>
 ================================================================================
-<===> error-fail/input.scss
+<===> error/fail-mismatch/input.scss
 status: 1
 stderr: |
   Error: expected ")".
-<===> error-fail/error
+<===> error/fail-mismatch/error
+Error: expected "(".
+<===>
+================================================================================
+<===> error/fail-output/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> error/fail-output/error
 Error: expected "(".
 <===>
 ================================================================================

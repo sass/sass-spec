@@ -22,26 +22,40 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       return t
     }
     // TODO there's gotta be a better way to tally this
-    t.equal(
-      (await runWithOpts("output")).counts.fail,
-      0,
-      "basic output success case"
-    )
-    t.notEqual(
-      (await runWithOpts("output-fail")).counts.fail,
-      0,
-      "expected output failure case"
-    )
-    t.equal(
-      (await runWithOpts("error")).counts.fail,
-      0,
-      "basic error success case"
-    )
-    t.notEqual(
-      (await runWithOpts("error-fail")).counts.fail,
-      0,
-      "expected error failure case"
-    )
+    t.test("output cases", async (t) => {
+      t.equal(
+        (await runWithOpts("output/pass")).counts.fail,
+        0,
+        "passes if the outputs match"
+      )
+      t.notEqual(
+        (await runWithOpts("output/fail-mismatch")).counts.fail,
+        0,
+        "fails if the outputs are mismatched"
+      )
+      t.notEqual(
+        (await runWithOpts("output/fail-error")).counts.fail,
+        0,
+        "fails if the spec throws an error"
+      )
+    })
+    t.test("error cases", async (t) => {
+      t.equal(
+        (await runWithOpts("error/pass")).counts.fail,
+        0,
+        "passes when errors match"
+      )
+      t.notEqual(
+        (await runWithOpts("error/fail-mismatch")).counts.fail,
+        0,
+        "fails on mismatched errors"
+      )
+      t.notEqual(
+        (await runWithOpts("error/fail-output")).counts.fail,
+        0,
+        "fails if the spec passes"
+      )
+    })
 
     t.test("warning cases", async (t) => {
       t.equal(
