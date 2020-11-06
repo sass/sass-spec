@@ -19,6 +19,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
         ...opts,
       })
       t.end()
+      // console.log(subdir, t.counts)
       return t
     }
     t.equal(
@@ -55,11 +56,11 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       t.end()
     })
 
-    t.test("skip", async (t) => {
+    t.test("ignore", async (t) => {
       t.equal(
-        (await runWithOpts("output", { mode: "skip" })).counts.skip,
+        (await runWithOpts("output", { mode: "ignore" })).counts.skip,
         1,
-        "marks a test as a `skip` when the `skip` option is set"
+        "marks a test as a `skip` when the `ignore` option is set"
       )
     })
 
