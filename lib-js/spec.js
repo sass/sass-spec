@@ -1,5 +1,5 @@
 const path = require("path")
-const tap = require("tap")
+// const tap = require("tap")
 const { getExpectedResult, getActualResult } = require("./execute")
 const {
   normalizeOutput,
@@ -18,13 +18,13 @@ function getTestFn(mode, t) {
   }
 }
 
-async function runSpec(dir, opts) {
+async function runSpec(tap, dir, opts) {
   const { rootDir, impl, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
   // TODO pass tap in as an option so specs can theoretically be run as subtest
   const testFn = getTestFn(mode, tap)
-  await testFn(relPath, async (t) => {
+  return await testFn(relPath, async (t) => {
     const expected = await getExpectedResult(dir, impl)
     const actual = await getActualResult(dir, opts)
     if (expected.isSuccess) {

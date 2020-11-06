@@ -1,4 +1,5 @@
 const path = require("path")
+const tap = require("tap")
 
 const { iterateDir } = require("./lib-js/directory")
 const { runSpec } = require("./lib-js/spec")
@@ -19,7 +20,9 @@ const rootDir = path.resolve("spec")
 const testDir = "spec"
 const bin = bins[impl]
 // TODO this might ignore TODOs in a higher directory
-iterateDir(testDir, { impl, rootDir, bin }, runSpec)
+iterateDir(testDir, { impl, rootDir, bin }, async (dir, opts) => {
+  await runSpec(tap, dir, opts)
+})
 
 // async function timeTest() {
 //   const start = Date.now()
