@@ -12,10 +12,14 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
   await tap.test("executeSpec", async (t) => {
     // TODO how to run the spec without it being "counted" and without it failing?
     async function runWithOpts(subdir, opts) {
-      return await runSpec(new tap.Test(), path.resolve(dir, subdir), {
+      // Create a new `Test` object so it won't be run as part of the suite
+      const t = new tap.Test()
+      await runSpec(t, path.resolve(dir, subdir), {
         ...baseOpts,
         ...opts,
       })
+      t.end()
+      return t
     }
     t.equal(
       (await runWithOpts("output")).counts.fail,
@@ -50,13 +54,21 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       t.todo("handle todoWarning")
       t.end()
     })
-    t.todo("todo", async (t) => {
+
+    t.test("skip", async (t) => {
+      t.equal(
+        (await runWithOpts("output", { mode: "skip" })).counts.skip,
+        1,
+        "marks a test as a `skip` when the `skip` option is set"
+      )
+    })
+
+    t.test("todo", async (t) => {
       t.equal(
         (await runWithOpts("output", { mode: "todo" })).counts.todo,
         1,
-        "runs todos normally when the option is set"
+        "marks a test as a `todo` when the `todo` option is set"
       )
-      t.todo("does not run todos normally")
       t.todo("runs todos if option is configured")
       t.todo("fails on success if probeTodo is passed as input")
       t.end()

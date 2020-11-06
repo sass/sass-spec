@@ -22,8 +22,8 @@ async function runSpec(tap, dir, opts) {
   const { rootDir, impl, mode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
-  // TODO pass tap in as an option so specs can theoretically be run as subtest
   const testFn = getTestFn(mode, tap)
+
   return await testFn(relPath, async (t) => {
     const expected = await getExpectedResult(dir, impl)
     const actual = await getActualResult(dir, opts)
