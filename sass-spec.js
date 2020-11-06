@@ -30,13 +30,19 @@ function getTestFn(mode, t) {
   }
 }
 
-function extractErrorMessage(msg) {
+function extractErrorMessage(msg, impl) {
+  if (impl === "dart-sass") {
+    return normalizeOutput(msg)
+  }
   return normalizeOutput(msg)
     .split("\n")
     .find((line) => line.startsWith("Error:"))
 }
 
 function extractWarningMessages(msg) {
+  if (impl === "dart-sass") {
+    return normalizeOutput(msg)
+  }
   // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
   // and only prints out the first warning
   return normalizeOutput(msg)
@@ -72,25 +78,17 @@ async function runTest(dir, opts) {
       )
 
       if (expected.warning && !todoWarning) {
-        if (impl === "dart-sass") {
-          t.equal(
-            normalizeOutput(actual.warning),
-            normalizeOutput(expected.warning),
-            `${relPath} warnings should match`
-          )
-        } else {
-          t.equal(
-            extractWarningMessages(actual.warning),
-            extractWarningMessages(expected.warning),
-            `${relPath} warnings should match`
-          )
-        }
+        t.equal(
+          extractWarningMessages(actual.warning, impl),
+          extractWarningMessages(expected.warning, impl),
+          `${relPath} warnings should match`
+        )
       }
     } else {
       t.notOk(actual.isSuccess, `${relPath} expected error`)
       t.equal(
-        extractErrorMessage(actual.error),
-        extractErrorMessage(expected.error),
+        extractErrorMessage(actual.error, impl),
+        extractErrorMessage(expected.error, impl),
         `${relPath} errors should match`
       )
     }

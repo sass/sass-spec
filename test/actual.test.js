@@ -13,7 +13,7 @@ withArchive(
           bin: "node " + path.resolve(__dirname, "./fixtures/sass-mock.js"),
         })
       }
-      t.todo("does not print to stderr")
+      t.todo("does not print to parent stderr")
       t.hasStrict(
         await getResults("output"),
         {
