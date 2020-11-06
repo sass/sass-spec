@@ -92,7 +92,12 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
         1,
         "marks a test as a `todo` when the `todo` option is set"
       )
-      t.todo("runs todos if option is configured")
+      t.equal(
+        (await runWithOpts("output", { mode: "todo", todo: "run" })).counts
+          .todo,
+        0,
+        "runs todos if `todo` is set to `run`"
+      )
       t.todo("fails on success if probeTodo is passed as input")
       t.end()
     })
