@@ -56,7 +56,7 @@ async function runSpec(tap, dir, opts) {
   })
   // TAP doesn't actually create a child test object when skipping
   // so mock one out for diagnostics
-  if (mode === "todo") {
+  if (mode === "todo" && !todoMode) {
     return { counts: { total: 1, todo: 1 } }
   }
   if (mode === "ignore") {
