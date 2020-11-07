@@ -7,10 +7,10 @@ const {
   extractWarningMessages,
 } = require("./normalize")
 
-function getTestFn(t, mode, todo) {
+function getTestFn(t, mode, todoMode) {
   switch (mode) {
     case "todo":
-      return !todo ? t.todo : t.test
+      return !todoMode ? t.todo : t.test
     case "ignore":
       return t.skip
     default:
@@ -19,10 +19,10 @@ function getTestFn(t, mode, todo) {
 }
 
 async function runSpec(tap, dir, opts) {
-  const { rootDir, impl, mode, todo, todoWarning } = opts
+  const { rootDir, impl, mode, todoMode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
-  const testFn = getTestFn(tap, mode, todo)
+  const testFn = getTestFn(tap, mode, todoMode)
 
   let childTest
   await testFn(relPath, async (t) => {

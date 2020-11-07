@@ -1,24 +1,46 @@
 const path = require("path")
 const tap = require("tap")
+const yargs = require("yargs/yargs")
 
 const { iterateDir } = require("./lib-js/directory")
 const { runSpec } = require("./lib-js/spec")
 
-const bins = {
-  "dart-sass": `${path.resolve(
-    process.cwd(),
-    "../dart-sass/bin/sass.exe"
-  )} --no-unicode`,
-  libsass: `${path.resolve(
-    process.cwd(),
-    "../libsass/sassc/bin/sassc"
-  )} --style expanded`,
-}
+const argv = yargs(process.argv.slice(2))
+  .example(
+    "npm run ./sass-spec.js -- spec/basic",
+    "Run tests only in the spec/basic folder"
+  )
+  .option("command", {
+    alias: "c",
+    description: "Sets a specific binary to run",
+    type: "string",
+  })
+  .option("impl", {
+    description: "Sets the name of the implementation being tested.",
+    type: "string",
+  })
+  .options("run-todo", {
+    description: "Run any tests marked as todo",
+    type: "boolean",
+    default: false,
+  })
+  .options("probe-todo", {
+    description: "Run and report tests marked as todo that unexpectedly pass",
+    type: "boolean",
+    default: false,
+  }).argv
 
-const impl = "libsass"
-const rootDir = path.resolve("spec")
-const testDir = "spec"
-const bin = bins[impl]
+const implArgs = {
+  "dart-sass": "--no-unicode",
+  libsass: "--style expanded",
+}
+const args = {
+  impl: argv.impl,
+  bin: `${path.resolve(process.cwd(), argv.command)} ${implArgs[argv.impl]}`,
+  rootDir: path.resolve("spec"),
+  testDir: "spec",
+  todoMode: argv.runTodo ? "run" : undefined,
+}
 
 function printResult(counts) {
   if (counts.fail > 0) {
@@ -36,7 +58,7 @@ async function runAllTests() {
   const t = new tap.Test()
 
   const start = Date.now()
-  await iterateDir(testDir, { impl, rootDir, bin }, async (dir, opts) => {
+  await iterateDir(args.testDir, args, async (dir, opts) => {
     const res = await runSpec(t, dir, opts)
     printResult(res.counts)
   })
