@@ -15,20 +15,36 @@ const bins = {
   )} --style expanded`,
 }
 
-const impl = "dart-sass"
+const impl = "libsass"
 const rootDir = path.resolve("spec")
 const testDir = "spec"
 const bin = bins[impl]
+
+function printResult(counts) {
+  if (counts.fail > 0) {
+    process.stdout.write("X")
+  } else if (counts.todo > 0) {
+    process.stdout.write("-")
+  } else if (counts.skip > 0) {
+    // do nothing
+  } else {
+    process.stdout.write(".")
+  }
+}
 // TODO this might ignore TODOs in a higher directory
-iterateDir(testDir, { impl, rootDir, bin }, async (dir, opts) => {
-  await runSpec(tap, dir, opts)
-})
+async function runAllTests() {
+  const t = new tap.Test()
 
-// async function timeTest() {
-//   const start = Date.now()
-//   await iterateDir(testDir, { impl, rootDir }, executeSpec)
-//   const end = Date.now()
-//   console.log((end - start) / 1000)
-// }
+  const start = Date.now()
+  await iterateDir(testDir, { impl, rootDir, bin }, async (dir, opts) => {
+    const res = await runSpec(t, dir, opts)
+    printResult(res.counts)
+  })
+  const end = Date.now()
+  const time = (end - start) / 1000
+  console.log(t.counts)
+  // TODO how to just access this from the test object
+  console.log(`Finished in ${time}s`)
+}
 
-// timeTest()
+runAllTests()

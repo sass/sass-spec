@@ -24,7 +24,9 @@ async function runSpec(tap, dir, opts) {
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(tap, mode, todo)
 
-  return await testFn(relPath, async (t) => {
+  let childTest
+  await testFn(relPath, async (t) => {
+    childTest = t
     const expected = await getExpectedResult(dir, impl)
     const actual = await getActualResult(dir, opts)
     if (expected.isSuccess) {
@@ -52,6 +54,15 @@ async function runSpec(tap, dir, opts) {
     }
     t.end()
   })
+  // TAP doesn't actually create a child test object when skipping
+  // so mock one out for diagnostics
+  if (mode === "todo") {
+    return { counts: { total: 1, todo: 1 } }
+  }
+  if (mode === "ignore") {
+    return { counts: { total: 1, skip: 1 } }
+  }
+  return childTest
 }
 
 module.exports = {
