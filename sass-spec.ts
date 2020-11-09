@@ -1,9 +1,9 @@
-const path = require("path")
-const tap = require("tap")
-const yargs = require("yargs/yargs")
+import path from "path"
+import tap from "tap"
+import yargs from "yargs/yargs"
 
-const { iterateDir } = require("./lib-js/directory")
-const { runSpec } = require("./lib-js/spec")
+import { iterateDir } from "./lib-js/directory"
+import { runSpec } from "./lib-js/spec"
 
 const argv = yargs(process.argv.slice(2))
   .example(
@@ -55,7 +55,8 @@ function printResult(counts) {
 }
 // TODO this might ignore TODOs in a higher directory
 async function runAllTests() {
-  const t = new tap.Test()
+  // FIXME need to override the type definition
+  const t: any = new tap.Test()
 
   const start = Date.now()
   await iterateDir(args.testDir, args, async (dir, opts) => {

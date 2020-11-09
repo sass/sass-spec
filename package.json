@@ -21,16 +21,20 @@
   },
   "homepage": "https://github.com/sass/sass-spec#readme",
   "dependencies": {
+    "@types/tap": "^14.10.1",
+    "@types/yargs": "^15.0.9",
     "js-yaml": "^3.14.0",
     "node-hrx": "^0.1.0",
     "tap": "^14.10.8",
     "yargs": "^16.1.0"
   },
   "devDependencies": {
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
   },
   "scripts": {
-    "sass-spec": "node sass-spec.js",
+    "sass-spec": "ts-node sass-spec.ts",
     "test": "tap --reporter=spec test/*.test.js"
   }
 }
