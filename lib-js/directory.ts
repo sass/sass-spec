@@ -4,13 +4,26 @@ import path from "path"
 
 import { withArchive } from "./hrx"
 
-function hasOptionForImpl(option: any, impl: string) {
+interface YamlOptions {
+  ":todo"?: string[]
+  ":ignore_for"?: string[]
+  ":warning_todo"?: string[]
+  ":precision"?: number
+}
+
+function hasOptionForImpl(option: string[] | undefined, impl: string) {
   if (!option || !(option instanceof Array)) return false
   return option.some((item) => item.includes(impl))
 }
 
-function getOptionOverrides(options: any, impl: string) {
-  const opts: any = {}
+interface OverrideOptions {
+  todoWarning?: boolean
+  mode?: "ignore" | "todo"
+  precision?: number
+}
+
+function getOptionOverrides(options: YamlOptions, impl: string) {
+  const opts: OverrideOptions = {}
   if (hasOptionForImpl(options[":warning_todo"], impl)) {
     opts.todoWarning = true
   }
@@ -26,6 +39,19 @@ function getOptionOverrides(options: any, impl: string) {
   return opts
 }
 
+interface DirOptions {
+  impl: string
+  bin: string
+  rootDir: string
+  testDir: string
+  // TODO guarantee that this is `run` or `probe`
+  todoMode?: string
+}
+
+type AllOptions = DirOptions & OverrideOptions
+
+type DirIteratee = (dir: string, options: AllOptions) => Promise<void>
+
 /**
  * Run through the given directory
  * @param dir the directory to iterate over
@@ -35,7 +61,11 @@ function getOptionOverrides(options: any, impl: string) {
  * Called with the directory, and all options along with:
  *   - mode: null | todo | warning | ignore
  */
-export async function iterateDir(dir: string, opts: any, iteratee: any) {
+export async function iterateDir(
+  dir: string,
+  opts: DirOptions,
+  iteratee: DirIteratee
+) {
   const { impl } = opts
   const files = await fs.readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
@@ -45,7 +75,10 @@ export async function iterateDir(dir: string, opts: any, iteratee: any) {
     const options = yaml.safeLoad(
       await fs.readFile(optsFile, { encoding: "utf-8" })
     )
-    overrides = getOptionOverrides(options, impl)
+    if (!options || typeof options === "string") {
+      throw new Error(`${dir}: Ran into invalid YAML options`)
+    }
+    overrides = getOptionOverrides(options as YamlOptions, impl)
   }
   // Override the mode of options passed in
   const _opts = { ...opts, ...overrides }

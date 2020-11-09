@@ -35,7 +35,7 @@ const implArgs: Record<string, string> = {
   libsass: "--style expanded",
 }
 const args = {
-  impl: argv.impl,
+  impl: argv.impl!,
   bin: `${path.resolve(process.cwd(), argv.command!)} ${implArgs[argv.impl!]}`,
   rootDir: path.resolve("spec"),
   testDir: "spec",
