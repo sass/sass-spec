@@ -1,12 +1,12 @@
 // Functions for normalizing the string output from spec results
 
-function escape(text) {
+export function escape(text: string) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
 }
 
 // TODO move these to another file
 // Run a particular spec and print the results as a tap test
-function normalizeOutput(output = "") {
+export function normalizeOutput(output = "") {
   return (
     output
       .replace(/\r?\n+/g, "\n")
@@ -17,7 +17,7 @@ function normalizeOutput(output = "") {
   )
 }
 
-function extractErrorMessage(msg, impl) {
+export function extractErrorMessage(msg: string, impl: string) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
@@ -26,7 +26,7 @@ function extractErrorMessage(msg, impl) {
     .find((line) => line.startsWith("Error:"))
 }
 
-function extractWarningMessages(msg, impl) {
+export function extractWarningMessages(msg: string, impl: string) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
@@ -35,10 +35,4 @@ function extractWarningMessages(msg, impl) {
   return normalizeOutput(msg)
     .split("\n")
     .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
-}
-
-module.exports = {
-  normalizeOutput,
-  extractErrorMessage,
-  extractWarningMessages,
 }

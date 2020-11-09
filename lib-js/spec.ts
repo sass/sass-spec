@@ -1,13 +1,12 @@
-const path = require("path")
-// const tap = require("tap")
-const { getExpectedResult, getActualResult } = require("./execute")
-const {
+import path from "path"
+import { getExpectedResult, getActualResult } from "./execute"
+import {
   normalizeOutput,
   extractErrorMessage,
   extractWarningMessages,
-} = require("./normalize")
+} from "./normalize"
 
-function getTestFn(t, mode, todoMode) {
+function getTestFn(t: any, mode: string, todoMode: string) {
   switch (mode) {
     case "todo":
       return !todoMode ? t.todo : t.test
@@ -18,14 +17,14 @@ function getTestFn(t, mode, todoMode) {
   }
 }
 
-async function runSpec(tap, dir, opts) {
+export async function runSpec(tap: any, dir: string, opts: any) {
   const { rootDir, impl, mode, todoMode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(tap, mode, todoMode)
 
   let childTest
-  await testFn(relPath, async (t) => {
+  await testFn(relPath, async (t: any) => {
     childTest = t
     const expected = await getExpectedResult(dir, impl)
     const actual = await getActualResult(dir, opts)
@@ -40,7 +39,7 @@ async function runSpec(tap, dir, opts) {
       if ((expected.warning || actual.warning) && !todoWarning) {
         t.equal(
           extractWarningMessages(actual.warning, impl),
-          extractWarningMessages(expected.warning, impl),
+          extractWarningMessages(expected.warning!, impl),
           `${relPath} warnings should match`
         )
       }
@@ -48,7 +47,7 @@ async function runSpec(tap, dir, opts) {
       t.notOk(actual.isSuccess, `${relPath} expected error`)
       t.equal(
         extractErrorMessage(actual.error, impl),
-        extractErrorMessage(expected.error, impl),
+        extractErrorMessage(expected.error!, impl),
         `${relPath} errors should match`
       )
     }
@@ -63,8 +62,4 @@ async function runSpec(tap, dir, opts) {
     return { counts: { total: 1, skip: 1 } }
   }
   return childTest
-}
-
-module.exports = {
-  runSpec,
 }

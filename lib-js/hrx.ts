@@ -1,11 +1,11 @@
-const { promises: fs, createReadStream } = require("fs")
-const path = require("path")
-const { archiveFromStream } = require("node-hrx")
+import { promises as fs, createReadStream } from "fs"
+import path from "path"
+import { archiveFromStream } from "node-hrx"
 
 /**
  * Writes the HRX item (file or directory) to disk as physical files at the given archive base path.
  */
-async function writeToDisk(basePath, item) {
+async function writeToDisk(basePath: string, item: any) {
   const fullPath = path.resolve(basePath, item.path)
   if (item.isDirectory()) {
     // If a directory, make the directory and recurse
@@ -22,7 +22,7 @@ async function writeToDisk(basePath, item) {
 /**
  * Unarchives the given HRX archive into the filesystem
  */
-async function unarchive(filepath) {
+async function unarchive(filepath: string) {
   const { dir, name } = path.parse(filepath)
   // make a directory for the archive in the given directory
   const dirPath = path.resolve(dir, name)
@@ -37,19 +37,15 @@ async function unarchive(filepath) {
 /**
  * Run the given callback on the HRX archive at the given path
  */
-async function withArchive(filepath, callback) {
+export async function withArchive(filepath: string, callback: any) {
   await unarchive(filepath)
   const unarchivedDir = filepath.replace(".hrx", "")
   try {
     await callback(unarchivedDir)
   } finally {
     // Delete the directory when we're done
-    await fs.rmdir(unarchivedDir, { recursive: true, force: true })
+    await fs.rmdir(unarchivedDir, { recursive: true })
   }
 
   // TODO handle errors and process exit
-}
-
-module.exports = {
-  withArchive,
 }

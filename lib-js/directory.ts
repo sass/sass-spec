@@ -1,16 +1,16 @@
-const yaml = require("js-yaml")
-const { promises: fs } = require("fs")
-const path = require("path")
+import yaml from "js-yaml"
+import { promises as fs } from "fs"
+import path from "path"
 
-const { withArchive } = require("./hrx")
+import { withArchive } from "./hrx"
 
-function hasOptionForImpl(option, impl) {
+function hasOptionForImpl(option: any, impl: string) {
   if (!option || !(option instanceof Array)) return false
   return option.some((item) => item.includes(impl))
 }
 
-function getOptionOverrides(options, impl) {
-  const opts = {}
+function getOptionOverrides(options: any, impl: string) {
+  const opts: any = {}
   if (hasOptionForImpl(options[":warning_todo"], impl)) {
     opts.todoWarning = true
   }
@@ -35,7 +35,7 @@ function getOptionOverrides(options, impl) {
  * Called with the directory, and all options along with:
  *   - mode: null | todo | warning | ignore
  */
-async function iterateDir(dir, opts, iteratee) {
+export async function iterateDir(dir: string, opts: any, iteratee: any) {
   const { impl } = opts
   const files = await fs.readdir(dir)
   // If we find an options.yml file, read it and determine if we should go further
@@ -58,7 +58,7 @@ async function iterateDir(dir, opts, iteratee) {
       await iterateDir(filepath, _opts, iteratee)
     } else if (filename.endsWith(".hrx")) {
       // If HRX, expand it into a directory and recurse into it
-      await withArchive(filepath, async (unarchivedDir) => {
+      await withArchive(filepath, async (unarchivedDir: string) => {
         await iterateDir(unarchivedDir, _opts, iteratee)
       })
     } else if (filename === "input.scss" || filename === "input.sass") {
@@ -67,5 +67,3 @@ async function iterateDir(dir, opts, iteratee) {
     }
   }
 }
-
-module.exports = { iterateDir }

@@ -30,19 +30,19 @@ const argv = yargs(process.argv.slice(2))
     default: false,
   }).argv
 
-const implArgs = {
+const implArgs: Record<string, string> = {
   "dart-sass": "--no-unicode",
   libsass: "--style expanded",
 }
 const args = {
   impl: argv.impl,
-  bin: `${path.resolve(process.cwd(), argv.command)} ${implArgs[argv.impl]}`,
+  bin: `${path.resolve(process.cwd(), argv.command!)} ${implArgs[argv.impl!]}`,
   rootDir: path.resolve("spec"),
   testDir: "spec",
   todoMode: argv.runTodo ? "run" : undefined,
 }
 
-function printResult(counts) {
+function printResult(counts: any) {
   if (counts.fail > 0) {
     process.stdout.write("X")
   } else if (counts.todo > 0) {
@@ -59,9 +59,9 @@ async function runAllTests() {
   const t: any = new tap.Test()
 
   const start = Date.now()
-  await iterateDir(args.testDir, args, async (dir, opts) => {
+  await iterateDir(args.testDir, args, async (dir: string, opts: any) => {
     const res = await runSpec(t, dir, opts)
-    printResult(res.counts)
+    printResult(res!.counts)
   })
   const end = Date.now()
   const time = (end - start) / 1000

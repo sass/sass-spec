@@ -1,12 +1,13 @@
-const { promises: fs } = require("fs")
-const path = require("path")
-const { promisify } = require("util")
+import { promises as fs } from "fs"
+import path from "path"
+import { promisify } from "util"
+
 const exec = promisify(require("child_process").exec)
 
 /**
  * Return whether the file should have a successful output
  */
-function hasOutputFile(files, impl) {
+function hasOutputFile(files: string[], impl: string) {
   return (
     files.includes(`output-${impl}.css`) ||
     (files.includes("output.css") && !files.includes(`error-${impl}`))
@@ -16,7 +17,7 @@ function hasOutputFile(files, impl) {
 /**
  * Get the expected result from running a spec on a directory.
  */
-async function getExpectedResult(dir, impl) {
+export async function getExpectedResult(dir: string, impl: string) {
   const files = await fs.readdir(dir)
 
   const isSuccessCase = hasOutputFile(files, impl)
@@ -59,7 +60,7 @@ async function getExpectedResult(dir, impl) {
   }
 }
 
-async function getActualResult(dir, opts) {
+export async function getActualResult(dir: string, opts: any) {
   const { rootDir, impl, bin, precision } = opts
   const files = await fs.readdir(dir)
   const indented = files.includes("input.sass")
@@ -94,9 +95,4 @@ async function getActualResult(dir, opts) {
       error: e.stderr,
     }
   }
-}
-
-module.exports = {
-  getExpectedResult,
-  getActualResult,
 }
