@@ -1,11 +1,11 @@
 import { promises as fs, createReadStream } from "fs"
 import path from "path"
-import { archiveFromStream } from "node-hrx"
+import { archiveFromStream, HrxItem } from "node-hrx"
 
 /**
  * Writes the HRX item (file or directory) to disk as physical files at the given archive base path.
  */
-async function writeToDisk(basePath: string, item: any) {
+async function writeToDisk(basePath: string, item: HrxItem) {
   const fullPath = path.resolve(basePath, item.path)
   if (item.isDirectory()) {
     // If a directory, make the directory and recurse
@@ -34,10 +34,12 @@ async function unarchive(filepath: string) {
   await writeToDisk(dirPath, archive)
 }
 
+type HrxCallback = (dir: string) => Promise<void>
+
 /**
  * Run the given callback on the HRX archive at the given path
  */
-export async function withArchive(filepath: string, callback: any) {
+export async function withArchive(filepath: string, callback: HrxCallback) {
   await unarchive(filepath)
   const unarchivedDir = filepath.replace(".hrx", "")
   try {

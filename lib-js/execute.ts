@@ -60,7 +60,15 @@ export async function getExpectedResult(dir: string, impl: string) {
   }
 }
 
-export async function getActualResult(dir: string, opts: any) {
+// TODO dedupe with the Options in `directory`
+interface Options {
+  rootDir: string
+  impl: string
+  bin: string
+  precision?: number
+}
+
+export async function getActualResult(dir: string, opts: Options) {
   const { rootDir, impl, bin, precision } = opts
   const files = await fs.readdir(dir)
   const indented = files.includes("input.sass")

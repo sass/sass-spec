@@ -59,7 +59,7 @@ async function runAllTests() {
   const t: any = new tap.Test()
 
   const start = Date.now()
-  await iterateDir(args.testDir, args, async (dir: string, opts: any) => {
+  await iterateDir(args.testDir, args, async (dir, opts) => {
     const res = await runSpec(t, dir, opts)
     printResult(res!.counts)
   })
