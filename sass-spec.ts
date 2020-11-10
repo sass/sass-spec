@@ -34,6 +34,8 @@ const implArgs: Record<string, string> = {
   "dart-sass": "--no-unicode",
   libsass: "--style expanded",
 }
+
+// FIXME make sure these are actually required
 const args = {
   impl: argv.impl!,
   bin: `${path.resolve(process.cwd(), argv.command!)} ${implArgs[argv.impl!]}`,
@@ -60,8 +62,8 @@ async function runAllTests() {
 
   const start = Date.now()
   await iterateDir(args.testDir, args, async (dir, opts) => {
-    const res = await runSpec(t, dir, opts)
-    printResult(res!.counts)
+    const res: any = await runSpec(t, dir, opts)
+    printResult(res.counts)
   })
   const end = Date.now()
   const time = (end - start) / 1000
