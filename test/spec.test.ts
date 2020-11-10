@@ -19,7 +19,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       })
       t.end()
       // console.log(subdir, t.counts)
-      return t as any
+      return t
     }
     // TODO there's gotta be a better way to tally this
     t.test("output cases", async (t) => {

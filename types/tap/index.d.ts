@@ -6,6 +6,10 @@
 
 // TODO: can be removed as soon as https://github.com/tapjs/node-tap/pull/607 is merged
 
+// NOTE(tesseralis): we copy the entire type devinition because
+// the original is missing some properties and is defined in such a way
+// to make overriding it difficult
+
 declare module "tap" {
   import { EventEmitter } from "events"
 
@@ -80,6 +84,8 @@ declare module "tap" {
     name: string
     runOnly: boolean
     jobs: number
+
+    counts: Counts
 
     // Assertions
 
@@ -377,7 +383,7 @@ declare module "tap" {
     ) => boolean
     type Match = (
       found: any,
-      pattern: string | RegExp | { [key: string]: RegExp },
+      pattern: string | RegExp | { [key: string]: RegExp } | object,
       message?: string,
       extra?: Options.Assert
     ) => boolean
@@ -387,6 +393,14 @@ declare module "tap" {
       message?: string,
       extra?: Options.Assert
     ) => boolean
+  }
+
+  export interface Counts {
+    total: number
+    pass: number
+    fail: number
+    skip: number
+    todo: number
   }
 
   interface Mocha {

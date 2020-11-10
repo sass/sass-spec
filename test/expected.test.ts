@@ -18,7 +18,7 @@ withArchive(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expectedSuccess as any, msg)
+          t.hasStrict(result, expectedSuccess, msg)
         }
         await testDir(
           "output-cases/basic",
@@ -45,7 +45,7 @@ withArchive(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expected as any, msg)
+          t.hasStrict(result, expected, msg)
         }
         await testDir(
           "error-cases/basic",
@@ -77,7 +77,7 @@ withArchive(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expected as any, msg)
+          t.hasStrict(result, expected, msg)
         }
         await testDir(
           "warning-cases/basic",

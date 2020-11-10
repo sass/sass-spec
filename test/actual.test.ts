@@ -21,7 +21,7 @@ withArchive(
         {
           output: "OUTPUT",
           isSuccess: true,
-        } as any, // FIXME what the heck? why does it want a regex??
+        },
         "populates only `output` on successful execution"
       )
 
@@ -30,7 +30,7 @@ withArchive(
         {
           error: "ERROR",
           isSuccess: false,
-        } as any,
+        },
         "populates only `error` on execution failure"
       )
       t.hasStrict(
@@ -39,7 +39,7 @@ withArchive(
           output: "OUTPUT",
           warning: "WARNING",
           isSuccess: true,
-        } as any,
+        },
         "populates both `output` and `warning` on execussion success with stderr content"
       )
 

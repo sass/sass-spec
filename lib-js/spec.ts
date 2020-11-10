@@ -74,5 +74,7 @@ export async function runSpec(tap: Test, dir: string, opts: Options) {
   if (mode === "ignore") {
     return { counts: { total: 1, skip: 1 } }
   }
+  // TODO instead of returning the entire test, why not just return the result?
+  // e.g. `todo`, `fail`, `pass`?
   return childTest!
 }

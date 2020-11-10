@@ -1,5 +1,5 @@
 import path from "path"
-import tap from "tap"
+import tap, { Counts } from "tap"
 import yargs from "yargs/yargs"
 
 import { iterateDir } from "./lib-js/directory"
@@ -44,7 +44,7 @@ const args = {
   todoMode: argv.runTodo ? "run" : undefined,
 }
 
-function printResult(counts: any) {
+function printResult(counts: Counts) {
   if (counts.fail > 0) {
     process.stdout.write("X")
   } else if (counts.todo > 0) {
@@ -58,7 +58,7 @@ function printResult(counts: any) {
 // TODO this might ignore TODOs in a higher directory
 async function runAllTests() {
   // FIXME need to override the type definition
-  const t: any = new tap.Test()
+  const t = new tap.Test()
 
   const start = Date.now()
   await iterateDir(args.testDir, args, async (dir, opts) => {
