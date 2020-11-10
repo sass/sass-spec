@@ -1,4 +1,5 @@
 import path from "path"
+import { Test } from "tap"
 import { getExpectedResult, getActualResult } from "./execute"
 import {
   normalizeOutput,
@@ -7,7 +8,7 @@ import {
 } from "./normalize"
 
 function getTestFn(
-  t: any,
+  t: Test,
   mode: string | undefined,
   todoMode: string | undefined
 ) {
@@ -30,13 +31,13 @@ interface Options {
   todoWarning?: boolean
 }
 
-export async function runSpec(tap: any, dir: string, opts: Options) {
+export async function runSpec(tap: Test, dir: string, opts: Options) {
   const { rootDir, impl, mode, todoMode, todoWarning } = opts
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(tap, mode, todoMode)
 
-  let childTest
-  await testFn(relPath, async (t: any) => {
+  let childTest: Test
+  await testFn(relPath, async (t) => {
     childTest = t
     const expected = await getExpectedResult(dir, impl)
     const actual = await getActualResult(dir, opts)
@@ -73,5 +74,5 @@ export async function runSpec(tap: any, dir: string, opts: Options) {
   if (mode === "ignore") {
     return { counts: { total: 1, skip: 1 } }
   }
-  return childTest
+  return childTest!
 }
