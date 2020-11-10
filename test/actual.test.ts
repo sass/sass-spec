@@ -1,14 +1,15 @@
-const tap = require("tap")
-const path = require("path")
-const { getActualResult } = require("../lib-js/execute")
-const { withArchive } = require("../lib-js/hrx")
+import tap from "tap"
+import path from "path"
+import { getActualResult } from "../lib-js/execute"
+import { withArchive } from "../lib-js/hrx"
 
 withArchive(
   path.resolve(__dirname, "./fixtures/actual.hrx"),
   async (baseDir) => {
     await tap.test("getActualResult", async (t) => {
-      async function getResults(subdir) {
+      async function getResults(subdir: string) {
         return getActualResult(path.resolve(baseDir, subdir), {
+          rootDir: "",
           impl: "sass-mock",
           bin:
             "node " + path.resolve(__dirname, "./fixtures/sass-exec-mock.js"),
@@ -20,7 +21,7 @@ withArchive(
         {
           output: "OUTPUT",
           isSuccess: true,
-        },
+        } as any, // FIXME what the heck? why does it want a regex??
         "populates only `output` on successful execution"
       )
 
@@ -29,7 +30,7 @@ withArchive(
         {
           error: "ERROR",
           isSuccess: false,
-        },
+        } as any,
         "populates only `error` on execution failure"
       )
       t.hasStrict(
@@ -38,7 +39,7 @@ withArchive(
           output: "OUTPUT",
           warning: "WARNING",
           isSuccess: true,
-        },
+        } as any,
         "populates both `output` and `warning` on execussion success with stderr content"
       )
 

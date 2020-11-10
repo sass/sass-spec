@@ -1,11 +1,11 @@
-const tap = require("tap")
-const { withArchive } = require("../lib-js/hrx")
-const path = require("path")
-const fs = require("fs")
+import path from "path"
+import fs from "fs"
+import tap from "tap"
+import { withArchive } from "../lib-js/hrx"
 
 tap.test("withArchive", (t) => {
   t.test("success case", async (t) => {
-    let directory
+    let directory: string
     await withArchive(
       // TODO handle relative paths?
       path.resolve(__dirname, "./fixtures/basic.hrx"),
@@ -22,12 +22,12 @@ tap.test("withArchive", (t) => {
         )
       }
     )
-    t.notOk(fs.existsSync(directory), "directory is deleted at the end")
+    t.notOk(fs.existsSync(directory!), "directory is deleted at the end")
     t.end()
   })
 
   t.test("error case", async (t) => {
-    let directory
+    let directory: string
     // TODO do we expect it to propagate on error?
     try {
       await withArchive(
@@ -38,7 +38,7 @@ tap.test("withArchive", (t) => {
         }
       )
     } catch (e) {}
-    t.notOk(fs.existsSync(directory), "directory is deleted on error")
+    t.notOk(fs.existsSync(directory!), "directory is deleted on error")
     t.end()
   })
 

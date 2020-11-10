@@ -1,7 +1,7 @@
-const tap = require("tap")
-const path = require("path")
-const { getExpectedResult } = require("../lib-js/execute")
-const { withArchive } = require("../lib-js/hrx")
+import path from "path"
+import tap from "tap"
+import { getExpectedResult } from "../lib-js/execute"
+import { withArchive } from "../lib-js/hrx"
 
 withArchive(
   path.resolve(__dirname, "./fixtures/expected.hrx"),
@@ -13,12 +13,12 @@ withArchive(
           error: undefined,
           warning: undefined,
         }
-        async function testDir(subdir, msg) {
+        async function testDir(subdir: string, msg: string) {
           const result = await getExpectedResult(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expectedSuccess, msg)
+          t.hasStrict(result, expectedSuccess as any, msg)
         }
         await testDir(
           "output-cases/basic",
@@ -40,12 +40,12 @@ withArchive(
           error: "ERROR",
           warning: undefined,
         }
-        async function testDir(subdir, msg) {
+        async function testDir(subdir: string, msg: string) {
           const result = await getExpectedResult(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expected, msg)
+          t.hasStrict(result, expected as any, msg)
         }
         await testDir(
           "error-cases/basic",
@@ -72,12 +72,12 @@ withArchive(
           error: undefined,
           warning: "WARNING",
         }
-        async function testDir(subdir, msg) {
+        async function testDir(subdir: string, msg: string) {
           const result = await getExpectedResult(
             path.resolve(baseDir, subdir),
             "sass-mock"
           )
-          t.hasStrict(result, expected, msg)
+          t.hasStrict(result, expected as any, msg)
         }
         await testDir(
           "warning-cases/basic",

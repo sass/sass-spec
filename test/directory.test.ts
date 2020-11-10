@@ -1,16 +1,16 @@
-const tap = require("tap")
-const { iterateDir } = require("../lib-js/directory")
-const path = require("path")
+import path from "path"
+import tap from "tap"
+import { iterateDir } from "../lib-js/directory"
 
 const testDir = path.resolve(__dirname, "./fixtures/iterate")
 tap.test("iterateDir", (t) => {
   t.test("basic case", async (t) => {
-    const directories = {}
+    const directories: Record<string, any> = {}
     // compile a list of all valid directories
     await iterateDir(
       testDir,
-      { rootDir: testDir, impl: "sass-mock" },
-      (dir, opts) => {
+      { testDir, bin: "", rootDir: testDir, impl: "sass-mock" },
+      async (dir, opts) => {
         const relativeDir = path.relative(testDir, dir)
         directories[relativeDir] = opts
       }

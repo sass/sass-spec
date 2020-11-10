@@ -1,7 +1,7 @@
-const path = require("path")
-const tap = require("tap")
-const { runSpec } = require("../lib-js/spec")
-const { withArchive } = require("../lib-js/hrx")
+import path from "path"
+import tap from "tap"
+import { runSpec } from "../lib-js/spec"
+import { withArchive } from "../lib-js/hrx"
 
 const baseOpts = {
   impl: "sass-mock",
@@ -10,7 +10,7 @@ const baseOpts = {
 }
 withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
   await tap.test("executeSpec", async (t) => {
-    async function runWithOpts(subdir, opts) {
+    async function runWithOpts(subdir: string, opts?: any) {
       // Create a new `Test` object so it won't be run as part of the suite
       const t = new tap.Test()
       await runSpec(t, path.resolve(dir, subdir), {
@@ -19,7 +19,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       })
       t.end()
       // console.log(subdir, t.counts)
-      return t
+      return t as any
     }
     // TODO there's gotta be a better way to tally this
     t.test("output cases", async (t) => {
