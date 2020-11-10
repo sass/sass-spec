@@ -65,9 +65,16 @@ async function runAllTests() {
     const res: any = await runSpec(t, dir, opts)
     printResult(res.counts)
   })
+  t.end()
   const end = Date.now()
   const time = (end - start) / 1000
+  // TODO there's a better way to tally this
   console.log(t.counts)
+  for (const failure of t.lists.fail) {
+    console.log("FAILED", failure.name)
+    // TODO better formatting of this
+    console.log(failure.diag)
+  }
   // TODO how to just access this from the test object
   console.log(`Finished in ${time}s`)
 }

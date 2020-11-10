@@ -86,6 +86,7 @@ declare module "tap" {
     jobs: number
 
     counts: Counts
+    lists: Lists
 
     // Assertions
 
@@ -401,6 +402,35 @@ declare module "tap" {
     fail: number
     skip: number
     todo: number
+  }
+
+  interface Diag {
+    found?: any
+    wanted?: any
+    compare?: string
+    diff?: string
+    at: object
+    stack: string
+    source: string
+  }
+
+  interface Result {
+    ok: boolean
+    id: number
+    name: string
+    todo?: boolean
+    skip?: boolean
+    fullname: string
+  }
+
+  interface FailResult extends Result {
+    diag: Diag
+  }
+
+  interface Lists {
+    fail: FailResult[]
+    todo: Result[]
+    skip: Result[]
   }
 
   interface Mocha {
