@@ -60,6 +60,7 @@ async function runAllTests() {
   const t = new tap.Test()
 
   const start = Date.now()
+  // TODO this doesn't pass options correctly for subdirectories
   await iterateDir(args.testDir, args, async (dir, opts) => {
     const res: any = await runSpec(t, dir, opts)
     printResult(res.counts)
