@@ -40,7 +40,7 @@ const args = {
   impl: argv.impl!,
   bin: `${path.resolve(process.cwd(), argv.command!)} ${implArgs[argv.impl!]}`,
   rootDir: path.resolve("spec"),
-  testDir: "spec",
+  testDir: argv._[0] || "spec",
   todoMode: argv.runTodo ? "run" : undefined,
 }
 
@@ -57,7 +57,6 @@ function printResult(counts: Counts) {
 }
 // TODO this might ignore TODOs in a higher directory
 async function runAllTests() {
-  // FIXME need to override the type definition
   const t = new tap.Test()
 
   const start = Date.now()
