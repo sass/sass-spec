@@ -6,7 +6,11 @@ import {
   extractWarningMessages,
 } from "./normalize"
 
-function getTestFn(t: any, mode: string, todoMode: string) {
+function getTestFn(
+  t: any,
+  mode: string | undefined,
+  todoMode: string | undefined
+) {
   switch (mode) {
     case "todo":
       return !todoMode ? t.todo : t.test
@@ -17,7 +21,16 @@ function getTestFn(t: any, mode: string, todoMode: string) {
   }
 }
 
-export async function runSpec(tap: any, dir: string, opts: any) {
+interface Options {
+  rootDir: string
+  impl: string
+  bin: string
+  mode?: string
+  todoMode?: string
+  todoWarning?: boolean
+}
+
+export async function runSpec(tap: any, dir: string, opts: Options) {
   const { rootDir, impl, mode, todoMode, todoWarning } = opts
   // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
