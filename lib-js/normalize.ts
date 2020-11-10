@@ -4,7 +4,6 @@ export function escape(text: string) {
   return text.replace(/\n/g, "\\n").replace(/\r/g, "\\r")
 }
 
-// TODO move these to another file
 // Run a particular spec and print the results as a tap test
 export function normalizeOutput(output = "") {
   return (

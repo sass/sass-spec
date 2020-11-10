@@ -32,7 +32,6 @@ interface Options {
 
 export async function runSpec(tap: any, dir: string, opts: Options) {
   const { rootDir, impl, mode, todoMode, todoWarning } = opts
-  // TODO run t.todo, etc. when mode is enabled
   const relPath = path.relative(rootDir, dir)
   const testFn = getTestFn(tap, mode, todoMode)
 

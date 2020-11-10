@@ -49,5 +49,5 @@ export async function withArchive(filepath: string, callback: HrxCallback) {
     await fs.rmdir(unarchivedDir, { recursive: true })
   }
 
-  // TODO handle errors and process exit
+  // TODO handle process exit
 }

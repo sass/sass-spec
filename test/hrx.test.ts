@@ -7,7 +7,6 @@ tap.test("withArchive", (t) => {
   t.test("success case", async (t) => {
     let directory: string
     await withArchive(
-      // TODO handle relative paths?
       path.resolve(__dirname, "./fixtures/basic.hrx"),
       async (dir) => {
         directory = dir
