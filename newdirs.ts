@@ -115,16 +115,17 @@ class RealSpecPath extends AbstractSpecPath {
 
   async items(): Promise<SpecPath[]> {
     if (this.isFile()) return []
-    const items = []
-    for (const filename of await fs.promises.readdir(this.path)) {
-      const fullPath = path.resolve(this.path, filename)
-      if (filename.endsWith(".hrx")) {
-        items.push(await VirtualSpecPath.fromArchive(fullPath, this))
-      } else {
-        items.push(new RealSpecPath(fullPath, this))
-      }
-    }
-    return items
+    const filenames = await fs.promises.readdir(this.path)
+    return await Promise.all(
+      filenames.map(async (filename) => {
+        const fullPath = path.resolve(this.path, filename)
+        if (filename.endsWith(".hrx")) {
+          return await VirtualSpecPath.fromArchive(fullPath, this)
+        } else {
+          return new RealSpecPath(fullPath, this)
+        }
+      })
+    )
   }
 }
 
@@ -168,9 +169,8 @@ class VirtualSpecPath extends AbstractSpecPath {
       })
     } else {
       // Otherwise, recurse as defined by the base class
-      for (const subitem of await this.items()) {
-        await subitem.writeToDisk()
-      }
+      const subitems = await this.items()
+      await Promise.all(subitems.map((item) => item.writeToDisk()))
     }
   }
 
@@ -179,7 +179,7 @@ class VirtualSpecPath extends AbstractSpecPath {
     await fs.promises.rmdir(this.basePath, { recursive: true })
   }
 
-  async items() {
+  async items(): Promise<SpecPath[]> {
     const hrx = this.hrx
     if (hrx.isFile()) {
       return []
