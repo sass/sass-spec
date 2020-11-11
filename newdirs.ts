@@ -157,7 +157,10 @@ class VirtualSpecPath extends AbstractSpecPath {
     // TODO handle cases where parent files need to be written
     if (this.hrx.isFile()) {
       // TODO use a tmp directory unless there are external references
-      const { dir } = path.parse(this.path)
+      const { dir, base } = path.parse(this.path)
+      if (!/input\.s[ac]ss/.test(base)) {
+        return
+      }
       // recursively create this file's parent directories
       await fs.promises.mkdir(dir, { recursive: true })
       // write this file to disk
