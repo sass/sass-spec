@@ -55,11 +55,12 @@ function printResult(counts: Counts) {
     process.stdout.write(".")
   }
 }
-// TODO this might ignore TODOs in a higher directory
+
 async function runAllTests() {
   const t = new tap.Test()
 
   const start = Date.now()
+  // TODO support calling from within an .hrx file
   const specPath = fromPath(path.resolve(process.cwd(), args.testDir))
   const testCases = await getTestDirs(specPath)
   for (const test of testCases) {

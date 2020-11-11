@@ -22,6 +22,7 @@ export interface SpecPath {
   cleanup(): Promise<void>
   isFile(): boolean
   isDirectory(): boolean
+  has(filename: string): boolean
   get(filename: string): Promise<string>
   parent(): SpecPath | undefined
   getOptions(impl: string): Promise<RunOpts>
@@ -37,6 +38,7 @@ abstract class AbstractSpecPath implements SpecPath {
 
   abstract contents(): Promise<Record<string, SpecPath>>
   abstract get(filename: string): Promise<string>
+  abstract has(filename: string): boolean
   abstract isDirectory(): boolean
   parent() {
     return this._parent
@@ -61,8 +63,7 @@ abstract class AbstractSpecPath implements SpecPath {
   }
 
   private async getDirectOptions(impl: string) {
-    const contents = await this.contents()
-    if (contents["options.yml"]) {
+    if (this.has("options.yml")) {
       const rawOptions = yaml.safeLoad(await this.get("options.yml")) as any
       return getOptionOverrides(rawOptions, impl)
     }
@@ -99,6 +100,11 @@ class RealSpecPath extends AbstractSpecPath {
       }
     }
     return this._parent
+  }
+
+  has(filename: string) {
+    const filepath = path.resolve(this.path, filename)
+    return fs.existsSync(filepath)
   }
 
   async get(filename: string) {
@@ -185,6 +191,11 @@ class VirtualSpecPath extends AbstractSpecPath {
       )
     }
     return contents
+  }
+
+  has(filename: string) {
+    if (!this.hrx.isDirectory()) return false
+    return !!this.hrx.get(filename)
   }
 
   async get(filename: string) {
