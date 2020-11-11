@@ -15,7 +15,7 @@ interface RunOpts {
 /** Represents an abstract directory used in sass-spec */
 export interface SpecPath {
   path: string
-  contents(): Promise<Record<string, SpecPath>>
+  items(): Promise<SpecPath[]>
   // run the callback with the physical files present
   withRealFiles(cb: SpecDirCallback): Promise<void>
   writeToDisk(): Promise<void>
@@ -36,7 +36,7 @@ abstract class AbstractSpecPath implements SpecPath {
     this._parent = parent
   }
 
-  abstract contents(): Promise<Record<string, SpecPath>>
+  abstract items(): Promise<SpecPath[]>
   abstract get(filename: string): Promise<string>
   abstract has(filename: string): boolean
   abstract isDirectory(): boolean
@@ -113,19 +113,18 @@ class RealSpecPath extends AbstractSpecPath {
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }
 
-  async contents() {
-    if (this.isFile()) return {}
-    const contents: Record<string, SpecPath> = {}
-    for (const filename of fs.readdirSync(this.path)) {
+  async items(): Promise<SpecPath[]> {
+    if (this.isFile()) return []
+    const items = []
+    for (const filename of await fs.promises.readdir(this.path)) {
       const fullPath = path.resolve(this.path, filename)
-      // TODO handle HRX cases
       if (filename.endsWith(".hrx")) {
-        contents[filename] = await VirtualSpecPath.fromArchive(fullPath, this)
+        items.push(await VirtualSpecPath.fromArchive(fullPath, this))
       } else {
-        contents[filename] = new RealSpecPath(fullPath, this)
+        items.push(new RealSpecPath(fullPath, this))
       }
     }
-    return contents
+    return items
   }
 }
 
@@ -169,8 +168,7 @@ class VirtualSpecPath extends AbstractSpecPath {
       })
     } else {
       // Otherwise, recurse as defined by the base class
-      const contents = await this.contents()
-      for (const subitem of Object.values(contents)) {
+      for (const subitem of await this.items()) {
         await subitem.writeToDisk()
       }
     }
@@ -181,19 +179,14 @@ class VirtualSpecPath extends AbstractSpecPath {
     await fs.promises.rmdir(this.basePath, { recursive: true })
   }
 
-  async contents() {
-    if (this.hrx.isFile()) {
-      return {}
+  async items() {
+    const hrx = this.hrx
+    if (hrx.isFile()) {
+      return []
     }
-    const contents: Record<string, SpecPath> = {}
-    for (const itemName of this.hrx) {
-      contents[itemName] = new VirtualSpecPath(
-        this.basePath,
-        this.hrx.get(itemName)!,
-        this
-      )
-    }
-    return contents
+    return [...hrx].map((itemName) => {
+      return new VirtualSpecPath(this.basePath, hrx.get(itemName)!, this)
+    })
   }
 
   has(filename: string) {
@@ -222,32 +215,13 @@ export function fromPath(path: string): SpecPath {
  */
 // TODO turn this into a generator??
 export async function getTestDirs(dir: SpecPath): Promise<SpecPath[]> {
-  const contents = await dir.contents()
-  if (
-    Object.keys(contents).some((itemName) => /input.s[ac]ss/.test(itemName))
-  ) {
+  if (dir.has("input.scss") || dir.has("input.sass")) {
     return [dir]
   } else {
     let dirs: SpecPath[] = []
-    for (const subitem of Object.values(contents)) {
+    for (const subitem of await dir.items()) {
       dirs = dirs.concat(await getTestDirs(subitem))
     }
     return dirs
   }
 }
-
-async function runTestCase(dir: SpecPath) {
-  await dir.withRealFiles(async (path) => {
-    console.log(path)
-    // TODO do stuff
-  })
-}
-
-async function runAllSpecs(path: string) {
-  const testDirs = await getTestDirs(fromPath(path))
-  for (const testDir of testDirs) {
-    await runTestCase(testDir)
-  }
-}
-
-// runAllSpecs(path.resolve(__dirname, "spec/arguments"))
