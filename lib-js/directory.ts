@@ -22,7 +22,7 @@ interface OverrideOptions {
   precision?: number
 }
 
-function getOptionOverrides(options: YamlOptions, impl: string) {
+export function getOptionOverrides(options: YamlOptions, impl: string) {
   const opts: OverrideOptions = {}
   if (hasOptionForImpl(options[":warning_todo"], impl)) {
     opts.todoWarning = true

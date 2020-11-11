@@ -33,7 +33,8 @@ interface Options {
 }
 
 export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
-  const { rootDir, impl, mode, todoMode, todoWarning } = opts
+  const { rootDir, impl, todoMode } = opts
+  const { mode, todoWarning } = await dir.getOptions(impl)
   const relPath = path.relative(rootDir, dir.path)
   const testFn = getTestFn(tap, mode, todoMode)
 

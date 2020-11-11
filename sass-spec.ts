@@ -60,7 +60,7 @@ async function runAllTests() {
   const t = new tap.Test()
 
   const start = Date.now()
-  const specPath = fromPath(args.testDir)
+  const specPath = fromPath(path.resolve(process.cwd(), args.testDir))
   const testCases = await getTestDirs(specPath)
   for (const test of testCases) {
     const res: any = await runSpec(t, test, args)

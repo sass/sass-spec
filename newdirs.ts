@@ -1,8 +1,16 @@
 import fs from "fs"
 import path from "path"
+import yaml from "js-yaml"
 import { archiveFromStream, HrxItem } from "node-hrx"
+import { getOptionOverrides } from "./lib-js/directory"
 
 type SpecDirCallback = (path: string) => Promise<void>
+
+interface RunOpts {
+  todoWarning?: boolean
+  mode?: "ignore" | "todo"
+  precision?: number
+}
 
 /** Represents an abstract directory used in sass-spec */
 export interface SpecPath {
@@ -16,6 +24,7 @@ export interface SpecPath {
   isDirectory(): boolean
   get(filename: string): Promise<string>
   parent(): SpecPath | undefined
+  getOptions(impl: string): Promise<RunOpts>
 }
 
 abstract class AbstractSpecPath implements SpecPath {
@@ -50,6 +59,21 @@ abstract class AbstractSpecPath implements SpecPath {
   isFile() {
     return !this.isDirectory()
   }
+
+  private async getDirectOptions(impl: string) {
+    const contents = await this.contents()
+    if (contents["options.yml"]) {
+      const rawOptions = yaml.safeLoad(await this.get("options.yml")) as any
+      return getOptionOverrides(rawOptions, impl)
+    }
+    return {}
+  }
+
+  async getOptions(impl: string) {
+    const opts = await this.getDirectOptions(impl)
+    const parentOpts = (await this.parent()?.getOptions(impl)) ?? {}
+    return { ...parentOpts, ...opts }
+  }
 }
 
 class RealSpecPath extends AbstractSpecPath {
@@ -67,8 +91,9 @@ class RealSpecPath extends AbstractSpecPath {
   parent(): SpecPath | undefined {
     if (!this._parent) {
       const dir = path.dirname(this.path)
+      const baseDir = path.resolve(__dirname, "spec")
       // FIXME don't hardcode this
-      if (dir !== path.resolve(process.cwd(), "spec")) {
+      if (this.path !== baseDir) {
         // TODO possibility of caching a parent directory
         this._parent = new RealSpecPath(dir)
       }
