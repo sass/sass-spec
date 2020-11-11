@@ -1,7 +1,7 @@
 import path from "path"
 import { Test } from "tap"
 import { getExpectedResult, getActualResult } from "./execute"
-import { SpecPath } from "./spec-path"
+import { SpecPath, RunOptions } from "./spec-path"
 import {
   normalizeOutput,
   extractErrorMessage,
@@ -28,14 +28,43 @@ interface Options {
   impl: string
   bin: string
   cmdOpts: string[]
-  mode?: string
   todoMode?: string
+}
+
+interface RunOpts {
+  mode?: string
   todoWarning?: boolean
+  precision?: number
+}
+
+function hasOptionForImpl(option: string[] | undefined, impl: string) {
+  if (!option || !(option instanceof Array)) return false
+  return option.some((item) => item.includes(impl))
+}
+
+function optionsForImpl(options: RunOptions, impl: string) {
+  const opts: RunOpts = {}
+  if (hasOptionForImpl(options.todoWarning, impl)) {
+    opts.todoWarning = true
+  }
+  if (hasOptionForImpl(options.ignore, impl)) {
+    opts.mode = "ignore"
+  }
+  if (hasOptionForImpl(options.todo, impl)) {
+    opts.mode = "todo"
+  }
+  if (options.precision) {
+    opts.precision = options.precision
+  }
+  return opts
 }
 
 export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   const { rootDir, impl, todoMode } = opts
-  const { mode, todoWarning, precision } = await dir.getOptions(impl)
+  const { mode, todoWarning, precision } = optionsForImpl(
+    await dir.options(),
+    impl
+  )
   const relPath = path.relative(rootDir, dir.path)
   const testFn = getTestFn(tap, mode, todoMode)
 

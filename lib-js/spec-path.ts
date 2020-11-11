@@ -2,19 +2,30 @@ import fs from "fs"
 import path from "path"
 import yaml from "js-yaml"
 import { archiveFromStream, HrxItem } from "node-hrx"
-import { getOptionOverrides } from "./directory"
 
 type SpecDirCallback = (path: string) => Promise<void>
 
-interface RunOpts {
-  todoWarning?: boolean
-  mode?: "ignore" | "todo"
+export interface RunOptions {
+  ignore: string[]
+  todo: string[]
+  todoWarning: string[]
   precision?: number
+}
+
+function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
+  return {
+    ignore: [...base.ignore, ...ext.ignore],
+    todo: [...base.todo, ...ext.todo],
+    todoWarning: [...base.todoWarning, ...ext.todoWarning],
+    precision: ext.precision ?? base.precision,
+  }
 }
 
 type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
-/** Represents an abstract directory used in sass-spec */
+/**
+ * A directory that may contain sass-spec test cases.
+ */
 export interface SpecPath {
   path: string
   relPath(): string
@@ -28,20 +39,18 @@ export interface SpecPath {
   isArchiveRoot(): boolean
   has(filename: string): boolean
   get(filename: string): Promise<string>
-  parent(): SpecPath | undefined
-  getOptions(impl: string): Promise<RunOpts>
+  options(): Promise<RunOptions>
   forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
 
 const ROOT_DIR = path.resolve(__dirname, "../spec")
 
 abstract class AbstractSpecPath implements SpecPath {
-  private _parent?: SpecPath
-  private _options?: RunOpts
+  private parentOpts?: RunOptions
   abstract path: string
 
-  constructor(parent?: SpecPath) {
-    this._parent = parent
+  constructor(parentOpts?: RunOptions) {
+    this.parentOpts = parentOpts
   }
 
   relPath() {
@@ -53,9 +62,6 @@ abstract class AbstractSpecPath implements SpecPath {
   abstract get(filename: string): Promise<string>
   abstract has(filename: string): boolean
   abstract isDirectory(): boolean
-  parent() {
-    return this._parent
-  }
 
   // by default, do nothing
   async writeToDisk(): Promise<void> {}
@@ -75,21 +81,31 @@ abstract class AbstractSpecPath implements SpecPath {
     return !this.isDirectory()
   }
 
-  private async getDirectOptions(impl: string) {
-    if (this.has("options.yml")) {
-      const rawOptions = yaml.safeLoad(await this.get("options.yml")) as any
-      return getOptionOverrides(rawOptions, impl)
+  private async getDirectOptions(): Promise<RunOptions> {
+    const defaultOpts: RunOptions = {
+      ignore: [],
+      todo: [],
+      todoWarning: [],
     }
-    return {}
+    if (this.has("options.yml")) {
+      const rawOpts: any = yaml.safeLoad(await this.get("options.yml"))
+      if (typeof rawOpts !== "object") {
+        // TODO throw a warning/error if not a match
+        return defaultOpts
+      }
+      return {
+        precision: rawOpts[":precision"],
+        ignore: rawOpts[":ignore_for"] || [],
+        todo: rawOpts[":todo"] || [],
+        todoWarning: rawOpts[":warning_todo"] || [],
+      }
+    }
+    return defaultOpts
   }
 
-  async getOptions(impl: string) {
-    if (!this._options) {
-      const opts = await this.getDirectOptions(impl)
-      const parentOpts = (await this.parent()?.getOptions(impl)) ?? {}
-      this._options = { ...parentOpts, ...opts }
-    }
-    return this._options
+  async options() {
+    const opts = await this.getDirectOptions()
+    return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
   }
 
   isTestDir() {
@@ -128,8 +144,8 @@ abstract class AbstractSpecPath implements SpecPath {
 class RealSpecPath extends AbstractSpecPath {
   path: string
 
-  constructor(path: string, parent?: SpecPath) {
-    super(parent)
+  constructor(path: string, parentOpts?: RunOptions) {
+    super(parentOpts)
     this.path = path
   }
 
@@ -154,14 +170,15 @@ class RealSpecPath extends AbstractSpecPath {
 
   async items(): Promise<SpecPath[]> {
     if (this.isFile()) return []
+    const options = await this.options()
     const filenames = await fs.promises.readdir(this.path)
     return await Promise.all(
       filenames.map(async (filename) => {
         const fullPath = path.resolve(this.path, filename)
         if (filename.endsWith(".hrx")) {
-          return await VirtualSpecPath.fromArchive(fullPath, this)
+          return await VirtualSpecPath.fromArchive(fullPath, options)
         } else {
-          return new RealSpecPath(fullPath, this)
+          return new RealSpecPath(fullPath, options)
         }
       })
     )
@@ -173,19 +190,19 @@ class VirtualSpecPath extends AbstractSpecPath {
   basePath: string
   hrx: HrxItem
 
-  constructor(basePath: string, hrxItem: HrxItem, parent?: SpecPath) {
-    super(parent)
+  constructor(basePath: string, hrxItem: HrxItem, parentOpts?: RunOptions) {
+    super(parentOpts)
     this.path = path.resolve(basePath, hrxItem.path)
     this.basePath = basePath
     this.hrx = hrxItem
   }
 
   // Unarchive the given .hrx file and turn it into a spec path
-  static async fromArchive(hrxPath: string, parent?: SpecPath) {
+  static async fromArchive(hrxPath: string, parentOpts?: RunOptions) {
     const stream = fs.createReadStream(hrxPath, { encoding: "utf-8" })
     const archive = await archiveFromStream(stream)
     const { dir, name } = path.parse(hrxPath)
-    return new VirtualSpecPath(path.resolve(dir, name), archive, parent)
+    return new VirtualSpecPath(path.resolve(dir, name), archive, parentOpts)
   }
 
   isDirectory() {
@@ -232,8 +249,9 @@ class VirtualSpecPath extends AbstractSpecPath {
     if (hrx.isFile()) {
       return []
     }
+    const options = await this.options()
     return [...hrx].map((itemName) => {
-      return new VirtualSpecPath(this.basePath, hrx.get(itemName)!, this)
+      return new VirtualSpecPath(this.basePath, hrx.get(itemName)!, options)
     })
   }
 
