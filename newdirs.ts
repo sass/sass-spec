@@ -157,7 +157,7 @@ class VirtualSpecPath extends AbstractSpecPath {
     if (this.hrx.isFile()) {
       // TODO use a tmp directory unless there are external references
       const { dir, base } = path.parse(this.path)
-      if (!/input\.s[ac]ss/.test(base)) {
+      if (!/\.s[ac]ss$/.test(base)) {
         return
       }
       // recursively create this file's parent directories
