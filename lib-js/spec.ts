@@ -1,6 +1,7 @@
 import path from "path"
 import { Test } from "tap"
 import { getExpectedResult, getActualResult } from "./execute"
+import { SpecPath } from "../newdirs"
 import {
   normalizeOutput,
   extractErrorMessage,
@@ -31,40 +32,42 @@ interface Options {
   todoWarning?: boolean
 }
 
-export async function runSpec(tap: Test, dir: string, opts: Options) {
+export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   const { rootDir, impl, mode, todoMode, todoWarning } = opts
-  const relPath = path.relative(rootDir, dir)
+  const relPath = path.relative(rootDir, dir.path)
   const testFn = getTestFn(tap, mode, todoMode)
 
   let childTest: Test
   await testFn(relPath, async (t) => {
     childTest = t
-    const expected = await getExpectedResult(dir, impl)
-    const actual = await getActualResult(dir, opts)
-    if (expected.isSuccess) {
-      t.ok(actual.isSuccess, `${relPath} expected success`)
-      t.equal(
-        normalizeOutput(actual.output),
-        normalizeOutput(expected.output),
-        `${relPath} output should match`
-      )
-
-      if ((expected.warning || actual.warning) && !todoWarning) {
+    await dir.withRealFiles(async () => {
+      const expected = await getExpectedResult(dir.path, impl)
+      const actual = await getActualResult(dir.path, opts)
+      if (expected.isSuccess) {
+        t.ok(actual.isSuccess, `${relPath} expected success`)
         t.equal(
-          extractWarningMessages(actual.warning, impl),
-          extractWarningMessages(expected.warning!, impl),
-          `${relPath} warnings should match`
+          normalizeOutput(actual.output),
+          normalizeOutput(expected.output),
+          `${relPath} output should match`
+        )
+
+        if ((expected.warning || actual.warning) && !todoWarning) {
+          t.equal(
+            extractWarningMessages(actual.warning, impl),
+            extractWarningMessages(expected.warning!, impl),
+            `${relPath} warnings should match`
+          )
+        }
+      } else {
+        t.notOk(actual.isSuccess, `${relPath} expected error`)
+        t.equal(
+          extractErrorMessage(actual.error, impl),
+          extractErrorMessage(expected.error!, impl),
+          `${relPath} errors should match`
         )
       }
-    } else {
-      t.notOk(actual.isSuccess, `${relPath} expected error`)
-      t.equal(
-        extractErrorMessage(actual.error, impl),
-        extractErrorMessage(expected.error!, impl),
-        `${relPath} errors should match`
-      )
-    }
-    t.end()
+      t.end()
+    })
   })
   // TAP doesn't actually create a child test object when skipping
   // so mock one out for diagnostics

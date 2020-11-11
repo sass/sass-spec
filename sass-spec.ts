@@ -1,8 +1,8 @@
 import path from "path"
 import tap, { Counts } from "tap"
 import yargs from "yargs/yargs"
+import { fromPath, getTestDirs } from "./newdirs"
 
-import { iterateDir } from "./lib-js/directory"
 import { runSpec } from "./lib-js/spec"
 
 const argv = yargs(process.argv.slice(2))
@@ -60,11 +60,13 @@ async function runAllTests() {
   const t = new tap.Test()
 
   const start = Date.now()
-  // TODO this doesn't pass options correctly for subdirectories
-  await iterateDir(args.testDir, args, async (dir, opts) => {
-    const res: any = await runSpec(t, dir, opts)
+  const specPath = fromPath(args.testDir)
+  const testCases = await getTestDirs(specPath)
+  for (const test of testCases) {
+    const res: any = await runSpec(t, test, args)
     printResult(res.counts)
-  })
+  }
+
   t.end()
   const end = Date.now()
   const time = (end - start) / 1000
