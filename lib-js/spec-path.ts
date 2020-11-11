@@ -30,6 +30,7 @@ export interface SpecPath {
   root: SpecPath
   path: string
   relPath(): string
+  list(): Promise<string[]>
   items(): Promise<SpecPath[]>
   // run the callback with the physical files present
   withRealFiles(cb: SpecDirCallback): Promise<void>
@@ -41,26 +42,32 @@ export interface SpecPath {
   has(filename: string): boolean
   /** Get the contents of the subfile of this directory */
   contents(filename: string): Promise<string>
+  /** Get the subitem with the given name */
+  subitem(name: string): Promise<SpecPath>
   options(): Promise<RunOptions>
   forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
 
 abstract class AbstractSpecPath implements SpecPath {
   private parentOpts?: RunOptions
+  private _options?: RunOptions
+  private subitems: Record<string, SpecPath>
   root: SpecPath
   abstract path: string
 
   constructor(root?: SpecPath, parentOpts?: RunOptions) {
     this.root = root ?? this
     this.parentOpts = parentOpts
+    this.subitems = {}
   }
 
   relPath() {
     return path.relative(this.root.path, this.path)
   }
 
+  abstract list(): Promise<string[]>
   abstract isArchiveRoot(): boolean
-  abstract items(): Promise<SpecPath[]>
+  protected abstract getSubitem(name: string): Promise<SpecPath>
   abstract contents(filename: string): Promise<string>
   abstract has(filename: string): boolean
   abstract isDirectory(): boolean
@@ -68,6 +75,19 @@ abstract class AbstractSpecPath implements SpecPath {
   // by default, do nothing
   async writeToDisk(): Promise<void> {}
   async cleanup(): Promise<void> {}
+
+  async subitem(name: string) {
+    if (!this.subitems[name]) {
+      this.subitems[name] = await this.getSubitem(name)
+    }
+    return this.subitems[name]
+  }
+
+  async items() {
+    if (this.isFile()) return []
+    const list = await this.list()
+    return Promise.all(list.map((item) => this.subitem(item)))
+  }
 
   async withRealFiles(cb: SpecDirCallback) {
     await this.writeToDisk()
@@ -106,8 +126,13 @@ abstract class AbstractSpecPath implements SpecPath {
   }
 
   async options() {
-    const opts = await this.getDirectOptions()
-    return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
+    if (!this._options) {
+      const opts = await this.getDirectOptions()
+      this._options = this.parentOpts
+        ? mergeOptions(this.parentOpts, opts)
+        : opts
+    }
+    return this._options
   }
 
   isTestDir() {
@@ -170,20 +195,18 @@ class RealSpecPath extends AbstractSpecPath {
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }
 
-  async items(): Promise<SpecPath[]> {
-    if (this.isFile()) return []
+  async list() {
+    return await fs.promises.readdir(this.path)
+  }
+
+  async getSubitem(filename: string): Promise<SpecPath> {
     const options = await this.options()
-    const filenames = await fs.promises.readdir(this.path)
-    return await Promise.all(
-      filenames.map(async (filename) => {
-        const fullPath = path.resolve(this.path, filename)
-        if (filename.endsWith(".hrx")) {
-          return await VirtualSpecPath.fromArchive(fullPath, this.root, options)
-        } else {
-          return new RealSpecPath(fullPath, this.root, options)
-        }
-      })
-    )
+    const fullPath = path.resolve(this.path, filename)
+    if (filename.endsWith(".hrx")) {
+      return await VirtualSpecPath.fromArchive(fullPath, this.root, options)
+    } else {
+      return new RealSpecPath(fullPath, this.root, options)
+    }
   }
 }
 
@@ -260,20 +283,25 @@ class VirtualSpecPath extends AbstractSpecPath {
     await fs.promises.rmdir(this.basePath, { recursive: true })
   }
 
-  async items(): Promise<SpecPath[]> {
-    const hrx = this.hrx
-    if (hrx.isFile()) {
-      return []
+  async list() {
+    if (this.hrx.isFile()) {
+      throw new Error("Attempting to list contents of a file")
     }
+    return this.hrx.list()
+  }
+
+  async getSubitem(itemName: string) {
+    const hrx = this.hrx
     const options = await this.options()
-    return [...hrx].map((itemName) => {
-      return new VirtualSpecPath(
-        this.basePath,
-        hrx.get(itemName)!,
-        this.root,
-        options
-      )
-    })
+    if (hrx.isFile()) {
+      throw new Error("Trying to get a subitem of a file")
+    }
+    return new VirtualSpecPath(
+      this.basePath,
+      hrx.get(itemName)!,
+      this.root,
+      options
+    )
   }
 
   has(filename: string) {

@@ -14,7 +14,7 @@ declare module "node-hrx" {
     contents: Record<string, HrxItem>
     comment: string
     get(path: string): HrxItem | undefined
-    list: string[]
+    list(): string[]
     isDirectory(): this is Directory
     isFile(): this is File
     [Symbol.iterator](): Iterator<string>
