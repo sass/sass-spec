@@ -45,6 +45,7 @@ export interface SpecPath {
   /** Get the subitem with the given name */
   subitem(name: string): Promise<SpecPath>
   options(): Promise<RunOptions>
+  atPath(path: string): Promise<SpecPath>
   forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
 
@@ -71,6 +72,16 @@ abstract class AbstractSpecPath implements SpecPath {
   abstract contents(filename: string): Promise<string>
   abstract has(filename: string): boolean
   abstract isDirectory(): boolean
+
+  async atPath(path: string): Promise<SpecPath> {
+    if (!path) return this
+    const i = path.indexOf("/")
+    if (i === -1) {
+      return await this.subitem(path)
+    }
+    const child = await this.subitem(path.slice(0, i))
+    return await child.atPath(path.slice(i + 1))
+  }
 
   // by default, do nothing
   async writeToDisk(): Promise<void> {}
