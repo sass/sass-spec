@@ -8,10 +8,10 @@ const exec = promisify(require("child_process").exec)
 /**
  * Return whether the file should have a successful output
  */
-function hasOutputFile(files: string[], impl: string) {
+function hasOutputFile(dir: SpecPath, impl: string) {
   return (
-    files.includes(`output-${impl}.css`) ||
-    (files.includes("output.css") && !files.includes(`error-${impl}`))
+    dir.has(`output-${impl}.css`) ||
+    (dir.has("output.css") && !dir.has(`error-${impl}`))
   )
 }
 
@@ -19,26 +19,23 @@ function hasOutputFile(files: string[], impl: string) {
  * Get the expected result from running a spec on a directory.
  */
 export async function getExpectedResult(dir: SpecPath, impl: string) {
-  // const files = await fs.readdir(dir)
-  const files = Object.keys(await dir.contents())
-
-  const isSuccessCase = hasOutputFile(files, impl)
+  const isSuccessCase = hasOutputFile(dir, impl)
   let resultFilename
 
   if (isSuccessCase) {
-    resultFilename = files.includes(`output-${impl}.css`)
+    resultFilename = dir.has(`output-${impl}.css`)
       ? `output-${impl}.css`
       : "output.css"
   } else {
-    resultFilename = files.includes(`error-${impl}`) ? `error-${impl}` : "error"
+    resultFilename = dir.has(`error-${impl}`) ? `error-${impl}` : "error"
   }
 
   let warning
   // check if there's a warning
-  const warningFilename = files.includes(`warning-${impl}`)
+  const warningFilename = dir.has(`warning-${impl}`)
     ? `warning-${impl}`
     : "warning"
-  if (files.includes(warningFilename)) {
+  if (dir.has(warningFilename)) {
     warning = await dir.get(warningFilename)
   }
   // TODO print warning if expectedWarning is given on an expected error case
