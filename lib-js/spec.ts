@@ -42,34 +42,32 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   let childTest: Test
   await testFn(relPath, async (t) => {
     childTest = t
-    await dir.withRealFiles(async () => {
-      const expected = await getExpectedResult(dir, impl)
-      const actual = await getActualResult(dir.path, { ...opts, precision })
-      if (expected.isSuccess) {
-        t.ok(actual.isSuccess, `${relPath} expected success`)
-        t.equal(
-          normalizeOutput(actual.output),
-          normalizeOutput(expected.output),
-          `${relPath} output should match`
-        )
+    const expected = await getExpectedResult(dir, impl)
+    const actual = await getActualResult(dir.path, { ...opts, precision })
+    if (expected.isSuccess) {
+      t.ok(actual.isSuccess, `${relPath} expected success`)
+      t.equal(
+        normalizeOutput(actual.output),
+        normalizeOutput(expected.output),
+        `${relPath} output should match`
+      )
 
-        if ((expected.warning || actual.warning) && !todoWarning) {
-          t.equal(
-            extractWarningMessages(actual.warning!, impl),
-            extractWarningMessages(expected.warning!, impl),
-            `${relPath} warnings should match`
-          )
-        }
-      } else {
-        t.notOk(actual.isSuccess, `${relPath} expected error`)
+      if ((expected.warning || actual.warning) && !todoWarning) {
         t.equal(
-          extractErrorMessage(actual.error!, impl),
-          extractErrorMessage(expected.error!, impl),
-          `${relPath} errors should match`
+          extractWarningMessages(actual.warning!, impl),
+          extractWarningMessages(expected.warning!, impl),
+          `${relPath} warnings should match`
         )
       }
-      t.end()
-    })
+    } else {
+      t.notOk(actual.isSuccess, `${relPath} expected error`)
+      t.equal(
+        extractErrorMessage(actual.error!, impl),
+        extractErrorMessage(expected.error!, impl),
+        `${relPath} errors should match`
+      )
+    }
+    t.end()
   })
   // TAP doesn't actually create a child test object when skipping
   // so mock one out for diagnostics

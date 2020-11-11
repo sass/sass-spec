@@ -12,6 +12,8 @@ interface RunOpts {
   precision?: number
 }
 
+type SpecIteratee = (subdir: SpecPath) => Promise<void>
+
 /** Represents an abstract directory used in sass-spec */
 export interface SpecPath {
   path: string
@@ -23,14 +25,12 @@ export interface SpecPath {
   cleanup(): Promise<void>
   isFile(): boolean
   isDirectory(): boolean
+  isArchiveRoot(): boolean
   has(filename: string): boolean
   get(filename: string): Promise<string>
   parent(): SpecPath | undefined
   getOptions(impl: string): Promise<RunOpts>
-  forEachTest(
-    paths: string[],
-    iteratee: (subdir: SpecPath) => Promise<void>
-  ): Promise<void>
+  forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
 
 abstract class AbstractSpecPath implements SpecPath {
@@ -45,6 +45,7 @@ abstract class AbstractSpecPath implements SpecPath {
     return path.relative(path.resolve(__dirname, "spec"), this.path)
   }
 
+  abstract isArchiveRoot(): boolean
   abstract items(): Promise<SpecPath[]>
   abstract get(filename: string): Promise<string>
   abstract has(filename: string): boolean
@@ -93,10 +94,7 @@ abstract class AbstractSpecPath implements SpecPath {
     return paths.length === 0 || paths.some((path) => this.path === path)
   }
 
-  async forEachTest(
-    paths: string[],
-    iteratee: (dir: SpecPath) => Promise<void>
-  ) {
+  async forEachTest(paths: string[], iteratee: SpecIteratee) {
     // If we're a matching test directory, run the test
     if (this.isMatch(paths)) {
       if (this.isTestDir()) {
@@ -131,6 +129,10 @@ class RealSpecPath extends AbstractSpecPath {
 
   isDirectory() {
     return fs.statSync(this.path).isDirectory()
+  }
+
+  isArchiveRoot() {
+    return false
   }
 
   parent(): SpecPath | undefined {
@@ -197,6 +199,10 @@ class VirtualSpecPath extends AbstractSpecPath {
     return this.hrx.isDirectory()
   }
 
+  isArchiveRoot() {
+    return this.hrx.path === ""
+  }
+
   async writeToDisk() {
     // TODO handle cases where parent files need to be written
     if (this.hrx.isFile()) {
@@ -252,6 +258,17 @@ class VirtualSpecPath extends AbstractSpecPath {
       throw new Error(`${filename} is not a file`)
     }
     return item.body
+  }
+
+  async forEachTest(paths: string[], iteratee: SpecIteratee) {
+    if (this.isArchiveRoot()) {
+      // TODO adjust this so that it only creates files needed for the test
+      await this.withRealFiles(async () => {
+        await super.forEachTest(paths, iteratee)
+      })
+    } else {
+      await super.forEachTest(paths, iteratee)
+    }
   }
 }
 
