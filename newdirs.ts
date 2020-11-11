@@ -34,7 +34,8 @@ export interface SpecPath {
 }
 
 abstract class AbstractSpecPath implements SpecPath {
-  _parent?: SpecPath
+  private _parent?: SpecPath
+  private _options?: RunOpts
   abstract path: string
 
   constructor(parent?: SpecPath) {
@@ -81,9 +82,12 @@ abstract class AbstractSpecPath implements SpecPath {
   }
 
   async getOptions(impl: string) {
-    const opts = await this.getDirectOptions(impl)
-    const parentOpts = (await this.parent()?.getOptions(impl)) ?? {}
-    return { ...parentOpts, ...opts }
+    if (!this._options) {
+      const opts = await this.getDirectOptions(impl)
+      const parentOpts = (await this.parent()?.getOptions(impl)) ?? {}
+      this._options = { ...parentOpts, ...opts }
+    }
+    return this._options
   }
 
   isTestDir() {
@@ -133,19 +137,6 @@ class RealSpecPath extends AbstractSpecPath {
 
   isArchiveRoot() {
     return false
-  }
-
-  parent(): SpecPath | undefined {
-    if (!this._parent) {
-      const dir = path.dirname(this.path)
-      const baseDir = path.resolve(__dirname, "spec")
-      // FIXME don't hardcode this
-      if (this.path !== baseDir) {
-        // TODO possibility of caching a parent directory
-        this._parent = new RealSpecPath(dir)
-      }
-    }
-    return this._parent
   }
 
   has(filename: string) {
