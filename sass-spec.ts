@@ -1,7 +1,7 @@
 import path from "path"
 import tap, { Counts } from "tap"
 import yargs from "yargs/yargs"
-import { fromPath } from "./newdirs"
+import { fromPath } from "./lib-js/spec-path"
 
 import { runSpec } from "./lib-js/spec"
 

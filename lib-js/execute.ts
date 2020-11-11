@@ -1,5 +1,5 @@
 import { promises as fs } from "fs"
-import { SpecPath } from "../newdirs"
+import { SpecPath } from "./spec-path"
 
 import child_process from "child_process"
 

@@ -2,7 +2,7 @@ import fs from "fs"
 import path from "path"
 import yaml from "js-yaml"
 import { archiveFromStream, HrxItem } from "node-hrx"
-import { getOptionOverrides } from "./lib-js/directory"
+import { getOptionOverrides } from "./directory"
 
 type SpecDirCallback = (path: string) => Promise<void>
 
@@ -33,6 +33,8 @@ export interface SpecPath {
   forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
 
+const ROOT_DIR = path.resolve(__dirname, "../spec")
+
 abstract class AbstractSpecPath implements SpecPath {
   private _parent?: SpecPath
   private _options?: RunOpts
@@ -43,7 +45,7 @@ abstract class AbstractSpecPath implements SpecPath {
   }
 
   relPath() {
-    return path.relative(path.resolve(__dirname, "spec"), this.path)
+    return path.relative(ROOT_DIR, this.path)
   }
 
   abstract isArchiveRoot(): boolean

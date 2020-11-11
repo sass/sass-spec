@@ -1,7 +1,7 @@
 import path from "path"
 import { Test } from "tap"
 import { getExpectedResult, getActualResult } from "./execute"
-import { SpecPath } from "../newdirs"
+import { SpecPath } from "./spec-path"
 import {
   normalizeOutput,
   extractErrorMessage,
