@@ -21,25 +21,9 @@ abstract class AbstractSpecPath implements SpecPath {
   abstract contents(): Promise<Record<string, SpecPath>>
   abstract isDirectory(): boolean
 
-  // write this directory and all sub-directories to disk
-  async writeToDisk(): Promise<void> {
-    if (this.isDirectory()) {
-      const contents = await this.contents()
-      for (const subitem of Object.values(contents)) {
-        await subitem.writeToDisk()
-      }
-    }
-  }
-
-  async cleanup(): Promise<void> {
-    console.log(`${this.path}: Cleanup`)
-    if (this.isDirectory()) {
-      const contents = await this.contents()
-      for (const subitem of Object.values(contents)) {
-        await subitem.cleanup()
-      }
-    }
-  }
+  // by default, do nothing
+  async writeToDisk(): Promise<void> {}
+  async cleanup(): Promise<void> {}
 
   async withRealFiles(cb: SpecDirCallback) {
     await this.writeToDisk()
@@ -86,11 +70,13 @@ class RealSpecPath extends AbstractSpecPath {
 
 class VirtualSpecPath extends AbstractSpecPath {
   path: string
+  basePath: string
   hrx: HrxItem
 
   constructor(basePath: string, hrxItem: HrxItem) {
     super()
     this.path = path.resolve(basePath, hrxItem.path)
+    this.basePath = basePath
     this.hrx = hrxItem
   }
 
@@ -108,6 +94,7 @@ class VirtualSpecPath extends AbstractSpecPath {
 
   async writeToDisk() {
     if (this.hrx.isFile()) {
+      // TODO use a tmp directory unless there are external references
       const { dir } = path.parse(this.path)
       // recursively create this file's parent directories
       await fs.promises.mkdir(dir, { recursive: true })
@@ -117,14 +104,16 @@ class VirtualSpecPath extends AbstractSpecPath {
       })
     } else {
       // Otherwise, recurse as defined by the base class
-      super.writeToDisk()
+      const contents = await this.contents()
+      for (const subitem of Object.values(contents)) {
+        await subitem.writeToDisk()
+      }
     }
   }
 
   async cleanup() {
-    console.log(`removing ${this.path}`)
-    // FIXME need to clean up the parent HRX directory if necessary
-    await fs.promises.rmdir(this.path, { recursive: true })
+    // TODO this can lead to errors if we don't do stuff sequentially
+    await fs.promises.rmdir(this.basePath, { recursive: true })
   }
 
   async contents() {
@@ -134,7 +123,7 @@ class VirtualSpecPath extends AbstractSpecPath {
     const contents: Record<string, SpecPath> = {}
     for (const itemName of this.hrx) {
       contents[itemName] = new VirtualSpecPath(
-        this.path,
+        this.basePath,
         this.hrx.get(itemName)!
       )
     }
