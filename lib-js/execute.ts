@@ -34,10 +34,10 @@ export async function getExpectedResult(dir: SpecPath, impl: string) {
     ? `warning-${impl}`
     : "warning"
   if (dir.has(warningFilename)) {
-    warning = await dir.get(warningFilename)
+    warning = await dir.contents(warningFilename)
   }
   // TODO print warning if expectedWarning is given on an expected error case
-  const expected = await dir.get(resultFilename)
+  const expected = await dir.contents(resultFilename)
 
   if (isSuccessCase) {
     return {

@@ -39,7 +39,8 @@ export interface SpecPath {
   isDirectory(): boolean
   isArchiveRoot(): boolean
   has(filename: string): boolean
-  get(filename: string): Promise<string>
+  /** Get the contents of the subfile of this directory */
+  contents(filename: string): Promise<string>
   options(): Promise<RunOptions>
   forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
 }
@@ -60,7 +61,7 @@ abstract class AbstractSpecPath implements SpecPath {
 
   abstract isArchiveRoot(): boolean
   abstract items(): Promise<SpecPath[]>
-  abstract get(filename: string): Promise<string>
+  abstract contents(filename: string): Promise<string>
   abstract has(filename: string): boolean
   abstract isDirectory(): boolean
 
@@ -89,7 +90,7 @@ abstract class AbstractSpecPath implements SpecPath {
       todoWarning: [],
     }
     if (this.has("options.yml")) {
-      const rawOpts: any = yaml.safeLoad(await this.get("options.yml"))
+      const rawOpts: any = yaml.safeLoad(await this.contents("options.yml"))
       if (typeof rawOpts !== "object") {
         // TODO throw a warning/error if not a match
         return defaultOpts
@@ -163,7 +164,7 @@ class RealSpecPath extends AbstractSpecPath {
     return fs.existsSync(filepath)
   }
 
-  async get(filename: string) {
+  async contents(filename: string) {
     // TODO error checking
     const filepath = path.resolve(this.path, filename)
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
@@ -280,7 +281,7 @@ class VirtualSpecPath extends AbstractSpecPath {
     return !!this.hrx.get(filename)
   }
 
-  async get(filename: string) {
+  async contents(filename: string) {
     if (!this.hrx.isDirectory()) {
       throw new Error(`Trying to get contents of a file`)
     }
@@ -303,6 +304,9 @@ class VirtualSpecPath extends AbstractSpecPath {
   }
 }
 
-export function fromPath(path: string): SpecPath {
-  return new RealSpecPath(path)
+export async function fromPath(specPath: string): Promise<SpecPath> {
+  if (path.parse(specPath).ext == ".hrx") {
+    return await VirtualSpecPath.fromArchive(specPath)
+  }
+  return new RealSpecPath(specPath)
 }

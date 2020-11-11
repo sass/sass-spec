@@ -62,7 +62,7 @@ async function runAllTests() {
 
   const start = Date.now()
   // TODO support calling from within an .hrx file
-  const rootDir = fromPath(path.resolve(process.cwd(), "spec"))
+  const rootDir = await fromPath(path.resolve(process.cwd(), "spec"))
   await rootDir.forEachTest(args.testDirs, async (testDir) => {
     const res: any = await runSpec(t, testDir, args)
     printResult(res.counts)
