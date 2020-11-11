@@ -73,12 +73,12 @@ async function runAllTests() {
   const end = Date.now()
   const time = (end - start) / 1000
   // TODO there's a better way to tally this
-  console.log(t.counts)
   for (const failure of t.lists.fail) {
     console.log("FAILED", failure.name)
     // TODO better formatting of this
     console.log(failure.diag)
   }
+  console.log(t.counts)
   // TODO how to just access this from the test object
   console.log(`Finished in ${time}s`)
 }
