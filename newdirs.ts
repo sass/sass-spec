@@ -157,8 +157,13 @@ class VirtualSpecPath extends AbstractSpecPath {
     // TODO handle cases where parent files need to be written
     if (this.hrx.isFile()) {
       // TODO use a tmp directory unless there are external references
-      const { dir, base } = path.parse(this.path)
-      if (!/\.s[ac]ss$/.test(base)) {
+      const { dir, base, ext } = path.parse(this.path)
+      // only write sass and css files (e.g. ignore READMEs, yaml, and errors/warnings)
+      if (![".sass", ".scss", ".css"].includes(ext)) {
+        return
+      }
+      // ignore output files
+      if (base.startsWith("output")) {
         return
       }
       // recursively create this file's parent directories
