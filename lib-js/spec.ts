@@ -42,7 +42,7 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   await testFn(relPath, async (t) => {
     childTest = t
     await dir.withRealFiles(async () => {
-      const expected = await getExpectedResult(dir.path, impl)
+      const expected = await getExpectedResult(dir, impl)
       const actual = await getActualResult(dir.path, opts)
       if (expected.isSuccess) {
         t.ok(actual.isSuccess, `${relPath} expected success`)

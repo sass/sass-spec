@@ -1,6 +1,7 @@
 import { promises as fs } from "fs"
 import path from "path"
 import { promisify } from "util"
+import { SpecPath } from "../newdirs"
 
 const exec = promisify(require("child_process").exec)
 
@@ -17,8 +18,9 @@ function hasOutputFile(files: string[], impl: string) {
 /**
  * Get the expected result from running a spec on a directory.
  */
-export async function getExpectedResult(dir: string, impl: string) {
-  const files = await fs.readdir(dir)
+export async function getExpectedResult(dir: SpecPath, impl: string) {
+  // const files = await fs.readdir(dir)
+  const files = Object.keys(await dir.contents())
 
   const isSuccessCase = hasOutputFile(files, impl)
   let resultFilename
@@ -37,14 +39,10 @@ export async function getExpectedResult(dir: string, impl: string) {
     ? `warning-${impl}`
     : "warning"
   if (files.includes(warningFilename)) {
-    warning = await fs.readFile(path.resolve(dir, warningFilename), {
-      encoding: "utf-8",
-    })
+    warning = await dir.get(warningFilename)
   }
   // TODO print warning if expectedWarning is given on an expected error case
-  const expected = await fs.readFile(path.resolve(dir, resultFilename), {
-    encoding: "utf-8",
-  })
+  const expected = await dir.get(resultFilename)
 
   if (isSuccessCase) {
     return {
