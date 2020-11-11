@@ -62,10 +62,9 @@ interface Options {
   precision?: number
 }
 
-export async function getActualResult(dir: string, opts: Options) {
+export async function getActualResult(dir: SpecPath, opts: Options) {
   const { rootDir, impl, bin, cmdOpts: _cmdOpts, precision } = opts
-  const files = await fs.readdir(dir)
-  const indented = files.includes("input.sass")
+  const indented = dir.has("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
   const cmdOpts = [..._cmdOpts]
@@ -81,7 +80,7 @@ export async function getActualResult(dir: string, opts: Options) {
   cmdOpts.push(inputFile)
 
   const { stdout, stderr, status } = child_process.spawnSync(bin, cmdOpts, {
-    cwd: dir,
+    cwd: dir.path,
     encoding: "utf-8",
     stdio: "pipe",
   })

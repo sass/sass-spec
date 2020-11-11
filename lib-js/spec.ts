@@ -42,8 +42,10 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   let childTest: Test
   await testFn(relPath, async (t) => {
     childTest = t
-    const expected = await getExpectedResult(dir, impl)
-    const actual = await getActualResult(dir.path, { ...opts, precision })
+    const [expected, actual] = await Promise.all([
+      getExpectedResult(dir, impl),
+      getActualResult(dir, { ...opts, precision }),
+    ])
     if (expected.isSuccess) {
       t.ok(actual.isSuccess, `${relPath} expected success`)
       t.equal(
