@@ -35,7 +35,7 @@ interface Options {
 
 export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
   const { rootDir, impl, todoMode } = opts
-  const { mode, todoWarning } = await dir.getOptions(impl)
+  const { mode, todoWarning, precision } = await dir.getOptions(impl)
   const relPath = path.relative(rootDir, dir.path)
   const testFn = getTestFn(tap, mode, todoMode)
 
@@ -44,7 +44,7 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
     childTest = t
     await dir.withRealFiles(async () => {
       const expected = await getExpectedResult(dir, impl)
-      const actual = await getActualResult(dir.path, opts)
+      const actual = await getActualResult(dir.path, { ...opts, precision })
       if (expected.isSuccess) {
         t.ok(actual.isSuccess, `${relPath} expected success`)
         t.equal(
