@@ -15,6 +15,7 @@ interface RunOpts {
 /** Represents an abstract directory used in sass-spec */
 export interface SpecPath {
   path: string
+  relPath(): string
   items(): Promise<SpecPath[]>
   // run the callback with the physical files present
   withRealFiles(cb: SpecDirCallback): Promise<void>
@@ -26,6 +27,10 @@ export interface SpecPath {
   get(filename: string): Promise<string>
   parent(): SpecPath | undefined
   getOptions(impl: string): Promise<RunOpts>
+  forEachTest(
+    paths: string[],
+    iteratee: (subdir: SpecPath) => Promise<void>
+  ): Promise<void>
 }
 
 abstract class AbstractSpecPath implements SpecPath {
@@ -34,6 +39,10 @@ abstract class AbstractSpecPath implements SpecPath {
 
   constructor(parent?: SpecPath) {
     this._parent = parent
+  }
+
+  relPath() {
+    return path.relative(path.resolve(__dirname, "spec"), this.path)
   }
 
   abstract items(): Promise<SpecPath[]>
@@ -74,6 +83,41 @@ abstract class AbstractSpecPath implements SpecPath {
     const opts = await this.getDirectOptions(impl)
     const parentOpts = (await this.parent()?.getOptions(impl)) ?? {}
     return { ...parentOpts, ...opts }
+  }
+
+  isTestDir() {
+    return this.has("input.scss") || this.has("input.sass")
+  }
+
+  isMatch(paths: string[]) {
+    return paths.length === 0 || paths.some((path) => this.path === path)
+  }
+
+  async forEachTest(
+    paths: string[],
+    iteratee: (dir: SpecPath) => Promise<void>
+  ) {
+    // If we're a matching test directory, run the test
+    if (this.isMatch(paths)) {
+      if (this.isTestDir()) {
+        await iteratee(this)
+      } else {
+        // otherwise, recurse through all subdirectories
+        for (const subdir of await this.items()) {
+          await subdir.forEachTest([], iteratee)
+        }
+      }
+    } else {
+      // otherwise, recurse through all subdirectories
+      const subpaths = paths.filter((p) => p.startsWith(this.path))
+      // if this path isn't a parent of any of the given paths, return
+      if (subpaths.length === 0) {
+        return
+      }
+      for (const subdir of await this.items()) {
+        await subdir.forEachTest(subpaths, iteratee)
+      }
+    }
   }
 }
 
@@ -213,20 +257,4 @@ class VirtualSpecPath extends AbstractSpecPath {
 
 export function fromPath(path: string): SpecPath {
   return new RealSpecPath(path)
-}
-
-/**
- * Iterate through the given spec directories and find the ones that have an actual test case.
- */
-// TODO turn this into a generator??
-export async function getTestDirs(dir: SpecPath): Promise<SpecPath[]> {
-  if (dir.has("input.scss") || dir.has("input.sass")) {
-    return [dir]
-  } else {
-    let dirs: SpecPath[] = []
-    for (const subitem of await dir.items()) {
-      dirs = dirs.concat(await getTestDirs(subitem))
-    }
-    return dirs
-  }
 }

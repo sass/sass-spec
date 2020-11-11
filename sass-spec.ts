@@ -1,7 +1,7 @@
 import path from "path"
 import tap, { Counts } from "tap"
 import yargs from "yargs/yargs"
-import { fromPath, getTestDirs } from "./newdirs"
+import { fromPath } from "./newdirs"
 
 import { runSpec } from "./lib-js/spec"
 
@@ -41,7 +41,7 @@ const args = {
   bin: path.resolve(process.cwd(), argv.command!),
   cmdOpts: implArgs[argv.impl!],
   rootDir: path.resolve("spec"),
-  testDir: argv._[0] || "spec",
+  testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),
   todoMode: argv.runTodo ? "run" : undefined,
 }
 
@@ -62,12 +62,11 @@ async function runAllTests() {
 
   const start = Date.now()
   // TODO support calling from within an .hrx file
-  const specPath = fromPath(path.resolve(process.cwd(), args.testDir))
-  const testCases = await getTestDirs(specPath)
-  for (const test of testCases) {
-    const res: any = await runSpec(t, test, args)
+  const rootDir = fromPath(path.resolve(process.cwd(), "spec"))
+  await rootDir.forEachTest(args.testDirs, async (testDir) => {
+    const res: any = await runSpec(t, testDir, args)
     printResult(res.counts)
-  }
+  })
 
   t.end()
   const end = Date.now()
