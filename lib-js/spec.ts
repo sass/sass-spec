@@ -27,6 +27,7 @@ interface Options {
   rootDir: string
   impl: string
   bin: string
+  cmdOpts: string[]
   mode?: string
   todoMode?: string
   todoWarning?: boolean
@@ -54,7 +55,7 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
 
         if ((expected.warning || actual.warning) && !todoWarning) {
           t.equal(
-            extractWarningMessages(actual.warning, impl),
+            extractWarningMessages(actual.warning!, impl),
             extractWarningMessages(expected.warning!, impl),
             `${relPath} warnings should match`
           )
@@ -62,7 +63,7 @@ export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
       } else {
         t.notOk(actual.isSuccess, `${relPath} expected error`)
         t.equal(
-          extractErrorMessage(actual.error, impl),
+          extractErrorMessage(actual.error!, impl),
           extractErrorMessage(expected.error!, impl),
           `${relPath} errors should match`
         )

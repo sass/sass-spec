@@ -1,9 +1,8 @@
 import { promises as fs } from "fs"
-import path from "path"
 import { promisify } from "util"
 import { SpecPath } from "../newdirs"
 
-const exec = promisify(require("child_process").exec)
+import child_process from "child_process"
 
 /**
  * Return whether the file should have a successful output
@@ -60,42 +59,43 @@ interface Options {
   rootDir: string
   impl: string
   bin: string
+  cmdOpts: string[]
   precision?: number
 }
 
 export async function getActualResult(dir: string, opts: Options) {
-  const { rootDir, impl, bin, precision } = opts
+  const { rootDir, impl, bin, cmdOpts: _cmdOpts, precision } = opts
   const files = await fs.readdir(dir)
   const indented = files.includes("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
-  // const bin = bins[impl]
-  const cmdOpts = [`--load-path=${rootDir}`]
+  const cmdOpts = [..._cmdOpts]
+  cmdOpts.push(`--load-path=${rootDir}`)
   // Pass in the indentend option to the command
   if (indented) {
     cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
   }
   if (precision) {
-    cmdOpts.push(`--precision ${precision}`)
+    cmdOpts.push(`--precision`)
+    cmdOpts.push(`${precision}`)
   }
   cmdOpts.push(inputFile)
-  const cmd = `${bin} ${cmdOpts.join(" ")}`
 
-  try {
-    const { stdout, stderr } = await exec(cmd, {
-      cwd: dir,
-      encoding: "utf-8",
-      stdio: "pipe",
-    })
+  const { stdout, stderr, status } = child_process.spawnSync(bin, cmdOpts, {
+    cwd: dir,
+    encoding: "utf-8",
+    stdio: "pipe",
+  })
+  if (status === 0) {
     return {
       isSuccess: true,
       output: stdout,
       warning: stderr,
     }
-  } catch (e) {
+  } else {
     return {
       isSuccess: false,
-      error: e.stderr,
+      error: stderr,
     }
   }
 }

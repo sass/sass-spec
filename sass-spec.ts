@@ -30,15 +30,16 @@ const argv = yargs(process.argv.slice(2))
     default: false,
   }).argv
 
-const implArgs: Record<string, string> = {
-  "dart-sass": "--no-unicode",
-  libsass: "--style expanded",
+const implArgs: Record<string, string[]> = {
+  "dart-sass": ["--no-unicode"],
+  libsass: ["--style", "expanded"],
 }
 
 // FIXME make sure these are actually required
 const args = {
   impl: argv.impl!,
-  bin: `${path.resolve(process.cwd(), argv.command!)} ${implArgs[argv.impl!]}`,
+  bin: path.resolve(process.cwd(), argv.command!),
+  cmdOpts: implArgs[argv.impl!],
   rootDir: path.resolve("spec"),
   testDir: argv._[0] || "spec",
   todoMode: argv.runTodo ? "run" : undefined,
