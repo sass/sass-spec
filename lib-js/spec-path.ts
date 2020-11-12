@@ -1,23 +1,8 @@
 import fs from "fs"
 import path from "path"
-import yaml from "js-yaml"
 import { archiveFromStream, HrxItem } from "node-hrx"
 
-export interface RunOptions {
-  ignore: string[]
-  todo: string[]
-  todoWarning: string[]
-  precision?: number
-}
-
-function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
-  return {
-    ignore: [...base.ignore, ...ext.ignore],
-    todo: [...base.todo, ...ext.todo],
-    todoWarning: [...base.todoWarning, ...ext.todoWarning],
-    precision: ext.precision ?? base.precision,
-  }
-}
+import { RunOptions, mergeOptions, optsFromYaml } from "./options"
 
 type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
@@ -110,25 +95,10 @@ export abstract class SpecPath {
 
   // Get the options from a physical options.yml file
   private async getDirectOptions(): Promise<RunOptions> {
-    const defaultOpts: RunOptions = {
-      ignore: [],
-      todo: [],
-      todoWarning: [],
-    }
-    if (this.has("options.yml")) {
-      const rawOpts: any = yaml.safeLoad(await this.contents("options.yml"))
-      if (typeof rawOpts !== "object") {
-        // TODO throw a warning/error if not a match
-        return defaultOpts
-      }
-      return {
-        precision: rawOpts[":precision"],
-        ignore: rawOpts[":ignore_for"] || [],
-        todo: rawOpts[":todo"] || [],
-        todoWarning: rawOpts[":warning_todo"] || [],
-      }
-    }
-    return defaultOpts
+    const contents = this.has("options.yml")
+      ? await this.contents("options.yml")
+      : ""
+    return optsFromYaml(contents)
   }
 
   /** Get the run options of this directory, including those inherited from its parent */

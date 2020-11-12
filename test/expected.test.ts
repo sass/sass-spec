@@ -1,7 +1,6 @@
 import path from "path"
 import tap from "tap"
 import { getExpectedResult } from "../lib-js/execute"
-import { withArchive } from "../lib-js/hrx"
 import { fromPath } from "../lib-js/spec-path"
 
 tap.test("getExpectedResult", async (t) => {

@@ -1,7 +1,8 @@
 import path from "path"
 import { Test } from "tap"
 import { getExpectedResult, getActualResult } from "./execute"
-import { SpecPath, RunOptions } from "./spec-path"
+import { SpecPath } from "./spec-path"
+import { optionsForImpl } from "./options"
 import {
   normalizeOutput,
   extractErrorMessage,
@@ -29,34 +30,6 @@ interface Options {
   bin: string
   cmdOpts: string[]
   todoMode?: string
-}
-
-interface RunOpts {
-  mode?: string
-  todoWarning?: boolean
-  precision?: number
-}
-
-function hasOptionForImpl(option: string[] | undefined, impl: string) {
-  if (!option || !(option instanceof Array)) return false
-  return option.some((item) => item.includes(impl))
-}
-
-function optionsForImpl(options: RunOptions, impl: string) {
-  const opts: RunOpts = {}
-  if (hasOptionForImpl(options.todoWarning, impl)) {
-    opts.todoWarning = true
-  }
-  if (hasOptionForImpl(options.ignore, impl)) {
-    opts.mode = "ignore"
-  }
-  if (hasOptionForImpl(options.todo, impl)) {
-    opts.mode = "todo"
-  }
-  if (options.precision) {
-    opts.precision = options.precision
-  }
-  return opts
 }
 
 export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
