@@ -86,8 +86,7 @@ tap.test("executeSpec", async (t) => {
       )
 
       t.equal(
-        (await runWithOpts("warning/mismatch", { todoWarning: true })).counts
-          .fail,
+        (await runWithOpts("warning/todo")).counts.fail,
         0,
         "skip warning checks if `todoWarning` option enabled"
       )
@@ -97,24 +96,23 @@ tap.test("executeSpec", async (t) => {
 
     t.test("ignore", async (t) => {
       t.equal(
-        (await runWithOpts("output", { mode: "ignore" })).counts.skip,
+        (await runWithOpts("ignore")).counts.skip,
         1,
-        "marks a test as a `skip` when the `ignore` option is set"
+        "marks a test as a `skip` when the `:ignore_for` option is set in options.yml"
       )
       t.end()
     })
 
     t.test("todo", async (t) => {
       t.equal(
-        (await runWithOpts("output", { mode: "todo" })).counts.todo,
+        (await runWithOpts("todo")).counts.todo,
         1,
-        "marks a test as a `todo` when the `todo` option is set"
+        "marks a test as a `todo` when the `:todo` option is set in options.yml"
       )
       t.equal(
-        (await runWithOpts("output", { mode: "todo", todoMode: "run" })).counts
-          .todo,
+        (await runWithOpts("todo", { todoMode: "run" })).counts.todo,
         0,
-        "runs todos if `todo` is set to `run`"
+        "runs todos if `todoMode` is set to `run`"
       )
       t.todo("fails on success if probeTodo is passed as input")
       t.end()

@@ -116,3 +116,52 @@ stderr: |
 p {
   color: #ff8000;
 }
+<===>
+================================================================================
+<===> warning/todo/options.yml
+:warning_todo:
+  - sass-mock
+<===> warning/todo/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: failure
+<===> warning/todo/output.css
+p {
+  color: #ff8000;
+}
+<===> warning/todo/warning
+WARNING: test
+<===>
+================================================================================
+<===> ignore/options.yml
+:ignore_for:
+  - sass-mock
+<===> ignore/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> ignore/output.css
+p {
+  color: #000000;
+}
+<===>
+================================================================================
+<===> todo/options.yml
+:todo:
+  - sass-mock
+<===> todo/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> todo/output.css
+p {
+  color: #000000;
+}
