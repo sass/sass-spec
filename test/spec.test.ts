@@ -1,22 +1,23 @@
 import path from "path"
 import tap from "tap"
 import { runSpec } from "../lib-js/spec"
-import { withArchive } from "../lib-js/hrx"
+import { fromPath } from "../lib-js/spec-path"
 
 const baseOpts = {
   impl: "sass-mock",
-  bin: `node ${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`,
+  bin: "node",
+  cmdOpts: [`${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`],
   rootDir: path.resolve(__dirname, "fixtures"),
 }
-withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
-  await tap.test("executeSpec", async (t) => {
-    async function runWithOpts(subdir: string, opts?: any) {
+
+tap.test("executeSpec", async (t) => {
+  const dir = await fromPath(path.resolve(__dirname, "fixtures/spec.hrx"))
+  await dir.withRealFiles(async () => {
+    async function runWithOpts(subpath: string, opts?: any) {
       // Create a new `Test` object so it won't be run as part of the suite
       const t = new tap.Test()
-      await runSpec(t, path.resolve(dir, subdir), {
-        ...baseOpts,
-        ...opts,
-      })
+      const subdir = await dir.atPath(subpath)
+      await runSpec(t, subdir, { ...baseOpts, ...opts })
       t.end()
       // console.log(subdir, t.counts)
       return t
@@ -38,6 +39,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
         0,
         "fails if the spec throws an error"
       )
+      t.end()
     })
     t.test("error cases", async (t) => {
       t.equal(
@@ -55,6 +57,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
         0,
         "fails if the spec passes"
       )
+      t.end()
     })
 
     t.test("warning cases", async (t) => {
@@ -98,6 +101,7 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
         1,
         "marks a test as a `skip` when the `ignore` option is set"
       )
+      t.end()
     })
 
     t.test("todo", async (t) => {
@@ -115,6 +119,6 @@ withArchive(path.resolve(__dirname, "fixtures/spec.hrx"), async (dir) => {
       t.todo("fails on success if probeTodo is passed as input")
       t.end()
     })
-    t.end()
   })
+  t.end()
 })
