@@ -3,8 +3,6 @@ import path from "path"
 import yaml from "js-yaml"
 import { archiveFromStream, HrxItem } from "node-hrx"
 
-type SpecDirCallback = (path: string) => Promise<void>
-
 export interface RunOptions {
   ignore: string[]
   todo: string[]
@@ -24,37 +22,14 @@ function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
 type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
 /**
- * A directory that may contain sass-spec test cases.
+ * Represents either a real or virtual directory that contains spec files.
  */
-export interface SpecPath {
-  root: SpecPath
-  path: string
-  relPath(): string
-  list(): Promise<string[]>
-  items(): Promise<SpecPath[]>
-  // run the callback with the physical files present
-  withRealFiles(cb: SpecDirCallback): Promise<void>
-  writeToDisk(): Promise<void>
-  cleanup(): Promise<void>
-  isFile(): boolean
-  isDirectory(): boolean
-  isArchiveRoot(): boolean
-  has(filename: string): boolean
-  /** Get the contents of the subfile of this directory */
-  contents(filename: string): Promise<string>
-  /** Get the subitem with the given name */
-  subitem(name: string): Promise<SpecPath>
-  options(): Promise<RunOptions>
-  atPath(path: string): Promise<SpecPath>
-  forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void>
-}
-
-abstract class AbstractSpecPath implements SpecPath {
+export abstract class SpecPath {
   private parentOpts?: RunOptions
   private _options?: RunOptions
   private subitems: Record<string, SpecPath>
-  root: SpecPath
   abstract path: string
+  protected root: SpecPath
 
   constructor(root?: SpecPath, parentOpts?: RunOptions) {
     this.root = root ?? this
@@ -62,17 +37,33 @@ abstract class AbstractSpecPath implements SpecPath {
     this.subitems = {}
   }
 
+  // returns true if this is the root of an HRX archive
+  protected abstract isArchiveRoot(): boolean
+  // helper to get the subitem with the given name
+  protected abstract getSubitem(name: string): Promise<SpecPath>
+
+  /** The path of this directory relative to the top level that was created */
   relPath() {
     return path.relative(this.root.path, this.path)
   }
 
+  /** The list of sub-files of this directory */
   abstract list(): Promise<string[]>
-  abstract isArchiveRoot(): boolean
-  protected abstract getSubitem(name: string): Promise<SpecPath>
+  /** The file contents of the given filename */
   abstract contents(filename: string): Promise<string>
+  /** Returns true if this directory has the given filename as a subitem */
   abstract has(filename: string): boolean
+  /** True if this represents a directory */
   abstract isDirectory(): boolean
 
+  /** true if this represents a single file */
+  isFile() {
+    return !this.isDirectory()
+  }
+
+  /**
+   * Get the SpecPath at the provided path to the subitem
+   */
   async atPath(path: string): Promise<SpecPath> {
     if (!path) return this
     const i = path.indexOf("/")
@@ -83,10 +74,9 @@ abstract class AbstractSpecPath implements SpecPath {
     return await child.atPath(path.slice(i + 1))
   }
 
-  // by default, do nothing
-  async writeToDisk(): Promise<void> {}
-  async cleanup(): Promise<void> {}
-
+  /**
+   * Return the subitem of this directory corresponding to the given name
+   */
   async subitem(name: string) {
     if (!this.subitems[name]) {
       this.subitems[name] = await this.getSubitem(name)
@@ -100,20 +90,25 @@ abstract class AbstractSpecPath implements SpecPath {
     return Promise.all(list.map((item) => this.subitem(item)))
   }
 
-  async withRealFiles(cb: SpecDirCallback) {
+  // by default, do nothing
+  async writeToDisk(): Promise<void> {}
+  async cleanup(): Promise<void> {}
+
+  /**
+   * Write files corresponding to this directory and run the given callback,
+   * deleting the files when done
+   */
+  async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
     try {
-      await cb(this.path)
+      await cb()
     } finally {
       // TODO handle process exit
       await this.cleanup()
     }
   }
 
-  isFile() {
-    return !this.isDirectory()
-  }
-
+  // Get the options from a physical options.yml file
   private async getDirectOptions(): Promise<RunOptions> {
     const defaultOpts: RunOptions = {
       ignore: [],
@@ -136,6 +131,7 @@ abstract class AbstractSpecPath implements SpecPath {
     return defaultOpts
   }
 
+  /** Get the run options of this directory, including those inherited from its parent */
   async options() {
     if (!this._options) {
       const opts = await this.getDirectOptions()
@@ -146,14 +142,25 @@ abstract class AbstractSpecPath implements SpecPath {
     return this._options
   }
 
+  /**
+   * Return whether this directory corresponds to a test case
+   * (i.e. it has an `input.scss` file).
+   */
   isTestDir() {
     return this.has("input.scss") || this.has("input.sass")
   }
 
-  isMatch(paths: string[]) {
+  private isMatch(paths: string[]) {
     return paths.length === 0 || paths.some((path) => this.path === path)
   }
 
+  // TODO should we move this function out to its own file?
+  /**
+   * Iterate through the subpaths of this directory, running the iteratee
+   * on all
+   * @param paths the paths to match against
+   * @param iteratee the function to call for each matching subdirectory
+   */
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
     // If we're a matching test directory, run the test
     if (this.isMatch(paths)) {
@@ -179,7 +186,7 @@ abstract class AbstractSpecPath implements SpecPath {
   }
 }
 
-class RealSpecPath extends AbstractSpecPath {
+class RealSpecPath extends SpecPath {
   path: string
 
   constructor(path: string, root?: SpecPath, parentOpts?: RunOptions) {
@@ -221,7 +228,7 @@ class RealSpecPath extends AbstractSpecPath {
   }
 }
 
-class VirtualSpecPath extends AbstractSpecPath {
+class VirtualSpecPath extends SpecPath {
   path: string
   basePath: string
   hrx: HrxItem
@@ -343,6 +350,9 @@ class VirtualSpecPath extends AbstractSpecPath {
   }
 }
 
+/**
+ * Creates either a physical SpecPath from a directory or a virtual one from an hrx archive
+ */
 export async function fromPath(specPath: string): Promise<SpecPath> {
   if (path.parse(specPath).ext == ".hrx") {
     return await VirtualSpecPath.fromArchive(specPath)
