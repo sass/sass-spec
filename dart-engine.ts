@@ -1,0 +1,99 @@
+import path from "path"
+import fs from "fs"
+import child_process from "child_process"
+
+const repo = path.resolve(process.cwd(), "../dart-sass/")
+
+const fakeDartFile = `
+import "dart:convert";
+import "dart:io";
+
+main() async {
+  await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
+    stdout.write(line);
+    stdout.write(line.length);
+  }
+}
+`
+
+const dartFile = `
+import "dart:convert";
+import "dart:io";
+
+import "${repo}/bin/sass.dart" as sass;
+
+main() async {
+  await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
+    if (line.startsWith("!cd ")) {
+      Directory.current = line.substring("!cd ".length);
+      continue;
+    }
+
+    try {
+      await sass.main(line.split(" ").where((arg) => arg.isNotEmpty).toList());
+    } catch (error, stackTrace) {
+      stderr.writeln("Unhandled exception:");
+      stderr.writeln(error);
+      stderr.writeln(stackTrace);
+      exitCode = 255;
+    }
+
+    stdout.add([0xFF]);
+    stdout.write(exitCode);
+    stdout.add([0xFF]);
+    stderr.add([0xFF]);
+    exitCode = 0;
+  }
+}
+`
+let dartCompiler: ReturnType<typeof child_process.spawn>
+
+function initialize() {
+  const dartFilename = "./thing.dart"
+  fs.writeFileSync(dartFilename, dartFile, { encoding: "utf-8" })
+  // const { stdout } = child_process.spawnSync("dart", [dartFile], {
+  //   encoding: "utf-8",
+  // })
+  // fs.unlinkSync(dartFile)
+  // console.log(stdout)
+
+  // return
+  dartCompiler = child_process.spawn("dart", [
+    "--enable-asserts",
+    `--packages=${repo}/.packages`,
+    dartFilename,
+  ])
+  // dartCompiler.stdout!.on("data", (data) => {
+  //   console.log("data received")
+  //   console.log(data.toString())
+  // })
+  dartCompiler.on("close", () => {
+    console.log("dart compiler exited")
+  })
+}
+
+const libDir = path.resolve(__dirname, "spec")
+
+function compile(path: string) {
+  dartCompiler.stdin!.write(`!cd ${path}\n`)
+  dartCompiler.stdin!.write(`--no-color --no-unicode -I ${libDir} input.scss\n`)
+}
+
+initialize()
+
+const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
+
+for (const path of testPaths) {
+  compile(path)
+}
+
+async function readOutput() {
+  // TODO Join chunks separated by "0xFF"
+  for await (const chunk of dartCompiler.stdout!) {
+    console.log("data received")
+    console.log(chunk.toString())
+  }
+}
+
+readOutput()
+// console.log("finished all test paths")
