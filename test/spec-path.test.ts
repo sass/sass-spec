@@ -8,9 +8,44 @@ tap.test("SpecPath", (t) => {
     const dir = await fromPath(
       path.resolve(__dirname, "./fixtures/options.hrx")
     )
-    t.todo("merges parent options")
-    t.todo("overrides precision")
-    t.todo("merges for grandchildren")
+
+    async function getOptions(path: string) {
+      const subitem = await dir.atPath(path)
+      return await subitem.options()
+    }
+
+    t.hasStrict(
+      await getOptions("basic"),
+      {
+        todo: ["dart-sass"],
+        ignore: ["libsass"],
+        precision: 3,
+      },
+      "works in basic case"
+    )
+
+    t.hasStrict(
+      await getOptions("override/parent/child"),
+      {
+        todo: ["dart-sass", "sass-mock"],
+        ignore: ["libsass", "dart-sass"],
+        todoWarning: ["libsass"],
+        precision: 4,
+      },
+      "overrides parent options correctly"
+    )
+
+    t.hasStrict(
+      await getOptions("nesting/parent/deep"),
+      { precision: 3 },
+      "overrides when child doesn't have options.yml"
+    )
+
+    t.hasStrict(
+      await getOptions("nesting/parent/deep/child"),
+      { precision: 4 },
+      "overrides more than one layer deep"
+    )
   })
 
   t.test("forEachTest", (t) => {
