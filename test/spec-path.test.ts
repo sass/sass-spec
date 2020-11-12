@@ -1,3 +1,4 @@
+import fs from "fs"
 import path from "path"
 import tap from "tap"
 
@@ -47,6 +48,41 @@ tap.test("SpecPath", (t) => {
       "overrides more than one layer deep"
     )
 
+    t.end()
+  })
+
+  t.test("withRealFiles", async (t) => {
+    const dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+    t.test("success case", async (t) => {
+      await dir.withRealFiles(async () => {
+        t.ok(fs.existsSync(dir.path), "creates the root archive directory")
+        t.ok(
+          fs.existsSync(path.resolve(dir.path, "input.scss")),
+          "creates input file"
+        )
+        t.ok(
+          fs.existsSync(path.resolve(dir.path, "_util.scss")),
+          "creates library css file"
+        )
+        t.notOk(
+          fs.existsSync(path.resolve(dir.path, "output.css")),
+          "does not create output file"
+        )
+      })
+      t.end()
+    })
+    t.test("failure case", async (t) => {
+      try {
+        await dir.withRealFiles(async () => {
+          throw new Error("Fail!")
+        })
+      } catch (e) {}
+      t.notOk(fs.existsSync(dir.path), "directory is deleted on error")
+
+      t.todo("deletes the directory if the process exits")
+      t.todo("writes files to archive")
+      t.end()
+    })
     t.end()
   })
 
