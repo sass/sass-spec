@@ -241,9 +241,7 @@ class VirtualSpecPath extends SpecPath {
   }
 
   async writeToDisk() {
-    // TODO handle cases where parent files need to be written
     if (this.hrx.isFile()) {
-      // TODO use a tmp directory unless there are external references
       const { dir, base, ext } = path.parse(this.path)
       // only write sass and css files (e.g. ignore READMEs, yaml, and errors/warnings)
       if (![".sass", ".scss", ".css"].includes(ext)) {
@@ -268,7 +266,7 @@ class VirtualSpecPath extends SpecPath {
 
   async cleanup() {
     // TODO this can lead to errors if we don't do stuff sequentially
-    await fs.promises.rmdir(this.basePath, { recursive: true })
+    await fs.promises.rmdir(this.path, { recursive: true })
   }
 
   async list() {
