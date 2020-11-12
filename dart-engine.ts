@@ -10,8 +10,8 @@ import "dart:io";
 
 main() async {
   await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
-    stdout.write(line);
-    stdout.write(line.length);
+    stdout.writeln(line);
+    stdout.writeln(line.length);
   }
 }
 `
@@ -74,14 +74,16 @@ function initialize() {
 
 const libDir = path.resolve(__dirname, "spec")
 
-function compile(path: string) {
-  dartCompiler.stdin!.write(`!cd ${path}\n`)
+function compile(testPath: string) {
+  const absPath = path.resolve(process.cwd(), testPath)
+  dartCompiler.stdin!.write(`!cd ${absPath}\n`)
   dartCompiler.stdin!.write(`--no-color --no-unicode -I ${libDir} input.scss\n`)
 }
 
 initialize()
 
-const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
+// const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
+const testPaths = Array(10).fill("spec/libsass/charset")
 
 for (const path of testPaths) {
   compile(path)
