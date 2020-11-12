@@ -46,6 +46,8 @@ tap.test("SpecPath", (t) => {
       { precision: 4 },
       "overrides more than one layer deep"
     )
+
+    t.end()
   })
 
   t.test("forEachTest", (t) => {
@@ -67,6 +69,7 @@ tap.test("SpecPath", (t) => {
         "does not iterate through directories without an input file"
       )
     })
+    t.todo("passed in paths")
     t.end()
   })
 
