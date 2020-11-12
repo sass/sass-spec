@@ -83,10 +83,19 @@ function compile(testPath: string) {
 initialize()
 
 // const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
-const testPaths = Array(10).fill("spec/libsass/charset")
+const testPaths = Array(2).fill("spec/libsass/charset")
 
 for (const path of testPaths) {
   compile(path)
+}
+
+async function* iterOutput() {
+  for await (const chunk of dartCompiler.stdout!) {
+    const chunky: Buffer = chunk
+    const idx = chunky.indexOf(0xff)
+    const subset = chunky.slice(0, idx)
+    yield subset
+  }
 }
 
 async function readOutput() {
