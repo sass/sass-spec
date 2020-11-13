@@ -109,9 +109,8 @@ function split(buffer: Buffer, token: number) {
 // TODO need to test this
 async function* toDartChunks(stream: Readable) {
   let buff = ""
-  for await (const chunk of stream!) {
-    const chunky: Buffer = chunk
-    const [head, ...tail] = split(chunky, 0xff)
+  for await (const chunk of stream) {
+    const [head, ...tail] = split(chunk, 0xff)
     // If we received *any* break characters, yield those segments
     if (tail.length > 0) {
       yield buff + head.toString()
@@ -135,6 +134,12 @@ export class DartCompiler implements Compiler {
 
   private constructor(dart: ChildProcessWithoutNullStreams) {
     this.stdin = dart.stdin
+    // dart.stdout.on("data", (data) => {
+    //   console.log("stdout", data.toString())
+    // })
+    // dart.stderr.on("data", (data) => {
+    //   console.log("stderr", data.toString())
+    // })
     this.stdout = toDartChunks(dart.stdout)
     this.stderr = toDartChunks(dart.stderr)
   }
