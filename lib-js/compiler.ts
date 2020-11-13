@@ -54,13 +54,15 @@ main() async {
     exitCode = 0;
   }
 }`
-  const dartFilename = "./thing.dart"
+  const dartFilename = "./sass-wrapper.dart"
   await fs.promises.writeFile(dartFilename, dartFile, { encoding: "utf-8" })
-  return child_process.spawn("dart", [
+  const child = child_process.spawn("dart", [
     "--enable-asserts",
     `--packages=${repoPath}/.packages`,
     dartFilename,
   ])
+  await fs.promises.unlink(dartFilename)
+  return child
 }
 
 function splitSingle(buffer: Buffer, token: number) {
