@@ -2,6 +2,7 @@ import tap from "tap"
 import path from "path"
 import { getActualResult } from "../lib-js/execute"
 import { fromPath } from "../lib-js/spec-path"
+import { execCompiler } from "../lib-js/compiler"
 
 tap.test("getActualResult", async (t) => {
   const dir = await fromPath(path.resolve(__dirname, "./fixtures/actual.hrx"))
@@ -11,7 +12,7 @@ tap.test("getActualResult", async (t) => {
       return getActualResult(subdir, {
         rootDir: "",
         impl: "sass-mock",
-        bin: "node",
+        compiler: execCompiler("node"),
         cmdOpts: [path.resolve(__dirname, "./fixtures/sass-exec-mock.js")],
       })
     }

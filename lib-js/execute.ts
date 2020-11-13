@@ -1,7 +1,5 @@
-import { promises as fs } from "fs"
 import { SpecPath } from "./spec-path"
-
-import child_process from "child_process"
+import { Compiler } from "./compiler"
 
 /**
  * Return whether the file should have a successful output
@@ -57,13 +55,13 @@ export async function getExpectedResult(dir: SpecPath, impl: string) {
 interface Options {
   rootDir: string
   impl: string
-  bin: string
+  compiler: Compiler
   cmdOpts: string[]
   precision?: number
 }
 
 export async function getActualResult(dir: SpecPath, opts: Options) {
-  const { rootDir, impl, bin, cmdOpts: _cmdOpts, precision } = opts
+  const { rootDir, impl, cmdOpts: _cmdOpts, precision, compiler } = opts
   const indented = dir.has("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
@@ -79,11 +77,7 @@ export async function getActualResult(dir: SpecPath, opts: Options) {
   }
   cmdOpts.push(inputFile)
 
-  const { stdout, stderr, status } = child_process.spawnSync(bin, cmdOpts, {
-    cwd: dir.path,
-    encoding: "utf-8",
-    stdio: "pipe",
-  })
+  const { stdout, stderr, status } = await compiler.compile(dir.path, cmdOpts)
   if (status === 0) {
     return {
       isSuccess: true,

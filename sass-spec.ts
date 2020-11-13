@@ -4,6 +4,7 @@ import yargs from "yargs/yargs"
 import { fromPath } from "./lib-js/spec-path"
 
 import { runSpec } from "./lib-js/spec"
+import { execCompiler } from "./lib-js/compiler"
 
 const argv = yargs(process.argv.slice(2))
   .example(
@@ -38,7 +39,8 @@ const implArgs: Record<string, string[]> = {
 // FIXME make sure these are actually required
 const args = {
   impl: argv.impl!,
-  bin: path.resolve(process.cwd(), argv.command!),
+  // bin: path.resolve(process.cwd(), argv.command!),
+  compiler: execCompiler(path.resolve(process.cwd(), argv.command!)),
   cmdOpts: implArgs[argv.impl!],
   rootDir: path.resolve("spec"),
   testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),

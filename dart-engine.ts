@@ -1,6 +1,7 @@
 import path from "path"
 import fs from "fs"
 import child_process from "child_process"
+import { Stream } from "stream"
 
 const repo = path.resolve(process.cwd(), "../dart-sass/")
 
@@ -74,37 +75,71 @@ function initialize() {
 
 const libDir = path.resolve(__dirname, "spec")
 
-function compile(testPath: string) {
-  const absPath = path.resolve(process.cwd(), testPath)
-  dartCompiler.stdin!.write(`!cd ${absPath}\n`)
-  dartCompiler.stdin!.write(`--no-color --no-unicode -I ${libDir} input.scss\n`)
-}
-
 initialize()
 
 // const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
-const testPaths = Array(2).fill("spec/libsass/charset")
+const testPaths = Array(5000).fill("spec/libsass/charset")
 
-for (const path of testPaths) {
-  compile(path)
+function splitSingle(buffer: Buffer, token: number) {
+  const idx = buffer.indexOf(token)
+  if (idx === -1) {
+    return [buffer]
+  } else {
+    return [buffer.slice(0, idx), buffer.slice(idx + 1)]
+  }
 }
 
-async function* iterOutput() {
-  for await (const chunk of dartCompiler.stdout!) {
+function split(buffer: Buffer, token: number) {
+  const segments = []
+  let [head, tail] = splitSingle(buffer, token)
+  while (tail) {
+    segments.push(head)
+    const [head2, tail2] = splitSingle(tail, token)
+    head = head2
+    tail = tail2
+  }
+  segments.push(head)
+  return segments
+}
+
+async function* toDartChunks(stream: typeof dartCompiler.stdout) {
+  let buff = ""
+  for await (const chunk of stream!) {
     const chunky: Buffer = chunk
-    const idx = chunky.indexOf(0xff)
-    const subset = chunky.slice(0, idx)
-    yield subset
+    const [head, ...tail] = split(chunky, 0xff)
+    yield buff + head.toString()
+    if (tail.length > 0) {
+      for (const item of tail.slice(0, tail.length - 1)) {
+        yield item.toString()
+      }
+      buff = tail[tail.length - 1].toString()
+    } else {
+      buff = ""
+    }
   }
 }
 
-async function readOutput() {
-  // TODO Join chunks separated by "0xFF"
-  for await (const chunk of dartCompiler.stdout!) {
-    console.log("data received")
-    console.log(chunk.toString())
-  }
+const stdout = toDartChunks(dartCompiler!.stdout)
+const stderr = toDartChunks(dartCompiler!.stderr)
+
+async function compile(testPath: string) {
+  const absPath = path.resolve(process.cwd(), testPath)
+  dartCompiler.stdin!.write(`!cd ${absPath}\n`)
+  dartCompiler.stdin!.write(`--no-color --no-unicode -I ${libDir} input.scss\n`)
+  return [(await stdout.next()).value, (await stdout.next()).value]
 }
 
-readOutput()
+async function runAll() {
+  const start = Date.now()
+  for (const path of testPaths) {
+    await compile(path)
+    process.stdout.write(".")
+  }
+  const end = Date.now()
+  console.log((end - start) / 1000)
+  process.exit(0)
+}
+
+runAll()
 // console.log("finished all test paths")
+// readOutput()

@@ -8,6 +8,7 @@ import {
   extractErrorMessage,
   extractWarningMessages,
 } from "./normalize"
+import { Compiler } from "./compiler"
 
 function getTestFn(
   t: Test,
@@ -27,7 +28,7 @@ function getTestFn(
 interface Options {
   rootDir: string
   impl: string
-  bin: string
+  compiler: Compiler
   cmdOpts: string[]
   todoMode?: string
 }
