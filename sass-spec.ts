@@ -32,7 +32,7 @@ const argv = yargs(process.argv.slice(2))
   }).argv
 
 const implArgs: Record<string, string[]> = {
-  "dart-sass": ["--no-unicode"],
+  "dart-sass": ["--no-unicode", "--no-color"],
   libsass: ["--style", "expanded"],
 }
 
