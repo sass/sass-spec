@@ -47,30 +47,16 @@ main() async {
   }
 }
 `
-let dartCompiler: ReturnType<typeof child_process.spawn>
+let dartCompiler: child_process.ChildProcess
 
 function initialize() {
   const dartFilename = "./thing.dart"
   fs.writeFileSync(dartFilename, dartFile, { encoding: "utf-8" })
-  // const { stdout } = child_process.spawnSync("dart", [dartFile], {
-  //   encoding: "utf-8",
-  // })
-  // fs.unlinkSync(dartFile)
-  // console.log(stdout)
-
-  // return
   dartCompiler = child_process.spawn("dart", [
     "--enable-asserts",
     `--packages=${repo}/.packages`,
     dartFilename,
   ])
-  // dartCompiler.stdout!.on("data", (data) => {
-  //   console.log("data received")
-  //   console.log(data.toString())
-  // })
-  dartCompiler.on("close", () => {
-    console.log("dart compiler exited")
-  })
 }
 
 const libDir = path.resolve(__dirname, "spec")
@@ -78,7 +64,8 @@ const libDir = path.resolve(__dirname, "spec")
 initialize()
 
 // const testPaths = ["spec/libsass/charset", "spec/libsass/css_unicode"]
-const testPaths = Array(5000).fill("spec/libsass/charset")
+// const testPaths = Array(5000).fill("spec/libsass/charset")
+const testPaths = Array(10).fill("spec/libsass-closed-issues/issue_2446")
 
 function splitSingle(buffer: Buffer, token: number) {
   const idx = buffer.indexOf(token)
@@ -126,14 +113,18 @@ async function compile(testPath: string) {
   const absPath = path.resolve(process.cwd(), testPath)
   dartCompiler.stdin!.write(`!cd ${absPath}\n`)
   dartCompiler.stdin!.write(`--no-color --no-unicode -I ${libDir} input.scss\n`)
-  return [(await stdout.next()).value, (await stdout.next()).value]
+  return {
+    stdout: (await stdout.next()).value,
+    stderr: (await stderr.next()).value,
+    status: (await stdout.next()).value,
+  }
 }
 
 async function runAll() {
   const start = Date.now()
   for (const path of testPaths) {
-    await compile(path)
-    process.stdout.write(".")
+    const result = await compile(path)
+    console.log(result)
   }
   const end = Date.now()
   console.log((end - start) / 1000)
