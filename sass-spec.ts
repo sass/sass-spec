@@ -74,6 +74,12 @@ function printResult(counts: Counts) {
   }
 }
 
+// FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
+const naughtyDirs = [
+  "libsass-todo-issues/issue_221267",
+  "libsass-todo-issues/issue_221286",
+]
+
 async function runAllTests() {
   const args = await getArgs()
   const t = new tap.Test()
@@ -82,6 +88,9 @@ async function runAllTests() {
   // TODO support calling from within an .hrx file
   const rootDir = await fromPath(path.resolve(process.cwd(), "spec"))
   await rootDir.forEachTest(args.testDirs, async (testDir) => {
+    if (naughtyDirs.includes(testDir.relPath())) {
+      return
+    }
     // process.stdout.write(".")
     const res: any = await runSpec(t, testDir, args)
     printResult(res.counts)
