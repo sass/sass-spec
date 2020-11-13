@@ -4,7 +4,7 @@ import yargs from "yargs/yargs"
 import { fromPath } from "./lib-js/spec-path"
 
 import { runSpec } from "./lib-js/spec"
-import { execCompiler } from "./lib-js/compiler"
+import { DartCompiler, execCompiler } from "./lib-js/compiler"
 
 const argv = yargs(process.argv.slice(2))
   .example(
@@ -14,6 +14,10 @@ const argv = yargs(process.argv.slice(2))
   .option("command", {
     alias: "c",
     description: "Sets a specific binary to run",
+    type: "string",
+  })
+  .option("dart", {
+    description: "Run Dart Sass, whose repo should be at the given path",
     type: "string",
   })
   .option("impl", {
@@ -37,14 +41,25 @@ const implArgs: Record<string, string[]> = {
 }
 
 // FIXME make sure these are actually required
-const args = {
-  impl: argv.impl!,
-  // bin: path.resolve(process.cwd(), argv.command!),
-  compiler: execCompiler(path.resolve(process.cwd(), argv.command!)),
-  cmdOpts: implArgs[argv.impl!],
-  rootDir: path.resolve("spec"),
-  testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),
-  todoMode: argv.runTodo ? "run" : undefined,
+async function getArgs() {
+  const args: any = {
+    rootDir: path.resolve("spec"),
+    testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),
+    todoMode: argv.runTodo ? "run" : undefined,
+  }
+  if (argv.command) {
+    args.compiler = execCompiler(path.resolve(process.cwd(), argv.command))
+    args.impl = argv.impl!
+  } else if (argv.dart) {
+    const repoPath = path.resolve(process.cwd(), argv.dart)
+    args.compiler = await DartCompiler.fromRepo(repoPath)
+    args.impl = "dart-sass"
+  } else {
+    throw new Error("Must specify --dart or --command")
+  }
+  args.cmdOpts = implArgs[args.impl]
+
+  return args
 }
 
 function printResult(counts: Counts) {
@@ -60,6 +75,7 @@ function printResult(counts: Counts) {
 }
 
 async function runAllTests() {
+  const args = await getArgs()
   const t = new tap.Test()
 
   const start = Date.now()
@@ -83,6 +99,7 @@ async function runAllTests() {
   console.log(t.counts)
   // TODO how to just access this from the test object
   console.log(`Finished in ${time}s`)
+  process.exit(0)
 }
 
 runAllTests()
