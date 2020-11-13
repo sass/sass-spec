@@ -1,5 +1,5 @@
 import fs from "fs"
-import child_process, { ChildProcess } from "child_process"
+import child_process, { ChildProcessWithoutNullStreams } from "child_process"
 import { Writable, Readable } from "stream"
 
 interface Stdio {
@@ -61,7 +61,11 @@ main() async {
     `--packages=${repoPath}/.packages`,
     dartFilename,
   ])
-  await fs.promises.unlink(dartFilename)
+  // TODO figure out how to delete the file without crashing the process
+  // fs.unlinkSync(dartFilename)
+  // child.on("spawn", () => {
+  //   fs.unlinkSync(dartFilename)
+  // })
   return child
 }
 
@@ -112,10 +116,10 @@ export class DartCompiler implements Compiler {
   private stdout: AsyncGenerator<string>
   private stderr: AsyncGenerator<string>
 
-  constructor(dart: ChildProcess) {
-    this.stdin = dart.stdin!
-    this.stdout = toDartChunks(dart.stdout!)
-    this.stderr = toDartChunks(dart.stderr!)
+  constructor(dart: ChildProcessWithoutNullStreams) {
+    this.stdin = dart.stdin
+    this.stdout = toDartChunks(dart.stdout)
+    this.stderr = toDartChunks(dart.stderr)
   }
 
   static async fromRepo(path: string) {
