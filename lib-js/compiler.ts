@@ -8,14 +8,23 @@ interface Stdio {
   status: number | null
 }
 
+/**
+ * A wrapper around a process that can compile Sass files.
+ */
 export interface Compiler {
+  /**
+   * Run the compiler with the given args, at the path given as the cwd.
+   */
   compile(path: string, args: string[]): Promise<Stdio>
 }
 
-export function execCompiler(bin: string): Compiler {
+/**
+ * Returns a sass compiler that runs the given command.
+ */
+export function execCompiler(command: string): Compiler {
   return {
     async compile(path, args) {
-      return child_process.spawnSync(bin, args, {
+      return child_process.spawnSync(command, args, {
         cwd: path,
         encoding: "utf-8",
         stdio: "pipe",
@@ -24,6 +33,10 @@ export function execCompiler(bin: string): Compiler {
   }
 }
 
+/**
+ * Create a child process that uses the dart-sass repo at the path,
+ * and compiles the files input to stdin.
+ */
 async function createDartProcess(repoPath: string) {
   const dartFile = `
 import "dart:convert";
@@ -78,6 +91,7 @@ function splitSingle(buffer: Buffer, token: number) {
   }
 }
 
+// Split a buffer using the given token
 function split(buffer: Buffer, token: number) {
   const segments = []
   let [head, tail] = splitSingle(buffer, token)
@@ -91,17 +105,20 @@ function split(buffer: Buffer, token: number) {
   return segments
 }
 
+// Split the stream into chunks based on the break character (0xff)
+// TODO need to test this
 async function* toDartChunks(stream: Readable) {
   let buff = ""
   for await (const chunk of stream!) {
     const chunky: Buffer = chunk
     const [head, ...tail] = split(chunky, 0xff)
-    // If we received *any*
+    // If we received *any* break characters, yield those segments
     if (tail.length > 0) {
       yield buff + head.toString()
       for (const item of tail.slice(0, tail.length - 1)) {
         yield item.toString()
       }
+      // Set the buffer to the last unfinished segment
       buff = tail[tail.length - 1].toString()
     } else {
       // If we didn't receive any 0xff in this chunk, just append to the
@@ -116,17 +133,20 @@ export class DartCompiler implements Compiler {
   private stdout: AsyncGenerator<string>
   private stderr: AsyncGenerator<string>
 
-  constructor(dart: ChildProcessWithoutNullStreams) {
+  private constructor(dart: ChildProcessWithoutNullStreams) {
     this.stdin = dart.stdin
     this.stdout = toDartChunks(dart.stdout)
     this.stderr = toDartChunks(dart.stderr)
   }
 
+  /**
+   * Create a dart-sass compiler from the repo given by the path.
+   */
   static async fromRepo(path: string) {
     return new DartCompiler(await createDartProcess(path))
   }
 
-  async compile(path: string, opts: string[]): Promise<Stdio> {
+  async compile(path: string, opts: string[]) {
     this.stdin.write(`!cd ${path}\n`)
     this.stdin.write(opts.join(" ") + "\n")
     return {
