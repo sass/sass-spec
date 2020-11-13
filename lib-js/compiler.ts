@@ -134,12 +134,6 @@ export class DartCompiler implements Compiler {
 
   private constructor(dart: ChildProcessWithoutNullStreams) {
     this.stdin = dart.stdin
-    // dart.stdout.on("data", (data) => {
-    //   console.log("stdout", data.toString())
-    // })
-    // dart.stderr.on("data", (data) => {
-    //   console.log("stderr", data.toString())
-    // })
     this.stdout = toDartChunks(dart.stdout)
     this.stderr = toDartChunks(dart.stderr)
   }
