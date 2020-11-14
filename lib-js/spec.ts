@@ -88,7 +88,10 @@ export async function runSpec(
       }
     }
 
-    if ((expected.warning || actual.warning) && !todoWarning) {
+    if (
+      (expected.warning || actual.warning) &&
+      (!todoWarning || todoMode === "run")
+    ) {
       const diff = getDiff(
         "warning",
         extractWarningMessages(expected.warning, impl),

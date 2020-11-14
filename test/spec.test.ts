@@ -106,6 +106,13 @@ tap.test("executeSpec", async (t) => {
         "pass",
         "skip warning checks if `:warning_todo` option enabled"
       )
+      await expectResultType(
+        t,
+        "warning/todo",
+        { todoMode: "run" },
+        "fail",
+        "run warning checks if `:warning_todo` option enabled but --run-todo is picked"
+      )
       t.end()
     })
 
