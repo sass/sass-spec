@@ -15,6 +15,10 @@ const argv = yargs(process.argv.slice(2))
     description: "Sets a specific binary to run",
     type: "string",
   })
+  .option("cmd-args", {
+    description: "Pass args to command or Dart Sass",
+    type: "string",
+  })
   .option("dart", {
     description: "Run Dart Sass, whose repo should be at the given path",
     type: "string",
@@ -44,7 +48,11 @@ async function getArgs() {
   const args: any = {
     rootDir: path.resolve("spec"),
     testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),
-    todoMode: argv.runTodo ? "run" : undefined,
+    todoMode: argv["run-todo"]
+      ? "run"
+      : argv["probe-todo"]
+      ? "probe"
+      : undefined,
   }
   if (argv.command) {
     args.compiler = execCompiler(path.resolve(process.cwd(), argv.command))
@@ -56,7 +64,10 @@ async function getArgs() {
   } else {
     throw new Error("Must specify --dart or --command")
   }
-  args.cmdOpts = implArgs[args.impl]
+  args.cmdArgs = implArgs[args.impl]
+  if (argv["cmd-args"]) {
+    args.cmdArgs = args.cmdArgs.concat(argv["cmd-args"].split(" "))
+  }
 
   return args
 }

@@ -13,7 +13,7 @@ tap.test("getActualResult", async (t) => {
         rootDir: "",
         impl: "sass-mock",
         compiler: execCompiler("node"),
-        cmdOpts: [path.resolve(__dirname, "./fixtures/sass-exec-mock.js")],
+        cmdArgs: [path.resolve(__dirname, "./fixtures/sass-exec-mock.js")],
       })
     }
     t.todo("does not print to parent stderr")

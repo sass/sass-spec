@@ -1,6 +1,19 @@
 import { SpecPath } from "./spec-path"
 import { Compiler } from "./compiler"
 
+interface SuccessResult {
+  isSuccess: true
+  output: string
+  warning?: string
+}
+
+interface ErrorResult {
+  isSuccess: false
+  error: string
+}
+
+export type SpecResult = SuccessResult | ErrorResult
+
 /**
  * Return whether the file should have a successful output
  */
@@ -14,7 +27,10 @@ function hasOutputFile(dir: SpecPath, impl: string) {
 /**
  * Get the expected result from running a spec on a directory.
  */
-export async function getExpectedResult(dir: SpecPath, impl: string) {
+export async function getExpectedResult(
+  dir: SpecPath,
+  impl: string
+): Promise<SpecResult> {
   const isSuccessCase = hasOutputFile(dir, impl)
   let resultFilename
 
@@ -56,28 +72,31 @@ interface Options {
   rootDir: string
   impl: string
   compiler: Compiler
-  cmdOpts: string[]
+  cmdArgs: string[]
   precision?: number
 }
 
-export async function getActualResult(dir: SpecPath, opts: Options) {
-  const { rootDir, impl, cmdOpts: _cmdOpts, precision, compiler } = opts
+export async function getActualResult(
+  dir: SpecPath,
+  opts: Options
+): Promise<SpecResult> {
+  const { rootDir, impl, cmdArgs: _cmdArgs, precision, compiler } = opts
   const indented = dir.has("input.sass")
   const inputFile = indented ? "input.sass" : "input.scss"
 
-  const cmdOpts = [..._cmdOpts]
-  cmdOpts.push(`--load-path=${rootDir}`)
+  const cmdArgs = [..._cmdArgs]
+  cmdArgs.push(`--load-path=${rootDir}`)
   // Pass in the indentend option to the command
   if (indented) {
-    cmdOpts.push(impl === "dart-sass" ? "--indented" : "--sass")
+    cmdArgs.push(impl === "dart-sass" ? "--indented" : "--sass")
   }
   if (precision) {
-    cmdOpts.push(`--precision`)
-    cmdOpts.push(`${precision}`)
+    cmdArgs.push(`--precision`)
+    cmdArgs.push(`${precision}`)
   }
-  cmdOpts.push(inputFile)
+  cmdArgs.push(inputFile)
 
-  const { stdout, stderr, status } = await compiler.compile(dir.path, cmdOpts)
+  const { stdout, stderr, status } = await compiler.compile(dir.path, cmdArgs)
   if (status === 0) {
     return {
       isSuccess: true,

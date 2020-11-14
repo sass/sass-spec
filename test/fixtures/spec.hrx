@@ -152,16 +152,31 @@ p {
 }
 <===>
 ================================================================================
-<===> todo/options.yml
+<===> todo/fail/options.yml
 :todo:
   - sass-mock
-<===> todo/input.scss
+<===> todo/fail/input.scss
 status: 0
 stdout: |
   p {
     color: #ff8000;
   }
-<===> todo/output.css
+<===> todo/fail/output.css
 p {
   color: #000000;
+}
+<===>
+================================================================================
+<===> todo/pass/options.yml
+:todo:
+  - sass-mock
+<===> todo/pass/input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> todo/pass/output.css
+p {
+  color: #ff8000;
 }

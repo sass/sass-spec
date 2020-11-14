@@ -1,5 +1,5 @@
 import { createPatch } from "diff"
-import { getExpectedResult, getActualResult } from "./execute"
+import { SpecResult, getExpectedResult, getActualResult } from "./execute"
 import { SpecPath } from "./spec-path"
 import { optionsForImpl } from "./options"
 import {
@@ -13,7 +13,7 @@ interface Options {
   rootDir: string
   impl: string
   compiler: Compiler
-  cmdOpts: string[]
+  cmdArgs: string[]
   todoMode?: string
 }
 
@@ -40,6 +40,70 @@ function getDiff(filename: string, expected: string, actual: string) {
   return createPatch(filename, expected, actual, "expected", "actual")
 }
 
+function compareResults(
+  impl: string,
+  expected: SpecResult,
+  actual: SpecResult,
+  skipWarning?: boolean
+): TestResult {
+  if (expected.isSuccess) {
+    if (!actual.isSuccess) {
+      return {
+        type: "fail",
+        error: {
+          message: `Test case should succeed but it did not`,
+        },
+      }
+    }
+
+    const diff = getDiff(
+      "output.css",
+      normalizeOutput(expected.output),
+      normalizeOutput(actual.output)
+    )
+    if (diff) {
+      return {
+        type: "fail",
+        error: { message: "expected did not match output", diff },
+      }
+    }
+
+    if ((expected.warning || actual.warning) && !skipWarning) {
+      const diff = getDiff(
+        "warning",
+        extractWarningMessages(expected.warning, impl),
+        extractWarningMessages(actual.warning, impl)
+      )
+      if (diff) {
+        return {
+          type: "fail",
+          error: { message: "expected did not match warning", diff },
+        }
+      }
+    }
+  } else {
+    if (actual.isSuccess) {
+      return {
+        type: "fail",
+        error: { message: "Expected test to fail, but it did not" },
+      }
+    }
+    const diff = getDiff(
+      "error",
+      extractErrorMessage(expected.error, impl),
+      extractErrorMessage(actual.error, impl)
+    )
+    if (diff) {
+      return {
+        type: "fail",
+        error: { message: "expected did not match error", diff },
+      }
+    }
+  }
+
+  return { type: "pass" }
+}
+
 /**
  * Execute the test case at the given SpecPath, using the provided options.
  */
@@ -64,59 +128,19 @@ export async function runSpec(
     getExpectedResult(dir, impl),
     getActualResult(dir, { ...opts, precision }),
   ])
-  if (expected.isSuccess !== actual.isSuccess) {
-    return {
-      type: "fail",
-      error: {
-        message: `Test case should ${
-          expected.isSuccess ? "pass" : "fail"
-        } but it did not`,
-      },
-    }
-  }
 
-  if (expected.isSuccess) {
-    const diff = getDiff(
-      "output.css",
-      normalizeOutput(expected.output),
-      normalizeOutput(actual.output)
-    )
-    if (diff) {
+  const skipWarning = todoWarning && !todoMode
+  const testResult = compareResults(impl, expected, actual, skipWarning)
+  // If we're probing todos
+  if (mode === "todo" && todoMode === "probe") {
+    if (testResult.type === "pass") {
       return {
         type: "fail",
-        error: { message: "expected did not match output", diff },
+        error: { message: "Expected :todo test to fail but it passed" },
       }
-    }
-
-    if (
-      (expected.warning || actual.warning) &&
-      (!todoWarning || todoMode === "run")
-    ) {
-      const diff = getDiff(
-        "warning",
-        extractWarningMessages(expected.warning, impl),
-        extractWarningMessages(actual.warning, impl)
-      )
-      if (diff) {
-        return {
-          type: "fail",
-          error: { message: "expected did not match warning", diff },
-        }
-      }
-    }
-  } else {
-    const diff = getDiff(
-      "error",
-      extractErrorMessage(expected.error, impl),
-      extractErrorMessage(actual.error, impl)
-    )
-    if (diff) {
-      return {
-        type: "fail",
-        error: { message: "expected did not match error", diff },
-      }
+    } else {
+      return { type: "todo" }
     }
   }
-
-  return { type: "pass" }
+  return testResult
 }

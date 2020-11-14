@@ -7,7 +7,7 @@ import { fromPath } from "../lib-js/spec-path"
 const baseOpts = {
   impl: "sass-mock",
   compiler: execCompiler("node"),
-  cmdOpts: [`${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`],
+  cmdArgs: [`${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`],
   rootDir: path.resolve(__dirname, "fixtures"),
 }
 
@@ -130,19 +130,32 @@ tap.test("executeSpec", async (t) => {
     t.test("todo", async (t) => {
       await expectResultType(
         t,
-        "todo",
+        "todo/fail",
         {},
         "todo",
         "marks a test as `todo` when the `:todo` option is set"
       )
       await expectResultType(
         t,
-        "todo",
+        "todo/fail",
         { todoMode: "run" },
         "fail",
         "runs todos if --run-todo is set"
       )
-      t.todo("fails on success if probeTodo is passed as input")
+      await expectResultType(
+        t,
+        "todo/fail",
+        { todoMode: "probe" },
+        "todo",
+        "marks a failing todo case as `todo` if --probe-todo is set"
+      )
+      await expectResultType(
+        t,
+        "todo/pass",
+        { todoMode: "probe" },
+        "fail",
+        "marks a passing todo case as `fail` if --probe-todo is set"
+      )
       t.end()
     })
   })
