@@ -36,6 +36,11 @@ const argv = yargs(process.argv.slice(2))
     description: "Run and report tests marked as todo that unexpectedly pass",
     type: "boolean",
     default: false,
+  })
+  .options("interactive", {
+    description: "When a test fails, enter into a dialog for how to handle it",
+    type: "boolean",
+    default: false,
   }).argv
 
 const implArgs: Record<string, string[]> = {
