@@ -20,9 +20,11 @@ export function extractErrorMessage(msg: string, impl: string) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
-  return normalizeOutput(msg)
-    .split("\n")
-    .find((line) => line.startsWith("Error:"))
+  return (
+    normalizeOutput(msg)
+      .split("\n")
+      .find((line) => line.startsWith("Error:")) ?? ""
+  )
 }
 
 export function extractWarningMessages(msg: string, impl: string) {
@@ -31,7 +33,9 @@ export function extractWarningMessages(msg: string, impl: string) {
   }
   // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
   // and only prints out the first warning
-  return normalizeOutput(msg)
-    .split("\n")
-    .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
+  return (
+    normalizeOutput(msg)
+      .split("\n")
+      .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line)) ?? ""
+  )
 }

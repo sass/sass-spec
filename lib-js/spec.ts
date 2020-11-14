@@ -1,5 +1,4 @@
-import path from "path"
-import { Test } from "tap"
+import { createPatch } from "diff"
 import { getExpectedResult, getActualResult } from "./execute"
 import { SpecPath } from "./spec-path"
 import { optionsForImpl } from "./options"
@@ -10,21 +9,6 @@ import {
 } from "./normalize"
 import { Compiler } from "./compiler"
 
-function getTestFn(
-  t: Test,
-  mode: string | undefined,
-  todoMode: string | undefined
-) {
-  switch (mode) {
-    case "todo":
-      return !todoMode ? t.todo : t.test
-    case "ignore":
-      return t.skip
-    default:
-      return t.test
-  }
-}
-
 interface Options {
   rootDir: string
   impl: string
@@ -33,56 +17,117 @@ interface Options {
   todoMode?: string
 }
 
-export async function runSpec(tap: Test, dir: SpecPath, opts: Options) {
-  const { rootDir, impl, todoMode } = opts
+interface BasicTestResult {
+  type: "pass" | "todo" | "skip"
+}
+
+interface TestError {
+  message: string
+  diff?: string
+}
+
+interface FailTestResult {
+  type: "fail"
+  error: TestError
+}
+
+type TestResult = BasicTestResult | FailTestResult
+
+export async function runSpec(
+  dir: SpecPath,
+  opts: Options
+): Promise<TestResult> {
+  const { impl, todoMode } = opts
   const { mode, todoWarning, precision } = optionsForImpl(
     await dir.options(),
     impl
   )
-  const relPath = path.relative(rootDir, dir.path)
-  const testFn = getTestFn(tap, mode, todoMode)
-
-  let childTest: Test
-  await testFn(relPath, async (t) => {
-    childTest = t
-    const [expected, actual] = await Promise.all([
-      getExpectedResult(dir, impl),
-      getActualResult(dir, { ...opts, precision }),
-    ])
-    if (expected.isSuccess) {
-      t.ok(actual.isSuccess, `${relPath} expected success`)
-      t.equal(
-        normalizeOutput(actual.output),
-        normalizeOutput(expected.output),
-        `${relPath} output should match`
-      )
-
-      if ((expected.warning || actual.warning) && !todoWarning) {
-        t.equal(
-          extractWarningMessages(actual.warning!, impl),
-          extractWarningMessages(expected.warning!, impl),
-          `${relPath} warnings should match`
-        )
-      }
-    } else {
-      t.notOk(actual.isSuccess, `${relPath} expected error`)
-      t.equal(
-        extractErrorMessage(actual.error!, impl),
-        extractErrorMessage(expected.error!, impl),
-        `${relPath} errors should match`
-      )
-    }
-    t.end()
-  })
-  // TAP doesn't actually create a child test object when skipping
-  // so mock one out for diagnostics
-  if (mode === "todo" && !todoMode) {
-    return { counts: { total: 1, todo: 1 } }
-  }
   if (mode === "ignore") {
-    return { counts: { total: 1, skip: 1 } }
+    return { type: "skip" }
   }
-  // TODO instead of returning the entire test, why not just return the result?
-  // e.g. `todo`, `fail`, `pass`?
-  return childTest!
+
+  if (mode === "todo" && !todoMode) {
+    return { type: "todo" }
+  }
+  // const testFn = getTestFn(tap, mode, todoMode)
+
+  const [expected, actual] = await Promise.all([
+    getExpectedResult(dir, impl),
+    getActualResult(dir, { ...opts, precision }),
+  ])
+  if (expected.isSuccess) {
+    if (!actual.isSuccess) {
+      return {
+        type: "fail",
+        error: { message: "Test case should succeed, but it did not" },
+      }
+    }
+
+    const actualOutput = normalizeOutput(actual.output)
+    const expectedOutput = normalizeOutput(expected.output)
+    if (actualOutput !== expectedOutput) {
+      return {
+        type: "fail",
+        error: {
+          message: "expected did not match output",
+          diff: createPatch(
+            "output.css",
+            expectedOutput,
+            actualOutput,
+            "expected",
+            "actual"
+          ),
+        },
+      }
+    }
+
+    if ((expected.warning || actual.warning) && !todoWarning) {
+      const actualWarning = extractWarningMessages(actual.warning ?? "", impl)
+      const expectedWarning = extractWarningMessages(
+        expected.warning ?? "",
+        impl
+      )
+      if (actualWarning !== expectedWarning) {
+        return {
+          type: "fail",
+          error: {
+            message: "expected did not match warning",
+            diff: createPatch(
+              "warning",
+              expectedWarning,
+              actualWarning,
+              "expected",
+              "actual"
+            ),
+          },
+        }
+      }
+    }
+  } else {
+    if (actual.isSuccess) {
+      return {
+        type: "fail",
+        error: { message: "Test case should fail, but it did not" },
+      }
+    }
+    const actualError = extractErrorMessage(actual.warning ?? "", impl)
+    const expectedError = extractErrorMessage(expected.warning ?? "", impl)
+    if (actualError !== expectedError) {
+      return {
+        type: "fail",
+        error: {
+          message: "expected did not match warning",
+          diff: createPatch(
+            "warning",
+            expectedError,
+            actualError,
+            "expected",
+            "actual"
+          ),
+        },
+      }
+    }
+  }
+
+  return { type: "pass" }
 }

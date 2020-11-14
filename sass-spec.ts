@@ -1,5 +1,4 @@
 import path from "path"
-import tap, { Counts } from "tap"
 import yargs from "yargs/yargs"
 import { fromPath } from "./lib-js/spec-path"
 
@@ -62,50 +61,62 @@ async function getArgs() {
   return args
 }
 
-function printResult(counts: Counts) {
-  if (counts.fail > 0) {
-    process.stdout.write("X")
-  } else if (counts.todo > 0) {
-    process.stdout.write("-")
-  } else if (counts.skip > 0) {
-    // do nothing
-  } else {
-    process.stdout.write(".")
-  }
-}
-
 // FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
 const naughtyDirs = [
   "libsass-todo-issues/issue_221267",
   "libsass-todo-issues/issue_221286",
 ]
 
+const symbols = {
+  pass: ".",
+  fail: "F",
+  todo: "-",
+  skip: "",
+}
+
+const ROOT_DIR = "spec"
+
 async function runAllTests() {
   const args = await getArgs()
-  const t = new tap.Test()
 
   const start = Date.now()
-  // TODO support calling from within an .hrx file
-  const rootDir = await fromPath(path.resolve(process.cwd(), "spec"))
+  const counts = { total: 0, pass: 0, fail: 0, skip: 0, todo: 0 }
+  const rootDir = await fromPath(path.resolve(process.cwd(), ROOT_DIR))
+  const failures: any[] = []
   await rootDir.forEachTest(args.testDirs, async (testDir) => {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
-    // process.stdout.write(".")
-    const res: any = await runSpec(t, testDir, args)
-    printResult(res.counts)
+    const result = await runSpec(testDir, args)
+    counts.total++
+    counts[result.type]++
+    process.stdout.write(symbols[result.type])
+    if (result.type === "fail") {
+      failures.push({
+        path: testDir.relPath(),
+        error: result.error,
+      })
+    }
   })
 
-  t.end()
   const end = Date.now()
   const time = (end - start) / 1000
-  // TODO there's a better way to tally this
-  for (const failure of t.lists.fail) {
-    console.log("FAILED", failure.name)
+
+  // clear the line
+  process.stdout.write("\n")
+
+  for (const failure of failures) {
+    console.log("Failure:", failure.path)
+    console.log(failure.error.message)
     // TODO better formatting of this
-    console.log(failure.diag)
+    if (failure.error.diff) console.log(failure.error.diff)
+    console.log()
   }
-  console.log(t.counts)
+
+  // TODO there's a better way to tally this
+  console.log(
+    `${counts.total} runs, ${counts.pass} passing, ${counts.fail} failures, ${counts.todo} todo, ${counts.skip} skips`
+  )
   // TODO how to just access this from the test object
   console.log(`Finished in ${time}s`)
   process.exit(0)
