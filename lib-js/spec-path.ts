@@ -244,13 +244,13 @@ class VirtualSpecPath extends SpecPath {
     if (this.hrx.isFile()) {
       const { dir, base, ext } = path.parse(this.path)
       // only write sass and css files (e.g. ignore READMEs, yaml, and errors/warnings)
-      if (![".sass", ".scss", ".css"].includes(ext)) {
-        return
-      }
-      // ignore output files
-      if (base.startsWith("output")) {
-        return
-      }
+      // if (![".sass", ".scss", ".css"].includes(ext)) {
+      //   return
+      // }
+      // // ignore output files
+      // if (base.startsWith("output")) {
+      //   return
+      // }
       // recursively create this file's parent directories
       await fs.promises.mkdir(dir, { recursive: true })
       // write this file to disk

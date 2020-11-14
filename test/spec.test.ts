@@ -123,4 +123,8 @@ describe("runSpec", () => {
       ).toMatchObject({ type: "fail" })
     })
   })
+
+  describe("execution errors", () => {
+    it.todo("returns a failure if there is an error with running the spec")
+  })
 })

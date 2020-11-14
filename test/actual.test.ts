@@ -49,6 +49,8 @@ describe("getActualResult", () => {
     })
   })
 
+  it.todo("throws an error if no input is found")
+
   describe("options", () => {
     it.todo("passes rootDir correctly")
     it.todo("passes precision argument correctly")
