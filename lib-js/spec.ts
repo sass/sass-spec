@@ -33,6 +33,16 @@ interface FailTestResult {
 
 type TestResult = BasicTestResult | FailTestResult
 
+function getDiff(filename: string, expected: string, actual: string) {
+  if (expected === actual) {
+    return
+  }
+  return createPatch(filename, expected, actual, "expected", "actual")
+}
+
+/**
+ * Execute the test case at the given SpecPath, using the provided options.
+ */
 export async function runSpec(
   dir: SpecPath,
   opts: Options
@@ -49,82 +59,58 @@ export async function runSpec(
   if (mode === "todo" && !todoMode) {
     return { type: "todo" }
   }
-  // const testFn = getTestFn(tap, mode, todoMode)
 
   const [expected, actual] = await Promise.all([
     getExpectedResult(dir, impl),
     getActualResult(dir, { ...opts, precision }),
   ])
-  if (expected.isSuccess) {
-    if (!actual.isSuccess) {
-      return {
-        type: "fail",
-        error: { message: "Test case should succeed, but it did not" },
-      }
+  if (expected.isSuccess !== actual.isSuccess) {
+    return {
+      type: "fail",
+      error: {
+        message: `Test case should ${
+          expected.isSuccess ? "pass" : "fail"
+        } but it did not`,
+      },
     }
+  }
 
-    const actualOutput = normalizeOutput(actual.output)
-    const expectedOutput = normalizeOutput(expected.output)
-    if (actualOutput !== expectedOutput) {
+  if (expected.isSuccess) {
+    const diff = getDiff(
+      "output.css",
+      normalizeOutput(expected.output),
+      normalizeOutput(actual.output)
+    )
+    if (diff) {
       return {
         type: "fail",
-        error: {
-          message: "expected did not match output",
-          diff: createPatch(
-            "output.css",
-            expectedOutput,
-            actualOutput,
-            "expected",
-            "actual"
-          ),
-        },
+        error: { message: "expected did not match output", diff },
       }
     }
 
     if ((expected.warning || actual.warning) && !todoWarning) {
-      const actualWarning = extractWarningMessages(actual.warning ?? "", impl)
-      const expectedWarning = extractWarningMessages(
-        expected.warning ?? "",
-        impl
+      const diff = getDiff(
+        "warning",
+        extractWarningMessages(expected.warning, impl),
+        extractWarningMessages(actual.warning, impl)
       )
-      if (actualWarning !== expectedWarning) {
+      if (diff) {
         return {
           type: "fail",
-          error: {
-            message: "expected did not match warning",
-            diff: createPatch(
-              "warning",
-              expectedWarning,
-              actualWarning,
-              "expected",
-              "actual"
-            ),
-          },
+          error: { message: "expected did not match warning", diff },
         }
       }
     }
   } else {
-    if (actual.isSuccess) {
+    const diff = getDiff(
+      "error",
+      extractErrorMessage(expected.error, impl),
+      extractErrorMessage(actual.error, impl)
+    )
+    if (diff) {
       return {
         type: "fail",
-        error: { message: "Test case should fail, but it did not" },
-      }
-    }
-    const actualError = extractErrorMessage(actual.error ?? "", impl)
-    const expectedError = extractErrorMessage(expected.error ?? "", impl)
-    if (actualError !== expectedError) {
-      return {
-        type: "fail",
-        error: {
-          message: "expected did not match warning",
-          diff: createPatch(
-            "error",
-            expectedError,
-            actualError,
-            "expected",
-            "actual"
-          ),
-        },
+        error: { message: "expected did not match error", diff },
       }
     }
   }

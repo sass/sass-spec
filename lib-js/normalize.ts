@@ -16,7 +16,7 @@ export function normalizeOutput(output = "") {
   )
 }
 
-export function extractErrorMessage(msg: string, impl: string) {
+export function extractErrorMessage(msg: string = "", impl: string) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
@@ -27,7 +27,7 @@ export function extractErrorMessage(msg: string, impl: string) {
   )
 }
 
-export function extractWarningMessages(msg: string, impl: string) {
+export function extractWarningMessages(msg: string = "", impl: string) {
   if (impl === "dart-sass") {
     return normalizeOutput(msg)
   }
