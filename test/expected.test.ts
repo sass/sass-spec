@@ -1,92 +1,88 @@
 import path from "path"
-import tap from "tap"
+
 import { getExpectedResult } from "../lib-js/execute"
-import { fromPath } from "../lib-js/spec-path"
+import { SpecPath, fromPath } from "../lib-js/spec-path"
 
-tap.test("getExpectedResult", async (t) => {
-  const dir = await fromPath(path.resolve(__dirname, "./fixtures/expected.hrx"))
-  await dir.withRealFiles(async () => {
-    t.test("success cases", async (t) => {
-      const expectedSuccess = {
-        output: "OUTPUT",
-        error: undefined,
-        warning: undefined,
-      }
-      async function testDir(subpath: string, msg: string) {
-        const subdir = await dir.atPath(subpath)
-        const result = await getExpectedResult(subdir, "sass-mock")
-        t.hasStrict(result, expectedSuccess, msg)
-      }
-      await testDir(
-        "output-cases/basic",
-        "Base case returns output.css contents"
-      )
-      await testDir(
-        "output-cases/override",
-        "Return output-[impl].css contents when overridden"
-      )
-      await testDir(
-        "output-cases/override-other",
-        "Return original output.css when another impl has override"
-      )
-      t.end()
-    })
-    t.test("error cases", async (t) => {
-      const expected = {
-        output: undefined,
-        error: "ERROR",
-        warning: undefined,
-      }
-      async function testDir(subpath: string, msg: string) {
-        const subdir = await dir.atPath(subpath)
-        const result = await getExpectedResult(subdir, "sass-mock")
-        t.hasStrict(result, expected, msg)
-      }
-      await testDir(
-        "error-cases/basic",
-        "returns error when an error file is defined"
-      )
-      await testDir(
-        "error-cases/override",
-        "returns overridden error file when impl-specific error file is defined"
-      )
-      await testDir(
-        "error-cases/override-other",
-        "returns base error file when impl-specific error file is defined for another impl"
-      )
-      await testDir(
-        "error-cases/override-output",
-        "returns error file when base output file defined but impl-specific error file defined"
-      )
-      t.end()
-    })
-
-    t.test("warning cases", async (t) => {
-      const expected = {
-        output: "OUTPUT",
-        error: undefined,
-        warning: "WARNING",
-      }
-      async function testDir(subpath: string, msg: string) {
-        const subdir = await dir.atPath(subpath)
-        const result = await getExpectedResult(subdir, "sass-mock")
-        t.hasStrict(result, expected, msg)
-      }
-      await testDir(
-        "warning-cases/basic",
-        "returns warning message when `warning` file is defined"
-      )
-      await testDir(
-        "warning-cases/override",
-        "returns overridden warning message if `warning-[impl]` file defined"
-      )
-      await testDir(
-        "warning-cases/override-no-base",
-        "returns overridden warning message if `warning-[impl]` file defined without base `warning` file"
-      )
-      t.end()
-    })
-    t.todo("throws error if neither input nor error found")
-    t.end()
+describe("getExpectedResult", () => {
+  let dir: SpecPath
+  beforeAll(async () => {
+    dir = await fromPath(path.resolve(__dirname, "./fixtures/expected.hrx"))
   })
+
+  describe("output", () => {
+    const expected = {
+      isSuccess: true,
+      output: "OUTPUT",
+      warning: undefined,
+      error: undefined,
+    }
+
+    async function expectOutput(subpath: string) {
+      const subdir = await dir.atPath(subpath)
+      const result = await getExpectedResult(subdir, "sass-mock")
+      expect(result).toEqual(expected)
+    }
+
+    it("returns contents of `output.css` when there are no overrides", async () => {
+      await expectOutput("output-cases/basic")
+    })
+    it("returns `output-[impl].css` contents when there is an impl-specific override", async () => {
+      await expectOutput("output-cases/override")
+    })
+    it("returns original `output.css` contents when another impl is overridden", async () => {
+      await expectOutput("output-cases/override-other")
+    })
+  })
+
+  describe("error", () => {
+    const expected = {
+      isSuccess: false,
+      output: undefined,
+      error: "ERROR",
+      warning: undefined,
+    }
+    async function expectError(subpath: string) {
+      const subdir = await dir.atPath(subpath)
+      const result = await getExpectedResult(subdir, "sass-mock")
+      expect(result).toEqual(expected)
+    }
+
+    it("returns contents of `error` when there are no overrides", async () => {
+      await expectError("error-cases/basic")
+    })
+    it("returns contents of `error-[impl]` when impl-specific error file is specified", async () => {
+      await expectError("error-cases/override")
+    })
+    it("returns the base error when an impl-specific error file is defined for another impl", async () => {
+      await expectError("error-cases/override-other")
+    })
+    it("returns impl-specific error file when a base output file anda an impl-specific error file are defined", async () => {
+      await expectError("error-cases/override-output")
+    })
+  })
+
+  describe("warning", () => {
+    const expected = {
+      isSuccess: true,
+      output: "OUTPUT",
+      error: undefined,
+      warning: "WARNING",
+    }
+    async function expectWarning(subpath: string) {
+      const subdir = await dir.atPath(subpath)
+      const result = await getExpectedResult(subdir, "sass-mock")
+      expect(result).toEqual(expected)
+    }
+    it("returns the contents of `warning` when a warning file is defined", async () => {
+      await expectWarning("warning-cases/basic")
+    })
+    it("returns overridden warning message if `warning-[impl]` file is defined", async () => {
+      await expectWarning("warning-cases/override")
+    })
+    it("returns overridden warning message if `warning-[impl]` file defined without a base `warning` file", async () => {
+      await expectWarning("warning-cases/override-no-base")
+    })
+  })
+
+  it.todo("throws an exception if neither `output.css` nor `error` is found")
 })

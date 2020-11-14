@@ -1,113 +1,100 @@
 import fs from "fs"
 import path from "path"
-import tap from "tap"
+import { fromPath, SpecPath } from "../lib-js/spec-path"
 
-import { SpecPath, fromPath } from "../lib-js/spec-path"
+describe("SpecPath", () => {
+  describe("options", () => {
+    let dir: SpecPath
 
-tap.test("SpecPath", (t) => {
-  t.test("options", async (t) => {
-    const dir = await fromPath(
-      path.resolve(__dirname, "./fixtures/options.hrx")
-    )
+    beforeAll(async () => {
+      dir = await fromPath(path.resolve(__dirname, "./fixtures/options.hrx"))
+    })
 
     async function getOptions(path: string) {
       const subitem = await dir.atPath(path)
       return await subitem.options()
     }
 
-    t.hasStrict(
-      await getOptions("basic"),
-      {
+    it("works in the basic case", async () => {
+      expect(await getOptions("basic")).toMatchObject({
         todo: ["dart-sass"],
         ignore: ["libsass"],
         precision: 3,
-      },
-      "works in basic case"
-    )
+      })
+    })
 
-    t.hasStrict(
-      await getOptions("override/parent/child"),
-      {
+    it("overrides parent options correctly", async () => {
+      expect(await getOptions("override/parent/child")).toMatchObject({
         todo: ["dart-sass", "sass-mock"],
         ignore: ["libsass", "dart-sass"],
         todoWarning: ["libsass"],
         precision: 4,
-      },
-      "overrides parent options correctly"
-    )
+      })
+    })
 
-    t.hasStrict(
-      await getOptions("nesting/parent/deep"),
-      { precision: 3 },
-      "overrides when child doesn't have options.yml"
-    )
+    it("overrides when child doesn't have options.yml", async () => {
+      expect(await getOptions("nesting/parent/deep")).toMatchObject({
+        precision: 3,
+      })
+    })
 
-    t.hasStrict(
-      await getOptions("nesting/parent/deep/child"),
-      { precision: 4 },
-      "overrides more than one layer deep"
-    )
-
-    t.end()
+    it("overrides more than one layer deep", async () => {
+      expect(await getOptions("nesting/parent/deep/child")).toMatchObject({
+        precision: 4,
+      })
+    })
   })
 
-  t.test("withRealFiles", async (t) => {
-    const dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
-    t.test("success case", async (t) => {
-      await dir.withRealFiles(async () => {
-        t.ok(fs.existsSync(dir.path), "creates the root archive directory")
-        t.ok(
-          fs.existsSync(path.resolve(dir.path, "input.scss")),
-          "creates input file"
-        )
-        t.ok(
-          fs.existsSync(path.resolve(dir.path, "_util.scss")),
-          "creates library css file"
-        )
-        t.notOk(
-          fs.existsSync(path.resolve(dir.path, "output.css")),
-          "does not create output file"
-        )
-      })
-      t.end()
+  describe("withRealFiles", () => {
+    let dir: SpecPath
+
+    beforeAll(async () => {
+      dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
     })
-    t.test("failure case", async (t) => {
+
+    it("creates the archive directory and writes input scss files", async () => {
+      await dir.withRealFiles(async () => {
+        expect(fs.existsSync(dir.path)).toBeTruthy()
+        expect(fs.existsSync(path.resolve(dir.path, "input.scss"))).toBeTruthy()
+        expect(fs.existsSync(path.resolve(dir.path, "_util.scss"))).toBeTruthy()
+        // Does not write output.css files or non-CSS/Sass files
+        expect(fs.existsSync(path.resolve(dir.path, "output.css"))).toBeFalsy()
+        expect(fs.existsSync(path.resolve(dir.path, "warning"))).toBeFalsy()
+      })
+    })
+
+    it("deletes the directory on error", async () => {
       try {
         await dir.withRealFiles(async () => {
           throw new Error("Fail!")
         })
       } catch (e) {}
-      t.notOk(fs.existsSync(dir.path), "directory is deleted on error")
-
-      t.todo("deletes the directory if the process exits")
-      t.todo("writes files to archive")
-      t.end()
+      expect(fs.existsSync(dir.path)).toBeFalsy()
     })
-    t.end()
+
+    it.todo("deletes the directory if the process exits")
+    it.todo("writes files to archive if option is enabled")
   })
 
-  t.test("forEachTest", (t) => {
-    t.test("basic case", async (t) => {
-      const dir = await fromPath(path.resolve(__dirname, "./fixtures/iterate"))
+  describe("forEachTest", () => {
+    let dir: SpecPath
+    beforeAll(async () => {
+      dir = await fromPath(path.resolve(__dirname, "./fixtures/iterate"))
+    })
 
-      const directories: Record<string, SpecPath> = {}
+    it("iterates through all test directories", async () => {
+      const testCases: string[] = []
       await dir.forEachTest([], async (subdir) => {
-        directories[subdir.relPath()] = subdir
+        testCases.push(subdir.relPath())
       })
-      t.ok(directories["physical"], "iterates through physical directories")
-      t.ok(directories["archive/scss"], "iterates through archived directories")
-      t.ok(
-        directories["archive/indented"],
-        "iterates through directories with input.sass"
-      )
-      t.notOk(
-        directories["no-input"],
-        "does not iterate through directories without an input file"
-      )
+      expect(testCases).toContain("physical")
+      expect(testCases).toContain("archive/scss")
+      // counts directories with input.sass as valid
+      expect(testCases).toContain("archive/indented")
+      // does not iterate through directories without an input file
+      expect(testCases).not.toContain("archive/no-input")
     })
-    t.todo("passed in paths")
-    t.end()
-  })
 
-  t.end()
+    it.todo("works when passed in path arguments")
+  })
 })

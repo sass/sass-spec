@@ -1,8 +1,7 @@
 import path from "path"
-import tap from "tap"
+import { fromPath, SpecPath } from "../lib-js/spec-path"
 import { execCompiler } from "../lib-js/compiler"
 import { runSpec } from "../lib-js/spec"
-import { fromPath } from "../lib-js/spec-path"
 
 const baseOpts = {
   impl: "sass-mock",
@@ -11,153 +10,117 @@ const baseOpts = {
   rootDir: path.resolve(__dirname, "fixtures"),
 }
 
-tap.test("executeSpec", async (t) => {
-  const dir = await fromPath(path.resolve(__dirname, "fixtures/spec.hrx"))
-  await dir.withRealFiles(async () => {
-    async function expectResultType(
-      t: any,
-      subpath: string,
-      opts: any,
-      expected: string,
-      message: string
-    ) {
-      // Create a new `Test` object so it won't be run as part of the suite
-      const subdir = await dir.atPath(subpath)
-      const result = await runSpec(subdir, { ...baseOpts, ...opts })
-      t.equal(result.type, expected, message)
-    }
-    // TODO there's gotta be a better way to tally this
-    t.test("output cases", async (t) => {
-      await expectResultType(
-        t,
-        "output/pass",
-        {},
-        "pass",
-        "passes if the outputs match"
-      )
-      await expectResultType(
-        t,
-        "output/fail-mismatch",
-        {},
-        "fail",
-        "fails if the outputs are mismatched"
-      )
-      await expectResultType(
-        t,
-        "output/fail-error",
-        {},
-        "fail",
-        "fails if the spec throws an error"
-      )
-      t.end()
-    })
-    t.test("error cases", async (t) => {
-      await expectResultType(
-        t,
-        "error/pass",
-        {},
-        "pass",
-        "passes when the errors match"
-      )
-      await expectResultType(
-        t,
-        "error/fail-mismatch",
-        {},
-        "fail",
-        "fails on mismatched errors"
-      )
-      await expectResultType(
-        t,
-        "error/fail-output",
-        {},
-        "fail",
-        "fails if the spec passes"
-      )
-      t.end()
+describe("runSpec", () => {
+  let dir: SpecPath
+  beforeAll(async () => {
+    dir = await fromPath(path.resolve(__dirname, "fixtures/spec.hrx"))
+    await dir.writeToDisk()
+  })
+
+  afterAll(async () => {
+    await dir.cleanup()
+  })
+
+  async function runAtPath(subpath: string, opts?: any) {
+    const subdir = await dir.atPath(subpath)
+    return await runSpec(subdir, { ...baseOpts, ...opts })
+  }
+
+  describe("success cases", () => {
+    it("passes if the outputs match", async () => {
+      expect(await runAtPath("output/pass")).toMatchObject({ type: "pass" })
     })
 
-    t.test("warning cases", async (t) => {
-      await expectResultType(t, "warning/pass", {}, "pass", "success case")
-      await expectResultType(
-        t,
-        "warning/mismatch",
-        {},
-        "fail",
-        "fail when warnings are different"
-      )
-      await expectResultType(
-        t,
-        "warning/missing",
-        {},
-        "fail",
-        "fail when warning is missing"
-      )
-      await expectResultType(
-        t,
-        "warning/extraneous",
-        {},
-        "fail",
-        "fail when extraneous warning is present"
-      )
-      await expectResultType(
-        t,
-        "warning/todo",
-        {},
-        "pass",
-        "skip warning checks if `:warning_todo` option enabled"
-      )
-      await expectResultType(
-        t,
-        "warning/todo",
-        { todoMode: "run" },
-        "fail",
-        "run warning checks if `:warning_todo` option enabled but --run-todo is picked"
-      )
-      t.end()
+    it("fails if the outputs are mismatched", async () => {
+      expect(await runAtPath("output/fail-mismatch")).toMatchObject({
+        type: "fail",
+      })
     })
 
-    t.test("ignore", async (t) => {
-      await expectResultType(
-        t,
-        "ignore",
-        {},
-        "skip",
-        "marks a test as `skip` when `:ignore_for` option is set"
-      )
-      t.end()
-    })
-
-    t.test("todo", async (t) => {
-      await expectResultType(
-        t,
-        "todo/fail",
-        {},
-        "todo",
-        "marks a test as `todo` when the `:todo` option is set"
-      )
-      await expectResultType(
-        t,
-        "todo/fail",
-        { todoMode: "run" },
-        "fail",
-        "runs todos if --run-todo is set"
-      )
-      await expectResultType(
-        t,
-        "todo/fail",
-        { todoMode: "probe" },
-        "todo",
-        "marks a failing todo case as `todo` if --probe-todo is set"
-      )
-      await expectResultType(
-        t,
-        "todo/pass",
-        { todoMode: "probe" },
-        "fail",
-        "marks a passing todo case as `fail` if --probe-todo is set"
-      )
-      t.end()
+    it("fails if the spec throws an error", async () => {
+      expect(await runAtPath("output/fail-error")).toMatchObject({
+        type: "fail",
+      })
     })
   })
-  t.end()
+
+  describe("error cases", () => {
+    it("passes when the errors match", async () => {
+      expect(await runAtPath("error/pass")).toMatchObject({ type: "pass" })
+    })
+
+    it("fails on mismatched errors", async () => {
+      expect(await runAtPath("error/fail-mismatch")).toMatchObject({
+        type: "fail",
+      })
+    })
+
+    it("fails if the test case passes", async () => {
+      expect(await runAtPath("error/fail-mismatch")).toMatchObject({
+        type: "fail",
+      })
+    })
+  })
+
+  describe("warning cases", () => {
+    it("passes when the warnings match", async () => {
+      expect(await runAtPath("warning/pass")).toMatchObject({ type: "pass" })
+    })
+
+    it("fails when the warnings are different", async () => {
+      expect(await runAtPath("warning/mismatch")).toMatchObject({
+        type: "fail",
+      })
+    })
+
+    it("fails when expected warning is missing", async () => {
+      expect(await runAtPath("warning/missing")).toMatchObject({ type: "fail" })
+    })
+
+    it("fails when extraneous warning is present", async () => {
+      expect(await runAtPath("warning/extraneous")).toMatchObject({
+        type: "fail",
+      })
+    })
+
+    it("skips warning checks if :warning_todo option enabled", async () => {
+      expect(await runAtPath("warning/todo")).toMatchObject({ type: "pass" })
+    })
+
+    it("runs warning check if `:warning_todo` is enabled but --run-todo is chosen", async () => {
+      expect(
+        await runAtPath("warning/todo", { todoMode: "run" })
+      ).toMatchObject({ type: "fail" })
+    })
+  })
+
+  describe("ignore", () => {
+    it("marks a test as `skip` if the `:ignore_for` option enabled", async () => {
+      expect(await runAtPath("ignore")).toMatchObject({ type: "skip" })
+    })
+  })
+
+  describe("todo", () => {
+    it("marks a test as `todo` when the `:todo` option is set", async () => {
+      expect(await runAtPath("todo/fail")).toMatchObject({ type: "todo" })
+    })
+
+    it("runs todos if --run-todo is set", async () => {
+      expect(await runAtPath("todo/fail", { todoMode: "run" })).toMatchObject({
+        type: "fail",
+      })
+    })
+
+    it("marks a failing todo case as `todo` if --probe-todo is set", async () => {
+      expect(
+        await runAtPath("todo/fail", { todoMode: "probe" })
+      ).toMatchObject({ type: "todo" })
+    })
+
+    it("marks a passing todo case as a failure when --probe-todo is set", async () => {
+      expect(
+        await runAtPath("todo/pass", { todoMode: "probe" })
+      ).toMatchObject({ type: "fail" })
+    })
+  })
 })
