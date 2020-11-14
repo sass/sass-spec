@@ -110,15 +110,15 @@ export async function runSpec(
         error: { message: "Test case should fail, but it did not" },
       }
     }
-    const actualError = extractErrorMessage(actual.warning ?? "", impl)
-    const expectedError = extractErrorMessage(expected.warning ?? "", impl)
+    const actualError = extractErrorMessage(actual.error ?? "", impl)
+    const expectedError = extractErrorMessage(expected.error ?? "", impl)
     if (actualError !== expectedError) {
       return {
         type: "fail",
         error: {
           message: "expected did not match warning",
           diff: createPatch(
-            "warning",
+            "error",
             expectedError,
             actualError,
             "expected",
