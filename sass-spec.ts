@@ -52,7 +52,6 @@ const implArgs: Record<string, string[]> = {
 async function getArgs() {
   const args: any = {
     rootDir: path.resolve("spec"),
-    testDirs: argv._.map((p) => path.resolve(process.cwd(), p)),
     todoMode: argv["run-todo"]
       ? "run"
       : argv["probe-todo"]
@@ -99,7 +98,9 @@ async function runAllTests() {
   const counts = { total: 0, pass: 0, fail: 0, skip: 0, todo: 0 }
   const rootDir = await fromPath(path.resolve(process.cwd(), ROOT_DIR))
   const failures: any[] = []
-  await rootDir.forEachTest(args.testDirs, async (testDir) => {
+
+  const testDirs = argv._.map((dir) => path.resolve(process.cwd(), dir))
+  await rootDir.forEachTest(testDirs, async (testDir) => {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
