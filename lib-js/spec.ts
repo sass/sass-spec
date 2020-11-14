@@ -26,12 +26,12 @@ interface TestError {
   diff?: string
 }
 
-interface FailTestResult {
+export interface FailTestResult {
   type: "fail"
   error: TestError
 }
 
-type TestResult = BasicTestResult | FailTestResult
+export type TestResult = BasicTestResult | FailTestResult
 
 function getDiff(filename: string, expected: string, actual: string) {
   if (expected === actual) {

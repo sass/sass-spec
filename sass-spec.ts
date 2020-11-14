@@ -4,6 +4,7 @@ import { fromPath } from "./lib-js/spec-path"
 
 import { runSpec } from "./lib-js/spec"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"
+import { interactorLoop } from "./lib-js/interactive"
 
 const argv = yargs(process.argv.slice(2))
   .example(
@@ -104,7 +105,10 @@ async function runAllTests() {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
-    const result = await runSpec(testDir, args)
+    let result = await runSpec(testDir, args)
+    if (result.type === "fail" && argv.interactive) {
+      result = await interactorLoop(testDir, result)
+    }
     counts.total++
     counts[result.type]++
     process.stdout.write(symbols[result.type])

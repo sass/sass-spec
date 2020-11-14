@@ -81,20 +81,18 @@ export async function getActualResult(
   opts: Options
 ): Promise<SpecResult> {
   const { rootDir, impl, cmdArgs: _cmdArgs, precision, compiler } = opts
-  const indented = dir.has("input.sass")
-  const inputFile = indented ? "input.sass" : "input.scss"
 
   const cmdArgs = [..._cmdArgs]
   cmdArgs.push(`--load-path=${rootDir}`)
   // Pass in the indentend option to the command
-  if (indented) {
+  if (dir.isIndented()) {
     cmdArgs.push(impl === "dart-sass" ? "--indented" : "--sass")
   }
   if (precision) {
     cmdArgs.push(`--precision`)
     cmdArgs.push(`${precision}`)
   }
-  cmdArgs.push(inputFile)
+  cmdArgs.push(dir.inputFile())
 
   const { stdout, stderr, status } = await compiler.compile(dir.path, cmdArgs)
   if (status === 0) {

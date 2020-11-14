@@ -120,6 +120,22 @@ export abstract class SpecPath {
     return this.has("input.scss") || this.has("input.sass")
   }
 
+  /** Return whether this test directory has an indented sass file */
+  isIndented() {
+    return this.has("input.sass")
+  }
+
+  /** Return the name of the input file of this test directory. */
+  inputFile() {
+    return this.isIndented() ? "input.sass" : "input.scss"
+  }
+
+  /** Get the contents of the input file for this test directory. */
+  async input() {
+    const inputFile = this.isIndented() ? "input.sass" : "input.scss"
+    return await this.contents(inputFile)
+  }
+
   private isMatch(paths: string[]) {
     return paths.length === 0 || paths.some((path) => this.path === path)
   }
