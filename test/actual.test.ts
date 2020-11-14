@@ -1,7 +1,7 @@
 import path from "path"
 import { fromPath, SpecPath } from "../lib-js/spec-path"
-import { execCompiler } from "../lib-js/compiler"
 import { getActualResult } from "../lib-js/execute"
+import { mockCompiler } from "./fixtures/mock-compiler"
 
 describe("getActualResult", () => {
   let dir: SpecPath
@@ -18,8 +18,8 @@ describe("getActualResult", () => {
   const opts = {
     rootDir: "",
     impl: "sass-mock",
-    compiler: execCompiler("node"),
-    cmdArgs: [path.resolve(__dirname, "./fixtures/sass-exec-mock.js")],
+    compiler: mockCompiler,
+    cmdArgs: [],
   }
 
   async function getResults(subpath: string) {
@@ -30,7 +30,6 @@ describe("getActualResult", () => {
   it("works for output case", async () => {
     expect(await getResults("output")).toEqual({
       output: "OUTPUT",
-      warning: "",
       isSuccess: true,
     })
   })

@@ -2,7 +2,7 @@ import fs from "fs"
 import child_process, { ChildProcessWithoutNullStreams } from "child_process"
 import { Writable, Readable } from "stream"
 
-interface Stdio {
+export interface Stdio {
   stdout: string
   stderr: string
   status: number | null

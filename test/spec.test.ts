@@ -1,11 +1,11 @@
 import path from "path"
 import { fromPath, SpecPath } from "../lib-js/spec-path"
-import { execCompiler } from "../lib-js/compiler"
 import { runSpec } from "../lib-js/spec"
+import { mockCompiler } from "./fixtures/mock-compiler"
 
 const baseOpts = {
   impl: "sass-mock",
-  compiler: execCompiler("node"),
+  compiler: mockCompiler,
   cmdArgs: [`${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`],
   rootDir: path.resolve(__dirname, "fixtures"),
 }
