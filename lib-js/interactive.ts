@@ -7,13 +7,13 @@ const options = {
   t: "Show me the test case.",
   // d: "Show diff",
   // O: "Update expected output and pass test",
-  // I: "Migrate copy of test to pass on libsass",
-  // G: "Ignore test for libsass FOREVER",
+  // I: "Migrate copy of test to pass on [impl]",
+  // G: "Ignore test for [impl] FOREVER",
   f: "Mark as failed",
   X: "Exit testing",
 }
 
-export async function interactorLoop(dir: SpecPath, result: FailTestResult) {
+export async function interactiveMode(dir: SpecPath, result: FailTestResult) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
