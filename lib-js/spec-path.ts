@@ -87,13 +87,14 @@ export abstract class SpecPath {
    */
   async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
-    process.on("exit", () => {
-      this.cleanupSync()
-    })
+    // TODO handle process exit
+    // process.on("exit", (status) => {
+    //   this.cleanupSync()
+    //   process.exit(status)
+    // })
     try {
       await cb()
     } finally {
-      // TODO handle process exit
       await this.cleanup()
     }
   }

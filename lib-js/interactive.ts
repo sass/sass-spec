@@ -46,12 +46,12 @@ export async function interactorLoop(dir: SpecPath, result: FailTestResult) {
       // Mark as failed
       case "f": {
         // FIXME are there cases where you the thing changes to success?
-        rl.close()
+        setTimeout(() => rl.close())
         return result
       }
       // Exit testing
       case "X": {
-        rl.close()
+        setTimeout(() => rl.close())
         process.exit(0)
       }
       default: {
