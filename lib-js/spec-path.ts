@@ -79,12 +79,17 @@ export abstract class SpecPath {
   async writeToDisk(): Promise<void> {}
   async cleanup(): Promise<void> {}
 
+  cleanupSync() {}
+
   /**
    * Write files corresponding to this directory and run the given callback,
    * deleting the files when done
    */
   async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
+    process.on("exit", () => {
+      this.cleanupSync()
+    })
     try {
       await cb()
     } finally {
@@ -283,6 +288,10 @@ class VirtualSpecPath extends SpecPath {
   async cleanup() {
     // TODO this can lead to errors if we don't do stuff sequentially
     await fs.promises.rmdir(this.path, { recursive: true })
+  }
+
+  cleanupSync() {
+    fs.rmSync(this.path, { recursive: true, force: true })
   }
 
   async list() {
