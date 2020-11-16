@@ -2,7 +2,7 @@ import path from "path"
 import yargs from "yargs/yargs"
 import { fromPath } from "./lib-js/spec-path"
 
-import { runTestCase } from "./lib-js/test-case"
+import { FailTestResult, runTestCase } from "./lib-js/test-case"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"
 import { interactiveMode } from "./lib-js/interactive"
 
@@ -98,7 +98,7 @@ async function runAllTests() {
   const start = Date.now()
   const counts = { total: 0, pass: 0, fail: 0, skip: 0, todo: 0 }
   const rootDir = await fromPath(path.resolve(process.cwd(), ROOT_DIR))
-  const failures: any[] = []
+  const failures: { path: string; result: FailTestResult }[] = []
 
   const testDirs = argv._.map((dir) => path.resolve(process.cwd(), dir))
   await rootDir.forEachTest(testDirs, async (testDir) => {
@@ -113,10 +113,7 @@ async function runAllTests() {
     counts[result.type]++
     process.stdout.write(symbols[result.type])
     if (result.type === "fail") {
-      failures.push({
-        path: testDir.relPath(),
-        error: result.error,
-      })
+      failures.push({ path: testDir.relPath(), result })
     }
   })
 
@@ -128,9 +125,9 @@ async function runAllTests() {
 
   for (const failure of failures) {
     console.log("Failure:", failure.path)
-    console.log(failure.error.message)
+    console.log(failure.result.message)
     // TODO better formatting of this
-    if (failure.error.diff) console.log(failure.error.diff)
+    if (failure.result.diff) console.log(failure.result.diff)
     console.log()
   }
 

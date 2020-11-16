@@ -34,12 +34,14 @@ describe("runTestCase", () => {
     it("fails if the outputs are mismatched", async () => {
       expect(await runAtPath("output/fail-mismatch")).toMatchObject({
         type: "fail",
+        failureType: "output_difference",
       })
     })
 
     it("fails if the spec throws an error", async () => {
       expect(await runAtPath("output/fail-error")).toMatchObject({
         type: "fail",
+        failureType: "unexpected_error",
       })
     })
   })
@@ -52,12 +54,14 @@ describe("runTestCase", () => {
     it("fails on mismatched errors", async () => {
       expect(await runAtPath("error/fail-mismatch")).toMatchObject({
         type: "fail",
+        failureType: "output_difference",
       })
     })
 
     it("fails if the test case passes", async () => {
-      expect(await runAtPath("error/fail-mismatch")).toMatchObject({
+      expect(await runAtPath("error/fail-output")).toMatchObject({
         type: "fail",
+        failureType: "unexpected_success",
       })
     })
   })
@@ -70,6 +74,7 @@ describe("runTestCase", () => {
     it("fails when the warnings are different", async () => {
       expect(await runAtPath("warning/mismatch")).toMatchObject({
         type: "fail",
+        failureType: "output_difference",
       })
     })
 
@@ -92,6 +97,10 @@ describe("runTestCase", () => {
         await runAtPath("warning/todo", { todoMode: "run" })
       ).toMatchObject({ type: "fail" })
     })
+
+    it.todo(
+      "marks a warning check as failed if it succeeds but --probe-todo is chosen"
+    )
   })
 
   describe("ignore", () => {
@@ -120,7 +129,7 @@ describe("runTestCase", () => {
     it("marks a passing todo case as a failure when --probe-todo is set", async () => {
       expect(
         await runAtPath("todo/pass", { todoMode: "probe" })
-      ).toMatchObject({ type: "fail" })
+      ).toMatchObject({ type: "fail", failureType: "unnecessary_todo" })
     })
   })
 

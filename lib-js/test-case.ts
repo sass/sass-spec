@@ -21,6 +21,12 @@ interface BasicTestResult {
   type: "pass" | "todo" | "skip"
 }
 
+type FailureType =
+  | "unexpected_error"
+  | "unexpected_success"
+  | "output_difference"
+  | "unnecessary_todo"
+
 interface TestError {
   message: string
   diff?: string
@@ -28,8 +34,10 @@ interface TestError {
 
 export interface FailTestResult {
   type: "fail"
-  error: TestError
+  failureType: FailureType
+  message: string
   result: SpecResult
+  diff?: string
 }
 
 export type TestResult = BasicTestResult | FailTestResult
@@ -51,10 +59,9 @@ function compareResults(
     if (!actual.isSuccess) {
       return {
         type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
         result: actual,
-        error: {
-          message: `Test case should succeed but it did not`,
-        },
       }
     }
 
@@ -66,8 +73,10 @@ function compareResults(
     if (diff) {
       return {
         type: "fail",
+        failureType: "output_difference",
+        message: "expected did not match output",
         result: actual,
-        error: { message: "expected did not match output", diff },
+        diff,
       }
     }
 
@@ -80,8 +89,10 @@ function compareResults(
       if (diff) {
         return {
           type: "fail",
+          failureType: "output_difference",
           result: actual,
-          error: { message: "expected did not match warning", diff },
+          message: "expected did not match warning",
+          diff,
         }
       }
     }
@@ -89,8 +100,9 @@ function compareResults(
     if (actual.isSuccess) {
       return {
         type: "fail",
+        failureType: "unexpected_success",
         result: actual,
-        error: { message: "Expected test to fail, but it did not" },
+        message: "Expected test to fail, but it did not",
       }
     }
     const diff = getDiff(
@@ -101,8 +113,10 @@ function compareResults(
     if (diff) {
       return {
         type: "fail",
+        failureType: "output_difference",
         result: actual,
-        error: { message: "expected did not match error", diff },
+        message: "expected did not match error",
+        diff,
       }
     }
   }
@@ -142,8 +156,9 @@ export async function runTestCase(
     if (testResult.type === "pass") {
       return {
         type: "fail",
+        failureType: "unnecessary_todo",
         result: actual,
-        error: { message: "Expected :todo test to fail but it passed" },
+        message: "Expected :todo test to fail but it passed",
       }
     } else {
       return { type: "todo" }
