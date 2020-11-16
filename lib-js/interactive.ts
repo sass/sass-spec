@@ -30,10 +30,10 @@ const options: InteractorOption[] = [
     key: "d",
     description: "Show diff.",
     requirement(dir, result) {
-      return !!result.error.diff
+      return !!result.diff
     },
     async resolve(dir, result) {
-      console.log(result.error.diff)
+      console.log(result.diff)
     },
   },
   // O: "Update expected output and pass test",
@@ -72,7 +72,7 @@ export async function interactiveMode(dir: SpecPath, result: FailTestResult) {
 
   while (true) {
     console.log(`In test case: ${dir.relPath()}`)
-    console.log(result.error.message)
+    console.log(result.message)
 
     // TODO
     const validOptions = options.filter(
