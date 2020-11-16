@@ -171,44 +171,62 @@ const options: InteractorOption[] = [
   },
 ]
 
-export async function interactiveMode(args: InteractiveArgs) {
-  const { dir, result } = args
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  })
+export class Interactor {
+  private memory: Record<string, InteractorOption> = {}
 
-  function question(prompt: string): Promise<string> {
-    return new Promise((resolve) => {
-      rl.question(prompt, (answer) => {
-        resolve(answer)
-      })
+  // TODO constructor should pass in an input/output
+
+  async run(args: InteractiveArgs) {
+    const { dir, result } = args
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
     })
-  }
 
-  while (true) {
-    console.log(`In test case: ${dir.relPath()}`)
-    console.log(result.message)
+    function question(prompt: string): Promise<string> {
+      return new Promise((resolve) => {
+        rl.question(prompt, (answer) => {
+          resolve(answer)
+        })
+      })
+    }
 
-    // TODO
-    const validOptions = options.filter(
-      ({ requirement }) => !requirement || requirement(args)
-    )
-    for (const { key, description } of validOptions) {
-      console.log(`${key}. ${description}`)
+    // If a repeated choice is chosen for a given failure type, run that choice
+    if (this.memory[result.failureType]) {
+      const choice = this.memory[result.failureType]
+      const newResult = await choice.resolve(args)
+      if (newResult) {
+        rl.close()
+        return newResult
+      }
     }
-    // TODO show prompts
-    const [key, repeat] = await question("Please select an option > ")
-    const chosen = validOptions.find((o) => o.key === key)
-    if (!chosen) {
-      console.log(`Invalid option chosen: ${key}`)
-      continue
-    }
-    const res = await chosen.resolve(args)
-    // If the resolve returns an argument, close the interaction loop and return it
-    if (res) {
-      rl.close()
-      return result
+
+    while (true) {
+      console.log(`In test case: ${dir.relPath()}`)
+      console.log(result.message)
+
+      const validOptions = options.filter(
+        ({ requirement }) => !requirement || requirement(args)
+      )
+      for (const { key, description } of validOptions) {
+        console.log(`${key}. ${description}`)
+      }
+      const [key, repeat] = await question("Please select an option > ")
+      const choice = validOptions.find((o) => o.key === key)
+      if (!choice) {
+        console.log(`Invalid option chosen: ${key}`)
+        continue
+      }
+      // If the repeat option is chosen, store the chosen choice
+      if (repeat.endsWith("!")) {
+        this.memory[result.failureType] = choice
+      }
+      const newResult = await choice.resolve(args)
+      // If the resolve returns an argument, close the interaction loop and return it
+      if (newResult) {
+        rl.close()
+        return result
+      }
     }
   }
 }

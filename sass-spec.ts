@@ -4,7 +4,7 @@ import { fromPath } from "./lib-js/spec-path"
 
 import { FailTestResult, runTestCase } from "./lib-js/test-case"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"
-import { interactiveMode } from "./lib-js/interactive"
+import { Interactor } from "./lib-js/interactive"
 
 const argv = yargs(process.argv.slice(2))
   .example(
@@ -93,6 +93,7 @@ const symbols = {
 const ROOT_DIR = "spec"
 
 async function runAllTests() {
+  const interactor = new Interactor()
   const args = await getArgs()
 
   const start = Date.now()
@@ -107,7 +108,7 @@ async function runAllTests() {
     }
     let result = await runTestCase(testDir, args)
     if (result.type === "fail" && argv.interactive) {
-      result = await interactiveMode({ impl: args.impl, dir: testDir, result })
+      result = await interactor.run({ impl: args.impl, dir: testDir, result })
     }
     counts.total++
     counts[result.type]++
