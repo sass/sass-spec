@@ -54,7 +54,7 @@ describe("runTestCase", () => {
     it("fails on mismatched errors", async () => {
       expect(await runAtPath("error/fail-mismatch")).toMatchObject({
         type: "fail",
-        failureType: "output_difference",
+        failureType: "error_difference",
       })
     })
 
@@ -74,7 +74,7 @@ describe("runTestCase", () => {
     it("fails when the warnings are different", async () => {
       expect(await runAtPath("warning/mismatch")).toMatchObject({
         type: "fail",
-        failureType: "output_difference",
+        failureType: "warning_difference",
       })
     })
 

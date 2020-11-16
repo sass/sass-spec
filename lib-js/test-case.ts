@@ -25,16 +25,14 @@ type FailureType =
   | "unexpected_error"
   | "unexpected_success"
   | "output_difference"
+  | "error_difference"
+  | "warning_difference"
   | "unnecessary_todo"
-
-interface TestError {
-  message: string
-  diff?: string
-}
 
 export interface FailTestResult {
   type: "fail"
   failureType: FailureType
+  // TODO determine message from the failure type instead
   message: string
   result: SpecResult
   diff?: string
@@ -89,7 +87,7 @@ function compareResults(
       if (diff) {
         return {
           type: "fail",
-          failureType: "output_difference",
+          failureType: "warning_difference",
           result: actual,
           message: "expected did not match warning",
           diff,
@@ -113,7 +111,7 @@ function compareResults(
     if (diff) {
       return {
         type: "fail",
-        failureType: "output_difference",
+        failureType: "error_difference",
         result: actual,
         message: "expected did not match error",
         diff,
