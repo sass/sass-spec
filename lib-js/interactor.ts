@@ -14,6 +14,7 @@ async function overwriteResult(
   result: SpecResult,
   impl?: string
 ) {
+  // FIXME what to do if the spec already has an implementation-specific output?
   const [outputFile, warningFile, errorFile] = impl
     ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
     : ["output.css", "warning", "error"]
