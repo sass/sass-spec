@@ -29,6 +29,7 @@ interface TestError {
 export interface FailTestResult {
   type: "fail"
   error: TestError
+  result: SpecResult
 }
 
 export type TestResult = BasicTestResult | FailTestResult
@@ -50,6 +51,7 @@ function compareResults(
     if (!actual.isSuccess) {
       return {
         type: "fail",
+        result: actual,
         error: {
           message: `Test case should succeed but it did not`,
         },
@@ -64,6 +66,7 @@ function compareResults(
     if (diff) {
       return {
         type: "fail",
+        result: actual,
         error: { message: "expected did not match output", diff },
       }
     }
@@ -77,6 +80,7 @@ function compareResults(
       if (diff) {
         return {
           type: "fail",
+          result: actual,
           error: { message: "expected did not match warning", diff },
         }
       }
@@ -85,6 +89,7 @@ function compareResults(
     if (actual.isSuccess) {
       return {
         type: "fail",
+        result: actual,
         error: { message: "Expected test to fail, but it did not" },
       }
     }
@@ -96,6 +101,7 @@ function compareResults(
     if (diff) {
       return {
         type: "fail",
+        result: actual,
         error: { message: "expected did not match error", diff },
       }
     }
@@ -136,6 +142,7 @@ export async function runSpec(
     if (testResult.type === "pass") {
       return {
         type: "fail",
+        result: actual,
         error: { message: "Expected :todo test to fail but it passed" },
       }
     } else {
