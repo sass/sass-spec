@@ -22,6 +22,9 @@ interface BasicTestResult {
 }
 
 type FailureType =
+  // | "todo_warning_nonexistent"
+  // | "conflicting_files"
+  // | "missing_output"
   | "unexpected_error"
   | "unexpected_success"
   | "output_difference"
