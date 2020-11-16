@@ -2,7 +2,6 @@ import readline from "readline"
 import { SpecPath } from "./spec-path"
 import { TestResult, FailTestResult } from "./test-case"
 import { SpecResult } from "./execute"
-import { resolve } from "path"
 
 interface InteractiveArgs {
   impl: string
