@@ -10,7 +10,7 @@ const baseOpts = {
   rootDir: path.resolve(__dirname, "fixtures"),
 }
 
-describe("runSpec", () => {
+describe("runTestCase", () => {
   let dir: SpecPath
   beforeAll(async () => {
     dir = await fromPath(path.resolve(__dirname, "fixtures/spec.hrx"))
