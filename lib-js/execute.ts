@@ -50,6 +50,12 @@ export async function getExpectedResult(
   if (dir.has(warningFilename)) {
     warning = await dir.contents(warningFilename)
   }
+
+  if (!dir.has(resultFilename)) {
+    throw new Error(
+      "Directory has neither an `output.css` file nor an `error` file"
+    )
+  }
   // TODO print warning if expectedWarning is given on an expected error case
   const expected = await dir.contents(resultFilename)
 

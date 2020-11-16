@@ -84,5 +84,11 @@ describe("getExpectedResult", () => {
     })
   })
 
-  it.todo("throws an exception if neither `output.css` nor `error` is found")
+  describe("thrown errors", () => {
+    it("throws an exception if neither `output.css` nor `error` is found", async () => {
+      expect(async () => {
+        await getExpectedResult(await dir.atPath("throws"), "sass-mock")
+      }).rejects.toThrow()
+    })
+  })
 })
