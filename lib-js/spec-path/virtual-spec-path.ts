@@ -117,7 +117,7 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   hasFile(filename: string) {
-    return typeof this.fileCache[filename] === "string"
+    return this.fileCache.hasOwnProperty(filename)
   }
 
   async contents(filename: string) {
