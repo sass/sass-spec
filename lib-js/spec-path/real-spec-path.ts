@@ -13,10 +13,6 @@ export default class RealSpecPath extends SpecPath {
     this.path = path
   }
 
-  isDirectory() {
-    return fs.statSync(this.path).isDirectory()
-  }
-
   isArchiveRoot() {
     return false
   }
@@ -32,8 +28,20 @@ export default class RealSpecPath extends SpecPath {
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }
 
-  async list() {
-    return await fs.promises.readdir(this.path)
+  async files() {
+    const contents = await fs.promises.readdir(this.path, {
+      withFileTypes: true,
+    })
+    return contents.filter((entry) => entry.isFile()).map((entry) => entry.name)
+  }
+
+  async subdirs() {
+    const contents = await fs.promises.readdir(this.path, {
+      withFileTypes: true,
+    })
+    return contents
+      .filter((entry) => entry.isDirectory() || entry.name.endsWith(".hrx"))
+      .map((entry) => entry.name)
   }
 
   async getSubitem(filename: string): Promise<SpecPath> {

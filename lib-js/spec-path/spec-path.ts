@@ -1,4 +1,3 @@
-import fs from "fs"
 import path from "path"
 
 import { RunOptions, mergeOptions, optsFromYaml } from "../options"
@@ -31,19 +30,14 @@ export default abstract class SpecPath {
     return path.relative(this.root.path, this.path)
   }
 
-  /** The list of sub-files of this directory */
-  abstract list(): Promise<string[]>
+  /** Get the list of direct files filenames of this directory */
+  abstract files(): Promise<string[]>
+  /** Get the list of subdrectory names of this directory */
+  abstract subdirs(): Promise<string[]>
   /** The file contents of the given filename */
   abstract contents(filename: string): Promise<string>
   /** Returns true if this directory has the given filename as a subitem */
   abstract has(filename: string): boolean
-  /** True if this represents a directory */
-  abstract isDirectory(): boolean
-
-  /** true if this represents a single file */
-  isFile() {
-    return !this.isDirectory()
-  }
 
   /** Update the contents of the given file */
   abstract writeFile(filename: string, contents: string): Promise<void>
@@ -85,8 +79,7 @@ export default abstract class SpecPath {
   }
 
   async items() {
-    if (this.isFile()) return []
-    const list = await this.list()
+    const list = await this.subdirs()
     return Promise.all(list.map((item) => this.subitem(item)))
   }
 

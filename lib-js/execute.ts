@@ -53,7 +53,7 @@ export async function getExpectedResult(
 
   if (!dir.has(resultFilename)) {
     throw new Error(
-      "Directory has neither an `output.css` file nor an `error` file"
+      `${dir.relPath()} has neither an \`output.css\` file nor an \`error\` file`
     )
   }
   // TODO print warning if expectedWarning is given on an expected error case

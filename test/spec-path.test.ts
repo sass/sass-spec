@@ -52,7 +52,7 @@ describe("SpecPath", () => {
       expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
       await dir.writeFile("output-libsass.css", "MORE OUTPUT")
       expect(await dir.contents("output-libsass.css")).toEqual("MORE OUTPUT")
-      expect(await dir.list()).toContain("output-libsass.css")
+      expect(await dir.files()).toContain("output-libsass.css")
     })
   })
 
@@ -61,7 +61,7 @@ describe("SpecPath", () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.removeFile("output.css")
       expect(dir.has("output.css")).toBeFalsy()
-      expect(await dir.list()).not.toContain("output.css")
+      expect(await dir.files()).not.toContain("output.css")
     })
   })
 

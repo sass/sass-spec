@@ -1,14 +1,13 @@
 import fs from "fs"
 import path from "path"
 import SpecPath, { SpecIteratee } from "./spec-path"
-import { archiveFromStream, HrxItem } from "node-hrx"
+import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
 
-function createCache(hrxItem: HrxItem) {
-  if (hrxItem.isFile()) return {}
+function createCache(hrxDir: HrxDirectory) {
   const cache: Record<string, string | -1> = {}
-  for (const subitemName of hrxItem) {
-    const subitem = hrxItem.get(subitemName)
+  for (const subitemName of hrxDir) {
+    const subitem = hrxDir.get(subitemName)
     cache[subitemName] = subitem?.isFile() ? subitem.body : -1
   }
   return cache
@@ -17,20 +16,20 @@ function createCache(hrxItem: HrxItem) {
 export default class VirtualSpecPath extends SpecPath {
   path: string
   basePath: string
-  hrx: HrxItem
+  hrx: HrxDirectory
   cache: Record<string, string | -1>
 
   constructor(
     basePath: string,
-    hrxItem: HrxItem,
+    hrxDir: HrxDirectory,
     root?: SpecPath,
     parentOpts?: RunOptions
   ) {
     super(root, parentOpts)
-    this.path = path.resolve(basePath, hrxItem.path)
+    this.path = path.resolve(basePath, hrxDir.path)
     this.basePath = basePath
-    this.hrx = hrxItem
-    this.cache = createCache(hrxItem)
+    this.hrx = hrxDir
+    this.cache = createCache(hrxDir)
   }
 
   // Unarchive the given .hrx file and turn it into a spec path
@@ -50,36 +49,33 @@ export default class VirtualSpecPath extends SpecPath {
     )
   }
 
-  isDirectory() {
-    return this.hrx.isDirectory()
-  }
-
   isArchiveRoot() {
     return this.hrx.path === ""
   }
 
-  async writeToDisk() {
-    if (this.hrx.isFile()) {
-      const { dir, base, ext } = path.parse(this.path)
-      // only write sass and css files (e.g. ignore READMEs, yaml, and errors/warnings)
-      if (![".sass", ".scss", ".css"].includes(ext)) {
-        return
-      }
-      // ignore output files
-      if (base.startsWith("output")) {
-        return
-      }
-      // recursively create this file's parent directories
-      await fs.promises.mkdir(dir, { recursive: true })
-      // write this file to disk
-      await fs.promises.writeFile(this.path, this.hrx.body, {
-        encoding: "utf-8",
+  private async writeDirectFiles() {
+    await fs.promises.mkdir(this.path, { recursive: true })
+    const files = await this.files()
+    const writableFiles = files.filter((filename) => {
+      const { base, ext } = path.parse(filename)
+      if (base.startsWith("output")) return false
+      if (![".sass", ".scss", ".css"].includes(ext)) return false
+      return true
+    })
+    await Promise.all(
+      writableFiles.map(async (filename) => {
+        const filepath = path.resolve(this.path, filename)
+        await fs.promises.writeFile(filepath, await this.contents(filename), {
+          encoding: "utf-8",
+        })
       })
-    } else {
-      // Otherwise, recurse as defined by the base class
-      const subitems = await this.items()
-      await Promise.all(subitems.map((item) => item.writeToDisk()))
-    }
+    )
+  }
+
+  async writeToDisk() {
+    await this.writeDirectFiles()
+    const subdirs = await this.items()
+    await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
   }
 
   async cleanup() {
@@ -91,37 +87,38 @@ export default class VirtualSpecPath extends SpecPath {
     fs.rmSync(this.path, { recursive: true, force: true })
   }
 
-  async list() {
-    if (this.hrx.isFile()) {
-      throw new Error("Attempting to list contents of a file")
-    }
-    return Object.keys(this.cache)
+  async files() {
+    return Object.keys(this.cache).filter(
+      (filename) => this.cache[filename] !== -1
+    )
+  }
+
+  async subdirs() {
+    return Object.keys(this.cache).filter(
+      (filename) => this.cache[filename] === -1
+    )
   }
 
   // FIXME change this to work with file writing
   async getSubitem(itemName: string) {
     const hrx = this.hrx
     const options = await this.options()
-    if (hrx.isFile()) {
-      throw new Error("Trying to get a subitem of a file")
+    const subitem = hrx.get(itemName)
+    if (!subitem) {
+      throw new Error(`Item does not exist: ${itemName}`)
     }
-    return new VirtualSpecPath(
-      this.basePath,
-      hrx.get(itemName)!,
-      this.root,
-      options
-    )
+    if (subitem.isFile()) {
+      throw new Error("Item is not a directory")
+    }
+
+    return new VirtualSpecPath(this.basePath, subitem, this.root, options)
   }
 
   has(filename: string) {
-    if (!this.hrx.isDirectory()) return false
     return !!this.cache[filename]
   }
 
   async contents(filename: string) {
-    if (!this.hrx.isDirectory()) {
-      throw new Error(`Trying to get contents of a file`)
-    }
     const item = this.cache[filename]
     if (!item) {
       throw new Error(`${filename} does not exist`)
