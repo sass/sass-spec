@@ -46,7 +46,7 @@ describe("SpecPath", () => {
   })
 
   describe("writeFile", () => {
-    it.todo("replaces the contents of a virtual file", async () => {
+    it("replaces the contents of a virtual file", async () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.writeFile("output.css", "NEW OUTPUT")
       expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
@@ -57,7 +57,7 @@ describe("SpecPath", () => {
   })
 
   describe("deleteFile", () => {
-    it.todo("removes the contents of the virtual file", async () => {
+    it("removes the contents of the virtual file", async () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.removeFile("output.css")
       expect(dir.has("output.css")).toBeFalsy()

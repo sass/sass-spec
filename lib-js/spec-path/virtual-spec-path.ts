@@ -4,10 +4,21 @@ import SpecPath, { SpecIteratee } from "./spec-path"
 import { archiveFromStream, HrxItem } from "node-hrx"
 import { RunOptions } from "../options"
 
+function createCache(hrxItem: HrxItem) {
+  if (hrxItem.isFile()) return {}
+  const cache: Record<string, string | -1> = {}
+  for (const subitemName of hrxItem) {
+    const subitem = hrxItem.get(subitemName)
+    cache[subitemName] = subitem?.isFile() ? subitem.body : -1
+  }
+  return cache
+}
+
 export default class VirtualSpecPath extends SpecPath {
   path: string
   basePath: string
   hrx: HrxItem
+  cache: Record<string, string | -1>
 
   constructor(
     basePath: string,
@@ -19,6 +30,7 @@ export default class VirtualSpecPath extends SpecPath {
     this.path = path.resolve(basePath, hrxItem.path)
     this.basePath = basePath
     this.hrx = hrxItem
+    this.cache = createCache(hrxItem)
   }
 
   // Unarchive the given .hrx file and turn it into a spec path
@@ -83,9 +95,10 @@ export default class VirtualSpecPath extends SpecPath {
     if (this.hrx.isFile()) {
       throw new Error("Attempting to list contents of a file")
     }
-    return this.hrx.list()
+    return Object.keys(this.cache)
   }
 
+  // FIXME change this to work with file writing
   async getSubitem(itemName: string) {
     const hrx = this.hrx
     const options = await this.options()
@@ -102,26 +115,35 @@ export default class VirtualSpecPath extends SpecPath {
 
   has(filename: string) {
     if (!this.hrx.isDirectory()) return false
-    return !!this.hrx.get(filename)
+    return !!this.cache[filename]
   }
 
   async contents(filename: string) {
     if (!this.hrx.isDirectory()) {
       throw new Error(`Trying to get contents of a file`)
     }
-    const item = this.hrx.get(filename)
-    if (!item?.isFile()) {
-      throw new Error(`${filename} is not a file`)
+    const item = this.cache[filename]
+    if (!item) {
+      throw new Error(`${filename} does not exist`)
     }
-    return item.body
+    if (item === -1) {
+      throw new Error(`Cannot get contents of directory ${filename}`)
+    }
+    return item
   }
 
   async writeFile(filename: string, contents: string) {
-    throw new Error("Not implemented")
+    if (this.cache[filename] === -1) {
+      throw new Error("Trying to write a subdirectory")
+    }
+    this.cache[filename] = contents
   }
 
   async removeFile(filename: string) {
-    throw new Error("Not implemented")
+    if (this.cache[filename] === -1) {
+      throw new Error("Trying to remove a subdirectory")
+    }
+    delete this.cache[filename]
   }
 
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
