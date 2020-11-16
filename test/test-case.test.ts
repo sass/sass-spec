@@ -1,6 +1,6 @@
 import path from "path"
 import { fromPath, SpecPath } from "../lib-js/spec-path"
-import { runSpec } from "../lib-js/spec"
+import { runTestCase } from "../lib-js/test-case"
 import { mockCompiler } from "./fixtures/mock-compiler"
 
 const baseOpts = {
@@ -23,7 +23,7 @@ describe("runSpec", () => {
 
   async function runAtPath(subpath: string, opts?: any) {
     const subdir = await dir.atPath(subpath)
-    return await runSpec(subdir, { ...baseOpts, ...opts })
+    return await runTestCase(subdir, { ...baseOpts, ...opts })
   }
 
   describe("success cases", () => {

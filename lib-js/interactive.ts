@@ -1,6 +1,6 @@
 import readline from "readline"
 import { SpecPath } from "./spec-path"
-import { FailTestResult } from "./spec"
+import { FailTestResult } from "./test-case"
 
 // TODO more options
 const options = {

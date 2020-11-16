@@ -2,7 +2,7 @@ import path from "path"
 import yargs from "yargs/yargs"
 import { fromPath } from "./lib-js/spec-path"
 
-import { runSpec } from "./lib-js/spec"
+import { runTestCase } from "./lib-js/test-case"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"
 import { interactiveMode } from "./lib-js/interactive"
 
@@ -105,7 +105,7 @@ async function runAllTests() {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
-    let result = await runSpec(testDir, args)
+    let result = await runTestCase(testDir, args)
     if (result.type === "fail" && argv.interactive) {
       result = await interactiveMode(testDir, result)
     }

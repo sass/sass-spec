@@ -113,7 +113,7 @@ function compareResults(
 /**
  * Execute the test case at the given SpecPath, using the provided options.
  */
-export async function runSpec(
+export async function runTestCase(
   dir: SpecPath,
   opts: Options
 ): Promise<TestResult> {
