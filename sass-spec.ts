@@ -4,7 +4,7 @@ import { fromPath } from "./lib-js/spec-path"
 
 import { FailTestResult, runTestCase } from "./lib-js/test-case"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"
-import { Interactor } from "./lib-js/interactive"
+import { Interactor } from "./lib-js/interactor"
 
 const argv = yargs(process.argv.slice(2))
   .example(
