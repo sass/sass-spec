@@ -133,7 +133,11 @@ describe("runTestCase", () => {
     })
   })
 
-  describe("execution errors", () => {
-    it.todo("returns a failure if there is an error with running the spec")
+  describe("invalid specs", () => {
+    it.todo("fails specs that have multiple input files defined")
+    it.todo(
+      "fails specs that have both outputs and errors for the implementation"
+    )
+    it.todo("fails specs that have no output or error files defined")
   })
 })
