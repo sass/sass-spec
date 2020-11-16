@@ -37,7 +37,7 @@ export interface FailTestResult {
   failureType: FailureType
   // TODO determine message from the failure type instead
   message: string
-  result: SpecResult
+  actual: SpecResult
   diff?: string
 }
 
@@ -62,7 +62,7 @@ function compareResults(
         type: "fail",
         failureType: "unexpected_error",
         message: "Test case should succeed but it did not",
-        result: actual,
+        actual,
       }
     }
 
@@ -76,7 +76,7 @@ function compareResults(
         type: "fail",
         failureType: "output_difference",
         message: "expected did not match output",
-        result: actual,
+        actual,
         diff,
       }
     }
@@ -91,7 +91,7 @@ function compareResults(
         return {
           type: "fail",
           failureType: "warning_difference",
-          result: actual,
+          actual,
           message: "expected did not match warning",
           diff,
         }
@@ -102,7 +102,7 @@ function compareResults(
       return {
         type: "fail",
         failureType: "unexpected_success",
-        result: actual,
+        actual,
         message: "Expected test to fail, but it did not",
       }
     }
@@ -115,7 +115,7 @@ function compareResults(
       return {
         type: "fail",
         failureType: "error_difference",
-        result: actual,
+        actual,
         message: "expected did not match error",
         diff,
       }
@@ -158,7 +158,7 @@ export async function runTestCase(
       return {
         type: "fail",
         failureType: "unnecessary_todo",
-        result: actual,
+        actual,
         message: "Expected :todo test to fail but it passed",
       }
     } else {

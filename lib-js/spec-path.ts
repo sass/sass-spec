@@ -46,6 +46,16 @@ export abstract class SpecPath {
     return !this.isDirectory()
   }
 
+  /** Update the contents of the given file */
+  async writeFile(filename: string, contents: string) {
+    throw new Error("Not implemented")
+  }
+
+  /** Remove the file from this directory */
+  async removeFile(filename: string) {
+    throw new Error("Not implemented")
+  }
+
   /**
    * Get the SpecPath at the provided path to the subitem
    */

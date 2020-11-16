@@ -107,7 +107,7 @@ async function runAllTests() {
     }
     let result = await runTestCase(testDir, args)
     if (result.type === "fail" && argv.interactive) {
-      result = await interactiveMode(testDir, result)
+      result = await interactiveMode({ impl: args.impl, dir: testDir, result })
     }
     counts.total++
     counts[result.type]++

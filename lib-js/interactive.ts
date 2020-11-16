@@ -1,6 +1,13 @@
 import readline from "readline"
 import { SpecPath } from "./spec-path"
 import { TestResult, FailTestResult } from "./test-case"
+import { SpecResult } from "./execute"
+
+interface InteractiveArgs {
+  impl: string
+  dir: SpecPath
+  result: FailTestResult
+}
 
 interface InteractorOption {
   key: string
@@ -9,41 +16,80 @@ interface InteractorOption {
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
    */
-  requirement?(dir: SpecPath, result: FailTestResult): boolean
+  requirement?(args: InteractiveArgs): boolean
   /**
    * The function to call to resolve this option.
    * If this function returns a value, the interactive mode should quit with that value,
    * otherwise continue.
    */
-  resolve(dir: SpecPath, result: FailTestResult): Promise<TestResult | void>
+  resolve(args: InteractiveArgs): Promise<TestResult | void>
+}
+
+async function overwriteResult(
+  dir: SpecPath,
+  result: SpecResult,
+  impl?: string
+) {
+  const [outputFile, warningFile, errorFile] = impl
+    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
+    : ["output.css", "warning", "error"]
+  if (result.isSuccess) {
+    await Promise.all([
+      dir.writeFile(outputFile, result.output),
+      result.warning
+        ? dir.writeFile(warningFile, result.warning)
+        : dir.removeFile(warningFile),
+      dir.removeFile(errorFile),
+    ])
+  } else {
+    await Promise.all([
+      dir.writeFile(errorFile, result.error),
+      dir.removeFile(outputFile),
+      dir.removeFile(warningFile),
+    ])
+  }
 }
 
 const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
-    async resolve(dir) {
+    async resolve({ dir }) {
       console.log(await dir.input())
     },
   },
   {
     key: "d",
     description: "Show diff.",
-    requirement(dir, result) {
+    requirement({ result }) {
       return !!result.diff
     },
-    async resolve(dir, result) {
+    async resolve({ result }) {
       console.log(result.diff)
     },
   },
-  // O: "Update expected output and pass test",
+  {
+    key: "O",
+    description: "Update expected output and pass test",
+    async resolve({ dir, result }) {
+      await overwriteResult(dir, result.actual)
+      return { type: "pass" }
+    },
+  },
   // T: "Mark spec as todo for [impl]"
-  // I: "Migrate copy of test to pass on [impl]",
+  {
+    key: "I",
+    description: "Migrate copy of test to pass on [impl]",
+    async resolve({ impl, dir, result }) {
+      await overwriteResult(dir, result.actual, impl)
+      return { type: "pass" }
+    },
+  },
   // G: "Ignore test for [impl] FOREVER",
   {
     key: "f",
     description: "Mark as failed.",
-    async resolve(_, result) {
+    async resolve({ result }) {
       return result
     },
   },
@@ -56,7 +102,8 @@ const options: InteractorOption[] = [
   },
 ]
 
-export async function interactiveMode(dir: SpecPath, result: FailTestResult) {
+export async function interactiveMode(args: InteractiveArgs) {
+  const { dir, result } = args
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -76,7 +123,7 @@ export async function interactiveMode(dir: SpecPath, result: FailTestResult) {
 
     // TODO
     const validOptions = options.filter(
-      ({ requirement }) => !requirement || requirement(dir, result)
+      ({ requirement }) => !requirement || requirement(args)
     )
     for (const { key, description } of validOptions) {
       console.log(`${key}. ${description}`)
@@ -88,7 +135,7 @@ export async function interactiveMode(dir: SpecPath, result: FailTestResult) {
       console.log(`Invalid option chosen: ${key}`)
       continue
     }
-    const res = await chosen.resolve(dir, result)
+    const res = await chosen.resolve(args)
     // If the resolve returns an argument, close the interaction loop and return it
     if (res) {
       rl.close()
