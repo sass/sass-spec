@@ -13,7 +13,7 @@ const baseOpts = {
 describe("runTestCase", () => {
   let dir: SpecPath
   beforeAll(async () => {
-    dir = await fromPath(path.resolve(__dirname, "fixtures/spec.hrx"))
+    dir = await fromPath(path.resolve(__dirname, "fixtures/test-case.hrx"))
     await dir.writeToDisk()
   })
 
