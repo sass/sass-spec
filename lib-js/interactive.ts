@@ -2,27 +2,12 @@ import readline from "readline"
 import { SpecPath } from "./spec-path"
 import { TestResult, FailTestResult } from "./test-case"
 import { SpecResult } from "./execute"
+import { resolve } from "path"
 
 interface InteractiveArgs {
   impl: string
   dir: SpecPath
   result: FailTestResult
-}
-
-interface InteractorOption {
-  key: string
-  description: string
-  /**
-   * The predicate to fulfill in order to display this command option.
-   * If this is not defined, then this option is always shown.
-   */
-  requirement?(args: InteractiveArgs): boolean
-  /**
-   * The function to call to resolve this option.
-   * If this function returns a value, the interactive mode should quit with that value,
-   * otherwise continue.
-   */
-  resolve(args: InteractiveArgs): Promise<TestResult | void>
 }
 
 async function overwriteResult(
@@ -50,12 +35,43 @@ async function overwriteResult(
   }
 }
 
+interface InteractorOption {
+  key: string
+  description: string
+  /**
+   * The predicate to fulfill in order to display this command option.
+   * If this is not defined, then this option is always shown.
+   */
+  requirement?(args: InteractiveArgs): boolean
+  /**
+   * The function to call to resolve this option.
+   * If this function returns a value, the interactive mode should quit with that value,
+   * otherwise continue.
+   */
+  resolve(args: InteractiveArgs): Promise<TestResult | void>
+}
+
+// FIXME how to handle options that have the same key
 const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
     async resolve({ dir }) {
       console.log(await dir.input())
+    },
+  },
+  {
+    key: "o",
+    description: "Show output.",
+    requirement({ result }) {
+      // TODO don't list this option if only the errors are failing
+      return result.actual.isSuccess
+    },
+    async resolve({ result }) {
+      if (!result.actual.isSuccess) {
+        throw new Error(`Trying to list output for non-successful result`)
+      }
+      console.log(result.actual.output)
     },
   },
   {
