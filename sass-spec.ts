@@ -93,7 +93,7 @@ const symbols = {
 const ROOT_DIR = "spec"
 
 async function runAllTests() {
-  const interactor = new Interactor()
+  const interactor = new Interactor(process.stdin, process.stdout)
   const args = await getArgs()
 
   const start = Date.now()

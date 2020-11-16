@@ -2,7 +2,6 @@ import readline from "readline"
 import { SpecPath } from "./spec-path"
 import { TestResult, FailTestResult } from "./test-case"
 import { SpecResult } from "./execute"
-import { resolve } from "path"
 
 interface InteractiveArgs {
   impl: string
@@ -173,15 +172,19 @@ const options: InteractorOption[] = [
 
 export class Interactor {
   private memory: Record<string, InteractorOption> = {}
+  private input: NodeJS.ReadableStream
+  private output: NodeJS.WritableStream
 
   // TODO constructor should pass in an input/output
+  constructor(input: NodeJS.ReadableStream, output: NodeJS.WritableStream) {
+    this.input = input
+    this.output = output
+  }
 
   async run(args: InteractiveArgs) {
     const { dir, result } = args
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    })
+    // TODO can I just keep this as part of the class?
+    const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
       return new Promise((resolve) => {
@@ -202,19 +205,19 @@ export class Interactor {
     }
 
     while (true) {
-      console.log(`In test case: ${dir.relPath()}`)
-      console.log(result.message)
+      this.output.write(`In test case: ${dir.relPath()}\n`)
+      this.output.write(result.message + "\n")
 
       const validOptions = options.filter(
         ({ requirement }) => !requirement || requirement(args)
       )
       for (const { key, description } of validOptions) {
-        console.log(`${key}. ${description}`)
+        this.output.write(`${key}. ${description}\n`)
       }
       const [key, repeat] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
-        console.log(`Invalid option chosen: ${key}`)
+        this.output.write(`Invalid option chosen: ${key}\n`)
         continue
       }
       // If the repeat option is chosen, store the chosen choice
