@@ -56,6 +56,16 @@ export abstract class SpecPath {
     throw new Error("Not implemented")
   }
 
+  /** Add the given option (:todo, :ignore_for, or :warning_todo) for the given impl */
+  async addOptionForImpl(option: string, impl: string) {
+    throw new Error("Not implemented")
+  }
+
+  /** Remove the given option (:todo, :ignore_for, or :warning_todo) for the given impl */
+  async removeOptionForImpl(option: string, impl: string) {
+    throw new Error("Not implemented")
+  }
+
   /**
    * Get the SpecPath at the provided path to the subitem
    */

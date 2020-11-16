@@ -2,6 +2,7 @@ import readline from "readline"
 import { SpecPath } from "./spec-path"
 import { TestResult, FailTestResult } from "./test-case"
 import { SpecResult } from "./execute"
+import { resolve } from "path"
 
 interface InteractiveArgs {
   impl: string
@@ -60,6 +61,19 @@ const options: InteractorOption[] = [
     },
   },
   {
+    key: "e",
+    description: "Show error.",
+    requirement({ result }) {
+      return !result.actual.isSuccess
+    },
+    async resolve({ result }) {
+      if (result.actual.isSuccess) {
+        throw new Error(`Trying to list error for successful result`)
+      }
+      console.log(result.actual.error)
+    },
+  },
+  {
     key: "o",
     description: "Show output.",
     requirement({ result }) {
@@ -71,6 +85,20 @@ const options: InteractorOption[] = [
         throw new Error(`Trying to list output for non-successful result`)
       }
       console.log(result.actual.output)
+    },
+  },
+  {
+    // TODO this has the same key as `Show error` in the ruby version
+    key: "w",
+    description: "Show warning.",
+    requirement({ result }) {
+      return result.actual.isSuccess && !!result.actual.warning
+    },
+    async resolve({ result }) {
+      if (!result.actual.isSuccess) {
+        throw new Error(`Trying to list warning for non-successful result`)
+      }
+      console.log(result.actual.warning)
     },
   },
   {
@@ -91,7 +119,25 @@ const options: InteractorOption[] = [
       return { type: "pass" }
     },
   },
-  // T: "Mark spec as todo for [impl]"
+  {
+    key: "T",
+    // FIXME reference the actual impl name in the description
+    description: "Mark spec as todo for [impl]",
+    async resolve({ impl, dir }) {
+      await dir.addOptionForImpl(":todo", impl)
+      return { type: "todo" }
+    },
+  },
+  {
+    // FIXME this has the same option `T` in ruby
+    key: "W",
+    description: "Mark warning as todo for [impl]",
+    // FIXME only show the description if there is a warning failure
+    async resolve({ impl, dir }) {
+      await dir.addOptionForImpl(":warning_todo", impl)
+      return { type: "pass" }
+    },
+  },
   {
     key: "I",
     description: "Migrate copy of test to pass on [impl]",
@@ -100,7 +146,15 @@ const options: InteractorOption[] = [
       return { type: "pass" }
     },
   },
-  // G: "Ignore test for [impl] FOREVER",
+  {
+    key: "G",
+    // FIXME reference the actual impl name in the description
+    description: "Ignore test for [impl] FOREVER",
+    async resolve({ impl, dir }) {
+      await dir.addOptionForImpl(":ignore_for", impl)
+      return { type: "skip" }
+    },
+  },
   {
     key: "f",
     description: "Mark as failed.",
