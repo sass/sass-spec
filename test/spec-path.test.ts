@@ -45,6 +45,26 @@ describe("SpecPath", () => {
     })
   })
 
+  describe("writeFile", () => {
+    it.todo("replaces the contents of a virtual file", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      await dir.writeFile("output.css", "NEW OUTPUT")
+      expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
+      await dir.writeFile("output-libsass.css", "MORE OUTPUT")
+      expect(await dir.contents("output-libsass.css")).toEqual("MORE OUTPUT")
+      expect(await dir.list()).toContain("output-libsass.css")
+    })
+  })
+
+  describe("deleteFile", () => {
+    it.todo("removes the contents of the virtual file", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      await dir.removeFile("output.css")
+      expect(dir.has("output.css")).toBeFalsy()
+      expect(await dir.list()).not.toContain("output.css")
+    })
+  })
+
   describe("withRealFiles", () => {
     let dir: SpecPath
 
@@ -58,9 +78,8 @@ describe("SpecPath", () => {
         expect(fs.existsSync(path.resolve(dir.path, "input.scss"))).toBeTruthy()
         expect(fs.existsSync(path.resolve(dir.path, "_util.scss"))).toBeTruthy()
         // Does not write output.css files or non-CSS/Sass files
-        // TODO we can slightly optimize by not creating output and non-CSS files
-        // expect(fs.existsSync(path.resolve(dir.path, "output.css"))).toBeFalsy()
-        // expect(fs.existsSync(path.resolve(dir.path, "warning"))).toBeFalsy()
+        expect(fs.existsSync(path.resolve(dir.path, "output.css"))).toBeFalsy()
+        expect(fs.existsSync(path.resolve(dir.path, "warning"))).toBeFalsy()
       })
     })
 

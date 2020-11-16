@@ -46,14 +46,10 @@ export default abstract class SpecPath {
   }
 
   /** Update the contents of the given file */
-  async writeFile(filename: string, contents: string) {
-    throw new Error("Not implemented")
-  }
+  abstract writeFile(filename: string, contents: string): Promise<void>
 
   /** Remove the file from this directory */
-  async removeFile(filename: string) {
-    throw new Error("Not implemented")
-  }
+  abstract removeFile(filename: string): Promise<void>
 
   /** Add the given option (:todo, :ignore_for, or :warning_todo) for the given impl */
   async addOptionForImpl(option: string, impl: string) {

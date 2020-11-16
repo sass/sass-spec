@@ -45,4 +45,12 @@ export default class RealSpecPath extends SpecPath {
       return new RealSpecPath(fullPath, this.root, options)
     }
   }
+
+  async writeFile(filename: string, contents: string) {
+    await fs.promises.writeFile(filename, contents, { encoding: "utf-8" })
+  }
+
+  async removeFile(filename: string) {
+    await fs.promises.rm(filename)
+  }
 }
