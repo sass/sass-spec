@@ -17,7 +17,7 @@ export default class RealSpecPath extends SpecPath {
     return false
   }
 
-  has(filename: string) {
+  hasFile(filename: string) {
     const filepath = path.resolve(this.path, filename)
     return fs.existsSync(filepath)
   }

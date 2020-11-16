@@ -60,7 +60,7 @@ describe("SpecPath", () => {
     it("removes the contents of the virtual file", async () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.removeFile("output.css")
-      expect(dir.has("output.css")).toBeFalsy()
+      expect(dir.hasFile("output.css")).toBeFalsy()
       expect(await dir.files()).not.toContain("output.css")
     })
   })

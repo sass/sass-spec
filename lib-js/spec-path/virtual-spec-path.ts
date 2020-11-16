@@ -4,11 +4,24 @@ import SpecPath, { SpecIteratee } from "./spec-path"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
 
-function createCache(hrxDir: HrxDirectory) {
-  const cache: Record<string, string | -1> = {}
-  for (const subitemName of hrxDir) {
-    const subitem = hrxDir.get(subitemName)
-    cache[subitemName] = subitem?.isFile() ? subitem.body : -1
+function createFileCache(dir: HrxDirectory) {
+  const cache: Record<string, string> = {}
+  for (const itemName of dir) {
+    const subitem = dir.get(itemName)
+    if (subitem?.isFile()) {
+      cache[itemName] = subitem.body
+    }
+  }
+  return cache
+}
+
+function createSubdirCache(dir: HrxDirectory) {
+  const cache: Record<string, HrxDirectory> = {}
+  for (const itemName of dir) {
+    const subitem = dir.get(itemName)
+    if (subitem?.isDirectory()) {
+      cache[itemName] = subitem
+    }
   }
   return cache
 }
@@ -16,8 +29,9 @@ function createCache(hrxDir: HrxDirectory) {
 export default class VirtualSpecPath extends SpecPath {
   path: string
   basePath: string
-  hrx: HrxDirectory
-  cache: Record<string, string | -1>
+  private fileCache: Record<string, string>
+  private subdirCache: Record<string, HrxDirectory>
+  private isArchiveRoot: boolean
 
   constructor(
     basePath: string,
@@ -28,8 +42,9 @@ export default class VirtualSpecPath extends SpecPath {
     super(root, parentOpts)
     this.path = path.resolve(basePath, hrxDir.path)
     this.basePath = basePath
-    this.hrx = hrxDir
-    this.cache = createCache(hrxDir)
+    this.fileCache = createFileCache(hrxDir)
+    this.subdirCache = createSubdirCache(hrxDir)
+    this.isArchiveRoot = hrxDir.path === ""
   }
 
   // Unarchive the given .hrx file and turn it into a spec path
@@ -47,10 +62,6 @@ export default class VirtualSpecPath extends SpecPath {
       root,
       parentOpts
     )
-  }
-
-  isArchiveRoot() {
-    return this.hrx.path === ""
   }
 
   private async writeDirectFiles() {
@@ -88,60 +99,47 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   async files() {
-    return Object.keys(this.cache).filter(
-      (filename) => this.cache[filename] !== -1
-    )
+    return Object.keys(this.fileCache)
   }
 
   async subdirs() {
-    return Object.keys(this.cache).filter(
-      (filename) => this.cache[filename] === -1
-    )
+    return Object.keys(this.subdirCache)
   }
 
   // FIXME change this to work with file writing
   async getSubitem(itemName: string) {
-    const hrx = this.hrx
+    const subitem = this.subdirCache[itemName]
     const options = await this.options()
-    const subitem = hrx.get(itemName)
     if (!subitem) {
       throw new Error(`Item does not exist: ${itemName}`)
     }
-    if (subitem.isFile()) {
-      throw new Error("Item is not a directory")
-    }
-
     return new VirtualSpecPath(this.basePath, subitem, this.root, options)
   }
 
-  has(filename: string) {
-    return typeof this.cache[filename] === "string"
+  hasFile(filename: string) {
+    return typeof this.fileCache[filename] === "string"
   }
 
   async contents(filename: string) {
-    const item = this.cache[filename]
-    if (item === -1) {
-      throw new Error(`Cannot get contents of directory ${filename}`)
-    }
-    return item
+    return this.fileCache[filename]
   }
 
   async writeFile(filename: string, contents: string) {
-    if (this.cache[filename] === -1) {
+    if (this.subdirCache[filename]) {
       throw new Error("Trying to write a subdirectory")
     }
-    this.cache[filename] = contents
+    this.fileCache[filename] = contents
   }
 
   async removeFile(filename: string) {
-    if (this.cache[filename] === -1) {
+    if (this.subdirCache[filename]) {
       throw new Error("Trying to remove a subdirectory")
     }
-    delete this.cache[filename]
+    delete this.fileCache[filename]
   }
 
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
-    if (this.isArchiveRoot()) {
+    if (this.isArchiveRoot) {
       // TODO adjust this so that it only creates files needed for the test
       await this.withRealFiles(async () => {
         await super.forEachTest(paths, iteratee)

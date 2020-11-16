@@ -20,8 +20,6 @@ export default abstract class SpecPath {
     this.subitems = {}
   }
 
-  // returns true if this is the root of an HRX archive
-  protected abstract isArchiveRoot(): boolean
   // helper to get the subitem with the given name
   protected abstract getSubitem(name: string): Promise<SpecPath>
 
@@ -37,7 +35,7 @@ export default abstract class SpecPath {
   /** The file contents of the given filename */
   abstract contents(filename: string): Promise<string>
   /** Returns true if this directory has the given filename as a subitem */
-  abstract has(filename: string): boolean
+  abstract hasFile(filename: string): boolean
 
   /** Update the contents of the given file */
   abstract writeFile(filename: string, contents: string): Promise<void>
@@ -109,7 +107,7 @@ export default abstract class SpecPath {
 
   // Get the options from a physical options.yml file
   private async getDirectOptions(): Promise<RunOptions> {
-    const contents = this.has("options.yml")
+    const contents = this.hasFile("options.yml")
       ? await this.contents("options.yml")
       : ""
     return optsFromYaml(contents)
@@ -131,12 +129,12 @@ export default abstract class SpecPath {
    * (i.e. it has an `input.scss` file).
    */
   isTestDir() {
-    return this.has("input.scss") || this.has("input.sass")
+    return this.hasFile("input.scss") || this.hasFile("input.sass")
   }
 
   /** Return whether this test directory has an indented sass file */
   isIndented() {
-    return this.has("input.sass")
+    return this.hasFile("input.sass")
   }
 
   /** Return the name of the input file of this test directory. */

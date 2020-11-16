@@ -19,8 +19,8 @@ export type SpecResult = SuccessResult | ErrorResult
  */
 function hasOutputFile(dir: SpecPath, impl: string) {
   return (
-    dir.has(`output-${impl}.css`) ||
-    (dir.has("output.css") && !dir.has(`error-${impl}`))
+    dir.hasFile(`output-${impl}.css`) ||
+    (dir.hasFile("output.css") && !dir.hasFile(`error-${impl}`))
   )
 }
 
@@ -35,23 +35,23 @@ export async function getExpectedResult(
   let resultFilename
 
   if (isSuccessCase) {
-    resultFilename = dir.has(`output-${impl}.css`)
+    resultFilename = dir.hasFile(`output-${impl}.css`)
       ? `output-${impl}.css`
       : "output.css"
   } else {
-    resultFilename = dir.has(`error-${impl}`) ? `error-${impl}` : "error"
+    resultFilename = dir.hasFile(`error-${impl}`) ? `error-${impl}` : "error"
   }
 
   let warning
   // check if there's a warning
-  const warningFilename = dir.has(`warning-${impl}`)
+  const warningFilename = dir.hasFile(`warning-${impl}`)
     ? `warning-${impl}`
     : "warning"
-  if (dir.has(warningFilename)) {
+  if (dir.hasFile(warningFilename)) {
     warning = await dir.contents(warningFilename)
   }
 
-  if (!dir.has(resultFilename)) {
+  if (!dir.hasFile(resultFilename)) {
     throw new Error(
       `${dir.relPath()} has neither an \`output.css\` file nor an \`error\` file`
     )
