@@ -115,14 +115,11 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   has(filename: string) {
-    return !!this.cache[filename]
+    return typeof this.cache[filename] === "string"
   }
 
   async contents(filename: string) {
     const item = this.cache[filename]
-    if (!item) {
-      throw new Error(`${filename} does not exist`)
-    }
     if (item === -1) {
       throw new Error(`Cannot get contents of directory ${filename}`)
     }
