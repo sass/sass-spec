@@ -172,7 +172,12 @@ describe("Interactor", () => {
       })
     })
 
-    describe("Mark test as todo for [impl].", () => {
+    describe("Mark spec/warning as todo for [impl].", () => {
+      it.todo("works for marking specs as :todo")
+      it.todo("works for marking specs as :warning_todo")
+    })
+
+    describe("Ignore spec", () => {
       it.todo("works")
     })
   })
