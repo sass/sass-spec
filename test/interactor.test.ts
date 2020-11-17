@@ -1,8 +1,18 @@
 import path from "path"
-import { optionsFor, Interactor } from "../lib-js/interactor"
+import { optionsMap, optionsFor, Interactor } from "../lib-js/interactor"
 import { Readable, Writable } from "stream"
-import { fromPath } from "../lib-js/spec-path"
+import { fromPath, fromContents } from "../lib-js/spec-path"
 import { failures, FailTestResult } from "../lib-js/test-case"
+
+function makeHrx(files: Record<string, string>) {
+  return Object.entries(files)
+    .map(([filename, contents]) => `<===> ${filename}\n${contents}`)
+    .join("\n")
+}
+
+function fromObject(files: Record<string, string>) {
+  return fromContents(makeHrx(files))
+}
 
 class MemoryWritable extends Writable {
   chunks: string[] = []
@@ -68,6 +78,18 @@ describe("Interactor", () => {
 
   describe("option resolution", () => {
     describe("Update expected output and pass test.", () => {
+      const updateOutput = optionsMap["O"].resolve
+      it("works on normal overrides", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+        })
+        const result = failures.OutputDifference({
+          isSuccess: true,
+          output: "NEW OUTPUT",
+        })
+        await updateOutput({ impl: "sass-mock", dir, result })
+        expect(dir.contents("output.css")).toEqual("NEW OUTPUT")
+      })
       it.todo("works when there are no overrides")
       it.todo("works when there are overrides")
     })
@@ -82,8 +104,6 @@ describe("Interactor", () => {
       it.todo("works")
     })
   })
-
-  it.todo("handles each option correctly")
 
   describe("loop", () => {
     it("displays an input prompt with options", async () => {

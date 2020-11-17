@@ -157,6 +157,13 @@ const options: InteractorOption[] = [
     },
   },
 ]
+export const optionsMap = (() => {
+  const optionsMap: Record<string, InteractorOption> = {}
+  for (const option of options) {
+    optionsMap[option.key] = option
+  }
+  return optionsMap
+})()
 
 export function optionsFor(args: InteractiveArgs) {
   return options.filter(({ requirement }) => !requirement || requirement(args))
