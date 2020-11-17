@@ -21,9 +21,9 @@ describe("SpecPath", () => {
 `.trimStart()
       )
       expect(await dir.options()).toMatchObject({
-        todo: ["dart-sass"],
-        ignore: ["libsass"],
-        precision: 3,
+        ":todo": ["dart-sass"],
+        ":ignore_for": ["libsass"],
+        ":precision": 3,
       })
     })
 
@@ -48,10 +48,10 @@ describe("SpecPath", () => {
       )
       const childDir = await dir.atPath("child")
       expect(await childDir.options()).toMatchObject({
-        todo: ["dart-sass", "sass-mock"],
-        ignore: ["libsass", "dart-sass"],
-        todoWarning: ["libsass"],
-        precision: 4,
+        ":todo": ["dart-sass", "sass-mock"],
+        ":ignore_for": ["libsass", "dart-sass"],
+        ":warning_todo": ["libsass"],
+        ":precision": 4,
       })
     })
 
@@ -65,9 +65,9 @@ describe("SpecPath", () => {
 `.trimStart()
       )
       const noOptsChild = await dir.atPath("deep")
-      expect(await noOptsChild.options()).toMatchObject({ precision: 3 })
+      expect(await noOptsChild.options()).toMatchObject({ ":precision": 3 })
       const deepChild = await dir.atPath("deep/child")
-      expect(await deepChild.options()).toMatchObject({ precision: 4 })
+      expect(await deepChild.options()).toMatchObject({ ":precision": 4 })
     })
   })
 
