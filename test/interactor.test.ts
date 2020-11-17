@@ -60,7 +60,9 @@ describe("Interactor", () => {
       }
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual(result)
-      expect(output.contents()).toContain("THIS IS ERROR")
+      expect(output.contents()).toContain(
+        "************\nTHIS IS ERROR\n************"
+      )
     })
 
     it("exits the loop with the updated content if a modification option is chosen", async () => {

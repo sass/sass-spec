@@ -171,6 +171,10 @@ const options: InteractorOption[] = [
   },
 ]
 
+function optionsFor(args: InteractiveArgs) {
+  return options.filter(({ requirement }) => !requirement || requirement(args))
+}
+
 export class Interactor {
   private memory: Record<string, InteractorOption> = {}
   private input: NodeJS.ReadableStream
@@ -180,6 +184,25 @@ export class Interactor {
   constructor(input: NodeJS.ReadableStream, output: NodeJS.WritableStream) {
     this.input = input
     this.output = output
+  }
+
+  private printLine(line: string) {
+    this.output.write(`${line}\n`)
+  }
+
+  private printOptions(options: InteractorOption[]) {
+    for (const { key, description } of options) {
+      this.output.write(`${key}. ${description}\n`)
+    }
+  }
+
+  // Prints content bounded by a delimiter
+  private printContent(content: string) {
+    const width = Math.max(...content.split("\n").map((l) => l.length))
+    const delimiter = Array(width).fill("*").join("")
+    this.printLine(delimiter)
+    this.printLine(content)
+    this.printLine(delimiter)
   }
 
   async run(args: InteractiveArgs): Promise<TestResult> {
@@ -207,19 +230,15 @@ export class Interactor {
     }
 
     while (true) {
-      this.output.write(`In test case: ${dir.relPath()}\n`)
-      this.output.write(result.message + "\n")
+      this.printLine(`In test case: ${dir.relPath()}`)
+      this.printLine(result.message)
 
-      const validOptions = options.filter(
-        ({ requirement }) => !requirement || requirement(args)
-      )
-      for (const { key, description } of validOptions) {
-        this.output.write(`${key}. ${description}\n`)
-      }
+      const validOptions = optionsFor(args)
+      this.printOptions(validOptions)
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
-        this.output.write(`Invalid option chosen: ${key}\n`)
+        this.printLine(`Invalid option chosen: ${key}`)
         continue
       }
       const newResult = await choice.resolve(args)
@@ -227,7 +246,7 @@ export class Interactor {
         continue
       }
       if (typeof newResult === "string") {
-        this.output.write(newResult + "\n")
+        this.printContent(newResult)
       } else {
         // If the repeat option is chosen, store the chosen choice
         if (repeat.endsWith("!")) {
