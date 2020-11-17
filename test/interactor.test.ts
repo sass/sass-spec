@@ -88,16 +88,75 @@ describe("Interactor", () => {
           output: "NEW OUTPUT",
         })
         await updateOutput({ impl: "sass-mock", dir, result })
-        expect(dir.contents("output.css")).toEqual("NEW OUTPUT")
+        expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
       })
-      it.todo("works when there are no overrides")
-      it.todo("works when there are overrides")
+      it("works when changing the type of output", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+        })
+        const result = failures.UnexpectedError({
+          isSuccess: false,
+          error: "ERROR",
+        })
+        await updateOutput({ impl: "sass-mock", dir, result })
+        expect(await dir.contents("error")).toEqual("ERROR")
+        expect(dir.hasFile("output.css")).toBeFalsy()
+      })
     })
 
     describe("Migrate copy of test to pass on [impl]", () => {
-      // TODO what to do when there is a default warning file?
-      it.todo("works on success cases")
-      it.todo("works on error cases")
+      const migrateToImpl = optionsMap["I"].resolve
+      it("works when no impl specific files are defined", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          "output-dart-sass.css": "DART OUTPUT",
+        })
+        const result = failures.OutputDifference({
+          isSuccess: true,
+          output: "NEW OUTPUT",
+          warning: "WARNING",
+        })
+        await migrateToImpl({ impl: "sass-mock", dir, result })
+        expect(await dir.contents("output.css")).toEqual("OUTPUT")
+        expect(await dir.contents("output-dart-sass.css")).toEqual(
+          "DART OUTPUT"
+        )
+        expect(await dir.contents("output-sass-mock.css")).toEqual("NEW OUTPUT")
+        expect(await dir.contents("warning-sass-mock")).toEqual("WARNING")
+      })
+
+      it("overrides existing impl-specific files", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          "output-sass-mock.css": "OTHER OUTPUT",
+        })
+        const result = failures.OutputDifference({
+          isSuccess: true,
+          output: "NEW OUTPUT",
+          warning: "WARNING",
+        })
+        await migrateToImpl({ impl: "sass-mock", dir, result })
+        expect(await dir.contents("output.css")).toEqual("OUTPUT")
+        expect(await dir.contents("output-sass-mock.css")).toEqual("NEW OUTPUT")
+        expect(await dir.contents("warning-sass-mock")).toEqual("WARNING")
+      })
+
+      it("works when changing output type", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          "output-sass-mock.css": "OTHER OUTPUT",
+        })
+        const result = failures.UnexpectedError({
+          isSuccess: false,
+          error: "ERROR",
+        })
+        await migrateToImpl({ impl: "sass-mock", dir, result })
+        expect(await dir.contents("output.css")).toEqual("OUTPUT")
+        expect(dir.hasFile("output-sass-mock.css")).toBeFalsy()
+        expect(await dir.contents("error-sass-mock")).toEqual("ERROR")
+      })
+
+      it.todo("writes a warning file if there is no warning")
     })
 
     describe("Mark test as todo for [impl].", () => {
