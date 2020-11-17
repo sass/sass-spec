@@ -9,15 +9,18 @@ interface InteractiveArgs {
   result: FailTestResult
 }
 
+function getExpectedFiles(impl?: string) {
+  return impl
+    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
+    : ["output.css", "warning", "error"]
+}
+
 async function overwriteResult(
   dir: SpecPath,
   result: SpecResult,
   impl?: string
 ) {
-  // FIXME what to do if the spec already has an implementation-specific output?
-  const [outputFile, warningFile, errorFile] = impl
-    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
-    : ["output.css", "warning", "error"]
+  const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
   if (result.isSuccess) {
     await Promise.all([
       dir.writeFile(outputFile, result.output),
@@ -104,8 +107,13 @@ const options: InteractorOption[] = [
   {
     key: "O",
     description: "Update expected output and pass test",
-    async resolve({ dir, result }) {
+    async resolve({ impl, dir, result }) {
+      // overwrite the contents of the base files
       await overwriteResult(dir, result.actual)
+      // delete any override files for this impl
+      await Promise.all(
+        getExpectedFiles(impl).map((filename) => dir.removeFile(filename))
+      )
       return { type: "pass" }
     },
   },
