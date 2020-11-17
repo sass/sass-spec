@@ -156,7 +156,20 @@ describe("Interactor", () => {
         expect(await dir.contents("error-sass-mock")).toEqual("ERROR")
       })
 
-      it.todo("writes a warning file if there is no warning")
+      it.skip("writes an empty warning file if there is no base warning", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          warning: "WARNING",
+        })
+        const result = failures.WarningDifference({
+          isSuccess: true,
+          output: "OUTPUT",
+        })
+        await migrateToImpl({ impl: "sass-mock", dir, result })
+        expect(await dir.contents("warning")).toEqual("WARNING")
+        expect(dir.hasFile("warning-sass-mock")).toBeTruthy()
+        expect(await dir.contents("warning-sass-mock")).toEqual("")
+      })
     })
 
     describe("Mark test as todo for [impl].", () => {
