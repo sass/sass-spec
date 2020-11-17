@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import { Readable } from "stream"
 import SpecPath, { SpecIteratee } from "./spec-path"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
@@ -62,6 +63,13 @@ export default class VirtualSpecPath extends SpecPath {
       root,
       parentOpts
     )
+  }
+
+  static async fromContents(contents: string, path = "/tmp") {
+    const stream = Readable.from(contents)
+    const archive = await archiveFromStream(stream)
+    // TODO where should the temp path be?
+    return new VirtualSpecPath(path, archive)
   }
 
   private async writeDirectFiles() {

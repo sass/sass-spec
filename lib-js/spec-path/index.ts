@@ -13,4 +13,8 @@ export async function fromPath(specPath: string): Promise<SpecPath> {
   return new RealSpecPath(specPath)
 }
 
+export async function fromContents(contents: string): Promise<SpecPath> {
+  return VirtualSpecPath.fromContents(contents)
+}
+
 export { default as SpecPath } from "./spec-path"

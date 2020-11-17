@@ -1,5 +1,5 @@
 declare module "node-hrx" {
-  import { ReadStream } from "fs"
+  import { Readable } from "stream"
 
   class File {
     path: string
@@ -22,5 +22,5 @@ declare module "node-hrx" {
 
   type HrxItem = File | Directory
 
-  export function archiveFromStream(stream: ReadStream): Promise<Directory>
+  export function archiveFromStream(stream: Readable): Promise<Directory>
 }

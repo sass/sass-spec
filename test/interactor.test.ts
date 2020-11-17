@@ -46,7 +46,7 @@ describe("Interactor", () => {
       expectOption(result, "o", false)
     })
 
-    it("Shows the 'show error' option when errors and warnings are available", () => {
+    it("Shows the 'show error' option only when errors and warnings are available", () => {
       const outputResult = failures.OutputDifference({
         isSuccess: true,
         output: "OUTPUT",
