@@ -98,13 +98,7 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   async cleanup() {
-    // TODO this can lead to errors if we don't do stuff sequentially
     await fs.promises.rmdir(this.path, { recursive: true })
-  }
-
-  cleanupSync() {
-    // FIXME replace this with rmSync when we have a higher node version
-    fs.rmdirSync(this.path, { recursive: true })
   }
 
   async files() {

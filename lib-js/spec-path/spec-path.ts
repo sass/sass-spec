@@ -83,8 +83,6 @@ export default abstract class SpecPath {
   async writeToDisk(): Promise<void> {}
   async cleanup(): Promise<void> {}
 
-  cleanupSync() {}
-
   /**
    * Write files corresponding to this directory and run the given callback,
    * deleting the files when done
@@ -92,16 +90,22 @@ export default abstract class SpecPath {
   async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
 
-    // TODO handle more process exit cases
-    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
-    const exitHandler = (status: number) => {
-      this.cleanupSync()
+    // Cleanup callbacks must be synchronous,
+    // so trigger an async function that exits the process
+    const cleanupAndExit = async (status: number) => {
+      // cleanup and then trigger an exit
+      await this.cleanup()
       process.exit(status)
     }
 
+    // TODO handle more process exit cases
+    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
+    const exitHandler = (status: number) => {
+      cleanupAndExit(status)
+    }
+
     const sigintHandler = () => {
-      this.cleanupSync()
-      process.exit(1)
+      cleanupAndExit(1)
     }
     // TODO handle process exit
     process.on("exit", exitHandler)
