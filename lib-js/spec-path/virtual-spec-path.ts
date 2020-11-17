@@ -103,7 +103,8 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   cleanupSync() {
-    fs.rmSync(this.path, { recursive: true, force: true })
+    // FIXME replace this with rmSync when we have a higher node version
+    fs.rmdirSync(this.path, { recursive: true })
   }
 
   async files() {

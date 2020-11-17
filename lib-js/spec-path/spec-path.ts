@@ -91,14 +91,26 @@ export default abstract class SpecPath {
    */
   async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
+
+    const exitHandler = (status: number) => {
+      this.cleanupSync()
+      process.exit(status)
+    }
+
+    const sigintHandler = () => {
+      this.cleanupSync()
+      process.exit(1)
+    }
     // TODO handle process exit
-    // process.on("exit", (status) => {
-    //   this.cleanupSync()
-    //   process.exit(status)
-    // })
+    process.on("exit", exitHandler)
+    process.on("SIGINT", sigintHandler)
+
     try {
       await cb()
     } finally {
+      process
+        .removeListener("exit", exitHandler)
+        .removeListener("SIGINT", sigintHandler)
       await this.cleanup()
     }
   }
