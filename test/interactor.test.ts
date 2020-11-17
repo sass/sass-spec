@@ -1,5 +1,5 @@
 import path from "path"
-import { Interactor } from "../lib-js/interactor"
+import { optionsFor, Interactor } from "../lib-js/interactor"
 import { Readable, Writable } from "stream"
 import { fromPath } from "../lib-js/spec-path"
 import { FailTestResult } from "../lib-js/test-case"
@@ -16,7 +16,41 @@ class MemoryWritable extends Writable {
 }
 
 describe("Interactor", () => {
-  it.todo("displays the right options for each failure type")
+  describe("option displays", () => {
+    it.todo("always includes certain choices")
+
+    it("does not allow showing output when the failure type is `warning_difference", () => {
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "warning_difference",
+        message: "warning difference",
+        actual: {
+          isSuccess: true,
+          output: "OUTPUT",
+          warning: "WARNING",
+        },
+      }
+      const options = optionsFor({
+        impl: "sass-mock",
+        dir: null as any,
+        result,
+      })
+      const keys = options.map((o) => o.key)
+      expect(keys).not.toContain("o")
+    })
+  })
+
+  describe("option resolution", () => {
+    describe("Update expected output and pass test.", async () => {
+      it.todo("works when there are no overrides")
+      it.todo("works when there are overrides")
+    })
+
+    describe("Migrate copy of test to pass on [impl]", async () => {
+      it.todo("works on success cases")
+      it.todo("works on error cases")
+    })
+  })
 
   it.todo("handles each option correctly")
 

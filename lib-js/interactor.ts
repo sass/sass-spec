@@ -77,6 +77,7 @@ const options: InteractorOption[] = [
     key: "o",
     description: "Show output.",
     requirement({ result }) {
+      if (result.failureType === "warning_difference") return false
       // TODO don't list this option if only the errors are failing
       return result.actual.isSuccess
     },
@@ -120,6 +121,14 @@ const options: InteractorOption[] = [
     },
   },
   {
+    key: "I",
+    description: "Migrate copy of test to pass on [impl]",
+    async resolve({ impl, dir, result }) {
+      await overwriteResult(dir, result.actual, impl)
+      return { type: "pass" }
+    },
+  },
+  {
     key: "T",
     // FIXME reference the actual impl name in the description
     description: "Mark spec as todo for [impl]",
@@ -135,14 +144,6 @@ const options: InteractorOption[] = [
     // FIXME only show the description if there is a warning failure
     async resolve({ impl, dir }) {
       await dir.addOptionForImpl(":warning_todo", impl)
-      return { type: "pass" }
-    },
-  },
-  {
-    key: "I",
-    description: "Migrate copy of test to pass on [impl]",
-    async resolve({ impl, dir, result }) {
-      await overwriteResult(dir, result.actual, impl)
       return { type: "pass" }
     },
   },
@@ -171,7 +172,7 @@ const options: InteractorOption[] = [
   },
 ]
 
-function optionsFor(args: InteractiveArgs) {
+export function optionsFor(args: InteractiveArgs) {
   return options.filter(({ requirement }) => !requirement || requirement(args))
 }
 
@@ -186,7 +187,7 @@ export class Interactor {
     this.output = output
   }
 
-  private printLine(line: string) {
+  private printLine(line: string = "") {
     this.output.write(`${line}\n`)
   }
 
@@ -200,9 +201,11 @@ export class Interactor {
   private printContent(content: string) {
     const width = Math.max(...content.split("\n").map((l) => l.length))
     const delimiter = Array(width).fill("*").join("")
+    this.printLine()
     this.printLine(delimiter)
     this.printLine(content)
     this.printLine(delimiter)
+    this.printLine()
   }
 
   async run(args: InteractiveArgs): Promise<TestResult> {
