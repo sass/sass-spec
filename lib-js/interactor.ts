@@ -215,7 +215,7 @@ export class Interactor {
       for (const { key, description } of validOptions) {
         this.output.write(`${key}. ${description}\n`)
       }
-      const [key, repeat] = await question("Please select an option > ")
+      const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
         this.output.write(`Invalid option chosen: ${key}\n`)
