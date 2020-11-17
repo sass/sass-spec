@@ -8,6 +8,7 @@ import {
   extractWarningMessages,
 } from "./normalize"
 import { Compiler } from "./compiler"
+import { string } from "yargs"
 
 interface Options {
   rootDir: string
@@ -31,6 +32,45 @@ type FailureType =
   | "error_difference"
   | "warning_difference"
   | "unnecessary_todo"
+
+function makeFailureFactory(failureType: FailureType, message: string) {
+  return function (actual: SpecResult, diff?: string): FailTestResult {
+    return {
+      type: "fail",
+      failureType,
+      message,
+      actual,
+      diff,
+    }
+  }
+}
+
+export const failures = {
+  UnexpectedError: makeFailureFactory(
+    "unexpected_error",
+    "Test case should succeed but it did not"
+  ),
+  UnexpectedSuccess: makeFailureFactory(
+    "unexpected_success",
+    "Expected test to fail but it did not"
+  ),
+  OutputDifference: makeFailureFactory(
+    "output_difference",
+    "Expected did not match output"
+  ),
+  WarningDifference: makeFailureFactory(
+    "warning_difference",
+    "Expected did not match warning"
+  ),
+  ErrorDifference: makeFailureFactory(
+    "error_difference",
+    "Expected did not match error"
+  ),
+  UnnecessaryTodo: makeFailureFactory(
+    "unnecessary_todo",
+    "Expected test marked TODO to fail but it passed"
+  ),
+}
 
 export interface FailTestResult {
   type: "fail"
@@ -58,12 +98,7 @@ function compareResults(
 ): TestResult {
   if (expected.isSuccess) {
     if (!actual.isSuccess) {
-      return {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual,
-      }
+      return failures.UnexpectedError(actual)
     }
 
     const diff = getDiff(
@@ -72,13 +107,7 @@ function compareResults(
       normalizeOutput(actual.output)
     )
     if (diff) {
-      return {
-        type: "fail",
-        failureType: "output_difference",
-        message: "expected did not match output",
-        actual,
-        diff,
-      }
+      return failures.OutputDifference(actual, diff)
     }
 
     if ((expected.warning || actual.warning) && !skipWarning) {
@@ -88,23 +117,12 @@ function compareResults(
         extractWarningMessages(actual.warning, impl)
       )
       if (diff) {
-        return {
-          type: "fail",
-          failureType: "warning_difference",
-          actual,
-          message: "expected did not match warning",
-          diff,
-        }
+        return failures.WarningDifference(actual, diff)
       }
     }
   } else {
     if (actual.isSuccess) {
-      return {
-        type: "fail",
-        failureType: "unexpected_success",
-        actual,
-        message: "Expected test to fail, but it did not",
-      }
+      return failures.UnexpectedSuccess(actual)
     }
     const diff = getDiff(
       "error",
@@ -112,13 +130,7 @@ function compareResults(
       extractErrorMessage(actual.error, impl)
     )
     if (diff) {
-      return {
-        type: "fail",
-        failureType: "error_difference",
-        actual,
-        message: "expected did not match error",
-        diff,
-      }
+      return failures.ErrorDifference(actual, diff)
     }
   }
 
@@ -155,12 +167,7 @@ export async function runTestCase(
   // If we're probing todos
   if (mode === "todo" && todoMode === "probe") {
     if (testResult.type === "pass") {
-      return {
-        type: "fail",
-        failureType: "unnecessary_todo",
-        actual,
-        message: "Expected :todo test to fail but it passed",
-      }
+      return failures.UnnecessaryTodo(actual)
     } else {
       return { type: "todo" }
     }

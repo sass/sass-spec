@@ -2,7 +2,7 @@ import path from "path"
 import { optionsFor, Interactor } from "../lib-js/interactor"
 import { Readable, Writable } from "stream"
 import { fromPath } from "../lib-js/spec-path"
-import { FailTestResult } from "../lib-js/test-case"
+import { failures, FailTestResult } from "../lib-js/test-case"
 
 class MemoryWritable extends Writable {
   chunks: string[] = []
@@ -38,50 +38,30 @@ describe("Interactor", () => {
     }
 
     it("does show the 'show output' option when the failure type is `warning_difference", () => {
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "warning_difference",
-        message: "warning difference",
-        actual: {
-          isSuccess: true,
-          output: "OUTPUT",
-          warning: "WARNING",
-        },
-      }
+      const result = failures.WarningDifference({
+        isSuccess: true,
+        output: "OUTPUT",
+        warning: "WARNING",
+      })
       expectOption(result, "o", false)
     })
 
     it("Shows the 'show error' option when errors and warnings are available", () => {
-      const outputResult: FailTestResult = {
-        type: "fail",
-        failureType: "output_difference",
-        message: "output difference",
-        actual: {
-          isSuccess: true,
-          output: "OUTPUT",
-        },
-      }
+      const outputResult = failures.OutputDifference({
+        isSuccess: true,
+        output: "OUTPUT",
+      })
       expectOption(outputResult, "e", false)
-      const warningResult: FailTestResult = {
-        type: "fail",
-        failureType: "warning_difference",
-        message: "warning difference",
-        actual: {
-          isSuccess: true,
-          output: "OUTPUT",
-          warning: "WARNING",
-        },
-      }
+      const warningResult = failures.WarningDifference({
+        isSuccess: true,
+        output: "OUTPUT",
+        warning: "WARNING",
+      })
       expectOption(warningResult, "e")
-      const errorResult: FailTestResult = {
-        type: "fail",
-        failureType: "error_difference",
-        message: "error difference",
-        actual: {
-          isSuccess: false,
-          error: "ERROR",
-        },
-      }
+      const errorResult = failures.ErrorDifference({
+        isSuccess: false,
+        error: "ERROR",
+      })
       expectOption(errorResult, "e")
     })
   })
@@ -113,15 +93,10 @@ describe("Interactor", () => {
       const dir = await fromPath(
         path.resolve(__dirname, "./fixtures/basic.hrx")
       )
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual: {
-          isSuccess: false,
-          error: "error",
-        },
-      }
+      const result = failures.UnexpectedError({
+        isSuccess: false,
+        error: "error",
+      })
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual(result)
       expect(output.contents()).toContain("Please select an option >")
@@ -134,15 +109,10 @@ describe("Interactor", () => {
       const dir = await fromPath(
         path.resolve(__dirname, "./fixtures/basic.hrx")
       )
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual: {
-          isSuccess: false,
-          error: "THIS IS ERROR",
-        },
-      }
+      const result = failures.UnexpectedError({
+        isSuccess: false,
+        error: "THIS IS ERROR",
+      })
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual(result)
       expect(output.contents()).toContain(
@@ -157,15 +127,10 @@ describe("Interactor", () => {
       const dir = await fromPath(
         path.resolve(__dirname, "./fixtures/basic.hrx")
       )
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual: {
-          isSuccess: false,
-          error: "THIS IS ERROR",
-        },
-      }
+      const result = failures.UnexpectedError({
+        isSuccess: false,
+        error: "THIS IS ERROR",
+      })
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual({ type: "pass" })
       expect(await dir.contents("error-sass-mock")).toEqual("THIS IS ERROR")
@@ -178,15 +143,10 @@ describe("Interactor", () => {
       const dir = await fromPath(
         path.resolve(__dirname, "./fixtures/basic.hrx")
       )
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual: {
-          isSuccess: false,
-          error: "THIS IS ERROR",
-        },
-      }
+      const result = failures.UnexpectedError({
+        isSuccess: false,
+        error: "THIS IS ERROR",
+      })
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual(result)
       expect(output.contents()).toContain("Invalid option chosen")
@@ -199,15 +159,10 @@ describe("Interactor", () => {
       const dir = await fromPath(
         path.resolve(__dirname, "./fixtures/basic.hrx")
       )
-      const result: FailTestResult = {
-        type: "fail",
-        failureType: "unexpected_error",
-        message: "Test case should succeed but it did not",
-        actual: {
-          isSuccess: false,
-          error: "THIS IS ERROR",
-        },
-      }
+      const result = failures.UnexpectedError({
+        isSuccess: false,
+        error: "THIS IS ERROR",
+      })
       const newResult = await interactor.run({ impl: "sass-mock", dir, result })
       expect(newResult).toEqual(result)
       expect(output.contents()).toContain("Invalid option chosen")
