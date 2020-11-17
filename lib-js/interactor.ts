@@ -114,6 +114,16 @@ const options: InteractorOption[] = [
     description: ({ impl }) => `Migrate copy of test to pass on ${impl}`,
     async resolve({ impl, dir, result }) {
       await overwriteResult(dir, result.actual, impl)
+      // If a nonempty base warning exists, but the actual result yields no warning,
+      // create a warning file
+      if (
+        dir.hasFile("warning") &&
+        !!dir.contents("warning") &&
+        result.actual.isSuccess &&
+        !result.actual.warning
+      ) {
+        await dir.writeFile(`warning-${impl}`, "")
+      }
       return { type: "pass" }
     },
   },

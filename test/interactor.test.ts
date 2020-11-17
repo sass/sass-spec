@@ -156,7 +156,7 @@ describe("Interactor", () => {
         expect(await dir.contents("error-sass-mock")).toEqual("ERROR")
       })
 
-      it.skip("writes an empty warning file if there is no base warning", async () => {
+      it("writes an empty warning file if there is no base warning", async () => {
         const dir = await fromObject({
           "output.css": "OUTPUT",
           warning: "WARNING",
