@@ -92,6 +92,8 @@ export default abstract class SpecPath {
   async withRealFiles(cb: () => Promise<void>) {
     await this.writeToDisk()
 
+    // TODO handle more process exit cases
+    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
     const exitHandler = (status: number) => {
       this.cleanupSync()
       process.exit(status)
