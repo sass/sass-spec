@@ -94,6 +94,7 @@ describe("SpecPath", () => {
 
     it.todo("deletes the directory if the process exits")
     it.todo("writes files to archive if option is enabled")
+    it.todo("does not rearrange files when there were no changes made")
   })
 
   describe("forEachTest", () => {
