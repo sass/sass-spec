@@ -9,7 +9,6 @@ export type SpecIteratee = (subdir: SpecPath) => Promise<void>
  */
 export default abstract class SpecPath {
   private parentOpts?: RunOptions
-  private _options?: RunOptions
   private subitems: Record<string, SpecPath>
   abstract path: string
   protected root: SpecPath
@@ -115,13 +114,8 @@ export default abstract class SpecPath {
 
   /** Get the run options of this directory, including those inherited from its parent */
   async options() {
-    if (!this._options) {
-      const opts = await this.getDirectOptions()
-      this._options = this.parentOpts
-        ? mergeOptions(this.parentOpts, opts)
-        : opts
-    }
-    return this._options
+    const opts = await this.getDirectOptions()
+    return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
   }
 
   /**
