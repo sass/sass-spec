@@ -19,7 +19,25 @@ describe("Interactor", () => {
   describe("option displays", () => {
     it.todo("always includes certain choices")
 
-    it("does not allow showing output when the failure type is `warning_difference", () => {
+    function expectOption(
+      result: FailTestResult,
+      key: string,
+      valid: boolean = true
+    ) {
+      const options = optionsFor({
+        impl: "sass-mock",
+        dir: null as any,
+        result,
+      })
+      const keys = options.map((o) => o.key)
+      if (valid) {
+        expect(keys).toContain(key)
+      } else {
+        expect(keys).not.toContain(key)
+      }
+    }
+
+    it("does show the 'show output' option when the failure type is `warning_difference", () => {
       const result: FailTestResult = {
         type: "fail",
         failureType: "warning_difference",
@@ -30,13 +48,41 @@ describe("Interactor", () => {
           warning: "WARNING",
         },
       }
-      const options = optionsFor({
-        impl: "sass-mock",
-        dir: null as any,
-        result,
-      })
-      const keys = options.map((o) => o.key)
-      expect(keys).not.toContain("o")
+      expectOption(result, "o", false)
+    })
+
+    it("Shows the 'show error' option when errors and warnings are available", () => {
+      const outputResult: FailTestResult = {
+        type: "fail",
+        failureType: "output_difference",
+        message: "output difference",
+        actual: {
+          isSuccess: true,
+          output: "OUTPUT",
+        },
+      }
+      expectOption(outputResult, "e", false)
+      const warningResult: FailTestResult = {
+        type: "fail",
+        failureType: "warning_difference",
+        message: "warning difference",
+        actual: {
+          isSuccess: true,
+          output: "OUTPUT",
+          warning: "WARNING",
+        },
+      }
+      expectOption(warningResult, "e")
+      const errorResult: FailTestResult = {
+        type: "fail",
+        failureType: "error_difference",
+        message: "error difference",
+        actual: {
+          isSuccess: false,
+          error: "ERROR",
+        },
+      }
+      expectOption(errorResult, "e")
     })
   })
 
