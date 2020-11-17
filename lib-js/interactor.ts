@@ -171,7 +171,7 @@ const options: InteractorOption[] = [
     key: "X",
     description: "Exit testing.",
     async resolve() {
-      process.exit(0)
+      process.kill(process.pid, "SIGINT")
     },
   },
 ]

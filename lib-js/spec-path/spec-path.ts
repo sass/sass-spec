@@ -105,7 +105,7 @@ export default abstract class SpecPath {
     }
 
     const sigintHandler = () => {
-      cleanupAndExit(1)
+      cleanupAndExit(0)
     }
     // TODO handle process exit
     process.on("exit", exitHandler)
