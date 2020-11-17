@@ -37,7 +37,7 @@ async function overwriteResult(
 
 interface InteractorOption {
   key: string
-  description: string
+  description: string | ((args: InteractiveArgs) => string)
   /**
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
@@ -61,19 +61,6 @@ const options: InteractorOption[] = [
     },
   },
   {
-    key: "e",
-    description: "Show error.",
-    requirement({ result }) {
-      return !result.actual.isSuccess
-    },
-    async resolve({ result }) {
-      if (result.actual.isSuccess) {
-        throw new Error(`Trying to list error for successful result`)
-      }
-      return result.actual.error
-    },
-  },
-  {
     key: "o",
     description: "Show output.",
     requirement({ result }) {
@@ -89,17 +76,19 @@ const options: InteractorOption[] = [
     },
   },
   {
-    // TODO this has the same key as `Show error` in the ruby version
-    key: "w",
-    description: "Show warning.",
+    key: "e",
+    description: ({ result }) =>
+      result.actual.isSuccess ? "Show warning." : "Show error.",
     requirement({ result }) {
-      return result.actual.isSuccess && !!result.actual.warning
+      // show this option if the actual result was a failure or it has a warning
+      return !result.actual.isSuccess || !!result.actual.warning
     },
     async resolve({ result }) {
-      if (!result.actual.isSuccess) {
-        throw new Error(`Trying to list warning for non-successful result`)
+      if (result.actual.isSuccess) {
+        return result.actual.warning
+      } else {
+        return result.actual.error
       }
-      return result.actual.warning
     },
   },
   {
@@ -122,7 +111,7 @@ const options: InteractorOption[] = [
   },
   {
     key: "I",
-    description: "Migrate copy of test to pass on [impl]",
+    description: ({ impl }) => `Migrate copy of test to pass on ${impl}`,
     async resolve({ impl, dir, result }) {
       await overwriteResult(dir, result.actual, impl)
       return { type: "pass" }
@@ -130,33 +119,24 @@ const options: InteractorOption[] = [
   },
   {
     key: "T",
-    // FIXME reference the actual impl name in the description
-    description: "Mark spec as todo for [impl]",
-    requirement({ result }) {
-      return result.failureType !== "warning_difference"
+    description({ impl, result }) {
+      const word =
+        result.failureType === "warning_difference" ? "warning" : "spec"
+      return `Mark ${word} as todo for ${impl}`
     },
-    async resolve({ impl, dir }) {
-      await dir.addOptionForImpl(":todo", impl)
-      return { type: "todo" }
-    },
-  },
-  {
-    // FIXME this has the same option `T` in ruby
-    key: "W",
-    description: "Mark warning as todo for [impl]",
-    requirement({ result }) {
-      return result.failureType === "warning_difference"
-    },
-    // FIXME only show the description if there is a warning failure
-    async resolve({ impl, dir }) {
-      await dir.addOptionForImpl(":warning_todo", impl)
-      return { type: "pass" }
+    async resolve({ impl, dir, result }) {
+      if (result.failureType === "warning_difference") {
+        await dir.addOptionForImpl(":warning_todo", impl)
+        return { type: "pass" }
+      } else {
+        await dir.addOptionForImpl(":todo", impl)
+        return { type: "todo" }
+      }
     },
   },
   {
     key: "G",
-    // FIXME reference the actual impl name in the description
-    description: "Ignore test for [impl] FOREVER",
+    description: ({ impl }) => `Ignore test for ${impl} FOREVER`,
     async resolve({ impl, dir }) {
       await dir.addOptionForImpl(":ignore_for", impl)
       return { type: "skip" }
@@ -197,9 +177,11 @@ export class Interactor {
     this.output.write(`${line}\n`)
   }
 
-  private printOptions(options: InteractorOption[]) {
+  private printOptions(options: InteractorOption[], args: InteractiveArgs) {
     for (const { key, description } of options) {
-      this.output.write(`${key}. ${description}\n`)
+      const _description =
+        typeof description === "string" ? description : description(args)
+      this.output.write(`${key}. ${_description}\n`)
     }
   }
 
@@ -243,7 +225,7 @@ export class Interactor {
       this.printLine(result.message)
 
       const validOptions = optionsFor(args)
-      this.printOptions(validOptions)
+      this.printOptions(validOptions, args)
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
