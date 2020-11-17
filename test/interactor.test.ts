@@ -16,53 +16,120 @@ class MemoryWritable extends Writable {
 }
 
 describe("Interactor", () => {
-  it("displays an input prompt with options", async () => {
-    const input = Readable.from("f\n")
-    const output = new MemoryWritable()
-    const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
-    const result: FailTestResult = {
-      type: "fail",
-      failureType: "unexpected_error",
-      message: "Test case should succeed but it did not",
-      actual: {
-        isSuccess: false,
-        error: "error",
-      },
-    }
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
-    expect(newResult).toEqual(result)
-    expect(output.contents()).toContain("Please select an option >")
-  })
-
   it.todo("displays the right options for each failure type")
 
-  it("displays options again if a print option is chosen", async () => {
-    const input = Readable.from(["e\n", "f\n"])
-    const output = new MemoryWritable()
-    const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
-    const result: FailTestResult = {
-      type: "fail",
-      failureType: "unexpected_error",
-      message: "Test case should succeed but it did not",
-      actual: {
-        isSuccess: false,
-        error: "THIS IS ERROR",
-      },
-    }
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
-    expect(newResult).toEqual(result)
-    // FIXME need to pass in the output to this
-    // expect(output.contents()).toContain("THIS IS ERROR")
-    expect(output.contents()).toContain("Please select an option >")
+  it.todo("handles each option correctly")
+
+  describe("loop", () => {
+    it("displays an input prompt with options", async () => {
+      const input = Readable.from(["f\n"])
+      const output = new MemoryWritable()
+      const interactor = new Interactor(input, output)
+      const dir = await fromPath(
+        path.resolve(__dirname, "./fixtures/basic.hrx")
+      )
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
+        actual: {
+          isSuccess: false,
+          error: "error",
+        },
+      }
+      const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+      expect(newResult).toEqual(result)
+      expect(output.contents()).toContain("Please select an option >")
+    })
+
+    it("displays options again if a print option is chosen", async () => {
+      const input = Readable.from(["e\n", "f\n"])
+      const output = new MemoryWritable()
+      const interactor = new Interactor(input, output)
+      const dir = await fromPath(
+        path.resolve(__dirname, "./fixtures/basic.hrx")
+      )
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
+        actual: {
+          isSuccess: false,
+          error: "THIS IS ERROR",
+        },
+      }
+      const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+      expect(newResult).toEqual(result)
+      expect(output.contents()).toContain("THIS IS ERROR")
+    })
+
+    it("exits the loop with the updated content if a modification option is chosen", async () => {
+      const input = Readable.from(["I\n"])
+      const output = new MemoryWritable()
+      const interactor = new Interactor(input, output)
+      const dir = await fromPath(
+        path.resolve(__dirname, "./fixtures/basic.hrx")
+      )
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
+        actual: {
+          isSuccess: false,
+          error: "THIS IS ERROR",
+        },
+      }
+      const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+      expect(newResult).toEqual({ type: "pass" })
+      expect(await dir.contents("error-sass-mock")).toEqual("THIS IS ERROR")
+    })
+
+    it("prompts again if an invalid option was chosen", async () => {
+      const input = Readable.from(["$\n", "f\n"])
+      const output = new MemoryWritable()
+      const interactor = new Interactor(input, output)
+      const dir = await fromPath(
+        path.resolve(__dirname, "./fixtures/basic.hrx")
+      )
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
+        actual: {
+          isSuccess: false,
+          error: "THIS IS ERROR",
+        },
+      }
+      const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+      expect(newResult).toEqual(result)
+      expect(output.contents()).toContain("Invalid option chosen")
+    })
+
+    it("prompts again if an option that is not valid for the test failure is chosen", async () => {
+      const input = Readable.from(["o\n", "f\n"])
+      const output = new MemoryWritable()
+      const interactor = new Interactor(input, output)
+      const dir = await fromPath(
+        path.resolve(__dirname, "./fixtures/basic.hrx")
+      )
+      const result: FailTestResult = {
+        type: "fail",
+        failureType: "unexpected_error",
+        message: "Test case should succeed but it did not",
+        actual: {
+          isSuccess: false,
+          error: "THIS IS ERROR",
+        },
+      }
+      const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+      expect(newResult).toEqual(result)
+      expect(output.contents()).toContain("Invalid option chosen")
+    })
   })
 
-  it.todo("prompts again if an invalid option was chosen")
+  describe("repeat", () => {
+    it.todo("keeps track of chosen options")
 
-  it.todo("exits the loop with the answer if a non-thing statement is chosen")
-
-  it.todo("keeps track of chosen options")
-
-  it.todo("handles each option correctly")
+    it.todo("only allows repeating modification options")
+  })
 })

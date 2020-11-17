@@ -48,7 +48,7 @@ interface InteractorOption {
    * If this function returns a value, the interactive mode should quit with that value,
    * otherwise continue.
    */
-  resolve(args: InteractiveArgs): Promise<TestResult | void>
+  resolve(args: InteractiveArgs): Promise<string | TestResult | void>
 }
 
 // FIXME how to handle options that have the same key
@@ -57,7 +57,7 @@ const options: InteractorOption[] = [
     key: "t",
     description: "Show me the test case.",
     async resolve({ dir }) {
-      console.log(await dir.input())
+      return dir.input()
     },
   },
   {
@@ -70,7 +70,7 @@ const options: InteractorOption[] = [
       if (result.actual.isSuccess) {
         throw new Error(`Trying to list error for successful result`)
       }
-      console.log(result.actual.error)
+      return result.actual.error
     },
   },
   {
@@ -84,7 +84,7 @@ const options: InteractorOption[] = [
       if (!result.actual.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
       }
-      console.log(result.actual.output)
+      return result.actual.output
     },
   },
   {
@@ -98,7 +98,7 @@ const options: InteractorOption[] = [
       if (!result.actual.isSuccess) {
         throw new Error(`Trying to list warning for non-successful result`)
       }
-      console.log(result.actual.warning)
+      return result.actual.warning
     },
   },
   {
@@ -108,7 +108,7 @@ const options: InteractorOption[] = [
       return !!result.diff
     },
     async resolve({ result }) {
-      console.log(result.diff)
+      return result.diff
     },
   },
   {
@@ -182,7 +182,7 @@ export class Interactor {
     this.output = output
   }
 
-  async run(args: InteractiveArgs) {
+  async run(args: InteractiveArgs): Promise<TestResult> {
     const { dir, result } = args
     // TODO can I just keep this as part of the class?
     const rl = readline.createInterface(this.input, this.output)
@@ -198,7 +198,8 @@ export class Interactor {
     // If a repeated choice is chosen for a given failure type, run that choice
     if (this.memory[result.failureType]) {
       const choice = this.memory[result.failureType]
-      const newResult = await choice.resolve(args)
+      // we're guaranteed that the stored chosen option returns a test result
+      const newResult = (await choice.resolve(args)) as TestResult
       if (newResult) {
         rl.close()
         return newResult
@@ -221,15 +222,19 @@ export class Interactor {
         this.output.write(`Invalid option chosen: ${key}\n`)
         continue
       }
-      // If the repeat option is chosen, store the chosen choice
-      if (repeat.endsWith("!")) {
-        this.memory[result.failureType] = choice
-      }
       const newResult = await choice.resolve(args)
-      // If the resolve returns an argument, close the interaction loop and return it
-      if (newResult) {
+      if (!newResult) {
+        continue
+      }
+      if (typeof newResult === "string") {
+        this.output.write(newResult + "\n")
+      } else {
+        // If the repeat option is chosen, store the chosen choice
+        if (repeat.endsWith("!")) {
+          this.memory[result.failureType] = choice
+        }
         rl.close()
-        return result
+        return newResult
       }
     }
   }
