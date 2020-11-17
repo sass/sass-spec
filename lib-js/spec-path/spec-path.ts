@@ -1,6 +1,7 @@
 import path from "path"
 
-import { RunOptions, mergeOptions, optsFromYaml } from "../options"
+import yaml from "js-yaml"
+import { RunOption, RunOptions, mergeOptions } from "../options"
 
 export type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
@@ -42,14 +43,12 @@ export default abstract class SpecPath {
   /** Remove the file from this directory */
   abstract removeFile(filename: string): Promise<void>
 
-  /** Add the given option (:todo, :ignore_for, or :warning_todo) for the given impl */
-  async addOptionForImpl(option: string, impl: string) {
-    throw new Error("Not implemented")
-  }
-
-  /** Remove the given option (:todo, :ignore_for, or :warning_todo) for the given impl */
-  async removeOptionForImpl(option: string, impl: string) {
-    throw new Error("Not implemented")
+  /** Add the given option for the given impl */
+  async addOptionForImpl(option: RunOption, impl: string) {
+    const options = await this.getDirectOptions()
+    const newOption = [...(options[option] ?? []), impl]
+    const newOptions: RunOptions = { ...options, [option]: newOption }
+    await this.writeFile("options.yml", yaml.safeDump(newOptions))
   }
 
   /**
@@ -109,7 +108,8 @@ export default abstract class SpecPath {
     const contents = this.hasFile("options.yml")
       ? await this.contents("options.yml")
       : ""
-    return optsFromYaml(contents)
+    // TODO validate run options
+    return (yaml.safeLoad(contents) as RunOptions) || {}
   }
 
   /** Get the run options of this directory, including those inherited from its parent */

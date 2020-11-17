@@ -1,5 +1,3 @@
-import yaml from "js-yaml"
-
 export interface RunOptions {
   ":ignore_for"?: string[]
   ":todo"?: string[]
@@ -7,8 +5,10 @@ export interface RunOptions {
   ":precision"?: number
 }
 
+export type RunOption = ":ignore_for" | ":todo" | ":warning_todo"
+
 export function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
-  function mergeOption(option: ":ignore_for" | ":todo" | ":warning_todo") {
+  function mergeOption(option: RunOption) {
     return [...(base[option] ?? []), ...(ext[option] ?? [])]
   }
   return {
@@ -17,19 +17,6 @@ export function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
     ":warning_todo": mergeOption(":warning_todo"),
     ":precision": ext[":precision"] ?? base[":precision"],
   }
-}
-
-export function optsFromYaml(items: string): RunOptions {
-  const rawOpts: any = yaml.safeLoad(items)
-  if (typeof rawOpts !== "object") {
-    return {
-      ":ignore_for": [],
-      ":todo": [],
-      ":warning_todo": [],
-    }
-  }
-  // TODO validate options
-  return rawOpts
 }
 
 function hasOptionForImpl(option: string[] | undefined, impl: string) {

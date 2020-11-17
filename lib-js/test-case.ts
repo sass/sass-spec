@@ -8,7 +8,6 @@ import {
   extractWarningMessages,
 } from "./normalize"
 import { Compiler } from "./compiler"
-import { string } from "yargs"
 
 interface Options {
   rootDir: string

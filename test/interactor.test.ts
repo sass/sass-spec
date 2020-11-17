@@ -173,12 +173,47 @@ describe("Interactor", () => {
     })
 
     describe("Mark spec/warning as todo for [impl].", () => {
-      it.todo("works for marking specs as :todo")
-      it.todo("works for marking specs as :warning_todo")
+      const markTodo = optionsMap["T"].resolve
+      it("Marks a spec as :warning_todo on warning_difference", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          warning: "WARNING",
+        })
+        const result = failures.WarningDifference({
+          isSuccess: true,
+          output: "OUTPUT",
+          warning: "NEW WARNING",
+        })
+        await markTodo({ impl: "sass-mock", dir, result })
+        expect((await dir.options())[":warning_todo"]).toContain("sass-mock")
+      })
+      it("Marks a spec as :todo on any other failure", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+        })
+        const result = failures.OutputDifference({
+          isSuccess: true,
+          output: "NEW OUTPUT",
+        })
+        await markTodo({ impl: "sass-mock", dir, result })
+        expect((await dir.options())[":todo"]).toContain("sass-mock")
+      })
     })
 
-    describe("Ignore spec", () => {
-      it.todo("works")
+    describe("Ignore spec for [impl] FOREVER", () => {
+      const ignoreSpec = optionsMap["G"].resolve
+      it("works", async () => {
+        const dir = await fromObject({
+          "output.css": "OUTPUT",
+          warning: "WARNING",
+        })
+        const result = failures.OutputDifference({
+          isSuccess: true,
+          output: "NEW OUTPUT",
+        })
+        await ignoreSpec({ impl: "sass-mock", dir, result })
+        expect((await dir.options())[":ignore_for"]).toContain("sass-mock")
+      })
     })
   })
 
