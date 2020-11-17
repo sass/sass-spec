@@ -27,7 +27,7 @@ describe("Interactor", () => {
       message: "Test case should succeed but it did not",
       actual: {
         isSuccess: false,
-        error: "",
+        error: "error",
       },
     }
     const newResult = await interactor.run({ impl: "sass-mock", dir, result })
@@ -37,7 +37,28 @@ describe("Interactor", () => {
 
   it.todo("displays the right options for each failure type")
 
-  it.todo("displays options again if a print option is chosen")
+  it("displays options again if a print option is chosen", async () => {
+    const input = Readable.from(["e\n", "f\n"])
+    const output = new MemoryWritable()
+    const interactor = new Interactor(input, output)
+    const dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+    const result: FailTestResult = {
+      type: "fail",
+      failureType: "unexpected_error",
+      message: "Test case should succeed but it did not",
+      actual: {
+        isSuccess: false,
+        error: "THIS IS ERROR",
+      },
+    }
+    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    expect(newResult).toEqual(result)
+    // FIXME need to pass in the output to this
+    // expect(output.contents()).toContain("THIS IS ERROR")
+    expect(output.contents()).toContain("Please select an option >")
+  })
+
+  it.todo("prompts again if an invalid option was chosen")
 
   it.todo("exits the loop with the answer if a non-thing statement is chosen")
 
