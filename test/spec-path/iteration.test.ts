@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+import child_process from "child_process"
 import { fromPath, SpecPath } from "../../lib-js/spec-path"
 
 describe("SpecPath iteration", () => {
@@ -7,7 +8,14 @@ describe("SpecPath iteration", () => {
     let dir: SpecPath
 
     beforeAll(async () => {
-      dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
+      dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+    })
+
+    afterEach(async () => {
+      // Delete the created directory in case the test didn't work
+      if (fs.existsSync(dir.path)) {
+        await fs.promises.rmdir(dir.path, { recursive: true })
+      }
     })
 
     it("creates the archive directory and writes input scss files", async () => {
@@ -30,7 +38,17 @@ describe("SpecPath iteration", () => {
       expect(fs.existsSync(dir.path)).toBeFalsy()
     })
 
-    it.todo("deletes the directory if the process exits")
+    it.skip("deletes the directory if the process exits", () => {
+      const scriptPath = path.resolve(__dirname, "./fixtures/exit.ts")
+      child_process.execSync(`npx ts-node ${scriptPath} exit`)
+      expect(fs.existsSync(dir.path)).toBeFalsy()
+    })
+
+    it("deletes the directory on an interrupt", () => {
+      const scriptPath = path.resolve(__dirname, "./fixtures/exit.ts")
+      child_process.execSync(`npx ts-node ${scriptPath} SIGINT`)
+      expect(fs.existsSync(dir.path)).toBeFalsy()
+    })
     it.todo("writes files to archive if option is enabled")
     it.todo("does not rearrange files when there were no changes made")
   })
@@ -38,7 +56,7 @@ describe("SpecPath iteration", () => {
   describe("forEachTest", () => {
     let dir: SpecPath
     beforeAll(async () => {
-      dir = await fromPath(path.resolve(__dirname, "../fixtures/iterate"))
+      dir = await fromPath(path.resolve(__dirname, "./fixtures/iterate"))
     })
 
     it("iterates through all test directories", async () => {
