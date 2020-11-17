@@ -41,14 +41,19 @@ describe("Interactor", () => {
   })
 
   describe("option resolution", () => {
-    describe("Update expected output and pass test.", async () => {
+    describe("Update expected output and pass test.", () => {
       it.todo("works when there are no overrides")
       it.todo("works when there are overrides")
     })
 
-    describe("Migrate copy of test to pass on [impl]", async () => {
+    describe("Migrate copy of test to pass on [impl]", () => {
+      // TODO what to do when there is a default warning file?
       it.todo("works on success cases")
       it.todo("works on error cases")
+    })
+
+    describe("Mark test as todo for [impl].", () => {
+      it.todo("works")
     })
   })
 

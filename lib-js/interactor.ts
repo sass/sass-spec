@@ -132,6 +132,9 @@ const options: InteractorOption[] = [
     key: "T",
     // FIXME reference the actual impl name in the description
     description: "Mark spec as todo for [impl]",
+    requirement({ result }) {
+      return result.failureType !== "warning_difference"
+    },
     async resolve({ impl, dir }) {
       await dir.addOptionForImpl(":todo", impl)
       return { type: "todo" }
@@ -141,6 +144,9 @@ const options: InteractorOption[] = [
     // FIXME this has the same option `T` in ruby
     key: "W",
     description: "Mark warning as todo for [impl]",
+    requirement({ result }) {
+      return result.failureType === "warning_difference"
+    },
     // FIXME only show the description if there is a warning failure
     async resolve({ impl, dir }) {
       await dir.addOptionForImpl(":warning_todo", impl)
