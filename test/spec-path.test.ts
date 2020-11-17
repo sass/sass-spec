@@ -1,22 +1,26 @@
 import fs from "fs"
 import path from "path"
-import { fromPath, SpecPath } from "../lib-js/spec-path"
+import { fromPath, fromContents, SpecPath } from "../lib-js/spec-path"
 
 describe("SpecPath", () => {
   describe("options", () => {
-    let dir: SpecPath
-
-    beforeAll(async () => {
-      dir = await fromPath(path.resolve(__dirname, "./fixtures/options.hrx"))
-    })
-
-    async function getOptions(path: string) {
-      const subitem = await dir.atPath(path)
-      return await subitem.options()
+    async function getOptions(contents: string) {
+      const dir = await fromContents(contents)
+      return await dir.options()
     }
 
     it("works in the basic case", async () => {
-      expect(await getOptions("basic")).toMatchObject({
+      const dir = await fromContents(
+        `
+<===> options.yml
+:todo:
+  - dart-sass
+:ignore_for:
+  - libsass
+:precision: 3
+`.trimStart()
+      )
+      expect(await dir.options()).toMatchObject({
         todo: ["dart-sass"],
         ignore: ["libsass"],
         precision: 3,
@@ -24,7 +28,26 @@ describe("SpecPath", () => {
     })
 
     it("overrides parent options correctly", async () => {
-      expect(await getOptions("override/parent/child")).toMatchObject({
+      const dir = await fromContents(
+        `
+<===> options.yml
+:todo:
+  - dart-sass
+:ignore_for:
+  - libsass
+:precision: 3
+<===> child/options.yml
+:todo:
+  - sass-mock
+:ignore_for:
+  - dart-sass
+:warning_todo:
+  - libsass
+:precision: 4
+`.trimStart()
+      )
+      const childDir = await dir.atPath("child")
+      expect(await childDir.options()).toMatchObject({
         todo: ["dart-sass", "sass-mock"],
         ignore: ["libsass", "dart-sass"],
         todoWarning: ["libsass"],
@@ -32,16 +55,19 @@ describe("SpecPath", () => {
       })
     })
 
-    it("overrides when child doesn't have options.yml", async () => {
-      expect(await getOptions("nesting/parent/deep")).toMatchObject({
-        precision: 3,
-      })
-    })
-
     it("overrides more than one layer deep", async () => {
-      expect(await getOptions("nesting/parent/deep/child")).toMatchObject({
-        precision: 4,
-      })
+      const dir = await fromContents(
+        `
+<===> options.yml
+:precision: 3
+<===> deep/child/options.yml
+:precision: 4
+`.trimStart()
+      )
+      const noOptsChild = await dir.atPath("deep")
+      expect(await noOptsChild.options()).toMatchObject({ precision: 3 })
+      const deepChild = await dir.atPath("deep/child")
+      expect(await deepChild.options()).toMatchObject({ precision: 4 })
     })
   })
 
