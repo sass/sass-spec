@@ -107,7 +107,13 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   async cleanup() {
+    // remove this directory
     await fs.promises.rmdir(this.path, { recursive: true })
+    // if files were written to this directory, write to the root archive file
+    if (await this.needsCleanup()) {
+      const hrx = await this.toHrx()
+      await fs.promises.writeFile(this.path, hrx, { encoding: "utf-8" })
+    }
   }
 
   async files() {

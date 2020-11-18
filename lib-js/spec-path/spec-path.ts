@@ -199,4 +199,11 @@ export default abstract class SpecPath {
       }
     }
   }
+
+  /**
+   * Write the contents of this directory to an HRX file.
+   */
+  async toHrx(): Promise<string> {
+    throw new Error("Not implemented")
+  }
 }
