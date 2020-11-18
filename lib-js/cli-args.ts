@@ -24,14 +24,21 @@ for your test hierarchy.
 
 Make sure the command you provide prints to stdout.
 `.trim()
-// FIXME make sure these are actually required
+
+// Options for configuring Yargs, mostly useful for testing
+interface YargsOptions {
+  exitOnFailure?: boolean
+  showHelpOnFail?: boolean
+  printHelp?(help: string): void
+}
+
 /**
- * Get command line args
+ * Parse command line args into options used by the sass-spec runner.
  */
 export async function getArgs(
   loadPath: string,
   cliArgs: string[],
-  exitOnFailure = true
+  { exitOnFailure = false, showHelpOnFail = true, printHelp }: YargsOptions
 ) {
   const argv = yargs(cliArgs)
     .usage(usageText)
@@ -80,6 +87,8 @@ export async function getArgs(
       }
     })
     .exitProcess(exitOnFailure)
+    .showHelp(printHelp as any)
+    .showHelpOnFail(showHelpOnFail)
     .conflicts("dart", "command")
     .conflicts("run-todo", "probe-todo").argv
 
