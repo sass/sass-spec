@@ -1,5 +1,4 @@
 import readline from "readline"
-import { TestResult } from "./test-case/util"
 import TestCase from "./test-case"
 
 interface InteractorOption {
