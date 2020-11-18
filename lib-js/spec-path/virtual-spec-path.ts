@@ -112,7 +112,9 @@ export default class VirtualSpecPath extends SpecPath {
     // if files were written to this directory, write to the root archive file
     if (await this.needsCleanup()) {
       const hrx = await this.toHrx()
-      await fs.promises.writeFile(this.path, hrx, { encoding: "utf-8" })
+      await fs.promises.writeFile(this.path + ".hrx", hrx, {
+        encoding: "utf-8",
+      })
     }
   }
 
