@@ -75,12 +75,16 @@ IMPL OUTPUT
 IMPL WARNING
 <===> subdir/input.scss
 MORE UTIL
+<===> options.yml
+OPTIONS
 <===> input.scss
 INPUT
 <===> warning
 WARNING
 `
     const expected = `
+<===> options.yml
+OPTIONS
 <===> input.scss
 INPUT
 <===> _util.scss

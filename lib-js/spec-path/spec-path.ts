@@ -256,11 +256,14 @@ export default abstract class SpecPath {
       .filter((name) => name.startsWith("error"))
       .sort()
     const otherFiles = filenames.filter((name) => {
-      return !/^(output|error|warning|input\.s[ac]ss)/.test(name)
+      return !/^(output|error|warning|input\.s[ac]ss|options\.yml)/.test(name)
     })
     const subdirSections = await this.getSubdirsHrx(root)
 
     return [
+      this.hasFile("options.yml")
+        ? await this.getFilesHrx(root, ["options.yml"])
+        : "",
       await this.getFilesHrx(root, [inputFile]),
       await this.getFilesHrx(root, otherFiles),
       subdirSections.join("\n"),
