@@ -124,6 +124,12 @@ export default class TestCase {
   }
 
   async run(): Promise<TestResult> {
+    this._result = await this.doRun()
+    return this._result
+  }
+
+  // Do the test run, storing the actual output if there is one, and return the test result
+  private async doRun(): Promise<TestResult> {
     const { mode, todoWarning } = optionsForImpl(
       await this.dir.options(),
       this.impl
@@ -141,6 +147,7 @@ export default class TestCase {
       this.expected(),
       this.getActualResult(),
     ])
+    this._actual = actual
 
     const skipWarning = todoWarning && !this.todoMode
     const trimErrors = this.impl !== "dart-sass"
@@ -153,8 +160,6 @@ export default class TestCase {
         return { type: "todo" }
       }
     }
-    this._actual = actual
-    this._result = testResult
     return testResult
   }
 
