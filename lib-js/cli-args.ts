@@ -27,13 +27,6 @@ for your test hierarchy.
 Make sure the command you provide prints to stdout.
 `.trim()
 
-// Options for configuring Yargs, mostly useful for testing
-interface YargsOptions {
-  exitOnFailure?: boolean
-  showHelpOnFail?: boolean
-  printHelp?(help: string): void
-}
-
 /**
  * Parse command line args into options used by the sass-spec runner.
  */
