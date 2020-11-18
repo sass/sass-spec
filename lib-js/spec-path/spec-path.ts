@@ -205,9 +205,10 @@ export default abstract class SpecPath {
     }
   }
 
-  private async getFileHrx(root: string): Promise<string> {
-    // TODO these filenames should be sorted alphabetically
-    const filenames = await this.files()
+  private async getFilesHrx(
+    root: string,
+    filenames: string[]
+  ): Promise<string> {
     const fileSections = await Promise.all(
       [...filenames].sort().map(async (filename) => {
         const contents = await this.contents(filename)
@@ -219,8 +220,13 @@ export default abstract class SpecPath {
     return fileSections.join("\n")
   }
 
-  private async getHrxSections(root: string): Promise<string[]> {
-    const directFiles = await this.getFileHrx(root)
+  private async getDirectFileHrx(root: string): Promise<string> {
+    // TODO these filenames should be sorted alphabetically
+    return await this.getFilesHrx(root, await this.files())
+  }
+
+  private async getNormaliDirHrx(root: string): Promise<string[]> {
+    const directFiles = await this.getDirectFileHrx(root)
     let sections = [directFiles]
     const subdirNames = await this.subdirs()
     for (const subdirName of [...subdirNames].sort()) {
@@ -228,6 +234,47 @@ export default abstract class SpecPath {
       sections = sections.concat(await subdir.getHrxSections(root))
     }
     return sections
+  }
+
+  // Get the contents of the test directory in a standardized order
+  private async getTestDirHrx(root: string): Promise<string> {
+    const inputFile = this.inputFile()
+    const filenames = await this.files()
+    // FIXME make sure the base output file is listed first
+    const outputFiles = filenames
+      .filter((name) => name.startsWith("output-"))
+      .sort()
+    const warningFiles = filenames
+      .filter((name) => name.startsWith("warning"))
+      .sort()
+    const errorFiles = filenames
+      .filter((name) => name.startsWith("error"))
+      .sort()
+    const otherFiles = filenames.filter((name) => {
+      return !/^(output|error|warning|input\.s[ac]ss)/.test(name)
+    })
+
+    // TODO handle subdirectories
+    return [
+      await this.getFilesHrx(root, [inputFile]),
+      await this.getFilesHrx(root, otherFiles),
+      this.hasFile("output.css")
+        ? await this.getFilesHrx(root, ["output.css"])
+        : "",
+      await this.getFilesHrx(root, outputFiles),
+      await this.getFilesHrx(root, warningFiles),
+      await this.getFilesHrx(root, errorFiles),
+    ]
+      .filter((str) => str)
+      .join("\n")
+  }
+
+  private async getHrxSections(root: string): Promise<string[]> {
+    if (this.isTestDir()) {
+      return [await this.getTestDirHrx(root)]
+    } else {
+      return this.getNormaliDirHrx(root)
+    }
   }
 
   /**

@@ -63,7 +63,37 @@ potato
     await expectHrx(input, expected)
   })
 
-  it.todo("overwrite test directories in style-guide order")
+  it("overwrite test directories in style-guide order", async () => {
+    const input = `
+<===> output.css
+OUTPUT
+<===> _util.scss
+UTIL
+<===> output-dart-sass.css
+IMPL OUTPUT
+<===> warning-libsass
+IMPL WARNING
+<===> input.scss
+INPUT
+<===> warning
+WARNING
+`
+    const expected = `
+<===> input.scss
+INPUT
+<===> _util.scss
+UTIL
+<===> output.css
+OUTPUT
+<===> output-dart-sass.css
+IMPL OUTPUT
+<===> warning
+WARNING
+<===> warning-libsass
+IMPL WARNING
+`
+    await expectHrx(input, expected)
+  })
 
-  it.todo("includes subdirs in test directories in the same section")
+  it.todo("processes multiple test directories in a single archive correctly")
 })
