@@ -1,44 +1,39 @@
 import readline from "readline"
-import { TestResult, FailTestResult } from "./test-case/util"
+import { TestResult } from "./test-case/util"
 import TestCase from "./test-case"
-
-interface InteractiveArgs {
-  test: TestCase
-  result: FailTestResult
-}
 
 interface InteractorOption {
   key: string
-  description: string | ((args: InteractiveArgs) => string)
+  description: string | ((args: TestCase) => string)
   /**
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
    */
-  requirement?(args: InteractiveArgs): boolean
+  requirement?(args: TestCase): boolean
   /**
    * The function to call to resolve this option.
    * If this function returns a value, the interactive mode should quit with that value,
    * otherwise continue.
    */
-  resolve(args: InteractiveArgs): Promise<string | TestResult | void>
+  resolve(args: TestCase): Promise<string | TestResult | void>
 }
 
 const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
-    async resolve({ test: dir }) {
-      return dir.input()
+    async resolve(test) {
+      return test.input()
     },
   },
   {
     key: "o",
     description: "Show output.",
-    requirement({ test, result }) {
-      if (result.failureType === "warning_difference") return false
+    requirement(test) {
+      if (test.result().failureType === "warning_difference") return false
       return test.actual().isSuccess
     },
-    async resolve({ test }) {
+    async resolve(test) {
       const actual = test.actual()
       if (!actual.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
@@ -48,52 +43,52 @@ const options: InteractorOption[] = [
   },
   {
     key: "e",
-    description({ test }) {
+    description(test) {
       return test.actual().isSuccess ? "Show warning." : "Show error."
     },
-    requirement({ test }) {
+    requirement(test) {
       const actual = test.actual()
       // show this option if the actual result was a failure or it has a warning
       return !actual.isSuccess || !!actual.warning
     },
-    async resolve({ test }) {
-      const result = test.actual()
-      return result.isSuccess ? result.warning : result.error
+    async resolve(test) {
+      const actual = test.actual()
+      return actual.isSuccess ? actual.warning : actual.error
     },
   },
   {
     key: "d",
     description: "Show diff.",
-    requirement: ({ result }) => !!result.diff,
-    async resolve({ result }) {
-      return result.diff
+    requirement: (test) => !!test.result().diff,
+    async resolve(test) {
+      return test.result().diff
     },
   },
   {
     key: "O",
     description: "Update expected output and pass test",
-    async resolve({ test }) {
+    async resolve(test) {
       await test.overwrite()
       return { type: "pass" }
     },
   },
   {
     key: "I",
-    description: ({ test }) => `Migrate copy of test to pass on ${test.impl}`,
-    async resolve({ test }) {
+    description: (test) => `Migrate copy of test to pass on ${test.impl}`,
+    async resolve(test) {
       await test.migrateImpl()
       return { type: "pass" }
     },
   },
   {
     key: "T",
-    description({ test, result }) {
+    description(test) {
       const word =
-        result.failureType === "warning_difference" ? "warning" : "spec"
+        test.result().failureType === "warning_difference" ? "warning" : "spec"
       return `Mark ${word} as todo for ${test.impl}`
     },
-    async resolve({ test, result }) {
-      if (result.failureType === "warning_difference") {
+    async resolve(test) {
+      if (test.result().failureType === "warning_difference") {
         await test.addOptionForImpl(":warning_todo")
         return { type: "pass" }
       } else {
@@ -104,8 +99,8 @@ const options: InteractorOption[] = [
   },
   {
     key: "G",
-    description: ({ test }) => `Ignore test for ${test.impl} FOREVER`,
-    async resolve({ test }) {
+    description: (test) => `Ignore test for ${test.impl} FOREVER`,
+    async resolve(test) {
       await test.addOptionForImpl(":ignore_for")
       return { type: "skip" }
     },
@@ -113,8 +108,8 @@ const options: InteractorOption[] = [
   {
     key: "f",
     description: "Mark as failed.",
-    async resolve({ result }) {
-      return result
+    async resolve(test) {
+      return test.result()
     },
   },
   {
@@ -133,10 +128,10 @@ export const optionsMap = (() => {
   return optionsMap
 })()
 
-export function optionsFor(args: InteractiveArgs) {
+export function optionsFor(test: TestCase) {
   const result = []
   for (const option of options) {
-    if (!option.requirement || option.requirement(args)) {
+    if (!option.requirement || option.requirement(test)) {
       result.push(option)
     }
   }
@@ -157,10 +152,10 @@ export class Interactor {
     this.output.write(`${line}\n`)
   }
 
-  private printOptions(options: InteractorOption[], args: InteractiveArgs) {
+  private printOptions(options: InteractorOption[], test: TestCase) {
     for (const { key, description } of options) {
       const _description =
-        typeof description === "string" ? description : description(args)
+        typeof description === "string" ? description : description(test)
       this.output.write(`${key}. ${_description}\n`)
     }
   }
@@ -176,8 +171,7 @@ export class Interactor {
     this.printLine()
   }
 
-  async run(args: InteractiveArgs): Promise<TestResult> {
-    const { test, result } = args
+  async run(test: TestCase): Promise<TestResult> {
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
@@ -188,11 +182,13 @@ export class Interactor {
       })
     }
 
+    const type = test.result().failureType || ''
+
     // If a repeated choice is chosen for a given failure type, run that choice
-    if (this.memory[result.failureType]) {
-      const choice = this.memory[result.failureType]
+    if (this.memory[type]) {
+      const choice = this.memory[type]
       // we're guaranteed that the stored chosen option returns a test result
-      const newResult = (await choice.resolve(args)) as TestResult
+      const newResult = (await choice.resolve(test)) as TestResult
       if (newResult) {
         rl.close()
         return newResult
@@ -201,17 +197,17 @@ export class Interactor {
 
     while (true) {
       this.printLine(`In test case: ${test.dir.relPath()}`)
-      this.printLine(result.message)
+      this.printLine(test.result().message)
 
-      const validOptions = optionsFor(args)
-      this.printOptions(validOptions, args)
+      const validOptions = optionsFor(test)
+      this.printOptions(validOptions, test)
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
         this.printLine(`Invalid option chosen: ${key}`)
         continue
       }
-      const newResult = await choice.resolve(args)
+      const newResult = await choice.resolve(test)
       if (!newResult) {
         continue
       }
@@ -220,7 +216,7 @@ export class Interactor {
       } else {
         // If the repeat option is chosen, store the chosen choice
         if (repeat.endsWith("!")) {
-          this.memory[result.failureType] = choice
+          this.memory[type] = choice
         }
         rl.close()
         return newResult

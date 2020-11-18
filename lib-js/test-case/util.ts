@@ -20,10 +20,6 @@ interface ErrorResult {
 /** A result of executing a sass compiler */
 export type SassResult = SuccessResult | ErrorResult
 
-interface BasicTestResult {
-  type: "pass" | "todo" | "skip"
-}
-
 type FailureType =
   // | "todo_warning_nonexistent"
   // | "conflicting_files"
@@ -35,8 +31,15 @@ type FailureType =
   | "warning_difference"
   | "unnecessary_todo"
 
+export interface TestResult {
+  type: "pass" | "fail" | "todo" | "skip"
+  failureType?: FailureType
+  message?: string
+  diff?: string
+}
+
 function makeFailureFactory(failureType: FailureType, message: string) {
-  return function (diff?: string): FailTestResult {
+  return function (diff?: string): TestResult {
     return {
       type: "fail",
       failureType,
@@ -72,15 +75,6 @@ export const failures = {
     "Expected test marked TODO to fail but it passed"
   ),
 }
-
-export interface FailTestResult {
-  type: "fail"
-  failureType: FailureType
-  message: string
-  diff?: string
-}
-
-export type TestResult = BasicTestResult | FailTestResult
 
 function getDiff(
   filename: string,
