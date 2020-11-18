@@ -14,7 +14,7 @@ describe("runTestCase", () => {
   let dir: SpecDirectory
   beforeAll(async () => {
     dir = await fromPath(path.resolve(__dirname, "fixtures/test-case.hrx"))
-    await dir.writeToDisk()
+    await dir.setup()
   })
 
   afterAll(async () => {

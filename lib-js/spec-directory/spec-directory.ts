@@ -127,6 +127,9 @@ export default abstract class SpecDirectory {
 
   // Iteration
 
+  async setup() {}
+  async cleanup() {}
+
   private isMatch(paths: string[]) {
     return paths.length === 0 || paths.some((path) => this.path === path)
   }

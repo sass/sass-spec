@@ -158,10 +158,11 @@ export default class VirtualDirectory extends SpecDirectory {
     )
   }
 
-  private async writeToDisk() {
+  // To set up a virtual directory, write all files to disk
+  private async setup() {
     await this.writeFilesToDisk()
     const subdirs = await this.typedSubdirs()
-    await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
+    await Promise.all(subdirs.map((subdir) => subdir.setup()))
   }
 
   // Return true if a this virtual directory has been modified
@@ -192,7 +193,7 @@ export default class VirtualDirectory extends SpecDirectory {
    * and any changes are written back to the archive even if the process is interrupted.
    */
   private async withOpenArchive(cb: () => Promise<void>) {
-    await this.writeToDisk()
+    await this.setup()
 
     // Cleanup callbacks must be synchronous,
     // so trigger an async function that exits the process

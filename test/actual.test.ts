@@ -8,7 +8,7 @@ describe("getActualResult", () => {
 
   beforeAll(async () => {
     dir = await fromPath(path.resolve(__dirname, "./fixtures/actual.hrx"))
-    await dir.writeToDisk()
+    await dir.setup()
   })
 
   afterAll(async () => {
