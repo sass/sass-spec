@@ -128,8 +128,7 @@ function compareResults(
   return { type: "pass" }
 }
 
-interface Options {
-  rootDir: string
+export interface TestCaseOptions {
   impl: string
   compiler: Compiler
   cmdArgs: string[]
@@ -141,7 +140,7 @@ interface Options {
  */
 export async function runTestCase(
   dir: SpecDirectory,
-  opts: Options
+  opts: TestCaseOptions
 ): Promise<TestResult> {
   const { impl, todoMode } = opts
   const { mode, todoWarning, precision } = optionsForImpl(

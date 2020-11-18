@@ -70,7 +70,6 @@ export async function getExpectedResult(
 
 // TODO dedupe with the Options in `directory`
 interface Options {
-  rootDir: string
   impl: string
   compiler: Compiler
   cmdArgs: string[]
@@ -81,10 +80,9 @@ export async function getActualResult(
   dir: SpecDirectory,
   opts: Options
 ): Promise<SpecResult> {
-  const { rootDir, impl, cmdArgs: _cmdArgs, precision, compiler } = opts
+  const { impl, cmdArgs: _cmdArgs, precision, compiler } = opts
 
   const cmdArgs = [..._cmdArgs]
-  cmdArgs.push(`--load-path=${rootDir}`)
   // Pass in the indentend option to the command
   if (dir.isIndented()) {
     cmdArgs.push(impl === "dart-sass" ? "--indented" : "--sass")
