@@ -1,6 +1,6 @@
 import { fromContents } from "../../lib-js/spec-directory"
 import TestCase from "../../lib-js/test-case"
-import { mockCompiler } from "../fixtures/mock-compiler-2"
+import { mockCompiler } from "../fixtures/mock-compiler"
 
 function makeHrx(files: Record<string, string>) {
   return Object.entries(files)

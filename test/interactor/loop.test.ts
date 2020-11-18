@@ -2,7 +2,7 @@ import { Interactor } from "../../lib-js/interactor"
 import { Readable, Writable } from "stream"
 import { fromContents } from "../../lib-js/spec-directory"
 import TestCase from "../../lib-js/test-case"
-import { mockCompiler } from "../fixtures/mock-compiler-2"
+import { mockCompiler } from "../fixtures/mock-compiler"
 
 class MemoryWritable extends Writable {
   chunks: string[] = []

@@ -1,39 +1,64 @@
-import path from "path"
-import { fromPath, SpecDirectory } from "../../lib-js/spec-directory"
+import { fromContents } from "../../lib-js/spec-directory"
 import { mockCompiler } from "../fixtures/mock-compiler"
 import TestCase from "../../lib-js/test-case"
 
 describe("TestCase::testResults()", () => {
-  let dir: SpecDirectory
-  beforeAll(async () => {
-    dir = await fromPath(path.resolve(__dirname, "../fixtures/runner.hrx"))
-    await dir.setup()
-  })
-
-  afterAll(async () => {
-    await dir.cleanup()
-  })
-
-  async function runAtPath(subpath: string, opts: any = {}) {
-    const subdir = await dir.atPath(subpath)
-    const test = new TestCase(subdir, "sass-mock", mockCompiler, opts.todoMode)
+  async function runTestCase(content: string, opts: any = {}) {
+    const dir = await fromContents(content.trim())
+    const test = new TestCase(
+      dir,
+      "sass-mock",
+      mockCompiler(dir),
+      opts.todoMode
+    )
     return await test.run()
   }
 
   describe("success cases", () => {
     it("passes if the outputs match", async () => {
-      expect(await runAtPath("output/pass")).toMatchObject({ type: "pass" })
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #ff8000;
+}`
+      expect(await runTestCase(input)).toMatchObject({ type: "pass" })
     })
 
     it("fails if the outputs are mismatched", async () => {
-      expect(await runAtPath("output/fail-mismatch")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #000000;
+}`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
         failureType: "output_difference",
       })
     })
 
     it("fails if the spec throws an error", async () => {
-      expect(await runAtPath("output/fail-error")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 1
+stderr: |
+  Error: expected ")".
+<===> output.css
+p {
+  color: #000000;
+}`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
         failureType: "unexpected_error",
       })
@@ -41,19 +66,45 @@ describe("TestCase::testResults()", () => {
   })
 
   describe("error cases", () => {
+    const input = `
+<===> input.scss
+status: 1
+stderr: |
+  Error: expected ")".
+<===> error
+Error: expected ")".
+`
     it("passes when the errors match", async () => {
-      expect(await runAtPath("error/pass")).toMatchObject({ type: "pass" })
+      expect(await runTestCase(input)).toMatchObject({ type: "pass" })
     })
 
     it("fails on mismatched errors", async () => {
-      expect(await runAtPath("error/fail-mismatch")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 1
+stderr: |
+  Error: expected ")".
+<===> error
+Error: expected "(".
+`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
         failureType: "error_difference",
       })
     })
 
     it("fails if the test case passes", async () => {
-      expect(await runAtPath("error/fail-output")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> error
+Error: expected "(".
+`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
         failureType: "unexpected_success",
       })
@@ -62,34 +113,116 @@ describe("TestCase::testResults()", () => {
 
   describe("warning cases", () => {
     it("passes when the warnings match", async () => {
-      expect(await runAtPath("warning/pass")).toMatchObject({ type: "pass" })
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: test
+<===> output.css
+p {
+  color: #ff8000;
+}
+<===> warning
+WARNING: test
+`
+      expect(await runTestCase(input)).toMatchObject({ type: "pass" })
     })
 
     it("fails when the warnings are different", async () => {
-      expect(await runAtPath("warning/mismatch")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: failure
+<===> output.css
+p {
+  color: #ff8000;
+}
+<===> warning
+WARNING: test
+`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
         failureType: "warning_difference",
       })
     })
 
     it("fails when expected warning is missing", async () => {
-      expect(await runAtPath("warning/missing")).toMatchObject({ type: "fail" })
-    })
-
-    it("fails when extraneous warning is present", async () => {
-      expect(await runAtPath("warning/extraneous")).toMatchObject({
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #ff8000;
+}
+<===> warning
+WARNING: test
+`
+      expect(await runTestCase(input)).toMatchObject({
         type: "fail",
       })
     })
 
+    it("fails when extraneous warning is present", async () => {
+      const input = `
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: test
+<===> output.css
+p {
+  color: #ff8000;
+}
+`
+      expect(await runTestCase(input)).toMatchObject({
+        type: "fail",
+      })
+    })
+
+    const todoInput = `
+<===> options.yml
+:warning_todo:
+  - sass-mock
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: failure
+<===> output.css
+p {
+  color: #ff8000;
+}
+<===> warning
+WARNING: test
+`
+
     it("skips warning checks if :warning_todo option enabled", async () => {
-      expect(await runAtPath("warning/todo")).toMatchObject({ type: "pass" })
+      expect(await runTestCase(todoInput)).toMatchObject({ type: "pass" })
     })
 
     it("runs warning check if `:warning_todo` is enabled but --run-todo is chosen", async () => {
-      expect(
-        await runAtPath("warning/todo", { todoMode: "run" })
-      ).toMatchObject({ type: "fail" })
+      expect(await runTestCase(todoInput, { todoMode: "run" })).toMatchObject({
+        type: "fail",
+      })
     })
 
     it.todo(
@@ -99,30 +232,75 @@ describe("TestCase::testResults()", () => {
 
   describe("ignore", () => {
     it("marks a test as `skip` if the `:ignore_for` option enabled", async () => {
-      expect(await runAtPath("ignore")).toMatchObject({ type: "skip" })
+      const input = `
+<===> options.yml
+:ignore_for:
+  - sass-mock
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #000000;
+}
+`
+      expect(await runTestCase(input)).toMatchObject({ type: "skip" })
     })
   })
 
   describe("todo", () => {
+    const failInput = `
+<===> options.yml
+:todo:
+  - sass-mock
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #000000;
+}
+`
     it("marks a test as `todo` when the `:todo` option is set", async () => {
-      expect(await runAtPath("todo/fail")).toMatchObject({ type: "todo" })
+      expect(await runTestCase(failInput)).toMatchObject({ type: "todo" })
     })
 
     it("runs todos if --run-todo is set", async () => {
-      expect(await runAtPath("todo/fail", { todoMode: "run" })).toMatchObject({
+      expect(await runTestCase(failInput, { todoMode: "run" })).toMatchObject({
         type: "fail",
       })
     })
 
     it("marks a failing todo case as `todo` if --probe-todo is set", async () => {
       expect(
-        await runAtPath("todo/fail", { todoMode: "probe" })
+        await runTestCase(failInput, { todoMode: "probe" })
       ).toMatchObject({ type: "todo" })
     })
 
     it("marks a passing todo case as a failure when --probe-todo is set", async () => {
+      const passInput = `
+<===> options.yml
+:todo:
+  - sass-mock
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+<===> output.css
+p {
+  color: #ff8000;
+}
+`
       expect(
-        await runAtPath("todo/pass", { todoMode: "probe" })
+        await runTestCase(passInput, { todoMode: "probe" })
       ).toMatchObject({ type: "fail", failureType: "unnecessary_todo" })
     })
   })

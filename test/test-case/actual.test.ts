@@ -1,5 +1,5 @@
 import { fromContents } from "../../lib-js/spec-directory"
-import { mockCompiler } from "../fixtures/mock-compiler-2"
+import { mockCompiler } from "../fixtures/mock-compiler"
 import TestCase from "../../lib-js/test-case"
 
 describe("TestCase::actualResult()", () => {

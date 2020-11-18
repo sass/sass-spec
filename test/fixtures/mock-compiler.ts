@@ -1,15 +1,13 @@
-import path from "path"
-import fs from "fs"
 import yaml from "js-yaml"
 import { Compiler, Stdio } from "../../lib-js/compiler"
+import { SpecDirectory } from "../../lib-js/spec-directory"
 
-export const mockCompiler: Compiler = {
-  async compile(dir, args) {
-    // just read the input as yaml and then return its contents
-    const contents = await fs.promises.readFile(
-      path.resolve(dir, args[args.length - 1]),
-      { encoding: "utf-8" }
-    )
-    return yaml.safeLoad(contents) as Stdio
-  },
+export function mockCompiler(specDir: SpecDirectory): Compiler {
+  return {
+    async compile(_, args) {
+      // just read the input as yaml and then return its contents
+      const contents = await specDir.readFile(args[args.length - 1])
+      return yaml.safeLoad(contents) as Stdio
+    },
+  }
 }
