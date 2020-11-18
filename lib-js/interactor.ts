@@ -9,12 +9,12 @@ interface InteractiveArgs {
 
 interface InteractorOption {
   key: string
-  description: string | ((args: InteractiveArgs) => Promise<string>)
+  description: string | ((args: InteractiveArgs) => string)
   /**
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
    */
-  requirement?(args: InteractiveArgs): Promise<boolean>
+  requirement?(args: InteractiveArgs): boolean
   /**
    * The function to call to resolve this option.
    * If this function returns a value, the interactive mode should quit with that value,
@@ -34,40 +34,37 @@ const options: InteractorOption[] = [
   {
     key: "o",
     description: "Show output.",
-    async requirement({ test, result }) {
+    requirement({ test, result }) {
       if (result.failureType === "warning_difference") return false
-      return (await test.actual()).isSuccess
+      return test.actual().isSuccess
     },
     async resolve({ test }) {
-      const result = await test.actual()
-      if (!result.isSuccess) {
+      const actual = test.actual()
+      if (!actual.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
       }
-      return result.output
+      return actual.output
     },
   },
   {
     key: "e",
-    async description({ test }) {
-      const result = await test.actual()
-      return result.isSuccess ? "Show warning." : "Show error."
+    description({ test }) {
+      return test.actual().isSuccess ? "Show warning." : "Show error."
     },
-    async requirement({ test }) {
-      const result = await test.actual()
+    requirement({ test }) {
+      const actual = test.actual()
       // show this option if the actual result was a failure or it has a warning
-      return !result.isSuccess || !!result.warning
+      return !actual.isSuccess || !!actual.warning
     },
     async resolve({ test }) {
-      const result = await test.actual()
+      const result = test.actual()
       return result.isSuccess ? result.warning : result.error
     },
   },
   {
     key: "d",
     description: "Show diff.",
-    async requirement({ result }) {
-      return !!result.diff
-    },
+    requirement: ({ result }) => !!result.diff,
     async resolve({ result }) {
       return result.diff
     },
@@ -82,9 +79,7 @@ const options: InteractorOption[] = [
   },
   {
     key: "I",
-    async description({ test }) {
-      return `Migrate copy of test to pass on ${test.impl}`
-    },
+    description: ({ test }) => `Migrate copy of test to pass on ${test.impl}`,
     async resolve({ test }) {
       await test.migrateImpl()
       return { type: "pass" }
@@ -92,7 +87,7 @@ const options: InteractorOption[] = [
   },
   {
     key: "T",
-    async description({ test, result }) {
+    description({ test, result }) {
       const word =
         result.failureType === "warning_difference" ? "warning" : "spec"
       return `Mark ${word} as todo for ${test.impl}`
@@ -109,9 +104,7 @@ const options: InteractorOption[] = [
   },
   {
     key: "G",
-    async description({ test }) {
-      return `Ignore test for ${test.impl} FOREVER`
-    },
+    description: ({ test }) => `Ignore test for ${test.impl} FOREVER`,
     async resolve({ test }) {
       await test.addOptionForImpl(":ignore_for")
       return { type: "skip" }
@@ -140,10 +133,10 @@ export const optionsMap = (() => {
   return optionsMap
 })()
 
-export async function optionsFor(args: InteractiveArgs) {
+export function optionsFor(args: InteractiveArgs) {
   const result = []
   for (const option of options) {
-    if (!option.requirement || (await option.requirement(args))) {
+    if (!option.requirement || option.requirement(args)) {
       result.push(option)
     }
   }
@@ -164,13 +157,10 @@ export class Interactor {
     this.output.write(`${line}\n`)
   }
 
-  private async printOptions(
-    options: InteractorOption[],
-    args: InteractiveArgs
-  ) {
+  private printOptions(options: InteractorOption[], args: InteractiveArgs) {
     for (const { key, description } of options) {
       const _description =
-        typeof description === "string" ? description : await description(args)
+        typeof description === "string" ? description : description(args)
       this.output.write(`${key}. ${_description}\n`)
     }
   }
@@ -213,8 +203,8 @@ export class Interactor {
       this.printLine(`In test case: ${test.dir.relPath()}`)
       this.printLine(result.message)
 
-      const validOptions = await optionsFor(args)
-      await this.printOptions(validOptions, args)
+      const validOptions = optionsFor(args)
+      this.printOptions(validOptions, args)
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
