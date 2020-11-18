@@ -5,6 +5,11 @@ import { RunOption, RunOptions, mergeOptions } from "../options"
 
 export type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
+const HRX_SECTION_SEPARATOR = `
+<===>
+================================================================================
+`
+
 /**
  * Represents either a real or virtual directory that contains spec files.
  */
@@ -200,10 +205,34 @@ export default abstract class SpecPath {
     }
   }
 
+  private async getFileHrx(root: string): Promise<string> {
+    // TODO these filenames should be sorted alphabetically
+    const filenames = await this.files()
+    const fileSections = await Promise.all(
+      filenames.map(async (filename) => {
+        const contents = await this.contents(filename)
+        const fullPath = path.resolve(this.path, filename)
+        const relPath = path.relative(root, fullPath)
+        return `<===> ${relPath}\n${contents}`
+      })
+    )
+    return fileSections.join("\n")
+  }
+
+  private async getHrxSections(root: string): Promise<string[]> {
+    const directFiles = await this.getFileHrx(root)
+    let sections = [directFiles]
+    for (const subdir of await this.items()) {
+      sections = sections.concat(await subdir.getHrxSections(root))
+    }
+    return sections
+  }
+
   /**
    * Write the contents of this directory to an HRX file.
    */
   async toHrx(): Promise<string> {
-    throw new Error("Not implemented")
+    const sections = await this.getHrxSections(this.path)
+    return sections.join(HRX_SECTION_SEPARATOR)
   }
 }
