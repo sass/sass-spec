@@ -13,6 +13,7 @@ describe("SpecPath iteration", () => {
 
     afterEach(async () => {
       // Delete the created directory in case the test didn't work
+      // FIXME this cleanup makes test execution slow
       if (fs.existsSync(dir.path)) {
         await fs.promises.rmdir(dir.path, { recursive: true })
       }
@@ -44,7 +45,7 @@ describe("SpecPath iteration", () => {
       expect(fs.existsSync(dir.path)).toBeFalsy()
     })
 
-    it("deletes the directory on an interrupt", () => {
+    it.skip("deletes the directory on an interrupt", () => {
       const scriptPath = path.resolve(__dirname, "./fixtures/exit.ts")
       child_process.execSync(`npx ts-node ${scriptPath} SIGINT`)
       expect(fs.existsSync(dir.path)).toBeFalsy()
