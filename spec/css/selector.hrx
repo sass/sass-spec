@@ -362,11 +362,6 @@ Error: unterminated attribute selector for a
 
 <===>
 ================================================================================
-<===> escaping/number_as_first_char_without_space/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/number_as_first_char_without_space/input.scss
 .\31u {clear: left;}
 
@@ -375,13 +370,13 @@ Error: unterminated attribute selector for a
   clear: left;
 }
 
+<===> escaping/number_as_first_char_without_space/output-libsass.css
+.\31u {
+  clear: left;
+}
+
 <===>
 ================================================================================
-<===> escaping/number_as_first_char_with_space/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/number_as_first_char_with_space/input.scss
 .\31 u {clear: left;}
 
@@ -392,11 +387,6 @@ Error: unterminated attribute selector for a
 
 <===>
 ================================================================================
-<===> escaping/number_as_nonfirst_char_without_space/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/number_as_nonfirst_char_without_space/input.scss
 .a\31u {clear: left;}
 
@@ -405,13 +395,13 @@ Error: unterminated attribute selector for a
   clear: left;
 }
 
+<===> escaping/number_as_nonfirst_char_without_space/output-libsass.css
+.a\31u {
+  clear: left;
+}
+
 <===>
 ================================================================================
-<===> escaping/number_as_nonfirst_char_with_space/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/number_as_nonfirst_char_with_space/input.scss
 .a\31 u {clear: left;}
 
@@ -420,13 +410,13 @@ Error: unterminated attribute selector for a
   clear: left;
 }
 
+<===> escaping/number_as_nonfirst_char_with_space/output-libsass.css
+.a\31 u {
+  clear: left;
+}
+
 <===>
 ================================================================================
-<===> escaping/dollar_char/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/dollar_char/input.scss
 .u\$ {clear: left;}
 
@@ -437,11 +427,6 @@ Error: unterminated attribute selector for a
 
 <===>
 ================================================================================
-<===> escaping/dollar_char_as_numeric/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/dollar_char_as_numeric/input.scss
 .u\24 {clear: left;}
 
@@ -450,13 +435,13 @@ Error: unterminated attribute selector for a
   clear: left;
 }
 
+<===> escaping/dollar_char_as_numeric/output-libsass.css
+.u\24 {
+  clear: left;
+}
+
 <===>
 ================================================================================
-<===> escaping/parenthesis_in_interpolation/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/parenthesis_in_interpolation/input.scss
 $x: '\\28' + 'xlarge' + '\\29';
 .u#{$x} { clear: left; }
@@ -467,19 +452,26 @@ $x: '\\28' + 'xlarge' + '\\29';
 }
 
 
+<===> escaping/parenthesis_in_interpolation/output-libsass.css
+.u\28xlarge\29 {
+  clear: left;
+}
+
+
 <===>
 ================================================================================
-<===> escaping/alltogether_in_grid_selector/options.yml
----
-:todo:
-- sass/libsass
-
 <===> escaping/alltogether_in_grid_selector/input.scss
 $x: '\\28' + 'xlarge' + '\\29';
 .\31 2u#{$x}, .\31 2u\24#{$x} { width: 100%; clear: none; }
 
 <===> escaping/alltogether_in_grid_selector/output.css
 .\31 2u\(xlarge\), .\31 2u\$\(xlarge\) {
+  width: 100%;
+  clear: none;
+}
+
+<===> escaping/alltogether_in_grid_selector/output-libsass.css
+.\31 2u\28xlarge\29, .\31 2u\24\28xlarge\29 {
   width: 100%;
   clear: none;
 }
