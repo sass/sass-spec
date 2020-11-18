@@ -210,7 +210,7 @@ export default abstract class SpecPath {
     filenames: string[]
   ): Promise<string> {
     const fileSections = await Promise.all(
-      [...filenames].sort().map(async (filename) => {
+      filenames.map(async (filename) => {
         const contents = await this.contents(filename)
         const fullPath = path.resolve(this.path, filename)
         const relPath = path.relative(root, fullPath)
@@ -222,8 +222,7 @@ export default abstract class SpecPath {
 
   private async getSubdirsHrx(root: string): Promise<string[]> {
     let sections: string[] = []
-    const subdirNames = await this.subdirs()
-    for (const subdirName of [...subdirNames].sort()) {
+    for (const subdirName of await this.subdirs()) {
       const subdir = await this.subitem(subdirName)
       sections = sections.concat(await subdir.getHrxSections(root))
     }

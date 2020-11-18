@@ -30,7 +30,9 @@ function createSubdirCache(dir: HrxDirectory) {
 export default class VirtualSpecPath extends SpecPath {
   path: string
   basePath: string
+  private fileNames: string[]
   private fileCache: Record<string, string>
+  private subdirNames: string[]
   private subdirCache: Record<string, HrxDirectory>
   private isArchiveRoot: boolean
   private modified = false
@@ -44,7 +46,11 @@ export default class VirtualSpecPath extends SpecPath {
     super(root, parentOpts)
     this.path = path.resolve(basePath, hrxDir.path)
     this.basePath = basePath
+    this.fileNames = hrxDir.list().filter((item) => hrxDir.get(item)?.isFile())
     this.fileCache = createFileCache(hrxDir)
+    this.subdirNames = hrxDir
+      .list()
+      .filter((item) => hrxDir.get(item)?.isDirectory())
     this.subdirCache = createSubdirCache(hrxDir)
     this.isArchiveRoot = hrxDir.path === ""
   }
@@ -119,11 +125,11 @@ export default class VirtualSpecPath extends SpecPath {
   }
 
   async files() {
-    return Object.keys(this.fileCache)
+    return this.fileNames
   }
 
   async subdirs() {
-    return Object.keys(this.subdirCache)
+    return this.subdirNames
   }
 
   // FIXME change this to work with file writing
@@ -150,6 +156,9 @@ export default class VirtualSpecPath extends SpecPath {
     }
     this.modified = true
     this.fileCache[filename] = contents
+    if (!this.fileNames.includes(filename)) {
+      this.fileNames.push(filename)
+    }
   }
 
   async removeFile(filename: string) {
@@ -158,6 +167,7 @@ export default class VirtualSpecPath extends SpecPath {
     }
     this.modified = true
     delete this.fileCache[filename]
+    this.fileNames = this.fileNames.filter((f) => f !== filename)
   }
 
   async forEachTest(paths: string[], iteratee: SpecIteratee) {

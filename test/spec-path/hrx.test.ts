@@ -16,23 +16,13 @@ coconut
 <===> banana
 banana
 `
-    const expected = `
-<===> apple
-apple
-<===> banana
-banana
-<===> coconut
-coconut
-`
-    await expectHrx(input, expected)
+    await expectHrx(input)
   })
 
   it("splits nested directories into sections", async () => {
     const input = `
 <===> mushrooms/morel
 morel
-<===> vegetables/carrot
-carrot
 <===> banana
 banana
 <===> vegetables/potato
@@ -41,12 +31,14 @@ potato
 apple
 <===> mushrooms/shiitake
 shiitake
+<===> vegetables/carrot
+carrot
 `
     const expected = `
-<===> apple
-apple
 <===> banana
 banana
+<===> apple
+apple
 <===>
 ================================================================================
 <===> mushrooms/morel
@@ -55,10 +47,10 @@ morel
 shiitake
 <===>
 ================================================================================
-<===> vegetables/carrot
-carrot
 <===> vegetables/potato
 potato
+<===> vegetables/carrot
+carrot
 `
     await expectHrx(input, expected)
   })
