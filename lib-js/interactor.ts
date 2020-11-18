@@ -1,6 +1,6 @@
 import readline from "readline"
 import { SpecDirectory } from "./spec-directory"
-import { TestResult, FailTestResult } from "./test-case"
+import { TestResult, FailTestResult } from "./runner"
 import { SpecResult } from "./execute"
 
 interface InteractiveArgs {

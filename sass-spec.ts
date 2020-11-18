@@ -1,7 +1,7 @@
 import path from "path"
 import { fromPath } from "./lib-js/spec-directory"
 
-import { FailTestResult, runTestCase } from "./lib-js/test-case"
+import { FailTestResult, runTestCase } from "./lib-js/runner"
 import { Interactor } from "./lib-js/interactor"
 import { getArgs } from "./lib-js/cli-args"
 

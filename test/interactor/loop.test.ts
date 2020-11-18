@@ -2,7 +2,7 @@ import path from "path"
 import { Interactor } from "../../lib-js/interactor"
 import { Readable, Writable } from "stream"
 import { fromPath } from "../../lib-js/spec-directory"
-import { failures } from "../../lib-js/test-case"
+import { failures } from "../../lib-js/runner"
 
 class MemoryWritable extends Writable {
   chunks: string[] = []

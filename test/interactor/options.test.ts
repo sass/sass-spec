@@ -1,5 +1,5 @@
 import { optionsFor } from "../../lib-js/interactor"
-import { failures, FailTestResult } from "../../lib-js/test-case"
+import { failures, FailTestResult } from "../../lib-js/runner"
 
 describe("Interactor options", () => {
   it.todo("always includes certain choices")
