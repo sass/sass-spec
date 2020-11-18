@@ -48,7 +48,7 @@ async function runAllTests() {
     const result = await test.run()
     if (result.type === "fail" && args.interactive) {
       // TODO make it so that we don't need this result
-      await interactor.run(test)
+      await interactor.prompt(test)
     }
     tabulate(test)
   })

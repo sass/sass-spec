@@ -17,16 +17,14 @@ interface InteractorOption {
    * If the option returns a string, print that string and prompt again.
    * Otherwise, quit the loop.
    */
-  resolve(args: TestCase): Promise<string | void>
+  resolve(args: TestCase): string | Promise<string | void>
 }
 
 const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
-    async resolve(test) {
-      return test.input()
-    },
+    resolve: (test) => test.input(),
   },
   {
     key: "o",
@@ -62,23 +60,17 @@ const options: InteractorOption[] = [
     key: "d",
     description: "Show diff.",
     requirement: (test) => !!test.result().diff,
-    async resolve(test) {
-      return test.result().diff
-    },
+    resolve: (test) => test.result().diff!,
   },
   {
     key: "O",
     description: "Update expected output and pass test",
-    async resolve(test) {
-      await test.overwrite()
-    },
+    resolve: (test) => test.overwrite(),
   },
   {
     key: "I",
     description: (test) => `Migrate copy of test to pass on ${test.impl}`,
-    async resolve(test) {
-      await test.migrateImpl()
-    },
+    resolve: (test) => test.migrateImpl(),
   },
   {
     key: "T",
@@ -87,16 +79,12 @@ const options: InteractorOption[] = [
         test.result().failureType === "warning_difference" ? "warning" : "spec"
       return `Mark ${word} as todo for ${test.impl}`
     },
-    async resolve(test) {
-      await test.markTodo()
-    },
+    resolve: (test) => test.markTodo(),
   },
   {
     key: "G",
     description: (test) => `Ignore test for ${test.impl} FOREVER`,
-    async resolve(test) {
-      await test.markIgnore()
-    },
+    resolve: (test) => test.markIgnore(),
   },
   {
     key: "f",
@@ -155,7 +143,10 @@ export class Interactor {
     this.printLine()
   }
 
-  async run(test: TestCase): Promise<void> {
+  /**
+   * Run the interactor prompt on the given test case.
+   */
+  async prompt(test: TestCase): Promise<void> {
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
@@ -184,6 +175,7 @@ export class Interactor {
 
       const validOptions = optionsFor(test)
       this.printOptions(validOptions, test)
+
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
