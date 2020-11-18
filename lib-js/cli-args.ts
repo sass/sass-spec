@@ -37,10 +37,9 @@ interface YargsOptions {
 /**
  * Parse command line args into options used by the sass-spec runner.
  */
-export async function getArgs(
+export async function parseArgs(
   loadPath: string,
-  cliArgs: string[],
-  { exitOnFailure = false, showHelpOnFail = true, printHelp }: YargsOptions = {}
+  cliArgs: string[]
 ): Promise<CliArgs> {
   const argv = yargs(cliArgs)
     .usage(usageText)
@@ -80,19 +79,16 @@ export async function getArgs(
         "When a test fails, enter into a dialog for how to handle it",
       type: "boolean",
       default: false,
-    }).argv
-  // .check(({ help, dart, command }) => {
-  //   if (!help && !dart && !command) {
-  //     throw new Error("Must specify --dart or --command")
-  //   } else {
-  //     return true
-  //   }
-  // })
-  // .exitProcess(exitOnFailure)
-  // .showHelp(printHelp as any)
-  // .showHelpOnFail(showHelpOnFail)
-  // .conflicts("dart", "command")
-  // .conflicts("run-todo", "probe-todo").argv
+    })
+    .check(({ dart, command }) => {
+      if (!dart && !command) {
+        throw new Error("Must specify --dart or --command")
+      } else {
+        return true
+      }
+    })
+    .conflicts("dart", "command")
+    .conflicts("run-todo", "probe-todo").argv
 
   const args: Partial<CliArgs> = {
     interactive: argv.interactive,

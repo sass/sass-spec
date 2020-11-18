@@ -30,7 +30,7 @@ export function execCompiler(
       return child_process.spawnSync(command, [...initArgs, ...args], {
         cwd: path,
         encoding: "utf-8",
-        stdio: "pipe",
+        stdio: ["ignore", "pipe", "pipe"],
       })
     },
   }

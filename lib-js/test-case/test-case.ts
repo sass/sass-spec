@@ -135,11 +135,10 @@ export default class TestCase {
       await this.dir.options(),
       this.impl
     )
-    // FIXME how should we set things if this is todo
+
     if (mode === "ignore") {
       return { type: "skip" }
     }
-
     if (mode === "todo" && !this.todoMode) {
       return { type: "todo" }
     }

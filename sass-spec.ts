@@ -2,7 +2,7 @@ import path from "path"
 import { fromPath } from "./lib-js/spec-directory"
 
 import { Interactor } from "./lib-js/interactor"
-import { getArgs } from "./lib-js/cli-args"
+import { parseArgs } from "./lib-js/cli-args"
 import TestCase from "./lib-js/test-case"
 import { TestResult } from "./lib-js/test-case"
 
@@ -26,9 +26,9 @@ async function runAllTests() {
   const start = Date.now()
   const counts = { total: 0, pass: 0, fail: 0, skip: 0, todo: 0 }
   const rootPath = path.resolve(process.cwd(), ROOT_DIR)
-  const args = await getArgs(rootPath, process.argv.slice(2))
+  const args = await parseArgs(rootPath, process.argv.slice(2))
   const rootDir = await fromPath(rootPath)
-  const failures: { path: string; result: TestResult }[] = []
+  const failures: TestCase[] = []
 
   function tabulate(test: TestCase) {
     const result = test.result()
@@ -36,7 +36,7 @@ async function runAllTests() {
     counts[result.type]++
     process.stdout.write(symbols[result.type])
     if (result.type === "fail") {
-      failures.push({ path: test.dir.relPath(), result })
+      failures.push(test)
     }
   }
 
@@ -61,9 +61,9 @@ async function runAllTests() {
   process.stdout.write("\n")
 
   for (const failure of failures) {
-    console.log("Failure:", failure.path)
-    console.log(failure.result.message)
-    if (failure.result.diff) console.log(failure.result.diff)
+    console.log("Failure:", failure.dir.relPath())
+    console.log(failure.result().message)
+    if (failure.result().diff) console.log(failure.result().diff)
     console.log()
   }
 
