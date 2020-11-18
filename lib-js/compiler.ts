@@ -21,10 +21,13 @@ export interface Compiler {
 /**
  * Returns a sass compiler that runs the given command.
  */
-export function execCompiler(command: string): Compiler {
+export function execCompiler(
+  command: string,
+  initArgs: string[] = []
+): Compiler {
   return {
     async compile(path, args) {
-      return child_process.spawnSync(command, args, {
+      return child_process.spawnSync(command, [...initArgs, ...args], {
         cwd: path,
         encoding: "utf-8",
         stdio: "pipe",
@@ -128,26 +131,31 @@ async function* toDartChunks(stream: Readable) {
 }
 
 export class DartCompiler implements Compiler {
+  private initArgs: string[]
   private stdin: Writable
   private stdout: AsyncGenerator<string>
   private stderr: AsyncGenerator<string>
 
-  private constructor(dart: ChildProcessWithoutNullStreams) {
+  private constructor(
+    dart: ChildProcessWithoutNullStreams,
+    initArgs: string[] = []
+  ) {
     this.stdin = dart.stdin
     this.stdout = toDartChunks(dart.stdout)
     this.stderr = toDartChunks(dart.stderr)
+    this.initArgs = initArgs
   }
 
   /**
    * Create a dart-sass compiler from the repo given by the path.
    */
-  static async fromRepo(path: string) {
-    return new DartCompiler(await createDartProcess(path))
+  static async fromRepo(path: string, initArgs: string[] = []) {
+    return new DartCompiler(await createDartProcess(path), initArgs)
   }
 
   async compile(path: string, opts: string[]) {
     this.stdin.write(`!cd ${path}\n`)
-    this.stdin.write(opts.join(" ") + "\n")
+    this.stdin.write([...this.initArgs, ...opts].join(" ") + "\n")
     return {
       stdout: (await this.stdout.next()).value,
       stderr: (await this.stderr.next()).value,

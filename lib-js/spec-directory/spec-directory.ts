@@ -94,6 +94,11 @@ export default abstract class SpecDirectory {
     return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
   }
 
+  /** Get the precision for this test directory */
+  async precision() {
+    return (await this.options())[":precision"]
+  }
+
   /** Add the given option for the given impl */
   async addOptionForImpl(option: RunOption, impl: string) {
     const options = await this.getDirectOptions()

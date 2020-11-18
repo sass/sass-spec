@@ -140,7 +140,6 @@ function compareResults(
 export interface TestCaseOptions {
   impl: string
   compiler: Compiler
-  cmdArgs: string[]
   todoMode?: string
 }
 
@@ -151,11 +150,8 @@ export async function runTestCase(
   dir: SpecDirectory,
   opts: TestCaseOptions
 ): Promise<TestResult> {
-  const { impl, todoMode } = opts
-  const { mode, todoWarning, precision } = optionsForImpl(
-    await dir.options(),
-    impl
-  )
+  const { impl, compiler, todoMode } = opts
+  const { mode, todoWarning } = optionsForImpl(await dir.options(), impl)
   if (mode === "ignore") {
     return { type: "skip" }
   }
@@ -166,7 +162,7 @@ export async function runTestCase(
 
   const [expected, actual] = await Promise.all([
     getExpectedResult(dir, impl),
-    getActualResult(dir, { ...opts, precision }),
+    getActualResult(dir, impl, compiler),
   ])
 
   const skipWarning = todoWarning && !todoMode

@@ -67,20 +67,14 @@ export async function getExpectedResult(
   }
 }
 
-interface Options {
-  impl: string
-  compiler: Compiler
-  cmdArgs: string[]
-  precision?: number
-}
-
 export async function getActualResult(
   dir: SpecDirectory,
-  opts: Options
+  impl: string,
+  compiler: Compiler
 ): Promise<SpecResult> {
-  const { impl, cmdArgs: _cmdArgs, precision, compiler } = opts
+  const precision = await dir.precision()
 
-  const cmdArgs = [..._cmdArgs]
+  const cmdArgs = []
   // Pass in the indentend option to the command
   if (dir.isIndented()) {
     cmdArgs.push(impl === "dart-sass" ? "--indented" : "--sass")

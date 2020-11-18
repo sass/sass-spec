@@ -101,19 +101,22 @@ export async function getArgs(
       ? "probe"
       : undefined,
   }
+  args.impl = argv.dart ? "dart-sass" : argv.impl!
+  let cmdArgs = implArgs[args.impl] ?? []
+  cmdArgs.push(`--load-path=${loadPath}`)
+  if (argv["cmd-args"]) {
+    cmdArgs = cmdArgs.concat(argv["cmd-args"].split(" "))
+  }
+
   if (argv.command) {
-    args.compiler = execCompiler(path.resolve(process.cwd(), argv.command))
-    args.impl = argv.impl!
+    args.compiler = execCompiler(
+      path.resolve(process.cwd(), argv.command),
+      cmdArgs
+    )
   }
   if (argv.dart) {
     const repoPath = path.resolve(process.cwd(), argv.dart)
-    args.compiler = await DartCompiler.fromRepo(repoPath)
-    args.impl = "dart-sass"
-  }
-  args.cmdArgs = implArgs[args.impl!] ?? []
-  args.cmdArgs.push(`--load-path=${loadPath}`)
-  if (argv["cmd-args"]) {
-    args.cmdArgs = args.cmdArgs.concat(argv["cmd-args"].split(" "))
+    args.compiler = await DartCompiler.fromRepo(repoPath, cmdArgs)
   }
 
   return args as CliArgs

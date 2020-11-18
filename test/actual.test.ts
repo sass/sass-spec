@@ -15,16 +15,9 @@ describe("getActualResult", () => {
     await dir.cleanup()
   })
 
-  const opts = {
-    rootDir: "",
-    impl: "sass-mock",
-    compiler: mockCompiler,
-    cmdArgs: [],
-  }
-
   async function getResults(subpath: string) {
     const subdir = await dir.atPath(subpath)
-    return await getActualResult(subdir, opts)
+    return await getActualResult(subdir, "sass-mock", mockCompiler)
   }
 
   it("works for output case", async () => {
@@ -52,7 +45,6 @@ describe("getActualResult", () => {
   it.todo("throws an error if no input is found")
 
   describe("options", () => {
-    it.todo("passes rootDir correctly")
     it.todo("passes precision argument correctly")
     it.todo("passes indented argument correctly")
   })
