@@ -8,7 +8,6 @@ import {
   extractWarningMessages,
 } from "./normalize"
 import { Compiler } from "./compiler"
-import { normalize } from "path"
 
 interface BasicTestResult {
   type: "pass" | "todo" | "skip"
@@ -128,7 +127,7 @@ function compareResults(
     if (actual.isSuccess) {
       return failures.UnexpectedSuccess(actual)
     }
-    const normalizer = trimErrors ? extractWarningMessages : normalizeOutput
+    const normalizer = trimErrors ? extractErrorMessage : normalizeOutput
     const diff = getDiff("error", expected.error, actual.error, normalizer)
     if (diff) {
       return failures.ErrorDifference(actual, diff)
