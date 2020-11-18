@@ -23,7 +23,9 @@ describe("TestCase mutation functions", () => {
       await test.run()
       await test.overwrite()
       expect(await test.dir.readFile("output.css")).toEqual("NEW OUTPUT")
+      expect(test.result()).toMatchObject({ type: "pass" })
     })
+
     it("works when changing the type of output", async () => {
       const dir = await fromObject({
         "input.scss": "stderr: ERROR\nstatus: 1",
@@ -34,6 +36,19 @@ describe("TestCase mutation functions", () => {
       await test.overwrite()
       expect(await dir.readFile("error")).toEqual("ERROR")
       expect(dir.hasFile("output.css")).toBeFalsy()
+    })
+
+    it("deletes implementation overrides for this implementation", async () => {
+      const dir = await fromObject({
+        "input.scss": "stdout: NEW OUTPUT\nstatus: 0",
+        "output.css": "OUTPUT",
+        "output-sass-mock.css": "MOCK OUTPUT",
+      })
+      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+      await test.run()
+      await test.overwrite()
+      expect(await test.dir.readFile("output.css")).toEqual("NEW OUTPUT")
+      expect(test.dir.hasFile("output-sass-mock.css")).toBeFalsy()
     })
   })
 
@@ -51,6 +66,7 @@ describe("TestCase mutation functions", () => {
       expect(await dir.readFile("output-dart-sass.css")).toEqual("DART OUTPUT")
       expect(await dir.readFile("output-sass-mock.css")).toEqual("NEW OUTPUT")
       expect(await dir.readFile("warning-sass-mock")).toEqual("WARNING")
+      expect(test.result()).toMatchObject({ type: "pass" })
     })
 
     it("overrides existing impl-specific files", async () => {
@@ -107,7 +123,9 @@ describe("TestCase mutation functions", () => {
       await test.run()
       await test.markTodo()
       expect((await dir.options())[":warning_todo"]).toContain("sass-mock")
+      expect(test.result()).toMatchObject({ type: "pass" })
     })
+
     it("Marks a spec as :todo on any other failure", async () => {
       const dir = await fromObject({
         "input.scss": "stdout: OLD OUTPUT\nstatus: 0",
@@ -117,6 +135,7 @@ describe("TestCase mutation functions", () => {
       await test.run()
       await test.markTodo()
       expect((await dir.options())[":todo"]).toContain("sass-mock")
+      expect(test.result()).toMatchObject({ type: "todo" })
     })
   })
 
@@ -131,6 +150,7 @@ describe("TestCase mutation functions", () => {
       await test.run()
       await test.markIgnore()
       expect((await dir.options())[":ignore_for"]).toContain("sass-mock")
+      expect(test.result()).toMatchObject({ type: "skip" })
     })
   })
 })
