@@ -38,7 +38,7 @@ interface YargsOptions {
 export async function getArgs(
   loadPath: string,
   cliArgs: string[],
-  { exitOnFailure = false, showHelpOnFail = true, printHelp }: YargsOptions
+  { exitOnFailure = false, showHelpOnFail = true, printHelp }: YargsOptions = {}
 ) {
   const argv = yargs(cliArgs)
     .usage(usageText)
