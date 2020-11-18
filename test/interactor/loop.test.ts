@@ -28,9 +28,9 @@ OUTPUT
 `.trim()
     const dir = await fromContents(contents)
     const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    const result = (await test.result()) as any
-    const newResult = await interactor.run({ test, result })
-    expect(newResult).toEqual(result)
+    const oldResult = await test.run()
+    await interactor.run(test)
+    expect(test.result()).toEqual(oldResult)
     expect(output.contents()).toContain("Please select an option >")
   })
 
@@ -46,9 +46,8 @@ OUTPUT
 `.trim()
     const dir = await fromContents(contents)
     const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    const result = (await test.result()) as any
-    const newResult = await interactor.run({ test, result })
-    expect(newResult).toEqual(result)
+    await test.run()
+    await interactor.run(test)
     expect(output.contents()).toContain(
       "************\nTHIS IS ERROR\n************"
     )
@@ -66,9 +65,9 @@ OUTPUT
 `.trim()
     const dir = await fromContents(contents)
     const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    const result = (await test.result()) as any
-    const newResult = await interactor.run({ test, result })
-    expect(newResult).toEqual({ type: "pass" })
+    await test.run()
+    await interactor.run(test)
+    expect(test.result()).toEqual({ type: "pass" })
     expect(await test.dir.readFile("error-sass-mock")).toEqual("THIS IS ERROR")
   })
 
@@ -84,9 +83,10 @@ OUTPUT
 `.trim()
     const dir = await fromContents(contents)
     const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    const result = (await test.result()) as any
-    const newResult = await interactor.run({ test, result })
-    expect(newResult).toEqual(result)
+    await test.run()
+    const oldResult = test.result()
+    await interactor.run(test)
+    expect(test.result()).toEqual(oldResult)
     expect(output.contents()).toContain("Invalid option chosen")
   })
 
@@ -102,9 +102,8 @@ OUTPUT
 `.trim()
     const dir = await fromContents(contents)
     const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    const result = (await test.result()) as any
-    const newResult = await interactor.run({ test, result })
-    expect(newResult).toEqual(result)
+    await test.run()
+    await interactor.run(test)
     expect(output.contents()).toContain("Invalid option chosen")
   })
 

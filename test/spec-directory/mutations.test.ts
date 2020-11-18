@@ -5,7 +5,7 @@ import { fromPath } from "../../lib-js/spec-directory"
 describe("SpecDirectory mutations", () => {
   describe("writeFile", () => {
     it("replaces the contents of a virtual file", async () => {
-      let dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.writeFile("output.css", "NEW OUTPUT")
       expect(await dir.readFile("output.css")).toEqual("NEW OUTPUT")
       await dir.writeFile("output-libsass.css", "MORE OUTPUT")
@@ -16,7 +16,7 @@ describe("SpecDirectory mutations", () => {
 
   describe("deleteFile", () => {
     it("removes the contents of the virtual file", async () => {
-      let dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.removeFile("output.css")
       expect(dir.hasFile("output.css")).toBeFalsy()
       expect(await dir.listFiles()).not.toContain("output.css")
