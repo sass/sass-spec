@@ -1,6 +1,6 @@
 import path from "path"
 import yargs from "yargs/yargs"
-import { fromPath } from "./lib-js/spec-path"
+import { fromPath } from "./lib-js/spec-directory"
 
 import { FailTestResult, runTestCase } from "./lib-js/test-case"
 import { DartCompiler, execCompiler } from "./lib-js/compiler"

@@ -1,6 +1,6 @@
-import { fromContents } from "../../lib-js/spec-path"
+import { fromContents } from "../../lib-js/spec-directory"
 
-describe("SpecPath options", () => {
+describe("SpecDirectory options", () => {
   it("works in the basic case", async () => {
     const dir = await fromContents(
       `

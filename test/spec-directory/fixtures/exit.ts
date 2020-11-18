@@ -1,7 +1,7 @@
 // A test script that exits in the middle of a a withRealFiles callback
 
 import path from "path"
-import { fromPath } from "../../../lib-js/spec-path"
+import { fromPath } from "../../../lib-js/spec-directory"
 
 console.log(process.argv)
 const arg = process.argv[2] || "exit"

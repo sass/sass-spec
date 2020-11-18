@@ -1,8 +1,8 @@
 import path from "path"
-import { fromPath } from "../../lib-js/spec-path"
+import { fromPath } from "../../lib-js/spec-directory"
 
-// Tests for methods on SpecPath that mutate its contents
-describe("SpecPath mutations", () => {
+// Tests for methods on SpecDirectory that mutate its contents
+describe("SpecDirectory mutations", () => {
   describe("writeFile", () => {
     it("replaces the contents of a virtual file", async () => {
       let dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))

@@ -1,5 +1,5 @@
 import { optionsMap } from "../../lib-js/interactor"
-import { fromContents } from "../../lib-js/spec-path"
+import { fromContents } from "../../lib-js/spec-directory"
 import { failures } from "../../lib-js/test-case"
 
 function makeHrx(files: Record<string, string>) {

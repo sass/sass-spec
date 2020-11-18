@@ -1,11 +1,11 @@
 import fs from "fs"
 import path from "path"
 import child_process from "child_process"
-import { fromPath, SpecPath } from "../../lib-js/spec-path"
+import { fromPath, SpecDirectory } from "../../lib-js/spec-directory"
 
-describe("SpecPath iteration", () => {
+describe("SpecDirectory iteration", () => {
   describe("withRealFiles", () => {
-    let dir: SpecPath
+    let dir: SpecDirectory
 
     beforeAll(async () => {
       dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
@@ -55,7 +55,7 @@ describe("SpecPath iteration", () => {
   })
 
   describe("forEachTest", () => {
-    let dir: SpecPath
+    let dir: SpecDirectory
     beforeAll(async () => {
       dir = await fromPath(path.resolve(__dirname, "./fixtures/iterate"))
     })

@@ -1,5 +1,5 @@
 import path from "path"
-import { fromPath, SpecPath } from "../lib-js/spec-path"
+import { fromPath, SpecDirectory } from "../lib-js/spec-directory"
 import { runTestCase } from "../lib-js/test-case"
 import { mockCompiler } from "./fixtures/mock-compiler"
 
@@ -11,7 +11,7 @@ const baseOpts = {
 }
 
 describe("runTestCase", () => {
-  let dir: SpecPath
+  let dir: SpecDirectory
   beforeAll(async () => {
     dir = await fromPath(path.resolve(__dirname, "fixtures/test-case.hrx"))
     await dir.writeToDisk()

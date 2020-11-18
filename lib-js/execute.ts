@@ -1,4 +1,4 @@
-import { SpecPath } from "./spec-path"
+import { SpecDirectory } from "./spec-directory"
 import { Compiler } from "./compiler"
 
 interface SuccessResult {
@@ -17,7 +17,7 @@ export type SpecResult = SuccessResult | ErrorResult
 /**
  * Return whether the file should have a successful output
  */
-function hasOutputFile(dir: SpecPath, impl: string) {
+function hasOutputFile(dir: SpecDirectory, impl: string) {
   return (
     dir.hasFile(`output-${impl}.css`) ||
     (dir.hasFile("output.css") && !dir.hasFile(`error-${impl}`))
@@ -28,7 +28,7 @@ function hasOutputFile(dir: SpecPath, impl: string) {
  * Get the expected result from running a spec on a directory.
  */
 export async function getExpectedResult(
-  dir: SpecPath,
+  dir: SpecDirectory,
   impl: string
 ): Promise<SpecResult> {
   const isSuccessCase = hasOutputFile(dir, impl)
@@ -78,7 +78,7 @@ interface Options {
 }
 
 export async function getActualResult(
-  dir: SpecPath,
+  dir: SpecDirectory,
   opts: Options
 ): Promise<SpecResult> {
   const { rootDir, impl, cmdArgs: _cmdArgs, precision, compiler } = opts

@@ -3,25 +3,25 @@ import path from "path"
 import yaml from "js-yaml"
 import { RunOption, RunOptions, mergeOptions } from "../options"
 
-export type SpecIteratee = (subdir: SpecPath) => Promise<void>
+export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
 
 /**
  * Represents either a real or virtual directory that contains spec files.
  */
-export default abstract class SpecPath {
+export default abstract class SpecDirectory {
   private parentOpts?: RunOptions
-  private subitems: Record<string, SpecPath>
+  private subitems: Record<string, SpecDirectory>
   abstract path: string
-  protected root: SpecPath
+  protected root: SpecDirectory
 
-  constructor(root?: SpecPath, parentOpts?: RunOptions) {
+  constructor(root?: SpecDirectory, parentOpts?: RunOptions) {
     this.root = root ?? this
     this.parentOpts = parentOpts
     this.subitems = {}
   }
 
   // helper to get the subitem with the given name
-  protected abstract getSubitem(name: string): Promise<SpecPath>
+  protected abstract getSubitem(name: string): Promise<SpecDirectory>
 
   /** The path of this directory relative to the top level that was created */
   relPath() {
@@ -52,9 +52,9 @@ export default abstract class SpecPath {
   }
 
   /**
-   * Get the SpecPath at the provided path to the subitem
+   * Get the SpecDirectory at the provided path to the subitem
    */
-  async atPath(path: string): Promise<SpecPath> {
+  async atPath(path: string): Promise<SpecDirectory> {
     if (!path) return this
     const i = path.indexOf("/")
     if (i === -1) {

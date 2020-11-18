@@ -1,11 +1,11 @@
 import readline from "readline"
-import { SpecPath } from "./spec-path"
+import { SpecDirectory } from "./spec-directory"
 import { TestResult, FailTestResult } from "./test-case"
 import { SpecResult } from "./execute"
 
 interface InteractiveArgs {
   impl: string
-  dir: SpecPath
+  dir: SpecDirectory
   result: FailTestResult
 }
 
@@ -16,7 +16,7 @@ function getExpectedFiles(impl?: string) {
 }
 
 async function overwriteResult(
-  dir: SpecPath,
+  dir: SpecDirectory,
   result: SpecResult,
   impl?: string
 ) {

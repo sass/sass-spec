@@ -1,6 +1,6 @@
 import { createPatch } from "diff"
 import { SpecResult, getExpectedResult, getActualResult } from "./execute"
-import { SpecPath } from "./spec-path"
+import { SpecDirectory } from "./spec-directory"
 import { optionsForImpl } from "./options"
 import {
   normalizeOutput,
@@ -137,10 +137,10 @@ function compareResults(
 }
 
 /**
- * Execute the test case at the given SpecPath, using the provided options.
+ * Execute the test case at the given directory, using the provided options.
  */
 export async function runTestCase(
-  dir: SpecPath,
+  dir: SpecDirectory,
   opts: Options
 ): Promise<TestResult> {
   const { impl, todoMode } = opts

@@ -2,13 +2,13 @@ import fs from "fs"
 import path from "path"
 
 import { RunOptions } from "../options"
-import SpecPath from "./spec-path"
-import VirtualSpecPath from "./virtual-spec-path"
+import SpecDirectory from "./spec-directory"
+import VirtualDirectory from "./virtual-directory"
 
-export default class RealSpecPath extends SpecPath {
+export default class RealDirectory extends SpecDirectory {
   path: string
 
-  constructor(path: string, root?: SpecPath, parentOpts?: RunOptions) {
+  constructor(path: string, root?: SpecDirectory, parentOpts?: RunOptions) {
     super(root, parentOpts)
     this.path = path
   }
@@ -44,13 +44,13 @@ export default class RealSpecPath extends SpecPath {
       .map((entry) => entry.name)
   }
 
-  async getSubitem(filename: string): Promise<SpecPath> {
+  async getSubitem(filename: string): Promise<SpecDirectory> {
     const options = await this.options()
     const fullPath = path.resolve(this.path, filename)
     if (filename.endsWith(".hrx")) {
-      return await VirtualSpecPath.fromArchive(fullPath, this.root, options)
+      return await VirtualDirectory.fromArchive(fullPath, this.root, options)
     } else {
-      return new RealSpecPath(fullPath, this.root, options)
+      return new RealDirectory(fullPath, this.root, options)
     }
   }
 

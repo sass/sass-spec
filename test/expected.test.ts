@@ -1,5 +1,5 @@
 import { getExpectedResult } from "../lib-js/execute"
-import { fromContents } from "../lib-js/spec-path"
+import { fromContents } from "../lib-js/spec-directory"
 
 describe("getExpectedResult", () => {
   describe("output", () => {

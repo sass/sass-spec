@@ -1,7 +1,7 @@
-import { fromContents } from "../../lib-js/spec-path"
-import { toHrx } from "../../lib-js/spec-path/hrx"
+import { fromContents } from "../../lib-js/spec-directory"
+import { toHrx } from "../../lib-js/spec-directory/hrx"
 
-describe("SpecPath::toHrx", () => {
+describe("toHrx", () => {
   async function expectHrx(input: string, expected: string = input) {
     input = input.trim()
     expected = expected.trim()

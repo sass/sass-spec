@@ -1,10 +1,10 @@
 import path from "path"
-import { fromPath, SpecPath } from "../lib-js/spec-path"
+import { fromPath, SpecDirectory } from "../lib-js/spec-directory"
 import { getActualResult } from "../lib-js/execute"
 import { mockCompiler } from "./fixtures/mock-compiler"
 
 describe("getActualResult", () => {
-  let dir: SpecPath
+  let dir: SpecDirectory
 
   beforeAll(async () => {
     dir = await fromPath(path.resolve(__dirname, "./fixtures/actual.hrx"))

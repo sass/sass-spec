@@ -1,7 +1,7 @@
 import path from "path"
 import { Interactor } from "../../lib-js/interactor"
 import { Readable, Writable } from "stream"
-import { fromPath } from "../../lib-js/spec-path"
+import { fromPath } from "../../lib-js/spec-directory"
 import { failures } from "../../lib-js/test-case"
 
 class MemoryWritable extends Writable {

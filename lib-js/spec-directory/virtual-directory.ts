@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 import { Readable } from "stream"
-import SpecPath, { SpecIteratee } from "./spec-path"
+import SpecDirectory, { SpecIteratee } from "./spec-directory"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
 import { toHrx } from "./hrx"
@@ -28,7 +28,7 @@ function createSubdirCache(dir: HrxDirectory) {
   return cache
 }
 
-export default class VirtualSpecPath extends SpecPath {
+export default class VirtualDirectory extends SpecDirectory {
   path: string
   basePath: string
   private fileNames: string[]
@@ -41,7 +41,7 @@ export default class VirtualSpecPath extends SpecPath {
   constructor(
     basePath: string,
     hrxDir: HrxDirectory,
-    root?: SpecPath,
+    root?: SpecDirectory,
     parentOpts?: RunOptions
   ) {
     super(root, parentOpts)
@@ -59,13 +59,13 @@ export default class VirtualSpecPath extends SpecPath {
   // Unarchive the given .hrx file and turn it into a spec path
   static async fromArchive(
     hrxPath: string,
-    root?: SpecPath,
+    root?: SpecDirectory,
     parentOpts?: RunOptions
   ) {
     const stream = fs.createReadStream(hrxPath, { encoding: "utf-8" })
     const archive = await archiveFromStream(stream)
     const { dir, name } = path.parse(hrxPath)
-    return new VirtualSpecPath(
+    return new VirtualDirectory(
       path.resolve(dir, name),
       archive,
       root,
@@ -77,7 +77,7 @@ export default class VirtualSpecPath extends SpecPath {
     const stream = Readable.from(contents)
     const archive = await archiveFromStream(stream)
     // TODO where should the temp path be?
-    return new VirtualSpecPath(path, archive)
+    return new VirtualDirectory(path, archive)
   }
 
   private async writeDirectFiles() {
@@ -140,7 +140,7 @@ export default class VirtualSpecPath extends SpecPath {
     if (!subitem) {
       throw new Error(`Item does not exist: ${itemName}`)
     }
-    return new VirtualSpecPath(this.basePath, subitem, this.root, options)
+    return new VirtualDirectory(this.basePath, subitem, this.root, options)
   }
 
   hasFile(filename: string) {
