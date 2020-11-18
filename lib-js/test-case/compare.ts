@@ -5,10 +5,9 @@ import { failures, SassResult, TestResult } from "./util"
 export function normalizeOutput(output = "") {
   return (
     output
-      .replace(/\r?\n+/g, "\n")
+      .replace(/(\r?\n)+/g, "\n")
       // Normalize paths
-      // TODO what is expected here?
-      .replace(/[-_/a-zA-Z0-9]+input\.scss/g, "input.scss")
+      .replace(/[-_/a-zA-Z0-9]+(input\.s[ca]ss)/g, "$1")
       .trim()
   )
 }
@@ -24,6 +23,11 @@ export function extractErrorMessage(msg: string = "") {
 export function extractWarningMessages(msg: string = "") {
   // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
   // and only prints out the first warning
+  // return (
+  //   normalizeOutput(msg)
+  //     .split("\n\n")
+  //     .filter((line) => /^\s*(DEPRECATION )?WARNING/.test(line))
+  //     .join("\n\n")
   return (
     normalizeOutput(msg)
       .split("\n")

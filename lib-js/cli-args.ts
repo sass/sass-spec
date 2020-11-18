@@ -80,8 +80,8 @@ export async function parseArgs(
         return true
       }
     })
-    .conflicts("dart", "command")
-    .conflicts("run-todo", "probe-todo").argv
+    .conflicts("dart", "command").argv
+  // .conflicts("run-todo", "probe-todo").argv
 
   const args: Partial<CliArgs> = {
     interactive: argv.interactive,
