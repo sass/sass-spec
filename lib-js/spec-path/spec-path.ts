@@ -83,6 +83,11 @@ export default abstract class SpecPath {
   async writeToDisk(): Promise<void> {}
   async cleanup(): Promise<void> {}
 
+  // whether this directory needs to clean up anything
+  async needsCleanup() {
+    return false
+  }
+
   /**
    * Write files corresponding to this directory and run the given callback,
    * deleting the files when done

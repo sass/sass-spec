@@ -33,6 +33,7 @@ export default class VirtualSpecPath extends SpecPath {
   private fileCache: Record<string, string>
   private subdirCache: Record<string, HrxDirectory>
   private isArchiveRoot: boolean
+  private modified = false
 
   constructor(
     basePath: string,
@@ -97,6 +98,14 @@ export default class VirtualSpecPath extends SpecPath {
     await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
   }
 
+  async needsCleanup() {
+    const items = await this.items()
+    const subdirsNeedCleanup = await Promise.all(
+      items.map((subdir) => subdir.needsCleanup())
+    )
+    return this.modified || subdirsNeedCleanup.some((value) => value)
+  }
+
   async cleanup() {
     await fs.promises.rmdir(this.path, { recursive: true })
   }
@@ -131,6 +140,7 @@ export default class VirtualSpecPath extends SpecPath {
     if (this.subdirCache[filename]) {
       throw new Error("Trying to write a subdirectory")
     }
+    this.modified = true
     this.fileCache[filename] = contents
   }
 
@@ -138,6 +148,7 @@ export default class VirtualSpecPath extends SpecPath {
     if (this.subdirCache[filename]) {
       throw new Error("Trying to remove a subdirectory")
     }
+    this.modified = true
     delete this.fileCache[filename]
   }
 
