@@ -183,6 +183,7 @@ export class Interactor {
     }
 
     while (true) {
+      this.printLine()
       this.printLine(`In test case: ${test.dir.relPath()}`)
       this.printLine(test.result().message)
 
