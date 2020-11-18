@@ -1,23 +1,48 @@
 import { fromContents } from "../../lib-js/spec-path"
 
 describe("SpecPath::toHrx", () => {
-  async function expectHrxIdempotent(contents: string) {
-    contents = contents.trimStart()
-    const dir = await fromContents(contents)
-    expect(await dir.toHrx()).toEqual(contents)
+  async function expectHrx(input: string, expected: string = input) {
+    input = input.trim()
+    expected = expected.trim()
+    const dir = await fromContents(input)
+    expect(await dir.toHrx()).toEqual(expected)
   }
-  it("works on a normal directory", async () => {
-    await expectHrxIdempotent(`
+  it("writes contents of a normal directory in alphabetical order", async () => {
+    const input = `
+<===> apple
+apple
+<===> coconut
+coconut
+<===> banana
+banana
+`
+    const expected = `
 <===> apple
 apple
 <===> banana
 banana
 <===> coconut
-coconut`)
+coconut
+`
+    await expectHrx(input, expected)
   })
 
-  it("works on a normal directory with nested blocks", async () => {
-    await expectHrxIdempotent(`
+  it("splits nested directories into sections", async () => {
+    const input = `
+<===> mushrooms/morel
+morel
+<===> vegetables/carrot
+carrot
+<===> banana
+banana
+<===> vegetables/potato
+potato
+<===> apple
+apple
+<===> mushrooms/shiitake
+shiitake
+`
+    const expected = `
 <===> apple
 apple
 <===> banana
@@ -31,8 +56,14 @@ shiitake
 <===>
 ================================================================================
 <===> vegetables/carrot
-coconut
+carrot
 <===> vegetables/potato
-potato`)
+potato
+`
+    await expectHrx(input, expected)
   })
+
+  it.todo("overwrite test directories in style-guide order")
+
+  it.todo("includes subdirs in test directories in the same section")
 })
