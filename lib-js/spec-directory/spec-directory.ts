@@ -94,40 +94,11 @@ export default abstract class SpecDirectory {
     return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
   }
 
-  /** Get the precision for this test directory */
-  async precision() {
-    return (await this.options())[":precision"]
-  }
-
-  /** Add the given option for the given impl */
-  async addOptionForImpl(option: RunOption, impl: string) {
-    const options = await this.directOptions()
-    const newOption = [...(options[option] ?? []), impl]
-    const newOptions: RunOptions = { ...options, [option]: newOption }
-    await this.writeFile("options.yml", yaml.safeDump(newOptions))
-  }
-
   // Test case info
 
   /** Return whether this directory corresponds to a test case */
   isTestDir() {
     return this.hasFile("input.scss") || this.hasFile("input.sass")
-  }
-
-  /** Return whether this test directory has an indented sass file */
-  isIndented() {
-    return this.hasFile("input.sass")
-  }
-
-  /** Return the name of the input file of this test directory. */
-  inputFile() {
-    return this.isIndented() ? "input.sass" : "input.scss"
-  }
-
-  /** Get the contents of the input file for this test directory. */
-  async input() {
-    const inputFile = this.isIndented() ? "input.sass" : "input.scss"
-    return await this.readFile(inputFile)
   }
 
   // Iteration

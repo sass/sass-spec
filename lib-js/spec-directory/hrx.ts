@@ -57,8 +57,10 @@ async function getTestDirHrx(
   dir: SpecDirectory,
   root: string
 ): Promise<string> {
-  const inputFile = dir.inputFile()
   const filenames = await dir.listFiles()
+  const inputFile = filenames.find((filename) =>
+    /input\.s[ca]ss/.test(filename)
+  )!
   // FIXME instead of sorting, just make sure the base output is written first
   const outputFiles = filenames
     .filter((name) => name.startsWith("output-"))
