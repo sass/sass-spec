@@ -6,6 +6,7 @@ import {
   failures,
   getExpectedFiles,
   compareResults,
+  overwriteResults,
   SassResult,
   TestResult,
 } from "./util"
@@ -55,14 +56,6 @@ export default class TestCase {
   /** Get the precision for this test directory */
   async precision() {
     return (await this.dir.options())[":precision"]
-  }
-
-  /** Add the given option for the given impl */
-  async addOptionForImpl(option: RunOption) {
-    const options = await this.dir.directOptions()
-    const newOption = [...(options[option] ?? []), this.impl]
-    const newOptions: RunOptions = { ...options, [option]: newOption }
-    await this.dir.writeFile("options.yml", yaml.safeDump(newOptions))
   }
 
   expectsSuccess() {
@@ -179,25 +172,14 @@ export default class TestCase {
     return this._result
   }
 
-  // Overwrite the set of results to be equal to the provided result
-  private async overwriteResults(impl?: string) {
-    const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
-    const actual = this.actual()
-    if (actual.isSuccess) {
-      await Promise.all([
-        this.dir.writeFile(outputFile, actual.output),
-        actual.warning
-          ? this.dir.writeFile(warningFile, actual.warning)
-          : this.dir.removeFile(warningFile),
-        this.dir.removeFile(errorFile),
-      ])
-    } else {
-      await Promise.all([
-        this.dir.writeFile(errorFile, actual.error),
-        this.dir.removeFile(outputFile),
-        this.dir.removeFile(warningFile),
-      ])
-    }
+  // Mutations
+
+  /** Add the given option for the given impl */
+  async addOptionForImpl(option: RunOption) {
+    const options = await this.dir.directOptions()
+    const newOption = [...(options[option] ?? []), this.impl]
+    const newOptions: RunOptions = { ...options, [option]: newOption }
+    await this.dir.writeFile("options.yml", yaml.safeDump(newOptions))
   }
 
   /**
@@ -205,7 +187,7 @@ export default class TestCase {
    */
   async overwrite() {
     // overwrite the contents of the base files
-    await this.overwriteResults()
+    await overwriteResults(this.dir, this.actual())
     // delete any override files for this impl
     await Promise.all(
       getExpectedFiles(this.impl).map((filename) =>
@@ -220,7 +202,7 @@ export default class TestCase {
    */
   async migrateImpl() {
     const actual = this.actual()
-    await this.overwriteResults(this.impl)
+    await overwriteResults(this.dir, this.actual(), this.impl)
     // If a nonempty base warning exists, but the actual result yields no warning,
     // create a warning file
     if (

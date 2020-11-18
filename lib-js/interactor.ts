@@ -182,7 +182,7 @@ export class Interactor {
       })
     }
 
-    const type = test.result().failureType || ''
+    const type = test.result().failureType || ""
 
     // If a repeated choice is chosen for a given failure type, run that choice
     if (this.memory[type]) {
