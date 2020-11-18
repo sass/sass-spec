@@ -14,8 +14,8 @@ interface InteractorOption {
   requirement?(args: TestCaseArg): boolean
   /**
    * The function to call to resolve this option.
-   * If this function returns a value, the interactive mode should quit with that value,
-   * otherwise continue.
+   * If the option returns a string, print that string and prompt again.
+   * Otherwise, quit the loop.
    */
   resolve(args: TestCase): Promise<string | void>
 }
