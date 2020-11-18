@@ -1,7 +1,7 @@
-import { getExpectedResult } from "../lib-js/execute"
-import { fromContents } from "../lib-js/spec-directory"
+import { fromContents } from "../../lib-js/spec-directory"
+import TestCase from "../../lib-js/test-case"
 
-describe("getExpectedResult", () => {
+describe("TestCase::expectedResult()", () => {
   describe("output", () => {
     const expected = {
       isSuccess: true,
@@ -12,7 +12,8 @@ describe("getExpectedResult", () => {
 
     async function expectOutput(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const result = await getExpectedResult(dir, "sass-mock")
+      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const result = await testCase.expectedResult()
       expect(result).toEqual(expected)
     }
 
@@ -46,7 +47,8 @@ FAILURE`)
     }
     async function expectError(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const result = await getExpectedResult(dir, "sass-mock")
+      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const result = await testCase.expectedResult()
       expect(result).toEqual(expected)
     }
 
@@ -87,7 +89,8 @@ ERROR`)
     }
     async function expectWarning(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const result = await getExpectedResult(dir, "sass-mock")
+      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const result = await testCase.expectedResult()
       expect(result).toEqual(expected)
     }
     it("returns the contents of `warning` when a warning file is defined", async () => {

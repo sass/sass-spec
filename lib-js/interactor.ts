@@ -1,5 +1,5 @@
 import readline from "readline"
-import { TestResult, FailTestResult } from "./runner"
+import { TestResult, FailTestResult } from "./test-case/util"
 import TestCase from "./test-case"
 
 interface InteractiveArgs {

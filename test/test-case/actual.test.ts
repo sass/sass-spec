@@ -1,13 +1,13 @@
 import path from "path"
-import { fromPath, SpecDirectory } from "../lib-js/spec-directory"
-import { getActualResult } from "../lib-js/execute"
-import { mockCompiler } from "./fixtures/mock-compiler"
+import { fromPath, SpecDirectory } from "../../lib-js/spec-directory"
+import { mockCompiler } from "../fixtures/mock-compiler"
+import TestCase from "../../lib-js/test-case"
 
-describe("getActualResult", () => {
+describe("TestCase::actualResult()", () => {
   let dir: SpecDirectory
 
   beforeAll(async () => {
-    dir = await fromPath(path.resolve(__dirname, "./fixtures/actual.hrx"))
+    dir = await fromPath(path.resolve(__dirname, "../fixtures/actual.hrx"))
     await dir.setup()
   })
 
@@ -17,7 +17,8 @@ describe("getActualResult", () => {
 
   async function getResults(subpath: string) {
     const subdir = await dir.atPath(subpath)
-    return await getActualResult(subdir, "sass-mock", mockCompiler)
+    const test = new TestCase(subdir, "sass-mock", mockCompiler)
+    return await test.actualResult()
   }
 
   it("works for output case", async () => {

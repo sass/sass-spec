@@ -1,28 +1,8 @@
 import yaml from "js-yaml"
-import type { SpecDirectory } from "./spec-directory"
-import { RunOption, RunOptions, optionsForImpl } from "./options"
-import { Compiler } from "./compiler"
-import { failures, compareResults, TestResult } from "./runner"
-
-interface SuccessResult {
-  isSuccess: true
-  output: string
-  warning?: string
-}
-
-interface ErrorResult {
-  isSuccess: false
-  error: string
-}
-
-/** A result of executing a sass compiler */
-export type SassResult = SuccessResult | ErrorResult
-
-function getExpectedFiles(impl?: string) {
-  return impl
-    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
-    : ["output.css", "warning", "error"]
-}
+import type { SpecDirectory } from "../spec-directory"
+import { RunOption, RunOptions, optionsForImpl } from "../options"
+import { Compiler } from "../compiler"
+import { failures, getExpectedFiles, compareResults, SassResult, TestResult } from "./util"
 
 /**
  * A wrapper around a SpecDirectory that represents a sass-spec test case.

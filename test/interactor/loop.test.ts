@@ -1,8 +1,8 @@
-import path from "path"
 import { Interactor } from "../../lib-js/interactor"
 import { Readable, Writable } from "stream"
-import { fromPath } from "../../lib-js/spec-directory"
-import { failures } from "../../lib-js/runner"
+import { fromContents } from "../../lib-js/spec-directory"
+import TestCase from "../../lib-js/test-case"
+import { mockCompiler } from "../fixtures/mock-compiler-2"
 
 class MemoryWritable extends Writable {
   chunks: string[] = []
@@ -20,16 +20,16 @@ describe("Interactor loop", () => {
     const input = Readable.from(["f\n"])
     const output = new MemoryWritable()
     const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
-    const result = failures.UnexpectedError({
-      isSuccess: false,
-      error: "error",
-    })
-    const newResult = await interactor.run({
-      impl: "sass-mock",
-      test: dir,
-      result,
-    })
+    const contents = `
+<===> input.scss
+stderr: ERROR
+<===> output.css
+OUTPUT
+`.trim()
+    const dir = await fromContents(contents)
+    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+    const result = (await test.testResult()) as any
+    const newResult = await interactor.run({ test, result })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Please select an option >")
   })
@@ -38,16 +38,16 @@ describe("Interactor loop", () => {
     const input = Readable.from(["e\n", "f\n"])
     const output = new MemoryWritable()
     const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
-    const result = failures.UnexpectedError({
-      isSuccess: false,
-      error: "THIS IS ERROR",
-    })
-    const newResult = await interactor.run({
-      impl: "sass-mock",
-      test: dir,
-      result,
-    })
+    const contents = `
+<===> input.scss
+stderr: THIS IS ERROR
+<===> output.css
+OUTPUT
+`.trim()
+    const dir = await fromContents(contents)
+    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+    const result = (await test.testResult()) as any
+    const newResult = await interactor.run({ test, result })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain(
       "************\nTHIS IS ERROR\n************"
@@ -58,34 +58,34 @@ describe("Interactor loop", () => {
     const input = Readable.from(["I\n"])
     const output = new MemoryWritable()
     const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
-    const result = failures.UnexpectedError({
-      isSuccess: false,
-      error: "THIS IS ERROR",
-    })
-    const newResult = await interactor.run({
-      impl: "sass-mock",
-      test: dir,
-      result,
-    })
+    const contents = `
+<===> input.scss
+stderr: THIS IS ERROR
+<===> output.css
+OUTPUT
+`.trim()
+    const dir = await fromContents(contents)
+    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+    const result = (await test.testResult()) as any
+    const newResult = await interactor.run({ test, result })
     expect(newResult).toEqual({ type: "pass" })
-    expect(await dir.readFile("error-sass-mock")).toEqual("THIS IS ERROR")
+    expect(await test.dir.readFile("error-sass-mock")).toEqual("THIS IS ERROR")
   })
 
   it("prompts again if an invalid option was chosen", async () => {
     const input = Readable.from(["$\n", "f\n"])
     const output = new MemoryWritable()
     const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
-    const result = failures.UnexpectedError({
-      isSuccess: false,
-      error: "THIS IS ERROR",
-    })
-    const newResult = await interactor.run({
-      impl: "sass-mock",
-      test: dir,
-      result,
-    })
+    const contents = `
+<===> input.scss
+stderr: THIS IS ERROR
+<===> output.css
+OUTPUT
+`.trim()
+    const dir = await fromContents(contents)
+    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+    const result = (await test.testResult()) as any
+    const newResult = await interactor.run({ test, result })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Invalid option chosen")
   })
@@ -94,16 +94,16 @@ describe("Interactor loop", () => {
     const input = Readable.from(["o\n", "f\n"])
     const output = new MemoryWritable()
     const interactor = new Interactor(input, output)
-    const dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
-    const result = failures.UnexpectedError({
-      isSuccess: false,
-      error: "THIS IS ERROR",
-    })
-    const newResult = await interactor.run({
-      impl: "sass-mock",
-      test: dir,
-      result,
-    })
+    const contents = `
+<===> input.scss
+stderr: THIS IS ERROR
+<===> output.css
+OUTPUT
+`.trim()
+    const dir = await fromContents(contents)
+    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
+    const result = (await test.testResult()) as any
+    const newResult = await interactor.run({ test, result })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Invalid option chosen")
   })

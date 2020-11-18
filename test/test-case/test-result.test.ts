@@ -1,19 +1,12 @@
 import path from "path"
-import { fromPath, SpecDirectory } from "../lib-js/spec-directory"
-import { runTestCase } from "../lib-js/runner"
-import { mockCompiler } from "./fixtures/mock-compiler"
+import { fromPath, SpecDirectory } from "../../lib-js/spec-directory"
+import { mockCompiler } from "../fixtures/mock-compiler"
+import TestCase from "../../lib-js/test-case"
 
-const baseOpts = {
-  impl: "sass-mock",
-  compiler: mockCompiler,
-  cmdArgs: [`${path.resolve(__dirname, "fixtures/sass-exec-mock.js")}`],
-  rootDir: path.resolve(__dirname, "fixtures"),
-}
-
-describe("runTestCase", () => {
+describe("TestCase::testResults()", () => {
   let dir: SpecDirectory
   beforeAll(async () => {
-    dir = await fromPath(path.resolve(__dirname, "fixtures/runner.hrx"))
+    dir = await fromPath(path.resolve(__dirname, "../fixtures/runner.hrx"))
     await dir.setup()
   })
 
@@ -21,9 +14,10 @@ describe("runTestCase", () => {
     await dir.cleanup()
   })
 
-  async function runAtPath(subpath: string, opts?: any) {
+  async function runAtPath(subpath: string, opts: any = {}) {
     const subdir = await dir.atPath(subpath)
-    return await runTestCase(subdir, { ...baseOpts, ...opts })
+    const test = new TestCase(subdir, "sass-mock", mockCompiler, opts.todoMode)
+    return await test.testResult()
   }
 
   describe("success cases", () => {

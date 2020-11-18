@@ -1,11 +1,24 @@
 import { createPatch } from "diff"
-import type { SassResult } from "./test-case"
 import {
   normalizeOutput,
   extractErrorMessage,
   extractWarningMessages,
-} from "./normalize"
-import { Compiler } from "./compiler"
+} from "../normalize"
+import { Compiler } from "../compiler"
+
+interface SuccessResult {
+  isSuccess: true
+  output: string
+  warning?: string
+}
+
+interface ErrorResult {
+  isSuccess: false
+  error: string
+}
+
+/** A result of executing a sass compiler */
+export type SassResult = SuccessResult | ErrorResult
 
 interface BasicTestResult {
   type: "pass" | "todo" | "skip"
@@ -137,4 +150,10 @@ export interface TestCaseOptions {
   impl: string
   compiler: Compiler
   todoMode?: string
+}
+
+export function getExpectedFiles(impl?: string) {
+  return impl
+    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
+    : ["output.css", "warning", "error"]
 }

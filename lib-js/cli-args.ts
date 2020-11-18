@@ -1,7 +1,7 @@
 import path from "path"
 import yargs from "yargs/yargs"
 import { DartCompiler, execCompiler } from "./compiler"
-import { TestCaseOptions } from "./runner"
+import { TestCaseOptions } from "./test-case/util"
 
 interface CliArgs extends TestCaseOptions {
   interactive: boolean
