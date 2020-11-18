@@ -2,14 +2,8 @@ import yaml from "js-yaml"
 import type { SpecDirectory } from "../spec-directory"
 import { RunOption, RunOptions, optionsForImpl } from "../options"
 import { Compiler } from "../compiler"
-import {
-  failures,
-  getExpectedFiles,
-  compareResults,
-  overwriteResults,
-  SassResult,
-  TestResult,
-} from "./util"
+import { getExpectedFiles, overwriteResults, SassResult } from "./util"
+import { failures, compareResults, TestResult } from "./compare"
 
 /**
  * A wrapper around a SpecDirectory that represents a sass-spec test case.
@@ -94,11 +88,8 @@ export default class TestCase {
     }
   }
 
-  /**
-   * Get the actual result of running the given compiler and implementation
-   * on this test case.
-   */
-  private async getActualResult(): Promise<SassResult> {
+  // Run the compiler and calculate the actual result
+  private async calcActualResult(): Promise<SassResult> {
     const precision = await this.precision()
 
     const cmdArgs = []
@@ -124,6 +115,9 @@ export default class TestCase {
   }
 
   async run(): Promise<TestResult> {
+    if (this._result) {
+      throw new Error(`Test case ${this.dir.relPath()} has already been run`)
+    }
     // Remember to cache the results of the run, regardless of result
     this._result = await this.doRun()
     return this._result
@@ -146,7 +140,7 @@ export default class TestCase {
 
     const [expected, actual] = await Promise.all([
       this.expected(),
-      this.getActualResult(),
+      this.calcActualResult(),
     ])
     this._actual = actual
 

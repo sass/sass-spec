@@ -4,7 +4,7 @@ import { fromPath } from "./lib-js/spec-directory"
 import { Interactor } from "./lib-js/interactor"
 import { getArgs } from "./lib-js/cli-args"
 import TestCase from "./lib-js/test-case"
-import { TestResult } from "./lib-js/test-case/util"
+import { TestResult } from "./lib-js/test-case"
 
 // FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
 const naughtyDirs = [

@@ -1,9 +1,10 @@
 import path from "path"
 import yargs from "yargs/yargs"
-import { DartCompiler, execCompiler } from "./compiler"
-import { TestCaseOptions } from "./test-case/util"
+import { Compiler, DartCompiler, execCompiler } from "./compiler"
 
-interface CliArgs extends TestCaseOptions {
+interface CliArgs {
+  impl: string
+  compiler: Compiler
   interactive: boolean
   testDirs: string[]
   todoMode?: string
