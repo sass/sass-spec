@@ -56,6 +56,8 @@ export default class VirtualDirectory extends SpecDirectory {
     this.isArchiveRoot = hrxDir.path === ""
   }
 
+  // Factories
+
   // Unarchive the given .hrx file and turn it into a spec path
   static async fromArchive(
     hrxPath: string,
@@ -81,71 +83,9 @@ export default class VirtualDirectory extends SpecDirectory {
     return new VirtualDirectory(path, archive)
   }
 
-  private async writeDirectFiles() {
-    await fs.promises.mkdir(this.path, { recursive: true })
-    const files = await this.listFiles()
-    const writableFiles = files.filter((filename) => {
-      const { base, ext } = path.parse(filename)
-      if (base.startsWith("output")) return false
-      if (![".sass", ".scss", ".css"].includes(ext)) return false
-      return true
-    })
-    await Promise.all(
-      writableFiles.map(async (filename) => {
-        const filepath = path.resolve(this.path, filename)
-        await fs.promises.writeFile(filepath, await this.readFile(filename), {
-          encoding: "utf-8",
-        })
-      })
-    )
-  }
-
-  async writeToDisk() {
-    await this.writeDirectFiles()
-    const subdirs = await this.typedSubdirs()
-    await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
-  }
-
-  async needsCleanup(): Promise<boolean> {
-    const subdirs = await this.typedSubdirs()
-    const subdirsNeedCleanup = await Promise.all(
-      subdirs.map((subdir) => subdir.needsCleanup())
-    )
-    return this.modified || subdirsNeedCleanup.some((value) => value)
-  }
-
-  async cleanup() {
-    // remove this directory
-    await fs.promises.rmdir(this.path, { recursive: true })
-    // if files were written to this directory, write to the root archive file
-    if (await this.needsCleanup()) {
-      const hrx = await toHrx(this)
-      await fs.promises.writeFile(this.path + ".hrx", hrx, {
-        encoding: "utf-8",
-      })
-    }
-  }
-
+  // File access
   async listFiles() {
     return this.fileNames
-  }
-
-  async listSubdirs() {
-    return this.subdirNames
-  }
-
-  async getSubdir(itemName: string) {
-    const subitem = this.subdirCache[itemName]
-    const options = await this.options()
-    if (!subitem) {
-      throw new Error(`Item does not exist: ${itemName}`)
-    }
-    return new VirtualDirectory(this.basePath, subitem, this.root, options)
-  }
-
-  // Helper function to type the subdirs correctly
-  private async typedSubdirs(): Promise<VirtualDirectory[]> {
-    return (await this.subdirs()) as any
   }
 
   hasFile(filename: string) {
@@ -176,11 +116,82 @@ export default class VirtualDirectory extends SpecDirectory {
     this.fileNames = this.fileNames.filter((f) => f !== filename)
   }
 
+  // Subdir access
+
+  async listSubdirs() {
+    return this.subdirNames
+  }
+
+  async getSubdir(itemName: string) {
+    const subitem = this.subdirCache[itemName]
+    const options = await this.options()
+    if (!subitem) {
+      throw new Error(`Item does not exist: ${itemName}`)
+    }
+    return new VirtualDirectory(this.basePath, subitem, this.root, options)
+  }
+
+  // Helper function to type the subdirs correctly
+  private async typedSubdirs(): Promise<VirtualDirectory[]> {
+    return (await this.subdirs()) as any
+  }
+
+  // Iteration
+
+  // Write the files that are directly part of this directory
+  private async writeFilesToDisk() {
+    await fs.promises.mkdir(this.path, { recursive: true })
+    const files = await this.listFiles()
+    const writableFiles = files.filter((filename) => {
+      const { base, ext } = path.parse(filename)
+      if (base.startsWith("output")) return false
+      if (![".sass", ".scss", ".css"].includes(ext)) return false
+      return true
+    })
+    await Promise.all(
+      writableFiles.map(async (filename) => {
+        const filepath = path.resolve(this.path, filename)
+        await fs.promises.writeFile(filepath, await this.readFile(filename), {
+          encoding: "utf-8",
+        })
+      })
+    )
+  }
+
+  private async writeToDisk() {
+    await this.writeFilesToDisk()
+    const subdirs = await this.typedSubdirs()
+    await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
+  }
+
+  // Return true if a this virtual directory has been modified
+  // (i.e. through interactive mode)
+  private async hasModifications(): Promise<boolean> {
+    const subdirs = await this.typedSubdirs()
+    const subdirsNeedCleanup = await Promise.all(
+      subdirs.map((subdir) => subdir.hasModifications())
+    )
+    return this.modified || subdirsNeedCleanup.some((value) => value)
+  }
+
+  // Perform cleanup actions after opening this directory
+  private async cleanup() {
+    // remove the physical directory
+    await fs.promises.rmdir(this.path, { recursive: true })
+    // if files were written to this directory, write to the root archive file
+    if (await this.hasModifications()) {
+      const hrx = await toHrx(this)
+      await fs.promises.writeFile(this.path + ".hrx", hrx, {
+        encoding: "utf-8",
+      })
+    }
+  }
+
   /**
-   * Write files corresponding to this directory and run the given callback,
-   * deleting the files when done
+   * Run the given block on this archive, ensuring that input files are written to disk
+   * and any changes are written back to the archive even if the process is interrupted.
    */
-  async withRealFiles(cb: () => Promise<void>) {
+  private async withOpenArchive(cb: () => Promise<void>) {
     await this.writeToDisk()
 
     // Cleanup callbacks must be synchronous,
@@ -215,8 +226,7 @@ export default class VirtualDirectory extends SpecDirectory {
 
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
     if (this.isArchiveRoot) {
-      // TODO adjust this so that it only creates files needed for the test
-      await this.withRealFiles(async () => {
+      await this.withOpenArchive(async () => {
         await super.forEachTest(paths, iteratee)
       })
     } else {
