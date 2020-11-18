@@ -220,7 +220,6 @@ export class Interactor {
 
   async run(args: InteractiveArgs): Promise<TestResult> {
     const { dir, result } = args
-    // TODO can this be moved out of the function?
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
