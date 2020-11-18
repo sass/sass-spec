@@ -73,6 +73,8 @@ UTIL
 IMPL OUTPUT
 <===> warning-libsass
 IMPL WARNING
+<===> subdir/input.scss
+MORE UTIL
 <===> input.scss
 INPUT
 <===> warning
@@ -83,6 +85,8 @@ WARNING
 INPUT
 <===> _util.scss
 UTIL
+<===> subdir/input.scss
+MORE UTIL
 <===> output.css
 OUTPUT
 <===> output-dart-sass.css

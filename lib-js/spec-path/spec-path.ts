@@ -220,6 +220,16 @@ export default abstract class SpecPath {
     return fileSections.join("\n")
   }
 
+  private async getSubdirsHrx(root: string): Promise<string[]> {
+    let sections: string[] = []
+    const subdirNames = await this.subdirs()
+    for (const subdirName of [...subdirNames].sort()) {
+      const subdir = await this.subitem(subdirName)
+      sections = sections.concat(await subdir.getHrxSections(root))
+    }
+    return sections
+  }
+
   private async getDirectFileHrx(root: string): Promise<string> {
     // TODO these filenames should be sorted alphabetically
     return await this.getFilesHrx(root, await this.files())
@@ -227,13 +237,8 @@ export default abstract class SpecPath {
 
   private async getNormaliDirHrx(root: string): Promise<string[]> {
     const directFiles = await this.getDirectFileHrx(root)
-    let sections = [directFiles]
-    const subdirNames = await this.subdirs()
-    for (const subdirName of [...subdirNames].sort()) {
-      const subdir = await this.subitem(subdirName)
-      sections = sections.concat(await subdir.getHrxSections(root))
-    }
-    return sections
+    const subdirSections = await this.getSubdirsHrx(root)
+    return [directFiles, ...subdirSections]
   }
 
   // Get the contents of the test directory in a standardized order
@@ -253,11 +258,12 @@ export default abstract class SpecPath {
     const otherFiles = filenames.filter((name) => {
       return !/^(output|error|warning|input\.s[ac]ss)/.test(name)
     })
+    const subdirSections = await this.getSubdirsHrx(root)
 
-    // TODO handle subdirectories
     return [
       await this.getFilesHrx(root, [inputFile]),
       await this.getFilesHrx(root, otherFiles),
+      subdirSections.join("\n"),
       this.hasFile("output.css")
         ? await this.getFilesHrx(root, ["output.css"])
         : "",
