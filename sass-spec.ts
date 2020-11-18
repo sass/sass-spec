@@ -30,23 +30,28 @@ async function runAllTests() {
   const rootDir = await fromPath(rootPath)
   const failures: { path: string; result: TestResult }[] = []
 
+  function tabulate(test: TestCase) {
+    const result = test.result()
+    counts.total++
+    counts[result.type]++
+    process.stdout.write(symbols[result.type])
+    if (result.type === "fail") {
+      failures.push({ path: test.dir.relPath(), result })
+    }
+  }
+
   const testDirs = args.testDirs.map((dir) => path.resolve(process.cwd(), dir))
   await rootDir.forEachTest(testDirs, async (testDir) => {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
     const test = new TestCase(testDir, args.impl, args.compiler, args.todoMode)
-    let result = await test.run()
+    const result = await test.run()
     if (result.type === "fail" && args.interactive) {
       // TODO make it so that we don't need this result
-      result = await interactor.run(test)
+      await interactor.run(test)
     }
-    counts.total++
-    counts[result.type]++
-    process.stdout.write(symbols[result.type])
-    if (result.type === "fail") {
-      failures.push({ path: testDir.relPath(), result })
-    }
+    tabulate(test)
   })
 
   const end = Date.now()

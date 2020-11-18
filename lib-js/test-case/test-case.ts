@@ -215,4 +215,21 @@ export default class TestCase {
     }
     this._result = { type: "pass" }
   }
+
+  /** Mark this test (or its warning) as TODO */
+  async markTodo() {
+    if (this.result().failureType === "warning_difference") {
+      await this.addOptionForImpl(":warning_todo")
+      this._result = { type: "pass" }
+    } else {
+      await this.addOptionForImpl(":todo")
+      this._result = { type: "todo" }
+    }
+  }
+
+  /** Ignore this test */
+  async markIgnore() {
+    await this.addOptionForImpl(":ignore_for")
+    this._result = { type: "skip" }
+  }
 }

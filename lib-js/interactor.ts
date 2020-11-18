@@ -15,7 +15,7 @@ interface InteractorOption {
    * If this function returns a value, the interactive mode should quit with that value,
    * otherwise continue.
    */
-  resolve(args: TestCase): Promise<string | TestResult | void>
+  resolve(args: TestCase): Promise<string | void>
 }
 
 const options: InteractorOption[] = [
@@ -69,7 +69,6 @@ const options: InteractorOption[] = [
     description: "Update expected output and pass test",
     async resolve(test) {
       await test.overwrite()
-      return { type: "pass" }
     },
   },
   {
@@ -77,7 +76,6 @@ const options: InteractorOption[] = [
     description: (test) => `Migrate copy of test to pass on ${test.impl}`,
     async resolve(test) {
       await test.migrateImpl()
-      return { type: "pass" }
     },
   },
   {
@@ -88,29 +86,20 @@ const options: InteractorOption[] = [
       return `Mark ${word} as todo for ${test.impl}`
     },
     async resolve(test) {
-      if (test.result().failureType === "warning_difference") {
-        await test.addOptionForImpl(":warning_todo")
-        return { type: "pass" }
-      } else {
-        await test.addOptionForImpl(":todo")
-        return { type: "todo" }
-      }
+      await test.markTodo()
     },
   },
   {
     key: "G",
     description: (test) => `Ignore test for ${test.impl} FOREVER`,
     async resolve(test) {
-      await test.addOptionForImpl(":ignore_for")
-      return { type: "skip" }
+      await test.markIgnore()
     },
   },
   {
     key: "f",
     description: "Mark as failed.",
-    async resolve(test) {
-      return test.result()
-    },
+    async resolve() {},
   },
   {
     key: "X",
@@ -171,7 +160,7 @@ export class Interactor {
     this.printLine()
   }
 
-  async run(test: TestCase): Promise<TestResult> {
+  async run(test: TestCase): Promise<void> {
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
@@ -188,11 +177,9 @@ export class Interactor {
     if (this.memory[type]) {
       const choice = this.memory[type]
       // we're guaranteed that the stored chosen option returns a test result
-      const newResult = (await choice.resolve(test)) as TestResult
-      if (newResult) {
-        rl.close()
-        return newResult
-      }
+      await choice.resolve(test)
+      rl.close()
+      return
     }
 
     while (true) {
@@ -208,9 +195,6 @@ export class Interactor {
         continue
       }
       const newResult = await choice.resolve(test)
-      if (!newResult) {
-        continue
-      }
       if (typeof newResult === "string") {
         this.printContent(newResult)
       } else {
@@ -219,7 +203,7 @@ export class Interactor {
           this.memory[type] = choice
         }
         rl.close()
-        return newResult
+        return
       }
     }
   }
