@@ -5,6 +5,7 @@ import SpecDirectory, { SpecIteratee } from "./spec-directory"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
 import { toHrx } from "./hrx"
+import { withAsyncCleanup } from "./cleanup"
 
 function createFileCache(dir: HrxDirectory) {
   const cache: Record<string, string> = {}
@@ -176,7 +177,7 @@ export default class VirtualDirectory extends SpecDirectory {
   // Perform cleanup actions after opening this directory
   async cleanup() {
     // remove the physical directory
-    await fs.promises.rmdir(this.path, { recursive: true })
+    await fs.promises.rm(this.path, { recursive: true, force: true })
     // if files were written to this directory, write to the root archive file
     if (await this.hasModifications()) {
       const hrx = await toHrx(this)
@@ -186,48 +187,15 @@ export default class VirtualDirectory extends SpecDirectory {
     }
   }
 
-  /**
-   * Run the given block on this archive, ensuring that input files are written to disk
-   * and any changes are written back to the archive even if the process is interrupted.
-   */
-  private async withOpenArchive(cb: () => Promise<void>) {
-    await this.setup()
-
-    // Cleanup callbacks must be synchronous,
-    // so trigger an async function that exits the process
-    const cleanupAndExit = async (status: number) => {
-      // cleanup and then trigger an exit
-      await this.cleanup()
-      process.exit(status)
-    }
-
-    // TODO handle more process exit cases
-    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
-    const exitHandler = (status: number) => {
-      cleanupAndExit(status)
-    }
-
-    const sigintHandler = () => {
-      cleanupAndExit(0)
-    }
-    process.on("exit", exitHandler)
-    process.on("SIGINT", sigintHandler)
-
-    try {
-      await cb()
-    } finally {
-      process
-        .removeListener("exit", exitHandler)
-        .removeListener("SIGINT", sigintHandler)
-      await this.cleanup()
-    }
-  }
-
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
     if (this.isArchiveRoot) {
-      await this.withOpenArchive(async () => {
-        await super.forEachTest(paths, iteratee)
-      })
+      this.setup()
+      await withAsyncCleanup(
+        () => this.cleanup(),
+        async () => {
+          await super.forEachTest(paths, iteratee)
+        }
+      )
     } else {
       await super.forEachTest(paths, iteratee)
     }
