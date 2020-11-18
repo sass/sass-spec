@@ -88,6 +88,14 @@ function getDiff(
   return createPatch(filename, expected, actual, "expected", "actual")
 }
 
+/**
+ * Compare the provided expected and actual results.
+ * @param expected the expected results to check
+ * @param actual the actual results to check
+ * @param trimErrors if true, errors and warnings will be trimmed so only the messages are compared
+ * and not line information
+ * @param skipWarning if true, skip warning checks
+ */
 function compareResults(
   expected: SpecResult,
   actual: SpecResult,
