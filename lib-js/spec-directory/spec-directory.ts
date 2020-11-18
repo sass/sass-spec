@@ -80,7 +80,7 @@ export default abstract class SpecDirectory {
   // Spec Options
 
   // Get the options from a physical options.yml file
-  private async getDirectOptions(): Promise<RunOptions> {
+  async directOptions(): Promise<RunOptions> {
     const contents = this.hasFile("options.yml")
       ? await this.readFile("options.yml")
       : ""
@@ -90,7 +90,7 @@ export default abstract class SpecDirectory {
 
   /** Get the spec options of this directory, including those inherited from its parent */
   async options() {
-    const opts = await this.getDirectOptions()
+    const opts = await this.directOptions()
     return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
   }
 
@@ -101,7 +101,7 @@ export default abstract class SpecDirectory {
 
   /** Add the given option for the given impl */
   async addOptionForImpl(option: RunOption, impl: string) {
-    const options = await this.getDirectOptions()
+    const options = await this.directOptions()
     const newOption = [...(options[option] ?? []), impl]
     const newOptions: RunOptions = { ...options, [option]: newOption }
     await this.writeFile("options.yml", yaml.safeDump(newOptions))

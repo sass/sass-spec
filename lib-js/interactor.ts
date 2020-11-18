@@ -1,51 +1,20 @@
 import readline from "readline"
-import { SpecDirectory } from "./spec-directory"
 import { TestResult, FailTestResult } from "./runner"
-import { SpecResult } from "./execute"
+import TestCase from "./test-case"
 
 interface InteractiveArgs {
-  impl: string
-  dir: SpecDirectory
+  test: TestCase
   result: FailTestResult
-}
-
-function getExpectedFiles(impl?: string) {
-  return impl
-    ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
-    : ["output.css", "warning", "error"]
-}
-
-async function overwriteResult(
-  dir: SpecDirectory,
-  result: SpecResult,
-  impl?: string
-) {
-  const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
-  if (result.isSuccess) {
-    await Promise.all([
-      dir.writeFile(outputFile, result.output),
-      result.warning
-        ? dir.writeFile(warningFile, result.warning)
-        : dir.removeFile(warningFile),
-      dir.removeFile(errorFile),
-    ])
-  } else {
-    await Promise.all([
-      dir.writeFile(errorFile, result.error),
-      dir.removeFile(outputFile),
-      dir.removeFile(warningFile),
-    ])
-  }
 }
 
 interface InteractorOption {
   key: string
-  description: string | ((args: InteractiveArgs) => string)
+  description: string | ((args: InteractiveArgs) => Promise<string>)
   /**
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
    */
-  requirement?(args: InteractiveArgs): boolean
+  requirement?(args: InteractiveArgs): Promise<boolean>
   /**
    * The function to call to resolve this option.
    * If this function returns a value, the interactive mode should quit with that value,
@@ -58,44 +27,45 @@ const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
-    async resolve({ dir }) {
+    async resolve({ test: dir }) {
       return dir.input()
     },
   },
   {
     key: "o",
     description: "Show output.",
-    requirement({ result }) {
+    async requirement({ test, result }) {
       if (result.failureType === "warning_difference") return false
-      return result.actual.isSuccess
+      return (await test.actualResult()).isSuccess
     },
-    async resolve({ result }) {
-      if (!result.actual.isSuccess) {
+    async resolve({ test }) {
+      const result = await test.actualResult()
+      if (!result.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
       }
-      return result.actual.output
+      return result.output
     },
   },
   {
     key: "e",
-    description: ({ result }) =>
-      result.actual.isSuccess ? "Show warning." : "Show error.",
-    requirement({ result }) {
-      // show this option if the actual result was a failure or it has a warning
-      return !result.actual.isSuccess || !!result.actual.warning
+    async description({ test }) {
+      const result = await test.actualResult()
+      return result.isSuccess ? "Show warning." : "Show error."
     },
-    async resolve({ result }) {
-      if (result.actual.isSuccess) {
-        return result.actual.warning
-      } else {
-        return result.actual.error
-      }
+    async requirement({ test }) {
+      const result = await test.actualResult()
+      // show this option if the actual result was a failure or it has a warning
+      return !result.isSuccess || !!result.warning
+    },
+    async resolve({ test }) {
+      const result = await test.actualResult()
+      return result.isSuccess ? result.warning : result.error
     },
   },
   {
     key: "d",
     description: "Show diff.",
-    requirement({ result }) {
+    async requirement({ result }) {
       return !!result.diff
     },
     async resolve({ result }) {
@@ -105,56 +75,45 @@ const options: InteractorOption[] = [
   {
     key: "O",
     description: "Update expected output and pass test",
-    async resolve({ impl, dir, result }) {
-      // overwrite the contents of the base files
-      await overwriteResult(dir, result.actual)
-      // delete any override files for this impl
-      await Promise.all(
-        getExpectedFiles(impl).map((filename) => dir.removeFile(filename))
-      )
+    async resolve({ test }) {
+      await test.overwrite()
       return { type: "pass" }
     },
   },
   {
     key: "I",
-    description: ({ impl }) => `Migrate copy of test to pass on ${impl}`,
-    async resolve({ impl, dir, result }) {
-      await overwriteResult(dir, result.actual, impl)
-      // If a nonempty base warning exists, but the actual result yields no warning,
-      // create a warning file
-      if (
-        dir.hasFile("warning") &&
-        !!dir.readFile("warning") &&
-        result.actual.isSuccess &&
-        !result.actual.warning
-      ) {
-        await dir.writeFile(`warning-${impl}`, "")
-      }
+    async description({ test }) {
+      return `Migrate copy of test to pass on ${test.impl}`
+    },
+    async resolve({ test }) {
+      await test.migrateImpl()
       return { type: "pass" }
     },
   },
   {
     key: "T",
-    description({ impl, result }) {
+    async description({ test, result }) {
       const word =
         result.failureType === "warning_difference" ? "warning" : "spec"
-      return `Mark ${word} as todo for ${impl}`
+      return `Mark ${word} as todo for ${test.impl}`
     },
-    async resolve({ impl, dir, result }) {
+    async resolve({ test, result }) {
       if (result.failureType === "warning_difference") {
-        await dir.addOptionForImpl(":warning_todo", impl)
+        await test.addOptionForImpl(":warning_todo")
         return { type: "pass" }
       } else {
-        await dir.addOptionForImpl(":todo", impl)
+        await test.addOptionForImpl(":todo")
         return { type: "todo" }
       }
     },
   },
   {
     key: "G",
-    description: ({ impl }) => `Ignore test for ${impl} FOREVER`,
-    async resolve({ impl, dir }) {
-      await dir.addOptionForImpl(":ignore_for", impl)
+    async description({ test }) {
+      return `Ignore test for ${test.impl} FOREVER`
+    },
+    async resolve({ test }) {
+      await test.addOptionForImpl(":ignore_for")
       return { type: "skip" }
     },
   },
@@ -181,8 +140,14 @@ export const optionsMap = (() => {
   return optionsMap
 })()
 
-export function optionsFor(args: InteractiveArgs) {
-  return options.filter(({ requirement }) => !requirement || requirement(args))
+export async function optionsFor(args: InteractiveArgs) {
+  const result = []
+  for (const option of options) {
+    if (!option.requirement || (await option.requirement(args))) {
+      result.push(option)
+    }
+  }
+  return result
 }
 
 export class Interactor {
@@ -199,10 +164,13 @@ export class Interactor {
     this.output.write(`${line}\n`)
   }
 
-  private printOptions(options: InteractorOption[], args: InteractiveArgs) {
+  private async printOptions(
+    options: InteractorOption[],
+    args: InteractiveArgs
+  ) {
     for (const { key, description } of options) {
       const _description =
-        typeof description === "string" ? description : description(args)
+        typeof description === "string" ? description : await description(args)
       this.output.write(`${key}. ${_description}\n`)
     }
   }
@@ -219,7 +187,7 @@ export class Interactor {
   }
 
   async run(args: InteractiveArgs): Promise<TestResult> {
-    const { dir, result } = args
+    const { test, result } = args
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {
@@ -242,11 +210,11 @@ export class Interactor {
     }
 
     while (true) {
-      this.printLine(`In test case: ${dir.relPath()}`)
+      this.printLine(`In test case: ${test.dir.relPath()}`)
       this.printLine(result.message)
 
-      const validOptions = optionsFor(args)
-      this.printOptions(validOptions, args)
+      const validOptions = await optionsFor(args)
+      await this.printOptions(validOptions, args)
       const [key, repeat = ""] = await question("Please select an option > ")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {

@@ -6,6 +6,7 @@ import { TestCaseOptions } from "./runner"
 interface CliArgs extends TestCaseOptions {
   interactive: boolean
   testDirs: string[]
+  todoMode?: string
 }
 
 const implArgs: Record<string, string[]> = {
@@ -39,7 +40,7 @@ export async function getArgs(
   loadPath: string,
   cliArgs: string[],
   { exitOnFailure = false, showHelpOnFail = true, printHelp }: YargsOptions = {}
-) {
+): Promise<CliArgs> {
   const argv = yargs(cliArgs)
     .usage(usageText)
     .example(

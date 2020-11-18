@@ -1,9 +1,10 @@
 import path from "path"
 import { fromPath } from "./lib-js/spec-directory"
 
-import { FailTestResult, runTestCase } from "./lib-js/runner"
+import { FailTestResult } from "./lib-js/runner"
 import { Interactor } from "./lib-js/interactor"
 import { getArgs } from "./lib-js/cli-args"
+import TestCase from "./lib-js/test-case"
 
 // FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
 const naughtyDirs = [
@@ -34,9 +35,11 @@ async function runAllTests() {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
-    let result = await runTestCase(testDir, args)
+    const test = new TestCase(testDir, args.impl, args.compiler, args.todoMode)
+    let result = await test.testResult()
     if (result.type === "fail" && args.interactive) {
-      result = await interactor.run({ impl: args.impl, dir: testDir, result })
+      // TODO make it so that we don't need this result
+      result = await interactor.run({ test, result })
     }
     counts.total++
     counts[result.type]++

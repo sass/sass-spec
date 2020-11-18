@@ -25,7 +25,11 @@ describe("Interactor loop", () => {
       isSuccess: false,
       error: "error",
     })
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    const newResult = await interactor.run({
+      impl: "sass-mock",
+      test: dir,
+      result,
+    })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Please select an option >")
   })
@@ -39,7 +43,11 @@ describe("Interactor loop", () => {
       isSuccess: false,
       error: "THIS IS ERROR",
     })
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    const newResult = await interactor.run({
+      impl: "sass-mock",
+      test: dir,
+      result,
+    })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain(
       "************\nTHIS IS ERROR\n************"
@@ -55,7 +63,11 @@ describe("Interactor loop", () => {
       isSuccess: false,
       error: "THIS IS ERROR",
     })
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    const newResult = await interactor.run({
+      impl: "sass-mock",
+      test: dir,
+      result,
+    })
     expect(newResult).toEqual({ type: "pass" })
     expect(await dir.readFile("error-sass-mock")).toEqual("THIS IS ERROR")
   })
@@ -69,7 +81,11 @@ describe("Interactor loop", () => {
       isSuccess: false,
       error: "THIS IS ERROR",
     })
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    const newResult = await interactor.run({
+      impl: "sass-mock",
+      test: dir,
+      result,
+    })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Invalid option chosen")
   })
@@ -83,7 +99,11 @@ describe("Interactor loop", () => {
       isSuccess: false,
       error: "THIS IS ERROR",
     })
-    const newResult = await interactor.run({ impl: "sass-mock", dir, result })
+    const newResult = await interactor.run({
+      impl: "sass-mock",
+      test: dir,
+      result,
+    })
     expect(newResult).toEqual(result)
     expect(output.contents()).toContain("Invalid option chosen")
   })

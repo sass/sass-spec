@@ -1,7 +1,5 @@
 import { createPatch } from "diff"
-import { SpecResult, getExpectedResult, getActualResult } from "./execute"
-import { SpecDirectory } from "./spec-directory"
-import { optionsForImpl } from "./options"
+import type { SassResult } from "./test-case"
 import {
   normalizeOutput,
   extractErrorMessage,
@@ -25,12 +23,11 @@ type FailureType =
   | "unnecessary_todo"
 
 function makeFailureFactory(failureType: FailureType, message: string) {
-  return function (actual: SpecResult, diff?: string): FailTestResult {
+  return function (diff?: string): FailTestResult {
     return {
       type: "fail",
       failureType,
       message,
-      actual,
       diff,
     }
   }
@@ -67,7 +64,6 @@ export interface FailTestResult {
   type: "fail"
   failureType: FailureType
   message: string
-  actual: SpecResult
   diff?: string
 }
 
@@ -95,20 +91,20 @@ function getDiff(
  * and not line information
  * @param skipWarning if true, skip warning checks
  */
-function compareResults(
-  expected: SpecResult,
-  actual: SpecResult,
+export function compareResults(
+  expected: SassResult,
+  actual: SassResult,
   trimErrors: boolean,
   skipWarning?: boolean
 ): TestResult {
   if (expected.isSuccess) {
     if (!actual.isSuccess) {
-      return failures.UnexpectedError(actual)
+      return failures.UnexpectedError()
     }
 
     const diff = getDiff("output.css", expected.output, actual.output)
     if (diff) {
-      return failures.OutputDifference(actual, diff)
+      return failures.OutputDifference(diff)
     }
 
     if ((expected.warning || actual.warning) && !skipWarning) {
@@ -120,17 +116,17 @@ function compareResults(
         normalizer
       )
       if (diff) {
-        return failures.WarningDifference(actual, diff)
+        return failures.WarningDifference(diff)
       }
     }
   } else {
     if (actual.isSuccess) {
-      return failures.UnexpectedSuccess(actual)
+      return failures.UnexpectedSuccess()
     }
     const normalizer = trimErrors ? extractErrorMessage : normalizeOutput
     const diff = getDiff("error", expected.error, actual.error, normalizer)
     if (diff) {
-      return failures.ErrorDifference(actual, diff)
+      return failures.ErrorDifference(diff)
     }
   }
 
@@ -141,40 +137,4 @@ export interface TestCaseOptions {
   impl: string
   compiler: Compiler
   todoMode?: string
-}
-
-/**
- * Execute the test case at the given directory, using the provided options.
- */
-export async function runTestCase(
-  dir: SpecDirectory,
-  opts: TestCaseOptions
-): Promise<TestResult> {
-  const { impl, compiler, todoMode } = opts
-  const { mode, todoWarning } = optionsForImpl(await dir.options(), impl)
-  if (mode === "ignore") {
-    return { type: "skip" }
-  }
-
-  if (mode === "todo" && !todoMode) {
-    return { type: "todo" }
-  }
-
-  const [expected, actual] = await Promise.all([
-    getExpectedResult(dir, impl),
-    getActualResult(dir, impl, compiler),
-  ])
-
-  const skipWarning = todoWarning && !todoMode
-  const trimErrors = impl !== "dart-sass"
-  const testResult = compareResults(expected, actual, trimErrors, skipWarning)
-  // If we're probing todos
-  if (mode === "todo" && todoMode === "probe") {
-    if (testResult.type === "pass") {
-      return failures.UnnecessaryTodo(actual)
-    } else {
-      return { type: "todo" }
-    }
-  }
-  return testResult
 }

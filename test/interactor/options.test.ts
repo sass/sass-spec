@@ -11,7 +11,7 @@ describe("Interactor options", () => {
   ) {
     const options = optionsFor({
       impl: "sass-mock",
-      dir: null as any,
+      test: null as any,
       result,
     })
     const keys = options.map((o) => o.key)
