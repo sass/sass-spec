@@ -54,7 +54,6 @@ interface InteractorOption {
   resolve(args: InteractiveArgs): Promise<string | TestResult | void>
 }
 
-// FIXME how to handle options that have the same key
 const options: InteractorOption[] = [
   {
     key: "t",

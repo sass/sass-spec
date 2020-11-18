@@ -133,7 +133,6 @@ export default class VirtualDirectory extends SpecDirectory {
     return this.subdirNames
   }
 
-  // FIXME change this to work with file writing
   async getSubdir(itemName: string) {
     const subitem = this.subdirCache[itemName]
     const options = await this.options()

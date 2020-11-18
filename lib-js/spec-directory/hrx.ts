@@ -60,7 +60,7 @@ async function getTestDirHrx(
 ): Promise<string> {
   const inputFile = dir.inputFile()
   const filenames = await dir.listFiles()
-  // FIXME make sure the base output file is listed first
+  // FIXME instead of sorting, just make sure the base output is written first
   const outputFiles = filenames
     .filter((name) => name.startsWith("output-"))
     .sort()
