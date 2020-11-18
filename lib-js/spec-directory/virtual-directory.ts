@@ -73,6 +73,7 @@ export default class VirtualDirectory extends SpecDirectory {
     )
   }
 
+  // Get an HRX archive from a string
   static async fromContents(contents: string, path = "/tmp") {
     const stream = Readable.from(contents)
     const archive = await archiveFromStream(stream)
@@ -101,14 +102,14 @@ export default class VirtualDirectory extends SpecDirectory {
 
   async writeToDisk() {
     await this.writeDirectFiles()
-    const subdirs = await this.subdirs()
+    const subdirs = await this.typedSubdirs()
     await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
   }
 
-  async needsCleanup() {
-    const items = await this.subdirs()
+  async needsCleanup(): Promise<boolean> {
+    const subdirs = await this.typedSubdirs()
     const subdirsNeedCleanup = await Promise.all(
-      items.map((subdir) => subdir.needsCleanup())
+      subdirs.map((subdir) => subdir.needsCleanup())
     )
     return this.modified || subdirsNeedCleanup.some((value) => value)
   }
@@ -142,6 +143,11 @@ export default class VirtualDirectory extends SpecDirectory {
     return new VirtualDirectory(this.basePath, subitem, this.root, options)
   }
 
+  // Helper function to type the subdirs correctly
+  private async typedSubdirs(): Promise<VirtualDirectory[]> {
+    return (await this.subdirs()) as any
+  }
+
   hasFile(filename: string) {
     return this.fileCache.hasOwnProperty(filename)
   }
@@ -168,6 +174,43 @@ export default class VirtualDirectory extends SpecDirectory {
     this.modified = true
     delete this.fileCache[filename]
     this.fileNames = this.fileNames.filter((f) => f !== filename)
+  }
+
+  /**
+   * Write files corresponding to this directory and run the given callback,
+   * deleting the files when done
+   */
+  async withRealFiles(cb: () => Promise<void>) {
+    await this.writeToDisk()
+
+    // Cleanup callbacks must be synchronous,
+    // so trigger an async function that exits the process
+    const cleanupAndExit = async (status: number) => {
+      // cleanup and then trigger an exit
+      await this.cleanup()
+      process.exit(status)
+    }
+
+    // TODO handle more process exit cases
+    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
+    const exitHandler = (status: number) => {
+      cleanupAndExit(status)
+    }
+
+    const sigintHandler = () => {
+      cleanupAndExit(0)
+    }
+    process.on("exit", exitHandler)
+    process.on("SIGINT", sigintHandler)
+
+    try {
+      await cb()
+    } finally {
+      process
+        .removeListener("exit", exitHandler)
+        .removeListener("SIGINT", sigintHandler)
+      await this.cleanup()
+    }
   }
 
   async forEachTest(paths: string[], iteratee: SpecIteratee) {

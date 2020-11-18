@@ -1,7 +1,7 @@
 import path from "path"
 import { getArgs } from "../lib-js/cli-args"
 
-describe("getArgs", () => {
+describe.skip("getArgs", () => {
   const loadPath = path.resolve("fixtures")
   const yargsOpts = {
     exitOnFailure: false,

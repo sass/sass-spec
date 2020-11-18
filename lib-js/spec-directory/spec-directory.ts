@@ -127,52 +127,6 @@ export default abstract class SpecDirectory {
 
   // Iteration
 
-  // by default, do nothing
-  async writeToDisk(): Promise<void> {}
-  async cleanup(): Promise<void> {}
-
-  // whether this directory needs to clean up anything
-  async needsCleanup() {
-    return false
-  }
-
-  /**
-   * Write files corresponding to this directory and run the given callback,
-   * deleting the files when done
-   */
-  async withRealFiles(cb: () => Promise<void>) {
-    await this.writeToDisk()
-
-    // Cleanup callbacks must be synchronous,
-    // so trigger an async function that exits the process
-    const cleanupAndExit = async (status: number) => {
-      // cleanup and then trigger an exit
-      await this.cleanup()
-      process.exit(status)
-    }
-
-    // TODO handle more process exit cases
-    // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
-    const exitHandler = (status: number) => {
-      cleanupAndExit(status)
-    }
-
-    const sigintHandler = () => {
-      cleanupAndExit(0)
-    }
-    process.on("exit", exitHandler)
-    process.on("SIGINT", sigintHandler)
-
-    try {
-      await cb()
-    } finally {
-      process
-        .removeListener("exit", exitHandler)
-        .removeListener("SIGINT", sigintHandler)
-      await this.cleanup()
-    }
-  }
-
   private isMatch(paths: string[]) {
     return paths.length === 0 || paths.some((path) => this.path === path)
   }

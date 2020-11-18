@@ -78,19 +78,19 @@ export async function getArgs(
         "When a test fails, enter into a dialog for how to handle it",
       type: "boolean",
       default: false,
-    })
-    .check(({ dart, command }) => {
-      if (!dart && !command) {
-        throw new Error("Must specify --dart or --command")
-      } else {
-        return true
-      }
-    })
-    .exitProcess(exitOnFailure)
-    .showHelp(printHelp as any)
-    .showHelpOnFail(showHelpOnFail)
-    .conflicts("dart", "command")
-    .conflicts("run-todo", "probe-todo").argv
+    }).argv
+  // .check(({ help, dart, command }) => {
+  //   if (!help && !dart && !command) {
+  //     throw new Error("Must specify --dart or --command")
+  //   } else {
+  //     return true
+  //   }
+  // })
+  // .exitProcess(exitOnFailure)
+  // .showHelp(printHelp as any)
+  // .showHelpOnFail(showHelpOnFail)
+  // .conflicts("dart", "command")
+  // .conflicts("run-todo", "probe-todo").argv
 
   const args: Partial<CliArgs> = {
     interactive: argv.interactive,
