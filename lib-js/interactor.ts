@@ -67,7 +67,6 @@ const options: InteractorOption[] = [
     description: "Show output.",
     requirement({ result }) {
       if (result.failureType === "warning_difference") return false
-      // TODO don't list this option if only the errors are failing
       return result.actual.isSuccess
     },
     async resolve({ result }) {
@@ -191,7 +190,6 @@ export class Interactor {
   private input: NodeJS.ReadableStream
   private output: NodeJS.WritableStream
 
-  // TODO constructor should pass in an input/output
   constructor(input: NodeJS.ReadableStream, output: NodeJS.WritableStream) {
     this.input = input
     this.output = output
@@ -222,7 +220,7 @@ export class Interactor {
 
   async run(args: InteractiveArgs): Promise<TestResult> {
     const { dir, result } = args
-    // TODO can I just keep this as part of the class?
+    // TODO can this be moved out of the function?
     const rl = readline.createInterface(this.input, this.output)
 
     function question(prompt: string): Promise<string> {

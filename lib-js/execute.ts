@@ -51,7 +51,6 @@ export async function getExpectedResult(
     warning = await dir.readFile(warningFilename)
   }
 
-  // TODO print warning if expectedWarning is given on an expected error case
   const expected = await dir.readFile(resultFilename)
 
   if (isSuccessCase) {
@@ -68,7 +67,6 @@ export async function getExpectedResult(
   }
 }
 
-// TODO dedupe with the Options in `directory`
 interface Options {
   impl: string
   compiler: Compiler

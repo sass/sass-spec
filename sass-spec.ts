@@ -55,16 +55,13 @@ async function runAllTests() {
   for (const failure of failures) {
     console.log("Failure:", failure.path)
     console.log(failure.result.message)
-    // TODO better formatting of this
     if (failure.result.diff) console.log(failure.result.diff)
     console.log()
   }
 
-  // TODO there's a better way to tally this
   console.log(
     `${counts.total} runs, ${counts.pass} passing, ${counts.fail} failures, ${counts.todo} todo, ${counts.skip} skips`
   )
-  // TODO how to just access this from the test object
   console.log(`Finished in ${time}s`)
   process.exit(0)
 }

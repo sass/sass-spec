@@ -160,7 +160,6 @@ export default abstract class SpecDirectory {
     const sigintHandler = () => {
       cleanupAndExit(0)
     }
-    // TODO handle process exit
     process.on("exit", exitHandler)
     process.on("SIGINT", sigintHandler)
 

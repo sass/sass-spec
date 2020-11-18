@@ -66,7 +66,6 @@ export const failures = {
 export interface FailTestResult {
   type: "fail"
   failureType: FailureType
-  // TODO determine message from the failure type instead
   message: string
   actual: SpecResult
   diff?: string

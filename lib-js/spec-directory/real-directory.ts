@@ -23,7 +23,6 @@ export default class RealDirectory extends SpecDirectory {
   }
 
   async readFile(filename: string) {
-    // TODO error checking
     const filepath = path.resolve(this.path, filename)
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }

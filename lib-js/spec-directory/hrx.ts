@@ -38,7 +38,6 @@ async function getDirectFileHrx(
   dir: SpecDirectory,
   root: string
 ): Promise<string> {
-  // TODO these filenames should be sorted alphabetically
   return await getFilesHrx(dir, root, await dir.listFiles())
 }
 
