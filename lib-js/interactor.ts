@@ -1,14 +1,17 @@
 import readline from "readline"
 import TestCase from "./test-case"
 
+// Select properties of the test case that can be used in requirements
+export type TestCaseArg = Pick<TestCase, "impl" | "actual" | "result">
+
 interface InteractorOption {
   key: string
-  description: string | ((args: TestCase) => string)
+  description: string | ((args: TestCaseArg) => string)
   /**
    * The predicate to fulfill in order to display this command option.
    * If this is not defined, then this option is always shown.
    */
-  requirement?(args: TestCase): boolean
+  requirement?(args: TestCaseArg): boolean
   /**
    * The function to call to resolve this option.
    * If this function returns a value, the interactive mode should quit with that value,
@@ -108,15 +111,8 @@ const options: InteractorOption[] = [
     },
   },
 ]
-export const optionsMap = (() => {
-  const optionsMap: Record<string, InteractorOption> = {}
-  for (const option of options) {
-    optionsMap[option.key] = option
-  }
-  return optionsMap
-})()
 
-export function optionsFor(test: TestCase) {
+export function optionsFor(test: TestCaseArg) {
   const result = []
   for (const option of options) {
     if (!option.requirement || option.requirement(test)) {
