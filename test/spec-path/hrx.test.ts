@@ -1,11 +1,12 @@
 import { fromContents } from "../../lib-js/spec-path"
+import { toHrx } from "../../lib-js/spec-path/hrx"
 
 describe("SpecPath::toHrx", () => {
   async function expectHrx(input: string, expected: string = input) {
     input = input.trim()
     expected = expected.trim()
     const dir = await fromContents(input)
-    expect(await dir.toHrx()).toEqual(expected)
+    expect(await toHrx(dir)).toEqual(expected)
   }
   it("writes contents of a normal directory in alphabetical order", async () => {
     const input = `

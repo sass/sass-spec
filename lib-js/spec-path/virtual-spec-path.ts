@@ -4,6 +4,7 @@ import { Readable } from "stream"
 import SpecPath, { SpecIteratee } from "./spec-path"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import { RunOptions } from "../options"
+import { toHrx } from "./hrx"
 
 function createFileCache(dir: HrxDirectory) {
   const cache: Record<string, string> = {}
@@ -117,7 +118,7 @@ export default class VirtualSpecPath extends SpecPath {
     await fs.promises.rmdir(this.path, { recursive: true })
     // if files were written to this directory, write to the root archive file
     if (await this.needsCleanup()) {
-      const hrx = await this.toHrx()
+      const hrx = await toHrx(this)
       await fs.promises.writeFile(this.path + ".hrx", hrx, {
         encoding: "utf-8",
       })

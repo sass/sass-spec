@@ -5,11 +5,6 @@ import { RunOption, RunOptions, mergeOptions } from "../options"
 
 export type SpecIteratee = (subdir: SpecPath) => Promise<void>
 
-const HRX_SECTION_SEPARATOR = `
-<===>
-================================================================================
-`
-
 /**
  * Represents either a real or virtual directory that contains spec files.
  */
@@ -203,95 +198,5 @@ export default abstract class SpecPath {
         await subdir.forEachTest(subpaths, iteratee)
       }
     }
-  }
-
-  private async getFilesHrx(
-    root: string,
-    filenames: string[]
-  ): Promise<string> {
-    const fileSections = await Promise.all(
-      filenames.map(async (filename) => {
-        const contents = await this.contents(filename)
-        const fullPath = path.resolve(this.path, filename)
-        const relPath = path.relative(root, fullPath)
-        return `<===> ${relPath}\n${contents}`
-      })
-    )
-    return fileSections.join("\n")
-  }
-
-  private async getSubdirsHrx(root: string): Promise<string[]> {
-    let sections: string[] = []
-    for (const subdirName of await this.subdirs()) {
-      const subdir = await this.subitem(subdirName)
-      sections = sections.concat(await subdir.getHrxSections(root))
-    }
-    return sections
-  }
-
-  private async getDirectFileHrx(root: string): Promise<string> {
-    // TODO these filenames should be sorted alphabetically
-    return await this.getFilesHrx(root, await this.files())
-  }
-
-  private async getNormaliDirHrx(root: string): Promise<string[]> {
-    const directFiles = await this.getDirectFileHrx(root)
-    const subdirSections = await this.getSubdirsHrx(root)
-    return directFiles.length === 0
-      ? subdirSections
-      : [directFiles, ...subdirSections]
-  }
-
-  // Get the contents of the test directory in a standardized order
-  private async getTestDirHrx(root: string): Promise<string> {
-    const inputFile = this.inputFile()
-    const filenames = await this.files()
-    // FIXME make sure the base output file is listed first
-    const outputFiles = filenames
-      .filter((name) => name.startsWith("output-"))
-      .sort()
-    const warningFiles = filenames
-      .filter((name) => name.startsWith("warning"))
-      .sort()
-    const errorFiles = filenames
-      .filter((name) => name.startsWith("error"))
-      .sort()
-    const otherFiles = filenames.filter((name) => {
-      return !/^(output|error|warning|input\.s[ac]ss|options\.yml)/.test(name)
-    })
-    const subdirSections = await this.getSubdirsHrx(root)
-
-    return [
-      this.hasFile("options.yml")
-        ? await this.getFilesHrx(root, ["options.yml"])
-        : "",
-      await this.getFilesHrx(root, [inputFile]),
-      await this.getFilesHrx(root, otherFiles),
-      subdirSections.join("\n"),
-      this.hasFile("output.css")
-        ? await this.getFilesHrx(root, ["output.css"])
-        : "",
-      await this.getFilesHrx(root, outputFiles),
-      await this.getFilesHrx(root, warningFiles),
-      await this.getFilesHrx(root, errorFiles),
-    ]
-      .filter((str) => str)
-      .join("\n")
-  }
-
-  private async getHrxSections(root: string): Promise<string[]> {
-    if (this.isTestDir()) {
-      return [await this.getTestDirHrx(root)]
-    } else {
-      return this.getNormaliDirHrx(root)
-    }
-  }
-
-  /**
-   * Write the contents of this directory to an HRX file.
-   */
-  async toHrx(): Promise<string> {
-    const sections = await this.getHrxSections(this.path)
-    return sections.join(HRX_SECTION_SEPARATOR)
   }
 }
