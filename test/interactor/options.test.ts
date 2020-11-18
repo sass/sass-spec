@@ -9,8 +9,6 @@ function mockTestCase(args: any = {}): TestCaseArg {
 }
 
 describe("Interactor options", () => {
-  it.todo("always includes certain choices")
-
   async function expectOption(key: string, args: any, valid: boolean = true) {
     const options = optionsFor(mockTestCase(args))
     const keys = options.map((o) => o.key)
@@ -20,6 +18,12 @@ describe("Interactor options", () => {
       expect(keys).not.toContain(key)
     }
   }
+
+  it("always includes certain choices", async () => {
+    for (const key of "tOITGfX") {
+      await expectOption(key, {})
+    }
+  })
 
   it("does show the 'show output' option when the failure type is `warning_difference", async () => {
     const arg = { result: { failureType: "warning_difference" } }
