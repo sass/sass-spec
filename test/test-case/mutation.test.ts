@@ -12,7 +12,7 @@ function fromObject(files: Record<string, string>) {
   return fromContents(makeHrx(files))
 }
 
-describe("Interactor option resolution", () => {
+describe("TestCase mutation functions", () => {
   describe("Update expected output and pass test.", () => {
     it("works on normal overrides", async () => {
       const dir = await fromObject({
