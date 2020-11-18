@@ -124,6 +124,7 @@ export default class TestCase {
   }
 
   async run(): Promise<TestResult> {
+    // Remember to cache the results of the run, regardless of result
     this._result = await this.doRun()
     return this._result
   }
