@@ -12,6 +12,18 @@ const implArgs: Record<string, string[]> = {
   "dart-sass": ["--no-unicode", "--no-color"],
   libsass: ["--style", "expanded"],
 }
+
+const usageText = `
+Usage: ts-node ./sass-spec.ts [options] [spec_directory...]
+
+This script will search for all files under the spec (or specified) directory
+that are named input.scss. It will then run a specified binary and check that
+the output matches the expected output. If you want set up your own test suite,
+follow a similar hierarchy as described in the initial comment of this script
+for your test hierarchy.
+
+Make sure the command you provide prints to stdout.
+`.trim()
 // FIXME make sure these are actually required
 /**
  * Get command line args
@@ -22,6 +34,7 @@ export async function getArgs(
   exitOnFailure = true
 ) {
   const argv = yargs(cliArgs)
+    .usage(usageText)
     .example(
       "npm run ./sass-spec.js -- spec/basic",
       "Run tests only in the spec/basic folder"
