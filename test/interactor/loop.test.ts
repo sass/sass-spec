@@ -57,7 +57,7 @@ describe("Interactor loop", () => {
     })
     const newResult = await interactor.run({ impl: "sass-mock", dir, result })
     expect(newResult).toEqual({ type: "pass" })
-    expect(await dir.contents("error-sass-mock")).toEqual("THIS IS ERROR")
+    expect(await dir.readFile("error-sass-mock")).toEqual("THIS IS ERROR")
   })
 
   it("prompts again if an invalid option was chosen", async () => {

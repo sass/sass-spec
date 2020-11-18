@@ -79,8 +79,8 @@ async function getArgs() {
 
 // FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
 const naughtyDirs = [
-  "libsass-todo-issues/issue_221267",
-  "libsass-todo-issues/issue_221286",
+  "spec/libsass-todo-issues/issue_221267",
+  "spec/libsass-todo-issues/issue_221286",
 ]
 
 const symbols = {

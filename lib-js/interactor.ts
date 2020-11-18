@@ -126,7 +126,7 @@ const options: InteractorOption[] = [
       // create a warning file
       if (
         dir.hasFile("warning") &&
-        !!dir.contents("warning") &&
+        !!dir.readFile("warning") &&
         result.actual.isSuccess &&
         !result.actual.warning
       ) {

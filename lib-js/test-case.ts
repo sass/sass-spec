@@ -9,14 +9,6 @@ import {
 } from "./normalize"
 import { Compiler } from "./compiler"
 
-interface Options {
-  rootDir: string
-  impl: string
-  compiler: Compiler
-  cmdArgs: string[]
-  todoMode?: string
-}
-
 interface BasicTestResult {
   type: "pass" | "todo" | "skip"
 }
@@ -134,6 +126,14 @@ function compareResults(
   }
 
   return { type: "pass" }
+}
+
+interface Options {
+  rootDir: string
+  impl: string
+  compiler: Compiler
+  cmdArgs: string[]
+  todoMode?: string
 }
 
 /**

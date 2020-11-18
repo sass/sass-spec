@@ -48,11 +48,11 @@ export async function getExpectedResult(
     ? `warning-${impl}`
     : "warning"
   if (dir.hasFile(warningFilename)) {
-    warning = await dir.contents(warningFilename)
+    warning = await dir.readFile(warningFilename)
   }
 
   // TODO print warning if expectedWarning is given on an expected error case
-  const expected = await dir.contents(resultFilename)
+  const expected = await dir.readFile(resultFilename)
 
   if (isSuccessCase) {
     return {

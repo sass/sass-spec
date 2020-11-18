@@ -22,20 +22,20 @@ export default class RealDirectory extends SpecDirectory {
     return fs.existsSync(filepath)
   }
 
-  async contents(filename: string) {
+  async readFile(filename: string) {
     // TODO error checking
     const filepath = path.resolve(this.path, filename)
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }
 
-  async files() {
+  async listFiles() {
     const contents = await fs.promises.readdir(this.path, {
       withFileTypes: true,
     })
     return contents.filter((entry) => entry.isFile()).map((entry) => entry.name)
   }
 
-  async subdirs() {
+  async listSubdirs() {
     const contents = await fs.promises.readdir(this.path, {
       withFileTypes: true,
     })
@@ -44,7 +44,7 @@ export default class RealDirectory extends SpecDirectory {
       .map((entry) => entry.name)
   }
 
-  async getSubitem(filename: string): Promise<SpecDirectory> {
+  async getSubdir(filename: string): Promise<SpecDirectory> {
     const options = await this.options()
     const fullPath = path.resolve(this.path, filename)
     if (filename.endsWith(".hrx")) {

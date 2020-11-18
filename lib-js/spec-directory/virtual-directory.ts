@@ -82,7 +82,7 @@ export default class VirtualDirectory extends SpecDirectory {
 
   private async writeDirectFiles() {
     await fs.promises.mkdir(this.path, { recursive: true })
-    const files = await this.files()
+    const files = await this.listFiles()
     const writableFiles = files.filter((filename) => {
       const { base, ext } = path.parse(filename)
       if (base.startsWith("output")) return false
@@ -92,7 +92,7 @@ export default class VirtualDirectory extends SpecDirectory {
     await Promise.all(
       writableFiles.map(async (filename) => {
         const filepath = path.resolve(this.path, filename)
-        await fs.promises.writeFile(filepath, await this.contents(filename), {
+        await fs.promises.writeFile(filepath, await this.readFile(filename), {
           encoding: "utf-8",
         })
       })
@@ -101,12 +101,12 @@ export default class VirtualDirectory extends SpecDirectory {
 
   async writeToDisk() {
     await this.writeDirectFiles()
-    const subdirs = await this.items()
+    const subdirs = await this.subdirs()
     await Promise.all(subdirs.map((subdir) => subdir.writeToDisk()))
   }
 
   async needsCleanup() {
-    const items = await this.items()
+    const items = await this.subdirs()
     const subdirsNeedCleanup = await Promise.all(
       items.map((subdir) => subdir.needsCleanup())
     )
@@ -125,16 +125,16 @@ export default class VirtualDirectory extends SpecDirectory {
     }
   }
 
-  async files() {
+  async listFiles() {
     return this.fileNames
   }
 
-  async subdirs() {
+  async listSubdirs() {
     return this.subdirNames
   }
 
   // FIXME change this to work with file writing
-  async getSubitem(itemName: string) {
+  async getSubdir(itemName: string) {
     const subitem = this.subdirCache[itemName]
     const options = await this.options()
     if (!subitem) {
@@ -147,7 +147,7 @@ export default class VirtualDirectory extends SpecDirectory {
     return this.fileCache.hasOwnProperty(filename)
   }
 
-  async contents(filename: string) {
+  async readFile(filename: string) {
     return this.fileCache[filename]
   }
 

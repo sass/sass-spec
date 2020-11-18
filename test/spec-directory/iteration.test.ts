@@ -65,12 +65,12 @@ describe("SpecDirectory iteration", () => {
       await dir.forEachTest([], async (subdir) => {
         testCases.push(subdir.relPath())
       })
-      expect(testCases).toContain("physical")
-      expect(testCases).toContain("archive/scss")
+      expect(testCases).toContain("iterate/physical")
+      expect(testCases).toContain("iterate/archive/scss")
       // counts directories with input.sass as valid
-      expect(testCases).toContain("archive/indented")
+      expect(testCases).toContain("iterate/archive/indented")
       // does not iterate through directories without an input file
-      expect(testCases).not.toContain("archive/no-input")
+      expect(testCases).not.toContain("iterate/archive/no-input")
     })
 
     it.todo("works when passed in path arguments")

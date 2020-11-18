@@ -24,7 +24,7 @@ describe("Interactor option resolution", () => {
         output: "NEW OUTPUT",
       })
       await updateOutput({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
+      expect(await dir.readFile("output.css")).toEqual("NEW OUTPUT")
     })
     it("works when changing the type of output", async () => {
       const dir = await fromObject({
@@ -35,7 +35,7 @@ describe("Interactor option resolution", () => {
         error: "ERROR",
       })
       await updateOutput({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("error")).toEqual("ERROR")
+      expect(await dir.readFile("error")).toEqual("ERROR")
       expect(dir.hasFile("output.css")).toBeFalsy()
     })
   })
@@ -53,10 +53,10 @@ describe("Interactor option resolution", () => {
         warning: "WARNING",
       })
       await migrateToImpl({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("output.css")).toEqual("OUTPUT")
-      expect(await dir.contents("output-dart-sass.css")).toEqual("DART OUTPUT")
-      expect(await dir.contents("output-sass-mock.css")).toEqual("NEW OUTPUT")
-      expect(await dir.contents("warning-sass-mock")).toEqual("WARNING")
+      expect(await dir.readFile("output.css")).toEqual("OUTPUT")
+      expect(await dir.readFile("output-dart-sass.css")).toEqual("DART OUTPUT")
+      expect(await dir.readFile("output-sass-mock.css")).toEqual("NEW OUTPUT")
+      expect(await dir.readFile("warning-sass-mock")).toEqual("WARNING")
     })
 
     it("overrides existing impl-specific files", async () => {
@@ -70,9 +70,9 @@ describe("Interactor option resolution", () => {
         warning: "WARNING",
       })
       await migrateToImpl({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("output.css")).toEqual("OUTPUT")
-      expect(await dir.contents("output-sass-mock.css")).toEqual("NEW OUTPUT")
-      expect(await dir.contents("warning-sass-mock")).toEqual("WARNING")
+      expect(await dir.readFile("output.css")).toEqual("OUTPUT")
+      expect(await dir.readFile("output-sass-mock.css")).toEqual("NEW OUTPUT")
+      expect(await dir.readFile("warning-sass-mock")).toEqual("WARNING")
     })
 
     it("works when changing output type", async () => {
@@ -85,9 +85,9 @@ describe("Interactor option resolution", () => {
         error: "ERROR",
       })
       await migrateToImpl({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("output.css")).toEqual("OUTPUT")
+      expect(await dir.readFile("output.css")).toEqual("OUTPUT")
       expect(dir.hasFile("output-sass-mock.css")).toBeFalsy()
-      expect(await dir.contents("error-sass-mock")).toEqual("ERROR")
+      expect(await dir.readFile("error-sass-mock")).toEqual("ERROR")
     })
 
     it("writes an empty warning file if there is no base warning", async () => {
@@ -100,9 +100,9 @@ describe("Interactor option resolution", () => {
         output: "OUTPUT",
       })
       await migrateToImpl({ impl: "sass-mock", dir, result })
-      expect(await dir.contents("warning")).toEqual("WARNING")
+      expect(await dir.readFile("warning")).toEqual("WARNING")
       expect(dir.hasFile("warning-sass-mock")).toBeTruthy()
-      expect(await dir.contents("warning-sass-mock")).toEqual("")
+      expect(await dir.readFile("warning-sass-mock")).toEqual("")
     })
   })
 

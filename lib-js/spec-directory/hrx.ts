@@ -13,7 +13,7 @@ async function getFilesHrx(
 ): Promise<string> {
   const fileSections = await Promise.all(
     filenames.map(async (filename) => {
-      const contents = await dir.contents(filename)
+      const contents = await dir.readFile(filename)
       const fullPath = path.resolve(dir.path, filename)
       const relPath = path.relative(root, fullPath)
       return `<===> ${relPath}\n${contents}`
@@ -27,8 +27,8 @@ async function getSubdirsHrx(
   root: string
 ): Promise<string[]> {
   let sections: string[] = []
-  for (const subdirName of await dir.subdirs()) {
-    const subdir = await dir.subitem(subdirName)
+  for (const subdirName of await dir.listSubdirs()) {
+    const subdir = await dir.subdir(subdirName)
     sections = sections.concat(await getHrxSections(subdir, root))
   }
   return sections
@@ -39,7 +39,7 @@ async function getDirectFileHrx(
   root: string
 ): Promise<string> {
   // TODO these filenames should be sorted alphabetically
-  return await getFilesHrx(dir, root, await dir.files())
+  return await getFilesHrx(dir, root, await dir.listFiles())
 }
 
 async function getNormaliDirHrx(
@@ -59,7 +59,7 @@ async function getTestDirHrx(
   root: string
 ): Promise<string> {
   const inputFile = dir.inputFile()
-  const filenames = await dir.files()
+  const filenames = await dir.listFiles()
   // FIXME make sure the base output file is listed first
   const outputFiles = filenames
     .filter((name) => name.startsWith("output-"))

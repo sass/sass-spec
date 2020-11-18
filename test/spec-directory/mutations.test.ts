@@ -7,10 +7,10 @@ describe("SpecDirectory mutations", () => {
     it("replaces the contents of a virtual file", async () => {
       let dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
       await dir.writeFile("output.css", "NEW OUTPUT")
-      expect(await dir.contents("output.css")).toEqual("NEW OUTPUT")
+      expect(await dir.readFile("output.css")).toEqual("NEW OUTPUT")
       await dir.writeFile("output-libsass.css", "MORE OUTPUT")
-      expect(await dir.contents("output-libsass.css")).toEqual("MORE OUTPUT")
-      expect(await dir.files()).toContain("output-libsass.css")
+      expect(await dir.readFile("output-libsass.css")).toEqual("MORE OUTPUT")
+      expect(await dir.listFiles()).toContain("output-libsass.css")
     })
   })
 
@@ -19,7 +19,7 @@ describe("SpecDirectory mutations", () => {
       let dir = await fromPath(path.resolve(__dirname, "../fixtures/basic.hrx"))
       await dir.removeFile("output.css")
       expect(dir.hasFile("output.css")).toBeFalsy()
-      expect(await dir.files()).not.toContain("output.css")
+      expect(await dir.listFiles()).not.toContain("output.css")
     })
   })
 })
