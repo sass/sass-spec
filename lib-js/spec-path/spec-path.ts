@@ -238,7 +238,9 @@ export default abstract class SpecPath {
   private async getNormaliDirHrx(root: string): Promise<string[]> {
     const directFiles = await this.getDirectFileHrx(root)
     const subdirSections = await this.getSubdirsHrx(root)
-    return [directFiles, ...subdirSections]
+    return directFiles.length === 0
+      ? subdirSections
+      : [directFiles, ...subdirSections]
   }
 
   // Get the contents of the test directory in a standardized order

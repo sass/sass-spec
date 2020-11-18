@@ -63,6 +63,14 @@ potato
     await expectHrx(input, expected)
   })
 
+  it("doesn't print extra sections on deeply nested directories", async () => {
+    const input = `
+<===> a/b/c/README.md
+this is a deep file
+`
+    await expectHrx(input)
+  })
+
   it("overwrite test directories in style-guide order", async () => {
     const input = `
 <===> output.css
