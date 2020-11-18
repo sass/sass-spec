@@ -16,10 +16,7 @@ export function normalizeOutput(output = "") {
   )
 }
 
-export function extractErrorMessage(msg: string = "", impl: string) {
-  if (impl === "dart-sass") {
-    return normalizeOutput(msg)
-  }
+export function extractErrorMessage(msg: string = "") {
   return (
     normalizeOutput(msg)
       .split("\n")
@@ -27,10 +24,7 @@ export function extractErrorMessage(msg: string = "", impl: string) {
   )
 }
 
-export function extractWarningMessages(msg: string = "", impl: string) {
-  if (impl === "dart-sass") {
-    return normalizeOutput(msg)
-  }
+export function extractWarningMessages(msg: string = "") {
   // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
   // and only prints out the first warning
   return (

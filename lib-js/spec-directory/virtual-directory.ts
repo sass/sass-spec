@@ -131,11 +131,6 @@ export default class VirtualDirectory extends SpecDirectory {
     return new VirtualDirectory(this.basePath, subitem, this.root, options)
   }
 
-  // Helper function to type the subdirs correctly
-  private async typedSubdirs(): Promise<VirtualDirectory[]> {
-    return (await this.subdirs()) as any
-  }
-
   // Iteration
 
   // Write the files that are directly part of this directory
@@ -159,24 +154,27 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   // To set up a virtual directory, write all files to disk
-  private async setup() {
+  async setup() {
     await this.writeFilesToDisk()
-    const subdirs = await this.typedSubdirs()
+    const subdirs = await this.subdirs()
     await Promise.all(subdirs.map((subdir) => subdir.setup()))
   }
 
   // Return true if a this virtual directory has been modified
   // (i.e. through interactive mode)
   private async hasModifications(): Promise<boolean> {
-    const subdirs = await this.typedSubdirs()
+    const subdirs = await this.subdirs()
     const subdirsNeedCleanup = await Promise.all(
-      subdirs.map((subdir) => subdir.hasModifications())
+      subdirs.map(
+        (subdir) =>
+          subdir instanceof VirtualDirectory && subdir.hasModifications()
+      )
     )
     return this.modified || subdirsNeedCleanup.some((value) => value)
   }
 
   // Perform cleanup actions after opening this directory
-  private async cleanup() {
+  async cleanup() {
     // remove the physical directory
     await fs.promises.rmdir(this.path, { recursive: true })
     // if files were written to this directory, write to the root archive file

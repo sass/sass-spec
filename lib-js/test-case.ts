@@ -8,6 +8,7 @@ import {
   extractWarningMessages,
 } from "./normalize"
 import { Compiler } from "./compiler"
+import { normalize } from "path"
 
 interface BasicTestResult {
   type: "pass" | "todo" | "skip"
@@ -73,7 +74,14 @@ export interface FailTestResult {
 
 export type TestResult = BasicTestResult | FailTestResult
 
-function getDiff(filename: string, expected: string, actual: string) {
+function getDiff(
+  filename: string,
+  expected: string = "",
+  actual: string = "",
+  normalizer: (text: string) => string = normalizeOutput
+) {
+  expected = normalizer(expected)
+  actual = normalizer(actual)
   if (expected === actual) {
     return
   }
@@ -81,9 +89,9 @@ function getDiff(filename: string, expected: string, actual: string) {
 }
 
 function compareResults(
-  impl: string,
   expected: SpecResult,
   actual: SpecResult,
+  trimErrors: boolean,
   skipWarning?: boolean
 ): TestResult {
   if (expected.isSuccess) {
@@ -91,20 +99,18 @@ function compareResults(
       return failures.UnexpectedError(actual)
     }
 
-    const diff = getDiff(
-      "output.css",
-      normalizeOutput(expected.output),
-      normalizeOutput(actual.output)
-    )
+    const diff = getDiff("output.css", expected.output, actual.output)
     if (diff) {
       return failures.OutputDifference(actual, diff)
     }
 
     if ((expected.warning || actual.warning) && !skipWarning) {
+      const normalizer = trimErrors ? extractWarningMessages : normalizeOutput
       const diff = getDiff(
         "warning",
-        extractWarningMessages(expected.warning, impl),
-        extractWarningMessages(actual.warning, impl)
+        expected.warning,
+        actual.warning,
+        normalizer
       )
       if (diff) {
         return failures.WarningDifference(actual, diff)
@@ -114,11 +120,8 @@ function compareResults(
     if (actual.isSuccess) {
       return failures.UnexpectedSuccess(actual)
     }
-    const diff = getDiff(
-      "error",
-      extractErrorMessage(expected.error, impl),
-      extractErrorMessage(actual.error, impl)
-    )
+    const normalizer = trimErrors ? extractWarningMessages : normalizeOutput
+    const diff = getDiff("error", expected.error, actual.error, normalizer)
     if (diff) {
       return failures.ErrorDifference(actual, diff)
     }
@@ -160,7 +163,8 @@ export async function runTestCase(
   ])
 
   const skipWarning = todoWarning && !todoMode
-  const testResult = compareResults(impl, expected, actual, skipWarning)
+  const trimErrors = impl !== "dart-sass"
+  const testResult = compareResults(expected, actual, trimErrors, skipWarning)
   // If we're probing todos
   if (mode === "todo" && todoMode === "probe") {
     if (testResult.type === "pass") {
