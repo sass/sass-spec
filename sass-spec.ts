@@ -36,7 +36,7 @@ async function runAllTests() {
       return
     }
     const test = new TestCase(testDir, args.impl, args.compiler, args.todoMode)
-    let result = await test.testResult()
+    let result = await test.run()
     if (result.type === "fail" && args.interactive) {
       // TODO make it so that we don't need this result
       result = await interactor.run({ test, result })

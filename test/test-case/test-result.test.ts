@@ -17,7 +17,7 @@ describe("TestCase::testResults()", () => {
   async function runAtPath(subpath: string, opts: any = {}) {
     const subdir = await dir.atPath(subpath)
     const test = new TestCase(subdir, "sass-mock", mockCompiler, opts.todoMode)
-    return await test.testResult()
+    return await test.run()
   }
 
   describe("success cases", () => {

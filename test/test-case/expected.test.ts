@@ -13,7 +13,7 @@ describe("TestCase::expectedResult()", () => {
     async function expectOutput(contents: string) {
       const dir = await fromContents(contents.trimStart())
       const testCase = new TestCase(dir, "sass-mock", null as any)
-      const result = await testCase.expectedResult()
+      const result = await testCase.expected()
       expect(result).toEqual(expected)
     }
 
@@ -48,7 +48,7 @@ FAILURE`)
     async function expectError(contents: string) {
       const dir = await fromContents(contents.trimStart())
       const testCase = new TestCase(dir, "sass-mock", null as any)
-      const result = await testCase.expectedResult()
+      const result = await testCase.expected()
       expect(result).toEqual(expected)
     }
 
@@ -90,7 +90,7 @@ ERROR`)
     async function expectWarning(contents: string) {
       const dir = await fromContents(contents.trimStart())
       const testCase = new TestCase(dir, "sass-mock", null as any)
-      const result = await testCase.expectedResult()
+      const result = await testCase.expected()
       expect(result).toEqual(expected)
     }
     it("returns the contents of `warning` when a warning file is defined", async () => {

@@ -36,10 +36,10 @@ const options: InteractorOption[] = [
     description: "Show output.",
     async requirement({ test, result }) {
       if (result.failureType === "warning_difference") return false
-      return (await test.actualResult()).isSuccess
+      return (await test.actual()).isSuccess
     },
     async resolve({ test }) {
-      const result = await test.actualResult()
+      const result = await test.actual()
       if (!result.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
       }
@@ -49,16 +49,16 @@ const options: InteractorOption[] = [
   {
     key: "e",
     async description({ test }) {
-      const result = await test.actualResult()
+      const result = await test.actual()
       return result.isSuccess ? "Show warning." : "Show error."
     },
     async requirement({ test }) {
-      const result = await test.actualResult()
+      const result = await test.actual()
       // show this option if the actual result was a failure or it has a warning
       return !result.isSuccess || !!result.warning
     },
     async resolve({ test }) {
-      const result = await test.actualResult()
+      const result = await test.actual()
       return result.isSuccess ? result.warning : result.error
     },
   },

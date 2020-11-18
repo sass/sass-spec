@@ -18,7 +18,8 @@ describe("TestCase::actualResult()", () => {
   async function getResults(subpath: string) {
     const subdir = await dir.atPath(subpath)
     const test = new TestCase(subdir, "sass-mock", mockCompiler)
-    return await test.actualResult()
+    await test.run()
+    return test.actual()
   }
 
   it("works for output case", async () => {

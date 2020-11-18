@@ -2,7 +2,13 @@ import yaml from "js-yaml"
 import type { SpecDirectory } from "../spec-directory"
 import { RunOption, RunOptions, optionsForImpl } from "../options"
 import { Compiler } from "../compiler"
-import { failures, getExpectedFiles, compareResults, SassResult, TestResult } from "./util"
+import {
+  failures,
+  getExpectedFiles,
+  compareResults,
+  SassResult,
+  TestResult,
+} from "./util"
 
 /**
  * A wrapper around a SpecDirectory that represents a sass-spec test case.
@@ -15,8 +21,8 @@ export default class TestCase {
   impl: string
   compiler: Compiler
   todoMode?: string
-  private actual?: SassResult
-  private result?: TestResult
+  private _actual?: SassResult
+  private _result?: TestResult
 
   constructor(
     dir: SpecDirectory,
@@ -73,7 +79,7 @@ export default class TestCase {
     return this.dir.hasFile(overrideFile) ? overrideFile : `${type}${ext}`
   }
 
-  async expectedResult(): Promise<SassResult> {
+  async expected(): Promise<SassResult> {
     const isSuccessCase = this.expectsSuccess()
     const resultFilename = this.getResultFile(
       isSuccessCase ? "output" : "error"
@@ -124,18 +130,12 @@ export default class TestCase {
     }
   }
 
-  async actualResult() {
-    if (!this.actual) {
-      this.actual = await this.getActualResult()
-    }
-    return this.actual
-  }
-
-  private async getTestResult(): Promise<TestResult> {
+  async run(): Promise<TestResult> {
     const { mode, todoWarning } = optionsForImpl(
       await this.dir.options(),
       this.impl
     )
+    // FIXME how should we set things if this is todo
     if (mode === "ignore") {
       return { type: "skip" }
     }
@@ -145,8 +145,8 @@ export default class TestCase {
     }
 
     const [expected, actual] = await Promise.all([
-      this.expectedResult(),
-      this.actualResult(),
+      this.expected(),
+      this.getActualResult(),
     ])
 
     const skipWarning = todoWarning && !this.todoMode
@@ -160,31 +160,40 @@ export default class TestCase {
         return { type: "todo" }
       }
     }
+    this._actual = actual
+    this._result = testResult
     return testResult
   }
 
-  async testResult() {
-    if (!this.result) {
-      this.result = await this.getTestResult()
+  actual() {
+    if (!this._actual) {
+      throw new Error(`Test case ${this.dir.relPath()} has not yet run.`)
     }
-    return this.result
+    return this._actual
+  }
+
+  result() {
+    if (!this._result) {
+      throw new Error(`Test case ${this.dir.relPath()} has not yet run.`)
+    }
+    return this._result
   }
 
   // Overwrite the set of results to be equal to the provided result
   private async overwriteResults(impl?: string) {
     const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
-    const result = await this.actualResult()
-    if (result.isSuccess) {
+    const actual = this.actual()
+    if (actual.isSuccess) {
       await Promise.all([
-        this.dir.writeFile(outputFile, result.output),
-        result.warning
-          ? this.dir.writeFile(warningFile, result.warning)
+        this.dir.writeFile(outputFile, actual.output),
+        actual.warning
+          ? this.dir.writeFile(warningFile, actual.warning)
           : this.dir.removeFile(warningFile),
         this.dir.removeFile(errorFile),
       ])
     } else {
       await Promise.all([
-        this.dir.writeFile(errorFile, result.error),
+        this.dir.writeFile(errorFile, actual.error),
         this.dir.removeFile(outputFile),
         this.dir.removeFile(warningFile),
       ])
@@ -203,23 +212,25 @@ export default class TestCase {
         this.dir.removeFile(filename)
       )
     )
+    this._result = { type: "pass" }
   }
 
   /**
    * Migrate a copy of the expected results to pass on impl
    */
   async migrateImpl() {
-    const result = await this.actualResult()
+    const actual = this.actual()
     await this.overwriteResults(this.impl)
     // If a nonempty base warning exists, but the actual result yields no warning,
     // create a warning file
     if (
       this.dir.hasFile("warning") &&
       !!this.dir.readFile("warning") &&
-      result.isSuccess &&
-      !result.warning
+      actual.isSuccess &&
+      !actual.warning
     ) {
       await this.dir.writeFile(`warning-${this.impl}`, "")
     }
+    this._result = { type: "pass" }
   }
 }
