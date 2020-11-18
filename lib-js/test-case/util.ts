@@ -1,5 +1,4 @@
 import { SpecDirectory } from "../spec-directory"
-import { Compiler } from "../compiler"
 
 interface SuccessResult {
   isSuccess: true
@@ -14,6 +13,62 @@ interface ErrorResult {
 
 /** A result of executing a sass compiler */
 export type SassResult = SuccessResult | ErrorResult
+
+type FailureType =
+  // | "todo_warning_nonexistent"
+  // | "conflicting_files"
+  // | "missing_output"
+  | "unexpected_error"
+  | "unexpected_success"
+  | "output_difference"
+  | "error_difference"
+  | "warning_difference"
+  | "unnecessary_todo"
+
+export interface TestResult {
+  type: "pass" | "fail" | "todo" | "skip"
+  failureType?: FailureType
+  message?: string
+  diff?: string
+}
+
+function makeFailureFactory(failureType: FailureType, message: string) {
+  return function (diff?: string): TestResult {
+    return {
+      type: "fail",
+      failureType,
+      message,
+      diff,
+    }
+  }
+}
+
+export const failures = {
+  UnexpectedError: makeFailureFactory(
+    "unexpected_error",
+    "Test case should succeed but it did not"
+  ),
+  UnexpectedSuccess: makeFailureFactory(
+    "unexpected_success",
+    "Expected test to fail but it did not"
+  ),
+  OutputDifference: makeFailureFactory(
+    "output_difference",
+    "Expected did not match output"
+  ),
+  WarningDifference: makeFailureFactory(
+    "warning_difference",
+    "Expected did not match warning"
+  ),
+  ErrorDifference: makeFailureFactory(
+    "error_difference",
+    "Expected did not match error"
+  ),
+  UnnecessaryTodo: makeFailureFactory(
+    "unnecessary_todo",
+    "Expected test marked TODO to fail but it passed"
+  ),
+}
 
 export function getExpectedFiles(impl?: string) {
   return impl

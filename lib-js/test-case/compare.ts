@@ -1,65 +1,34 @@
 import { createPatch } from "diff"
-import {
-  normalizeOutput,
-  extractErrorMessage,
-  extractWarningMessages,
-} from "../normalize"
-import { SassResult } from "./util"
+import { failures, SassResult, TestResult } from "./util"
 
-type FailureType =
-  // | "todo_warning_nonexistent"
-  // | "conflicting_files"
-  // | "missing_output"
-  | "unexpected_error"
-  | "unexpected_success"
-  | "output_difference"
-  | "error_difference"
-  | "warning_difference"
-  | "unnecessary_todo"
-
-export interface TestResult {
-  type: "pass" | "fail" | "todo" | "skip"
-  failureType?: FailureType
-  message?: string
-  diff?: string
+// Run a particular spec and print the results as a tap test
+export function normalizeOutput(output = "") {
+  return (
+    output
+      .replace(/\r?\n+/g, "\n")
+      // Normalize paths
+      // TODO what is expected here?
+      .replace(/[-_/a-zA-Z0-9]+input\.scss/g, "input.scss")
+      .trim()
+  )
 }
 
-function makeFailureFactory(failureType: FailureType, message: string) {
-  return function (diff?: string): TestResult {
-    return {
-      type: "fail",
-      failureType,
-      message,
-      diff,
-    }
-  }
+export function extractErrorMessage(msg: string = "") {
+  return (
+    normalizeOutput(msg)
+      .split("\n")
+      .find((line) => line.startsWith("Error:")) ?? ""
+  )
 }
 
-export const failures = {
-  UnexpectedError: makeFailureFactory(
-    "unexpected_error",
-    "Test case should succeed but it did not"
-  ),
-  UnexpectedSuccess: makeFailureFactory(
-    "unexpected_success",
-    "Expected test to fail but it did not"
-  ),
-  OutputDifference: makeFailureFactory(
-    "output_difference",
-    "Expected did not match output"
-  ),
-  WarningDifference: makeFailureFactory(
-    "warning_difference",
-    "Expected did not match warning"
-  ),
-  ErrorDifference: makeFailureFactory(
-    "error_difference",
-    "Expected did not match error"
-  ),
-  UnnecessaryTodo: makeFailureFactory(
-    "unnecessary_todo",
-    "Expected test marked TODO to fail but it passed"
-  ),
+export function extractWarningMessages(msg: string = "") {
+  // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
+  // and only prints out the first warning
+  return (
+    normalizeOutput(msg)
+      .split("\n")
+      .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line)) ?? ""
+  )
 }
 
 function getDiff(

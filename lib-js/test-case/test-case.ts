@@ -2,8 +2,14 @@ import yaml from "js-yaml"
 import type { SpecDirectory } from "../spec-directory"
 import { RunOption, RunOptions, optionsForImpl } from "../options"
 import { Compiler } from "../compiler"
-import { getExpectedFiles, overwriteResults, SassResult } from "./util"
-import { failures, compareResults, TestResult } from "./compare"
+import {
+  failures,
+  TestResult,
+  getExpectedFiles,
+  overwriteResults,
+  SassResult,
+} from "./util"
+import { compareResults } from "./compare"
 
 /**
  * A wrapper around a SpecDirectory that represents a sass-spec test case.
