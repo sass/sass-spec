@@ -29,11 +29,19 @@ export function execCompiler(
 ): Compiler {
   return {
     async compile(path, args) {
-      return child_process.spawnSync(command, [...initArgs, ...args], {
-        cwd: path,
-        encoding: "utf-8",
-        stdio: ["ignore", "pipe", "pipe"],
-      })
+      const { error, stdout, stderr, status } = child_process.spawnSync(
+        command,
+        [...initArgs, ...args],
+        {
+          cwd: path,
+          encoding: "utf-8",
+          stdio: ["ignore", "pipe", "pipe"],
+        }
+      )
+      if (error) {
+        throw new Error(`Error with Sass Compilation: ${error}`)
+      }
+      return { stdout, stderr, status }
     },
   }
 }
