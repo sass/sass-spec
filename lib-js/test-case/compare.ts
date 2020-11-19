@@ -21,8 +21,9 @@ export function extractErrorMessage(msg: string = "") {
 }
 
 export function extractWarningMessages(msg: string = "") {
-  // FIXME this (kinda) replicates behavior in the ruby runner, which is broken right now
-  // and only prints out the first warning
+  // TODO fix warning extraction
+  // This implementation replicates behavior in the ruby runner, which is broken right now
+  // and compares only the first line of the first warning.
   // return (
   //   normalizeOutput(msg)
   //     .split("\n\n")

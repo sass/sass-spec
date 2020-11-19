@@ -61,7 +61,7 @@ async function getTestDirHrx(
   const inputFile = filenames.find((filename) =>
     /input\.s[ca]ss/.test(filename)
   )!
-  // FIXME instead of sorting, just make sure the base output is written first
+  // TODO instead of sorting, just make sure the base output is written first
   const outputFiles = filenames
     .filter((name) => name.startsWith("output-"))
     .sort()
