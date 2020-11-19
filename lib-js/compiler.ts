@@ -39,7 +39,7 @@ export function execCompiler(
         }
       )
       if (error) {
-        throw new Error(`Error with Sass Compilation: ${error}`)
+        throw new Error(`Failed to run executable compiler: ${error}`)
       }
       return { stdout, stderr, status }
     },
