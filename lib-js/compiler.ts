@@ -51,6 +51,9 @@ export function execCompiler(
  * and compiles the files input to stdin.
  */
 async function createDartProcess(repoPath: string) {
+  if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
+    throw new Error(`${repoPath} is not a valid Dart Sass repository`)
+  }
   const dartFile = `
 import "dart:convert";
 import "dart:io";
