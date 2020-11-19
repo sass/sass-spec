@@ -226,9 +226,31 @@ WARNING: test
       })
     })
 
-    it.todo(
-      "marks a warning check as failed if it succeeds but --probe-todo is chosen"
-    )
+    it("marks a warning check as failed if it succeeds but --probe-todo is chosen", async () => {
+      const input = `
+<===> options.yml
+:warning_todo:
+  - sass-mock
+<===> input.scss
+status: 0
+stdout: |
+  p {
+    color: #ff8000;
+  }
+stderr: |
+  WARNING: test
+<===> output.css
+p {
+  color: #ff8000;
+}
+<===> warning
+WARNING: test
+`
+      expect(await runTestCase(input, { todoMode: "probe" })).toMatchObject({
+        type: "fail",
+        failureType: "unnecessary_todo",
+      })
+    })
   })
 
   describe("ignore", () => {

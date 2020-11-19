@@ -152,12 +152,21 @@ export default class TestCase {
     const skipWarning = todoWarning && !this.todoMode
     const trimErrors = this.impl !== "dart-sass"
     const testResult = compareResults(expected, actual, trimErrors, skipWarning)
-    // If we're probing todos
-    if (mode === "todo" && this.todoMode === "probe") {
-      if (testResult.type === "pass") {
-        return failures.UnnecessaryTodo()
-      } else {
-        return { type: "todo" }
+    // If we're probing todo
+    if (this.todoMode === "probe") {
+      if (mode === "todo") {
+        if (testResult.type === "pass") {
+          return failures.UnnecessaryTodo()
+        } else {
+          return { type: "todo" }
+        }
+      }
+      if (todoWarning) {
+        if (testResult.type === "pass") {
+          return failures.UnnecessaryTodo()
+        } else {
+          return { type: "pass" }
+        }
       }
     }
     return testResult
