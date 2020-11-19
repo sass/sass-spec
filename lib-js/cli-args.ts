@@ -60,12 +60,10 @@ export async function parseArgs(
     .options("run-todo", {
       description: "Run any tests marked as todo",
       type: "boolean",
-      default: false,
     })
     .options("probe-todo", {
       description: "Run and report tests marked as todo that unexpectedly pass",
       type: "boolean",
-      default: false,
     })
     .options("interactive", {
       description:
@@ -80,8 +78,8 @@ export async function parseArgs(
         return true
       }
     })
-    .conflicts("dart", "command").argv
-  // .conflicts("run-todo", "probe-todo").argv
+    .conflicts("dart", "command")
+    .conflicts("run-todo", "probe-todo").argv
 
   const args: Partial<CliArgs> = {
     interactive: argv.interactive,
