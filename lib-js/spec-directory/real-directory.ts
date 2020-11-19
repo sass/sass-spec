@@ -59,6 +59,6 @@ export default class RealDirectory extends SpecDirectory {
   }
 
   async removeFile(filename: string) {
-    await fs.promises.rm(filename, { force: true })
+    await fs.promises.rm(filename, { recursive: true, force: true })
   }
 }
