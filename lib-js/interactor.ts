@@ -65,13 +65,13 @@ const options: InteractorOption[] = [
   {
     key: "O",
     description: "Update expected output and pass test",
-    requirement: (test) => test.result().failureType !== 'unnecessary_todo',
+    requirement: (test) => test.result().failureType !== "unnecessary_todo",
     resolve: (test) => test.overwrite(),
   },
   {
     key: "I",
     description: (test) => `Migrate copy of test to pass on ${test.impl}`,
-    requirement: (test) => test.result().failureType !== 'unnecessary_todo',
+    requirement: (test) => test.result().failureType !== "unnecessary_todo",
     resolve: (test) => test.migrateImpl(),
   },
   {
@@ -81,13 +81,13 @@ const options: InteractorOption[] = [
         test.result().failureType === "warning_difference" ? "warning" : "spec"
       return `Mark ${word} as todo for ${test.impl}`
     },
-    requirement: (test) => test.result().failureType !== 'unnecessary_todo',
+    requirement: (test) => test.result().failureType !== "unnecessary_todo",
     resolve: (test) => test.markTodo(),
   },
   {
     key: "G",
     description: (test) => `Ignore test for ${test.impl} FOREVER`,
-    requirement: (test) => test.result().failureType !== 'unnecessary_todo',
+    requirement: (test) => test.result().failureType !== "unnecessary_todo",
     resolve: (test) => test.markIgnore(),
   },
   {
