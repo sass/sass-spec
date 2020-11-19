@@ -1,4 +1,6 @@
 import fs from "fs"
+import os from "os"
+import path from "path"
 import child_process, { ChildProcessWithoutNullStreams } from "child_process"
 import { Writable, Readable } from "stream"
 
@@ -70,7 +72,7 @@ main() async {
     exitCode = 0;
   }
 }`
-  const dartFilename = "/tmp/sass-wrapper.dart"
+  const dartFilename = path.resolve(os.tmpdir(), "sass-wrapper.dart")
   await fs.promises.writeFile(dartFilename, dartFile, { encoding: "utf-8" })
   const child = child_process.spawn("dart", [
     "--enable-asserts",
