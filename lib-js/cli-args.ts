@@ -3,6 +3,7 @@ import yargs from "yargs/yargs"
 import { Compiler, DartCompiler, execCompiler } from "./compiler"
 
 interface CliArgs {
+  verbose: boolean
   impl: string
   compiler: Compiler
   interactive: boolean
@@ -40,17 +41,30 @@ export async function parseArgs(
       "npm run ./sass-spec.js -- spec/basic",
       "Run tests only in the spec/basic folder"
     )
+    .option("verbose", {
+      alias: "v",
+      description: "Run verbosely",
+      type: "boolean",
+    })
+    .option("dart", {
+      description: "Run Dart Sass, whose repo should be at the given path",
+      type: "string",
+    })
     .option("command", {
       alias: "c",
       description: "Sets a specific binary to run",
       type: "string",
     })
+    .conflicts("dart", "command")
+    .check(({ dart, command }) => {
+      if (!dart && !command) {
+        throw new Error("Must specify --dart or --command")
+      } else {
+        return true
+      }
+    })
     .option("cmd-args", {
       description: "Pass args to command or Dart Sass",
-      type: "string",
-    })
-    .option("dart", {
-      description: "Run Dart Sass, whose repo should be at the given path",
       type: "string",
     })
     .option("impl", {
@@ -65,23 +79,16 @@ export async function parseArgs(
       description: "Run and report tests marked as todo that unexpectedly pass",
       type: "boolean",
     })
+    .conflicts("run-todo", "probe-todo")
     .options("interactive", {
       description:
         "When a test fails, enter into a dialog for how to handle it",
       type: "boolean",
       default: false,
-    })
-    .check(({ dart, command }) => {
-      if (!dart && !command) {
-        throw new Error("Must specify --dart or --command")
-      } else {
-        return true
-      }
-    })
-    .conflicts("dart", "command")
-    .conflicts("run-todo", "probe-todo").argv
+    }).argv
 
   const args: Partial<CliArgs> = {
+    verbose: argv.verbose,
     interactive: argv.interactive,
     testDirs: argv._,
     todoMode: argv["run-todo"]

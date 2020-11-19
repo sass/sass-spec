@@ -15,12 +15,12 @@ const naughtyDirs = [
 const ROOT_DIR = "spec"
 
 async function runAllTests() {
-  const tabulator = new Tabulator(process.stdout)
   const interactor = new Interactor(process.stdin, process.stdout)
   const start = Date.now()
   const rootPath = path.resolve(process.cwd(), ROOT_DIR)
   const args = await parseArgs(rootPath, process.argv.slice(2))
   const rootDir = await fromPath(rootPath)
+  const tabulator = new Tabulator(process.stdout, args.verbose)
 
   const testDirs = args.testDirs.map((dir) => path.resolve(process.cwd(), dir))
   await rootDir.forEachTest(testDirs, async (testDir) => {
