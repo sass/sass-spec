@@ -21,6 +21,40 @@ describe("SpecDirectory iteration", () => {
       expect(testCases).not.toContain("iterate/archive/no-input")
     })
 
-    it.todo("works when passed in path arguments")
+    it("works when passed in a single path arguments", async () => {
+      const testCases: string[] = []
+      await dir.forEachTest(["iterate/archive"], async (subdir) => {
+        testCases.push(subdir.relPath())
+      })
+      expect(testCases).not.toContain("iterate/physical")
+      expect(testCases).toContain("iterate/archive/scss")
+      expect(testCases).toContain("iterate/archive/indented")
+    })
+
+    it("works when passed in multiple path arguments", async () => {
+      const testCases: string[] = []
+      await dir.forEachTest(
+        ["iterate/physical", "iterate/archive/scss"],
+        async (subdir) => {
+          testCases.push(subdir.relPath())
+        }
+      )
+      expect(testCases).toContain("iterate/physical")
+      expect(testCases).toContain("iterate/archive/scss")
+      expect(testCases).not.toContain("iterate/archive/indented")
+    })
+
+    it("works when one path is under another", async () => {
+      const testCases: string[] = []
+      await dir.forEachTest(
+        ["iterate/archive", "iterate/archive/scss"],
+        async (subdir) => {
+          testCases.push(subdir.relPath())
+        }
+      )
+      expect(testCases).not.toContain("iterate/physical")
+      expect(testCases).toContain("iterate/archive/scss")
+      expect(testCases).toContain("iterate/archive/indented")
+    })
   })
 })

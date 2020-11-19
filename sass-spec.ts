@@ -22,8 +22,7 @@ async function runAllTests() {
   const rootDir = await fromPath(rootPath)
   const tabulator = new Tabulator(process.stdout, args.verbose)
 
-  const testDirs = args.testDirs.map((dir) => path.resolve(process.cwd(), dir))
-  await rootDir.forEachTest(testDirs, async (testDir) => {
+  await rootDir.forEachTest(args.testDirs, async (testDir) => {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }

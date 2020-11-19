@@ -107,7 +107,7 @@ export default abstract class SpecDirectory {
   async cleanup() {}
 
   private isMatch(paths: string[]) {
-    return paths.length === 0 || paths.some((path) => this.path === path)
+    return paths.length === 0 || paths.some((path) => this.relPath() === path)
   }
 
   // TODO should we move this function out to its own file?
@@ -130,7 +130,7 @@ export default abstract class SpecDirectory {
       }
     } else {
       // otherwise, recurse through all subdirectories
-      const subpaths = paths.filter((p) => p.startsWith(this.path))
+      const subpaths = paths.filter((p) => p.startsWith(this.relPath()))
       // if this path isn't a parent of any of the given paths, return
       if (subpaths.length === 0) {
         return
