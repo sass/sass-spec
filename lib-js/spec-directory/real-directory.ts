@@ -40,14 +40,15 @@ export default class RealDirectory extends SpecDirectory {
     })
     return contents
       .filter((entry) => entry.isDirectory() || entry.name.endsWith(".hrx"))
-      .map((entry) => entry.name)
+      .map((entry) => path.parse(entry.name).name)
   }
 
-  async getSubdir(filename: string): Promise<SpecDirectory> {
+  async getSubdir(name: string): Promise<SpecDirectory> {
     const options = await this.options()
-    const fullPath = path.resolve(this.path, filename)
-    if (filename.endsWith(".hrx")) {
-      return await VirtualDirectory.fromArchive(fullPath, this.root, options)
+    const fullPath = path.resolve(this.path, name)
+    const archive = fullPath + ".hrx"
+    if (fs.existsSync(archive)) {
+      return await VirtualDirectory.fromArchive(archive, this.root, options)
     } else {
       return new RealDirectory(fullPath, this.root, options)
     }
