@@ -4,6 +4,7 @@ import { fromPath } from "./lib-js/spec-directory"
 import { Interactor } from "./lib-js/interactor"
 import { parseArgs } from "./lib-js/cli-args"
 import TestCase from "./lib-js/test-case"
+import Tabulator from "./lib-js/tabulator"
 
 // FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
 const naughtyDirs = [
@@ -11,33 +12,15 @@ const naughtyDirs = [
   "spec/libsass-todo-issues/issue_221286",
 ]
 
-const symbols = {
-  pass: ".",
-  fail: "F",
-  todo: "-",
-  skip: "",
-}
-
 const ROOT_DIR = "spec"
 
 async function runAllTests() {
+  const tabulator = new Tabulator(process.stdout)
   const interactor = new Interactor(process.stdin, process.stdout)
   const start = Date.now()
-  const counts = { total: 0, pass: 0, fail: 0, skip: 0, todo: 0 }
   const rootPath = path.resolve(process.cwd(), ROOT_DIR)
   const args = await parseArgs(rootPath, process.argv.slice(2))
   const rootDir = await fromPath(rootPath)
-  const failures: TestCase[] = []
-
-  function tabulate(test: TestCase) {
-    const result = test.result()
-    counts.total++
-    counts[result.type]++
-    process.stdout.write(symbols[result.type])
-    if (result.type === "fail") {
-      failures.push(test)
-    }
-  }
 
   const testDirs = args.testDirs.map((dir) => path.resolve(process.cwd(), dir))
   await rootDir.forEachTest(testDirs, async (testDir) => {
@@ -50,25 +33,13 @@ async function runAllTests() {
       // TODO make it so that we don't need this result
       await interactor.prompt(test)
     }
-    tabulate(test)
+    tabulator.tabulate(test)
   })
 
   const end = Date.now()
   const time = (end - start) / 1000
 
-  // clear the line
-  process.stdout.write("\n")
-
-  for (const failure of failures) {
-    console.log("Failure:", failure.dir.relPath())
-    console.log(failure.result().message)
-    if (failure.result().diff) console.log(failure.result().diff)
-    console.log()
-  }
-
-  console.log(
-    `${counts.total} runs, ${counts.pass} passing, ${counts.fail} failures, ${counts.todo} todo, ${counts.skip} skips`
-  )
+  tabulator.printResults()
   console.log(`Finished in ${time}s`)
   process.exit(0)
 }
