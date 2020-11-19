@@ -54,8 +54,55 @@ OUTPUT
     })
   })
 
-  describe("options", () => {
-    it.todo("passes precision argument correctly")
-    it.todo("passes indented argument correctly")
+  describe("command args", () => {
+    it("passes precision argument to the compiler", async () => {
+      const contents = `
+<===> options.yml
+:precision: 6
+<===> input.scss
+stdout: OUTPUT
+stderr: WARNING
+status: 0
+<===> output.css
+OUTPUT
+`.trim()
+      const compile = jest.fn(async () => ({
+        stdout: "",
+        stderr: "",
+        status: 0,
+      }))
+      const compiler = { compile }
+      const dir = await fromContents(contents.trim())
+      const test = new TestCase(dir, "sass-mock", compiler)
+      await test.run()
+      expect(compile).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.arrayContaining(["--precision", "6"])
+      )
+    })
+
+    it("passes indented argument correctly", async () => {
+      const contents = `
+<===> input.sass
+stdout: OUTPUT
+stderr: WARNING
+status: 0
+<===> output.css
+OUTPUT
+`.trim()
+      const compile = jest.fn(async () => ({
+        stdout: "",
+        stderr: "",
+        status: 0,
+      }))
+      const compiler = { compile }
+      const dir = await fromContents(contents.trim())
+      const test = new TestCase(dir, "sass-mock", compiler)
+      await test.run()
+      expect(compile).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.arrayContaining(["--sass"])
+      )
+    })
   })
 })

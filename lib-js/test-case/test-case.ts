@@ -55,7 +55,7 @@ export default class TestCase {
 
   /** Get the precision for this test directory */
   async precision() {
-    return (await this.dir.options())[":precision"]
+    return (await this.dir.options())[":precision"] ?? 10
   }
 
   expectsSuccess() {

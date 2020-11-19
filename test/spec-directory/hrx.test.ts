@@ -104,5 +104,29 @@ IMPL WARNING
     await expectHrx(input, expected)
   })
 
-  it.todo("processes multiple test directories in a single archive correctly")
+  it("processes multiple test directories in a single archive correctly", async () => {
+    const input = `
+<===> test-1/input.scss
+INPUT
+<===> test-2/error
+ERROR
+<===> test-2/input.scss
+INPUT
+<===> test-1/output.css
+OUTPUT
+`
+    const expected = `
+<===> test-1/input.scss
+INPUT
+<===> test-1/output.css
+OUTPUT
+<===>
+================================================================================
+<===> test-2/input.scss
+INPUT
+<===> test-2/error
+ERROR
+`
+    await expectHrx(input, expected)
+  })
 })
