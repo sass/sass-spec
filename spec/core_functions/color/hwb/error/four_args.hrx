@@ -1,0 +1,221 @@
+<===> hue/type/input.scss
+@use 'sass:color';
+a {b: color.hwb("foo", 30%, 40%, 0.5)}
+
+<===> hue/type/error
+Error: $hue: "foo" is not a number.
+  ,
+2 | a {b: color.hwb("foo", 30%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> hue/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
+
+<===> hue/var/error
+Error: $hue: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/type/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, "foo", 40%, 0.5)}
+
+<===> whiteness/type/error
+Error: $whiteness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, "foo", 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/unit/none/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30, 40%, 0.5)}
+
+<===> whiteness/unit/none/error
+Error: $whiteness: Expected 30 to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/unit/wrong/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30px, 40%, 0.5)}
+
+<===> whiteness/unit/wrong/error
+Error: $whiteness: Expected 30px to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30px, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/too_high/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 101%, 40%, 0.5)}
+
+<===> whiteness/too_high/error
+Error: $whiteness: Expected 101% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 101%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/too_low/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, -1%, 40%, 0.5)}
+
+<===> whiteness/too_low/error
+Error: $whiteness: Expected -1% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, -1%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> whiteness/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, var(--c), 40%, 0.5)}
+
+<===> whiteness/var/error
+Error: $whiteness: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, var(--c), 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/type/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, "foo", 0.5)}
+
+<===> blackness/type/error
+Error: $blackness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, 30%, "foo", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/unit/none/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 40, 0.5)}
+
+<===> blackness/unit/none/error
+Error: $whiteness: Expected 40 to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30%, 40, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/unit/wrong/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 40px, 0.5)}
+
+<===> blackness/unit/wrong/error
+Error: $whiteness: Expected 40px to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30%, 40px, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/too_high/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 101%, 0.5)}
+
+<===> blackness/too_high/error
+Error: $whiteness: Expected 101% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 30%, 101%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/too_low/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, -1%, 0.5)}
+
+<===> blackness/too_low/error
+Error: $whiteness: Expected -1% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 30%, -1%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blackness/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, var(--c), 0.5)}
+
+<===> blackness/var/error
+Error: $blackness: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, 30%, var(--c), 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/unit/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, 0.5px)}
+
+<===> alpha/unit/error
+Error: $alpha: Expected 0.5px to have no units or "%".
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, var(--c))}
+
+<===> alpha/var/error
+Error: $alpha: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

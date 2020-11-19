@@ -178,3 +178,26 @@ Error: Function rgb is missing argument $green.
 >> a {b: call(get-function("rgb"), 1)}
 
    ------^
+
+<===>
+================================================================================
+<===> error/if_args/input.scss
+// The if() function has a special behavior to avoid evaluating the
+// non-returned argument but that behavior does not propagate to call()
+// itself when using call() to call if().
+a {b: call(get-function("if"), true, "", $undefined)}
+
+<===> error/if_args/error
+Error: Undefined variable.
+  ,
+4 | a {b: call(get-function("if"), true, "", $undefined)}
+  |                                          ^^^^^^^^^^
+  '
+  input.scss 4:42  root stylesheet
+
+<===> error/if_args/error-libsass
+Error: Undefined variable: "$undefined".
+        on line 4:42 of input.scss
+>> a {b: call(get-function("if"), true, "", $undefined)}
+
+   -----------------------------------------^
