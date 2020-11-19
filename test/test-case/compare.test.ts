@@ -73,6 +73,8 @@ WARNING: warning
       expect(extractWarningMessages(input)).toEqual("WARNING: warning")
     })
 
+    // TODO deprecation warning parsing is broken right now.
+    // fixing it would require updating a lot of the tests.
     it.todo("extracts DEPRECATION WARNING messages")
   })
 })
