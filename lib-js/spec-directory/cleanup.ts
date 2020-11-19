@@ -17,13 +17,11 @@ export async function withAsyncCleanup(
   // so trigger an async function that exits the process
   const cleanupAndExit = async (status: number = 0) => {
     // cleanup and then trigger an exit
-    console.log("calling cleanup")
     await cleanup()
     process.exit(status)
   }
 
   const handler = () => {
-    console.log("calling handler")
     cleanupAndExit()
   }
 
