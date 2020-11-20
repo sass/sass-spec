@@ -180,7 +180,7 @@ export default class VirtualDirectory extends SpecDirectory {
     await fs.promises.rm(this.path, { recursive: true, force: true })
     // if files were written to this directory, write to the root archive file
     if (await this.hasModifications()) {
-      const hrx = await toHrx(this)
+      const hrx = await this.asArchive()
       await fs.promises.writeFile(this.path + ".hrx", hrx, {
         encoding: "utf-8",
       })

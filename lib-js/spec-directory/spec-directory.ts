@@ -1,7 +1,8 @@
 import path from "path"
 
 import yaml from "js-yaml"
-import { RunOption, RunOptions, mergeOptions } from "../options"
+import { RunOptions, mergeOptions } from "../options"
+import { toHrx } from "./hrx"
 
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
 
@@ -99,6 +100,11 @@ export default abstract class SpecDirectory {
   /** Return whether this directory corresponds to a test case */
   isTestDir() {
     return this.hasFile("input.scss") || this.hasFile("input.sass")
+  }
+
+  /** Return the contents of this directory as an HRX archive */
+  async asArchive() {
+    return await toHrx(this)
   }
 
   // Iteration

@@ -24,7 +24,7 @@ const options: InteractorOption[] = [
   {
     key: "t",
     description: "Show me the test case.",
-    resolve: (test) => test.input(),
+    resolve: (test) => test.dir.asArchive(),
   },
   {
     key: "o",

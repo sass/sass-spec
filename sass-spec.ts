@@ -1,6 +1,4 @@
-import path from "path"
 import { fromPath } from "./lib-js/spec-directory"
-
 import { Interactor } from "./lib-js/interactor"
 import { parseArgs } from "./lib-js/cli-args"
 import TestCase from "./lib-js/test-case"
