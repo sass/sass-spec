@@ -164,7 +164,6 @@ export class Interactor {
     // If a repeated choice is chosen for a given failure type, run that choice
     if (this.memory[type]) {
       const choice = this.memory[type]
-      // we're guaranteed that the stored chosen option returns a test result
       await choice.resolve(test)
       rl.close()
       return
