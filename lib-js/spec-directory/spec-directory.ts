@@ -11,7 +11,7 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
  */
 export default abstract class SpecDirectory {
   private parentOpts?: RunOptions
-  private subitems: Record<string, SpecDirectory>
+  private _subdirs: Record<string, SpecDirectory>
   protected root: SpecDirectory
 
   /** The full path of this directory */
@@ -20,7 +20,7 @@ export default abstract class SpecDirectory {
   constructor(root?: SpecDirectory, parentOpts?: RunOptions) {
     this.root = root ?? this
     this.parentOpts = parentOpts
-    this.subitems = {}
+    this._subdirs = {}
   }
 
   /** The path of this directory relative to the top level that was created */
@@ -68,10 +68,10 @@ export default abstract class SpecDirectory {
    */
   async subdir(name: string): Promise<SpecDirectory> {
     // Cache the subitem so we always return the same one
-    if (!this.subitems[name]) {
-      this.subitems[name] = await this.getSubdir(name)
+    if (!this._subdirs[name]) {
+      this._subdirs[name] = await this.getSubdir(name)
     }
-    return this.subitems[name]
+    return this._subdirs[name]
   }
 
   /** Return the list of subdirectories */
