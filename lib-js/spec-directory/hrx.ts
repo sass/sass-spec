@@ -41,7 +41,7 @@ async function getDirectFileHrx(
   return await getFilesHrx(dir, root, await dir.listFiles())
 }
 
-async function getNormaliDirHrx(
+async function getNormalDirHrx(
   dir: SpecDirectory,
   root: string
 ): Promise<string[]> {
