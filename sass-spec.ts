@@ -17,8 +17,8 @@ const ROOT_DIR = "spec"
 async function runAllTests() {
   const interactor = new Interactor(process.stdin, process.stdout)
   const start = Date.now()
-  const rootPath = path.resolve(process.cwd(), ROOT_DIR)
-  const args = await parseArgs(rootPath, process.argv.slice(2))
+  const args = await parseArgs(process.argv.slice(2))
+  const rootPath = args.root
   const rootDir = await fromPath(rootPath)
   const tabulator = new Tabulator(process.stdout, args.verbose)
 

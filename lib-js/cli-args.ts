@@ -3,6 +3,7 @@ import yargs from "yargs/yargs"
 import { Compiler, DartCompiler, execCompiler } from "./compiler"
 
 interface CliArgs {
+  root: string
   verbose: boolean
   impl: string
   compiler: Compiler
@@ -31,10 +32,7 @@ Make sure the command you provide prints to stdout.
 /**
  * Parse command line args into options used by the sass-spec runner.
  */
-export async function parseArgs(
-  loadPath: string,
-  cliArgs: string[]
-): Promise<CliArgs> {
+export async function parseArgs(cliArgs: string[]): Promise<CliArgs> {
   const argv = yargs(cliArgs)
     .usage(usageText)
     .example(
@@ -80,6 +78,12 @@ export async function parseArgs(
       type: "boolean",
     })
     .conflicts("run-todo", "probe-todo")
+    .option("root-path", {
+      description:
+        "The root path to start searching for tests and test configuration, and the path to pass into --load-path",
+      type: "string",
+      default: "spec",
+    })
     .options("interactive", {
       description:
         "When a test fails, enter into a dialog for how to handle it",
@@ -87,7 +91,10 @@ export async function parseArgs(
       default: false,
     }).argv
 
+  const root = path.resolve(process.cwd(), argv["root-path"])
+
   const args: Partial<CliArgs> = {
+    root,
     verbose: argv.verbose,
     interactive: argv.interactive,
     testDirs: argv._,
@@ -99,7 +106,7 @@ export async function parseArgs(
   }
   args.impl = argv.dart ? "dart-sass" : argv.impl!
   let cmdArgs = implArgs[args.impl] ?? []
-  cmdArgs.push(`--load-path=${loadPath}`)
+  cmdArgs.push(`--load-path=${root}`)
   if (argv["cmd-args"]) {
     cmdArgs = cmdArgs.concat(argv["cmd-args"].split(" "))
   }
