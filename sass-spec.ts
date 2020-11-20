@@ -12,8 +12,6 @@ const naughtyDirs = [
   "spec/libsass-todo-issues/issue_221286",
 ]
 
-const ROOT_DIR = "spec"
-
 async function runAllTests() {
   const interactor = new Interactor(process.stdin, process.stdout)
   const start = Date.now()
