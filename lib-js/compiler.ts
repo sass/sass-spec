@@ -145,9 +145,9 @@ async function* toDartChunks(stream: Readable) {
 }
 
 export class DartCompiler implements Compiler {
-  private stdin: Writable
-  private stdout: AsyncGenerator<string>
-  private stderr: AsyncGenerator<string>
+  private readonly stdin: Writable
+  private readonly stdout: AsyncGenerator<string>
+  private readonly stderr: AsyncGenerator<string>
 
   private constructor(
     dart: ChildProcessWithoutNullStreams,
