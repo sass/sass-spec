@@ -155,9 +155,7 @@ export class Interactor {
 
     function question(prompt: string): Promise<string> {
       return new Promise((resolve) => {
-        rl.question(prompt, (answer) => {
-          resolve(answer)
-        })
+        rl.question(prompt, resolve)
       })
     }
 
