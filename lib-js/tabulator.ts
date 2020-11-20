@@ -9,12 +9,12 @@ const symbols = {
 }
 
 export default class Tabulator {
-  total = 0
-  counts = { pass: 0, fail: 0, todo: 0, skip: 0 }
-  output: Writable
-  failures: TestCase[] = []
-  todos: TestCase[] = []
-  verbose: boolean
+  private total = 0
+  private counts = { pass: 0, fail: 0, todo: 0, skip: 0 }
+  private output: Writable
+  private failures: TestCase[] = []
+  private todos: TestCase[] = []
+  private verbose: boolean
 
   constructor(output: Writable, verbose = false) {
     this.output = output

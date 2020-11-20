@@ -18,10 +18,10 @@ import { compareResults } from "./compare"
  * based on the results.
  */
 export default class TestCase {
-  dir: SpecDirectory
-  impl: string
-  compiler: Compiler
-  todoMode?: string
+  readonly dir: SpecDirectory
+  readonly impl: string
+  private compiler: Compiler
+  private todoMode?: string
   private _actual?: SassResult
   private _result?: TestResult
 
