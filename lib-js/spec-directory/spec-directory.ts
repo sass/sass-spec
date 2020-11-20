@@ -33,7 +33,7 @@ export default abstract class SpecDirectory {
 
   // File manipulation
 
-  /** Get the list of direct files filenames of this directory */
+  /** Get the list of direct filenames in this directory */
   abstract listFiles(): Promise<string[]>
   /** Returns true if this directory has the given filename as a subitem */
   abstract hasFile(filename: string): boolean
