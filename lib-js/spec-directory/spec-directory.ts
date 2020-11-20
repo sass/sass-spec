@@ -50,14 +50,14 @@ export default abstract class SpecDirectory {
   abstract listSubdirs(): Promise<string[]>
 
   /** Get the subdirectory at the provided path relative to this directory */
-  async atPath(path: string): Promise<SpecDirectory> {
-    if (!path) return this
-    const i = path.indexOf("/")
+  async atPath(subpath: string): Promise<SpecDirectory> {
+    if (!subpath) return this
+    const i = subpath.indexOf(path.sep)
     if (i === -1) {
-      return await this.subdir(path)
+      return await this.subdir(subpath)
     }
-    const child = await this.subdir(path.slice(0, i))
-    return await child.atPath(path.slice(i + 1))
+    const child = await this.subdir(subpath.slice(0, i))
+    return await child.atPath(subpath.slice(i + 1))
   }
 
   // helper to get the subitem with the given name
@@ -118,7 +118,6 @@ export default abstract class SpecDirectory {
     return paths.length === 0 || paths.some((path) => this.relPath() === path)
   }
 
-  // TODO should we move this function out to its own file?
   /**
    * Iterate through the subpaths of this directory, running the iteratee
    * on all
