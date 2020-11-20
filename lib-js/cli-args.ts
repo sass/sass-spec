@@ -22,9 +22,7 @@ Usage: ts-node ./sass-spec.ts [options] [spec_directory...]
 
 This script will search for all files under the spec (or specified) directory
 that are named input.scss. It will then run a specified binary and check that
-the output matches the expected output. If you want set up your own test suite,
-follow a similar hierarchy as described in the initial comment of this script
-for your test hierarchy.
+the output matches the expected output.
 
 Make sure the command you provide prints to stdout.
 `.trim()
