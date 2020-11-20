@@ -13,7 +13,7 @@ export async function fromPath(dirPath: string): Promise<SpecDirectory> {
   return new RealDirectory(dirPath)
 }
 
-export async function fromContents(contents: string): Promise<SpecDirectory> {
+export function fromContents(contents: string): Promise<SpecDirectory> {
   return VirtualDirectory.fromContents(contents)
 }
 
