@@ -125,21 +125,21 @@ function split(buffer: Buffer, token: number) {
 // Split the stream into chunks based on the break character (0xff)
 // TODO need to test this
 async function* toDartChunks(stream: Readable) {
-  let buff = ""
+  let buff = Buffer.from("")
   for await (const chunk of stream) {
     const [head, ...tail] = split(chunk, 0xff)
     // If we received *any* break characters, yield those segments
     if (tail.length > 0) {
-      yield buff + head.toString()
+      yield Buffer.concat([buff, head]).toString()
       for (const item of tail.slice(0, tail.length - 1)) {
         yield item.toString()
       }
       // Set the buffer to the last unfinished segment
-      buff = tail[tail.length - 1].toString()
+      buff = tail[tail.length - 1]
     } else {
       // If we didn't receive any 0xff in this chunk, just append to the
       // intermediate buffer
-      buff += head
+      buff = Buffer.concat([buff, head])
     }
   }
 }
