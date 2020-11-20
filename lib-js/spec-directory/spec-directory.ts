@@ -12,8 +12,10 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
 export default abstract class SpecDirectory {
   private parentOpts?: RunOptions
   private subitems: Record<string, SpecDirectory>
-  abstract path: string
   protected root: SpecDirectory
+
+  /** The full path of this directory */
+  abstract path: string
 
   constructor(root?: SpecDirectory, parentOpts?: RunOptions) {
     this.root = root ?? this
