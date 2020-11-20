@@ -99,7 +99,7 @@ async function getHrxSections(
   if (dir.isTestDir()) {
     return [await getTestDirHrx(dir, root)]
   } else {
-    return getNormaliDirHrx(dir, root)
+    return getNormalDirHrx(dir, root)
   }
 }
 
