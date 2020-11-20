@@ -33,7 +33,7 @@ const options: InteractorOption[] = [
       if (test.result().failureType === "warning_difference") return false
       return test.actual().isSuccess
     },
-    async resolve(test) {
+    resolve(test) {
       const actual = test.actual()
       if (!actual.isSuccess) {
         throw new Error(`Trying to list output for non-successful result`)
@@ -51,9 +51,9 @@ const options: InteractorOption[] = [
       // show this option if the actual result was a failure or it has a warning
       return !actual.isSuccess || !!actual.warning
     },
-    async resolve(test) {
+    resolve(test) {
       const actual = test.actual()
-      return actual.isSuccess ? actual.warning : actual.error
+      return actual.isSuccess ? actual.warning ?? "" : actual.error
     },
   },
   {
