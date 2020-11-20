@@ -7,6 +7,10 @@ export interface RunOptions {
 
 export type RunOption = ":ignore_for" | ":todo" | ":warning_todo"
 
+/**
+ * Merge two instances of options.yml config objects, creating a new config
+ * that is also a valid options.yml.
+ */
 export function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
   function mergeOption(option: RunOption) {
     return [...(base[option] ?? []), ...(ext[option] ?? [])]
@@ -20,8 +24,7 @@ export function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
 }
 
 function hasOptionForImpl(option: string[] | undefined, impl: string) {
-  if (!option || !(option instanceof Array)) return false
-  return option.some((item) => item.includes(impl))
+  return !!option?.some((item) => item.includes(impl))
 }
 
 interface ImplOptions {
