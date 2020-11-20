@@ -152,7 +152,7 @@ export class DartCompiler implements Compiler {
 
   private constructor(
     dart: ChildProcessWithoutNullStreams,
-    initArgs: string[] = []
+    private readonly initArgs: string[] = []
   ) {
     this.stdin = dart.stdin
     this.stdout = toDartChunks(dart.stdout)
