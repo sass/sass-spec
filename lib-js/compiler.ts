@@ -23,7 +23,7 @@ export interface Compiler {
 /**
  * Returns a sass compiler that runs the given command.
  */
-export function execCompiler(
+export function executableCompiler(
   command: string,
   initArgs: string[] = []
 ): Compiler {
@@ -51,7 +51,7 @@ export function execCompiler(
  * and compiles the files input to stdin.
  */
 async function createDartProcess(repoPath: string) {
-  if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
+  if (!fs.existsSync(path.resolve(repoPath, "bin/sass.dart"))) {
     throw new Error(`${repoPath} is not a valid Dart Sass repository`)
   }
   const dartFile = `
