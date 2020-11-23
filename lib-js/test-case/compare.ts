@@ -59,19 +59,26 @@ function getDiff(
   return createPatch(filename, expected, actual, "expected", "actual")
 }
 
+interface CompareOptions {
+  /**
+   * if true, errors and warnings will be trimmed
+   * so only the messages are compared and not line information
+   */
+  trimErrors?: boolean
+  /** If true, skip warning checks */
+  skipWarning?: boolean
+}
+
 /**
  * Compare the provided expected and actual results.
  * @param expected the expected results to check
  * @param actual the actual results to check
- * @param trimErrors if true, errors and warnings will be trimmed so only the messages are compared
- * and not line information
- * @param skipWarning if true, skip warning checks
+ * @param options options for comparison
  */
 export function compareResults(
   expected: SassResult,
   actual: SassResult,
-  trimErrors: boolean,
-  skipWarning?: boolean
+  { skipWarning, trimErrors }: CompareOptions
 ): TestResult {
   if (expected.isSuccess) {
     if (!actual.isSuccess) {

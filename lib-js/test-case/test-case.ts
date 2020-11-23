@@ -149,9 +149,12 @@ export default class TestCase {
     ])
     this._actual = actual
 
-    const skipWarning = todoWarning && !this.todoMode
-    const trimErrors = this.impl !== "dart-sass"
-    const testResult = compareResults(expected, actual, trimErrors, skipWarning)
+    const testResult = compareResults(expected, actual, {
+      // Compare the full error only for dart-sass
+      trimErrors: this.impl !== "dart-sass",
+      // Skip warning checks :warning_todo is enabled and we're not running todos
+      skipWarning: todoWarning && !this.todoMode,
+    })
     // If we're probing todo
     if (this.todoMode === "probe") {
       if (mode === "todo") {
