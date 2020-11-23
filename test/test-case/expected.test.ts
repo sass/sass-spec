@@ -22,6 +22,7 @@ describe("TestCase::expectedResult()", () => {
 <===> output.css
 OUTPUT`)
     })
+
     it("returns `output-[impl].css` contents when there is an impl-specific override", async () => {
       await expectOutput(`
 <===> output.css
@@ -29,6 +30,7 @@ FAILURE
 <===> output-sass-mock.css
 OUTPUT`)
     })
+
     it("returns original `output.css` contents when another impl is overridden", async () => {
       await expectOutput(`
 <===> output.css
@@ -57,6 +59,7 @@ FAILURE`)
 <===> error
 ERROR`)
     })
+
     it("returns contents of `error-[impl]` when impl-specific error file is specified", async () => {
       await expectError(`
 <===> error
@@ -64,6 +67,7 @@ FAILURE
 <===> error-sass-mock
 ERROR`)
     })
+
     it("returns the base error when an impl-specific error file is defined for another impl", async () => {
       await expectError(`
 <===> error
@@ -71,6 +75,7 @@ ERROR
 <===> error-dart-sass
 FAILURE`)
     })
+
     it("returns impl-specific error file when a base output file anda an impl-specific error file are defined", async () => {
       await expectError(`
 <===> output.css
@@ -100,6 +105,7 @@ OUTPUT
 <===> warning
 WARNING`)
     })
+
     it("returns overridden warning message if `warning-[impl]` file is defined", async () => {
       await expectWarning(`
 <===> output.css
@@ -109,6 +115,7 @@ FAILURE
 <===> warning-sass-mock
 WARNING`)
     })
+
     it("returns overridden warning message if `warning-[impl]` file defined without a base `warning` file", async () => {
       await expectWarning(`
 <===> output.css
