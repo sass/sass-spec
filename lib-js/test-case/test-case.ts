@@ -224,7 +224,7 @@ export default class TestCase {
     // create a warning file
     if (
       this.dir.hasFile("warning") &&
-      !!this.dir.readFile("warning") &&
+      this.dir.readFile("warning") &&
       actual.isSuccess &&
       !actual.warning
     ) {
