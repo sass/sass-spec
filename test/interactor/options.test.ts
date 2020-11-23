@@ -30,7 +30,7 @@ describe("Interactor options", () => {
     await expectOption("o", arg, false)
   })
 
-  it("Shows the 'show error' option only when errors and warnings are available", async () => {
+  it("shows the 'show error' option only when errors and warnings are available", async () => {
     await expectOption(
       "e",
       { actual: { isSuccess: true, output: "output" } },
@@ -43,8 +43,8 @@ describe("Interactor options", () => {
   })
 
   it("does not show any of the update test choices on an unexpected todo", async () => {
-    const test = { result: { type: "fail", failureType: 'unnecessary_todo' } }
-    for (const key of 'OITG') {
+    const test = { result: { type: "fail", failureType: "unnecessary_todo" } }
+    for (const key of "OITG") {
       await expectOption(key, test, false)
     }
   })
