@@ -47,8 +47,7 @@ export default class TestCase {
 
   /** Get the contents of the input file for this test directory. */
   async input() {
-    const inputFile = this.isIndented() ? "input.sass" : "input.scss"
-    return await this.dir.readFile(inputFile)
+    return await this.dir.readFile(this.inputFile())
   }
 
   private expectsSuccess() {
@@ -93,9 +92,6 @@ export default class TestCase {
 
     const cmdArgs = []
     // Pass in the indented option to the command
-    if (this.isIndented()) {
-      cmdArgs.push(this.impl === "dart-sass" ? "--indented" : "--sass")
-    }
     if (precision) {
       cmdArgs.push(`--precision`)
       cmdArgs.push(`${precision}`)

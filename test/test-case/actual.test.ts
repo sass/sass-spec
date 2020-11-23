@@ -80,29 +80,5 @@ OUTPUT
         expect.arrayContaining(["--precision", "6"])
       )
     })
-
-    it("passes indented argument correctly", async () => {
-      const contents = `
-<===> input.sass
-stdout: OUTPUT
-stderr: WARNING
-status: 0
-<===> output.css
-OUTPUT
-`.trim()
-      const compile = jest.fn(async () => ({
-        stdout: "",
-        stderr: "",
-        status: 0,
-      }))
-      const compiler = { compile }
-      const dir = await fromContents(contents.trim())
-      const test = new TestCase(dir, "sass-mock", compiler)
-      await test.run()
-      expect(compile).toHaveBeenCalledWith(
-        expect.anything(),
-        expect.arrayContaining(["--sass"])
-      )
-    })
   })
 })
