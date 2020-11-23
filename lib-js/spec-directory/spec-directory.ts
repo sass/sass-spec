@@ -1,6 +1,6 @@
 import path from "path"
 
-import SpecOptions from "../options"
+import SpecOptions from "./options"
 import { toHrx } from "./hrx"
 
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>

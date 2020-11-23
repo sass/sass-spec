@@ -18,3 +18,4 @@ export function fromContents(contents: string): Promise<SpecDirectory> {
 }
 
 export { default as SpecDirectory } from "./spec-directory"
+export { OptionKey } from "./options"

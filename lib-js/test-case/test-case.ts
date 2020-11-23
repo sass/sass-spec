@@ -1,5 +1,4 @@
-import type { SpecDirectory } from "../spec-directory"
-import { RunOption } from "../options"
+import type { SpecDirectory, OptionKey } from "../spec-directory"
 import { Compiler } from "../compiler"
 import {
   failures,
@@ -185,7 +184,7 @@ export default class TestCase {
   // Mutations
 
   /** Add the given option for the given impl */
-  async addOptionForImpl(option: RunOption) {
+  async addOptionForImpl(option: OptionKey) {
     const options = await this.dir.directOptions()
     const updatedOptions = options.addImpl(this.impl, option)
     await this.dir.writeFile("options.yml", updatedOptions.toYaml())

@@ -1,7 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-import SpecOptions from "../options"
+import SpecOptions from "./options"
 import SpecDirectory from "./spec-directory"
 import VirtualDirectory from "./virtual-directory"
 

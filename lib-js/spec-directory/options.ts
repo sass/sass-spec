@@ -1,32 +1,33 @@
 import yaml from "js-yaml"
 
-export interface RunOptions {
+export interface OptionsData {
   ":ignore_for"?: string[]
   ":todo"?: string[]
   ":warning_todo"?: string[]
   ":precision"?: number
 }
 
-export type RunOption = ":ignore_for" | ":todo" | ":warning_todo"
+// A key for an option type represented by an array of supported implementations
+export type OptionKey = ":ignore_for" | ":todo" | ":warning_todo"
 
 /**
  * Class representing the possible options of a given spec
  */
 export default class SpecOptions {
-  private data: RunOptions
-  constructor(data: RunOptions) {
+  private data: OptionsData
+  constructor(data: OptionsData) {
     this.data = data
   }
 
   static fromYaml(content: string) {
     // TODO validate
-    return new SpecOptions((yaml.safeLoad(content) ?? {}) as RunOptions)
+    return new SpecOptions((yaml.safeLoad(content) ?? {}) as OptionsData)
   }
 
   /** Create new SpecOptions by merging this with other options */
   merge(other: SpecOptions): SpecOptions {
     // return the result of these options merged with other options
-    const mergeOption = (option: RunOption) => {
+    const mergeOption = (option: OptionKey) => {
       return [...(this.data[option] ?? []), ...(other.data[option] ?? [])]
     }
     return new SpecOptions({
@@ -47,24 +48,27 @@ export default class SpecOptions {
     }
   }
 
+  /** Return whether this options object is :warning_todo for the given implementation */
   isWarningTodo(impl: string): boolean {
     return this.hasForImpl(impl, ":warning_todo")
   }
 
-  private hasForImpl(impl: string, option: RunOption) {
+  private hasForImpl(impl: string, option: OptionKey) {
     return !!this.data[option]?.some((item) => item.includes(impl))
   }
 
+  /** Get the precision for this options object */
   precision(): number {
     return this.data[":precision"] ?? 10
   }
 
   /** Return these options modified to add the given impl to the given option key */
-  addImpl(impl: string, optKey: RunOption): SpecOptions {
+  addImpl(impl: string, optKey: OptionKey): SpecOptions {
     const newOption = [...(this.data[optKey] ?? []), impl]
     return new SpecOptions({ ...this.data, [optKey]: newOption })
   }
 
+  /** Convert this options object to a Yaml string */
   toYaml(): string {
     return yaml.safeDump(this.data)
   }

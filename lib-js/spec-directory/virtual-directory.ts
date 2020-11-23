@@ -3,7 +3,7 @@ import path from "path"
 import { Readable } from "stream"
 import SpecDirectory, { SpecIteratee } from "./spec-directory"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
-import SpecOptions from "../options"
+import SpecOptions from "./options"
 import { withAsyncCleanup } from "./cleanup"
 
 function createFileCache(dir: HrxDirectory) {
