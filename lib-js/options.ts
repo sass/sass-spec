@@ -1,3 +1,5 @@
+import { Z_DATA_ERROR } from "zlib"
+
 export interface RunOptions {
   ":ignore_for"?: string[]
   ":todo"?: string[]
@@ -48,4 +50,36 @@ export function optionsForImpl(options: RunOptions, impl: string) {
     opts.precision = options[":precision"]
   }
   return opts
+}
+
+/**
+ * Class representing the possible options of a given spec
+ */
+export default class SpecOptions {
+  private data: RunOptions
+  constructor(data: RunOptions) {
+    this.data = data
+  }
+
+  static fromYaml(content: string) {
+    // TODO return
+  }
+
+  merge(other: SpecOptions): SpecOptions {
+    // return the result of these options merged with other options
+    throw new Error("Not implemented")
+  }
+
+  /** Get the run mode of the given implementation */
+  getMode(impl: string): "todo" | "ignore" | undefined {
+    throw new Error("Not implemented")
+  }
+
+  isWarningTodo(impl: string): boolean {
+    throw new Error("Not implemented")
+  }
+
+  precision(): number {
+    return this.data[":precision"] ?? 10
+  }
 }
