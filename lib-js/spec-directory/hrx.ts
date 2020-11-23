@@ -41,6 +41,11 @@ async function getDirectFileHrx(
   return await getFilesHrx(dir, root, await dir.listFiles())
 }
 
+/**
+ * Get the subcontents of a non-test directory as HRX.
+ * The first element of the returned array represents the direct files of the directory,
+ * and each subsequent element corresponds to a subdirectory.
+ */
 async function getNormalDirHrx(
   dir: SpecDirectory,
   root: string
@@ -52,7 +57,18 @@ async function getNormalDirHrx(
     : [directFiles, ...subdirSections]
 }
 
-// Get the contents of the test directory in a standardized order
+/**
+ * Return the contents of a test directory as a single HRX section.
+ *
+ * The elements are printed in this order:
+ *
+ *  - options.yml (if present)
+ *  - input.sass/.scss
+ *  - any other files, including files in subdirectories
+ *  - output files, including implementation-specific outputs
+ *  - warning files, including implementation-specific warnings
+ *  - error files, including implementation-specific errors
+ */
 async function getTestDirHrx(
   dir: SpecDirectory,
   root: string
