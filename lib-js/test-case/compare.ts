@@ -1,7 +1,10 @@
 import { createPatch } from "diff"
 import { failures, SassResult, TestResult } from "./util"
 
-// Run a particular spec and print the results as a tap test
+/**
+ * Normalize the output of the Sass compiler.
+ * Standardizes the number and type of newlines and the paths of input files.
+ */
 export function normalizeOutput(output = "") {
   return (
     output
@@ -12,6 +15,9 @@ export function normalizeOutput(output = "") {
   )
 }
 
+/**
+ * Extract the error message of a Sass compiler.
+ */
 export function extractErrorMessage(msg: string = "") {
   return (
     normalizeOutput(msg)
@@ -20,6 +26,9 @@ export function extractErrorMessage(msg: string = "") {
   )
 }
 
+/**
+ * Extract the warning message(s) of a Sass compiler.
+ */
 export function extractWarningMessages(msg: string = "") {
   // TODO fix warning extraction
   // This implementation replicates behavior in the ruby runner, which is broken right now
