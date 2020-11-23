@@ -8,6 +8,9 @@ const symbols = {
   skip: "",
 }
 
+/**
+ * Tabulates test result data and provides functionality for pretty printing it.
+ */
 export default class Tabulator {
   private total = 0
   private counts = { pass: 0, fail: 0, todo: 0, skip: 0 }
@@ -16,6 +19,10 @@ export default class Tabulator {
   private todos: TestCase[] = []
   private verbose: boolean
 
+  /**
+   * @param output the output stream to print the results to
+   * @param verbose whether the output should be printed verbosely
+   */
   constructor(output: Writable, verbose = false) {
     this.output = output
     this.verbose = verbose
@@ -44,11 +51,25 @@ export default class Tabulator {
     }
   }
 
-  writeLine(text: string = "") {
+  /**
+   * Print the accumulated results of all tabulated tests.
+   */
+  printResults() {
+    this.writeLine()
+    this.printFailures()
+    if (this.verbose) {
+      this.printTodos()
+    }
+    this.writeLine(
+      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored`
+    )
+  }
+
+  private writeLine(text: string = "") {
     this.output.write(text + "\n")
   }
 
-  printFailures() {
+  private printFailures() {
     for (const failure of this.failures) {
       this.writeLine(`Failure: ${failure.dir.relPath()}`)
       this.writeLine(failure.result().message)
@@ -59,21 +80,10 @@ export default class Tabulator {
     }
   }
 
-  printTodos() {
+  private printTodos() {
     for (const todo of this.todos) {
       this.writeLine(`TODO: ${todo.dir.relPath()}`)
       this.writeLine()
     }
-  }
-
-  printResults() {
-    this.writeLine()
-    this.printFailures()
-    if (this.verbose) {
-      this.printTodos()
-    }
-    this.writeLine(
-      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored`
-    )
   }
 }
