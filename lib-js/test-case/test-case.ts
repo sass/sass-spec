@@ -99,7 +99,7 @@ export default class TestCase {
     const precision = await this.precision()
 
     const cmdArgs = []
-    // Pass in the indentend option to the command
+    // Pass in the indented option to the command
     if (this.isIndented()) {
       cmdArgs.push(this.impl === "dart-sass" ? "--indented" : "--sass")
     }
