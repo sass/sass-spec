@@ -1,4 +1,4 @@
-import { Z_DATA_ERROR } from "zlib"
+import yaml from "js-yaml"
 
 export interface RunOptions {
   ":ignore_for"?: string[]
@@ -10,49 +10,6 @@ export interface RunOptions {
 export type RunOption = ":ignore_for" | ":todo" | ":warning_todo"
 
 /**
- * Merge two instances of options.yml config objects, creating a new config
- * that is also a valid options.yml.
- */
-export function mergeOptions(base: RunOptions, ext: RunOptions): RunOptions {
-  function mergeOption(option: RunOption) {
-    return [...(base[option] ?? []), ...(ext[option] ?? [])]
-  }
-  return {
-    ":ignore_for": mergeOption(":ignore_for"),
-    ":todo": mergeOption(":todo"),
-    ":warning_todo": mergeOption(":warning_todo"),
-    ":precision": ext[":precision"] ?? base[":precision"],
-  }
-}
-
-function hasOptionForImpl(option: string[] | undefined, impl: string) {
-  return !!option?.some((item) => item.includes(impl))
-}
-
-interface ImplOptions {
-  mode?: string
-  todoWarning?: boolean
-  precision?: number
-}
-
-export function optionsForImpl(options: RunOptions, impl: string) {
-  const opts: ImplOptions = {}
-  if (hasOptionForImpl(options[":warning_todo"], impl)) {
-    opts.todoWarning = true
-  }
-  if (hasOptionForImpl(options[":ignore_for"], impl)) {
-    opts.mode = "ignore"
-  }
-  if (hasOptionForImpl(options[":todo"], impl)) {
-    opts.mode = "todo"
-  }
-  if (options[":precision"]) {
-    opts.precision = options[":precision"]
-  }
-  return opts
-}
-
-/**
  * Class representing the possible options of a given spec
  */
 export default class SpecOptions {
@@ -62,24 +19,53 @@ export default class SpecOptions {
   }
 
   static fromYaml(content: string) {
-    // TODO return
+    // TODO validate
+    return new SpecOptions((yaml.safeLoad(content) ?? {}) as RunOptions)
   }
 
+  /** Create new SpecOptions by merging this with other options */
   merge(other: SpecOptions): SpecOptions {
     // return the result of these options merged with other options
-    throw new Error("Not implemented")
+    const mergeOption = (option: RunOption) => {
+      return [...(this.data[option] ?? []), ...(other.data[option] ?? [])]
+    }
+    return new SpecOptions({
+      ":ignore_for": mergeOption(":ignore_for"),
+      ":todo": mergeOption(":todo"),
+      ":warning_todo": mergeOption(":warning_todo"),
+      ":precision": other.data[":precision"] ?? this.data[":precision"],
+    })
   }
 
   /** Get the run mode of the given implementation */
   getMode(impl: string): "todo" | "ignore" | undefined {
-    throw new Error("Not implemented")
+    if (this.hasForImpl(impl, ":ignore_for")) {
+      return "ignore"
+    }
+    if (this.hasForImpl(impl, ":todo")) {
+      return "todo"
+    }
   }
 
   isWarningTodo(impl: string): boolean {
-    throw new Error("Not implemented")
+    return this.hasForImpl(impl, ":warning_todo")
+  }
+
+  private hasForImpl(impl: string, option: RunOption) {
+    return !!this.data[option]?.some((item) => item.includes(impl))
   }
 
   precision(): number {
     return this.data[":precision"] ?? 10
+  }
+
+  /** Return these options modified to add the given impl to the given option key */
+  addImpl(impl: string, optKey: RunOption): SpecOptions {
+    const newOption = [...(this.data[optKey] ?? []), impl]
+    return new SpecOptions({ ...this.data, [optKey]: newOption })
+  }
+
+  toYaml(): string {
+    return yaml.safeDump(this.data)
   }
 }

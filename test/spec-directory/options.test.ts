@@ -12,11 +12,10 @@ describe("SpecDirectory options", () => {
 :precision: 3
 `.trimStart()
     )
-    expect(await dir.options()).toMatchObject({
-      ":todo": ["dart-sass"],
-      ":ignore_for": ["libsass"],
-      ":precision": 3,
-    })
+    const options = await dir.options()
+    expect(options.getMode("dart-sass")).toEqual("todo")
+    expect(options.getMode("libsass")).toEqual("ignore")
+    expect(options.precision()).toEqual(3)
   })
 
   it("overrides parent options correctly", async () => {
@@ -39,12 +38,11 @@ describe("SpecDirectory options", () => {
 `.trimStart()
     )
     const childDir = await dir.atPath("child")
-    expect(await childDir.options()).toMatchObject({
-      ":todo": ["dart-sass", "sass-mock"],
-      ":ignore_for": ["libsass", "dart-sass"],
-      ":warning_todo": ["libsass"],
-      ":precision": 4,
-    })
+    const options = await childDir.options()
+    expect(options.getMode("sass-mock")).toEqual("todo")
+    expect(options.getMode("dart-sass")).toEqual("ignore")
+    expect(options.isWarningTodo("libsass")).toEqual(true)
+    expect(options.precision()).toEqual(4)
   })
 
   it("overrides more than one layer deep", async () => {
@@ -57,8 +55,8 @@ describe("SpecDirectory options", () => {
 `.trimStart()
     )
     const noOptsChild = await dir.atPath("deep")
-    expect(await noOptsChild.options()).toMatchObject({ ":precision": 3 })
+    expect((await noOptsChild.options()).precision()).toEqual(3)
     const deepChild = await dir.atPath("deep/child")
-    expect(await deepChild.options()).toMatchObject({ ":precision": 4 })
+    expect((await deepChild.options()).precision()).toEqual(4)
   })
 })

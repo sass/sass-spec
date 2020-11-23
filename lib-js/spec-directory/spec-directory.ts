@@ -1,7 +1,6 @@
 import path from "path"
 
-import yaml from "js-yaml"
-import { RunOptions, mergeOptions } from "../options"
+import SpecOptions from "../options"
 import { toHrx } from "./hrx"
 
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
@@ -10,14 +9,14 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
  * Represents either a real or virtual directory that contains sass-spec test cases.
  */
 export default abstract class SpecDirectory {
-  private readonly parentOpts?: RunOptions
+  private readonly parentOpts?: SpecOptions
   private readonly _subdirs: Record<string, SpecDirectory>
   protected readonly root: SpecDirectory
 
   /** The full path of this directory */
   abstract path: string
 
-  constructor(root?: SpecDirectory, parentOpts?: RunOptions) {
+  constructor(root?: SpecDirectory, parentOpts?: SpecOptions) {
     this.root = root ?? this
     this.parentOpts = parentOpts
     this._subdirs = {}
@@ -83,18 +82,18 @@ export default abstract class SpecDirectory {
   // Spec Options
 
   // Get the options from a physical options.yml file
-  async directOptions(): Promise<RunOptions> {
+  async directOptions(): Promise<SpecOptions> {
     const contents = this.hasFile("options.yml")
       ? await this.readFile("options.yml")
       : ""
     // TODO validate run options
-    return (yaml.safeLoad(contents) as RunOptions) || {}
+    return SpecOptions.fromYaml(contents)
   }
 
   /** Get the spec options of this directory, including those inherited from its parent */
   async options() {
     const opts = await this.directOptions()
-    return this.parentOpts ? mergeOptions(this.parentOpts, opts) : opts
+    return this.parentOpts?.merge(opts) ?? opts
   }
 
   // Test case info

@@ -1,14 +1,14 @@
 import fs from "fs"
 import path from "path"
 
-import { RunOptions } from "../options"
+import SpecOptions from "../options"
 import SpecDirectory from "./spec-directory"
 import VirtualDirectory from "./virtual-directory"
 
 export default class RealDirectory extends SpecDirectory {
   path: string
 
-  constructor(path: string, root?: SpecDirectory, parentOpts?: RunOptions) {
+  constructor(path: string, root?: SpecDirectory, parentOpts?: SpecOptions) {
     super(root, parentOpts)
     this.path = path
   }

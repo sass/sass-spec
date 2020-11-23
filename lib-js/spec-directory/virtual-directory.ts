@@ -3,8 +3,7 @@ import path from "path"
 import { Readable } from "stream"
 import SpecDirectory, { SpecIteratee } from "./spec-directory"
 import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
-import { RunOptions } from "../options"
-import { toHrx } from "./hrx"
+import SpecOptions from "../options"
 import { withAsyncCleanup } from "./cleanup"
 
 function createFileCache(dir: HrxDirectory) {
@@ -43,7 +42,7 @@ export default class VirtualDirectory extends SpecDirectory {
     basePath: string,
     hrxDir: HrxDirectory,
     root?: SpecDirectory,
-    parentOpts?: RunOptions
+    parentOpts?: SpecOptions
   ) {
     super(root, parentOpts)
     this.path = path.resolve(basePath, hrxDir.path)
@@ -63,7 +62,7 @@ export default class VirtualDirectory extends SpecDirectory {
   static async fromArchive(
     hrxPath: string,
     root?: SpecDirectory,
-    parentOpts?: RunOptions
+    parentOpts?: SpecOptions
   ) {
     const stream = fs.createReadStream(hrxPath, { encoding: "utf-8" })
     const archive = await archiveFromStream(stream)

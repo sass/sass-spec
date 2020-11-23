@@ -1,6 +1,5 @@
-import yaml from "js-yaml"
 import type { SpecDirectory } from "../spec-directory"
-import { RunOption, RunOptions, optionsForImpl } from "../options"
+import { RunOption } from "../options"
 import { Compiler } from "../compiler"
 import {
   failures,
@@ -53,11 +52,6 @@ export default class TestCase {
     return await this.dir.readFile(inputFile)
   }
 
-  /** Get the precision for this test directory */
-  private async precision() {
-    return (await this.dir.options())[":precision"] ?? 10
-  }
-
   private expectsSuccess() {
     return (
       this.dir.hasFile(`output-${this.impl}.css`) ||
@@ -96,7 +90,7 @@ export default class TestCase {
 
   // Run the compiler and calculate the actual result
   private async calcActualResult(): Promise<SassResult> {
-    const precision = await this.precision()
+    const precision = (await this.dir.options()).precision()
 
     const cmdArgs = []
     // Pass in the indented option to the command
@@ -131,10 +125,9 @@ export default class TestCase {
 
   // Do the test run, storing the actual output if there is one, and return the test result
   private async doRun(): Promise<TestResult> {
-    const { mode, todoWarning } = optionsForImpl(
-      await this.dir.options(),
-      this.impl
-    )
+    const options = await this.dir.options()
+    const mode = options.getMode(this.impl)
+    const warningTodo = options.isWarningTodo(this.impl)
 
     if (mode === "ignore") {
       return { type: "skip" }
@@ -153,7 +146,7 @@ export default class TestCase {
       // Compare the full error only for dart-sass
       trimErrors: this.impl !== "dart-sass",
       // Skip warning checks :warning_todo is enabled and we're not running todos
-      skipWarning: todoWarning && !this.todoMode,
+      skipWarning: warningTodo && !this.todoMode,
     })
     // If we're probing todo
     if (this.todoMode === "probe") {
@@ -164,7 +157,7 @@ export default class TestCase {
           return { type: "todo" }
         }
       }
-      if (todoWarning) {
+      if (warningTodo) {
         if (testResult.type === "pass") {
           return failures.UnnecessaryTodo()
         } else {
@@ -194,9 +187,8 @@ export default class TestCase {
   /** Add the given option for the given impl */
   async addOptionForImpl(option: RunOption) {
     const options = await this.dir.directOptions()
-    const newOption = [...(options[option] ?? []), this.impl]
-    const newOptions: RunOptions = { ...options, [option]: newOption }
-    await this.dir.writeFile("options.yml", yaml.safeDump(newOptions))
+    const updatedOptions = options.addImpl(this.impl, option)
+    await this.dir.writeFile("options.yml", updatedOptions.toYaml())
   }
 
   /**
