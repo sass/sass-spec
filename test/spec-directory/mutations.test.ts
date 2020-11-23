@@ -8,6 +8,10 @@ describe("SpecDirectory mutations", () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.writeFile("output.css", "NEW OUTPUT")
       expect(await dir.readFile("output.css")).toEqual("NEW OUTPUT")
+    })
+
+    it("writes contents to a file that does not exist yet", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await dir.writeFile("output-libsass.css", "MORE OUTPUT")
       expect(await dir.readFile("output-libsass.css")).toEqual("MORE OUTPUT")
       expect(await dir.listFiles()).toContain("output-libsass.css")
@@ -21,5 +25,8 @@ describe("SpecDirectory mutations", () => {
       expect(dir.hasFile("output.css")).toBeFalsy()
       expect(await dir.listFiles()).not.toContain("output.css")
     })
+
+    it.todo("errors when trying to remove a file that does not exist")
+    it.todo("errors when trying to remove a directory")
   })
 })
