@@ -38,12 +38,12 @@ export default class TestCase {
   }
 
   /** Return whether this test directory has an indented sass file */
-  isIndented() {
+  private isIndented() {
     return this.dir.hasFile("input.sass")
   }
 
   /** Return the name of the input file of this test directory. */
-  inputFile() {
+  private inputFile() {
     return this.isIndented() ? "input.sass" : "input.scss"
   }
 
@@ -54,11 +54,11 @@ export default class TestCase {
   }
 
   /** Get the precision for this test directory */
-  async precision() {
+  private async precision() {
     return (await this.dir.options())[":precision"] ?? 10
   }
 
-  expectsSuccess() {
+  private expectsSuccess() {
     return (
       this.dir.hasFile(`output-${this.impl}.css`) ||
       (this.dir.hasFile("output.css") &&
@@ -244,7 +244,7 @@ export default class TestCase {
     }
   }
 
-  /** Ignore this test */
+  /** Mark this test as ignored for the current implementation */
   async markIgnore() {
     await this.addOptionForImpl(":ignore_for")
     this._result = { type: "skip" }
