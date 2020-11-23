@@ -11,7 +11,7 @@ export interface OptionsData {
 export type OptionKey = ":ignore_for" | ":todo" | ":warning_todo"
 
 /**
- * Class representing the possible options of a given spec
+ * Represents the possible options of a sass-spec test case.
  */
 export default class SpecOptions {
   private data: OptionsData
