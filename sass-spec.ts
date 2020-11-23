@@ -25,7 +25,6 @@ async function runAllTests() {
     const test = new TestCase(testDir, args.impl, args.compiler, args.todoMode)
     const result = await test.run()
     if (result.type === "fail" && args.interactive) {
-      // TODO make it so that we don't need this result
       await interactor.prompt(test)
     }
     tabulator.tabulate(test)
