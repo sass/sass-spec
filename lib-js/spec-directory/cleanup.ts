@@ -21,19 +21,15 @@ export async function withAsyncCleanup(
     process.exit(status)
   }
 
-  const handler = () => {
-    cleanupAndExit()
-  }
-
   for (const event of events) {
-    process.on(event, handler)
+    process.on(event, cleanupAndExit)
   }
 
   try {
     await cb()
   } finally {
     for (const event of events) {
-      process.removeListener(event, handler)
+      process.removeListener(event, cleanupAndExit)
     }
     await cleanup()
   }
