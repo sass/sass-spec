@@ -138,11 +138,12 @@ OUTPUT
       await interactor.prompt(test1)
       await interactor.prompt(test2)
       // Make sure the second test has a prompt
-      const prompts = output
-        .contents()
+      const contents = output.contents()
+      const prompts = contents
         .split("\n")
         .filter((line) => line.includes("Please select an option >"))
       expect(prompts).toHaveLength(3)
+      expect(contents).toContain("Repeat (!) selected on print option")
     })
 
     it.skip("still prompts on other types of failures", async () => {
