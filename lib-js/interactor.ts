@@ -177,7 +177,9 @@ export class Interactor {
       const validOptions = optionsFor(test)
       this.printOptions(validOptions, test)
 
-      const [key, repeat = ""] = await question("Please select an option > ")
+      const answer = await question("Please select an option > ")
+      const repeat = answer.endsWith("!")
+      const key = answer.replace(/!$/g, "")
       const choice = validOptions.find((o) => o.key === key)
       if (!choice) {
         this.printLine(`Invalid option chosen: ${key}`)
@@ -188,7 +190,7 @@ export class Interactor {
         this.printContent(newResult)
       } else {
         // If the repeat option is chosen, store the chosen choice
-        if (repeat.endsWith("!")) {
+        if (repeat) {
           this.memory[type] = choice
         }
         rl.close()

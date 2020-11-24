@@ -79,7 +79,7 @@ OUTPUT
 
   it("prompts again if an invalid option was chosen", async () => {
     const { output } = await runInteractor(
-      ["$", "f"],
+      ["error", "f"],
       `
 <===> input.scss
 stderr: THIS IS ERROR
