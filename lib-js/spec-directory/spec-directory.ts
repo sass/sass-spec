@@ -34,9 +34,9 @@ export default abstract class SpecDirectory {
 
   /** Get the list of direct filenames in this directory */
   abstract listFiles(): Promise<string[]>
-  /** Returns true if this directory has the given filename as a subitem */
+  /** Returns whether the given file exists in this directory */
   abstract hasFile(filename: string): boolean
-  /** The file contents of the given filename */
+  /** Returns the file contents of the given filename */
   abstract readFile(filename: string): Promise<string>
   /** Update the contents of the given file */
   abstract writeFile(filename: string, contents: string): Promise<void>
