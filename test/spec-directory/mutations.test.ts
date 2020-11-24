@@ -26,7 +26,16 @@ describe("SpecDirectory mutations", () => {
       expect(await dir.listFiles()).not.toContain("output.css")
     })
 
-    it.todo("errors when trying to remove a file that does not exist")
-    it.todo("errors when trying to remove a directory")
+    it("no-ops when removing a file that does not exist", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      const files = await dir.listFiles()
+      await dir.removeFile("does-not-exist")
+      expect(await dir.listFiles()).toEqual(files)
+    })
+
+    it("errors when trying to remove a directory", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      await expect(() => dir.removeFile("subdir")).rejects.toThrow()
+    })
   })
 })
