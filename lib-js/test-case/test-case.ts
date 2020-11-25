@@ -35,6 +35,9 @@ export default class TestCase {
     this.todoMode = todoMode
   }
 
+  /**
+   * Run the spec at the given directory and return a TestCase object representing
+   */
   static async create(
     dir: SpecDirectory,
     impl: string,
