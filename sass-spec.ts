@@ -22,9 +22,13 @@ async function runAllTests() {
     if (naughtyDirs.includes(testDir.relPath())) {
       return
     }
-    const test = new TestCase(testDir, args.impl, args.compiler, args.todoMode)
-    const result = await test.run()
-    if (result.type === "fail" && args.interactive) {
+    const test = await TestCase.create(
+      testDir,
+      args.impl,
+      args.compiler,
+      args.todoMode
+    )
+    if (test.result().type === "fail" && args.interactive) {
       await interactor.prompt(test)
     }
     tabulator.tabulate(test)

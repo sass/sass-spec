@@ -23,7 +23,7 @@ export default class TestCase {
   private _actual?: SassResult
   private _result?: TestResult
 
-  constructor(
+  private constructor(
     dir: SpecDirectory,
     impl: string,
     compiler: Compiler,
@@ -33,6 +33,17 @@ export default class TestCase {
     this.impl = impl
     this.compiler = compiler
     this.todoMode = todoMode
+  }
+
+  static async create(
+    dir: SpecDirectory,
+    impl: string,
+    compiler: Compiler,
+    todoMode?: string
+  ) {
+    const testCase = new TestCase(dir, impl, compiler, todoMode)
+    await testCase.run()
+    return testCase
   }
 
   /** Return whether this test directory has an indented sass file */

@@ -9,9 +9,9 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
  * Represents either a real or virtual directory that contains sass-spec test cases.
  */
 export default abstract class SpecDirectory {
-  private readonly parentOpts?: SpecOptions
-  private readonly _subdirs: Record<string, SpecDirectory>
   protected readonly root: SpecDirectory
+  private readonly parentOpts?: SpecOptions
+  private readonly _subdirs: Record<string, SpecDirectory> = {}
 
   /** The full path of this directory */
   abstract path: string
@@ -19,7 +19,6 @@ export default abstract class SpecDirectory {
   constructor(root?: SpecDirectory, parentOpts?: SpecOptions) {
     this.root = root ?? this
     this.parentOpts = parentOpts
-    this._subdirs = {}
   }
 
   /** The path of this directory relative to the top level that was created */

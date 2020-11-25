@@ -1,7 +1,11 @@
 import { fromContents } from "../../lib-js/spec-directory"
 import TestCase from "../../lib-js/test-case"
 
-describe("TestCase::expectedResult()", () => {
+describe("TestCase::expected()", () => {
+  const mockCompiler = {
+    compile: () => ({} as any),
+  }
+
   describe("output", () => {
     const expected = {
       isSuccess: true,
@@ -12,7 +16,7 @@ describe("TestCase::expectedResult()", () => {
 
     async function expectOutput(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
       const result = await testCase.expected()
       expect(result).toEqual(expected)
     }
@@ -49,7 +53,7 @@ FAILURE`)
     }
     async function expectError(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
       const result = await testCase.expected()
       expect(result).toEqual(expected)
     }
@@ -94,7 +98,7 @@ ERROR`)
     }
     async function expectWarning(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = new TestCase(dir, "sass-mock", null as any)
+      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
       const result = await testCase.expected()
       expect(result).toEqual(expected)
     }

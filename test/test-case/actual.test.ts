@@ -5,8 +5,7 @@ import TestCase from "../../lib-js/test-case"
 describe("TestCase::actualResult()", () => {
   async function getResults(contents: string) {
     const dir = await fromContents(contents.trim())
-    const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-    await test.run()
+    const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
     return test.actual()
   }
 
@@ -73,8 +72,7 @@ OUTPUT
       }))
       const compiler = { compile }
       const dir = await fromContents(contents.trim())
-      const test = new TestCase(dir, "sass-mock", compiler)
-      await test.run()
+      await TestCase.create(dir, "sass-mock", compiler)
       expect(compile).toHaveBeenCalledWith(
         expect.anything(),
         expect.arrayContaining(["--precision", "6"])

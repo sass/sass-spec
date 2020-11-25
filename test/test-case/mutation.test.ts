@@ -19,8 +19,7 @@ describe("TestCase mutation functions", () => {
         "input.scss": "stdout: NEW OUTPUT\nstatus: 0",
         "output.css": "OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.overwrite()
       expect(await test.dir.readFile("output.css")).toEqual("NEW OUTPUT")
       expect(test.result()).toMatchObject({ type: "pass" })
@@ -31,8 +30,7 @@ describe("TestCase mutation functions", () => {
         "input.scss": "stderr: ERROR\nstatus: 1",
         "output.css": "OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.overwrite()
       expect(await dir.readFile("error")).toEqual("ERROR")
       expect(dir.hasFile("output.css")).toBeFalsy()
@@ -44,8 +42,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         "output-sass-mock.css": "MOCK OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.overwrite()
       expect(await test.dir.readFile("output.css")).toEqual("NEW OUTPUT")
       expect(test.dir.hasFile("output-sass-mock.css")).toBeFalsy()
@@ -59,8 +56,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         "output-dart-sass.css": "DART OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.migrateImpl()
       expect(await dir.readFile("output.css")).toEqual("OUTPUT")
       expect(await dir.readFile("output-dart-sass.css")).toEqual("DART OUTPUT")
@@ -75,8 +71,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         "output-sass-mock.css": "OTHER OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.migrateImpl()
       expect(await dir.readFile("output.css")).toEqual("OUTPUT")
       expect(await dir.readFile("output-sass-mock.css")).toEqual("NEW OUTPUT")
@@ -89,8 +84,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         "output-sass-mock.css": "OTHER OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.migrateImpl()
       expect(await dir.readFile("output.css")).toEqual("OUTPUT")
       expect(dir.hasFile("output-sass-mock.css")).toBeFalsy()
@@ -103,8 +97,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         warning: "WARNING",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.migrateImpl()
       expect(await dir.readFile("warning")).toEqual("WARNING")
       expect(dir.hasFile("warning-sass-mock")).toBeTruthy()
@@ -119,8 +112,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         warning: "WARNING",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.markTodo()
       const options = await dir.options()
       expect(options.isWarningTodo("sass-mock")).toBeTruthy()
@@ -132,8 +124,7 @@ describe("TestCase mutation functions", () => {
         "input.scss": "stdout: OLD OUTPUT\nstatus: 0",
         "output.css": "OUTPUT",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.markTodo()
       const options = await dir.options()
       expect(options.getMode("sass-mock")).toEqual("todo")
@@ -148,8 +139,7 @@ describe("TestCase mutation functions", () => {
         "output.css": "OUTPUT",
         warning: "WARNING",
       })
-      const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-      await test.run()
+      const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
       await test.markIgnore()
       const options = await dir.options()
       expect(options.getMode("sass-mock")).toEqual("ignore")

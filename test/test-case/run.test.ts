@@ -6,13 +6,13 @@ import TestCase from "../../lib-js/test-case"
 describe("TestCase::run()", () => {
   async function runTestCase(content: string, opts: any = {}) {
     const dir = await fromContents(content.trim())
-    const test = new TestCase(
+    const test = await TestCase.create(
       dir,
       "sass-mock",
       mockCompiler(dir),
       opts.todoMode
     )
-    return await test.run()
+    return test.result()
   }
 
   describe("success cases", () => {

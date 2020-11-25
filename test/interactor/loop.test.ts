@@ -21,9 +21,7 @@ function makeInputStream(inputs: string[]) {
 
 async function makeTestCase(contents: string) {
   const dir = await fromContents(contents.trim())
-  const test = new TestCase(dir, "sass-mock", mockCompiler(dir))
-  await test.run()
-  return test
+  return await TestCase.create(dir, "sass-mock", mockCompiler(dir))
 }
 
 async function runInteractor(inputs: string[], contents: string) {
