@@ -120,11 +120,11 @@ export default class TestCase {
     }
   }
 
-  async run(): Promise<TestResult> {
+  private async run(): Promise<TestResult> {
     if (this._result) {
       throw new Error(`Test case ${this.dir.relPath()} has already been run`)
     }
-    // Remember to cache the results of the run, regardless of result
+    // cache the results of the run
     this._result = await this.doRun()
     return this._result
   }
