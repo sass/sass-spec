@@ -130,7 +130,7 @@ export default abstract class SpecDirectory {
         // If this is a test directory, run the test
         await iteratee(this)
       } else {
-        // Otherwise, run *all* the
+        // Otherwise, iterate on *all* the subdirectories
         for (const subdir of await this.subdirs()) {
           await subdir.forEachTest([], iteratee)
         }
