@@ -120,28 +120,29 @@ export default abstract class SpecDirectory {
 
   /**
    * Iterate through the subpaths of this directory, running the iteratee
-   * on all
-   * @param paths the paths to match against
+   * on all test case directories.
+   * @param paths the paths to match against, or [] if all subpaths should be run
    * @param iteratee the function to call for each matching subdirectory
    */
   async forEachTest(paths: string[], iteratee: SpecIteratee) {
-    // If we're a matching test directory, run the test
     if (this.isMatch(paths)) {
       if (this.isTestDir()) {
+        // If this is a test directory, run the test
         await iteratee(this)
       } else {
-        // otherwise, recurse through all subdirectories
+        // Otherwise, run *all* the
         for (const subdir of await this.subdirs()) {
           await subdir.forEachTest([], iteratee)
         }
       }
     } else {
-      // otherwise, recurse through all subdirectories
+      // filter out paths that this directory is not a parent of
       const subpaths = paths.filter((p) => p.startsWith(this.relPath()))
-      // if this path isn't a parent of any of the given paths, return
+      // if this path isn't a parent of any of the given paths, exit loop
       if (subpaths.length === 0) {
         return
       }
+      // recurse through the subdirectories
       for (const subdir of await this.subdirs()) {
         await subdir.forEachTest(subpaths, iteratee)
       }
