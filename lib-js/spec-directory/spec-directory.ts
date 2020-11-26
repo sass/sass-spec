@@ -46,9 +46,6 @@ export default abstract class SpecDirectory {
 
   // Subdirectories
 
-  /** Get the list of subdrectory names of this directory */
-  abstract listSubdirs(): Promise<string[]>
-
   /** Get the subdirectory at the provided path relative to this directory */
   async atPath(subpath: string): Promise<SpecDirectory> {
     if (!subpath) return this
@@ -73,6 +70,9 @@ export default abstract class SpecDirectory {
     }
     return this._subdirs[name]
   }
+
+  // Get the ordered list of subdir names
+  protected abstract listSubdirs(): Promise<string[]>
 
   /** Return the list of subdirectories */
   async subdirs(): Promise<SpecDirectory[]> {

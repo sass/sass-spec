@@ -27,8 +27,7 @@ async function getSubdirsHrx(
   root: string
 ): Promise<string[]> {
   let sections: string[] = []
-  for (const subdirName of await dir.listSubdirs()) {
-    const subdir = await dir.subdir(subdirName)
+  for (const subdir of await dir.subdirs()) {
     sections = sections.concat(await getHrxSections(subdir, root))
   }
   return sections
