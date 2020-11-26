@@ -6,7 +6,9 @@ import { toHrx } from "./hrx"
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>
 
 /**
- * Represents either a real or virtual directory that contains sass-spec test cases.
+ * Represents a real or virtual directory that contains sass-spec test cases.
+ *
+ * Contains methods for accessing the direct files and subdirectories of the directory.
  */
 export default abstract class SpecDirectory {
   protected readonly root: SpecDirectory
@@ -37,7 +39,7 @@ export default abstract class SpecDirectory {
   abstract hasFile(filename: string): boolean
   /** Returns the file contents of the given filename */
   abstract readFile(filename: string): Promise<string>
-  /** Update the contents of the given file */
+  /** Update the contents of the given file in the directory */
   abstract writeFile(filename: string, contents: string): Promise<void>
   /** Remove the file from this directory */
   abstract removeFile(filename: string): Promise<void>

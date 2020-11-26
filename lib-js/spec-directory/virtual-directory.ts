@@ -31,9 +31,13 @@ function createSubdirCache(dir: HrxDirectory) {
 export default class VirtualDirectory extends SpecDirectory {
   path: string
   basePath: string
+  // Names of direct files in archive order
   private fileNames: string[]
-  private fileCache: Record<string, string>
+  // Mapping from file names to file contents
+  private fileContents: Record<string, string>
+  // Names of direct subdirectories in archive order
   private subdirNames: string[]
+  // mapping from subdir names to the HRX Directory object
   private subdirCache: Record<string, HrxDirectory>
   private isArchiveRoot: boolean
   private modified = false
@@ -47,8 +51,11 @@ export default class VirtualDirectory extends SpecDirectory {
     super(root, parentOpts)
     this.path = path.resolve(basePath, hrxDir.path)
     this.basePath = basePath
+    // Separate the contents of the HrxDirectory into files and subdirs.
+    // Since files are modifiable, we throw away the original HrxDirectory object
+    // to minimize the risk of trying to reference it doing stuff with files
     this.fileNames = hrxDir.list().filter((item) => hrxDir.get(item)?.isFile())
-    this.fileCache = createFileCache(hrxDir)
+    this.fileContents = createFileCache(hrxDir)
     this.subdirNames = hrxDir
       .list()
       .filter((item) => hrxDir.get(item)?.isDirectory())
@@ -89,11 +96,11 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   hasFile(filename: string) {
-    return this.fileCache.hasOwnProperty(filename)
+    return this.fileContents.hasOwnProperty(filename)
   }
 
   async readFile(filename: string) {
-    return this.fileCache[filename]
+    return this.fileContents[filename]
   }
 
   async writeFile(filename: string, contents: string) {
@@ -101,7 +108,7 @@ export default class VirtualDirectory extends SpecDirectory {
       throw new Error("Trying to write a subdirectory")
     }
     this.modified = true
-    this.fileCache[filename] = contents
+    this.fileContents[filename] = contents
     if (!this.fileNames.includes(filename)) {
       this.fileNames.push(filename)
     }
@@ -112,7 +119,7 @@ export default class VirtualDirectory extends SpecDirectory {
       throw new Error("Trying to remove a subdirectory")
     }
     this.modified = true
-    delete this.fileCache[filename]
+    delete this.fileContents[filename]
     this.fileNames = this.fileNames.filter((f) => f !== filename)
   }
 
@@ -124,10 +131,10 @@ export default class VirtualDirectory extends SpecDirectory {
 
   async getSubdir(itemName: string) {
     const subitem = this.subdirCache[itemName]
-    const options = await this.options()
     if (!subitem) {
       throw new Error(`Item does not exist: ${itemName}`)
     }
+    const options = await this.options()
     return new VirtualDirectory(this.basePath, subitem, this.root, options)
   }
 

@@ -5,7 +5,7 @@ import { failures, SassResult, TestResult } from "./util"
  * Normalize the output of the Sass compiler.
  * Standardizes the number and type of newlines and the paths of input files.
  */
-export function normalizeOutput(output = "") {
+export function normalizeOutput(output: string) {
   return (
     output
       .replace(/(\r?\n)+/g, "\n")
@@ -18,7 +18,7 @@ export function normalizeOutput(output = "") {
 /**
  * Extract the error message of a Sass compiler.
  */
-export function extractErrorMessage(msg: string = "") {
+export function extractErrorMessage(msg: string) {
   return (
     normalizeOutput(msg)
       .split("\n")
@@ -29,7 +29,7 @@ export function extractErrorMessage(msg: string = "") {
 /**
  * Extract the warning message(s) of a Sass compiler.
  */
-export function extractWarningMessages(msg: string = "") {
+export function extractWarningMessages(msg: string) {
   // TODO fix warning extraction
   // This implementation replicates behavior in the ruby runner, which is broken right now
   // and compares only the first line of the first warning.
