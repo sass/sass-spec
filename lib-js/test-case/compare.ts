@@ -5,7 +5,7 @@ import { failures, SassResult, TestResult } from "./util"
  * Normalize the output of the Sass compiler.
  * Standardizes the number and type of newlines and the paths of input files.
  */
-export function normalizeOutput(output: string) {
+export function normalizeOutput(output: string): string {
   return (
     output
       .replace(/(\r?\n)+/g, "\n")
@@ -18,7 +18,7 @@ export function normalizeOutput(output: string) {
 /**
  * Extract the error message of a Sass compiler.
  */
-export function extractErrorMessage(msg: string) {
+export function extractErrorMessage(msg: string): string {
   return (
     normalizeOutput(msg)
       .split("\n")
@@ -50,7 +50,7 @@ function getDiff(
   expected: string = "",
   actual: string = "",
   normalizer: (text: string) => string = normalizeOutput
-) {
+): string | undefined {
   expected = normalizer(expected)
   actual = normalizer(actual)
   if (expected === actual) {

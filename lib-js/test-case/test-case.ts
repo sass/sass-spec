@@ -60,7 +60,7 @@ export default class TestCase {
   }
 
   /** Get the contents of the input file for this test directory. */
-  async input() {
+  async input(): Promise<string> {
     return await this.dir.readFile(this.inputFile())
   }
 
@@ -177,14 +177,14 @@ export default class TestCase {
     return testResult
   }
 
-  actual() {
+  actual(): SassResult {
     if (!this._actual) {
       throw new Error(`Test case ${this.dir.relPath()} has not yet run.`)
     }
     return this._actual
   }
 
-  result() {
+  result(): TestResult {
     if (!this._result) {
       throw new Error(`Test case ${this.dir.relPath()} has not yet run.`)
     }
@@ -194,7 +194,7 @@ export default class TestCase {
   // Mutations
 
   /** Add the given option for the given impl */
-  async addOptionForImpl(option: OptionKey) {
+  async addOptionForImpl(option: OptionKey): Promise<void> {
     const options = await this.dir.directOptions()
     const updatedOptions = options.addImpl(this.impl, option)
     await this.dir.writeFile("options.yml", updatedOptions.toYaml())
@@ -203,7 +203,7 @@ export default class TestCase {
   /**
    * Overwrite the base results with the actual results
    */
-  async overwrite() {
+  async overwrite(): Promise<void> {
     // overwrite the contents of the base files
     await overwriteResults(this.dir, this.actual())
     // delete any override files for this impl
@@ -218,7 +218,7 @@ export default class TestCase {
   /**
    * Migrate a copy of the expected results to pass on impl
    */
-  async migrateImpl() {
+  async migrateImpl(): Promise<void> {
     const actual = this.actual()
     await overwriteResults(this.dir, this.actual(), this.impl)
     // If a nonempty base warning exists, but the actual result yields no warning,
@@ -235,7 +235,7 @@ export default class TestCase {
   }
 
   /** Mark this test (or its warning) as TODO */
-  async markTodo() {
+  async markTodo(): Promise<void> {
     if (this.result().failureType === "warning_difference") {
       await this.addOptionForImpl(":warning_todo")
       this._result = { type: "pass" }
@@ -246,7 +246,7 @@ export default class TestCase {
   }
 
   /** Mark this test as ignored for the current implementation */
-  async markIgnore() {
+  async markIgnore(): Promise<void> {
     await this.addOptionForImpl(":ignore_for")
     this._result = { type: "skip" }
   }
