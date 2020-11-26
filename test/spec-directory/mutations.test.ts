@@ -16,6 +16,13 @@ describe("SpecDirectory mutations", () => {
       expect(await dir.readFile("output-libsass.css")).toEqual("MORE OUTPUT")
       expect(await dir.listFiles()).toContain("output-libsass.css")
     })
+
+    it("errors when passed in a multi-level path", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      await expect(() =>
+        dir.removeFile("subdir/more-utils.scss")
+      ).rejects.toThrow()
+    })
   })
 
   describe("deleteFile", () => {
@@ -36,6 +43,13 @@ describe("SpecDirectory mutations", () => {
     it("errors when trying to remove a directory", async () => {
       let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
       await expect(() => dir.removeFile("subdir")).rejects.toThrow()
+    })
+
+    it("errors when trying to remove multi-level paths", async () => {
+      let dir = await fromPath(path.resolve(__dirname, "./fixtures/basic.hrx"))
+      await expect(() =>
+        dir.removeFile("subdir/more-utils.scss")
+      ).rejects.toThrow()
     })
   })
 })

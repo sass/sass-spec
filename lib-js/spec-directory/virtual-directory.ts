@@ -100,13 +100,12 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   async readFile(filename: string) {
+    this.validateFile(filename, "Cannot read file")
     return this.fileContents[filename]
   }
 
   async writeFile(filename: string, contents: string) {
-    if (this.subdirCache[filename]) {
-      throw new Error("Trying to write a subdirectory")
-    }
+    this.validateFile(filename, "Cannot write file")
     this.modified = true
     this.fileContents[filename] = contents
     if (!this.fileNames.includes(filename)) {
@@ -115,12 +114,20 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   async removeFile(filename: string) {
-    if (this.subdirCache[filename]) {
-      throw new Error("Trying to remove a subdirectory")
-    }
+    this.validateFile(filename, "Cannot remove file")
     this.modified = true
     delete this.fileContents[filename]
     this.fileNames = this.fileNames.filter((f) => f !== filename)
+  }
+
+  // throw an error if the given filename is invalid
+  private validateFile(filename: string, message: string) {
+    if (this.subdirCache[filename]) {
+      throw new Error(`${message}: ${filename} is a directory`)
+    }
+    if (filename.includes(path.sep)) {
+      throw new Error(`${message}: multi-level paths not supported`)
+    }
   }
 
   // Subdir access
