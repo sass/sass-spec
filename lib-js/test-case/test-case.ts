@@ -51,14 +51,12 @@ export default class TestCase {
     return testCase
   }
 
-  /** Return whether this test directory has an indented sass file */
-  private isIndented() {
-    return this.dir.hasFile("input.sass")
-  }
-
   /** Return the name of the input file of this test directory. */
   private inputFile() {
-    return this.isIndented() ? "input.sass" : "input.scss"
+    if (this.dir.hasFile("input.sass") && this.dir.hasFile("input.scss")) {
+      throw new Error(`Multiple input files found in ${this.dir.relPath()}`)
+    }
+    return this.dir.hasFile("input.sass") ? "input.sass" : "input.scss"
   }
 
   /** Get the contents of the input file for this test directory. */

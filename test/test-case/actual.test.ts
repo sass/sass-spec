@@ -2,7 +2,7 @@ import { fromContents } from "../../lib-js/spec-directory"
 import { mockCompiler } from "../fixtures/mock-compiler"
 import TestCase from "../../lib-js/test-case"
 
-describe("TestCase::actualResult()", () => {
+describe("TestCase::actual()", () => {
   async function getResults(contents: string) {
     const dir = await fromContents(contents.trim())
     const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
@@ -51,6 +51,20 @@ OUTPUT
       warning: "WARNING",
       isSuccess: true,
     })
+  })
+
+  it("errors if multiple inputs defined in the directory", async () => {
+    const contents = `
+<===> input.scss
+stdout: OUTPUT
+status: 0
+<===> input.sass
+stdout: OUTPUT
+status: 0
+<===> output.css
+OUTPUT
+`
+    expect(() => getResults(contents)).rejects.toThrow()
   })
 
   describe("command args", () => {
