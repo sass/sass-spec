@@ -28,14 +28,15 @@ the output matches the expected output.
 Make sure the command you provide prints to stdout.
 `.trim()
 
-type Wrapper = (args: Argv) => Argv
-
 /**
  * Parse command line args into options used by the sass-spec runner.
+ *
+ * @param cliArgs the arguments to parse as an array
+ * @param wrap an optional function to wrap the initial argv instance (useful for testing)
  */
 export async function parseArgs(
   cliArgs: string[],
-  wrap: Wrapper = (t) => t
+  wrap = (t: Argv<{}>) => t
 ): Promise<CliArgs> {
   const argv = wrap(yargs(cliArgs))
     .usage(usageText)
