@@ -192,7 +192,9 @@ export class Interactor {
       const newResult = await choice.resolve(test)
       if (typeof newResult === "string") {
         this.printContent(newResult)
-        this.printLine(`Repeat (!) selected on print option. Ignoring...`)
+        if (repeat) {
+          this.printLine(`Repeat (!) selected on print option. Ignoring...`)
+        }
       } else {
         // If the repeat option is chosen, store the chosen choice
         if (repeat) {

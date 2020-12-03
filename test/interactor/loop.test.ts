@@ -6,7 +6,7 @@ import { mockCompiler } from "../fixtures/mock-compiler"
 
 class MemoryWritable extends Writable {
   chunks: string[] = []
-  _write(chunk: string, enc: any, cb: () => void) {
+  _write(chunk: any, enc: any, cb: () => void) {
     this.chunks.push(chunk.toString())
     cb()
   }
@@ -144,8 +144,8 @@ OUTPUT
       expect(contents).toContain("Repeat (!) selected on print option")
     })
 
-    it.skip("still prompts on other types of failures", async () => {
-      const input = makeInputStream(["O!", "f", "f"])
+    it.only("still prompts on other types of failures", async () => {
+      const input = makeInputStream(["O!", "f", "f", "f"])
       const output = new MemoryWritable()
       const test1 = await makeTestCase(`
 <===> input.scss
