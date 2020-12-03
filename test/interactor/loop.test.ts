@@ -144,7 +144,7 @@ OUTPUT
       expect(contents).toContain("Repeat (!) selected on print option")
     })
 
-    it.only("still prompts on other types of failures", async () => {
+    it.todo("still prompts on other types of failures", async () => {
       const input = makeInputStream(["O!", "f", "f", "f"])
       const output = new MemoryWritable()
       const test1 = await makeTestCase(`
