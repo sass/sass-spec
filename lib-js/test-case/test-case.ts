@@ -82,6 +82,7 @@ export default class TestCase {
     const resultFilename = this.getResultFile(
       isSuccessCase ? "output" : "error"
     )
+    const expected = await this.dir.readFile(resultFilename)
 
     let warning
     // check if there's a warning
@@ -89,8 +90,6 @@ export default class TestCase {
     if (this.dir.hasFile(warningFilename)) {
       warning = await this.dir.readFile(warningFilename)
     }
-
-    const expected = await this.dir.readFile(resultFilename)
 
     if (isSuccessCase) {
       return { isSuccess: true, output: expected, warning }
