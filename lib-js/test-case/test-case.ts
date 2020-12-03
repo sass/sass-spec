@@ -64,12 +64,11 @@ export default class TestCase {
     return await this.dir.readFile(this.inputFile())
   }
 
+  // Return whether this test case expects a successful run
   private expectsSuccess() {
-    return (
-      this.dir.hasFile(`output-${this.impl}.css`) ||
-      (this.dir.hasFile("output.css") &&
-        !this.dir.hasFile(`error-${this.impl}`))
-    )
+    if (this.dir.hasFile(`output-${this.impl}.css`)) return true
+    if (this.dir.hasFile(`error-${this.impl}`)) return false
+    return this.dir.hasFile(`output.css`)
   }
 
   private getResultFile(type: "output" | "warning" | "error") {
