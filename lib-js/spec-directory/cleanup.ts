@@ -28,9 +28,10 @@ export async function withAsyncCleanup(
   try {
     await cb()
   } finally {
+    await cleanup()
+    // After running the cleanup, remove the listeners so they don't hit the limit
     for (const event of events) {
       process.removeListener(event, cleanupAndExit)
     }
-    await cleanup()
   }
 }
