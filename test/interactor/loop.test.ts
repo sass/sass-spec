@@ -144,8 +144,10 @@ OUTPUT
       expect(contents).toContain("Repeat (!) selected on print option")
     })
 
-    it.todo("still prompts on other types of failures", async () => {
-      const input = makeInputStream(["O!", "f", "f", "f"])
+    // TODO the behavior here works, but for some reason this test times out
+    // and doesn't receive the second 'f' input
+    it.skip("still prompts on other types of failures", async () => {
+      const input = makeInputStream(["O!", "f"])
       const output = new MemoryWritable()
       const test1 = await makeTestCase(`
 <===> input.scss
