@@ -23,6 +23,8 @@ export default class TestCase {
   private _actual?: SassResult
   private _result?: TestResult
 
+  // Private constructor that instantiates properties.
+  // The only way to create a test case is through the async factory below
   private constructor(
     dir: SpecDirectory,
     impl: string,
@@ -36,7 +38,7 @@ export default class TestCase {
   }
 
   /**
-   * Run the spec at the given directory and return a TestCase object representing
+   * Run the spec at the given directory and return a TestCase object representing it
    */
   static async create(
     dir: SpecDirectory,
@@ -45,7 +47,7 @@ export default class TestCase {
     todoMode?: string
   ) {
     const testCase = new TestCase(dir, impl, compiler, todoMode)
-    await testCase.run()
+    testCase._result = await testCase.run()
     return testCase
   }
 
@@ -123,17 +125,8 @@ export default class TestCase {
     }
   }
 
-  private async run(): Promise<TestResult> {
-    if (this._result) {
-      throw new Error(`Test case ${this.dir.relPath()} has already been run`)
-    }
-    // cache the results of the run
-    this._result = await this.doRun()
-    return this._result
-  }
-
   // Do the test run, storing the actual output if there is one, and return the test result
-  private async doRun(): Promise<TestResult> {
+  private async run(): Promise<TestResult> {
     const options = await this.dir.options()
     const mode = options.getMode(this.impl)
     const warningTodo = options.isWarningTodo(this.impl)
