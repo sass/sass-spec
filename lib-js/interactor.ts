@@ -100,6 +100,10 @@ const options: InteractorOption[] = [
     description: "Exit testing.",
     async resolve() {
       process.kill(process.pid, "SIGINT")
+      // since our cleanup is asynchronous,
+      // stall so that we give the cleanup code enough time to finish
+      // and kill the process without running more tests
+      await new Promise(() => {})
     },
   },
 ]
