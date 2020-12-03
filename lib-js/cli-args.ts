@@ -1,5 +1,6 @@
 import path from "path"
 import yargs from "yargs/yargs"
+import { Argv } from "yargs"
 import { Compiler, DartCompiler, executableCompiler } from "./compiler"
 
 interface CliArgs {
@@ -27,11 +28,16 @@ the output matches the expected output.
 Make sure the command you provide prints to stdout.
 `.trim()
 
+type Wrapper = (args: Argv) => Argv
+
 /**
  * Parse command line args into options used by the sass-spec runner.
  */
-export async function parseArgs(cliArgs: string[]): Promise<CliArgs> {
-  const argv = yargs(cliArgs)
+export async function parseArgs(
+  cliArgs: string[],
+  wrap: Wrapper = (t) => t
+): Promise<CliArgs> {
+  const argv = wrap(yargs(cliArgs))
     .usage(usageText)
     .example(
       "npm run ./sass-spec.js -- spec/basic",
