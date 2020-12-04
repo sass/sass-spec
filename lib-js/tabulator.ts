@@ -6,6 +6,7 @@ const symbols = {
   fail: "F",
   todo: "-",
   skip: "",
+  error: "E",
 }
 
 /**
@@ -13,7 +14,7 @@ const symbols = {
  */
 export default class Tabulator {
   private total = 0
-  private counts = { pass: 0, fail: 0, todo: 0, skip: 0 }
+  private counts = { pass: 0, fail: 0, todo: 0, skip: 0, error: 0 }
   private output: Writable
   private failures: TestCase[] = []
   private todos: TestCase[] = []
@@ -35,7 +36,7 @@ export default class Tabulator {
     const result = test.result()
     this.total++
     this.counts[result.type]++
-    if (result.type === "fail") {
+    if (result.type === "fail" || result.type === "error") {
       this.failures.push(test)
     } else if (result.type === "todo") {
       this.todos.push(test)
@@ -56,12 +57,12 @@ export default class Tabulator {
    */
   printResults() {
     this.writeLine()
-    this.printFailures()
+    this.printFailuresAndErrors()
     if (this.verbose) {
       this.printTodos()
     }
     this.writeLine(
-      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored`
+      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored, ${this.counts.error} errors`
     )
   }
 
@@ -69,12 +70,22 @@ export default class Tabulator {
     this.output.write(text + "\n")
   }
 
-  private printFailures() {
+  private printFailuresAndErrors() {
     for (const failure of this.failures) {
-      this.writeLine(`Failure: ${failure.dir.relPath()}`)
-      this.writeLine(failure.result().message)
-      if (failure.result().diff) {
-        this.writeLine(failure.result().diff)
+      const result = failure.result()
+      if (result.type === "fail") {
+        // If it's a test failure (a mismatch between expected and actual output),
+        // log the message and diff (if available)
+        this.writeLine(`Failure: ${failure.dir.relPath()}`)
+        this.writeLine(result.message)
+        if (result.diff) {
+          this.writeLine(result.diff)
+        }
+      } else {
+        // Otherwise it's an error (thrown due to invalid specs or other reasons),
+        // so print the stacktrace
+        this.writeLine(`Error: ${failure.dir.relPath()}`)
+        this.writeLine(result.error?.stack)
       }
       this.writeLine()
     }

@@ -329,10 +329,17 @@ p {
   })
 
   describe("invalid specs", () => {
-    it.todo("fails specs that have multiple input files defined")
-    it.todo(
-      "fails specs that have both outputs and errors for the implementation"
-    )
-    it.todo("fails specs that have no output or error files defined")
+    it("returns an error type if the test case was invalid", async () => {
+      const input = `
+<===> input.scss
+p {
+  color: black;
+}
+<===> input.sass
+p
+  color: black
+      `
+      expect(await runTestCase(input)).toMatchObject({ type: "error" })
+    })
   })
 })

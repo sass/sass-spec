@@ -4,21 +4,15 @@ import { SassResult } from "./util"
 // Ensure that the directory has exactly one output or error file
 function validateOutputs(dir: SpecDirectory, impl: string) {
   if (dir.hasFile(`output-${impl}.css`) && dir.hasFile(`error-${impl}`)) {
-    throw new Error(
-      `${dir.relPath()} has both an output and error file for ${impl}.`
-    )
+    throw new Error(`Found both output and error file for ${impl}.`)
   }
 
   if (dir.hasFile(`output.css`) && dir.hasFile(`error`)) {
-    throw new Error(
-      `${dir.relPath()} has both an \`output.css\` and \`error\` file.`
-    )
+    throw new Error(`Found both \`output.css\` and \`error\` file.`)
   }
 
   if (!dir.hasFile("output.css") && !dir.hasFile("error")) {
-    throw new Error(
-      `${dir.relPath()} has neither an \`output.css\` nor an \`error\` file`
-    )
+    throw new Error(`Neither \`output.css\` nor \`error\` file found`)
   }
 }
 
@@ -59,9 +53,7 @@ export async function getExpectedResult(
   const warningFilename = getResultFile(dir, impl, "warning")
   if (dir.hasFile(warningFilename)) {
     if (!isSuccessCase) {
-      throw new Error(
-        `${dir.relPath()} expects error but contains a warning file`
-      )
+      throw new Error(`Found warning file for test case expecting failure`)
     }
     warning = await dir.readFile(warningFilename)
   }

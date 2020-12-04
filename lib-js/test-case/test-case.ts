@@ -48,7 +48,11 @@ export default class TestCase {
     todoMode?: string
   ) {
     const testCase = new TestCase(dir, impl, compiler, todoMode)
-    testCase._result = await testCase.run()
+    try {
+      testCase._result = await testCase.run()
+    } catch (error) {
+      testCase._result = { type: "error", error }
+    }
     return testCase
   }
 

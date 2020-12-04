@@ -25,11 +25,17 @@ type FailureType =
   | "warning_difference"
   | "unnecessary_todo"
 
+/**
+ * The result of a test execution, along with metadata for failures and errors
+ */
 export interface TestResult {
-  type: "pass" | "fail" | "todo" | "skip"
+  type: "pass" | "fail" | "todo" | "skip" | "error"
+  // If `fail`, the type of failure, message, and possible diff
   failureType?: FailureType
   message?: string
   diff?: string
+  // If `error`, the thrown error
+  error?: Error
 }
 
 function makeFailureFactory(failureType: FailureType, message: string) {
