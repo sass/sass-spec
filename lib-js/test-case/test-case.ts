@@ -8,6 +8,7 @@ import {
   SassResult,
 } from "./util"
 import { compareResults } from "./compare"
+import { getExpectedResult } from "./expected"
 
 /**
  * A wrapper around a SpecDirectory that represents a sass-spec test case.
@@ -64,40 +65,6 @@ export default class TestCase {
     return await this.dir.readFile(this.inputFile())
   }
 
-  // Return whether this test case expects a successful run
-  private expectsSuccess() {
-    if (this.dir.hasFile(`output-${this.impl}.css`)) return true
-    if (this.dir.hasFile(`error-${this.impl}`)) return false
-    return this.dir.hasFile(`output.css`)
-  }
-
-  private getResultFile(type: "output" | "warning" | "error") {
-    const ext = type === "output" ? ".css" : ""
-    const overrideFile = `${type}-${this.impl}${ext}`
-    return this.dir.hasFile(overrideFile) ? overrideFile : `${type}${ext}`
-  }
-
-  async expected(): Promise<SassResult> {
-    const isSuccessCase = this.expectsSuccess()
-    const resultFilename = this.getResultFile(
-      isSuccessCase ? "output" : "error"
-    )
-    const expected = await this.dir.readFile(resultFilename)
-
-    let warning
-    // check if there's a warning
-    const warningFilename = this.getResultFile("warning")
-    if (this.dir.hasFile(warningFilename)) {
-      warning = await this.dir.readFile(warningFilename)
-    }
-
-    if (isSuccessCase) {
-      return { isSuccess: true, output: expected, warning }
-    } else {
-      return { isSuccess: false, error: expected }
-    }
-  }
-
   // Run the compiler and calculate the actual result
   private async calcActualResult(): Promise<SassResult> {
     const precision = (await this.dir.options()).precision()
@@ -135,7 +102,7 @@ export default class TestCase {
     }
 
     const [expected, actual] = await Promise.all([
-      this.expected(),
+      getExpectedResult(this.dir, this.impl),
       this.calcActualResult(),
     ])
     this._actual = actual

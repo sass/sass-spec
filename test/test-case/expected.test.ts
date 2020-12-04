@@ -1,11 +1,7 @@
 import { fromContents } from "../../lib-js/spec-directory"
-import TestCase from "../../lib-js/test-case"
+import { getExpectedResult } from "../../lib-js/test-case/expected"
 
-describe("TestCase::expected()", () => {
-  const mockCompiler = {
-    compile: () => ({} as any),
-  }
-
+describe("getExpectedResult()", () => {
   describe("output", () => {
     const expected = {
       isSuccess: true,
@@ -16,8 +12,7 @@ describe("TestCase::expected()", () => {
 
     async function expectOutput(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
-      const result = await testCase.expected()
+      const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
     }
 
@@ -53,8 +48,7 @@ FAILURE`)
     }
     async function expectError(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
-      const result = await testCase.expected()
+      const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
     }
 
@@ -98,8 +92,7 @@ ERROR`)
     }
     async function expectWarning(contents: string) {
       const dir = await fromContents(contents.trimStart())
-      const testCase = await TestCase.create(dir, "sass-mock", mockCompiler)
-      const result = await testCase.expected()
+      const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
     }
     it("returns the contents of `warning` when a warning file is defined", async () => {
@@ -126,6 +119,54 @@ WARNING`)
 OUTPUT
 <===> warning-sass-mock
 WARNING`)
+    })
+  })
+
+  describe("thrown errors", () => {
+    async function expectToThrow(contents: string) {
+      const dir = await fromContents(contents.trimStart())
+      expect(async () => {
+        await getExpectedResult(dir, "sass-mock")
+      }).rejects.toThrow()
+    }
+
+    it("throws if no output or error files are detected", async () => {
+      await expectToThrow(`
+<===> README.md
+no outputs or errors here
+      `)
+    })
+
+    it("throws if both output and error files are detected", async () => {
+      await expectToThrow(`
+<===> output.css
+OUTPUT
+<===> error
+ERROR
+      `)
+
+      await expectToThrow(`
+<===> output-sass-mock.css
+OUTPUT
+<===> error-sass-mock
+ERROR
+      `)
+    })
+
+    it("throws if both an error and warning file are detected", async () => {
+      await expectToThrow(`
+<===> warning
+WARNING
+<===> error
+ERROR
+      `)
+
+      await expectToThrow(`
+<===> warning-sass-mock
+WARNING
+<===> error-sass-mock
+ERROR
+      `)
     })
   })
 })
