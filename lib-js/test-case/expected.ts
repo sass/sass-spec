@@ -2,7 +2,7 @@ import { SpecDirectory } from "../spec-directory"
 import { SassResult } from "./util"
 
 // Ensure that the directory has exactly one output or error file
-function validateOutputs(dir: SpecDirectory, impl: string) {
+function checkDuplicateOutputs(dir: SpecDirectory, impl: string) {
   if (dir.hasFile(`output-${impl}.css`) && dir.hasFile(`error-${impl}`)) {
     throw new Error(`Found both output and error file for ${impl}.`)
   }
@@ -10,16 +10,14 @@ function validateOutputs(dir: SpecDirectory, impl: string) {
   if (dir.hasFile(`output.css`) && dir.hasFile(`error`)) {
     throw new Error(`Found both \`output.css\` and \`error\` file.`)
   }
-
-  if (!dir.hasFile("output.css") && !dir.hasFile("error")) {
-    throw new Error(`Neither \`output.css\` nor \`error\` file found`)
-  }
 }
 
 function expectsSuccess(dir: SpecDirectory, impl: string) {
   if (dir.hasFile(`output-${impl}.css`)) return true
   if (dir.hasFile(`error-${impl}`)) return false
-  return dir.hasFile(`output.css`)
+  if (dir.hasFile(`output.css`)) return true
+  if (dir.hasFile(`error`)) return false
+  throw new Error(`Found neither \`output.css\` nor \`error\` file`)
 }
 
 function getResultFile(
@@ -39,7 +37,7 @@ export async function getExpectedResult(
   dir: SpecDirectory,
   impl: string
 ): Promise<SassResult> {
-  validateOutputs(dir, impl)
+  checkDuplicateOutputs(dir, impl)
   const isSuccessCase = expectsSuccess(dir, impl)
   const resultFilename = getResultFile(
     dir,
@@ -52,9 +50,11 @@ export async function getExpectedResult(
   // check if there's a warning
   const warningFilename = getResultFile(dir, impl, "warning")
   if (dir.hasFile(warningFilename)) {
-    if (!isSuccessCase) {
-      throw new Error(`Found warning file for test case expecting failure`)
-    }
+    // TODO this check is deactivated because there are existing test cases
+    // with warning and error files (usually when error is overridden)
+    // if (!isSuccessCase) {
+    //   throw new Error(`Found warning file for test case expecting failure`)
+    // }
     warning = await dir.readFile(warningFilename)
   }
 
