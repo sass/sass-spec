@@ -12,8 +12,8 @@ const naughtyDirs = [
 
 interface RunnerArgs {
   argv: string[]
-  input: NodeJS.ReadStream
-  output: NodeJS.WriteStream
+  input: NodeJS.ReadableStream
+  output: NodeJS.WritableStream
 }
 
 /**

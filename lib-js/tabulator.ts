@@ -15,7 +15,7 @@ const symbols = {
 export default class Tabulator {
   private total = 0
   private counts = { pass: 0, fail: 0, todo: 0, skip: 0, error: 0 }
-  private output: Writable
+  private output: NodeJS.WritableStream
   private failures: TestCase[] = []
   private todos: TestCase[] = []
   private verbose: boolean
@@ -24,7 +24,7 @@ export default class Tabulator {
    * @param output the output stream to print the results to
    * @param verbose whether the output should be printed verbosely
    */
-  constructor(output: Writable, verbose = false) {
+  constructor(output: NodeJS.WritableStream, verbose = false) {
     this.output = output
     this.verbose = verbose
   }
