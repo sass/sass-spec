@@ -115,18 +115,17 @@ main() async {
     exitCode = 0;
   }
 }`
-    const dartFilename = path.resolve(os.tmpdir(), "sass-wrapper.dart")
+    const dartFilename = path.resolve(os.tmpdir(), "dart-sass-spec")
     await fs.promises.writeFile(dartFilename, dartFile, { encoding: "utf-8" })
     const child = child_process.spawn("dart", [
       "--enable-asserts",
       `--packages=${repoPath}/.packages`,
       dartFilename,
     ])
-    // TODO figure out how to delete the file without crashing the process
-    // fs.unlinkSync(dartFilename)
-    // child.on("spawn", () => {
-    //   fs.unlinkSync(dartFilename)
-    // })
+    // When this process exits, delete the Dart file.
+    process.on("exit", () => {
+      fs.unlinkSync(dartFilename)
+    })
     return child
   }
 
