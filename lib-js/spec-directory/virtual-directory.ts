@@ -53,7 +53,7 @@ export default class VirtualDirectory extends SpecDirectory {
     this.basePath = basePath
     // Separate the contents of the HrxDirectory into files and subdirs.
     // Since files are modifiable, we throw away the original HrxDirectory object
-    // to minimize the risk of trying to reference it doing stuff with files
+    // to minimize the risk of trying to reference it when doing stuff with files
     this.fileNames = hrxDir.list().filter((item) => hrxDir.get(item)?.isFile())
     this.fileContents = createFileCache(hrxDir)
     this.subdirNames = hrxDir
@@ -82,8 +82,11 @@ export default class VirtualDirectory extends SpecDirectory {
     )
   }
 
-  // Get an HRX archive from a string
-  static async fromContents(contents: string, path = "/tmp") {
+  /**
+   * Create a virtual directory from string contents, and an optional path.
+   * If no path is given (e.g. in testing), it is set to an empty string.
+   */
+  static async fromContents(contents: string, path = "") {
     const stream = Readable.from(contents)
     const archive = await archiveFromStream(stream)
     // TODO where should the temp path be?
