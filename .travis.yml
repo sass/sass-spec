@@ -40,6 +40,26 @@ matrix:
         - git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
         - (cd ../dart-sass; pub get)
       script: bundle exec sass-spec.rb --dart ../dart-sass
+    # Power jobs  
+    - name: "Unit Tests"
+      script: bundle exec rspec tests/
+      arch: ppc64le
+    - name: "LibSass"
+      env:
+        - IMPL=libsass
+        - COMMAND="../sassc/bin/sassc"
+        - SASS_LIBSASS_PATH=$TRAVIS_BUILD_DIR/../libsass
+        - SASS_SASSC_PATH=$TRAVIS_BUILD_DIR/../sassc
+        - SASS_SPEC_PATH=~$TRAVIS_BUILD_DIR/sass-spec
+      before_script:
+        - git clone https://github.com/sass/libsass.git $SASS_LIBSASS_PATH
+        - (cd $SASS_LIBSASS_PATH; git checkout $GITISH)
+        - git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH
+        - (cd $SASS_SASSC_PATH; git checkout $GITISH)
+        - make -C $SASS_SASSC_PATH
+      script: bundle exec sass-spec.rb --impl $IMPL -c $COMMAND;
+      arch: ppc64le
+    # Dart SDK is not available for ppc64le. Hence skipping dartsass
 
 before_install:
   - if ./tools/skipped-for-impl.sh; then exit 0; fi
