@@ -29,7 +29,7 @@ export function extractErrorMessage(msg: string): string {
 /**
  * Extract the warning message(s) of a Sass compiler.
  */
-export function extractWarningMessages(msg: string) {
+export function extractWarningMessages(msg: string): string {
   // TODO fix warning extraction
   // This implementation replicates behavior in the ruby runner, which is broken right now
   // and compares only the first line of the first warning.

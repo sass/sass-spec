@@ -46,7 +46,7 @@ export default class TestCase {
     impl: string,
     compiler: Compiler,
     todoMode?: string
-  ) {
+  ): Promise<TestCase> {
     const testCase = new TestCase(dir, impl, compiler, todoMode)
     try {
       testCase._result = await testCase.run()

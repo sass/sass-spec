@@ -13,10 +13,6 @@ export default class RealDirectory extends SpecDirectory {
     this.path = path
   }
 
-  isArchiveRoot() {
-    return false
-  }
-
   hasFile(filename: string) {
     const filepath = path.resolve(this.path, filename)
     return fs.existsSync(filepath)

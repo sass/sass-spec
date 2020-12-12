@@ -24,7 +24,7 @@ export default abstract class SpecDirectory {
   }
 
   /** The path of this directory relative to the top level that was created */
-  relPath() {
+  relPath(): string {
     // make sure to include the root dir as part of the name
     // (e.g. if the root path is `spec`, everything should be listed as `spec/thing`)
     const rootDir = path.dirname(this.root.path)
@@ -92,7 +92,7 @@ export default abstract class SpecDirectory {
   }
 
   /** Get the spec options of this directory, including those inherited from its parent */
-  async options() {
+  async options(): Promise<SpecOptions> {
     const opts = await this.directOptions()
     return this.parentOpts?.merge(opts) ?? opts
   }
@@ -100,12 +100,12 @@ export default abstract class SpecDirectory {
   // Test case info
 
   /** Return whether this directory corresponds to a test case */
-  isTestDir() {
+  isTestDir(): boolean {
     return this.hasFile("input.scss") || this.hasFile("input.sass")
   }
 
   /** Return the contents of this directory as an HRX archive */
-  async asArchive() {
+  async asArchive(): Promise<string> {
     return await toHrx(this)
   }
 
@@ -124,7 +124,7 @@ export default abstract class SpecDirectory {
    * @param paths the paths to match against, or [] if all subpaths should be run
    * @param iteratee the function to call for each matching subdirectory
    */
-  async forEachTest(paths: string[], iteratee: SpecIteratee) {
+  async forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void> {
     if (this.isMatch(paths)) {
       if (this.isTestDir()) {
         // If this is a test directory, run the test

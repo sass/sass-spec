@@ -12,7 +12,7 @@ const events = ["beforeExit", "exit", "SIGINT"]
 export async function withAsyncCleanup(
   cleanup: () => Promise<void>,
   cb: () => Promise<void>
-) {
+): Promise<void> {
   // Cleanup callbacks must be synchronous,
   // so trigger an async function that exits the process
   const cleanupAndExit = async (status: number = 0) => {

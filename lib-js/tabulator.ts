@@ -32,7 +32,7 @@ export default class Tabulator {
   /**
    * Append the results of the test case to the total results and print.
    */
-  tabulate(test: TestCase) {
+  tabulate(test: TestCase): void {
     const result = test.result()
     this.total++
     this.counts[result.type]++
@@ -55,7 +55,7 @@ export default class Tabulator {
   /**
    * Print the accumulated results of all tabulated tests.
    */
-  printResults() {
+  printResults(): void {
     this.writeLine()
     this.printFailuresAndErrors()
     if (this.verbose) {

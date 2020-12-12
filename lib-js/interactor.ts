@@ -108,7 +108,7 @@ const options: InteractorOption[] = [
   },
 ]
 
-export function optionsFor(test: TestCaseArg) {
+export function optionsFor(test: TestCaseArg): InteractorOption[] {
   const result = []
   for (const option of options) {
     if (!option.requirement || option.requirement(test)) {

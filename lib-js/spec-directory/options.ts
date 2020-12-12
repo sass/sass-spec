@@ -19,7 +19,8 @@ export default class SpecOptions {
     this.data = data
   }
 
-  static fromYaml(content: string) {
+  /** Create SpecOptions from yaml contents (as a string) */
+  static fromYaml(content: string): SpecOptions {
     // TODO validate
     return new SpecOptions((yaml.safeLoad(content) ?? {}) as OptionsData)
   }

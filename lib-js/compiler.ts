@@ -64,7 +64,10 @@ export class DartCompiler implements Compiler {
   /**
    * Create a dart-sass compiler from the repo given by the path.
    */
-  static async fromRepo(path: string, initArgs: string[] = []) {
+  static async fromRepo(
+    path: string,
+    initArgs: string[] = []
+  ): Promise<DartCompiler> {
     return new DartCompiler(await this.createProcess(path), initArgs)
   }
 
@@ -77,6 +80,7 @@ export class DartCompiler implements Compiler {
       status: +(await this.stdout.next()).value,
     }
   }
+
   /**
    * Create a child process that uses the dart-sass repo at the path,
    * and compiles the files piped to stdin.

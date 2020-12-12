@@ -76,7 +76,7 @@ export const failures = {
   ),
 }
 
-export function getExpectedFiles(impl?: string) {
+export function getExpectedFiles(impl?: string): string[] {
   return impl
     ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
     : ["output.css", "warning", "error"]
@@ -87,7 +87,7 @@ export async function overwriteResults(
   dir: SpecDirectory,
   actual: SassResult,
   impl?: string
-) {
+): Promise<void> {
   const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
   if (actual.isSuccess) {
     await Promise.all([
