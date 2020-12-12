@@ -12,6 +12,8 @@ function checkDuplicateOutputs(dir: SpecDirectory, impl: string) {
   }
 }
 
+// Return true if the test case expects a successful output,
+// and false if it expects an error.
 function expectsSuccess(dir: SpecDirectory, impl: string) {
   if (dir.hasFile(`output-${impl}.css`)) return true
   if (dir.hasFile(`error-${impl}`)) return false
