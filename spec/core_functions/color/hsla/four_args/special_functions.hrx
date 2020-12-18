@@ -256,3 +256,63 @@ a {
   b: hsla(1, 2%, 3%, max(0.4));
 }
 
+<===>
+================================================================================
+<===> clamp/arg_1/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_1/input.scss
+a {b: hsla(clamp(1, 2, 3), 2%, 3%, 0.4)}
+
+<===> clamp/arg_1/output.css
+a {
+  b: hsla(clamp(1, 2, 3), 2%, 3%, 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_2/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_2/input.scss
+a {b: hsla(1, clamp(2%, 3%, 4%), 3%, 0.4)}
+
+<===> clamp/arg_2/output.css
+a {
+  b: hsla(1, clamp(2%, 3%, 4%), 3%, 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_3/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_3/input.scss
+a {b: hsla(1, 2%, clamp(3%, 4%, 5%), 0.4)}
+
+<===> clamp/arg_3/output.css
+a {
+  b: hsla(1, 2%, clamp(3%, 4%, 5%), 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_4/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_4/input.scss
+a {b: hsla(1, 2%, 3%, clamp(0.4, 0.5, 0.6))}
+
+<===> clamp/arg_4/output.css
+a {
+  b: hsla(1, 2%, 3%, clamp(0.4, 0.5, 0.6));
+}
+

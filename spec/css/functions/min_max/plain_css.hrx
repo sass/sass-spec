@@ -16,6 +16,7 @@
        max(env(--foo), env(@&[*^{$(*)&}@^]%$), env(inter#{p + o}lated));
   var: min(var(--foo), var(@&[*^{$(*)&}@^]%$), var(inter#{p + o}lated))
        max(var(--foo), var(@&[*^{$(*)&}@^]%$), var(inter#{p + o}lated));
+  clamp: min(clamp(1, 2, 3)) max(clamp(1, 2, 3));
   operations: min(1px - 2px * 3px / 4px) max(1px - 2px * 3px / 4px);
   parens: min((1px + 2px) * 3px) max((1px + 2px) * 3px);
   two-arguments: min(1px, 2px) max(1px, 2px);
@@ -31,6 +32,7 @@
   calc: min(calc(10% + 1px)) max(calc(10% + 1px));
   env: min(env(--foo), env(@&[*^{$(*)&}@^]%$), env(interpolated)) max(env(--foo), env(@&[*^{$(*)&}@^]%$), env(interpolated));
   var: min(var(--foo), var(@&[*^{$(*)&}@^]%$), var(interpolated)) max(var(--foo), var(@&[*^{$(*)&}@^]%$), var(interpolated));
+  clamp: min(clamp(1, 2, 3)) max(clamp(1, 2, 3));
   operations: min(1px - 2px * 3px / 4px) max(1px - 2px * 3px / 4px);
   parens: min((1px + 2px) * 3px) max((1px + 2px) * 3px);
   two-arguments: min(1px, 2px) max(1px, 2px);

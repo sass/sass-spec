@@ -1,0 +1,34 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> clamp/numbers/input.scss
+a {b: clamp(0, 1, 2)}
+
+<===> clamp/numbers/output.css
+a {
+  b: clamp(0, 1, 2);
+}
+
+<===>
+================================================================================
+<===> clamp/punctuation/input.scss
+a {b: clamp(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> clamp/punctuation/output.css
+a {
+  b: clamp(@#$%^&*({[]})_-+=|\\:""""<>,.?/);
+}
+
+<===>
+================================================================================
+<===> clamp/interpolation/input.scss
+a {b: clamp(#{0}, #{1}, #{2})}
+
+<===> clamp/interpolation/output.css
+a {
+  b: clamp(0, 1, 2);
+}

@@ -258,6 +258,66 @@ a {
 
 <===>
 ================================================================================
+<===> clamp/arg_1/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_1/input.scss
+a {b: rgba(clamp(1, 2, 3), 2, 3, 0.4)}
+
+<===> clamp/arg_1/output.css
+a {
+  b: rgba(clamp(1, 2, 3), 2, 3, 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_2/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_2/input.scss
+a {b: rgba(1, clamp(2, 3, 4), 3, 0.4)}
+
+<===> clamp/arg_2/output.css
+a {
+  b: rgba(1, clamp(2, 3, 4), 3, 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_3/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_3/input.scss
+a {b: rgba(1, 2, clamp(3, 4, 5), 0.4)}
+
+<===> clamp/arg_3/output.css
+a {
+  b: rgba(1, 2, clamp(3, 4, 5), 0.4);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_4/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_4/input.scss
+a {b: rgba(1, 2, 3, clamp(0.4, 0.5, 0.6))}
+
+<===> clamp/arg_4/output.css
+a {
+  b: rgba(1, 2, 3, clamp(0.4, 0.5, 0.6));
+}
+
+<===>
+================================================================================
 <===> calc/arg_2/args/input.scss
 a {b: rgba(blue, calc(0.4))}
 
