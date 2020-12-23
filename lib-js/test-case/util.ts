@@ -25,6 +25,11 @@ type FailureType =
   | "warning_difference"
   | "unnecessary_todo"
 
+// TODO split these up into separate types (e.g. `FailureResult | ErrorResult`).
+// Spliting up the properties into a union type will be cumbersome when
+// results are used as part of a test case across multiple methods (e.g. in `Interactor`).
+// When calling `TestResult.result()` across multiple methods with `TestResult` as a signature,
+// we need to check each time that we the right type of result before using any sub-properties.
 /**
  * The result of a test execution, along with metadata for failures and errors
  */
