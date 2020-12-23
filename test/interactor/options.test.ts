@@ -9,7 +9,11 @@ function mockTestCase(args: any = {}): TestCaseArg {
 }
 
 describe("Interactor options", () => {
-  async function expectOption(key: string, args: any, valid: boolean = true) {
+  async function expectOption(
+    key: string,
+    args: any,
+    valid: boolean = true
+  ): Promise<void> {
     const options = optionsFor(mockTestCase(args))
     const keys = options.map((o) => o.key)
     if (valid) {

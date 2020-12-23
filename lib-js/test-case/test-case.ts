@@ -57,7 +57,7 @@ export default class TestCase {
   }
 
   /** Return the name of the input file of this test directory. */
-  private inputFile() {
+  private inputFile(): string {
     if (this.dir.hasFile("input.sass") && this.dir.hasFile("input.scss")) {
       throw new Error(`Multiple input files found in ${this.dir.relPath()}`)
     }

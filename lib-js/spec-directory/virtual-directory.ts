@@ -6,7 +6,7 @@ import { archiveFromStream, Directory as HrxDirectory } from "node-hrx"
 import SpecOptions from "./options"
 import { withAsyncCleanup } from "./cleanup"
 
-function createFileCache(dir: HrxDirectory) {
+function createFileCache(dir: HrxDirectory): Record<string, string> {
   const cache: Record<string, string> = {}
   for (const itemName of dir) {
     const subitem = dir.get(itemName)
@@ -17,7 +17,7 @@ function createFileCache(dir: HrxDirectory) {
   return cache
 }
 
-function createSubdirCache(dir: HrxDirectory) {
+function createSubdirCache(dir: HrxDirectory): Record<string, HrxDirectory> {
   const cache: Record<string, HrxDirectory> = {}
   for (const itemName of dir) {
     const subitem = dir.get(itemName)
@@ -70,7 +70,7 @@ export default class VirtualDirectory extends SpecDirectory {
     hrxPath: string,
     root?: SpecDirectory,
     parentOpts?: SpecOptions
-  ) {
+  ): Promise<VirtualDirectory> {
     const stream = fs.createReadStream(hrxPath, { encoding: "utf-8" })
     const archive = await archiveFromStream(stream)
     const { dir, name } = path.parse(hrxPath)
@@ -86,7 +86,10 @@ export default class VirtualDirectory extends SpecDirectory {
    * Create a virtual directory from string contents, and an optional path.
    * If no path is given (e.g. in testing), it is set to an empty string.
    */
-  static async fromContents(contents: string, path = "") {
+  static async fromContents(
+    contents: string,
+    path = ""
+  ): Promise<VirtualDirectory> {
     const stream = Readable.from(contents)
     const archive = await archiveFromStream(stream)
     // TODO where should the temp path be?
@@ -94,20 +97,20 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   // File access
-  async listFiles() {
+  async listFiles(): Promise<string[]> {
     return this.fileNames
   }
 
-  hasFile(filename: string) {
+  hasFile(filename: string): boolean {
     return this.fileContents.hasOwnProperty(filename)
   }
 
-  async readFile(filename: string) {
+  async readFile(filename: string): Promise<string> {
     this.validateFile(filename, "Cannot read file")
     return this.fileContents[filename]
   }
 
-  async writeFile(filename: string, contents: string) {
+  async writeFile(filename: string, contents: string): Promise<void> {
     this.validateFile(filename, "Cannot write file")
     this.modified = true
     this.fileContents[filename] = contents
@@ -116,7 +119,7 @@ export default class VirtualDirectory extends SpecDirectory {
     }
   }
 
-  async removeFile(filename: string) {
+  async removeFile(filename: string): Promise<void> {
     this.validateFile(filename, "Cannot remove file")
     this.modified = true
     delete this.fileContents[filename]
@@ -124,7 +127,7 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   // throw an error if the given filename is invalid
-  private validateFile(filename: string, message: string) {
+  private validateFile(filename: string, message: string): void {
     if (this.subdirCache[filename]) {
       throw new Error(`${message}: ${filename} is a directory`)
     }
@@ -135,11 +138,11 @@ export default class VirtualDirectory extends SpecDirectory {
 
   // Subdir access
 
-  async listSubdirs() {
+  async listSubdirs(): Promise<string[]> {
     return this.subdirNames
   }
 
-  async getSubdir(itemName: string) {
+  async getSubdir(itemName: string): Promise<VirtualDirectory> {
     const subitem = this.subdirCache[itemName]
     if (!subitem) {
       throw new Error(`Item does not exist: ${itemName}`)
@@ -151,7 +154,7 @@ export default class VirtualDirectory extends SpecDirectory {
   // Iteration
 
   // Write the files that are directly part of this directory
-  private async writeFilesToDisk() {
+  private async writeFilesToDisk(): Promise<void> {
     await fs.promises.mkdir(this.path, { recursive: true })
     const files = await this.listFiles()
     const writableFiles = files.filter((filename) => {
@@ -171,7 +174,7 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   // To set up a virtual directory, write all files to disk
-  async setup() {
+  async setup(): Promise<void> {
     await this.writeFilesToDisk()
     const subdirs = await this.subdirs()
     await Promise.all(subdirs.map((subdir) => subdir.setup()))
@@ -191,7 +194,7 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   // Perform cleanup actions after opening this directory
-  async cleanup() {
+  async cleanup(): Promise<void> {
     // remove the physical directory
     await fs.promises.rm(this.path, { recursive: true, force: true })
     // if files were written to this directory, write to the root archive file
@@ -203,7 +206,7 @@ export default class VirtualDirectory extends SpecDirectory {
     }
   }
 
-  async forEachTest(paths: string[], iteratee: SpecIteratee) {
+  async forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void> {
     if (this.isArchiveRoot) {
       await this.setup()
       await withAsyncCleanup(

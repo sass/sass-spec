@@ -2,7 +2,7 @@ import { SpecDirectory } from "../spec-directory"
 import { SassResult } from "./util"
 
 // Ensure that the directory has exactly one output or error file
-function checkDuplicateOutputs(dir: SpecDirectory, impl: string) {
+function checkDuplicateOutputs(dir: SpecDirectory, impl: string): void {
   if (dir.hasFile(`output-${impl}.css`) && dir.hasFile(`error-${impl}`)) {
     throw new Error(`Found both output and error file for ${impl}.`)
   }
@@ -14,7 +14,7 @@ function checkDuplicateOutputs(dir: SpecDirectory, impl: string) {
 
 // Returns true if the directory expects a successful result
 // or false if it expects an error
-function expectsSuccess(dir: SpecDirectory, impl: string) {
+function expectsSuccess(dir: SpecDirectory, impl: string): boolean {
   if (dir.hasFile(`output-${impl}.css`)) return true
   if (dir.hasFile(`error-${impl}`)) return false
   if (dir.hasFile(`output.css`)) return true
@@ -26,7 +26,7 @@ function getResultFile(
   dir: SpecDirectory,
   impl: string,
   type: "output" | "error" | "warning"
-) {
+): string {
   const ext = type === "output" ? ".css" : ""
   const overrideFile = `${type}-${impl}${ext}`
   return dir.hasFile(overrideFile) ? overrideFile : `${type}${ext}`

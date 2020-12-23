@@ -66,11 +66,11 @@ export default class Tabulator {
     )
   }
 
-  private writeLine(text: string = "") {
+  private writeLine(text: string = ""): void {
     this.output.write(text + "\n")
   }
 
-  private printFailuresAndErrors() {
+  private printFailuresAndErrors(): void {
     for (const failure of this.failures) {
       const result = failure.result()
       if (result.type === "fail") {
@@ -91,7 +91,7 @@ export default class Tabulator {
     }
   }
 
-  private printTodos() {
+  private printTodos(): void {
     for (const todo of this.todos) {
       this.writeLine(`TODO: ${todo.dir.relPath()}`)
       this.writeLine()

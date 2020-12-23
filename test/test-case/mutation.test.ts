@@ -1,4 +1,4 @@
-import { fromContents } from "../../lib-js/spec-directory"
+import { fromContents, SpecDirectory } from "../../lib-js/spec-directory"
 import TestCase from "../../lib-js/test-case"
 import { mockCompiler } from "../fixtures/mock-compiler"
 
@@ -8,7 +8,7 @@ function makeHrx(files: Record<string, string>) {
     .join("\n")
 }
 
-function fromObject(files: Record<string, string>) {
+function fromObject(files: Record<string, string>): Promise<SpecDirectory> {
   return fromContents(makeHrx(files))
 }
 

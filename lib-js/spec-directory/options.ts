@@ -54,7 +54,7 @@ export default class SpecOptions {
     return this.hasForImpl(impl, ":warning_todo")
   }
 
-  private hasForImpl(impl: string, option: OptionKey) {
+  private hasForImpl(impl: string, option: OptionKey): boolean {
     return !!this.data[option]?.some((item) => item.includes(impl))
   }
 

@@ -1,9 +1,10 @@
 import { fromContents } from "../../lib-js/spec-directory"
 import { mockCompiler } from "../fixtures/mock-compiler"
 import TestCase from "../../lib-js/test-case"
+import { SassResult } from "../../lib-js/test-case/util"
 
 describe("TestCase::actual()", () => {
-  async function getResults(contents: string) {
+  async function getResults(contents: string): Promise<SassResult> {
     const dir = await fromContents(contents.trim())
     const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
     return test.actual()

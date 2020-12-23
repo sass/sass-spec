@@ -3,7 +3,7 @@ import yargs from "yargs/yargs"
 import { Argv } from "yargs"
 import { Compiler, DartCompiler, executableCompiler } from "./compiler"
 
-interface CliArgs {
+export interface CliArgs {
   root: string
   verbose: boolean
   impl: string

@@ -4,7 +4,7 @@ import { SpecDirectory } from "../../lib-js/spec-directory"
 
 export function mockCompiler(specDir: SpecDirectory): Compiler {
   return {
-    async compile(_, args) {
+    async compile(_, args): Promise<Stdio> {
       // just read the input as yaml and then return its contents
       const contents = await specDir.readFile(args[args.length - 1])
       return yaml.safeLoad(contents) as Stdio

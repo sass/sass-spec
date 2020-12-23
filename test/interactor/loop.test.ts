@@ -15,11 +15,11 @@ class MemoryWritable extends Writable {
   }
 }
 
-function makeInputStream(inputs: string[]) {
+function makeInputStream(inputs: string[]): Readable {
   return Readable.from(inputs.map((input) => input + "\n"))
 }
 
-async function makeTestCase(contents: string) {
+async function makeTestCase(contents: string): Promise<TestCase> {
   const dir = await fromContents(contents.trim())
   return await TestCase.create(dir, "sass-mock", mockCompiler(dir))
 }

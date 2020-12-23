@@ -13,24 +13,24 @@ export default class RealDirectory extends SpecDirectory {
     this.path = path
   }
 
-  hasFile(filename: string) {
+  hasFile(filename: string): boolean {
     const filepath = path.resolve(this.path, filename)
     return fs.existsSync(filepath)
   }
 
-  async readFile(filename: string) {
+  async readFile(filename: string): Promise<string> {
     const filepath = path.resolve(this.path, filename)
     return await fs.promises.readFile(filepath, { encoding: "utf-8" })
   }
 
-  async listFiles() {
+  async listFiles(): Promise<string[]> {
     const contents = await fs.promises.readdir(this.path, {
       withFileTypes: true,
     })
     return contents.filter((entry) => entry.isFile()).map((entry) => entry.name)
   }
 
-  async listSubdirs() {
+  async listSubdirs(): Promise<string[]> {
     const contents = await fs.promises.readdir(this.path, {
       withFileTypes: true,
     })
@@ -50,12 +50,12 @@ export default class RealDirectory extends SpecDirectory {
     }
   }
 
-  async writeFile(filename: string, contents: string) {
+  async writeFile(filename: string, contents: string): Promise<void> {
     const filepath = path.resolve(this.path, filename)
     await fs.promises.writeFile(filepath, contents, { encoding: "utf-8" })
   }
 
-  async removeFile(filename: string) {
+  async removeFile(filename: string): Promise<void> {
     await fs.promises.rm(filename, { force: true })
   }
 }

@@ -10,7 +10,7 @@ describe("getExpectedResult()", () => {
       error: undefined,
     }
 
-    async function expectOutput(contents: string) {
+    async function expectOutput(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart())
       const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
@@ -46,7 +46,7 @@ FAILURE`)
       error: "ERROR",
       warning: undefined,
     }
-    async function expectError(contents: string) {
+    async function expectError(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart())
       const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
@@ -90,7 +90,7 @@ ERROR`)
       error: undefined,
       warning: "WARNING",
     }
-    async function expectWarning(contents: string) {
+    async function expectWarning(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart())
       const result = await getExpectedResult(dir, "sass-mock")
       expect(result).toEqual(expected)
@@ -123,7 +123,7 @@ WARNING`)
   })
 
   describe("thrown errors", () => {
-    async function expectToThrow(contents: string) {
+    async function expectToThrow(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart())
       expect(async () => {
         await getExpectedResult(dir, "sass-mock")

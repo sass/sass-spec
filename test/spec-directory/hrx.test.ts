@@ -2,7 +2,10 @@ import { fromContents } from "../../lib-js/spec-directory"
 import { toHrx } from "../../lib-js/spec-directory/hrx"
 
 describe("toHrx", () => {
-  async function expectHrx(input: string, expected: string = input) {
+  async function expectHrx(
+    input: string,
+    expected: string = input
+  ): Promise<void> {
     input = input.trim()
     expected = expected.trim()
     const dir = await fromContents(input)

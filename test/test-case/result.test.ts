@@ -1,10 +1,13 @@
 import { fromContents } from "../../lib-js/spec-directory"
 import { mockCompiler } from "../fixtures/mock-compiler"
-import TestCase from "../../lib-js/test-case"
+import TestCase, { TestResult } from "../../lib-js/test-case"
 
 // TODO most of these tests can be factored out into tests that comparing two results work
 describe("TestCase::result()", () => {
-  async function runTestCase(content: string, opts: any = {}) {
+  async function runTestCase(
+    content: string,
+    opts: any = {}
+  ): Promise<TestResult> {
     const dir = await fromContents(content.trim())
     const test = await TestCase.create(
       dir,

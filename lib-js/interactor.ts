@@ -128,11 +128,11 @@ export class Interactor {
     this.output = output
   }
 
-  private printLine(line: string = "") {
+  private printLine(line: string = ""): void {
     this.output.write(`${line}\n`)
   }
 
-  private printOptions(options: InteractorOption[], test: TestCase) {
+  private printOptions(options: InteractorOption[], test: TestCase): void {
     for (const { key, description } of options) {
       const _description =
         typeof description === "string" ? description : description(test)
@@ -141,7 +141,7 @@ export class Interactor {
   }
 
   // Prints content bounded by a delimiter
-  private printContent(content: string) {
+  private printContent(content: string): void {
     const width = Math.max(...content.split("\n").map((l) => l.length))
     const delimiter = Array(width).fill("*").join("")
     this.printLine()

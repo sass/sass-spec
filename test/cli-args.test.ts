@@ -1,16 +1,16 @@
 import yargs from "yargs"
-import { parseArgs } from "../lib-js/cli-args"
+import { parseArgs, CliArgs } from "../lib-js/cli-args"
 
 // mock the compiler, since we don't actually care that it's created
 jest.mock("../lib-js/compiler")
 
-function wrap(yargs: yargs.Argv<{}>) {
+function wrap(yargs: yargs.Argv<{}>): yargs.Argv<{}> {
   return yargs.fail((msg, error) => {
     throw error
   })
 }
 
-async function parseTestArgs(args: string) {
+async function parseTestArgs(args: string): Promise<CliArgs> {
   return await parseArgs(args.split(" "), wrap)
 }
 

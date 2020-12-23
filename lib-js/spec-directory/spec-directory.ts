@@ -111,10 +111,10 @@ export default abstract class SpecDirectory {
 
   // Iteration
 
-  async setup() {}
-  async cleanup() {}
+  async setup(): Promise<void> {}
+  async cleanup(): Promise<void> {}
 
-  private isMatch(paths: string[]) {
+  private isMatch(paths: string[]): boolean {
     return paths.length === 0 || paths.some((path) => this.relPath() === path)
   }
 

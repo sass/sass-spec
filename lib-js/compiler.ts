@@ -71,7 +71,7 @@ export class DartCompiler implements Compiler {
     return new DartCompiler(await this.createProcess(path), initArgs)
   }
 
-  async compile(path: string, opts: string[]) {
+  async compile(path: string, opts: string[]): Promise<Stdio> {
     this.stdin.write(`!cd ${path}\n`)
     this.stdin.write([...this.initArgs, ...opts].join(" ") + "\n")
     return {
@@ -85,7 +85,9 @@ export class DartCompiler implements Compiler {
    * Create a child process that uses the dart-sass repo at the path,
    * and compiles the files piped to stdin.
    */
-  private static async createProcess(repoPath: string) {
+  private static async createProcess(
+    repoPath: string
+  ): Promise<ChildProcessWithoutNullStreams> {
     if (!fs.existsSync(path.resolve(repoPath, "bin/sass.dart"))) {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`)
     }
@@ -133,7 +135,7 @@ main() async {
     return child
   }
 
-  private static splitSingle(buffer: Buffer, token: number) {
+  private static splitSingle(buffer: Buffer, token: number): Buffer[] {
     const idx = buffer.indexOf(token)
     if (idx === -1) {
       return [buffer]
@@ -143,7 +145,7 @@ main() async {
   }
 
   // Split a buffer using the given token
-  private static split(buffer: Buffer, token: number) {
+  private static split(buffer: Buffer, token: number): Buffer[] {
     const segments = []
     let [head, tail] = this.splitSingle(buffer, token)
     while (tail) {
@@ -158,7 +160,7 @@ main() async {
 
   // Split the stream into chunks based on the break character (0xff)
   // TODO need to test this
-  private static async *toChunks(stream: Readable) {
+  private static async *toChunks(stream: Readable): AsyncGenerator<string> {
     let buff = Buffer.from("")
     for await (const chunk of stream) {
       const [head, ...tail] = this.split(chunk, 0xff)
