@@ -191,3 +191,48 @@ a {
   b: rgb(1, 2, max(3));
 }
 
+<===>
+================================================================================
+<===> clamp/arg_1/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_1/input.scss
+a {b: rgb(clamp(1, 2, 3), 2, 3)}
+
+<===> clamp/arg_1/output.css
+a {
+  b: rgb(clamp(1, 2, 3), 2, 3);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_2/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_2/input.scss
+a {b: rgb(1, clamp(2, 3, 4), 3)}
+
+<===> clamp/arg_2/output.css
+a {
+  b: rgb(1, clamp(2, 3, 4), 3);
+}
+
+<===>
+================================================================================
+<===> clamp/arg_3/options.yml
+---
+:todo:
+- sass/libsass#2726
+
+<===> clamp/arg_3/input.scss
+a {b: rgb(1, 2, clamp(3, 4, 5))}
+
+<===> clamp/arg_3/output.css
+a {
+  b: rgb(1, 2, clamp(3, 4, 5));
+}
+
