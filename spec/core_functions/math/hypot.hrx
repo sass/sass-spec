@@ -107,7 +107,7 @@ Error: "0" is not a number.
 a {b: math.hypot(1deg, 1px, 1turn)}
 
 <===> error/incompatible_units/first_and_second/error
-Error: Incompatible units px and deg.
+Error: $numbers[2]: 1px and $numbers[1]: 1deg have incompatible units.
   ,
 2 | a {b: math.hypot(1deg, 1px, 1turn)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -121,7 +121,7 @@ Error: Incompatible units px and deg.
 a {b: math.hypot(1deg, 1turn, 1px)}
 
 <===> error/incompatible_units/first_and_third/error
-Error: Incompatible units px and deg.
+Error: $numbers[3]: 1px and $numbers[1]: 1deg have incompatible units.
   ,
 2 | a {b: math.hypot(1deg, 1turn, 1px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ Error: Incompatible units px and deg.
 a {b: math.hypot(1turn, 1deg, 1px)}
 
 <===> error/incompatible_units/second_and_third/error
-Error: Incompatible units px and turn.
+Error: $numbers[3]: 1px and $numbers[1]: 1turn have incompatible units.
   ,
 2 | a {b: math.hypot(1turn, 1deg, 1px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -149,7 +149,7 @@ Error: Incompatible units px and turn.
 a {b: math.hypot(1turn, 1px, 1s)}
 
 <===> error/incompatible_units/all/error
-Error: Incompatible units px and turn.
+Error: $numbers[2]: 1px and $numbers[1]: 1turn have incompatible units.
   ,
 2 | a {b: math.hypot(1turn, 1px, 1s)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -163,7 +163,7 @@ Error: Incompatible units px and turn.
 a {b: math.hypot(0, 1px, 2px)}
 
 <===> error/some_unitless/first/error
-Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all have units or all be unitless.
+Error: $numbers[2]: 1px and $numbers[1]: 0 have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0, 1px, 2px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -177,7 +177,7 @@ Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all hav
 a {b: math.hypot(0px, 1, 2px)}
 
 <===> error/some_unitless/second/error
-Error: Argument 1 has unit px but argument 2 is unitless. Arguments must all have units or all be unitless.
+Error: $numbers[2]: 1 and $numbers[1]: 0px have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0px, 1, 2px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -191,7 +191,7 @@ Error: Argument 1 has unit px but argument 2 is unitless. Arguments must all hav
 a {b: math.hypot(0px, 1px, 2)}
 
 <===> error/some_unitless/third/error
-Error: Argument 1 has unit px but argument 3 is unitless. Arguments must all have units or all be unitless.
+Error: $numbers[3]: 2 and $numbers[1]: 0px have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0px, 1px, 2)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -205,7 +205,7 @@ Error: Argument 1 has unit px but argument 3 is unitless. Arguments must all hav
 a {b: math.hypot(0, 1, 2px)}
 
 <===> error/some_unitless/first_and_second/error
-Error: Argument 1 is unitless but argument 3 has unit px. Arguments must all have units or all be unitless.
+Error: $numbers[3]: 2px and $numbers[1]: 0 have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0, 1, 2px)}
   |       ^^^^^^^^^^^^^^^^^^^^^
@@ -219,7 +219,7 @@ Error: Argument 1 is unitless but argument 3 has unit px. Arguments must all hav
 a {b: math.hypot(0, 1px, 2)}
 
 <===> error/some_unitless/first_and_third/error
-Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all have units or all be unitless.
+Error: $numbers[2]: 1px and $numbers[1]: 0 have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0, 1px, 2)}
   |       ^^^^^^^^^^^^^^^^^^^^^
@@ -233,7 +233,7 @@ Error: Argument 1 is unitless but argument 2 has unit px. Arguments must all hav
 a {b: math.hypot(0px, 1, 2)}
 
 <===> error/some_unitless/second_and_third/error
-Error: Argument 1 has unit px but argument 2 is unitless. Arguments must all have units or all be unitless.
+Error: $numbers[2]: 1 and $numbers[1]: 0px have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.hypot(0px, 1, 2)}
   |       ^^^^^^^^^^^^^^^^^^^^^

@@ -1,5 +1,3 @@
-<===>
-================================================================================
 <===> named_args/input.scss
 @use "sass:math" as math;
 a {b: math.atan2($y: 1, $x: -1)}
@@ -55,7 +53,7 @@ Error: $x: "0" is not a number.
 a {b: math.atan2(1px, 1deg)}
 
 <===> error/incompatible_units/error
-Error: Incompatible units deg and px.
+Error: $x: 1deg and $y: 1px have incompatible units.
   ,
 2 | a {b: math.atan2(1px, 1deg)}
   |       ^^^^^^^^^^^^^^^^^^^^^
@@ -69,7 +67,7 @@ Error: Incompatible units deg and px.
 a {b: math.atan2(1, 1px)}
 
 <===> error/unitless_y/error
-Error: $y is unitless but $x has unit px. Arguments must all have units or all be unitless.
+Error: $x: 1px and $y: 1 have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.atan2(1, 1px)}
   |       ^^^^^^^^^^^^^^^^^^
@@ -83,7 +81,7 @@ Error: $y is unitless but $x has unit px. Arguments must all have units or all b
 a {b: math.atan2(1px, 1)}
 
 <===> error/unitless_x/error
-Error: $y has unit px but $x is unitless. Arguments must all have units or all be unitless.
+Error: $x: 1 and $y: 1px have incompatible units (one has units and the other doesn't).
   ,
 2 | a {b: math.atan2(1px, 1)}
   |       ^^^^^^^^^^^^^^^^^^
