@@ -6,17 +6,17 @@
 <===>
 ================================================================================
 <===> hue/deg/input.scss
-a {b: hsl(0deg, 100%, 50%)}
+a {b: adjust-color(red, $hue: 60deg)}
 
 <===> hue/deg/output.css
 a {
-  b: red;
+  b: yellow;
 }
 
 <===>
 ================================================================================
 <===> hue/unitless/input.scss
-a {b: hsl(60, 100%, 50%)}
+a {b: adjust-color(red, $hue: 60)}
 
 <===> hue/unitless/output.css
 a {
@@ -26,7 +26,7 @@ a {
 <===>
 ================================================================================
 <===> hue/unknown/input.scss
-a {b: hsl(60in, 100%, 50%)}
+a {b: adjust-color(red, $hue: 60in)}
 
 <===> hue/unknown/output.css
 a {
@@ -41,15 +41,15 @@ To preserve current behavior: $hue / 1in
 See https://sass-lang.com/d/color-units
 
   ,
-1 | a {b: hsl(60in, 100%, 50%)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $hue: 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
 <===> hue/angle/input.scss
-a {b: hsl(60rad, 100%, 50%)}
+a {b: adjust-color(red, $hue: 60rad)}
 
 <===> hue/angle/output.css
 a {
@@ -68,19 +68,29 @@ To migrate to new behavior: 0deg + $hue
 See https://sass-lang.com/d/color-units
 
   ,
-1 | a {b: hsl(60rad, 100%, 50%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $hue: 60rad)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
+<===> saturation/percent/input.scss
+a {b: adjust-color(red, $saturation: -10%)}
+
+<===> saturation/percent/output.css
+a {
+  b: #f20d0d;
+}
+
+<===>
+================================================================================
 <===> saturation/unitless/input.scss
-a {b: hsl(0, 50, 50%)}
+a {b: adjust-color(red, $saturation: -10)}
 
 <===> saturation/unitless/output.css
 a {
-  b: #bf4040;
+  b: #f20d0d;
 }
 
 <===> saturation/unitless/warning
@@ -89,8 +99,8 @@ DEPRECATION WARNING: $saturation: Passing a number without unit % is deprecated.
 To preserve current behavior: $saturation * 1%
 
   ,
-1 | a {b: hsl(0, 50, 50%)}
-  |       ^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $saturation: -10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 
@@ -98,11 +108,11 @@ To preserve current behavior: $saturation * 1%
 <===>
 ================================================================================
 <===> saturation/unknown/input.scss
-a {b: hsl(0, 50in, 50%)}
+a {b: adjust-color(red, $saturation: -10in)}
 
 <===> saturation/unknown/output.css
 a {
-  b: #bf4040;
+  b: #f20d0d;
 }
 
 <===> saturation/unknown/warning
@@ -111,20 +121,30 @@ DEPRECATION WARNING: $saturation: Passing a number without unit % is deprecated.
 To preserve current behavior: $saturation / 1in * 1%
 
   ,
-1 | a {b: hsl(0, 50in, 50%)}
-  |       ^^^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $saturation: -10in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 
 
 <===>
 ================================================================================
+<===> lightness/percent/input.scss
+a {b: adjust-color(red, $lightness: 10%)}
+
+<===> lightness/percent/output.css
+a {
+  b: #ff3333;
+}
+
+<===>
+================================================================================
 <===> lightness/unitless/input.scss
-a {b: hsl(0, 100%, 50)}
+a {b: adjust-color(red, $lightness: 10)}
 
 <===> lightness/unitless/output.css
 a {
-  b: red;
+  b: #ff3333;
 }
 
 <===> lightness/unitless/warning
@@ -133,8 +153,8 @@ DEPRECATION WARNING: $lightness: Passing a number without unit % is deprecated.
 To preserve current behavior: $lightness * 1%
 
   ,
-1 | a {b: hsl(0, 100%, 50)}
-  |       ^^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $lightness: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 
@@ -142,11 +162,11 @@ To preserve current behavior: $lightness * 1%
 <===>
 ================================================================================
 <===> lightness/unknown/input.scss
-a {b: hsl(0, 100%, 50in)}
+a {b: adjust-color(red, $lightness: 10in)}
 
 <===> lightness/unknown/output.css
 a {
-  b: red;
+  b: #ff3333;
 }
 
 <===> lightness/unknown/warning
@@ -155,8 +175,8 @@ DEPRECATION WARNING: $lightness: Passing a number without unit % is deprecated.
 To preserve current behavior: $lightness / 1in * 1%
 
   ,
-1 | a {b: hsl(0, 100%, 50in)}
-  |       ^^^^^^^^^^^^^^^^^^
+1 | a {b: adjust-color(red, $lightness: 10in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
 

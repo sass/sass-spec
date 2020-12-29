@@ -125,13 +125,13 @@ Error: argument `$blue` of `change-color($color, $red: false, $green: false, $bl
 <===>
 ================================================================================
 <===> saturation/too_low/input.scss
-a {b: change-color(red, $saturation: -0.001)}
+a {b: change-color(red, $saturation: -0.001%)}
 
 <===> saturation/too_low/error
-Error: $saturation: Expected -0.001 to be within 0 and 100.
+Error: $saturation: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: change-color(red, $saturation: -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, $saturation: -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -146,13 +146,13 @@ Error: argument `$saturation` of `change-color($color, $red: false, $green: fals
 <===>
 ================================================================================
 <===> saturation/too_high/input.scss
-a {b: change-color(red, $saturation: 100.001)}
+a {b: change-color(red, $saturation: 100.001%)}
 
 <===> saturation/too_high/error
-Error: $saturation: Expected 100.001 to be within 0 and 100.
+Error: $saturation: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: change-color(red, $saturation: 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, $saturation: 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -167,13 +167,13 @@ Error: argument `$saturation` of `change-color($color, $red: false, $green: fals
 <===>
 ================================================================================
 <===> lightness/too_low/input.scss
-a {b: change-color(red, $lightness: -0.001)}
+a {b: change-color(red, $lightness: -0.001%)}
 
 <===> lightness/too_low/error
-Error: $lightness: Expected -0.001 to be within 0 and 100.
+Error: $lightness: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: change-color(red, $lightness: -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, $lightness: -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -188,13 +188,13 @@ Error: argument `$lightness` of `change-color($color, $red: false, $green: false
 <===>
 ================================================================================
 <===> lightness/too_high/input.scss
-a {b: change-color(red, $lightness: 100.001)}
+a {b: change-color(red, $lightness: 100.001%)}
 
 <===> lightness/too_high/error
-Error: $lightness: Expected 100.001 to be within 0 and 100.
+Error: $lightness: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: change-color(red, $lightness: 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: change-color(red, $lightness: 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -254,6 +254,8 @@ Error: argument `$alpha` of `change-color($color, $red: false, $green: false, $b
 :todo:
 - sass/libsass#3128
 
+<===>
+================================================================================
 <===> blackness/too_low/input.scss
 a {b: change-color(red, $blackness: -0.001%)}
 
@@ -285,6 +287,8 @@ Error: $blackness: Expected 100.001% to be within 0% and 100%.
 :todo:
 - sass/libsass#3128
 
+<===>
+================================================================================
 <===> whiteness/too_low/input.scss
 a {b: change-color(red, $whiteness: -0.001%)}
 
