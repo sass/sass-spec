@@ -78,6 +78,83 @@ a {
 
 <===>
 ================================================================================
+<===> units/options.yml
+---
+:warning_todo:
+- libsass
+
+<===>
+================================================================================
+<===> units/deg/input.scss
+a {b: adjust-hue(red, 60deg)}
+
+<===> units/deg/output.css
+a {
+  b: yellow;
+}
+
+<===>
+================================================================================
+<===> units/unitless/input.scss
+a {b: adjust-hue(red, 60)}
+
+<===> units/unitless/output.css
+a {
+  b: yellow;
+}
+
+<===>
+================================================================================
+<===> units/unknown/input.scss
+a {b: adjust-hue(red, 60in)}
+
+<===> units/unknown/output.css
+a {
+  b: yellow;
+}
+
+<===> units/unknown/warning
+DEPRECATION WARNING: $null: Passing a unit other than deg is deprecated.
+
+To preserve current behavior: $null / 1in
+
+See https://sass-lang.com/d/color-units
+
+  ,
+1 | a {b: adjust-hue(red, 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/angle/input.scss
+a {b: adjust-hue(red, 60rad)}
+
+<===> units/angle/output.css
+a {
+  b: yellow;
+}
+
+<===> units/angle/warning
+DEPRECATION WARNING: $null: Passing a unit other than deg is deprecated.
+
+You're passing 60rad, which is currently (incorrectly) converted to 60deg.
+Soon, it will instead be correctly converted to 3437.7467707849deg.
+
+To preserve current behavior: $null * 1deg/1rad
+To migrate to new behavior: 0deg + $null
+
+See https://sass-lang.com/d/color-units
+
+  ,
+1 | a {b: adjust-hue(red, 60rad)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> named/input.scss
 a {b: adjust-hue($color: red, $degrees: 123)}
 
