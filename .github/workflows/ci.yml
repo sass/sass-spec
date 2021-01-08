@@ -1,48 +1,31 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - master
-      # Feature branches beginning with "feature."
-      - feature.*
+  push: {branches: [master, feature.*]}
   pull_request:
 
 jobs:
-  unit_tests:
-    name: Unit tests
+  unit_tests_rb:
+    name: "Unit tests: Ruby"
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with: {bundler-cache: true}
       - name: Run tests
         run: bundle exec rspec tests/
 
   unit_tests_ts:
-    name: Unit tests Typescript
+    name: "Unit tests: Typescript"
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install npm dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: '14'}
+      - run: npm install
+      - run: npm test
 
   dart_sass:
     name: Dart Sass
@@ -50,18 +33,11 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains('skip dart-sass', github.event.pull_request.body)"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Setup Dart
-        uses: cedx/setup-dart@v2
-        with:
-          release-channel: stable
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with: {bundler-cache: true}
+      - uses: cedx/setup-dart@v2
+        with: {release-channel: stable}
 
       - name: Install dart-sass
         run: |
@@ -82,13 +58,9 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains('skip libsass', github.event.pull_request.body)"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with: {bundler-cache: true}
 
       - name: Install sassc
         run: |
