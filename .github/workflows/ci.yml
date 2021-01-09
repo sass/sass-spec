@@ -1,5 +1,9 @@
 name: CI
 
+env:
+  NODE_VERSION: 14
+
+
 on:
   push: {branches: [master, feature.*]}
   pull_request:
@@ -23,19 +27,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: '14'}
+        with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm test
 
   dart_sass:
     name: Dart Sass
     runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains('skip dart-sass', github.event.pull_request.body)"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with: {bundler-cache: true}
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ env.NODE_VERSION }}"}
+      - run: npm install
       - uses: cedx/setup-dart@v2
         with: {release-channel: stable}
 
@@ -50,17 +55,18 @@ jobs:
           CURRENT_REF: "${{ github.ref }}"
 
       - name: Run specs
-        run: bundle exec sass-spec.rb --dart ../dart-sass
+        run: npm run sass-spec -- --dart ../dart-sass
 
   libsass:
     name: LibSass
     runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains('skip libsass', github.event.pull_request.body)"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
       - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with: {bundler-cache: true}
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ env.NODE_VERSION }}"}
+      - run: npm install
 
       - name: Install sassc
         run: |
@@ -75,4 +81,4 @@ jobs:
           BUILD_DIR: "${{ github.workspace }}"
 
       - name: Run specs
-        run: bundle exec sass-spec.rb --impl libsass -c ../sassc/bin/sassc
+        run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
