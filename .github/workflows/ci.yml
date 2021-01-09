@@ -34,7 +34,7 @@ jobs:
   dart_sass:
     name: Dart Sass
     runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains('skip dart-sass', github.event.pull_request.body)"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     steps:
       - uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
   libsass:
     name: LibSass
     runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains('skip libsass', github.event.pull_request.body)"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
       - uses: actions/checkout@v2
