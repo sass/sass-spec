@@ -25,12 +25,10 @@ implementations to ensure that they correctly implement the language.
 
 ## Running Specs
 
-Before running specs, you'll need to install [Ruby][] and [Bundler][]. The spec
-runner is written in Ruby, so it's necessary no matter which implementation
-you're testing. Then, from the root of this repo, run `bundle install`.
+Before running specs, you'll need to install [Node.js]. Then, from the root of
+this repo, run `npm install`.
 
-[Ruby]: https://www.ruby-lang.org/en/
-[Bundler]: http://bundler.io/
+[Node.j]: https://nodejs.org/en/download/
 
 From there, it depends which implementation you're testing:
 
@@ -50,7 +48,7 @@ git clone https://github.com/sass/dart-sass
 (cd dart-sass; pub get)
 export DART_SASS_PATH=`pwd`/dart-sass
 
-bundle exec ./sass-spec.rb --dart $DART_SASS_PATH
+npm run sass-spec -- --dart $DART_SASS_PATH
 ```
 
 ### LibSass
@@ -69,7 +67,7 @@ git clone https://github.com/sass/libsass
 (cd libsass; ./script/bootstrap; make sassc)
 export SASSC_PATH=`pwd`/libsass/sassc/bin/sassc
 
-bundle exec ./sass-spec.rb --impl libsass -c $SASSC_PATH
+npm run sass-spec -- --impl libsass -c $SASSC_PATH
 ```
 
 ## Spec Structure
@@ -259,11 +257,11 @@ compliant whenever possible.
 
 ## Interactive Mode
 
-If you pass `--interactive` to `sass-spec.rb`, it will run in interactive mode.
-In this mode, whenever a spec would fail, the spec runner stops and provides the
-user with a prompt that allows them to inspect the failure and determine how to
-handle it. This makes it easy to add [implementation-specific expectations][] or
-mark specs as [`:todo`](#todo). For example:
+If you pass `--interactive` to `npm run sass-spec`, it will run in interactive
+mode. In this mode, whenever a spec would fail, the spec runner stops and
+provides the user with a prompt that allows them to inspect the failure and
+determine how to handle it. This makes it easy to add [implementation-specific
+expectations][] or mark specs as [`:todo`](#todo). For example:
 
 ```
 In test case: spec/core_functions/color/hsla/four_args/alpha_percent
@@ -285,9 +283,10 @@ by adding `!` after it. For example, if you want to mark *all* failing specs as
 `:todo` for the current implementation you'd type `I!`.
 
 ## Tests
-The unit tests for the spec runner are located in the `tests/` directory. To
-run these unit tests, run:
+
+The unit tests for the spec runner are located in the `test/` directory. To run
+these unit tests, run:
 
 ```sh
-bundle exec rspec tests/
+npm run test
 ```
