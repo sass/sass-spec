@@ -151,6 +151,86 @@ a {
 
 <===>
 ================================================================================
+<===> unit/same/input.scss
+a {
+  @for $i from 1px through 5px {b: $i;}
+}
+
+<===> unit/same/output.css
+a {
+  b: 1px;
+  b: 2px;
+  b: 3px;
+  b: 4px;
+  b: 5px;
+}
+
+<===>
+================================================================================
+<===> unit/to_unitless/options.yml
+---
+:todo:
+  - libsass
+
+<===> unit/to_unitless/input.scss
+a {
+  @for $i from 1px through 5 {b: $i;}
+}
+
+<===> unit/to_unitless/output.css
+a {
+  b: 1px;
+  b: 2px;
+  b: 3px;
+  b: 4px;
+  b: 5px;
+}
+
+<===>
+================================================================================
+<===> unit/from_unitless/options.yml
+---
+:todo:
+  - libsass
+
+<===> unit/from_unitless/input.scss
+a {
+  @for $i from 1 through 5px {b: $i;}
+}
+
+<===> unit/from_unitless/output.css
+a {
+  b: 1;
+  b: 2;
+  b: 3;
+  b: 4;
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> unit/compatible/options.yml
+---
+:todo:
+  - libsass
+
+<===> unit/compatible/input.scss
+a {
+  @for $i from 5mm through 1cm {b: $i;}
+}
+
+<===> unit/compatible/output.css
+a {
+  b: 5mm;
+  b: 6mm;
+  b: 7mm;
+  b: 8mm;
+  b: 9mm;
+  b: 10mm;
+}
+
+<===>
+================================================================================
 <===> error/from_type/input.scss
 @for $i from "foo" through 4 {}
 <===> error/from_type/error
@@ -219,15 +299,32 @@ Error: 1.5 is not an int.
 
 <===>
 ================================================================================
+<===> error/unit_coersion_to_float/options.yml
+---
+:todo:
+  - libsass
+
+<===> error/unit_coersion_to_float/input.scss
+@for $i from 1cm through 5mm {}
+<===> error/unit_coersion_to_float/error
+Error: 0.5cm is not an int.
+  ,
+1 | @for $i from 1cm through 5mm {}
+  |                          ^^^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
 <===> error/incompatible_units/input.scss
 @for $i from 100% through 42px {}
 <===> error/incompatible_units/error
-Error: Expected 100% to have a length unit (in, cm, pc, mm, q, pt, px).
+Error: Expected 42px to have unit %.
   ,
 1 | @for $i from 100% through 42px {}
-  |              ^^^^
+  |                           ^^^^
   '
-  input.scss 1:14  root stylesheet
+  input.scss 1:27  root stylesheet
 
 <===> error/incompatible_units/error-libsass
 Error: Incompatible units: '%' and 'px'.
