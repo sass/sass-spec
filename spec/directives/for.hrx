@@ -69,6 +69,53 @@ a {
 
 <===>
 ================================================================================
+<===> negative_to_positive/input.scss
+a {
+  @for $i from -1 through 3 {b: $i;}
+}
+
+<===> negative_to_positive/output.css
+a {
+  b: -1;
+  b: 0;
+  b: 1;
+  b: 2;
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> positive_to_negative/input.scss
+a {
+  @for $i from 2 through -1 {b: $i;}
+}
+
+<===> positive_to_negative/output.css
+a {
+  b: 2;
+  b: 1;
+  b: 0;
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> negative_to_negative/input.scss
+a {
+  @for $i from -5 through -1 {b: $i;}
+}
+
+<===> negative_to_negative/output.css
+a {
+  b: -5;
+  b: -4;
+  b: -3;
+  b: -2;
+  b: -1;
+}
+
+<===>
+================================================================================
 <===> to_scope/input.scss
 // Overriding the variable inside the loop will not impact the end of the loop.
 $limit: 4;
