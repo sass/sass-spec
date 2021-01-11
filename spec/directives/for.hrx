@@ -1,0 +1,189 @@
+<===> inclusive_forward/input.scss
+a {
+  @for $i from 1 through 5 {b: $i;}
+}
+
+<===> inclusive_forward/output.css
+a {
+  b: 1;
+  b: 2;
+  b: 3;
+  b: 4;
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> inclusive_backward/input.scss
+a {
+  @for $i from 5 through 1 {b: $i;}
+}
+
+<===> inclusive_backward/output.css
+a {
+  b: 5;
+  b: 4;
+  b: 3;
+  b: 2;
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> empty/input.scss
+a {
+  @for $i from 1 to 1 {b: $i;}
+}
+
+<===> empty/output.css
+
+<===>
+================================================================================
+<===> exclusive_forward/input.scss
+a {
+  @for $i from 1 to 5 {b: $i;}
+}
+
+<===> exclusive_forward/output.css
+a {
+  b: 1;
+  b: 2;
+  b: 3;
+  b: 4;
+}
+
+<===>
+================================================================================
+<===> exclusive_backward/input.scss
+a {
+  @for $i from 5 to 1 {b: $i;}
+}
+
+<===> exclusive_backward/output.css
+a {
+  b: 5;
+  b: 4;
+  b: 3;
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> to_scope/input.scss
+// Overriding the variable inside the loop will not impact the end of the loop.
+$limit: 4;
+
+@for $i from 1 through $limit {
+  $limit: 2;
+  a {
+    limit: $limit;
+    i: $i;
+  }
+}
+
+<===> to_scope/output.css
+a {
+  limit: 2;
+  i: 1;
+}
+
+a {
+  limit: 2;
+  i: 2;
+}
+
+a {
+  limit: 2;
+  i: 3;
+}
+
+a {
+  limit: 2;
+  i: 4;
+}
+
+<===>
+================================================================================
+<===> error/from_type/input.scss
+@for $i from "foo" through 4 {}
+<===> error/from_type/error
+Error: "foo" is not a number.
+  ,
+1 | @for $i from "foo" through 4 {}
+  |              ^^^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===> error/from_type/error-libsass
+Error: "foo" is not an integer.
+        on line 1 of input.scss
+  Use --trace for backtrace.
+
+<===>
+================================================================================
+<===> error/from_float/options.yml
+---
+:todo:
+  - libsass
+
+<===> error/from_float/input.scss
+@for $i from 1.5 through 4 {}
+<===> error/from_float/error
+Error: 1.5 is not an int.
+  ,
+1 | @for $i from 1.5 through 4 {}
+  |              ^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/to_type/input.scss
+@for $i from 1 through "foo" {}
+<===> error/to_type/error
+Error: "foo" is not a number.
+  ,
+1 | @for $i from 1 through "foo" {}
+  |                        ^^^^^
+  '
+  input.scss 1:24  root stylesheet
+
+<===> error/to_type/error-libsass
+Error: "foo" is not an integer.
+        on line 1 of input.scss
+  Use --trace for backtrace.
+
+<===>
+================================================================================
+<===> error/to_float/options.yml
+---
+:todo:
+  - libsass
+
+<===> error/to_float/input.scss
+@for $i from 1 through 1.5 {}
+<===> error/to_float/error
+Error: 1.5 is not an int.
+  ,
+1 | @for $i from 1 through 1.5 {}
+  |                        ^^^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/input.scss
+@for $i from 100% through 42px {}
+<===> error/incompatible_units/error
+Error: Expected 100% to have a length unit (in, cm, pc, mm, q, pt, px).
+  ,
+1 | @for $i from 100% through 42px {}
+  |              ^^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===> error/incompatible_units/error-libsass
+Error: Incompatible units: '%' and 'px'.
+        on line 1:14 of input.scss
+>> @for $i from 100% through 42px {}
+   -------------^
