@@ -25,7 +25,7 @@ implementations to ensure that they correctly implement the language.
 
 ## Running Specs
 
-Before running specs, you'll need to install [Node.js]. Then, from the root of
+Before running specs, you'll need to install [Node.js] 14.14 or newer. Then, from the root of
 this repo, run `npm install`.
 
 [Node.j]: https://nodejs.org/en/download/
