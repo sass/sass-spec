@@ -49,6 +49,23 @@ b {
 
 <===>
 ================================================================================
+<===> trailing_comma/default/input.scss
+@use "midstream";
+
+<===> trailing_comma/default/_midstream.scss
+@forward "upstream" with ($a: configured !default,);
+
+<===> trailing_comma/default/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> trailing_comma/default/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
 <===> dash_insensitive/input.scss
 @use "midstream";
 
@@ -88,6 +105,36 @@ d {
 }
 
 <===> multiple/output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}
+
+<===>
+================================================================================
+<===> multiple/default/input.scss
+@use "midstream";
+
+<===> multiple/default/_midstream.scss
+@forward "upstream" with (
+  $a: configured a !default,
+  $b: configured b !default,
+  $c: configured c !default
+);
+
+<===> multiple/default/_upstream.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> multiple/default/output.css
 d {
   a: configured a;
   b: configured b;
