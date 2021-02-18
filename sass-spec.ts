@@ -39,7 +39,7 @@ async function runAllTests() {
 
   tabulator.printResults()
   console.log(`Finished in ${time}s`)
-  process.exit(0)
+  process.exit(tabulator.exitCode())
 }
 
 runAllTests()
