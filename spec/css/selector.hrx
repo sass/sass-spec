@@ -101,7 +101,7 @@ b {
 }
 
 <===> inline_comments/silent/with_comma_in_comment/warning
-WARNING on line 4, column 1 of input.sass: 
+WARNING on line 4, column 1 of input.sass:
 This selector doesn't have any properties and won't be rendered.
   ,
 4 | a // comment,
@@ -359,3 +359,98 @@ Error: unterminated attribute selector for a
 >> [a=b ï] {c: d}
 
    ---^
+
+<===>
+================================================================================
+<===> escaping/number_as_first_char_without_space/input.scss
+.\31u {a: n;}
+
+<===> escaping/number_as_first_char_without_space/output.css
+.\31 u {
+  a: b;
+}
+
+<===> escaping/number_as_first_char_without_space/output-libsass.css
+.\31u {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/number_as_first_char_with_space/input.scss
+.\31 u {a: b;}
+
+<===> escaping/number_as_first_char_with_space/output.css
+.\31 u {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/number_as_nonfirst_char_without_space/input.scss
+.a\31u {a: b;}
+
+<===> escaping/number_as_nonfirst_char_without_space/output.css
+.a1u {
+  a: b;
+}
+
+<===> escaping/number_as_nonfirst_char_without_space/output-libsass.css
+.a\31u {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/number_as_nonfirst_char_with_space/input.scss
+.a\31 u {a: b;}
+
+<===> escaping/number_as_nonfirst_char_with_space/output.css
+.a1u {
+  a: b;
+}
+
+<===> escaping/number_as_nonfirst_char_with_space/output-libsass.css
+.a\31 u {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/dollar_char/input.scss
+.u\$ {a: b;}
+
+<===> escaping/dollar_char/output.css
+.u\$ {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/dollar_char_as_numeric/input.scss
+.u\24 {a: b;}
+
+<===> escaping/dollar_char_as_numeric/output.css
+.u\$ {
+  a: b;
+}
+
+<===> escaping/dollar_char_as_numeric/output-libsass.css
+.u\24 {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> escaping/parenthesis_in_interpolation/input.scss
+.u#{'\\28'} { a: b; }
+
+<===> escaping/parenthesis_in_interpolation/output.css
+.u\( {
+  a: b;
+}
+
+<===> escaping/parenthesis_in_interpolation/output-libsass.css
+.u\28 {
+  a: b;
+}
