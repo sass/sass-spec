@@ -1,9 +1,5 @@
 name: CI
 
-env:
-  NODE_VERSION: 14
-
-
 on:
   push: {branches: [master, feature.*]}
   pull_request:
@@ -27,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '14'}
       - run: npm install
       - run: npm test
 
@@ -38,9 +34,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
-      - run: npm install
+      - uses: ruby/setup-ruby@v1
+        with: {bundler-cache: true}
       - uses: cedx/setup-dart@v2
         with: {release-channel: stable}
 
@@ -55,7 +50,7 @@ jobs:
           CURRENT_REF: "${{ github.ref }}"
 
       - name: Run specs
-        run: npm run sass-spec -- --dart ../dart-sass
+        run: bundle exec sass-spec.rb --dart ../dart-sass
 
   libsass:
     name: LibSass
@@ -64,9 +59,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
-      - run: npm install
+      - uses: ruby/setup-ruby@v1
+        with: {bundler-cache: true}
 
       - name: Install sassc
         run: |
@@ -81,4 +75,4 @@ jobs:
           BUILD_DIR: "${{ github.workspace }}"
 
       - name: Run specs
-        run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
+        run: bundle exec sass-spec.rb --impl libsass -c ../sassc/bin/sassc
