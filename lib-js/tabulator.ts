@@ -30,6 +30,13 @@ export default class Tabulator {
   }
 
   /**
+   * Returns 1 if there are any failures or 0 otherwise.
+   */
+  exitCode(): number {
+    return this.failures.length == 0 ? 0 : 1
+  }
+
+  /**
    * Append the results of the test case to the total results and print.
    */
   tabulate(test: TestCase): void {
