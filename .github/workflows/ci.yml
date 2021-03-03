@@ -41,8 +41,8 @@ jobs:
       - uses: actions/setup-node@v2
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
-      - uses: cedx/setup-dart@v2
-        with: {release-channel: stable}
+      - uses: dart-lang/setup-dart@v1
+        with: {sdk: stable}
 
       - name: Install dart-sass
         run: |
