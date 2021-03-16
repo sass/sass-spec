@@ -13,44 +13,40 @@ export interface Stdio {
 /**
  * A wrapper around a process that can compile Sass files.
  */
-export interface Compiler {
+export abstract class Compiler {
   /**
    * Run the compiler with the given args, at the path given as the cwd.
    */
-  compile(path: string, args: string[]): Promise<Stdio>
+  abstract compile(path: string, args: string[]): Promise<Stdio>
 
   /**
    * Shutdowns the compiler in case it was long-running
    */
-  shutdown(): void
+  shutdown(): void {}
 }
 
-/**
- * Returns a sass compiler that runs the given command.
- */
-export function executableCompiler(
-  command: string,
-  initArgs: string[] = []
-): Compiler {
-  return {
-    async compile(path, args) {
-      const { error, stdout, stderr, status } = child_process.spawnSync(
-        command,
-        [...initArgs, ...args],
-        {
-          cwd: path,
-          encoding: "utf-8",
-          stdio: ["ignore", "pipe", "pipe"],
-        }
-      )
-      if (error) {
-        throw new Error(`Failed to run executable compiler: ${error}`)
+export class ExecutableCompiler extends Compiler {
+  constructor(
+    private readonly command: string,
+    private readonly initArgs: string[] = []
+  ) {
+    super()
+  }
+
+  async compile(path: string, args: string[]) {
+    const { error, stdout, stderr, status } = child_process.spawnSync(
+      this.command,
+      [...this.initArgs, ...args],
+      {
+        cwd: path,
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "pipe"],
       }
-      return { stdout, stderr, status }
-    },
-    shutdown() {
-      // Nothing to do as there is nothing persistent
-    },
+    )
+    if (error) {
+      throw new Error(`Failed to run executable compiler: ${error}`)
+    }
+    return { stdout, stderr, status }
   }
 }
 
