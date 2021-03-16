@@ -18,6 +18,11 @@ export interface Compiler {
    * Run the compiler with the given args, at the path given as the cwd.
    */
   compile(path: string, args: string[]): Promise<Stdio>
+
+  /**
+   * Shutdowns the compiler in case it was long-running
+   */
+  shutdown(): void
 }
 
 /**
@@ -43,10 +48,14 @@ export function executableCompiler(
       }
       return { stdout, stderr, status }
     },
+    shutdown() {
+      // Nothing to do as there is nothing persistent
+    },
   }
 }
 
 export class DartCompiler implements Compiler {
+  private readonly dart: ChildProcessWithoutNullStreams
   private readonly stdin: Writable
   private readonly stdout: AsyncGenerator<string>
   private readonly stderr: AsyncGenerator<string>
@@ -55,6 +64,7 @@ export class DartCompiler implements Compiler {
     dart: ChildProcessWithoutNullStreams,
     private readonly initArgs: string[] = []
   ) {
+    this.dart = dart
     this.stdin = dart.stdin
     this.stdout = DartCompiler.toChunks(dart.stdout)
     this.stderr = DartCompiler.toChunks(dart.stderr)
@@ -79,6 +89,10 @@ export class DartCompiler implements Compiler {
       stderr: (await this.stderr.next()).value,
       status: +(await this.stdout.next()).value,
     }
+  }
+
+  shutdown() {
+    this.dart.kill()
   }
 
   /**
@@ -129,7 +143,7 @@ main() async {
       dartFilename,
     ])
     // When this process exits, delete the Dart file.
-    process.on("exit", () => {
+    child.on("exit", () => {
       fs.unlinkSync(dartFilename)
     })
     return child

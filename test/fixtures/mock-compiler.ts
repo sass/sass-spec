@@ -9,5 +9,7 @@ export function mockCompiler(specDir: SpecDirectory): Compiler {
       const contents = await specDir.readFile(args[args.length - 1])
       return yaml.safeLoad(contents) as Stdio
     },
+    shutdown () {
+    },
   }
 }

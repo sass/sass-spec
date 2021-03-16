@@ -40,6 +40,7 @@ async function runAllTests() {
   tabulator.printResults()
   console.log(`Finished in ${time}s`)
   process.exitCode = tabulator.exitCode()
+  args.compiler.shutdown()
 }
 
 runAllTests()
