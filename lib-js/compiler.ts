@@ -13,40 +13,45 @@ export interface Stdio {
 /**
  * A wrapper around a process that can compile Sass files.
  */
-export interface Compiler {
+export abstract class Compiler {
   /**
    * Run the compiler with the given args, at the path given as the cwd.
    */
-  compile(path: string, args: string[]): Promise<Stdio>
+  abstract compile(path: string, args: string[]): Promise<Stdio>
+
+  /**
+   * Shutdowns the compiler in case it was long-running
+   */
+  shutdown(): void {}
 }
 
-/**
- * Returns a sass compiler that runs the given command.
- */
-export function executableCompiler(
-  command: string,
-  initArgs: string[] = []
-): Compiler {
-  return {
-    async compile(path, args) {
-      const { error, stdout, stderr, status } = child_process.spawnSync(
-        command,
-        [...initArgs, ...args],
-        {
-          cwd: path,
-          encoding: "utf-8",
-          stdio: ["ignore", "pipe", "pipe"],
-        }
-      )
-      if (error) {
-        throw new Error(`Failed to run executable compiler: ${error}`)
+export class ExecutableCompiler extends Compiler {
+  constructor(
+    private readonly command: string,
+    private readonly initArgs: string[] = []
+  ) {
+    super()
+  }
+
+  async compile(path: string, args: string[]) {
+    const { error, stdout, stderr, status } = child_process.spawnSync(
+      this.command,
+      [...this.initArgs, ...args],
+      {
+        cwd: path,
+        encoding: "utf-8",
+        stdio: ["ignore", "pipe", "pipe"],
       }
-      return { stdout, stderr, status }
-    },
+    )
+    if (error) {
+      throw new Error(`Failed to run executable compiler: ${error}`)
+    }
+    return { stdout, stderr, status }
   }
 }
 
 export class DartCompiler implements Compiler {
+  private readonly dart: ChildProcessWithoutNullStreams
   private readonly stdin: Writable
   private readonly stdout: AsyncGenerator<string>
   private readonly stderr: AsyncGenerator<string>
@@ -55,6 +60,7 @@ export class DartCompiler implements Compiler {
     dart: ChildProcessWithoutNullStreams,
     private readonly initArgs: string[] = []
   ) {
+    this.dart = dart
     this.stdin = dart.stdin
     this.stdout = DartCompiler.toChunks(dart.stdout)
     this.stderr = DartCompiler.toChunks(dart.stderr)
@@ -79,6 +85,10 @@ export class DartCompiler implements Compiler {
       stderr: (await this.stderr.next()).value,
       status: +(await this.stdout.next()).value,
     }
+  }
+
+  shutdown() {
+    this.dart.kill()
   }
 
   /**
@@ -129,7 +139,7 @@ main() async {
       dartFilename,
     ])
     // When this process exits, delete the Dart file.
-    process.on("exit", () => {
+    child.on("exit", () => {
       fs.unlinkSync(dartFilename)
     })
     return child
