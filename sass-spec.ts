@@ -1,6 +1,6 @@
 import { fromPath } from "./lib-js/spec-directory"
 import { Interactor } from "./lib-js/interactor"
-import { parseArgs } from "./lib-js/cli-args"
+import { parseArgs, CliArgs } from "./lib-js/cli-args"
 import TestCase from "./lib-js/test-case"
 import Tabulator from "./lib-js/tabulator"
 
@@ -11,36 +11,43 @@ const naughtyDirs = [
 ]
 
 async function runAllTests() {
-  const interactor = new Interactor(process.stdin, process.stdout)
-  const start = Date.now()
-  const args = await parseArgs(process.argv.slice(2))
-  const rootPath = args.root
-  const rootDir = await fromPath(rootPath)
-  const tabulator = new Tabulator(process.stdout, args.verbose)
+  let args_: CliArgs|undefined;
+  try {
+    const interactor = new Interactor(process.stdin, process.stdout)
+    const start = Date.now()
+    const args = args_ = await parseArgs(process.argv.slice(2))
+    const rootPath = args.root
+    const rootDir = await fromPath(rootPath)
+    const tabulator = new Tabulator(process.stdout, args.verbose)
 
-  await rootDir.forEachTest(args.testDirs, async (testDir) => {
-    if (naughtyDirs.includes(testDir.relPath())) {
-      return
-    }
-    const test = await TestCase.create(
-      testDir,
-      args.impl,
-      args.compiler,
-      args.todoMode
-    )
-    if (test.result().type === "fail" && args.interactive) {
-      await interactor.prompt(test)
-    }
-    tabulator.tabulate(test)
-  })
+    await rootDir.forEachTest(args.testDirs, async (testDir) => {
+      if (naughtyDirs.includes(testDir.relPath())) {
+        return
+      }
+      const test = await TestCase.create(
+        testDir,
+        args.impl,
+        args.compiler,
+        args.todoMode
+      )
+      if (test.result().type === "fail" && args.interactive) {
+        await interactor.prompt(test)
+      }
+      tabulator.tabulate(test)
+    })
 
-  const end = Date.now()
-  const time = (end - start) / 1000
+    const end = Date.now()
+    const time = (end - start) / 1000
 
-  tabulator.printResults()
-  console.log(`Finished in ${time}s`)
-  process.exitCode = tabulator.exitCode()
-  args.compiler.shutdown()
+    tabulator.printResults()
+    console.log(`Finished in ${time}s`)
+    process.exitCode = tabulator.exitCode()
+  } catch (error) {
+    console.log(error.toString())
+    process.exitCode = 255
+  } finally {
+    args_?.compiler?.shutdown()
+  }
 }
 
 runAllTests()
