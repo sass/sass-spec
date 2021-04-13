@@ -11,16 +11,16 @@ const naughtyDirs = [
 ]
 
 async function runAllTests() {
-  let args_: CliArgs|undefined;
+  let args_: CliArgs | undefined
   try {
     const interactor = new Interactor(process.stdin, process.stdout)
     const start = Date.now()
-    const args = args_ = await parseArgs(process.argv.slice(2))
+    const args = (args_ = await parseArgs(process.argv.slice(2)))
     const rootPath = args.root
     const rootDir = await fromPath(rootPath)
     const tabulator = new Tabulator(process.stdout, args.verbose)
 
-    await rootDir.forEachTest(args.testDirs, async (testDir) => {
+    await rootDir.forEachTest(async (testDir) => {
       if (naughtyDirs.includes(testDir.relPath())) {
         return
       }
@@ -34,7 +34,7 @@ async function runAllTests() {
         await interactor.prompt(test)
       }
       tabulator.tabulate(test)
-    })
+    }, args.testDirs.length == 0 ? undefined : args.testDirs)
 
     const end = Date.now()
     const time = (end - start) / 1000
