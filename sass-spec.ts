@@ -20,6 +20,13 @@ async function runAllTests() {
     const rootDir = await fromPath(rootPath)
     const tabulator = new Tabulator(process.stdout, args.verbose)
 
+    const dirsToTest =
+      args.testDirs.length == 0
+        ? undefined
+        : // Ignore a trailing .hrx because shell completion often adds it and
+          // it's clear that it means"everything in the archive".
+          args.testDirs.map((dir) => dir.replace(/\.hrx$/, ""))
+
     await rootDir.forEachTest(async (testDir) => {
       if (naughtyDirs.includes(testDir.relPath())) {
         return
@@ -34,7 +41,7 @@ async function runAllTests() {
         await interactor.prompt(test)
       }
       tabulator.tabulate(test)
-    }, args.testDirs.length == 0 ? undefined : args.testDirs)
+    }, dirsToTest)
 
     const end = Date.now()
     const time = (end - start) / 1000
