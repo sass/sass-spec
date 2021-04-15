@@ -85,7 +85,7 @@ OUTPUT
         stderr: "",
         status: 0,
       }))
-      const compiler = { compile }
+      const compiler = { compile, shutdown() {} }
       const dir = await fromContents(contents.trim())
       await TestCase.create(dir, "sass-mock", compiler)
       expect(compile).toHaveBeenCalledWith(

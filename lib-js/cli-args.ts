@@ -1,7 +1,7 @@
 import path from "path"
 import yargs from "yargs/yargs"
 import { Argv } from "yargs"
-import { Compiler, DartCompiler, executableCompiler } from "./compiler"
+import { Compiler, DartCompiler, ExecutableCompiler } from "./compiler"
 
 export interface CliArgs {
   root: string
@@ -117,7 +117,7 @@ export async function parseArgs(
   }
 
   if (argv.command) {
-    args.compiler = executableCompiler(
+    args.compiler = new ExecutableCompiler(
       path.resolve(process.cwd(), argv.command),
       cmdArgs
     )
