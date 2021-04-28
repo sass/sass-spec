@@ -45,6 +45,36 @@ in-input {
 }
 
 <===>
+<==============================================================================>
+<===> midstream_extend_within_pseudoselector/matches/options.yml
+---
+:todo:
+- sass/dart-sass#1297
+
+<===> midstream_extend_within_pseudoselector/matches/input.scss
+@use "midstream";
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> midstream_extend_within_pseudoselector/matches/_midstream.scss
+@use "upstream";
+:matches(in-midstream) {@extend in-upstream}
+
+<===> midstream_extend_within_pseudoselector/matches/_upstream.scss
+in-upstream {a: b}
+
+<===> midstream_extend_within_pseudoselector/matches/output.css
+in-upstream, :matches(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
 ================================================================================
 <===> diamond_merge/input.scss
 // Sibling modules can't extend one another's selectors, but they can be merged
@@ -74,6 +104,46 @@ in-input {
 <===> diamond_merge/output.css
 .a {
   x: y;
+}
+
+<===>
+================================================================================
+<===> diamond_dependency/with_midstream_extend/input.scss
+@use "left";
+@use "right";
+
+<===> diamond_dependency/with_midstream_extend/_left.scss
+@use "midstream";
+in-left {
+  @extend in-midstream;
+  w: x;
+}
+
+<===> diamond_dependency/with_midstream_extend/_right.scss
+@use "midstream";
+in-right {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> diamond_dependency/with_midstream_extend/_midstream.scss
+@use "upstream";
+in-midstream {@extend in-upstream}
+
+<===> diamond_dependency/with_midstream_extend/_upstream.scss
+in-upstream {a: b}
+
+<===> diamond_dependency/with_midstream_extend/output.css
+in-upstream, in-midstream, in-right, in-left {
+  a: b;
+}
+
+in-left {
+  w: x;
+}
+
+in-right {
+  y: z;
 }
 
 <===>
