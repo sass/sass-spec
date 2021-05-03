@@ -5,6 +5,11 @@
 
 <===>
 ================================================================================
+<===> false/top_level/options.yml
+---
+:todo:
+- libsass
+
 <===> false/top_level/input.scss
 @mixin a {
   b {c: content-exists()}
@@ -15,11 +20,6 @@
 b {
   c: false;
 }
-
-<===> false/top_level/options.yml
----
-:todo:
-- libsass
 
 <===>
 ================================================================================
@@ -57,6 +57,11 @@ b {
 
 <===>
 ================================================================================
+<===> true/non_empty/options.yml
+---
+:todo:
+- libsass
+
 <===> true/non_empty/input.scss
 @mixin a {
   b {c: content-exists()}
@@ -75,10 +80,61 @@ d {
   e: f;
 }
 
-<===> true/non_empty/options.yml
+<===>
+================================================================================
+<===> controls/true/options.yml
 ---
 :todo:
-- libsass
+- sass/libsass#2842
+
+<===> controls/true/input.scss
+// Regression test for sass/libsass#2842
+@mixin test-content-exists() {
+  @if content-exists() {
+    @content;
+  }
+  @else {
+    content-exists: false;
+  }
+}
+
+a {
+  @include test-content-exists() {
+    content: present;
+  }
+}
+
+<===> controls/true/output.css
+a {
+  content: present;
+}
+
+<===>
+================================================================================
+<===> controls/false/options.yml
+---
+:todo:
+- sass/libsass#2842
+
+<===> controls/false/input.scss
+// Regression test for sass/libsass#2842
+@mixin test-content-exists() {
+  @if content-exists() {
+    @content;
+  }
+  @else {
+    content-exists: false;
+  }
+}
+
+a {
+  @include test-content-exists();
+}
+
+<===> controls/false/output.css
+a {
+  content-exists: false;
+}
 
 <===>
 ================================================================================
