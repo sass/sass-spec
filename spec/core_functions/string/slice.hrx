@@ -421,6 +421,40 @@ Error: $end-at: 1.500000 is not an int
 
 <===>
 ================================================================================
+<===> error/unit/start/options.yml
+':todo':
+  - libsass
+
+<===> error/unit/start/input.scss
+a {b: str-slice("", 1px)}
+
+<===> error/unit/start/error
+Error: $start-at: Expected 1px to have no units.
+  ,
+1 | a {b: str-slice("", 1px)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/end/options.yml
+':todo':
+  - libsass
+
+<===> error/unit/end/input.scss
+a {b: str-slice("", 1, 2px)}
+
+<===> error/unit/end/error
+Error: $end-at: Expected 2px to have no units.
+  ,
+1 | a {b: str-slice("", 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 a {b: str-slice("cde")}
 
