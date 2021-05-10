@@ -1,0 +1,55 @@
+<===> complex/input.scss
+a b {
+  a: b;
+}
+c {
+  @extend a b;
+}
+
+<===> complex/error
+Error: complex selectors may not be extended.
+  ,
+5 |   @extend a b;
+  |           ^^^
+  '
+  input.scss 5:11  root stylesheet
+
+<===> complex/error-libsass
+Error: complex selectors may not be extended.
+        on line 5:11 of input.scss
+>>   @extend a b;
+
+   ----------^
+
+<===>
+================================================================================
+<===> compound/input.scss
+a:hover {
+  a: b;
+}
+b {
+  @extend a:hover;
+}
+
+<===> compound/output-libsass.css
+a:hover, b {
+  a: b;
+}
+
+<===> compound/warning-libsass
+WARNING on line 5, column 11 of /sass/spec/directives/extend/error/compound/input.scss:
+Compound selectors may no longer be extended.
+Consider `@extend a, :hover` instead.
+See http://bit.ly/ExtendCompound for details.
+
+
+<===> compound/error
+Error: compound selectors may no longer be extended.
+Consider `@extend a, :hover` instead.
+See http://bit.ly/ExtendCompound for details.
+
+  ,
+5 |   @extend a:hover;
+  |           ^^^^^^^
+  '
+  input.scss 5:11  root stylesheet
