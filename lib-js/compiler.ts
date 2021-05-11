@@ -1,3 +1,4 @@
+import events from "events"
 import fs from "fs"
 import os from "os"
 import path from "path"
@@ -51,20 +52,15 @@ export class ExecutableCompiler extends Compiler {
 }
 
 export class DartCompiler implements Compiler {
-  private readonly dart: ChildProcessWithoutNullStreams
   private readonly stdin: Writable
-  private readonly stdout: AsyncGenerator<string>
-  private readonly stderr: AsyncGenerator<string>
 
   private constructor(
-    dart: ChildProcessWithoutNullStreams,
+    private readonly dart: ChildProcessWithoutNullStreams,
+    private readonly stdout: AsyncGenerator<string>,
+    private readonly stderr: AsyncGenerator<string>,
     private readonly initArgs: string[] = []
   ) {
-    this.dart = dart
     this.stdin = dart.stdin
-    this.stdout = DartCompiler.toChunks(dart.stdout)
-    this.stderr = DartCompiler.toChunks(dart.stderr)
-    this.initArgs = initArgs
   }
 
   /**
@@ -74,12 +70,30 @@ export class DartCompiler implements Compiler {
     path: string,
     initArgs: string[] = []
   ): Promise<DartCompiler> {
-    return new DartCompiler(await this.createProcess(path), initArgs)
+    const dart = await this.createProcess(path)
+    const stdout = DartCompiler.toChunks(dart.stdout)
+    const stderr = DartCompiler.toChunks(dart.stderr)
+
+    // Wait for the signal that the process is ready to begin. If the process
+    // crashes instead, the stdout stream will either emit a non-empty value or
+    // close without a value.
+    const { done } = await stdout.next()
+
+    if (done) {
+      const stderrText = await DartCompiler.readRest(stderr)
+      const exitCode = dart.exitCode ?? (await events.once(dart, "exit"))[0]
+      let message = `Dart Sass process exited unexpectedly with code ${exitCode}.`
+      if (stderrText.length > 0) message += `\n${stderrText}`
+      throw new Error(message)
+    }
+
+    return new DartCompiler(dart, stdout, stderr, initArgs)
   }
 
   async compile(path: string, opts: string[]): Promise<Stdio> {
     this.stdin.write(`!cd ${path}\n`)
     this.stdin.write([...this.initArgs, ...opts].join(" ") + "\n")
+
     return {
       stdout: (await this.stdout.next()).value,
       stderr: (await this.stderr.next()).value,
@@ -109,6 +123,9 @@ import "dart:io";
 import "${repoPath}/bin/sass.dart" as sass;
 
 main() async {
+  // Emit an initial signal that the process has started and is ready for input.
+  stdout.add([0xFF]);
+
   await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
     if (line.startsWith("!cd ")) {
       Directory.current = line.substring("!cd ".length);
@@ -188,5 +205,23 @@ main() async {
         buff = Buffer.concat([buff, head])
       }
     }
+
+    // If there's still text after the last break, yield it too. This allows us
+    // to access error messages if something goes wrong.
+    if (buff.length > 0) yield buff.toString()
+  }
+
+  // Consume the remaining text in `generator` and emit it as-is, with break
+  // characters converted to newlines.
+  private static async readRest(
+    generator: AsyncGenerator<string>
+  ): Promise<string> {
+    let text = ""
+    let first = true
+    for await (const chunk of { [Symbol.asyncIterator]: () => generator }) {
+      if (!first) text += "\n"
+      text += chunk
+    }
+    return text
   }
 }
