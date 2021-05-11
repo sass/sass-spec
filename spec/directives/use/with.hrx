@@ -18,6 +18,20 @@ b {
 
 <===>
 ================================================================================
+<===> null/input.scss
+@use "other" with ($a: null);
+
+<===> null/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> null/output.css
+b {
+  c: original;
+}
+
+<===>
+================================================================================
 <===> trailing_comma/input.scss
 @use "other" with ($a: configured,);
 

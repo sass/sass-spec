@@ -31,6 +31,21 @@ b {
 
 <===>
 ================================================================================
+<===> null/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: null));
+
+<===> null/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> null/output.css
+b {
+  c: original;
+}
+
+<===>
+================================================================================
 <===> dash_insensitive/input.scss
 @use "sass:meta";
 @include meta.load-css("other", $with: (a_b: configured));
