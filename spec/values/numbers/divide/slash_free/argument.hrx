@@ -1,0 +1,368 @@
+<===> function/user_defined/input.scss
+@function a($b) {@return 1 $b 2}
+
+c {d: a(1/2)}
+
+<===> function/user_defined/output.css
+c {
+  d: 1 0.5 2;
+}
+
+<===> function/user_defined/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 | c {d: a(1/2)}
+  |         ^^^
+  '
+    input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> function/built_in/input.scss
+c {d: join(1/2, 3/4)}
+
+<===> function/built_in/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/built_in/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2, 3/4)}
+  |            ^^^
+  '
+    input.scss 1:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2, 3/4)}
+  |                 ^^^
+  '
+    input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> function/named/input.scss
+c {d: join($list1: 1/2, $list2: 3/4)}
+
+<===> function/named/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/named/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join($list1: 1/2, $list2: 3/4)}
+  |                    ^^^
+  '
+    input.scss 1:20  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join($list1: 1/2, $list2: 3/4)}
+  |                                 ^^^
+  '
+    input.scss 1:33  root stylesheet
+
+<===>
+================================================================================
+<===> function/rest/single/input.scss
+c {d: join(1/2, 3/4...)}
+
+<===> function/rest/single/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/rest/single/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2, 3/4...)}
+  |            ^^^
+  '
+    input.scss 1:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2, 3/4...)}
+  |                 ^^^
+  '
+    input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> function/rest/list/options.yml
+:todo:
+  - sass/libsass#2887
+
+<===> function/rest/list/input.scss
+c {d: join(1/2 3/4...)}
+
+<===> function/rest/list/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/rest/list/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2 3/4...)}
+  |            ^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2 3/4...)}
+  |            ^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/rest/map/options.yml
+:todo:
+  - sass/libsass#2887
+
+<===> function/rest/map/input.scss
+c {d: join(("list1": 1/2, "list2": 3/4)...)}
+
+<===> function/rest/map/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/rest/map/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |                      ^^^
+  '
+    input.scss 1:22  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |                                    ^^^
+  '
+    input.scss 1:36  root stylesheet
+
+<===>
+================================================================================
+<===> function/rest/kwargs/options.yml
+:todo:
+  - sass/libsass#2887
+
+<===> function/rest/kwargs/input.scss
+c {d: join(1/2..., ("list2": 3/4)...)}
+
+<===> function/rest/kwargs/output.css
+c {
+  d: 0.5 0.75;
+}
+
+<===> function/rest/kwargs/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |            ^^^
+  '
+    input.scss 1:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |                              ^^^
+  '
+    input.scss 1:30  root stylesheet
+
+<===>
+================================================================================
+<===> macro/positional/input.scss
+c {d: if(true, 1/2, null)}
+
+<===> macro/positional/output.css
+c {
+  d: 0.5;
+}
+
+<===> macro/positional/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: if(true, 1/2, null)}
+  |                ^^^
+  '
+    input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> macro/named/input.scss
+c {d: if(true, $if-true: 1/2, $if-false: null)}
+
+<===> macro/named/output.css
+c {
+  d: 0.5;
+}
+
+<===> macro/named/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: if(true, $if-true: 1/2, $if-false: null)}
+  |                          ^^^
+  '
+    input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> macro/rest/options.yml
+:todo:
+  - sass/libsass#2887
+
+<===> macro/rest/input.scss
+c {d: if(true, 1/2 null...)}
+
+<===> macro/rest/output.css
+c {
+  d: 0.5;
+}
+
+<===> macro/rest/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: if(true, 1/2 null...)}
+  |                ^^^^^^^^
+  '
+    input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> mixin/user_defined/input.scss
+@mixin a($b) {c {d: $b}}
+
+@include a(1/2);
+
+<===> mixin/user_defined/output.css
+c {
+  d: 0.5;
+}
+
+<===> mixin/user_defined/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 | @include a(1/2);
+  |            ^^^
+  '
+    input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> mixin/default/input.scss
+@mixin a($b: 1/2) {c {d: $b}}
+
+@include a;
+
+<===> mixin/default/output.css
+c {
+  d: 0.5;
+}
+
+<===> mixin/default/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | @mixin a($b: 1/2) {c {d: $b}}
+  |              ^^^
+  '
+    input.scss 1:14  a()
+    input.scss 3:1   root stylesheet

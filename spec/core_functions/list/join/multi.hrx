@@ -1,5 +1,3 @@
-<===>
-================================================================================
 <===> auto/separator/input.scss
 a {b: join((c, d), e f, $separator: auto)}
 
@@ -96,6 +94,67 @@ a {b: join(c d, e f, $separator: comma)}
 <===> space/separator/forces_not_space/output.css
 a {
   b: c, d, e, f;
+}
+
+<===>
+================================================================================
+<===> slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash/both/input.scss
+@use "sass:list";
+a {b: join(list.slash(c, d), list.slash(e, f))}
+
+<===> slash/both/output.css
+a {
+  b: c / d / e / f;
+}
+
+<===>
+================================================================================
+<===> slash/first/input.scss
+@use "sass:list";
+a {b: join(list.slash(c, d), e f)}
+
+<===> slash/first/output.css
+a {
+  b: c / d / e / f;
+}
+
+<===>
+================================================================================
+<===> slash/second/input.scss
+@use "sass:list";
+a {b: join(c d, list.slash(e, f))}
+
+<===> slash/second/output.css
+a {
+  b: c d e f;
+}
+
+<===>
+================================================================================
+<===> slash/separator/forces_slash/input.scss
+a {b: join(c, d, $separator: slash)}
+
+<===> slash/separator/forces_slash/output.css
+a {
+  b: c / d;
+}
+
+<===>
+================================================================================
+<===> slash/separator/forces_not_slash/input.scss
+@use "sass:list";
+a {b: join(list.slash(c, d), list.slash(e, f), $separator: space)}
+
+<===> slash/separator/forces_not_slash/output.css
+a {
+  b: c d e f;
 }
 
 <===>
@@ -220,6 +279,22 @@ a {
 
 <===>
 ================================================================================
+<===> map/first/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> map/first/slash/input.scss
+@use "sass:list";
+a {b: join((c: d, e: f), list.slash(g, h))}
+
+<===> map/first/slash/output.css
+a {
+  b: c d, e f, g, h;
+}
+
+<===>
+================================================================================
 <===> map/second/space/input.scss
 // Use inspect() to prove that the map is converted to a list of pairs.
 a {b: inspect(join(c d, (e: f, g: h)))}
@@ -237,6 +312,22 @@ a {b: join((c, d), (e: f, g: h))}
 <===> map/second/comma/output.css
 a {
   b: c, d, e f, g h;
+}
+
+<===>
+================================================================================
+<===> map/second/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> map/second/slash/input.scss
+@use "sass:list";
+a {b: join(list.slash(c, d), (e: f, g: h))}
+
+<===> map/second/slash/output.css
+a {
+  b: c / d / e f / g h;
 }
 
 <===>

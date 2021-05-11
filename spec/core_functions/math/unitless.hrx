@@ -18,6 +18,10 @@ a {
 
 <===>
 ================================================================================
+<===> denominator/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> denominator/input.scss
 a {b: unitless(1/1px)}
 
@@ -26,8 +30,26 @@ a {
   b: false;
 }
 
+<===> denominator/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unitless(1/1px)}
+  |                ^^^^^
+  '
+    input.scss 1:16  root stylesheet
+
+
 <===>
 ================================================================================
+<===> numerator_and_denominator/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> numerator_and_denominator/input.scss
 a {b: unitless(1px/1em)}
 
@@ -35,6 +57,20 @@ a {b: unitless(1px/1em)}
 a {
   b: false;
 }
+
+<===> numerator_and_denominator/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1px, 1em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unitless(1px/1em)}
+  |                ^^^^^^^
+  '
+    input.scss 1:16  root stylesheet
+
 
 <===>
 ================================================================================

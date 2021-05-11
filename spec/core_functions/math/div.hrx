@@ -1,0 +1,199 @@
+<===> options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> unitless/whole/input.scss
+@use "sass:math";
+a {b: math.div(6, 3)}
+
+<===> unitless/whole/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unitless/fraction/input.scss
+@use "sass:math";
+a {b: math.div(6, 5)}
+
+<===> unitless/fraction/output.css
+a {
+  b: 1.2;
+}
+
+<===>
+================================================================================
+<===> unitless/named/input.scss
+@use "sass:math";
+a {b: math.div($number2: 3, $number1: 6)}
+
+<===> unitless/named/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/README.md
+More thorough specs for unit arithmetic in Sass live in spec/values/numbers.
+These specs are just designed to verify that the `math.div()` function produces
+the appropriate numbers.
+
+<===>
+================================================================================
+<===> unit/numerator/input.scss
+@use "sass:math";
+a {b: math.div(6px, 3)}
+
+<===> unit/numerator/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> unit/denominator/input.scss
+@use "sass:math";
+a {b: math.div(6, 3px) * 1px}
+
+<===> unit/denominator/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/same/input.scss
+@use "sass:math";
+a {b: math.div(6px, 3px)}
+
+<===> unit/same/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> unit/compatible/input.scss
+@use "sass:math";
+a {b: math.div(6in, 3px)}
+
+<===> unit/compatible/output.css
+a {
+  b: 192;
+}
+
+<===>
+================================================================================
+<===> unit/incompatible/input.scss
+@use "sass:math";
+a {b: math.div(6in, 3s) * 1s}
+
+<===> unit/incompatible/output.css
+a {
+  b: 2in;
+}
+
+<===>
+================================================================================
+<===> unit/unknown/input.scss
+@use "sass:math";
+a {b: math.div(6c, 3d) * 1d}
+
+<===> unit/unknown/output.css
+a {
+  b: 2c;
+}
+
+<===>
+================================================================================
+<===> non_numeric/numerator/input.scss
+@use "sass:math";
+a {
+  $result: math.div(b, 3);
+  value: $result;
+  type: type-of($result);
+}
+
+<===> non_numeric/numerator/output.css
+a {
+  value: b/3;
+  type: string;
+}
+
+<===> non_numeric/numerator/warning
+WARNING: math.div() will only support number arguments in a future release.
+Use list.slash() instead for a slash separator.
+
+  ,
+3 |   $result: math.div(b, 3);
+  |            ^^^^^^^^^^^^^^
+  '
+    input.scss 3:12  root stylesheet
+
+
+<===>
+================================================================================
+<===> non_numeric/denominator/input.scss
+@use "sass:math";
+a {
+  $result: math.div(6, b);
+  value: $result;
+  type: type-of($result);
+}
+
+<===> non_numeric/denominator/output.css
+a {
+  value: 6/b;
+  type: string;
+}
+
+<===> non_numeric/denominator/warning
+WARNING: math.div() will only support number arguments in a future release.
+Use list.slash() instead for a slash separator.
+
+  ,
+3 |   $result: math.div(6, b);
+  |            ^^^^^^^^^^^^^^
+  '
+    input.scss 3:12  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:math";
+a {b: math.div(6)}
+
+<===> error/too_few_args/error
+Error: Missing argument $number2.
+  ,--> input.scss
+2 | a {b: math.div(6)}
+  |       ^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function div($number1, $number2) {
+  |           ======================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:math";
+a {b: math.div(6, 3, 1)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | a {b: math.div(6, 3, 1)}
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function div($number1, $number2) {
+  |           ======================= declaration
+  '
+  input.scss 2:7  root stylesheet

@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 div {
   width: 10% + 20%;
@@ -25,3 +30,28 @@ div {
   grah: 900%;
   nyah: 5%;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(20%, 4%)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+8 |   blah: (20% / 4%);
+  |          ^^^^^^^^
+  '
+    input.scss 8:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(35%, 7)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+12 |   nyah: (35% / 7);
+   |          ^^^^^^^
+   '
+    input.scss 12:10  root stylesheet

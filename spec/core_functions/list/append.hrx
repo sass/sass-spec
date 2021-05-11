@@ -126,6 +126,33 @@ a {
 
 <===>
 ================================================================================
+<===> slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash/default/input.scss
+@use "sass:list";
+a {b: append(list.slash(c, d), e)}
+
+<===> slash/default/output.css
+a {
+  b: c / d / e;
+}
+
+<===>
+================================================================================
+<===> slash/overridden/input.scss
+a {b: append(c d, e, $separator: slash)}
+
+<===> slash/overridden/output.css
+a {
+  b: c / d / e;
+}
+
+<===>
+================================================================================
 <===> bracketed/input.scss
 a {b: append([], 1)}
 
@@ -273,7 +300,7 @@ Error: Function append is missing argument $val.
 a {b: append(c, d, $separator: e)}
 
 <===> error/unknown_separator/error
-Error: $separator: Must be "space", "comma", or "auto".
+Error: $separator: Must be "space", "comma", "slash", or "auto".
   ,
 1 | a {b: append(c, d, $separator: e)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -39,6 +39,10 @@ a {
 
 <===>
 ================================================================================
+<===> one_denominator/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> one_denominator/input.scss
 a {b: unit(1/1px)}
 
@@ -52,8 +56,26 @@ a {
   b: "/px";
 }
 
+<===> one_denominator/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unit(1/1px)}
+  |            ^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+
 <===>
 ================================================================================
+<===> multiple_denominators/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> multiple_denominators/input.scss
 a {b: unit(1 / 1px / 3em / 4rad)}
 
@@ -67,8 +89,26 @@ a {
   b: "/em*px*rad";
 }
 
+<===> multiple_denominators/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(math.div(1, 1px), 3em), 4rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unit(1 / 1px / 3em / 4rad)}
+  |            ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+
 <===>
 ================================================================================
+<===> numerator_and_denominator/single/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> numerator_and_denominator/single/input.scss
 a {b: unit(1px / 1em)}
 
@@ -77,8 +117,26 @@ a {
   b: "px/em";
 }
 
+<===> numerator_and_denominator/single/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1px, 1em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unit(1px / 1em)}
+  |            ^^^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+
 <===>
 ================================================================================
+<===> numerator_and_denominator/multiple/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> numerator_and_denominator/multiple/input.scss
 a {b: unit(1px * 1em / 1rad / 1s)}
 
@@ -91,6 +149,32 @@ a {
 a {
   b: "em*px/rad*s";
 }
+
+<===> numerator_and_denominator/multiple/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1px * 1em, 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unit(1px * 1em / 1rad / 1s)}
+  |            ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(1px * 1em, 1rad), 1s)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unit(1px * 1em / 1rad / 1s)}
+  |            ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
 
 <===>
 ================================================================================

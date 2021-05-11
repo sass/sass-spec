@@ -48,6 +48,10 @@ a {
 
 <===>
 ================================================================================
+<===> unit/to_inverse/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> unit/to_inverse/input.scss
 a {b: comparable(1px, 1/1px)}
 
@@ -55,6 +59,20 @@ a {b: comparable(1px, 1/1px)}
 a {
   b: false;
 }
+
+<===> unit/to_inverse/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: comparable(1px, 1/1px)}
+  |                       ^^^^^
+  '
+    input.scss 1:23  root stylesheet
+
 
 <===>
 ================================================================================

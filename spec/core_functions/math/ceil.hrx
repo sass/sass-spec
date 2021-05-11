@@ -38,6 +38,10 @@ a {
 
 <===>
 ================================================================================
+<===> preserves_units/options.yml
+:warning_todo:
+  - sass/libsass#2887
+
 <===> preserves_units/input.scss
 a {b: ceil(7px / 4em) * 1em}
 
@@ -45,6 +49,20 @@ a {b: ceil(7px / 4em) * 1em}
 a {
   b: 2px;
 }
+
+<===> preserves_units/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(7px, 4em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: ceil(7px / 4em) * 1em}
+  |            ^^^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
 
 <===>
 ================================================================================

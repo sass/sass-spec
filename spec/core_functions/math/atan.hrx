@@ -7,7 +7,7 @@
 ================================================================================
 <===> negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan(-1 / 0)}
+a {b: math.atan(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
 a {
@@ -84,7 +84,7 @@ a {
 ================================================================================
 <===> infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan(1 / 0)}
+a {b: math.atan(math.div(1, 0))}
 
 <===> infinity/output.css
 a {
