@@ -206,17 +206,17 @@ export default class VirtualDirectory extends SpecDirectory {
     }
   }
 
-  async forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void> {
+  async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
     if (this.isArchiveRoot) {
       await this.setup()
       await withAsyncCleanup(
         () => this.cleanup(),
         async () => {
-          await super.forEachTest(paths, iteratee)
+          await super.forEachTest(iteratee, only)
         }
       )
     } else {
-      await super.forEachTest(paths, iteratee)
+      await super.forEachTest(iteratee, only)
     }
   }
 }

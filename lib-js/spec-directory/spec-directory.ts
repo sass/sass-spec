@@ -1,4 +1,5 @@
 import path from "path"
+import * as _ from "lodash"
 
 import SpecOptions from "./options"
 import { toHrx } from "./hrx"
@@ -114,37 +115,50 @@ export default abstract class SpecDirectory {
   async setup(): Promise<void> {}
   async cleanup(): Promise<void> {}
 
-  private isMatch(paths: string[]): boolean {
-    return paths.length === 0 || paths.some((path) => this.relPath() === path)
-  }
-
   /**
    * Iterate through the subpaths of this directory, running the iteratee
    * on all test case directories.
-   * @param paths the paths to match against, or [] if all subpaths should be run
+   *
    * @param iteratee the function to call for each matching subdirectory
+   * @param only if this is passed, only paths that match these will be run
+   * @throws {Error} if `only` contains any paths that aren't in this directory
    */
-  async forEachTest(paths: string[], iteratee: SpecIteratee): Promise<void> {
-    if (this.isMatch(paths)) {
+  async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
+    const relPath = this.relPath()
+    if (only === undefined || only.includes(relPath)) {
       if (this.isTestDir()) {
         // If this is a test directory, run the test
         await iteratee(this)
       } else {
         // Otherwise, iterate on *all* the subdirectories
         for (const subdir of await this.subdirs()) {
-          await subdir.forEachTest([], iteratee)
+          await subdir.forEachTest(iteratee)
         }
       }
-    } else {
-      // filter out paths that this directory is not a parent of
-      const subpaths = paths.filter((p) => p.startsWith(this.relPath()))
-      // if this path isn't a parent of any of the given paths, exit loop
-      if (subpaths.length === 0) {
-        return
-      }
-      // recurse through the subdirectories
-      for (const subdir of await this.subdirs()) {
-        await subdir.forEachTest(subpaths, iteratee)
+      return
+    }
+
+    // A map from the basename of each subdirectory to that subdirectory
+    const subdirsByBasename = _.fromPairs(
+      (await this.subdirs()).map((subdir) => [
+        path.basename(subdir.path),
+        subdir,
+      ])
+    )
+
+    // A map from the first component of each path in `only` (for example, `foo`
+    // in `foo/bar/baz`) to the full paths under that component.
+    const onlyByFirstComponent = _.groupBy(
+      only,
+      (p) => path.normalize(path.relative(relPath, p)).split(path.sep)[0]
+    )
+
+    for (const [component, paths] of _.toPairs(onlyByFirstComponent)) {
+      const subdir = subdirsByBasename[component]
+      if (subdir) {
+        await subdir.forEachTest(iteratee, paths)
+      } else {
+        throw new Error(`Path ${paths[0]} doesn't exist`)
       }
     }
   }
