@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 div {
   $things: red 2/3 blue;
@@ -37,3 +42,64 @@ div {
   stuff: 1, 2 3/4 5, 6;
   stuff: 0.25;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2, 3)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   content: nth($things, 2);
+  |            ^^^^^^^^^^^^^^^
+  '
+    input.scss 4:12  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2, 3)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   content: type-of(nth($things, 2));
+  |                    ^^^^^^^^^^^^^^^
+  '
+    input.scss 5:20  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+11 |   @each $x in 1 2 3/4 {
+   |               ^^^^^^^
+   '
+    input.scss 11:15  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1 + 2, 3)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+17 |   stuff: ((1 + 2)/3/4);
+   |           ^^^^^^^^^
+   '
+    input.scss 17:11  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(1 + 2, 3), 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+17 |   stuff: ((1 + 2)/3/4);
+   |           ^^^^^^^^^^^
+   '
+    input.scss 17:11  root stylesheet

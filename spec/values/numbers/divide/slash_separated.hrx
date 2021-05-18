@@ -1,0 +1,123 @@
+<===> value/declaration/input.scss
+a {b: 1/2}
+
+<===> value/declaration/output.css
+a {
+  b: 1/2;
+}
+
+<===>
+================================================================================
+<===> value/multiple/input.scss
+a {b: 1/2/3/4/5}
+
+<===> value/multiple/output.css
+a {
+  b: 1/2/3/4/5;
+}
+
+<===>
+================================================================================
+<===> value/interpolation/input.scss
+a {b: #{1/2}}
+
+<===> value/interpolation/output.css
+a {
+  b: 1/2;
+}
+
+<===>
+================================================================================
+<===> list/declaration/input.scss
+a {b: 1 2/3 4}
+
+<===> list/declaration/output.css
+a {
+  b: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/parenthesized/input.scss
+a {b: (1 2/3 4)}
+
+<===> list/parenthesized/output.css
+a {
+  b: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/bracketed/input.scss
+a {b: [1 2/3 4]}
+
+<===> list/bracketed/output.css
+a {
+  b: [1 2/3 4];
+}
+
+<===>
+================================================================================
+<===> list/comma/input.scss
+a {b: 1, 2/3, 4}
+
+<===> list/comma/output.css
+a {
+  b: 1, 2/3, 4;
+}
+
+<===>
+================================================================================
+<===> list/interpolation/input.scss
+a {b: #{1 2/3 4}}
+
+<===> list/interpolation/output.css
+a {
+  b: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/argument/function/user_defined/input.scss
+@function a($b) {@return $b}
+
+c {d: a(1 2/3 4)}
+
+<===> list/argument/function/user_defined/output.css
+c {
+  d: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/argument/function/built_in/input.scss
+c {d: join(1 2/3 4, ())}
+
+<===> list/argument/function/built_in/output.css
+c {
+  d: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/argument/mixin/input.scss
+@mixin a($b) {c {d: $b}}
+
+@include a(1 2/3 4);
+
+<===> list/argument/mixin/output.css
+c {
+  d: 1 2/3 4;
+}
+
+<===>
+================================================================================
+<===> list/return/input.scss
+@function a() {@return 1 2/3 4}
+
+b {c: a()}
+
+<===> list/return/output.css
+b {
+  c: 1 2/3 4;
+}

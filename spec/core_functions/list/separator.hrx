@@ -50,6 +50,20 @@ a {
 
 <===>
 ================================================================================
+<===> single/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> single/slash/input.scss
+a {b: list-separator(join(1, (), $separator: slash))}
+
+<===> single/slash/output.css
+a {
+  b: slash;
+}
+
+<===>
+================================================================================
 <===> single/non_list/input.scss
 a {b: list-separator(1)}
 
@@ -76,6 +90,21 @@ a {b: list-separator((1, 2, 3))}
 <===> multi/comma/output.css
 a {
   b: comma;
+}
+
+<===>
+================================================================================
+<===> multi/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> multi/slash/input.scss
+@use 'sass:list';
+a {b: list-separator(list.slash(1, 2, 3))}
+
+<===> multi/slash/output.css
+a {
+  b: slash;
 }
 
 <===>

@@ -91,6 +91,48 @@ a {
 
 <===>
 ================================================================================
+<===> both/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> both/slash/first/input.scss
+@import "core_functions/list/utils";
+
+$empty-slash-list: join((), (), $separator: slash);
+$result: join($empty-slash-list, ());
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/slash/first/output.css
+a {
+  value: ();
+  separator: slash;
+}
+
+<===>
+================================================================================
+<===> both/slash/last/input.scss
+@import "core_functions/list/utils";
+
+$empty-slash-list: join((), (), $separator: slash);
+$result: join((), $empty-slash-list);
+a {
+  value: inspect($result);
+  separator: real-separator($result);
+}
+
+<===> both/slash/last/output.css
+a {
+  value: ();
+  separator: slash;
+}
+
+<===>
+================================================================================
 <===> first/undecided/and_space/input.scss
 a {b: join((), 1 2 3)}
 
@@ -112,6 +154,22 @@ a {b: join((), (1, 2, 3))}
 <===> first/undecided/and_comma/output.css
 a {
   b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> first/undecided/and_slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> first/undecided/and_slash/input.scss
+@use "sass:list";
+a {b: join((), list.slash(1, 2, 3))}
+
+<===> first/undecided/and_slash/output.css
+a {
+  b: 1 / 2 / 3;
 }
 
 <===>
@@ -138,6 +196,21 @@ a {
 
 <===>
 ================================================================================
+<===> first/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> first/slash/input.scss
+$empty-slash-list: join((), (), $separator: slash);
+a {b: join($empty-slash-list, 1 2 3)}
+
+<===> first/slash/output.css
+a {
+  b: 1 / 2 / 3;
+}
+
+<===>
+================================================================================
 <===> second/undecided/space/input.scss
 a {b: join(1 2 3, ())}
 
@@ -158,6 +231,21 @@ a {
 
 <===>
 ================================================================================
+<===> second/undecided/slash/options.yml
+:todo:
+  - sass/libsass#2887
+
+<===> second/undecided/slash/input.scss
+@use "sass:list";
+a {b: join(list.slash(1, 2, 3), ())}
+
+<===> second/undecided/slash/output.css
+a {
+  b: 1 / 2 / 3;
+}
+
+<===>
+================================================================================
 <===> second/space/input.scss
 @import "core_functions/list/utils";
 a {b: join((1, 2, 3), $empty-space-list)}
@@ -174,6 +262,21 @@ a {
 a {b: join(1 2 3, $empty-comma-list)}
 
 <===> second/comma/output.css
+a {
+  b: 1 2 3;
+}
+
+<===>
+================================================================================
+<===> second/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> second/slash/input.scss
+$empty-slash-list: join((), (), $separator: slash);
+a {b: join(1 2 3, $empty-slash-list)}
+
+<===> second/slash/output.css
 a {
   b: 1 2 3;
 }
@@ -229,6 +332,22 @@ a {
 
 <===>
 ================================================================================
+<===> map/first/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> map/first/slash/input.scss
+@use "sass:list";
+@import "core_functions/list/utils";
+a {b: join($empty-map, list.slash(1, 2, 3))}
+
+<===> map/first/slash/output.css
+a {
+  b: 1 / 2 / 3;
+}
+
+<===>
+================================================================================
 <===> map/second/space/input.scss
 @import "core_functions/list/utils";
 a {b: join(1 2 3, $empty-map)}
@@ -247,6 +366,22 @@ a {b: join((1, 2, 3), $empty-map)}
 <===> map/second/comma/output.css
 a {
   b: 1, 2, 3;
+}
+
+<===>
+================================================================================
+<===> map/second/slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===> map/second/slash/input.scss
+@use "sass:list";
+@import "core_functions/list/utils";
+a {b: join(list.slash(1, 2, 3), $empty-map)}
+
+<===> map/second/slash/output.css
+a {
+  b: 1 / 2 / 3;
 }
 
 <===>

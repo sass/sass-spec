@@ -323,6 +323,26 @@ a {
 
 <===>
 ================================================================================
+<===> list/single/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> list/single/slash/input.scss
+$result: inspect(append((), 1, slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/single/slash/output.css
+a {
+  value: (1/);
+  type: string;
+}
+
+<===>
+================================================================================
 <===> list/single/bracketed/undecided/input.scss
 $result: inspect([1]);
 a {
@@ -463,6 +483,43 @@ a {
 
 <===>
 ================================================================================
+<===> list/nested/empty/in_slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> list/nested/empty/in_slash/bracketed/input.scss
+$result: inspect(join([(), ()], (), $separator: slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/empty/in_slash/bracketed/output.css
+a {
+  value: [() / ()];
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/empty/in_slash/unbracketed/input.scss
+@use "sass:list";
+$result: inspect(list.slash((), ()));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/empty/in_slash/unbracketed/output.css
+a {
+  value: () / ();
+  type: string;
+}
+
+<===>
+================================================================================
 <===> list/nested/space/in_space/bracketed/options.yml
 ---
 :todo:
@@ -523,6 +580,43 @@ a {
 <===> list/nested/space/in_comma/unbracketed/output.css
 a {
   value: 1 2, 3 4;
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/space/in_slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> list/nested/space/in_slash/bracketed/input.scss
+$result: inspect(join([1 2, 3 4], (), $separator: slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/space/in_slash/bracketed/output.css
+a {
+  value: [1 2 / 3 4];
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/space/in_slash/unbracketed/input.scss
+@use "sass:list";
+$result: inspect(list.slash(1 2, 3 4));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/space/in_slash/unbracketed/output.css
+a {
+  value: 1 2 / 3 4;
   type: string;
 }
 
@@ -598,6 +692,43 @@ a {
 
 <===>
 ================================================================================
+<===> list/nested/comma/in_slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> list/nested/comma/in_slash/bracketed/input.scss
+$result: inspect(join([(1, 2), (3, 4)], (), $separator: slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/comma/in_slash/bracketed/output.css
+a {
+  value: [(1, 2) / (3, 4)];
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/comma/in_slash/unbracketed/input.scss
+@use "sass:list";
+$result: inspect(list.slash((1, 2), (3, 4)));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/comma/in_slash/unbracketed/output.css
+a {
+  value: (1, 2) / (3, 4);
+  type: string;
+}
+
+<===>
+================================================================================
 <===> list/nested/bracketed/in_space/bracketed/input.scss
 $result: inspect([[1, 2] [3, 4]]);
 a {
@@ -653,6 +784,43 @@ a {
 <===> list/nested/bracketed/in_comma/unbracketed/output.css
 a {
   value: (1, 2), (3, 4);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/bracketed/in_slash/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> list/nested/bracketed/in_slash/bracketed/input.scss
+$result: inspect(join([[1, 2], [3, 4]], (), $separator: slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/bracketed/in_slash/bracketed/output.css
+a {
+  value: [[1, 2] / [3, 4]];
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/nested/bracketed/in_slash/unbracketed/input.scss
+@use "sass:list";
+$result: inspect(list.slash([1, 2], [3, 4]));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/nested/bracketed/in_slash/unbracketed/output.css
+a {
+  value: [1, 2] / [3, 4];
   type: string;
 }
 

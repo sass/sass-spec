@@ -18,7 +18,7 @@ a {
 ================================================================================
 <===> compatible_units/input.scss
 @use "sass:math" as math;
-a {b: math.hypot(3cm, 4mm * 10, 5q * 40, 6in / 2.54, 7px * 96 / 2.54)}
+a {b: math.hypot(3cm, 4mm * 10, 5q * 40, math.div(6in, 2.54), 7px * math.div(96, 2.54))}
 
 <===> compatible_units/output.css
 a {
@@ -29,7 +29,7 @@ a {
 ================================================================================
 <===> infinity/first/input.scss
 @use "sass:math" as math;
-a {b: math.hypot(1/0, 1, 1)}
+a {b: math.hypot(math.div(1, 0), 1, 1)}
 
 <===> infinity/first/output.css
 a {
@@ -40,7 +40,7 @@ a {
 ================================================================================
 <===> infinity/second/input.scss
 @use "sass:math" as math;
-a {b: math.hypot(1, 1/0, 1)}
+a {b: math.hypot(1, math.div(1, 0), 1)}
 
 <===> infinity/second/output.css
 a {
@@ -51,7 +51,7 @@ a {
 ================================================================================
 <===> infinity/third/input.scss
 @use "sass:math" as math;
-a {b: math.hypot(1, 1, 1/0)}
+a {b: math.hypot(1, 1, math.div(1, 0))}
 
 <===> infinity/third/output.css
 a {

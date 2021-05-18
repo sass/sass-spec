@@ -2,7 +2,7 @@
 ================================================================================
 <===> negative/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-0.0, -1 / 0)}
+a {b: math.atan2(-0.0, math.div(-1, 0))}
 
 <===> negative/with_x/negative_infinity/output.css
 a {
@@ -13,7 +13,7 @@ a {
 ================================================================================
 <===> negative_fuzzy/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-0.000000000001, -1 / 0)}
+a {b: math.atan2(-0.000000000001, math.div(-1, 0))}
 
 <===> negative_fuzzy/with_x/negative_infinity/output.css
 a {
@@ -134,7 +134,7 @@ a {
 ================================================================================
 <===> negative/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-0.0, 1 / 0)}
+a {b: math.atan2(-0.0, math.div(1, 0))}
 
 <===> negative/with_x/infinity/output.css
 a {
@@ -145,7 +145,7 @@ a {
 ================================================================================
 <===> negative_fuzzy/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-0.000000000001, 1 / 0)}
+a {b: math.atan2(-0.000000000001, math.div(1, 0))}
 
 <===> negative_fuzzy/with_x/infinity/output.css
 a {
@@ -156,7 +156,7 @@ a {
 ================================================================================
 <===> positive/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(0, -1 / 0)}
+a {b: math.atan2(0, math.div(-1, 0))}
 
 <===> positive/with_x/negative_infinity/output.css
 a {
@@ -167,7 +167,7 @@ a {
 ================================================================================
 <===> positive_fuzzy/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(0.000000000001, -1 / 0)}
+a {b: math.atan2(0.000000000001, math.div(-1, 0))}
 
 <===> positive_fuzzy/with_x/negative_infinity/output.css
 a {
@@ -288,7 +288,7 @@ a {
 ================================================================================
 <===> positive/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(0, 1 / 0)}
+a {b: math.atan2(0, math.div(1, 0))}
 
 <===> positive/with_x/infinity/output.css
 a {
@@ -299,7 +299,7 @@ a {
 ================================================================================
 <===> positive_fuzzy/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(0.000000000001, 1 / 0)}
+a {b: math.atan2(0.000000000001, math.div(1, 0))}
 
 <===> positive_fuzzy/with_x/infinity/output.css
 a {

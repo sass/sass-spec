@@ -1,0 +1,158 @@
+<===> parentheses/all/input.scss
+a {b: (1/2)}
+
+<===> parentheses/all/output.css
+a {
+  b: 0.5;
+}
+
+<===> parentheses/all/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: (1/2)}
+  |        ^^^
+  '
+    input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> parentheses/left/input.scss
+a {b: (1)/2}
+
+<===> parentheses/left/output.css
+a {
+  b: 0.5;
+}
+
+<===> parentheses/left/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: (1)/2}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> parentheses/right/input.scss
+a {b: 1/(2)}
+
+<===> parentheses/right/output.css
+a {
+  b: 0.5;
+}
+
+<===> parentheses/right/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1/(2)}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> outer_math/left/input.scss
+a {b: 1+1/2}
+
+<===> outer_math/left/output.css
+a {
+  b: 1.5;
+}
+
+<===> outer_math/left/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1+1/2}
+  |         ^^^
+  '
+    input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> outer_math/right/input.scss
+a {b: 1/2+1}
+
+<===> outer_math/right/output.css
+a {
+  b: 1.5;
+}
+
+<===> outer_math/right/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1/2+1}
+  |       ^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> inner_math/input.scss
+a {b: 1*1/2}
+
+<===> inner_math/output.css
+a {
+  b: 0.5;
+}
+
+<===> inner_math/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1 * 1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1*1/2}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> parentheses_in_list/input.scss
+a {b: 3 (1/2) 4}
+
+<===> parentheses_in_list/output.css
+a {
+  b: 3 0.5 4;
+}
+
+<===> parentheses_in_list/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 3 (1/2) 4}
+  |          ^^^
+  '
+    input.scss 1:10  root stylesheet

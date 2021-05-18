@@ -1,0 +1,48 @@
+<===> user_defined/input.scss
+@function a() {@return 1/2}
+
+b {c: a()}
+
+<===> user_defined/output.css
+b {
+  c: 0.5;
+}
+
+<===> user_defined/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | @function a() {@return 1/2}
+  |                        ^^^
+  '
+    input.scss 1:24  a()
+    input.scss 3:7   root stylesheet
+
+
+<===>
+================================================================================
+<===> built_in/input.scss
+a {b: nth(3 1/2 4, 2)}
+
+<===> built_in/output.css
+a {
+  b: 0.5;
+}
+
+<===> built_in/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: nth(3 1/2 4, 2)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+

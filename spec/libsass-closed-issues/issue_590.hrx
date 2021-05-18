@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 foo {
   foo: 1/2;
@@ -15,3 +20,40 @@ foo {
   foo: true;
   foo: true;
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   foo: (1/2);
+  |         ^^^
+  '
+    input.scss 4:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   foo: 1/2 == 0.5;
+  |        ^^^
+  '
+    input.scss 5:8  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+6 |   foo: (1/2) == 0.5;
+  |         ^^^
+  '
+    input.scss 6:9  root stylesheet

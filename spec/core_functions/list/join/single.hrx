@@ -60,6 +60,33 @@ a {
 
 <===>
 ================================================================================
+<===> both/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> both/slash/first/input.scss
+a {b: join(join(1, (), $separator: slash), [2])}
+
+<===> both/slash/first/output.css
+a {
+  b: 1 / 2;
+}
+
+<===>
+================================================================================
+<===> both/slash/last/input.scss
+a {b: join([1], join(2, (), $separator: slash))}
+
+<===> both/slash/last/output.css
+a {
+  b: [1 / 2];
+}
+
+<===>
+================================================================================
 <===> first/undecided/and_space/input.scss
 a {b: join([1], 2 3 4)}
 
@@ -85,6 +112,22 @@ a {
 
 <===>
 ================================================================================
+<===> first/undecided/and_slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> first/undecided/and_slash/input.scss
+@use "sass:list";
+a {b: join([1], list.slash(2, 3, 4))}
+
+<===> first/undecided/and_slash/output.css
+a {
+  b: [1 / 2 / 3 / 4];
+}
+
+<===>
+================================================================================
 <===> first/space/input.scss
 @import "core_functions/list/utils";
 a {b: join(with-separator(1, space), (2, 3, 4))}
@@ -102,6 +145,21 @@ a {b: join((1,), 2 3 4)}
 <===> first/comma/output.css
 a {
   b: 1, 2, 3, 4;
+}
+
+<===>
+================================================================================
+<===> first/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> first/slash/input.scss
+a {b: join(join(1, (), $separator: slash), 2 3 4)}
+
+<===> first/slash/output.css
+a {
+  b: 1 / 2 / 3 / 4;
 }
 
 <===>
@@ -126,6 +184,22 @@ a {
 
 <===>
 ================================================================================
+<===> second/undecided/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> second/undecided/slash/input.scss
+@use "sass:list";
+a {b: join(list.slash(1, 2, 3), [4])}
+
+<===> second/undecided/slash/output.css
+a {
+  b: 1 / 2 / 3 / 4;
+}
+
+<===>
+================================================================================
 <===> second/space/input.scss
 @import "core_functions/list/utils";
 a {b: join((1, 2, 3), with-separator(4, space))}
@@ -141,6 +215,21 @@ a {
 a {b: join(1 2 3, (4,))}
 
 <===> second/comma/output.css
+a {
+  b: 1 2 3 4;
+}
+
+<===>
+================================================================================
+<===> second/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> second/slash/input.scss
+a {b: join(1 2 3, join(4, (), $separator: slash))}
+
+<===> second/slash/output.css
 a {
   b: 1 2 3 4;
 }
@@ -173,6 +262,22 @@ a {b: join(c, (d, e))}
 <===> non_list/first/comma/output.css
 a {
   b: c, d, e;
+}
+
+<===>
+================================================================================
+<===> non_list/first/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> non_list/first/slash/input.scss
+@use "sass:list";
+a {b: join(c, list.slash(d, e))}
+
+<===> non_list/first/slash/output.css
+a {
+  b: c / d / e;
 }
 
 <===>
@@ -222,6 +327,22 @@ a {b: join((c, d), e)}
 <===> non_list/second/comma/output.css
 a {
   b: c, d, e;
+}
+
+<===>
+================================================================================
+<===> non_list/second/slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> non_list/second/slash/input.scss
+@use "sass:list";
+a {b: join(list.slash(c, d), e)}
+
+<===> non_list/second/slash/output.css
+a {
+  b: c / d / e;
 }
 
 <===>

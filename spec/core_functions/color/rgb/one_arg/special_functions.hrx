@@ -484,3 +484,36 @@ a {b: rgb(var(--foo) / 0.4)}
 a {
   b: rgb(var(--foo)/0.4);
 }
+
+<===>
+================================================================================
+<===> slash_list/channels/input.scss
+@use "sass:list";
+a {b: rgb(list.slash(var(--foo), 0.4))}
+
+<===> slash_list/channels/output.css
+a {
+  b: rgb(var(--foo) / 0.4);
+}
+
+<===>
+================================================================================
+<===> slash_list/some_channels/input.scss
+@use "sass:list";
+a {b: rgb(list.slash(1 var(--foo), 0.4))}
+
+<===> slash_list/some_channels/output.css
+a {
+  b: rgb(1 var(--foo) / 0.4);
+}
+
+<===>
+================================================================================
+<===> slash_list/alpha/input.scss
+@use "sass:list";
+a {b: rgb(list.slash(1 2 3, var(--c)))}
+
+<===> slash_list/alpha/output.css
+a {
+  b: rgb(1, 2, 3, var(--c));
+}

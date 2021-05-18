@@ -130,6 +130,42 @@ a list of strings, or a list of lists of strings.
 
 <===>
 ================================================================================
+<===> slash_list/options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> slash_list/top_level/input.scss
+@use "sass:list";
+a {b: selector-parse(list.slash(c d, e f))}
+
+<===> slash_list/top_level/error
+Error: $selector: c d / e f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+2 | a {b: selector-parse(list.slash(c d, e f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/in_comma_list/input.scss
+@use "sass:list";
+a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+
+<===> slash_list/in_comma_list/error
+Error: $selector: c / d, e / f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+2 | a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> type/options.yml
 ---
 :todo:
