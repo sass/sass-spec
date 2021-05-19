@@ -1,3 +1,8 @@
+<===> slash/with_string/slash_plus_string/options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> slash/with_string/slash_plus_string/input.scss
 a {b: 1 / 2 + foo()}
 
@@ -6,8 +11,26 @@ a {
   b: 0.5foo();
 }
 
+<===> slash/with_string/slash_plus_string/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1 / 2 + foo()}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> slash/with_string/slash_minus_string/options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> slash/with_string/slash_minus_string/input.scss
 a {b: 1 / 2 - foo()}
 
@@ -15,6 +38,19 @@ a {b: 1 / 2 - foo()}
 a {
   b: 0.5-foo();
 }
+
+<===> slash/with_string/slash_minus_string/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: 1 / 2 - foo()}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -33,6 +69,11 @@ a {
 
 <===>
 ================================================================================
+<===> slash/with_string/string_plus_slash/options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> slash/with_string/string_plus_slash/input.scss
 a {b: foo() + 1 / 2}
 
@@ -41,8 +82,26 @@ a {
   b: foo()0.5;
 }
 
+<===> slash/with_string/string_plus_slash/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: foo() + 1 / 2}
+  |               ^^^^^
+  '
+    input.scss 1:15  root stylesheet
+
 <===>
 ================================================================================
+<===> slash/with_string/string_minus_slash/options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> slash/with_string/string_minus_slash/input.scss
 a {b: foo() - 1 / 2}
 
@@ -50,3 +109,16 @@ a {b: foo() - 1 / 2}
 a {
   b: foo()-0.5;
 }
+
+<===> slash/with_string/string_minus_slash/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: foo() - 1 / 2}
+  |               ^^^^^
+  '
+    input.scss 1:15  root stylesheet

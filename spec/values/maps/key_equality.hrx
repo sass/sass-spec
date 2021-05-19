@@ -11,6 +11,32 @@ a {
   b: null;
 }
 
+<===> nan/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(0, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((0/0): b), 0/0))}
+  |                         ^^^
+  '
+    input.scss 1:25  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(0, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((0/0): b), 0/0))}
+  |                                   ^^^
+  '
+    input.scss 1:35  root stylesheet
+
+
 <===>
 ================================================================================
 <===> infinity/positive/options.yml
@@ -26,6 +52,32 @@ a {
   b: null;
 }
 
+<===> infinity/positive/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((1/0): b), 1/0))}
+  |                         ^^^
+  '
+    input.scss 1:25  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((1/0): b), 1/0))}
+  |                                   ^^^
+  '
+    input.scss 1:35  root stylesheet
+
+
 <===>
 ================================================================================
 <===> infinity/negative/options.yml
@@ -40,3 +92,29 @@ a {b: inspect(map-get(((-1/0): b), -1/0))}
 a {
   b: null;
 }
+
+<===> infinity/negative/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(-1, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((-1/0): b), -1/0))}
+  |                         ^^^^
+  '
+    input.scss 1:25  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(-1, 0)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: inspect(map-get(((-1/0): b), -1/0))}
+  |                                    ^^^^
+  '
+    input.scss 1:36  root stylesheet
+

@@ -1,3 +1,8 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
 <===> input.scss
 $columns: 4;
 $context: 120px;
@@ -14,3 +19,16 @@ foo {
 foo {
   *width: expression((this.parentNode.clientWidth/120px*2 - parseInt(this.currentStyle["paddingLeft"]) - parseInt(this.currentStyle["paddingRight"])) + "px");
 }
+
+<===> warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($columns, $name-multiplicator)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   *width: expression((this.parentNode.clientWidth/#{$context}*#{($columns / $name-multiplicator)} - parseInt(this.currentStyle['paddingLeft']) - parseInt(this.currentStyle['paddingRight'])) + 'px');
+  |                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:66  root stylesheet

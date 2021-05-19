@@ -152,3 +152,114 @@ Error: $lightness: "var(--foo) / 0.4" is not a number.
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/too_few_elements/input.scss
+a {b: hsla(append((), 0 100% 100%, $separator: slash))}
+
+<===> slash_list/too_few_elements/error
+Error: Only 2 slash-separated elements allowed, but 1 was passed.
+  ,
+1 | a {b: hsla(append((), 0 100% 100%, $separator: slash))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/too_many_elements/input.scss
+@use "sass:list";
+a {b: hsla(list.slash(0 100% 100%, 0.4, 1))}
+
+<===> slash_list/too_many_elements/error
+Error: Only 2 slash-separated elements allowed, but 3 were passed.
+  ,
+2 | a {b: hsla(list.slash(0 100% 100%, 0.4, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/empty/input.scss
+@use "sass:list";
+a {b: hsla(list.slash((), 1))}
+
+<===> slash_list/channels/empty/error
+Error: Missing element $hue.
+  ,
+2 | a {b: hsla(list.slash((), 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/comma_separated/input.scss
+@use "sass:list";
+a {b: hsla(list.slash((0, 100%, 50%), 1))}
+
+<===> slash_list/channels/comma_separated/error
+Error: $channels must be a space-separated list.
+  ,
+2 | a {b: hsla(list.slash((0, 100%, 50%), 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/bracketed/input.scss
+@use "sass:list";
+a {b: hsla(list.slash([0 100% 50%], 1))}
+
+<===> slash_list/channels/bracketed/error
+Error: $channels must be an unbracketed list.
+  ,
+2 | a {b: hsla(list.slash([0 100% 50%], 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/one_element/input.scss
+@use "sass:list";
+a {b: hsla(list.slash(0, 1))}
+
+<===> slash_list/channels/one_element/error
+Error: Missing element $saturation.
+  ,
+2 | a {b: hsla(list.slash(0, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/two_elements/input.scss
+@use "sass:list";
+a {b: hsla(list.slash(0 100%, 1))}
+
+<===> slash_list/channels/two_elements/error
+Error: Missing element $lightness.
+  ,
+2 | a {b: hsla(list.slash(0 100%, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> slash_list/channels/four_elements/input.scss
+@use "sass:list";
+a {b: hsla(list.slash(0 100% 50% 0.4, 1))}
+
+<===> slash_list/channels/four_elements/error
+Error: Only 3 elements allowed, but 4 were passed.
+  ,
+2 | a {b: hsla(list.slash(0 100% 50% 0.4, 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

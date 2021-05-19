@@ -2,7 +2,7 @@
 ================================================================================
 <===> negative/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-1, -1 / 0)}
+a {b: math.atan2(-1, math.div(-1, 0))}
 
 <===> negative/with_x/negative_infinity/output.css
 a {
@@ -79,7 +79,7 @@ a {
 ================================================================================
 <===> negative/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(-1, 1 / 0)}
+a {b: math.atan2(-1, math.div(1, 0))}
 
 <===> negative/with_x/infinity/output.css
 a {
@@ -90,7 +90,7 @@ a {
 ================================================================================
 <===> positive/with_x/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(1, -1 / 0)}
+a {b: math.atan2(1, math.div(-1, 0))}
 
 <===> positive/with_x/negative_infinity/output.css
 a {
@@ -167,7 +167,7 @@ a {
 ================================================================================
 <===> positive/with_x/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.atan2(1, 1 / 0)}
+a {b: math.atan2(1, math.div(1, 0))}
 
 <===> positive/with_x/infinity/output.css
 a {

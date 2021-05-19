@@ -1,0 +1,99 @@
+<===> README.md
+These specs test how slash-separated lists are rendered, and verify that they
+behave like any other list once created. These lists are created using
+list.slash() for convenience, but the same principles apply no matter how the
+lists are created.
+
+<===> options.yml
+:todo:
+- sass/libsass#2887
+
+<===>
+================================================================================
+<===> output/nested/in/space/input.scss
+@use "sass:list";
+a {b: list.slash(c, d) list.slash(e, f)}
+
+<===> output/nested/in/space/output.css
+a {
+  b: c / d e / f;
+}
+
+<===>
+================================================================================
+<===> output/nested/in/comma/input.scss
+@use "sass:list";
+a {b: list.slash(c, d), list.slash(e, f)}
+
+<===> output/nested/in/comma/output.css
+a {
+  b: c / d, e / f;
+}
+
+<===>
+================================================================================
+<===> output/nested/in/slash/input.scss
+@use "sass:list";
+a {b: list.slash(list.slash(c, d), list.slash(e, f))}
+
+<===> output/nested/in/slash/output.css
+a {
+  b: c / d / e / f;
+}
+
+<===>
+================================================================================
+<===> output/nested/outside/space/input.scss
+@use "sass:list";
+a {b: list.slash(c d, e f)}
+
+<===> output/nested/outside/space/output.css
+a {
+  b: c d / e f;
+}
+
+<===>
+================================================================================
+<===> output/nested/comma_in/slash/input.scss
+@use "sass:list";
+a {b: list.slash((c, d), (e, f))}
+
+<===> output/nested/comma_in/slash/output.css
+a {
+  b: c, d / e, f;
+}
+
+<===>
+================================================================================
+<===> output/bracketed_slash/input.scss
+@use "sass:list";
+// CSS doesn't use slash-separated bracketed lists, but Sass supports them in
+// case one day that changes.
+a {b: join(c d, e f, $separator: slash, $bracketed: true)}
+
+<===> output/bracketed_slash/output.css
+a {
+  b: [c / d / e / f];
+}
+
+<===>
+================================================================================
+<===> functions/length/input.scss
+@use "sass:list";
+a {b: length(list.slash(c, d, e, f, g))}
+
+<===> functions/length/output.css
+a {
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> functions/nth/input.scss
+@use "sass:list";
+a {b: nth(list.slash(c, d, e, f, g), 3)}
+
+<===> functions/nth/output.css
+a {
+  b: e;
+}

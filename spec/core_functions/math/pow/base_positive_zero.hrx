@@ -2,7 +2,7 @@
 ================================================================================
 <===> with_exponent/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(0, -1 / 0)}
+a {b: math.pow(0, math.div(-1, 0))}
 
 <===> with_exponent/negative_infinity/output.css
 a {
@@ -13,7 +13,7 @@ a {
 ================================================================================
 <===> fuzzy/with_exponent/negative_infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(0.000000000001, -1 / 0)}
+a {b: math.pow(0.000000000001, math.div(-1, 0))}
 
 <===> fuzzy/with_exponent/negative_infinity/output.css
 a {
@@ -233,7 +233,7 @@ a {
 ================================================================================
 <===> with_exponent/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(0, 1 / 0)}
+a {b: math.pow(0, math.div(1, 0))}
 
 <===> with_exponent/infinity/output.css
 a {
@@ -244,7 +244,7 @@ a {
 ================================================================================
 <===> fuzzy/with_exponent/infinity/input.scss
 @use "sass:math" as math;
-a {b: math.pow(0.000000000001, 1 / 0)}
+a {b: math.pow(0.000000000001, math.div(1, 0))}
 
 <===> fuzzy/with_exponent/infinity/output.css
 a {
