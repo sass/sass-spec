@@ -125,20 +125,40 @@ a {
 
 <===>
 ================================================================================
-<===> selector_arg/same/input.scss
+<===> selector_arg/is/same/input.scss
+a {b: selector-unify(":is(.c)", ":is(.c)")}
+
+<===> selector_arg/is/same/output.css
+a {
+  b: :is(.c);
+}
+
+<===>
+================================================================================
+<===> selector_arg/is/different/input.scss
+a {b: selector-unify(":is(.c)", ":is(.d)")}
+
+<===> selector_arg/is/different/output.css
+a {
+  b: :is(.c):is(.d);
+}
+
+<===>
+================================================================================
+<===> selector_arg/matches/same/input.scss
 a {b: selector-unify(":matches(.c)", ":matches(.c)")}
 
-<===> selector_arg/same/output.css
+<===> selector_arg/matches/same/output.css
 a {
   b: :matches(.c);
 }
 
 <===>
 ================================================================================
-<===> selector_arg/different/input.scss
+<===> selector_arg/matches/different/input.scss
 a {b: selector-unify(":matches(.c)", ":matches(.d)")}
 
-<===> selector_arg/different/output.css
+<===> selector_arg/matches/different/output.css
 a {
   b: :matches(.c):matches(.d);
 }

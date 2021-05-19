@@ -67,6 +67,41 @@ a {
 
 <===>
 ================================================================================
+<===> not/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> not/is/list/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":is(.d, .e)")}
+
+<===> not/is/list/output.css
+a {
+  b: :not(.c):not(.d):not(.e);
+}
+
+<===>
+================================================================================
+<===> not/is/list_of_complex/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":is(.d .e, .f .g)")}
+
+<===> not/is/list_of_complex/output.css
+a {
+  b: :not(.c):not(.d .e):not(.f .g);
+}
+
+<===>
+===============================================================================
+<===> not/is/in_compound/input.scss
+a {b: selector-extend(":not(.c)", ".c", ".d:is(.e, .f)")}
+
+<===> not/is/in_compound/output.css
+a {
+  b: :not(.c):not(.d:is(.e, .f));
+}
+
+<===>
+================================================================================
 <===> not/matches/list/input.scss
 a {b: selector-extend(":not(.c)", ".c", ":matches(.d, .e)")}
 
@@ -107,6 +142,41 @@ a {b: selector-extend(":not(.c)", ".c", ":not(.d)")}
 <===> not/not_in_extender/output.css
 a {
   b: :not(.c);
+}
+
+<===>
+================================================================================
+<===> is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> is/simple/input.scss
+a {b: selector-extend(":is(.c)", ".c", ".d")}
+
+<===> is/simple/output.css
+a {
+  b: :is(.c, .d);
+}
+
+<===>
+================================================================================
+<===> is/list/input.scss
+a {b: selector-extend(":is(.c)", ".c", ".d, .e")}
+
+<===> is/list/output.css
+a {
+  b: :is(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> is/is_in_extender/input.scss
+a {b: selector-extend(":is(.c)", ".c", ":is(.d, .e)")}
+
+<===> is/is_in_extender/output.css
+a {
+  b: :is(.c, .d, .e);
 }
 
 <===>

@@ -78,14 +78,29 @@ a {
 
 <===>
 ================================================================================
-<===> simple/pseudo/class/selector_arg/input.scss
+<===> simple/pseudo/class/selector_arg/is/input.scss
+$result: selector-parse(":is(b, c)");
+a {
+  result: $result;
+  structure: $result == (append((), ":is(b, c)"),);
+}
+
+<===> simple/pseudo/class/selector_arg/is/output.css
+a {
+  result: :is(b, c);
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> simple/pseudo/class/selector_arg/matches/input.scss
 $result: selector-parse(":matches(b, c)");
 a {
   result: $result;
   structure: $result == (append((), ":matches(b, c)"),);
 }
 
-<===> simple/pseudo/class/selector_arg/output.css
+<===> simple/pseudo/class/selector_arg/matches/output.css
 a {
   result: :matches(b, c);
   structure: true;

@@ -101,7 +101,7 @@ b {
 }
 
 <===> inline_comments/silent/with_comma_in_comment/warning
-WARNING on line 4, column 1 of input.sass: 
+WARNING on line 4, column 1 of input.sass:
 This selector doesn't have any properties and won't be rendered.
   ,
 4 | a // comment,
@@ -131,6 +131,31 @@ b
 <===> inline_comments/loud/comma_after/output.css
 a,
 b {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> placeholder/pseudoselectors/is/solo/input.scss
+// Since `%b` doesn't exist, no selectors can match it, so this rule should be
+// removed.
+a:is(%b) {x: y}
+
+<===> placeholder/pseudoselectors/is/solo/output.css
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/is/with_real/input.scss
+// Since `%b` doesn't exist, an element matches `%b` or `c` iff it matches `c`.
+a:is(%b, c) {x: y}
+
+<===> placeholder/pseudoselectors/is/with_real/output.css
+a:is(c) {
   x: y;
 }
 

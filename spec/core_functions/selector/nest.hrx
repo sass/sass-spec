@@ -68,20 +68,50 @@ a {
 
 <===>
 ================================================================================
-<===> parent/selector_pseudo/simple_parent/input.scss
+<===> parent/selector_pseudo/simple_parent/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> parent/selector_pseudo/simple_parent/is/input.scss
+a {b: selector-nest("c", ":is(&)")}
+
+<===> parent/selector_pseudo/simple_parent/is/output.css
+a {
+  b: :is(c);
+}
+
+<===>
+================================================================================
+<===> parent/selector_pseudo/complex_parent/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> parent/selector_pseudo/complex_parent/is/input.scss
+a {b: selector-nest("c d", ":is(&)")}
+
+<===> parent/selector_pseudo/complex_parent/is/output.css
+a {
+  b: :is(c d);
+}
+
+<===>
+================================================================================
+<===> parent/selector_pseudo/simple_parent/matches/input.scss
 a {b: selector-nest("c", ":matches(&)")}
 
-<===> parent/selector_pseudo/simple_parent/output.css
+<===> parent/selector_pseudo/simple_parent/matches/output.css
 a {
   b: :matches(c);
 }
 
 <===>
 ================================================================================
-<===> parent/selector_pseudo/complex_parent/input.scss
+<===> parent/selector_pseudo/complex_parent/matches/input.scss
 a {b: selector-nest("c d", ":matches(&)")}
 
-<===> parent/selector_pseudo/complex_parent/output.css
+<===> parent/selector_pseudo/complex_parent/matches/output.css
 a {
   b: :matches(c d);
 }
@@ -183,10 +213,25 @@ a {
 
 <===>
 ================================================================================
-<===> list/parent/selector_pseudo/input.scss
+<===> list/parent/selector_pseudo/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> list/parent/selector_pseudo/is/input.scss
+a {b: selector-nest("c, d", ":is(&)")}
+
+<===> list/parent/selector_pseudo/is/output.css
+a {
+  b: :is(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/matches/input.scss
 a {b: selector-nest("c, d", ":matches(&)")}
 
-<===> list/parent/selector_pseudo/output.css
+<===> list/parent/selector_pseudo/matches/output.css
 a {
   b: :matches(c, d);
 }
