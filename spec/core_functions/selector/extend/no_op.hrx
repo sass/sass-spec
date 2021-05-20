@@ -218,10 +218,25 @@ a {
 
 <===>
 ================================================================================
-<===> unification/subselector_of_target/input.scss
+<===> unification/subselector_of_target/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> unification/subselector_of_target/is/input.scss
+a {b: selector-extend(".c:is(d)", ":is(d)", "d.e")}
+
+<===> unification/subselector_of_target/is/output.css
+a {
+  b: .c:is(d);
+}
+
+<===>
+================================================================================
+<===> unification/subselector_of_target/matches/input.scss
 a {b: selector-extend(".c:matches(d)", ":matches(d)", "d.e")}
 
-<===> unification/subselector_of_target/output.css
+<===> unification/subselector_of_target/matches/output.css
 a {
   b: .c:matches(d);
 }

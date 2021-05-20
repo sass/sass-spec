@@ -6,40 +6,79 @@ they're structurally equal.
 
 <===>
 ================================================================================
-<===> unprefixed/class/equal/input.scss
+<===> unprefixed/is/class/equal/input.scss
+a {b: selector-extend(":is(c d.e, f g)", ":is(c d.e, f g)", "h")}
+
+<===> unprefixed/is/class/equal/output.css
+a {
+  b: :is(c d.e, f g), h;
+}
+
+<===>
+================================================================================
+<===> unprefixed/is/class/unequal/name/input.scss
+a {b: selector-extend(":is(c d.e, f g)", ":-pfx-is(c d.e, f g)", "h")}
+
+<===> unprefixed/is/class/unequal/name/output.css
+a {
+  b: :is(c d.e, f g);
+}
+
+<===>
+================================================================================
+<===> unprefixed/is/class/unequal/argument/input.scss
+a {b: selector-extend(":is(c d.e, f g)", ":is(d, g)", "h")}
+
+<===> unprefixed/is/class/unequal/argument/output.css
+a {
+  b: :is(c d.e, f g);
+}
+
+<===>
+================================================================================
+<===> unprefixed/is/class/unequal/has_argument/input.scss
+a {b: selector-extend(":is(c d.e, f g)", ":is", "h")}
+
+<===> unprefixed/is/class/unequal/has_argument/output.css
+a {
+  b: :is(c d.e, f g);
+}
+<===>
+================================================================================
+<===> unprefixed/matches/class/equal/input.scss
 a {b: selector-extend(":matches(c d.e, f g)", ":matches(c d.e, f g)", "h")}
 
-<===> unprefixed/class/equal/output.css
+<===> unprefixed/matches/class/equal/output.css
 a {
   b: :matches(c d.e, f g), h;
 }
 
 <===>
 ================================================================================
-<===> unprefixed/class/unequal/name/input.scss
+<===> unprefixed/matches/class/unequal/name/input.scss
 a {b: selector-extend(":matches(c d.e, f g)", ":-pfx-matches(c d.e, f g)", "h")}
 
-<===> unprefixed/class/unequal/name/output.css
+<===> unprefixed/matches/class/unequal/name/output.css
 a {
   b: :matches(c d.e, f g);
 }
 
 <===>
 ================================================================================
-<===> unprefixed/class/unequal/argument/input.scss
+<===> unprefixed/matches/class/unequal/argument/input.scss
 a {b: selector-extend(":matches(c d.e, f g)", ":matches(d, g)", "h")}
 
-<===> unprefixed/class/unequal/argument/output.css
+<===> unprefixed/matches/class/unequal/argument/output.css
 a {
   b: :matches(c d.e, f g);
 }
 
 <===>
 ================================================================================
-<===> unprefixed/class/unequal/has_argument/input.scss
+<===> unprefixed/matches/class/unequal/has_argument/input.scss
 a {b: selector-extend(":matches(c d.e, f g)", ":matches", "h")}
 
-<===> unprefixed/class/unequal/has_argument/output.css
+<===> unprefixed/matches/class/unequal/has_argument/output.css
 a {
   b: :matches(c d.e, f g);
 }
