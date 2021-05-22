@@ -92,7 +92,7 @@ export class DartCompiler implements Compiler {
 
   async compile(path: string, opts: string[]): Promise<Stdio> {
     this.stdin.write(`!cd ${path}\n`)
-    this.stdin.write([...this.initArgs, ...opts].join(" ") + "\n")
+    this.stdin.write(["--verbose", ...this.initArgs, ...opts].join(" ") + "\n")
 
     return {
       stdout: (await this.stdout.next()).value,
