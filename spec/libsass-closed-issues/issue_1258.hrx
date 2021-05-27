@@ -12,13 +12,24 @@ $string: '(-webkit-min-device-pixel-ratio: 2),   (min-resolution: 192dpi)';
   content: unquote($list);
   content: unquote($string);
 }
-<===> output.css
-.foo {
-  content: "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)";
-  content: (-webkit-min-device-pixel-ratio: 2),   (min-resolution: 192dpi);
-}
 
-<===> warning
-DEPRECATION WARNING: Passing "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)", a non-string value, to unquote()
-will be an error in future versions of Sass.
-        on line 6 of input.scss
+<===> error
+Error: $string: "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)" is not a string.
+  ,
+6 |   content: unquote($list);
+  |            ^^^^^^^^^^^^^^
+  '
+  input.scss 6:12  root stylesheet
+
+<===> error-libsass
+Error: $string: "(-webkit-min-device-pixel-ratio: 2)", "(min-resolution: 192dpi)" is not a string.
+  ,
+1 | $list:   '(-webkit-min-device-pixel-ratio: 2)', '(min-resolution: 192dpi)';
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+  '
+  input.scss 1:10  unquote()
+  ,
+6 |   content: unquote($list);
+  |            ^^^^^^^^^^^^^^
+  '
+  input.scss 6:12  root stylesheet
