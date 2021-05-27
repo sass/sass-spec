@@ -1,8 +1,3 @@
-<===> options.yml
----
-:ignore_for:
-- dart-sass
-
 <===> input.scss
 @mixin opacity($percent) {
   foo { test: opacity($percent); }
@@ -23,29 +18,24 @@
   }
 }
 
-<===> output.css
-@-webkit-keyframes uiDelayedFadeIn {
-  0% {
-    foo {
-      test: opacity(0.01);
-    }
-  }
-  50% {
-    foo {
-      test: opacity(0.01);
-    }
-  }
-  100% {
-    foo {
-      test: opacity(1);
-    }
-  }
-}
-@-webkit-keyframes bounce {
-  from {
-    left: 0px;
-  }
-  to {
-    left: 200px;
-  }
-}
+<===> error
+Error: Expected "to" or "from".
+  ,
+2 |   foo{ test: opacity($percent); }
+  |   ^
+  '
+  input.scss 2:3  opacity()
+  input.scss 6:8  root stylesheet
+
+<===> error-libsass
+Error: Expected "to" or "from".
+  ,
+2 |   foo { test: opacity($percent); }
+  |   ^
+  '
+  input.scss 2:3  opacity()
+  ,
+6 |   0% { @include opacity(0.01); }
+  |        ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:8  root stylesheet
