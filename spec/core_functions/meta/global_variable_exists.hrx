@@ -73,13 +73,6 @@ a {
 
 <===>
 ================================================================================
-<===> different_module/options.yml
----
-:todo:
-- sass/libsass#2807
-
-<===>
-================================================================================
 <===> different_module/undefined/input.scss
 @use "sass:color";
 a {b: global-variable-exists("c", "color")}
@@ -215,11 +208,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> named/input.scss
 @use "other";
 a {b: global-variable-exists($name: "c", $module: "other")}
@@ -260,11 +248,6 @@ Error: $name: 12px is not a string.
 
 <===>
 ================================================================================
-<===> error/argument/type/module/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> error/argument/type/module/input.scss
 a {b: global-variable-exists("c", 1)}
 
@@ -341,11 +324,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
 
 <===>
 ================================================================================
-<===> error/conflict/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> error/conflict/input.scss
 @use "other1" as *;
 @use "other2" as *;
