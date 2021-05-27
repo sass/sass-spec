@@ -41,17 +41,22 @@ Error: Custom property values may not be empty.
     baz: qux
 
 <===> nested/error
-Error: Illegal nesting: Nothing may be nested beneath custom properties.
-        on line 3 of /sass/spec/css/custom_properties/error/no_nesting/input.sass
-  Use --trace for backtrace.
-
-<===> nested/error-dart-sass
 Error: Nothing may be indented beneath a custom property.
   ,
 3 |     baz: qux
   |     ^
   '
   input.sass 3:5  root stylesheet
+
+<===> nested/error-libsass
+Error: Nothing may be indented beneath a custom property.
+  ,
+2 |     --foo: bar
+  | /--------------^
+3 | |     baz: qux
+  | \----^
+  '
+  input.sass 2:13  root stylesheet
 
 <===>
 ================================================================================
