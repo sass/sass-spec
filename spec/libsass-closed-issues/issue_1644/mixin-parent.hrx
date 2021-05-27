@@ -10,20 +10,6 @@
 }
 
 <===> error
-Error: Base-level rules cannot contain the parent-selector-referencing character '&'.
-        on line 6 of input.scss, in `@content'
-        from line 2 of input.scss, in `parent'
-        from line 5 of input.scss
-  Use --trace for backtrace.
-
-<===> error-libsass
-Error: Top-level selectors may not contain the parent selector "&".
-        on line 2:5 of input.scss, in mixin `parent`
-        from line 5:12 of input.scss
->>     body.immobile & {
-   ----^
-
-<===> error-dart-sass
 Error: Top-level selectors may not contain the parent selector "&".
   ,
 6 |   body.immobile & {
@@ -31,4 +17,22 @@ Error: Top-level selectors may not contain the parent selector "&".
   '
   input.scss 6:3  @content
   input.scss 2:3  parent()
+  input.scss 5:1  root stylesheet
+
+<===> error-libsass
+Error: Top-level selectors may not contain the parent selector "&".
+  ,
+6 |   body.immobile & {
+  |   ^^^^^^^^^^^^^^^
+  '
+  input.scss 6:3  @content
+  ,
+2 |   @content;
+  |   ^^^^^^^^
+  '
+  input.scss 2:3  parent()
+  ,
+5 | @include parent() {
+  | ^^^^^^^^^^^^^^^^^
+  '
   input.scss 5:1  root stylesheet

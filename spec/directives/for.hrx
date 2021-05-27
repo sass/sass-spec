@@ -167,11 +167,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/to_unitless/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/to_unitless/input.scss
 a {
   @for $i from 1px through 5 {b: $i;}
@@ -188,11 +183,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/from_unitless/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/from_unitless/input.scss
 a {
   @for $i from 1 through 5px {b: $i;}
@@ -209,11 +199,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/compatible/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/compatible/input.scss
 a {
   @for $i from 5mm through 1cm {b: $i;}
@@ -243,11 +228,6 @@ Error: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> error/from_float/options.yml
----
-:todo:
-  - libsass
-
 <===> error/from_float/input.scss
 @for $i from 1.5 through 4 {}
 <===> error/from_float/error
@@ -272,11 +252,6 @@ Error: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> error/to_float/options.yml
----
-:todo:
-  - libsass
-
 <===> error/to_float/input.scss
 @for $i from 1 through 1.5 {}
 <===> error/to_float/error
@@ -289,11 +264,6 @@ Error: 1.5 is not an int.
 
 <===>
 ================================================================================
-<===> error/unit_coersion_to_float/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> error/unit_coersion_to_float/input.scss
 @for $i from 1cm through 5mm {}
 <===> error/unit_coersion_to_float/error
