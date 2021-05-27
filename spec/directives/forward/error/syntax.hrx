@@ -452,6 +452,14 @@ Error: expected ";".
   '
   input.scss 1:31  root stylesheet
 
+<===> with/before_as/error-libsass
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) as c-*;
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet
+
 <===>
 ================================================================================
 <===> with/before_show/input.scss
@@ -465,6 +473,14 @@ Error: expected ";".
   '
   input.scss 1:31  root stylesheet
 
+<===> with/before_show/error-libsass
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) show c;
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet
+
 <===>
 ================================================================================
 <===> with/before_hide/input.scss
@@ -477,3 +493,11 @@ Error: expected ";".
   |                               ^
   '
   input.scss 1:31  root stylesheet
+
+<===> with/before_hide/error-libsass
+Error: expected ";".
+  ,
+1 | @forward "other" with ($a: b) hide c;
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet

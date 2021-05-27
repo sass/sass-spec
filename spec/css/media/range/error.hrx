@@ -34,6 +34,14 @@ Error: expected ")".
   '
   input.scss 4:24  root stylesheet
 
+<===> invalid_binary_operator/in_subexpression/error-libsass
+Error: expected ")".
+  ,
+4 | @media (1 < 2 or false = width) {a {b: c}}
+  |                       ^
+  '
+  input.scss 4:23  root stylesheet
+
 <===>
 ================================================================================
 <===> invalid_binary_operator/lt/input.scss
@@ -46,6 +54,14 @@ Error: expected ")".
   |                       ^
   '
   input.scss 1:23  root stylesheet
+
+<===> invalid_binary_operator/lt/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1 < width < 2 < 3) {a {b: c}}
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
 
 <===>
 ================================================================================
@@ -60,6 +76,14 @@ Error: expected ")".
   '
   input.scss 1:25  root stylesheet
 
+<===> invalid_binary_operator/lte/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1 <= width <= 2 <= 3) {a {b: c}}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
 <===>
 ================================================================================
 <===> invalid_binary_operator/eq/input.scss
@@ -72,6 +96,14 @@ Error: expected ")".
   |               ^
   '
   input.scss 1:15  root stylesheet
+
+<===> invalid_binary_operator/eq/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1 = 2 = width) {a {b: c}}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
 
 <===>
 ================================================================================
@@ -86,6 +118,14 @@ Error: expected ")".
   '
   input.scss 1:25  root stylesheet
 
+<===> invalid_binary_operator/gte/error-libsass
+Error: expected ")".
+  ,
+1 | @media (3 >= width >= 2 >= 1) {a {b: c}}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
 <===>
 ================================================================================
 <===> invalid_binary_operator/gt/input.scss
@@ -98,6 +138,14 @@ Error: expected ")".
   |                       ^
   '
   input.scss 1:23  root stylesheet
+
+<===> invalid_binary_operator/gt/error-libsass
+Error: expected ")".
+  ,
+1 | @media (3 > width > 2 > 1) {a {b: c}}
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
 
 <===>
 ================================================================================
@@ -161,6 +209,14 @@ Error: expected ")".
   '
   input.scss 1:21  root stylesheet
 
+<===> mismatched_range/gt_lt/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1px > width < 2px) {a {b: c}}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
 <===>
 ================================================================================
 <===> mismatched_range/gte_lte/input.scss
@@ -173,6 +229,14 @@ Error: expected ")".
   |                      ^
   '
   input.scss 1:22  root stylesheet
+
+<===> mismatched_range/gte_lte/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1px >= width <= 2px) {a {b: c}}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
 
 <===>
 ================================================================================
@@ -187,6 +251,14 @@ Error: expected ")".
   '
   input.scss 1:21  root stylesheet
 
+<===> mismatched_range/lt_gt/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1px < width > 2px) {a {b: c}}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
 <===>
 ================================================================================
 <===> mismatched_range/lte_gte/input.scss
@@ -199,3 +271,11 @@ Error: expected ")".
   |                      ^
   '
   input.scss 1:22  root stylesheet
+
+<===> mismatched_range/lte_gte/error-libsass
+Error: expected ")".
+  ,
+1 | @media (1px <= width >= 2px) {a {b: c}}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet

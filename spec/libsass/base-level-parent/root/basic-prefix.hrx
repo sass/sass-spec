@@ -4,17 +4,19 @@ pre& {
     bar: baz;
   }
 }
-<===> error
-Error: Invalid CSS after "pre": expected "{", was "&"
-       
-       "&" may only be used at the beginning of a compound selector.
-        on line 1 of input.scss
-  Use --trace for backtrace.
 
-<===> error-dart-sass
+<===> error
 Error: "&" may only used at the beginning of a compound selector.
   ,
 1 | pre&{
+  |    ^
+  '
+  input.scss 1:4  root stylesheet
+
+<===> error-libsass
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | pre& {
   |    ^
   '
   input.scss 1:4  root stylesheet

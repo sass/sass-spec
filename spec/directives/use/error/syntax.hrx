@@ -104,6 +104,14 @@ Error: expected "(".
   '
   input.scss 1:15  root stylesheet
 
+<===> within/function/error-libsass
+Error: expected "(".
+  ,
+1 | @function foo {
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
 <===>
 ================================================================================
 <===> within/style_rule/input.scss
@@ -245,6 +253,14 @@ Error: Expected digit.
   |        ^
   '
   input.scss 1:8  root stylesheet
+
+<===> member/function/no_namespace/error-libsass
+Error: Expected digit.
+  ,
+1 | a {a: .member()}
+  |       ^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -497,6 +513,14 @@ Error: expected ")".
   '
   input.scss 1:26  root stylesheet
 
+<===> with/default/error-libsass
+Error: expected ")".
+  ,
+1 | @use "other" with ($a: b !default);
+  |                         ^
+  '
+  input.scss 1:25  root stylesheet
+
 <===>
 ================================================================================
 <===> with/no_arguments/input.scss
@@ -522,3 +546,11 @@ Error: expected ";".
   |                           ^
   '
   input.scss 1:27  root stylesheet
+
+<===> with/before_as/error-libsass
+Error: expected ";".
+  ,
+1 | @use "other" with ($a: b) as c;
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
