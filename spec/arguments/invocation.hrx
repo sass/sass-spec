@@ -11,13 +11,6 @@ Error: Positional arguments must come before keyword arguments.
   '
   input.scss 3:19  root stylesheet
 
-<===> mixin/error/positional_after_named/error-libsass
-Error: ordinal arguments must precede named arguments
-        on line 3 of input.scss
->> @include a($b: 1, 2) {}
-
-   ------------------^
-
 <===>
 ================================================================================
 <===> mixin/error/duplicate_named/input.scss
@@ -32,14 +25,6 @@ Error: Duplicate argument.
   |                   ^^
   '
   input.scss 3:19  root stylesheet
-
-<===> mixin/error/duplicate_named/error-libsass
-Error: parameter $bprovided more than once in call to Mixin a
-        on line 3:19 of input.scss, in mixin `a`
-        from line 3:10 of input.scss
->> @include a($b: 1, $b: 2);
-
-   ------------------^
 
 <===>
 ================================================================================
@@ -56,14 +41,6 @@ Error: Duplicate argument.
   '
   input.scss 3:21  root stylesheet
 
-<===> mixin/error/duplicate_named_normalization/error-libsass
-Error: parameter $b-cprovided more than once in call to Mixin a
-        on line 3:21 of input.scss, in mixin `a`
-        from line 3:10 of input.scss
->> @include a($b-c: 1, $b_c: 2);
-
-   --------------------^
-
 <===>
 ================================================================================
 <===> function/error/positional_after_named/input.scss
@@ -78,10 +55,3 @@ Error: Positional arguments must come before keyword arguments.
   |              ^
   '
   input.scss 3:14  root stylesheet
-
-<===> function/error/positional_after_named/error-libsass
-Error: ordinal arguments must precede named arguments
-        on line 3 of input.scss
->> $d: a($b: 1, 2);
-
-   -------------^
