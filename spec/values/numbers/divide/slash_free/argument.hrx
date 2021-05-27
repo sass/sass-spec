@@ -204,6 +204,43 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 1:36  root stylesheet
 
+<===> function/rest/map/warning-libsass
+DEPRECATION WARNING on line 1, column 22 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |                      ^^^
+  '
+    input.scss 1:22  join()
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
+
+DEPRECATION WARNING on line 1, column 36 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |                                    ^^^
+  '
+    input.scss 1:36  join()
+  ,
+1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> function/rest/kwargs/options.yml
@@ -242,6 +279,43 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |                              ^^^
   '
     input.scss 1:30  root stylesheet
+
+<===> function/rest/kwargs/warning-libsass
+DEPRECATION WARNING on line 1, column 12 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |            ^^^
+  '
+    input.scss 1:12  join()
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
+
+DEPRECATION WARNING on line 1, column 30 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(3, 4)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |                              ^^^
+  '
+    input.scss 1:30  join()
+  ,
+1 | c {d: join(1/2..., ("list2": 3/4)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -304,6 +378,19 @@ c {
 }
 
 <===> macro/rest/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | c {d: if(true, 1/2 null...)}
+  |                ^^^^^^^^
+  '
+    input.scss 1:16  root stylesheet
+
+<===> macro/rest/warning-libsass
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
 Recommendation: math.div(1, 2)

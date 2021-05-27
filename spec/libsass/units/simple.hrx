@@ -139,3 +139,160 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |              ^^^^^^^^^^^
   '
     input.scss 5:14  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING on line 2, column 9 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div((5in + 3cm) * 10px * 100pt * 10fu, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING on line 2, column 9 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(math.div((5in + 3cm) * 10px * 100pt * 10fu, 2px), 2fu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING on line 2, column 9 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(math.div(math.div((5in + 3cm) * 10px * 100pt * 10fu,
+2px), 2fu), 3pt)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING on line 3, column 8 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(23in, 2fu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 |   ho: (23in/2fu) > (23cm/2fu);
+  |        ^^^^^^^^
+  '
+    input.scss 3:8  root stylesheet
+
+DEPRECATION WARNING on line 3, column 21 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(23cm, 2fu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+3 |   ho: (23in/2fu) > (23cm/2fu);
+  |                     ^^^^^^^^
+  '
+    input.scss 3:21  root stylesheet
+
+DEPRECATION WARNING on line 4, column 14 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(23px, 2fu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |              ^^^^^^^^
+  '
+    input.scss 4:14  unit()
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:8   root stylesheet
+
+DEPRECATION WARNING on line 4, column 14 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(math.div(23px, 2fu), 12emu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |              ^^^^^^^^^^^^^^
+  '
+    input.scss 4:14  unit()
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:8   root stylesheet
+
+DEPRECATION WARNING on line 4, column 14 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(math.div(math.div(23px, 2fu), 12emu), 1.2gnu)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |              ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:14  unit()
+  ,
+4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:8   root stylesheet
+
+DEPRECATION WARNING on line 5, column 14 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(2in, 3cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   hee: unit((2in/3cm/4cm));
+  |              ^^^^^^^
+  '
+    input.scss 5:14  unit()
+  ,
+5 |   hee: unit((2in/3cm/4cm));
+  |        ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:8   root stylesheet
+
+DEPRECATION WARNING on line 5, column 14 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(math.div(2in, 3cm), 4cm)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+5 |   hee: unit((2in/3cm/4cm));
+  |              ^^^^^^^^^^^
+  '
+    input.scss 5:14  unit()
+  ,
+5 |   hee: unit((2in/3cm/4cm));
+  |        ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:8   root stylesheet

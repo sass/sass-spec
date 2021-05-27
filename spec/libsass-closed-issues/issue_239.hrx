@@ -135,3 +135,52 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
     input.scss 12:17  col-width()
     input.scss 21:16  root stylesheet
 
+<===> warning-libsass
+DEPRECATION WARNING on line 1, column 10 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(100%, 36.2)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | $gutter: 100% / 36.2;
+  |          ^^^^^^^^^^^
+  '
+    input.scss 1:10  root stylesheet
+
+DEPRECATION WARNING on line 6, column 15 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(12, $n)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+6 |     $divisor: 12 / $n;
+  |               ^^^^^^^
+  '
+    input.scss 6:15   col_width()
+   ,
+21 |         width: col_width( $i );
+   |                ^^^^^^^^^^^^^^^
+   '
+    input.scss 21:16  root stylesheet
+
+DEPRECATION WARNING on line 12, column 17 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div((100% - $gutter * ($divisor - 1)), $divisor)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+12 |         @return (100% - $gutter * ($divisor - 1)) / $divisor;
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 12:17  col_width()
+   ,
+21 |         width: col_width( $i );
+   |                ^^^^^^^^^^^^^^^
+   '
+    input.scss 21:16  root stylesheet

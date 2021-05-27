@@ -43,6 +43,24 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 1:16  root stylesheet
 
+<===> denominator/warning-libsass
+DEPRECATION WARNING on line 1, column 16 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(1, 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unitless(1/1px)}
+  |                ^^^^^
+  '
+    input.scss 1:16  unitless()
+  ,
+1 | a {b: unitless(1/1px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -71,6 +89,24 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 1:16  root stylesheet
 
+<===> numerator_and_denominator/warning-libsass
+DEPRECATION WARNING on line 1, column 16 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(1px, 1em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: unitless(1px/1em)}
+  |                ^^^^^^^
+  '
+    input.scss 1:16  unitless()
+  ,
+1 | a {b: unitless(1px/1em)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

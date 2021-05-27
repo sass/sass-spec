@@ -88,3 +88,22 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 2:12  ie-opacity()
     input.scss 19:3  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING on line 2, column 12 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div($opacity, 100)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   opacity: $opacity / 100;
+  |            ^^^^^^^^^^^^^^
+  '
+    input.scss 2:12  ie-opacity()
+   ,
+19 |   @include ie-opacity(.5);
+   |   ^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:3  root stylesheet

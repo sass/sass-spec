@@ -73,6 +73,24 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 1:11  root stylesheet
 
+<===> preserves_units/warning-libsass
+DEPRECATION WARNING on line 1, column 11 of input.scss:
+Using / for division is deprecated and will be removed in LibSass 4.1.0.
+
+Recommendation: math.div(-7px, 4em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | a {b: abs(-7px / 4em) * 1em}
+  |           ^^^^^^^^^^
+  '
+    input.scss 1:11  abs()
+  ,
+1 | a {b: abs(-7px / 4em) * 1em}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
