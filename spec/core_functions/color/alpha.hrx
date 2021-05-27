@@ -147,6 +147,19 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/error-libsass
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: alpha(1)}
+  |             ^
+  '
+  input.scss 1:13  alpha()
+  ,
+1 | a {b: alpha(1)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/quoted_string/options.yml
@@ -165,12 +178,18 @@ Error: $color: "c=d" is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===>
-================================================================================
-<===> error/unquoted_string/no_equals/options.yml
----
-:todo:
-- sass/libsass#2898
+<===> error/quoted_string/error-libsass
+Error: $color: "c=d" is not a color.
+  ,
+1 | a {b: alpha("c=d")}
+  |             ^^^^^
+  '
+  input.scss 1:13  alpha()
+  ,
+1 | a {b: alpha("c=d")}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===> error/unquoted_string/no_equals/input.scss
 a {b: alpha(cd)}
@@ -183,12 +202,18 @@ Error: $color: cd is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===>
-================================================================================
-<===> error/unquoted_string/non_identifier_before_equals/options.yml
----
-:todo:
-- sass/libsass#2898
+<===> error/unquoted_string/no_equals/error-libsass
+Error: $color: cd is not a color.
+  ,
+1 | a {b: alpha(cd)}
+  |             ^^
+  '
+  input.scss 1:13  alpha()
+  ,
+1 | a {b: alpha(cd)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===> error/unquoted_string/non_identifier_before_equals/input.scss
 a {b: alpha(unquote("1=c"))}
@@ -200,3 +225,16 @@ Error: $color: 1=c is not a color.
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/unquoted_string/non_identifier_before_equals/error-libsass
+Error: $color: 1=c is not a color.
+  ,
+1 | a {b: alpha(unquote("1=c"))}
+  |                     ^^^^^
+  '
+  input.scss 1:21  alpha()
+  ,
+1 | a {b: alpha(unquote("1=c"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

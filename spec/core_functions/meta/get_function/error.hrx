@@ -10,10 +10,17 @@ Error: $name: 2px is not a string.
   input.scss 1:7  root stylesheet
 
 <===> argument/type/name/error-libsass
-Error: $name: 2px is not a string for `get-function'
-        on line 1 of /sass/spec/core_functions/get-function/errors/illegal-argument/input.scss
-  Use --trace for backtrace.
-
+Error: $name: 2px is not a string.
+  ,
+1 | a {b: get-function(2px)}
+  |                    ^^^
+  '
+  input.scss 1:20  get-function()
+  ,
+1 | a {b: get-function(2px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -31,7 +38,20 @@ Error: $module: 1 is not a string.
 1 | a {b: get-function(c, $module: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  srcmap.scss 1:7  root stylesheet
+
+<===> argument/type/module/error-libsass
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: get-function(c, $module: 1)}
+  |                                ^
+  '
+  input.scss 1:32  get-function()
+  ,
+1 | a {b: get-function(c, $module: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -52,10 +72,17 @@ Error: $name: get-function("foo") is not a string.
   input.scss 6:7  root stylesheet
 
 <===> argument/function_ref/error-libsass
-Error: $name: get-function("foo") is not a string for `get-function'
-        on line 6 of /sass/spec/core_functions/get-function/errors/passed-fn-ref/input.scss
-  Use --trace for backtrace.
-
+Error: $name: get-function("foo") is not a string.
+  ,
+5 | $foo-ref: get-function(foo);
+  |           ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:11  get-function()
+  ,
+6 | a {b: get-function($foo-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:7   root stylesheet
 
 <===>
 ================================================================================
@@ -140,6 +167,19 @@ Error: Function not found: d
   '
   input.scss 3:11  root stylesheet
 
+<===> through_forward/show/error-libsass
+Error: Function not found: d
+  ,
+3 |   b: call(get-function(d));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  call()
+  ,
+3 |   b: call(get-function(d));
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:6   root stylesheet
+
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
@@ -161,6 +201,19 @@ Error: Function not found: c
   |           ^^^^^^^^^^^^^^^
   '
   input.scss 3:11  root stylesheet
+
+<===> through_forward/hide/error-libsass
+Error: Function not found: c
+  ,
+3 |   b: call(get-function(c));
+  |           ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:11  call()
+  ,
+3 |   b: call(get-function(c));
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:6   root stylesheet
 
 <===>
 ================================================================================
@@ -205,10 +258,17 @@ Error: $name: get-function("add-two") is not a string.
   input.scss 8:10  root stylesheet
 
 <===> function_exists/error-libsass
-Error: $name: get-function("add-two") is not a string for `get-function'
-        on line 8 of /sass/spec/core_functions/get-function/errors/get-function/input.scss
-  Use --trace for backtrace.
-
+Error: $name: get-function("add-two") is not a string.
+  ,
+5 | $add-two-fn: get-function(add-two);
+  |              ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:14  get-function()
+  ,
+8 |   error: get-function($add-two-fn);
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 8:10  root stylesheet
 
 <===>
 ================================================================================

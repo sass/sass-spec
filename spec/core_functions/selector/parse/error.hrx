@@ -16,11 +16,21 @@ Error: $selector: Parent selectors aren't allowed here.
 
 <===> parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:22 of input.scss, in function `selector-parse`
-        from line 1:7 of input.scss
->> a {b: selector-parse("&")}
-
-   ---------------------^
+  ,
+1 | a {b: selector-parse(&)}
+  |                      ^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse("&")}
+  |                      ^^^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse("&")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -41,12 +51,22 @@ Error: $selector: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> parse/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:23 of input.scss, in function `selector-parse`
-        from line 1:7 of input.scss
->> a {b: selector-parse("[c")}
-
-   ----------------------^
+Error: expected more input.
+  ,
+1 | a {b: selector-parse([c)}
+  |                        ^
+  '
+  input.scss 1:24  selector-parse()
+  ,
+1 | a {b: selector-parse("[c")}
+  |                      ^^^^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse("[c")}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -71,6 +91,24 @@ Error: $selector: expected selector.
   '
   input.scss 1:7  root stylesheet
 
+<===> parse/extra/error-libsass
+Error: expected selector.
+  ,
+1 | a {b: selector-parse(c {)}
+  |                        ^
+  '
+  input.scss 1:24  selector-parse()
+  ,
+1 | a {b: selector-parse("c {")}
+  |                      ^^^^^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse("c {")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> too_nested/options.yml
@@ -89,6 +127,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> too_nested/error-libsass
+Error: c is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse((append((), append((), c)),))}
+  |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse((append((), append((), c)),))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -109,6 +161,20 @@ a list of strings, or a list of lists of strings.
   '
   input.scss 1:7  root stylesheet
 
+<===> inner_comma/error-libsass
+Error: $selector: ((c,),) is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(((c,),))}
+  |                      ^^^^^^^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse(((c,),))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> outer_space/options.yml
@@ -128,11 +194,19 @@ a list of strings, or a list of lists of strings.
   '
   input.scss 1:7  root stylesheet
 
-<===>
-================================================================================
-<===> slash_list/options.yml
-:todo:
-- sass/libsass#2887
+<===> outer_space/error-libsass
+Error: $selector: c is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(append((), append((), c)))}
+  |                             ^^
+  '
+  input.scss 1:29  selector-parse()
+  ,
+1 | a {b: selector-parse(append((), append((), c)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -149,6 +223,20 @@ a list of strings, or a list of lists of strings.
   '
   input.scss 2:7  root stylesheet
 
+<===> slash_list/top_level/error-libsass
+Error: $selector: c d / e f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+2 | a {b: selector-parse(list.slash(c d, e f))}
+  |                      ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:22  selector-parse()
+  ,
+2 | a {b: selector-parse(list.slash(c d, e f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> slash_list/in_comma_list/input.scss
@@ -163,6 +251,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> slash_list/in_comma_list/error-libsass
+Error: $selector: c / d, e / f is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+2 | a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+  |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:22  selector-parse()
+  ,
+2 | a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -182,6 +284,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> type/error-libsass
+Error: $selector: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-parse(1)}
+  |                      ^
+  '
+  input.scss 1:22  selector-parse()
+  ,
+1 | a {b: selector-parse(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

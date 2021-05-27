@@ -54,11 +54,12 @@ Error: Missing argument $color.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function red is missing argument $color.
-        on line 1 of input.scss
->> a {b: red()}
-
-   ------^
+Error: Missing argument $color.
+  ,
+1 | a {b: red()}
+  |       ^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -78,11 +79,12 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `red'
-        on line 1:7 of input.scss
->> a {b: red(red, green)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: red(red, green)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -98,9 +100,14 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `red($color)` must be a color
-        on line 1:7 of input.scss, in function `red`
-        from line 1:7 of input.scss
->> a {b: red(1)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: red(1)}
+  |           ^
+  '
+  input.scss 1:11  red()
+  ,
+1 | a {b: red(1)}
+  |       ^^^^^^
+  '
+  input.scss 1:7   root stylesheet

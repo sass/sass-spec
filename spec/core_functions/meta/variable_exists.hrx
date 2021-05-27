@@ -186,12 +186,17 @@ Error: $name: 12px is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/type/error-libsass
-Error: argument `$name` of `variable-exists($name)` must be a string
-        on line 1:7 of input.scss, in function `variable-exists`
-        from line 1:7 of input.scss
->> a {b: variable-exists(12px)}
-
-   ------^
+Error: $name: 12px is not a string.
+  ,
+1 | a {b: variable-exists(12px)}
+  |                       ^^^^
+  '
+  input.scss 1:23  variable-exists()
+  ,
+1 | a {b: variable-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

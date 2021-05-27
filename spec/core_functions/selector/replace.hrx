@@ -217,11 +217,21 @@ Error: $selector: Parent selectors aren't allowed here.
 
 <===> error/selector/parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:23 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("&", "c", "d")}
-
-   ----------------------^
+  ,
+1 | a {b: selector-replace(&, "c", "d")}
+  |                        ^
+  '
+  input.scss 1:24  selector-replace()
+  ,
+1 | a {b: selector-replace("&", "c", "d")}
+  |                        ^^^
+  '
+  input.scss 1:24  selector-replace()
+  ,
+1 | a {b: selector-replace("&", "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -242,12 +252,22 @@ Error: $selector: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/selector/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:24 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("[c", "d", "e")}
-
-   -----------------------^
+Error: expected more input.
+  ,
+1 | a {b: selector-replace([c, "d", "e")}
+  |                          ^
+  '
+  input.scss 1:26  selector-replace()
+  ,
+1 | a {b: selector-replace("[c", "d", "e")}
+  |                        ^^^^
+  '
+  input.scss 1:24  selector-replace()
+  ,
+1 | a {b: selector-replace("[c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -267,6 +287,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/selector/type/error-libsass
+Error: $selector: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace(1, "c", "d")}
+  |                        ^
+  '
+  input.scss 1:24  selector-replace()
+  ,
+1 | a {b: selector-replace(1, "c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -288,11 +322,21 @@ Error: $original: Parent selectors aren't allowed here.
 
 <===> error/extendee/parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:28 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "&", "d")}
-
-   ---------------------------^
+  ,
+1 | a {b: selector-replace("c", &, "d")}
+  |                             ^
+  '
+  input.scss 1:29  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "&", "d")}
+  |                             ^^^
+  '
+  input.scss 1:29  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "&", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -346,12 +390,22 @@ Error: $original: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/extendee/invalid/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:29 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "[d", "e")}
-
-   ----------------------------^
+Error: expected more input.
+  ,
+1 | a {b: selector-replace("c", [d, "e")}
+  |                               ^
+  '
+  input.scss 1:31  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "[d", "e")}
+  |                             ^^^^
+  '
+  input.scss 1:29  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "[d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -371,6 +425,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/extendee/type/error-libsass
+Error: $original: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace("c", 1, "d")}
+  |                             ^
+  '
+  input.scss 1:29  selector-replace()
+  ,
+1 | a {b: selector-replace("c", 1, "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -392,11 +460,21 @@ Error: $replacement: Parent selectors aren't allowed here.
 
 <===> error/extender/parent/error-libsass
 Error: Parent selectors aren't allowed here.
-        on line 1:33 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "&")}
-
-   --------------------------------^
+  ,
+1 | a {b: selector-replace("c", "d", &)}
+  |                                  ^
+  '
+  input.scss 1:34  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "d", "&")}
+  |                                  ^^^
+  '
+  input.scss 1:34  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "d", "&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -417,12 +495,22 @@ Error: $replacement: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/extender/invalid/error-libsass
-Error: invalid operator in attribute selector for e
-        on line 1:34 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "[e")}
-
-   ---------------------------------^
+Error: expected more input.
+  ,
+1 | a {b: selector-replace("c", "d", [e)}
+  |                                    ^
+  '
+  input.scss 1:36  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "d", "[e")}
+  |                                  ^^^^
+  '
+  input.scss 1:34  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "d", "[e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -442,6 +530,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/extender/type/error-libsass
+Error: $replacement: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-replace("c", "d", 1)}
+  |                                  ^
+  '
+  input.scss 1:34  selector-replace()
+  ,
+1 | a {b: selector-replace("c", "d", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

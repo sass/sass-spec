@@ -98,9 +98,14 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `green($color)` must be a color
-        on line 1:7 of input.scss, in function `green`
-        from line 1:7 of input.scss
->> a {b: green(1)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: green(1)}
+  |             ^
+  '
+  input.scss 1:13  green()
+  ,
+1 | a {b: green(1)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

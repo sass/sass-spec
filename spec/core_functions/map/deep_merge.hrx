@@ -161,12 +161,17 @@ Error: $map1: 1 is not a map.
   input.scss 2:7  root stylesheet
 
 <===> error/type/map1/error-libsass
-Error: argument `$map1` of `map.deep-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map.deep-merge`
-        from line 1:7 of input.scss
->> a {b: map.deep-merge(1, (c: d))}
-
-   ------^
+Error: $map1: 1 is not a map.
+  ,
+2 | a {b: map.deep-merge(1, (c: d))}
+  |                      ^
+  '
+  input.scss 2:22  deep-merge()
+  ,
+2 | a {b: map.deep-merge(1, (c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -183,12 +188,17 @@ Error: $map2: 1 is not a map.
   input.scss 2:7  root stylesheet
 
 <===> error/type/map2/error-libsass
-Error: argument `$map2` of `map.deep-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map.deep-merge`
-        from line 1:7 of input.scss
->> a {b: map.deep-merge((c: d), 1)}
-
-   ------^
+Error: $map2: 1 is not a map.
+  ,
+2 | a {b: map.deep-merge((c: d), 1)}
+  |                              ^
+  '
+  input.scss 2:30  deep-merge()
+  ,
+2 | a {b: map.deep-merge((c: d), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

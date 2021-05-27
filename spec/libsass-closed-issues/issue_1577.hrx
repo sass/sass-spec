@@ -12,6 +12,19 @@ Error: 10% and 20px have incompatible units.
   input.scss 3:9  root stylesheet
 
 <===> error-libsass
-Error: Incompatible units: 'px' and '%'.
-        on line 3 of input.scss
-  Use --trace for backtrace.
+Error: Incompatible units px and %.
+  ,
+3 | $error: $foo + 20px; // line 3
+  |                ^^^^
+  '
+  input.scss 3:16  root stylesheet
+  ,
+1 | $foo: 10%; // line 1
+  |       ^^^
+  '
+  input.scss 1:7   root stylesheet
+  ,
+3 | $error: $foo + 20px; // line 3
+  |         ^^^^^^^^^^^
+  '
+  input.scss 3:9   root stylesheet

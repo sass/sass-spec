@@ -328,12 +328,17 @@ Error: $string: 1 is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/type/string/error-libsass
-Error: argument `$string` of `str-slice($string, $start-at, $end-at:-1)` must be a string
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice(1, 2)}
-
-   ------^
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-slice(1, 2)}
+  |                 ^
+  '
+  input.scss 1:17  str-slice()
+  ,
+1 | a {b: str-slice(1, 2)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -349,12 +354,17 @@ Error: $start-at: "f" is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/start_at/error-libsass
-Error: argument `$start-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("cde", "f")}
-
-   ------^
+Error: $start-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", "f")}
+  |                        ^^^
+  '
+  input.scss 1:24  str-slice()
+  ,
+1 | a {b: str-slice("cde", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -370,12 +380,17 @@ Error: $end-at: "f" is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/end_at/error-libsass
-Error: argument `$end-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("cde", 1, "f")}
-
-   ------^
+Error: $end-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", 1, "f")}
+  |                           ^^^
+  '
+  input.scss 1:27  str-slice()
+  ,
+1 | a {b: str-slice("cde", 1, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -391,12 +406,17 @@ Error: 0.5 is not an int.
   input.scss 1:7  root stylesheet
 
 <===> error/decimal/start/error-libsass
-Error: $start-at: 0.500000 is not an int
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("", 0.5)}
-
-   ------^
+Error: $start: 0.5 is not an int.
+  ,
+1 | a {b: str-slice("", 0.5)}
+  |                     ^^^
+  '
+  input.scss 1:21  str-slice()
+  ,
+1 | a {b: str-slice("", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -412,12 +432,17 @@ Error: 1.5 is not an int.
   input.scss 1:7  root stylesheet
 
 <===> error/decimal/end/error-libsass
-Error: $end-at: 1.500000 is not an int
-        on line 1:7 of input.scss, in function `str-slice`
-        from line 1:7 of input.scss
->> a {b: str-slice("", 1, 1.5)}
-
-   ------^
+Error: $end: 1.5 is not an int.
+  ,
+1 | a {b: str-slice("", 1, 1.5)}
+  |                        ^^^
+  '
+  input.scss 1:24  str-slice()
+  ,
+1 | a {b: str-slice("", 1, 1.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

@@ -72,6 +72,19 @@ Error: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/type/first/error-libsass
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot("0", 1px, 1px)}
+  |                  ^^^
+  '
+  input.scss 2:18  hypot()
+  ,
+2 | a {b: math.hypot("0", 1px, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/second/input.scss
@@ -85,6 +98,19 @@ Error: "0" is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/type/second/error-libsass
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot(1px, "0", 1px)}
+  |                       ^^^
+  '
+  input.scss 2:23  hypot()
+  ,
+2 | a {b: math.hypot(1px, "0", 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -100,6 +126,19 @@ Error: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/type/third/error-libsass
+Error: "0" is not a number.
+  ,
+2 | a {b: math.hypot(1px, 1px, "0")}
+  |                            ^^^
+  '
+  input.scss 2:28  hypot()
+  ,
+2 | a {b: math.hypot(1px, 1px, "0")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/incompatible_units/first_and_second/input.scss
@@ -113,6 +152,24 @@ Error: $numbers[2]: 1px and $numbers[1]: 1deg have incompatible units.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/incompatible_units/first_and_second/error-libsass
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.hypot(1deg, 1px, 1turn)}
+  |                        ^^^
+  '
+  input.scss 2:24  hypot()
+  ,
+2 | a {b: math.hypot(1deg, 1px, 1turn)}
+  |                  ^^^^
+  '
+  input.scss 2:18  hypot()
+  ,
+2 | a {b: math.hypot(1deg, 1px, 1turn)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -128,6 +185,24 @@ Error: $numbers[3]: 1px and $numbers[1]: 1deg have incompatible units.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/incompatible_units/first_and_third/error-libsass
+Error: Incompatible units px and deg.
+  ,
+2 | a {b: math.hypot(1deg, 1turn, 1px)}
+  |                               ^^^
+  '
+  input.scss 2:31  hypot()
+  ,
+2 | a {b: math.hypot(1deg, 1turn, 1px)}
+  |                  ^^^^
+  '
+  input.scss 2:18  hypot()
+  ,
+2 | a {b: math.hypot(1deg, 1turn, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/incompatible_units/second_and_third/input.scss
@@ -142,6 +217,24 @@ Error: $numbers[3]: 1px and $numbers[1]: 1turn have incompatible units.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/incompatible_units/second_and_third/error-libsass
+Error: Incompatible units px and turn.
+  ,
+2 | a {b: math.hypot(1turn, 1deg, 1px)}
+  |                               ^^^
+  '
+  input.scss 2:31  hypot()
+  ,
+2 | a {b: math.hypot(1turn, 1deg, 1px)}
+  |                  ^^^^^
+  '
+  input.scss 2:18  hypot()
+  ,
+2 | a {b: math.hypot(1turn, 1deg, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/incompatible_units/all/input.scss
@@ -155,6 +248,24 @@ Error: $numbers[2]: 1px and $numbers[1]: 1turn have incompatible units.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/incompatible_units/all/error-libsass
+Error: Incompatible units px and turn.
+  ,
+2 | a {b: math.hypot(1turn, 1px, 1s)}
+  |                         ^^^
+  '
+  input.scss 2:25  hypot()
+  ,
+2 | a {b: math.hypot(1turn, 1px, 1s)}
+  |                  ^^^^^
+  '
+  input.scss 2:18  hypot()
+  ,
+2 | a {b: math.hypot(1turn, 1px, 1s)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

@@ -88,12 +88,17 @@ Error: $number: c is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$number` of `floor($number)` must be a number
-        on line 1:7 of input.scss, in function `round`
-        from line 1:7 of input.scss
->> a {b: floor(c)}
-
-   ------^
+Error: $number: c is not a number.
+  ,
+1 | a {b: floor(c)}
+  |             ^
+  '
+  input.scss 1:13  floor()
+  ,
+1 | a {b: floor(c)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

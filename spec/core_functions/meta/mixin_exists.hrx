@@ -222,12 +222,17 @@ Error: $name: 12px is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/type/name/error-libsass
-Error: argument `$name` of `mixin-exists($name)` must be a string
-        on line 1:7 of input.scss, in function `mixin-exists`
-        from line 1:7 of input.scss
->> a {b: mixin-exists(12px)}
-
-   ------^
+Error: $name: 12px is not a string.
+  ,
+1 | a {b: mixin-exists(12px)}
+  |                    ^^^^
+  '
+  input.scss 1:20  mixin-exists()
+  ,
+1 | a {b: mixin-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -246,6 +251,19 @@ Error: $module: 1 is not a string.
   |       ^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/argument/type/module/error-libsass
+Error: $module: 1 is not a string.
+  ,
+1 | a {b: mixin-exists(c, 1)}
+  |                       ^
+  '
+  input.scss 1:23  mixin-exists()
+  ,
+1 | a {b: mixin-exists(c, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

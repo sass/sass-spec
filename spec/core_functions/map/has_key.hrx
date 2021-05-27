@@ -135,12 +135,17 @@ Error: $map: 1 is not a map.
   input.scss 1:7  root stylesheet
 
 <===> error/type/map/error-libsass
-Error: argument `$map` of `map-has-key($map, $key)` must be a map
-        on line 1:7 of input.scss, in function `map-has-key`
-        from line 1:7 of input.scss
->> a {b: map-has-key(1, 2)}
-
-   ------^
+Error: $map: 1 is not a map.
+  ,
+1 | a {b: map-has-key(1, 2)}
+  |                   ^
+  '
+  input.scss 1:19  map-has-key()
+  ,
+1 | a {b: map-has-key(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

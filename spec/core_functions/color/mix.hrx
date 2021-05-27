@@ -274,12 +274,17 @@ Error: $color1: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/color1/error-libsass
-Error: argument `$color1` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(1, blue)}
-
-   ------^
+Error: $color1: 1 is not a color.
+  ,
+1 | a {b: mix(1, blue)}
+  |           ^
+  '
+  input.scss 1:11  mix()
+  ,
+1 | a {b: mix(1, blue)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -295,12 +300,17 @@ Error: $color2: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/color2/error-libsass
-Error: argument `$color2` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, 1)}
-
-   ------^
+Error: $color2: 1 is not a color.
+  ,
+1 | a {b: mix(red, 1)}
+  |                ^
+  '
+  input.scss 1:16  mix()
+  ,
+1 | a {b: mix(red, 1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -316,12 +326,17 @@ Error: $weight: green is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/weight/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a number
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, green)}
-
-   ------^
+Error: $weight: green is not a number.
+  ,
+1 | a {b: mix(red, blue, green)}
+  |                      ^^^^^
+  '
+  input.scss 1:22  mix()
+  ,
+1 | a {b: mix(red, blue, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -337,12 +352,17 @@ Error: $weight: Expected -0.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_low/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, -0.001)}
-
-   ------^
+Error: $weight: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: mix(red, blue, -0.001)}
+  |                      ^^^^^^
+  '
+  input.scss 1:22  mix()
+  ,
+1 | a {b: mix(red, blue, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -358,9 +378,14 @@ Error: $weight: Expected 100.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_high/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, 100.001)}
-
-   ------^
+Error: $weight: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: mix(red, blue, 100.001)}
+  |                      ^^^^^^^
+  '
+  input.scss 1:22  mix()
+  ,
+1 | a {b: mix(red, blue, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

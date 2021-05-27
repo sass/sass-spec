@@ -180,12 +180,17 @@ Error: $number: c is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$number` of `unit($number)` must be a number
-        on line 1:7 of input.scss, in function `unit`
-        from line 1:7 of input.scss
->> a {b: unit(c)}
-
-   ------^
+Error: $number: c is not a number.
+  ,
+1 | a {b: unit(c)}
+  |            ^
+  '
+  input.scss 1:12  unit()
+  ,
+1 | a {b: unit(c)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

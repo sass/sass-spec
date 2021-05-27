@@ -32,6 +32,19 @@ Error: $y: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/y_type/error-libsass
+Error: $y: "0" is not a number.
+  ,
+2 | a {b: math.atan2("0", 0)}
+  |                  ^^^
+  '
+  input.scss 2:18  atan2()
+  ,
+2 | a {b: math.atan2("0", 0)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/x_type/input.scss
@@ -46,6 +59,19 @@ Error: $x: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/x_type/error-libsass
+Error: $x: "0" is not a number.
+  ,
+2 | a {b: math.atan2(0, "0")}
+  |                     ^^^
+  '
+  input.scss 2:21  atan2()
+  ,
+2 | a {b: math.atan2(0, "0")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/incompatible_units/input.scss
@@ -59,6 +85,24 @@ Error: $x: 1deg and $y: 1px have incompatible units.
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/incompatible_units/error-libsass
+Error: Incompatible units deg and px.
+  ,
+2 | a {b: math.atan2(1px, 1deg)}
+  |                       ^^^^
+  '
+  input.scss 2:23  atan2()
+  ,
+2 | a {b: math.atan2(1px, 1deg)}
+  |                  ^^^
+  '
+  input.scss 2:18  atan2()
+  ,
+2 | a {b: math.atan2(1px, 1deg)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -106,6 +150,14 @@ Error: Missing argument $y.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/zero_args/error-libsass
+Error: Missing argument $y.
+  ,
+2 | a {b: math.atan2()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/one_arg/input.scss
@@ -124,6 +176,14 @@ Error: Missing argument $x.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/one_arg/error-libsass
+Error: Missing argument $x.
+  ,
+2 | a {b: math.atan2(0)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -139,5 +199,13 @@ Error: Only 2 arguments allowed, but 3 were passed.
   ,--> sass:math
 1 | @function atan2($y, $x) {
   |           ============= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: math.atan2(0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

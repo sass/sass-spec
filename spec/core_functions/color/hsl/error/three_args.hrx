@@ -12,12 +12,17 @@ Error: $hue: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> hue/type/error-libsass
-Error: argument `$hue` of `hsl($hue, $saturation, $lightness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsl/error/hue_type/input.scss, in function `hsl`
-        from line 2 of /sass/spec/core_functions/color/hsl/error/hue_type/input.scss
->>   b: hsl("foo", 100%, 50%);
-
-   -----^
+Error: $hue: "foo" is not a number.
+  ,
+2 |   b: hsl("foo", 100%, 50%);
+  |          ^^^^^
+  '
+  input.scss 2:10  hsl()
+  ,
+2 |   b: hsl("foo", 100%, 50%);
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -35,12 +40,17 @@ Error: $saturation: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> saturation/type/error-libsass
-Error: argument `$saturation` of `hsl($hue, $saturation, $lightness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsl/error/saturation_type/input.scss, in function `hsl`
-        from line 2 of /sass/spec/core_functions/color/hsl/error/saturation_type/input.scss
->>   b: hsl(0, "foo", 50%);
-
-   -----^
+Error: $saturation: "foo" is not a number.
+  ,
+2 |   b: hsl(0, "foo", 50%);
+  |             ^^^^^
+  '
+  input.scss 2:13  hsl()
+  ,
+2 |   b: hsl(0, "foo", 50%);
+  |      ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -58,9 +68,14 @@ Error: $lightness: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> lightness/type/error-libsass
-Error: argument `$lightness` of `hsl($hue, $saturation, $lightness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsl/error/lightness_type/input.scss, in function `hsl`
-        from line 2 of /sass/spec/core_functions/color/hsl/error/lightness_type/input.scss
->>   b: hsl(0, 100%, "foo");
-
-   -----^
+Error: $lightness: "foo" is not a number.
+  ,
+2 |   b: hsl(0, 100%, "foo");
+  |                   ^^^^^
+  '
+  input.scss 2:19  hsl()
+  ,
+2 |   b: hsl(0, 100%, "foo");
+  |      ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet

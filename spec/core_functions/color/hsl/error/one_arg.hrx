@@ -33,6 +33,19 @@ Error: $channels must be a space-separated list.
   '
   input.scss 2:6  root stylesheet
 
+<===> list/comma_separated/error-libsass
+Error: $channels must be a space-separated list.
+  ,
+2 |   b: hsl((0, 100%, 50%));
+  |          ^^^^^^^^^^^^^^
+  '
+  input.scss 2:10  hsl()
+  ,
+2 |   b: hsl((0, 100%, 50%));
+  |      ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> list/bracketed/input.scss
@@ -47,6 +60,19 @@ Error: $channels must be an unbracketed list.
   |      ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> list/bracketed/error-libsass
+Error: $channels must be an unbracketed list.
+  ,
+2 |   b: hsl([0 100% 50%]);
+  |          ^^^^^^^^^^^^
+  '
+  input.scss 2:10  hsl()
+  ,
+2 |   b: hsl([0 100% 50%]);
+  |      ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================

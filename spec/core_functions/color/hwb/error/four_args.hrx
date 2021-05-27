@@ -10,6 +10,19 @@ Error: $hue: "foo" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> hue/type/error-libsass
+Error: $hue: "foo" is not a number.
+  ,
+2 | a {b: color.hwb("foo", 30%, 40%, 0.5)}
+  |                 ^^^^^
+  '
+  input.scss 2:17  hwb()
+  ,
+2 | a {b: color.hwb("foo", 30%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> hue/var/input.scss
@@ -23,6 +36,19 @@ Error: $hue: var(--c) is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> hue/var/error-libsass
+Error: $hue: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
+  |                 ^^^^^^^^
+  '
+  input.scss 2:17  hwb()
+  ,
+2 | a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -38,6 +64,19 @@ Error: $whiteness: "foo" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> whiteness/type/error-libsass
+Error: $whiteness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, "foo", 40%, 0.5)}
+  |                    ^^^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, "foo", 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> whiteness/unit/none/input.scss
@@ -51,6 +90,19 @@ Error: $whiteness: Expected 30 to have unit "%".
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> whiteness/unit/none/error-libsass
+Error: $whiteness: Expected 30 to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30, 40%, 0.5)}
+  |                    ^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, 30, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -66,6 +118,19 @@ Error: $whiteness: Expected 30px to have unit "%".
   '
   input.scss 2:7  root stylesheet
 
+<===> whiteness/unit/wrong/error-libsass
+Error: $whiteness: Expected 30px to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30px, 40%, 0.5)}
+  |                    ^^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, 30px, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> whiteness/too_high/input.scss
@@ -79,6 +144,19 @@ Error: $whiteness: Expected 101% to be within 0% and 100%.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> whiteness/too_high/error-libsass
+Error: $whiteness: Expected 101% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 101%, 40%, 0.5)}
+  |                    ^^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, 101%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -94,6 +172,19 @@ Error: $whiteness: Expected -1% to be within 0% and 100%.
   '
   input.scss 2:7  root stylesheet
 
+<===> whiteness/too_low/error-libsass
+Error: $whiteness: Expected -1% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, -1%, 40%, 0.5)}
+  |                    ^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, -1%, 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> whiteness/var/input.scss
@@ -107,6 +198,19 @@ Error: $whiteness: var(--c) is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> whiteness/var/error-libsass
+Error: $whiteness: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, var(--c), 40%, 0.5)}
+  |                    ^^^^^^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, var(--c), 40%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -122,6 +226,19 @@ Error: $blackness: "foo" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> blackness/type/error-libsass
+Error: $blackness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, 30%, "foo", 0.5)}
+  |                         ^^^^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, "foo", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> blackness/unit/none/input.scss
@@ -135,6 +252,19 @@ Error: $blackness: Expected 40 to have unit "%".
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> blackness/unit/none/error-libsass
+Error: $blackness: Expected 40 to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30%, 40, 0.5)}
+  |                         ^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, 40, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -150,6 +280,19 @@ Error: $blackness: Expected 40px to have unit "%".
   '
   input.scss 2:7  root stylesheet
 
+<===> blackness/unit/wrong/error-libsass
+Error: $blackness: Expected 40px to have unit "%".
+  ,
+2 | a {b: color.hwb(0, 30%, 40px, 0.5)}
+  |                         ^^^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, 40px, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> blackness/too_high/input.scss
@@ -163,6 +306,19 @@ Error: $blackness: Expected 101% to be within 0% and 100%.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> blackness/too_high/error-libsass
+Error: $blackness: Expected 101% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 30%, 101%, 0.5)}
+  |                         ^^^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, 101%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -178,6 +334,19 @@ Error: $blackness: Expected -1% to be within 0% and 100%.
   '
   input.scss 2:7  root stylesheet
 
+<===> blackness/too_low/error-libsass
+Error: $blackness: Expected -1% to be within 0% and 100%.
+  ,
+2 | a {b: color.hwb(0, 30%, -1%, 0.5)}
+  |                         ^^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, -1%, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> blackness/var/input.scss
@@ -191,6 +360,19 @@ Error: $blackness: var(--c) is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> blackness/var/error-libsass
+Error: $blackness: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, 30%, var(--c), 0.5)}
+  |                         ^^^^^^^^
+  '
+  input.scss 2:25  hwb()
+  ,
+2 | a {b: color.hwb(0, 30%, var(--c), 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -206,6 +388,19 @@ Error: $alpha: Expected 0.5px to have no units or "%".
   '
   input.scss 2:7  root stylesheet
 
+<===> alpha/unit/error-libsass
+Error: $alpha: Expected 0.5px to have no units or "%".
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, 0.5px)}
+  |                            ^^^^^
+  '
+  input.scss 2:28  hwb()
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> alpha/var/input.scss
@@ -219,3 +414,16 @@ Error: $alpha: var(--c) is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> alpha/var/error-libsass
+Error: $alpha: var(--c) is not a number.
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, var(--c))}
+  |                            ^^^^^^^^
+  '
+  input.scss 2:28  hwb()
+  ,
+2 | a {b: color.hwb(0, 0%, 0%, var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet

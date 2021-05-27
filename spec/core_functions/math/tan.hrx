@@ -171,6 +171,19 @@ Error: $number: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/type/error-libsass
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.tan("0")}
+  |                ^^^
+  '
+  input.scss 2:16  tan()
+  ,
+2 | a {b: math.tan("0")}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/unit/input.scss
@@ -184,6 +197,19 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
   |       ^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/unit/error-libsass
+Error: $number: Expected 1px to be an angle.
+  ,
+2 | a {b: math.tan(1px)}
+  |                ^^^
+  '
+  input.scss 2:16  tan()
+  ,
+2 | a {b: math.tan(1px)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

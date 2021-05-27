@@ -215,12 +215,17 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/color/error-libsass
-Error: argument `$color` of `adjust-hue($color, $degrees)` must be a color
-        on line 1:7 of input.scss, in function `adjust-hue`
-        from line 1:7 of input.scss
->> a {b: adjust-hue(1, 2)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: adjust-hue(1, 2)}
+  |                  ^
+  '
+  input.scss 1:18  adjust-hue()
+  ,
+1 | a {b: adjust-hue(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -236,9 +241,14 @@ Error: $degrees: blue is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/hue/error-libsass
-Error: argument `$degrees` of `adjust-hue($color, $degrees)` must be a number
-        on line 1:7 of input.scss, in function `adjust-hue`
-        from line 1:7 of input.scss
->> a {b: adjust-hue(red, blue)}
-
-   ------^
+Error: $degrees: blue is not a number.
+  ,
+1 | a {b: adjust-hue(red, blue)}
+  |                       ^^^^
+  '
+  input.scss 1:23  adjust-hue()
+  ,
+1 | a {b: adjust-hue(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

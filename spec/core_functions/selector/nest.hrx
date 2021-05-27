@@ -302,6 +302,24 @@ Error: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/parent/first_arg/error-libsass
+Error: Parent selectors aren't allowed here.
+  ,
+1 | a {b: selector-nest(&)}
+  |                     ^
+  '
+  input.scss 1:21  selector-nest()
+  ,
+1 | a {b: selector-nest("&")}
+  |                     ^^^
+  '
+  input.scss 1:21  selector-nest()
+  ,
+1 | a {b: selector-nest("&")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/parent/non_initial/input.scss
@@ -321,14 +339,22 @@ Error: "&" may only used at the beginning of a compound selector.
   input.scss 1:7  root stylesheet
 
 <===> error/parent/non_initial/error-libsass
-Error: Invalid CSS after "[d]": expected "{", was "&"
-
-       "&" may only be used at the beginning of a compound selector.
-        on line 1:4 of input.scss, in function `selector-nest`
-        from line 1:7 of input.scss
->> a {b: selector-nest("c", "[d]&")}
-
-   ---^
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | a {b: selector-nest("c", [d]&)}
+  |                             ^
+  '
+  input.scss 1:29  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "[d]&")}
+  |                          ^^^^^^
+  '
+  input.scss 1:26  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "[d]&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -349,14 +375,22 @@ Error: "&" may only used at the beginning of a compound selector.
   input.scss 1:7  root stylesheet
 
 <===> error/parent/prefix/error-libsass
-Error: Invalid CSS after "d": expected "{", was "&"
-
-       "&" may only be used at the beginning of a compound selector.
-        on line 1:2 of input.scss, in function `selector-nest`
-        from line 1:7 of input.scss
->> a {b: selector-nest("c", "d&")}
-
-   -^
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+1 | a {b: selector-nest("c", d&)}
+  |                           ^
+  '
+  input.scss 1:27  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "d&")}
+  |                          ^^^^
+  '
+  input.scss 1:26  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "d&")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -377,12 +411,22 @@ Error: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/invalid/initial/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:2 of input.scss, in function `selector-nest`
-        from line 1:7 of input.scss
->> a {b: selector-nest("[c")}
-
-   -^
+Error: expected more input.
+  ,
+1 | a {b: selector-nest([c)}
+  |                       ^
+  '
+  input.scss 1:23  selector-nest()
+  ,
+1 | a {b: selector-nest("[c")}
+  |                     ^^^^
+  '
+  input.scss 1:21  selector-nest()
+  ,
+1 | a {b: selector-nest("[c")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -403,12 +447,22 @@ Error: expected more input.
   input.scss 1:7  root stylesheet
 
 <===> error/invalid/later/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:2 of input.scss, in function `selector-nest`
-        from line 1:7 of input.scss
->> a {b: selector-nest("c", "[d")}
-
-   -^
+Error: expected more input.
+  ,
+1 | a {b: selector-nest("c", [d)}
+  |                            ^
+  '
+  input.scss 1:28  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "[d")}
+  |                          ^^^^
+  '
+  input.scss 1:26  selector-nest()
+  ,
+1 | a {b: selector-nest("c", "[d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -429,6 +483,20 @@ a list of strings, or a list of lists of strings.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/initial/error-libsass
+Error: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-nest(1)}
+  |                     ^
+  '
+  input.scss 1:21  selector-nest()
+  ,
+1 | a {b: selector-nest(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/later/options.yml
@@ -447,6 +515,20 @@ a list of strings, or a list of lists of strings.
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/type/later/error-libsass
+Error: 1 is not a valid selector: it must be a string,
+a list of strings, or a list of lists of strings.
+  ,
+1 | a {b: selector-nest("c", 1)}
+  |                          ^
+  '
+  input.scss 1:26  selector-nest()
+  ,
+1 | a {b: selector-nest("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

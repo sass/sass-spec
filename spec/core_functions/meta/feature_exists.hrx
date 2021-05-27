@@ -106,12 +106,17 @@ Error: $feature: 1 is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$feature` of `feature-exists($feature)` must be a string
-        on line 1:7 of input.scss, in function `feature-exists`
-        from line 1:7 of input.scss
->> a {b: feature-exists(1)}
-
-   ------^
+Error: $feature: 1 is not a string.
+  ,
+1 | a {b: feature-exists(1)}
+  |                      ^
+  '
+  input.scss 1:22  feature-exists()
+  ,
+1 | a {b: feature-exists(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

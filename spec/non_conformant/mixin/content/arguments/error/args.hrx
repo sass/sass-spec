@@ -20,12 +20,17 @@ Error: Missing argument $arg1.
   input.scss 6:1  root stylesheet
 
 <===> none_passed/error-libsass
-Error: Mixin @content is missing argument $arg1.
-        on line 2:3 of test.scss, in mixin `mixin`
-        from line 5:10 of test.scss
->>   @content;
-
-   --^
+Error: Missing argument $arg1.
+  ,
+3 |   @content;
+  |   ^^^^^^^^
+  '
+  input.scss 3:3  mixin()
+  ,
+6 | @include mixin using ($arg1, $arg2) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
@@ -51,13 +56,17 @@ Error: Only 0 arguments allowed, but 1 was passed.
   input.scss 6:1  root stylesheet
 
 <===> none_expected/error-libsass
-Error: wrong number of arguments (1 for 0) for `@content'
-        on line 2:3 of test.scss, in mixin `@content`
-        from line 2:3 of test.scss, in mixin `mixin`
-        from line 5:10 of test.scss
->>   @content(value);
-
-   --^
+Error: Only 0 arguments allowed, but 1 was passed.
+  ,
+3 |   @content(value);
+  |   ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:3  mixin()
+  ,
+6 | @include mixin {}
+  | ^^^^^^^^^^^^^^
+  '
+  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
@@ -83,13 +92,17 @@ Error: No argument named $invalid.
   input.scss 6:1  root stylesheet
 
 <===> named/error-libsass
-Error: Mixin @content has no parameter named $invalid
-        on line 2:12 of test.scss, in mixin `@content`
-        from line 2:3 of test.scss, in mixin `mixin`
-        from line 5:10 of test.scss
->>   @content($invalid: value);
-
-   -----------^
+Error: No argument named $invalid.
+  ,
+3 |   @content($invalid: value);
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:3  mixin()
+  ,
+6 | @include mixin using ($valid: value) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
@@ -115,12 +128,17 @@ Error: Missing argument $arg2.
   input.scss 6:1  root stylesheet
 
 <===> too_few/error-libsass
-Error: Mixin @content is missing argument $arg2.
-        on line 2:3 of test.scss, in mixin `mixin`
-        from line 5:10 of test.scss
->>   @content(1);
-
-   --^
+Error: Missing argument $arg2.
+  ,
+3 |   @content(1);
+  |   ^^^^^^^^^^^
+  '
+  input.scss 3:3  mixin()
+  ,
+6 | @include mixin using ($arg1, $arg2) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
@@ -146,10 +164,14 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 6:1  root stylesheet
 
 <===> too_many/error-libsass
-Error: wrong number of arguments (3 for 2) for `@content'
-        on line 2:3 of test.scss, in mixin `@content`
-        from line 2:3 of test.scss, in mixin `mixin`
-        from line 5:10 of test.scss
->>   @content(1, 2, 3);
-
-   --^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+3 |   @content(1, 2, 3);
+  |   ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:3  mixin()
+  ,
+6 | @include mixin using ($arg1, $arg2) {}
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:1  root stylesheet

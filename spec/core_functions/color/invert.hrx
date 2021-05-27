@@ -191,12 +191,17 @@ Error: $color: c is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/color/error-libsass
-Error: argument `$color` of `invert($color, $weight: 100%)` must be a color
-        on line 1:7 of input.scss, in function `invert`
-        from line 1:7 of input.scss
->> a {b: invert(c)}
-
-   ------^
+Error: $color: c is not a color.
+  ,
+1 | a {b: invert(c)}
+  |              ^
+  '
+  input.scss 1:14  invert()
+  ,
+1 | a {b: invert(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -212,12 +217,17 @@ Error: $weight: c is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/weight/error-libsass
-Error: argument `$weight` of `invert($color, $weight: 100%)` must be a number
-        on line 1:7 of input.scss, in function `invert`
-        from line 1:7 of input.scss
->> a {b: invert(red, c)}
-
-   ------^
+Error: $weight: c is not a number.
+  ,
+1 | a {b: invert(red, c)}
+  |                   ^
+  '
+  input.scss 1:19  invert()
+  ,
+1 | a {b: invert(red, c)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -233,12 +243,17 @@ Error: $weight: Expected -0.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_low/error-libsass
-Error: argument `$weight` of `invert($color, $weight: 100%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `invert`
-        from line 1:7 of input.scss
->> a {b: invert(red, -0.001)}
-
-   ------^
+Error: $weight: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: invert(red, -0.001)}
+  |                   ^^^^^^
+  '
+  input.scss 1:19  invert()
+  ,
+1 | a {b: invert(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -254,9 +269,14 @@ Error: $weight: Expected 100.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_high/error-libsass
-Error: argument `$weight` of `invert($color, $weight: 100%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `invert`
-        from line 1:7 of input.scss
->> a {b: invert(red, 100.001)}
-
-   ------^
+Error: $weight: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: invert(red, 100.001)}
+  |                   ^^^^^^^
+  '
+  input.scss 1:19  invert()
+  ,
+1 | a {b: invert(red, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

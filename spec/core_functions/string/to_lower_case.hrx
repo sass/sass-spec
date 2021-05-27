@@ -72,12 +72,17 @@ Error: $string: 1 is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$string` of `to-lower-case($string)` must be a string
-        on line 1:7 of input.scss, in function `to-lower-case`
-        from line 1:7 of input.scss
->> a {b: to-lower-case(1)}
-
-   ------^
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: to-lower-case(1)}
+  |                     ^
+  '
+  input.scss 1:21  to-lower-case()
+  ,
+1 | a {b: to-lower-case(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

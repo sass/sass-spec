@@ -12,6 +12,19 @@ Error: This variable was not declared with !default in the @used module.
   '
   input.scss 1:20  root stylesheet
 
+<===> undefined/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "other" with ($a: b);
+  |                    ^^^^^
+  '
+  input.scss 1:20  @use
+  ,
+1 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
+
 <===>
 ================================================================================
 <===> not_default/input.scss
@@ -27,6 +40,19 @@ Error: This variable was not declared with !default in the @used module.
   |                    ^^^^^
   '
   input.scss 1:20  root stylesheet
+
+<===> not_default/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "other" with ($a: b);
+  |                    ^^^^^
+  '
+  input.scss 1:20  @use
+  ,
+1 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -48,6 +74,19 @@ Error: This variable was not declared with !default in the @used module.
   '
   input.scss 1:24  root stylesheet
 
+<===> namespace/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "midstream" with ($a: b);
+  |                        ^^^^^
+  '
+  input.scss 1:24  @use
+  ,
+1 | @use "midstream" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
+
 <===>
 ================================================================================
 <===> nested/input.scss
@@ -63,6 +102,19 @@ Error: This variable was not declared with !default in the @used module.
   |                    ^^^^^
   '
   input.scss 1:20  root stylesheet
+
+<===> nested/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "other" with ($a: b);
+  |                    ^^^^^
+  '
+  input.scss 1:20  @use
+  ,
+1 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -111,6 +163,29 @@ Error: 1px and 1em have incompatible units.
   '
   input.scss 1:24  root stylesheet
 
+<===> invalid_expression/error/error-libsass
+Error: Incompatible units em and px.
+  ,
+1 | @use "other" with ($a: 1px + 1em);
+  |                              ^^^
+  '
+  input.scss 1:30  @use
+  ,
+1 | @use "other" with ($a: 1px + 1em);
+  |                        ^^^
+  '
+  input.scss 1:24  @use
+  ,
+1 | @use "other" with ($a: 1px + 1em);
+  |                        ^^^^^^^^^
+  '
+  input.scss 1:24  @use
+  ,
+1 | @use "other" with ($a: 1px + 1em);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
+
 <===>
 ================================================================================
 <===> invalid_expression/variable_defined_later/input.scss
@@ -127,6 +202,19 @@ Error: Undefined variable.
   |                        ^^
   '
   input.scss 1:24  root stylesheet
+
+<===> invalid_expression/variable_defined_later/error-libsass
+Error: Undefined variable.
+  ,
+1 | @use "other" with ($a: $b);
+  |                        ^^
+  '
+  input.scss 1:24  @use
+  ,
+1 | @use "other" with ($a: $b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -147,6 +235,19 @@ Error: There is no module with the namespace "other".
   |                             ^^^^^^^^
   '
   input.scss 1:29  root stylesheet
+
+<===> invalid_expression/module_loaded_later/error-libsass
+Error: There is no module with the namespace "other".
+  ,
+1 | @use "configured" with ($a: other.$b);
+  |                             ^^^^^^^^
+  '
+  input.scss 1:29  @use
+  ,
+1 | @use "configured" with ($a: other.$b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -295,6 +396,19 @@ Error: This variable was not declared with !default in the @used module.
   '
   input.scss 1:19  root stylesheet
 
+<===> through_forward/show/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  @use
+  ,
+1 | @use "used" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
+
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
@@ -313,6 +427,19 @@ Error: This variable was not declared with !default in the @used module.
   |                   ^^^^^
   '
   input.scss 1:19  root stylesheet
+
+<===> through_forward/hide/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  @use
+  ,
+1 | @use "used" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
 
 <===>
 ================================================================================
@@ -333,6 +460,19 @@ Error: This variable was not declared with !default in the @used module.
   '
   input.scss 1:19  root stylesheet
 
+<===> through_forward/as/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  @use
+  ,
+1 | @use "used" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet
+
 <===>
 ================================================================================
 <===> through_forward/with/input.scss
@@ -351,3 +491,16 @@ Error: This variable was not declared with !default in the @used module.
   |                   ^^^^^
   '
   input.scss 1:19  root stylesheet
+
+<===> through_forward/with/error-libsass
+Error: $a was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  @use
+  ,
+1 | @use "used" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1   root stylesheet

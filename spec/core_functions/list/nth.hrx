@@ -120,12 +120,17 @@ Error: $n: e is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$n` of `nth($list, $n)` must be a number
-        on line 1:7 of input.scss, in function `nth`
-        from line 1:7 of input.scss
->> a {b: nth(c d, e)}
-
-   ------^
+Error: $n: e is not a number.
+  ,
+1 | a {b: nth(c d, e)}
+  |                ^
+  '
+  input.scss 1:16  nth()
+  ,
+1 | a {b: nth(c d, e)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

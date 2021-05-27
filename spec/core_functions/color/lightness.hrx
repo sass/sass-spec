@@ -108,9 +108,14 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `lightness($color)` must be a color
-        on line 1:7 of input.scss, in function `lightness`
-        from line 1:7 of input.scss
->> a {b: lightness(1)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: lightness(1)}
+  |                 ^
+  '
+  input.scss 1:17  lightness()
+  ,
+1 | a {b: lightness(1)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

@@ -82,12 +82,17 @@ Error: $string: 1, 2, 3 is not a string.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$string` of `quote($string)` must be a string
-        on line 1:7 of input.scss, in function `quote`
-        from line 1:7 of input.scss
->> a {b: quote((1, 2, 3))}
-
-   ------^
+Error: $string: 1, 2, 3 is not a string.
+  ,
+1 | a {b: quote((1, 2, 3))}
+  |             ^^^^^^^^^
+  '
+  input.scss 1:13  quote()
+  ,
+1 | a {b: quote((1, 2, 3))}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

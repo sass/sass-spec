@@ -18,6 +18,19 @@ Error: $hue: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> hue/type/error-libsass
+Error: $hue: "foo" is not a number.
+  ,
+2 |   b: hsl("foo", 100%, 50%, 0.5);
+  |          ^^^^^
+  '
+  input.scss 2:10  hsl()
+  ,
+2 |   b: hsl("foo", 100%, 50%, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> saturation/type/input.scss
@@ -32,6 +45,19 @@ Error: $saturation: "foo" is not a number.
   |      ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> saturation/type/error-libsass
+Error: $saturation: "foo" is not a number.
+  ,
+2 |   b: hsl(0, "foo", 50%, 0.5);
+  |             ^^^^^
+  '
+  input.scss 2:13  hsl()
+  ,
+2 |   b: hsl(0, "foo", 50%, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -48,6 +74,19 @@ Error: $lightness: "foo" is not a number.
   '
   input.scss 2:6  root stylesheet
 
+<===> lightness/type/error-libsass
+Error: $lightness: "foo" is not a number.
+  ,
+2 |   b: hsl(0, 100%, "foo", 0.5);
+  |                   ^^^^^
+  '
+  input.scss 2:19  hsl()
+  ,
+2 |   b: hsl(0, 100%, "foo", 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
+
 <===>
 ================================================================================
 <===> alpha/unit/input.scss
@@ -62,3 +101,16 @@ Error: $alpha: Expected 0.5px to have no units or "%".
   |      ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> alpha/unit/error-libsass
+Error: $alpha: Expected 0.5px to have no units or "%".
+  ,
+2 |   b: hsl(0, 0%, 0%, 0.5px);
+  |                     ^^^^^
+  '
+  input.scss 2:21  hsl()
+  ,
+2 |   b: hsl(0, 0%, 0%, 0.5px);
+  |      ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet

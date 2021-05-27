@@ -12,12 +12,17 @@ Error: $hue: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> hue/type/error-libsass
-Error: argument `$hue` of `hsla($hue, $saturation, $lightness, $alpha)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss, in function `hsla`
-        from line 2 of /sass/spec/core_functions/color/hsla/error/four_args/hue_type/input.scss
->>   b: hsla("foo", 100%, 50%, 0.5);
-
-   -----^
+Error: $hue: "foo" is not a number.
+  ,
+2 |   b: hsla("foo", 100%, 50%, 0.5);
+  |           ^^^^^
+  '
+  input.scss 2:11  hsla()
+  ,
+2 |   b: hsla("foo", 100%, 50%, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -35,12 +40,17 @@ Error: $saturation: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> saturation/type/error-libsass
-Error: argument `$saturation` of `hsla($hue, $saturation, $lightness, $alpha)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsla/error/four_args/saturation_type/input.scss, in function `hsla`
-        from line 2 of /sass/spec/core_functions/color/hsla/error/four_args/saturation_type/input.scss
->>   b: hsla(0, "foo", 50%, 0.5);
-
-   -----^
+Error: $saturation: "foo" is not a number.
+  ,
+2 |   b: hsla(0, "foo", 50%, 0.5);
+  |              ^^^^^
+  '
+  input.scss 2:14  hsla()
+  ,
+2 |   b: hsla(0, "foo", 50%, 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
@@ -58,20 +68,20 @@ Error: $lightness: "foo" is not a number.
   input.scss 2:6  root stylesheet
 
 <===> lightness/type/error-libsass
-Error: argument `$lightness` of `hsla($hue, $saturation, $lightness, $alpha)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hsla/error/four_args/lightness_type/input.scss, in function `hsla`
-        from line 2 of /sass/spec/core_functions/color/hsla/error/four_args/lightness_type/input.scss
->>   b: hsla(0, 100%, "foo", 0.5);
-
-   -----^
+Error: $lightness: "foo" is not a number.
+  ,
+2 |   b: hsla(0, 100%, "foo", 0.5);
+  |                    ^^^^^
+  '
+  input.scss 2:20  hsla()
+  ,
+2 |   b: hsla(0, 100%, "foo", 0.5);
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet
 
 <===>
 ================================================================================
-<===> alpha/type/options.yml
----
-:todo:
-- libsass
-
 <===> alpha/type/input.scss
 a {
   b: hsla(0, 0%, 0%, 0.5px);
@@ -84,3 +94,16 @@ Error: $alpha: Expected 0.5px to have no units or "%".
   |      ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===> alpha/type/error-libsass
+Error: $alpha: Expected 0.5px to have no units or "%".
+  ,
+2 |   b: hsla(0, 0%, 0%, 0.5px);
+  |                      ^^^^^
+  '
+  input.scss 2:22  hsla()
+  ,
+2 |   b: hsla(0, 0%, 0%, 0.5px);
+  |      ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6   root stylesheet

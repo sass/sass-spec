@@ -175,12 +175,17 @@ Error: $map1: 1 is not a map.
   input.scss 1:7  root stylesheet
 
 <===> error/type/map1/error-libsass
-Error: argument `$map1` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge(1, (c: d))}
-
-   ------^
+Error: $map1: 1 is not a map.
+  ,
+1 | a {b: map-merge(1, (c: d))}
+  |                 ^
+  '
+  input.scss 1:17  map-merge()
+  ,
+1 | a {b: map-merge(1, (c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -196,12 +201,17 @@ Error: $map2: 1 is not a map.
   input.scss 1:7  root stylesheet
 
 <===> error/type/map2/error-libsass
-Error: argument `$map2` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge((c: d), 1)}
-
-   ------^
+Error: $map2: 1 is not a map.
+  ,
+1 | a {b: map-merge((c: d), 1)}
+  |                         ^
+  '
+  input.scss 1:25  map-merge()
+  ,
+1 | a {b: map-merge((c: d), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -216,6 +226,19 @@ Error: $map1: 1 is not a map.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/nested/map1/error-libsass
+Error: $map1: 1 is not a map.
+  ,
+1 | a {b: map-merge(1, c, (d: e))}
+  |                 ^
+  '
+  input.scss 1:17  map-merge()
+  ,
+1 | a {b: map-merge(1, c, (d: e))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/nested/map2/input.scss
@@ -228,6 +251,19 @@ Error: $map2: 1 is not a map.
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/type/nested/map2/error-libsass
+Error: $map2: 1 is not a map.
+  ,
+1 | a {b: map-merge((c: d), e, 1)}
+  |                            ^
+  '
+  input.scss 1:28  map-merge()
+  ,
+1 | a {b: map-merge((c: d), e, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

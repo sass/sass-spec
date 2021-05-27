@@ -221,6 +221,24 @@ Error: $module: 1 is not a string.
   '
   input.scss 2:20  root stylesheet
 
+<===> error/type/error-libsass
+Error: $module: 1 is not a string.
+  ,
+2 | a {b: meta.inspect(meta.module-variables(1))}
+  |                                          ^
+  '
+  input.scss 2:42  module-variables()
+  ,
+2 | a {b: meta.inspect(meta.module-variables(1))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  inspect()
+  ,
+2 | a {b: meta.inspect(meta.module-variables(1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -271,6 +289,19 @@ Error: There is no module with namespace "other".
   '
   input.scss 2:20  root stylesheet
 
+<===> error/missing/error-libsass
+Error: There is no module with namespace "other".
+  ,
+2 | a {b: meta.inspect(meta.module-variables("other"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:20  inspect()
+  ,
+2 | a {b: meta.inspect(meta.module-variables("other"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/dash_sensitive/input.scss
@@ -290,6 +321,19 @@ Error: There is no module with namespace "other_module".
   '
   input.scss 4:20  root stylesheet
 
+<===> error/dash_sensitive/error-libsass
+Error: There is no module with namespace "other_module".
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other_module"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:20  inspect()
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other_module"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/global/input.scss
@@ -308,6 +352,19 @@ Error: There is no module with namespace "other".
   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 4:20  root stylesheet
+
+<===> error/global/error-libsass
+Error: There is no module with namespace "other".
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:20  inspect()
+  ,
+4 | a {b: meta.inspect(meta.module-variables("other"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7   root stylesheet
 
 <===>
 ================================================================================

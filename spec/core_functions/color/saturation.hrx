@@ -64,11 +64,12 @@ Error: Missing argument $color.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function saturation is missing argument $color.
-        on line 1 of input.scss
->> a {b: saturation()}
-
-   ------^
+Error: Missing argument $color.
+  ,
+1 | a {b: saturation()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -88,11 +89,12 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `saturation'
-        on line 1:7 of input.scss
->> a {b: saturation(red, green)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: saturation(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -108,9 +110,14 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `saturation($color)` must be a color
-        on line 1:7 of input.scss, in function `saturation`
-        from line 1:7 of input.scss
->> a {b: saturation(1)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: saturation(1)}
+  |                  ^
+  '
+  input.scss 1:18  saturation()
+  ,
+1 | a {b: saturation(1)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

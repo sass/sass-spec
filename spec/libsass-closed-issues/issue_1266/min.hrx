@@ -23,9 +23,34 @@ Error: blah is not a number.
   input.scss 3:8  root stylesheet
 
 <===> error-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(get-function("min")) instead.
+DEPRECATION WARNING on line 3, column 13 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function(min)) instead.
 
-Error: "blah" is not a number for `min'
-        on line 3 of spec/libsass-closed-issues/issue_1266/min/input.scss
-  Use --trace for backtrace.
+  ,
+3 |   bar: call(min, $foo...);
+  |             ^^^
+  '
+    input.scss 3:13  call()
+  ,
+3 |   bar: call(min, $foo...);
+  |        ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:8   root stylesheet
+
+Error: blah is not a number.
+  ,
+1 | $foo: 1 2 3 blah 4;
+  |             ^^^^
+  '
+  input.scss 1:13  min()
+  ,
+3 |   bar: call(min, $foo...);
+  |        ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:8   call()
+  ,
+3 |   bar: call(min, $foo...);
+  |        ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:8   root stylesheet

@@ -22,11 +22,29 @@ Error: Plain CSS functions don't support keyword arguments.
   input.scss 2:12  root stylesheet
 
 <===> error-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(get-function("missing")) instead.
+DEPRECATION WARNING on line 2, column 17 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function(missing)) instead.
 
-Error: Plain CSS function missing doesn't support keyword arguments
-        on line 2:10 of inpit.scss, in function `call`
-        from line 2:10 of input.scss
->>   color: call(missing, $a: b);
-   ---------^
+  ,
+2 |     color: call(missing, $a: b);
+  |                 ^^^^^^^
+  '
+    input.scss 2:17  call()
+  ,
+2 |     color: call(missing, $a: b);
+  |            ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:12  root stylesheet
+
+Error: Plain CSS functions don't support keyword arguments.
+  ,
+2 |     color: call(missing, $a: b);
+  |            ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:12  call()
+  ,
+2 |     color: call(missing, $a: b);
+  |            ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:12  root stylesheet

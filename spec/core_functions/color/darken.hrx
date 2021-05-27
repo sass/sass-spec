@@ -128,12 +128,17 @@ Error: $color: 1 is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/color/error-libsass
-Error: argument `$color` of `darken($color, $amount)` must be a color
-        on line 1:7 of input.scss, in function `darken`
-        from line 1:7 of input.scss
->> a {b: darken(1, 2)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: darken(1, 2)}
+  |              ^
+  '
+  input.scss 1:14  darken()
+  ,
+1 | a {b: darken(1, 2)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -149,12 +154,17 @@ Error: $amount: blue is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/lightness/error-libsass
-Error: argument `$amount` of `darken($color, $amount)` must be a number
-        on line 1:7 of input.scss, in function `darken`
-        from line 1:7 of input.scss
->> a {b: darken(red, blue)}
-
-   ------^
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: darken(red, blue)}
+  |                   ^^^^
+  '
+  input.scss 1:19  darken()
+  ,
+1 | a {b: darken(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -170,12 +180,17 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_low/error-libsass
-Error: argument `$amount` of `darken($color, $amount)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `darken`
-        from line 1:7 of input.scss
->> a {b: darken(red, -0.001)}
-
-   ------^
+Error: $amount: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: darken(red, -0.001)}
+  |                   ^^^^^^
+  '
+  input.scss 1:19  darken()
+  ,
+1 | a {b: darken(red, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -191,9 +206,14 @@ Error: $amount: Expected 100.001 to be within 0 and 100.
   input.scss 1:7  root stylesheet
 
 <===> error/bounds/too_high/error-libsass
-Error: argument `$amount` of `darken($color, $amount)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `darken`
-        from line 1:7 of input.scss
->> a {b: darken(red, 100.001)}
-
-   ------^
+Error: $amount: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: darken(red, 100.001)}
+  |                   ^^^^^^^
+  '
+  input.scss 1:19  darken()
+  ,
+1 | a {b: darken(red, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet

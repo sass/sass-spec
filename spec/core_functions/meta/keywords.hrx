@@ -157,6 +157,19 @@ Error: $args: 1 2 3 is not an argument list.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/type/non_arg_list/error-libsass
+Error: $args: 1 2 3 is not an argument list.
+  ,
+1 | a {b: keywords(1 2 3)}
+  |                ^^^^^
+  '
+  input.scss 1:16  keywords()
+  ,
+1 | a {b: keywords(1 2 3)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/non_list/input.scss
@@ -171,12 +184,17 @@ Error: $args: 1 is not an argument list.
   input.scss 1:7  root stylesheet
 
 <===> error/type/non_list/error-libsass
-Error: argument `$args` of `keywords($args)` must be a list
-        on line 1:7 of input.scss, in function `keywords`
-        from line 1:7 of input.scss
->> a {b: keywords(1)}
-
-   ------^
+Error: $args: 1 is not an argument list.
+  ,
+1 | a {b: keywords(1)}
+  |                ^
+  '
+  input.scss 1:16  keywords()
+  ,
+1 | a {b: keywords(1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

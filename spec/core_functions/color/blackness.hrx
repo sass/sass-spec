@@ -145,9 +145,14 @@ Error: $color: 1 is not a color.
   input.scss 2:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `color.blackness($color)` must be a color
-        on line 1:7 of input.scss, in function `color.blackness`
-        from line 1:7 of input.scss
->> a {b: color.blackness(1)}
-
-   ------^
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.blackness(1)}
+  |                       ^
+  '
+  input.scss 2:23  blackness()
+  ,
+2 | a {b: color.blackness(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet

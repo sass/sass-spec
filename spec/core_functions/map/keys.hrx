@@ -62,12 +62,17 @@ Error: $map: 1 is not a map.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$map` of `map-keys($map)` must be a map
-        on line 1:7 of input.scss, in function `map-keys`
-        from line 1:7 of input.scss
->> a {b: map-keys(1)}
-
-   ------^
+Error: $map: 1 is not a map.
+  ,
+1 | a {b: map-keys(1)}
+  |                ^
+  '
+  input.scss 1:16  map-keys()
+  ,
+1 | a {b: map-keys(1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

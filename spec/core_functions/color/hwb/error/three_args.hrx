@@ -11,12 +11,17 @@ Error: $hue: "foo" is not a number.
   input.scss 2:7  root stylesheet
 
 <===> hue/type/error-libsass
-Error: argument `$hue` of `hwb($hue, $whiteness, $blackness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hwb/error/hue_type/input.scss, in function `hwb`
-        from line 2 of /sass/spec/core_functions/color/hwb/error/hue_type/input.scss
->>   b: hwb("foo", 100%, 50%);
-
-   -----^
+Error: $hue: "foo" is not a number.
+  ,
+2 | a {b: color.hwb("foo", 100%, 50%)}
+  |                 ^^^^^
+  '
+  input.scss 2:17  hwb()
+  ,
+2 | a {b: color.hwb("foo", 100%, 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -33,12 +38,17 @@ Error: $whiteness: "foo" is not a number.
   input.scss 2:7  root stylesheet
 
 <===> whiteness/type/error-libsass
-Error: argument `$whiteness` of `hwb($hue, $whiteness, $blackness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hwb/error/whiteness_type/input.scss, in function `hwb`
-        from line 2 of /sass/spec/core_functions/color/hwb/error/whiteness_type/input.scss
->>   b: hwb(0, "foo", 50%);
-
-   -----^
+Error: $whiteness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, "foo", 50%)}
+  |                    ^^^^^
+  '
+  input.scss 2:20  hwb()
+  ,
+2 | a {b: color.hwb(0, "foo", 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -55,9 +65,14 @@ Error: $blackness: "foo" is not a number.
   input.scss 2:7  root stylesheet
 
 <===> blackness/type/error-libsass
-Error: argument `$blackness` of `hwb($hue, $whiteness, $blackness)` must be a number
-        on line 2 of /sass/spec/core_functions/color/hwb/error/blackness_type/input.scss, in function `hwb`
-        from line 2 of /sass/spec/core_functions/color/hwb/error/blackness_type/input.scss
->>   b: hwb(0, 100%, "foo");
-
-   -----^
+Error: $blackness: "foo" is not a number.
+  ,
+2 | a {b: color.hwb(0, 100%, "foo")}
+  |                          ^^^^^
+  '
+  input.scss 2:26  hwb()
+  ,
+2 | a {b: color.hwb(0, 100%, "foo")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet

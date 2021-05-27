@@ -128,12 +128,17 @@ Error: $map: 1 is not a map.
   input.scss 2:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$map` of `map.deep-remove($map, $key, $keys...)` must be a map
-        on line 1:7 of input.scss, in function `map.deep-remove`
-        from line 1:7 of input.scss
->> a {b: map.deep-remove(1, 2)}
-
-   ------^
+Error: $map: 1 is not a map.
+  ,
+2 | a {b: map.deep-remove(1, 2)}
+  |                       ^
+  '
+  input.scss 2:23  deep-remove()
+  ,
+2 | a {b: map.deep-remove(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

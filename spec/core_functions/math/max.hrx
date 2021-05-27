@@ -83,12 +83,17 @@ Error: c is not a number.
   input.scss 2:7  root stylesheet
 
 <===> error/type/arg_1/error-libsass
-Error: "c" is not a number for `max'
-        on line 2:7 of input.scss, in function `max`
-        from line 2:7 of input.scss
->> a {b: max($arg)}
-
-   ------^
+Error: c is not a number.
+  ,
+1 | $arg: c;
+  |       ^
+  '
+  input.scss 1:7  max()
+  ,
+2 | a {b: max($arg)}
+  |       ^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -105,12 +110,17 @@ Error: c is not a number.
   input.scss 2:7  root stylesheet
 
 <===> error/type/arg_2/error-libsass
-Error: "c" is not a number for `max'
-        on line 2:7 of input.scss, in function `max`
-        from line 2:7 of input.scss
->> a {b: max(1, $arg)}
-
-   ------^
+Error: c is not a number.
+  ,
+1 | $arg: c;
+  |       ^
+  '
+  input.scss 1:7  max()
+  ,
+2 | a {b: max(1, $arg)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -127,12 +137,17 @@ Error: c is not a number.
   input.scss 2:7  root stylesheet
 
 <===> error/type/arg_3/error-libsass
-Error: "c" is not a number for `max'
-        on line 2:7 of input.scss, in function `max`
-        from line 2:7 of input.scss
->> a {b: max(1, 2, $arg)}
-
-   ------^
+Error: c is not a number.
+  ,
+1 | $arg: c;
+  |       ^
+  '
+  input.scss 1:7  max()
+  ,
+2 | a {b: max(1, 2, $arg)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -162,4 +177,24 @@ Error: 1px and 2s have incompatible units.
   input.scss 2:7  root stylesheet
 
 <===> error/incompatible_units/error-libsass
-Internal Error: Incompatible units: 'px' and 's'.
+Error: Incompatible units s and px.
+  ,
+2 | a {b: max($arg, 2s)}
+  |                 ^^
+  '
+  input.scss 2:17  max()
+  ,
+1 | $arg: 1px;
+  |       ^^^
+  '
+  input.scss 1:7   max()
+  ,
+2 | a {b: max($arg, 2s)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   max()
+  ,
+2 | a {b: max($arg, 2s)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet

@@ -135,12 +135,17 @@ Error: $n: e is not a number.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$n` of `set-nth($list, $n, $value)` must be a number
-        on line 1:7 of input.scss, in function `set-nth`
-        from line 1:7 of input.scss
->> a {b: set-nth(c d, e, f)}
-
-   ------^
+Error: $n: e is not a number.
+  ,
+1 | a {b: set-nth(c d, e, f)}
+  |                    ^
+  '
+  input.scss 1:20  set-nth()
+  ,
+1 | a {b: set-nth(c d, e, f)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

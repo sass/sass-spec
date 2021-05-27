@@ -23,6 +23,19 @@ Error: $base: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/base_type/error-libsass
+Error: $base: "0" is not a number.
+  ,
+2 | a {b: math.pow("0", 0)}
+  |                ^^^
+  '
+  input.scss 2:16  pow()
+  ,
+2 | a {b: math.pow("0", 0)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/exponent_type/input.scss
@@ -36,6 +49,19 @@ Error: $exponent: "0" is not a number.
   |       ^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/exponent_type/error-libsass
+Error: $exponent: "0" is not a number.
+  ,
+2 | a {b: math.pow(0, "0")}
+  |                   ^^^
+  '
+  input.scss 2:19  pow()
+  ,
+2 | a {b: math.pow(0, "0")}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

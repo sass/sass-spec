@@ -139,9 +139,14 @@ Error: $color: c is not a color.
   input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
-Error: argument `$color` of `grayscale($color)` must be a color
-        on line 1:7 of input.scss, in function `grayscale`
-        from line 1:7 of input.scss
->> a {b: grayscale(c)}
-
-   ------^
+Error: $color: c is not a color.
+  ,
+1 | a {b: grayscale(c)}
+  |                 ^
+  '
+  input.scss 1:17  grayscale()
+  ,
+1 | a {b: grayscale(c)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7   root stylesheet
