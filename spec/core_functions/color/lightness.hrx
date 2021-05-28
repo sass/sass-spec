@@ -64,11 +64,12 @@ Error: Missing argument $color.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function lightness is missing argument $color.
-        on line 1 of input.scss
->> a {b: lightness()}
-
-   ------^
+Error: Missing argument $color.
+  ,
+1 | a {b: lightness()}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -88,11 +89,12 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `lightness'
-        on line 1:7 of input.scss
->> a {b: lightness(red, green)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: lightness(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

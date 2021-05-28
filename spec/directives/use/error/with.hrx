@@ -147,6 +147,19 @@ Error: This variable is available from multiple global modules.
   _midstream.scss 4:1  @use
   input.scss 1:1       root stylesheet
 
+<===> conflict/error-libsass
+Error: $a is available from multiple global modules.
+  ,
+2 | @use "right" as *;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  _midstream.scss 2:1  @use
+  ,
+1 | @use "midstream" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1       root stylesheet
+
 <===>
 ================================================================================
 <===> invalid_expression/error/input.scss
@@ -300,6 +313,14 @@ Error: This module was already loaded, so it can't be configured using "with".
   '
   input.scss 2:1  root stylesheet
 
+<===> multi_configuration/one_file/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+2 | @use "other" as o2 with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> multi_configuration/multi_file/input.scss
@@ -328,6 +349,19 @@ Error: This module was already loaded, so it can't be configured using "with".
   _right.scss 1:1  @use
   input.scss 2:1   root stylesheet
 
+<===> multi_configuration/multi_file/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  _right.scss 1:1  @use
+  ,
+2 | @use "right";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1   root stylesheet
+
 <===>
 ================================================================================
 <===> multi_configuration/unconfigured_first/input.scss
@@ -344,6 +378,14 @@ Error: This module was already loaded, so it can't be configured using "with".
   | ================== original load
 2 | @use "other" as o2 with ($a: b);
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 2:1  root stylesheet
+
+<===> multi_configuration/unconfigured_first/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+2 | @use "other" as o2 with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -377,6 +419,18 @@ Error: This module was already loaded, so it can't be configured using "with".
   _midstream.scss 1:1  @use
   input.scss 2:1       root stylesheet
 
+<===> multi_configuration/through_forward/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  _midstream.scss 1:1  @use
+  ,
+2 | @use "midstream" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1       root stylesheet
 <===>
 ================================================================================
 <===> through_forward/show/input.scss

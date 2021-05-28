@@ -216,11 +216,12 @@ Error: Missing argument $name.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_few/error-libsass
-Error: Function variable-exists is missing argument $name.
-        on line 1 of input.scss
->> a {b: variable-exists()}
-
-   ------^
+Error: Missing argument $name.
+  ,
+1 | a {b: variable-exists()}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -240,11 +241,12 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (2 for 1) for `variable-exists'
-        on line 1:7 of input.scss
->> a {b: variable-exists(foo, bar)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: variable-exists(foo, bar)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -277,3 +279,11 @@ Error: This variable is available from multiple global modules.
     |       ^^^^^^^^^^^^^^^^^^^^^^^ variable use
     '
   input.scss 4:7  root stylesheet
+
+<===> conflict/error-libsass
+Error: $member is available from multiple global modules.
+  ,
+2 | @use "other2" as *;
+  | ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

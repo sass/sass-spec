@@ -84,11 +84,12 @@ Error: Missing argument $amount.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function darken is missing argument $amount.
-        on line 1 of input.scss
->> a {b: darken(red)}
-
-   ------^
+Error: Missing argument $amount.
+  ,
+1 | a {b: darken(red)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -108,11 +109,12 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `darken'
-        on line 1:7 of input.scss
->> a {b: darken(red, 1%, 2)}
-
-   ------^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: darken(red, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

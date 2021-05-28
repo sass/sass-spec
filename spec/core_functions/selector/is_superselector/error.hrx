@@ -224,11 +224,12 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 1:7  root stylesheet
 
 <===> too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `is-superselector'
-        on line 1:7 of input.scss
->> a {b: is-superselector("c", "d", "e")}
-
-   ------^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: is-superselector("c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -248,8 +249,9 @@ Error: Missing argument $sub.
   input.scss 1:7  root stylesheet
 
 <===> too_few_args/error-libsass
-Error: Function is-superselector is missing argument $sub.
-        on line 1 of input.scss
->> a {b: is-superselector("c")}
-
-   ------^
+Error: Missing argument $sub.
+  ,
+1 | a {b: is-superselector("c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

@@ -249,6 +249,14 @@ Error: There's already a module with namespace "other".
   '
   input.scss 2:1  root stylesheet
 
+<===> conflicting_namespace/explicit/error-libsass
+Error: There's already a module with namespace "other".
+  ,
+2 | @use "other2" as other;
+  | ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflicting_namespace/implicit/input.scss
@@ -264,6 +272,14 @@ Error: There's already a module with namespace "other".
   | ================= original @use
 2 | @use "dir2/other";
   | ^^^^^^^^^^^^^^^^^ new @use
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflicting_namespace/implicit/error-libsass
+Error: There's already a module with namespace "other".
+  ,
+2 | @use "dir2/other";
+  | ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -284,6 +300,14 @@ Error: There's already a module with namespace "math".
   '
   input.scss 3:1  root stylesheet
 
+<===> conflicting_namespace/built_in/error-libsass
+Error: There's already a module with namespace "math".
+  ,
+3 | @use "sass:math";
+  | ^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflicting_namespace/mixed/input.scss
@@ -299,5 +323,13 @@ Error: There's already a module with namespace "other".
   | ============ original @use
 2 | @use "other2" as other;
   | ^^^^^^^^^^^^^^^^^^^^^^ new @use
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflicting_namespace/mixed/error-libsass
+Error: There's already a module with namespace "other".
+  ,
+2 | @use "other2" as other;
+  | ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet

@@ -25,6 +25,14 @@ Error: Two forwarded modules both define a variable named $a.
   '
   input.scss 2:1  root stylesheet
 
+<===> conflict/variable/error-libsass
+Error: Two forwarded modules both define a variable named $a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflict/function/input.scss
@@ -44,6 +52,14 @@ Error: Two forwarded modules both define a function named a.
   | ================= original @forward
 2 | @forward "other2";
   | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflict/function/error-libsass
+Error: Two forwarded modules both define a function named a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -69,6 +85,14 @@ Error: Two forwarded modules both define a mixin named a.
   '
   input.scss 2:1  root stylesheet
 
+<===> conflict/mixin/error-libsass
+Error: Two forwarded modules both define a mixin named a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflict/same_value/variable/input.scss
@@ -88,6 +112,14 @@ Error: Two forwarded modules both define a variable named $a.
   | ================= original @forward
 2 | @forward "other2";
   | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflict/same_value/variable/error-libsass
+Error: Two forwarded modules both define a variable named $a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -113,6 +145,14 @@ Error: Two forwarded modules both define a function named a.
   '
   input.scss 2:1  root stylesheet
 
+<===> conflict/same_value/function/error-libsass
+Error: Two forwarded modules both define a function named a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflict/same_value/mixin/input.scss
@@ -132,6 +172,14 @@ Error: Two forwarded modules both define a mixin named a.
   | ================= original @forward
 2 | @forward "other2";
   | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflict/same_value/mixin/error-libsass
+Error: Two forwarded modules both define a mixin named a.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -157,6 +205,14 @@ Error: Two forwarded modules both define a variable named $a-b.
   '
   input.scss 2:1  root stylesheet
 
+<===> conflict/because_of_as/first/error-libsass
+Error: Two forwarded modules both define a variable named $a-b.
+  ,
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> conflict/because_of_as/last/input.scss
@@ -176,6 +232,14 @@ Error: Two forwarded modules both define a variable named $a-b.
   | ================= original @forward
 2 | @forward "other2" as a-*;
   | ^^^^^^^^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===> conflict/because_of_as/last/error-libsass
+Error: Two forwarded modules both define a variable named $a-b.
+  ,
+2 | @forward "other2" as a-*;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 

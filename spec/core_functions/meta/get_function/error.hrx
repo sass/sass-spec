@@ -102,11 +102,12 @@ Error: Missing argument $name.
   input.scss 1:7  root stylesheet
 
 <===> argument/too_few/error-libsass
-Error: Function get-function is missing argument $name.
-        on line 1 of input.scss
->> a {b: get-function()}
-
-   ------^
+Error: Missing argument $name.
+  ,
+1 | a {b: get-function()}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -126,11 +127,12 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> argument/too_many/error-libsass
-Error: wrong number of arguments (4 for 2) for `get-function'
-        on line 1:7 of input.scss
->> a {b: get-function(c, true, d, e)}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: get-function(c, true, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -301,6 +303,14 @@ Error: This function is available from multiple global modules.
     |       ^^^^^^^^^^^^^^^^^^^^ function use
     '
   input.scss 4:7  root stylesheet
+
+<===> conflict/error-libsass
+Error: Function "member(...)" is available from multiple global modules.
+  ,
+2 | @use "other2" as *;
+  | ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
 
 <===>
 ================================================================================

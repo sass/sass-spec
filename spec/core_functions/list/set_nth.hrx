@@ -204,11 +204,12 @@ Error: Missing argument $value.
   input.scss 1:7  root stylesheet
 
 <===> error/index/too_few_args/error-libsass
-Error: Function set-nth is missing argument $value.
-        on line 1 of input.scss
->> a {b: set-nth(c d, 1)}
-
-   ------^
+Error: Missing argument $value.
+  ,
+1 | a {b: set-nth(c d, 1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -228,8 +229,10 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/index/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `set-nth'
-        on line 1:7 of input.scss
->> a {b: set-nth(c d, 1, 2, 3)}
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: set-nth(c d, 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
-   ------^

@@ -171,11 +171,12 @@ Error: Missing argument $degrees.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function adjust-hue is missing argument $degrees.
-        on line 1 of input.scss
->> a {b: adjust-hue(red)}
-
-   ------^
+Error: Missing argument $degrees.
+  ,
+1 | a {b: adjust-hue(red)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -195,11 +196,12 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `adjust-hue'
-        on line 1:7 of input.scss
->> a {b: adjust-hue(red, 1, 2)}
-
-   ------^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: adjust-hue(red, 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

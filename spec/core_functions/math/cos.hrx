@@ -105,6 +105,19 @@ Error: $number: "0" is not a number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/type/error-libsass
+Error: $number: "0" is not a number.
+  ,
+2 | a {b: math.cos("0")}
+  |                ^^^
+  '
+  input.scss 2:16  cos()
+  ,
+2 | a {b: math.cos("0")}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> error/unit/input.scss
@@ -118,6 +131,19 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
   |       ^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===> error/unit/error-libsass
+Error: $number: Expected 1px to be an angle.
+  ,
+2 | a {b: math.cos(1px)}
+  |                ^^^
+  '
+  input.scss 2:16  cos()
+  ,
+2 | a {b: math.cos(1px)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -137,6 +163,14 @@ Error: Missing argument $number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/zero_args/error-libsass
+Error: Missing argument $number.
+  ,
+2 | a {b: math.cos()}
+  |       ^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -152,5 +186,13 @@ Error: Only 1 argument allowed, but 2 were passed.
   ,--> sass:math
 1 | @function cos($number) {
   |           ============ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+2 | a {b: math.cos(0, 0)}
+  |       ^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

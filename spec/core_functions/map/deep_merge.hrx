@@ -219,11 +219,12 @@ Error: Missing argument $map2.
   input.scss 2:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function map.deep-merge is missing argument $map2.
-        on line 1 of input.scss
->> a {b: map.deep-merge((c: d))}
-
-   ------^
+Error: Missing argument $map2.
+  ,
+2 | a {b: map.deep-merge((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -244,8 +245,9 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 2:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `map.deep-merge'
-        on line 1:7 of input.scss
->> a {b: map.deep-merge((c: d), (e: f), (g: h))}
-
-   ------^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: map.deep-merge((c: d), (e: f), (g: h))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

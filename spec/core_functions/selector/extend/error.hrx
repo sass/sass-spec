@@ -355,11 +355,12 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `selector-extend'
-        on line 1:7 of input.scss
->> a {b: selector-extend("c", "d", "e", "f")}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: selector-extend("c", "d", "e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -379,8 +380,9 @@ Error: Missing argument $extender.
   input.scss 1:7  root stylesheet
 
 <===> too_few_args/error-libsass
-Error: Function selector-extend is missing argument $extender.
-        on line 1 of input.scss
->> a {b: selector-extend("c", "d")}
-
-   ------^
+Error: Missing argument $extender.
+  ,
+1 | a {b: selector-extend("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

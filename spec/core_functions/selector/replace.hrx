@@ -563,11 +563,12 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `selector-replace'
-        on line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "e", "f")}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: selector-replace("c", "d", "e", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -587,8 +588,9 @@ Error: Missing argument $replacement.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function selector-replace is missing argument $replacement.
-        on line 1 of input.scss
->> a {b: selector-replace("c", "d")}
-
-   ------^
+Error: Missing argument $replacement.
+  ,
+1 | a {b: selector-replace("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

@@ -182,11 +182,12 @@ Error: Missing argument $number.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function round is missing argument $number.
-        on line 1 of input.scss
->> a {b: round()}
-
-   ------^
+Error: Missing argument $number.
+  ,
+1 | a {b: round()}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -206,8 +207,9 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `round'
-        on line 1:7 of input.scss
->> a {b: round(1, 2)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: round(1, 2)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

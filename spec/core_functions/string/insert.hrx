@@ -307,11 +307,12 @@ Error: Missing argument $index.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function str-insert is missing argument $index.
-        on line 1 of input.scss
->> a {b: str-insert("", "")}
-
-   ------^
+Error: Missing argument $index.
+  ,
+1 | a {b: str-insert("", "")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -331,8 +332,9 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `str-insert'
-        on line 1:7 of input.scss
->> a {b: str-insert("", "", 1, 2)}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: str-insert("", "", 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

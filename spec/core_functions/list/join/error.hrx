@@ -48,11 +48,12 @@ Error: Only 4 arguments allowed, but 5 were passed.
   input.scss 1:7  root stylesheet
 
 <===> too_many_args/error-libsass
-Error: wrong number of arguments (5 for 4) for `join'
-        on line 1:7 of input.scss
->> a {b: join(c, d, comma, true, false)}
-
-   ------^
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,
+1 | a {b: join(c, d, comma, true, false)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -72,11 +73,12 @@ Error: Missing argument $list2.
   input.scss 1:7  root stylesheet
 
 <===> too_few_args/error-libsass
-Error: Function join is missing argument $list2.
-        on line 1 of input.scss
->> a {b: join(c)}
-
-   ------^
+Error: Missing argument $list2.
+  ,
+1 | a {b: join(c)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -96,11 +98,12 @@ Error: No argument named $invalid.
   input.scss 1:7  root stylesheet
 
 <===> named/error-libsass
-Error: Function join has no parameter named $invalid
-        on line 1:18 of input.scss
->> a {b: join(c, d, $invalid: true)}
-
-   -----------------^
+Error: No argument named $invalid.
+  ,
+1 | a {b: join(c, d, $invalid: true)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -120,11 +123,12 @@ Error: Only 4 positional arguments allowed, but 5 were passed.
   input.scss 1:7  root stylesheet
 
 <===> positional_and_named/error-libsass
-Error: wrong number of arguments (6 for 4) for `join'
-        on line 1:7 of input.scss
->> a {b: join(c, d, comma, true, false, $invalid: true)}
-
-   ------^
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,
+1 | a {b: join(c, d, comma, true, false, $invalid: true)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

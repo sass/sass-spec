@@ -317,11 +317,12 @@ Error: Only 1 argument allowed, but 2 were passed.
   input.scss 1:7  root stylesheet
 
 <===> too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `selector-parse'
-        on line 1:7 of input.scss
->> a {b: selector-parse(c, d)}
-
-   ------^
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: selector-parse(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -341,8 +342,9 @@ Error: Missing argument $selector.
   input.scss 1:7  root stylesheet
 
 <===> too_few_args/error-libsass
-Error: Function selector-parse is missing argument $selector.
-        on line 1 of input.scss
->> a {b: selector-parse()}
-
-   ------^
+Error: Missing argument $selector.
+  ,
+1 | a {b: selector-parse()}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

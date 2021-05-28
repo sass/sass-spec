@@ -496,11 +496,12 @@ Error: Missing argument $start-at.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function str-slice is missing argument $start-at.
-        on line 1 of input.scss
->> a {b: str-slice("cde")}
-
-   ------^
+Error: Missing argument $start-at.
+  ,
+1 | a {b: str-slice("cde")}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -520,8 +521,9 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `str-slice'
-        on line 1:7 of input.scss
->> a {b: str-slice("cde", 1, 2, 3)}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: str-slice("cde", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

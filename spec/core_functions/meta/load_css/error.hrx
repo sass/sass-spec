@@ -95,6 +95,14 @@ Error: Missing argument $url.
   '
   input.scss 2:1  root stylesheet
 
+<===> too_few_args/error-libsass
+Error: Missing argument $url.
+  ,
+2 | @include meta.load-css();
+  | ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
 <===>
 ================================================================================
 <===> too_many_args/input.scss
@@ -110,6 +118,14 @@ Error: Only 2 arguments allowed, but 3 were passed.
   ,--> sass:meta
 1 | @mixin load-css($url, $with: null) {
   |        =========================== declaration
+  '
+  input.scss 2:1  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | @include meta.load-css("other", (), "a");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
 
@@ -308,6 +324,19 @@ Error: This variable is available from multiple global modules.
   _midstream.scss 4:1  load-css()
   input.scss 2:1       root stylesheet
 
+<===> with/conflict/error-libsass
+Error: $a is available from multiple global modules.
+  ,
+2 | @use "right" as *;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  _midstream.scss 2:1  load-css()
+  ,
+2 | @include meta.load-css("midstream", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1       root stylesheet
+
 <===>
 ================================================================================
 <===> with/repeated_variable/input.scss
@@ -365,6 +394,14 @@ Error: _other.scss was already loaded, so it can't be configured using "with".
   '
   input.scss 3:1  root stylesheet
 
+<===> with/multi_configuration/double_load/both_configured/error-libsass
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
 <===>
 ================================================================================
 <===> with/multi_configuration/double_load/unconfigured_first/input.scss
@@ -382,6 +419,14 @@ Error: _other.scss was already loaded, so it can't be configured using "with".
   | =============================== original load
 3 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===> with/multi_configuration/double_load/unconfigured_first/error-libsass
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:1  root stylesheet
 
@@ -416,6 +461,19 @@ Error: This module was already loaded, so it can't be configured using "with".
   _midstream.scss 1:1  load-css()
   input.scss 3:1       root stylesheet
 
+<===> with/multi_configuration/double_load/through_forward/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  _midstream.scss 1:1  load-css()
+  ,
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1       root stylesheet
+
 <===>
 ================================================================================
 <===> with/multi_configuration/use_and_load/both_configured/input.scss
@@ -433,6 +491,14 @@ Error: _other.scss was already loaded, so it can't be configured using "with".
   | ========================= original load
 3 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===> with/multi_configuration/use_and_load/both_configured/error-libsass
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:1  root stylesheet
 
@@ -463,6 +529,14 @@ Error: This module was already loaded, so it can't be configured using "with".
   '
   input.scss 4:1  root stylesheet
 
+<===> with/multi_configuration/use_and_load/load_first/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+4 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:1  root stylesheet
+
 <===>
 ================================================================================
 <===> with/multi_configuration/use_and_load/unconfigured_first/input.scss
@@ -480,6 +554,14 @@ Error: _other.scss was already loaded, so it can't be configured using "with".
   | ============ original load
 3 | @include meta.load-css("other", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===> with/multi_configuration/use_and_load/unconfigured_first/error-libsass
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:1  root stylesheet
 
@@ -512,6 +594,19 @@ Error: This module was already loaded, so it can't be configured using "with".
   | ================================================== configuration
   '
   _midstream.scss 1:1  load-css()
+  input.scss 3:1       root stylesheet
+
+<===> with/multi_configuration/use_and_load/through_forward/error-libsass
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  _midstream.scss 1:1  load-css()
+  ,
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
   input.scss 3:1       root stylesheet
 
 <===>

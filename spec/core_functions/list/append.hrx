@@ -269,11 +269,12 @@ Error: Only 3 arguments allowed, but 4 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `append'
-        on line 1:7 of input.scss
->> a {b: append(c, d, comma, e)}
-
-   ------^
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+1 | a {b: append(c, d, comma, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -293,11 +294,12 @@ Error: Missing argument $val.
   input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
-Error: Function append is missing argument $val.
-        on line 1 of input.scss
->> a {b: append(c)}
-
-   ------^
+Error: Missing argument $val.
+  ,
+1 | a {b: append(c)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

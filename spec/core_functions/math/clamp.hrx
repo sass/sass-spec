@@ -437,6 +437,14 @@ Error: Missing argument $min.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/zero_args/error-libsass
+Error: Missing argument $min.
+  ,
+2 | a {b: math.clamp()}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/one_arg/input.scss
@@ -452,6 +460,14 @@ Error: Missing argument $number.
   ,--> sass:math
 1 | @function clamp($min, $number, $max) {
   |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/one_arg/error-libsass
+Error: Missing argument $number.
+  ,
+2 | a {b: math.clamp(0)}
+  |       ^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
@@ -473,6 +489,14 @@ Error: Missing argument $max.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/two_args/error-libsass
+Error: Missing argument $max.
+  ,
+2 | a {b: math.clamp(0, 0)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -488,5 +512,13 @@ Error: Only 3 arguments allowed, but 4 were passed.
   ,--> sass:math
 1 | @function clamp($min, $number, $max) {
   |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,
+2 | a {b: math.clamp(0, 0, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

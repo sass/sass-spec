@@ -150,6 +150,14 @@ Error: Missing argument $number.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/zero_args/error-libsass
+Error: Missing argument $number.
+  ,
+2 | a {b: math.atan()}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -165,5 +173,13 @@ Error: Only 1 argument allowed, but 2 were passed.
   ,--> sass:math
 1 | @function atan($number) {
   |           ============= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+2 | a {b: math.atan(0, 0)}
+  |       ^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

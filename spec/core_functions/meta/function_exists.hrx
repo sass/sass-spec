@@ -299,11 +299,12 @@ Error: Missing argument $name.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_few/error-libsass
-Error: Function function-exists is missing argument $name.
-        on line 1 of input.scss
->> a {b: function-exists()}
-
-   ------^
+Error: Missing argument $name.
+  ,
+1 | a {b: function-exists()}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -323,11 +324,12 @@ Error: Only 2 arguments allowed, but 3 were passed.
   input.scss 1:7  root stylesheet
 
 <===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (3 for 1) for `function-exists'
-        on line 1:7 of input.scss
->> a {b: function-exists(c, d, e)}
-
-   ------^
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: function-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -360,6 +362,14 @@ Error: This function is available from multiple global modules.
     |       ^^^^^^^^^^^^^^^^^^^^^^^ function use
     '
   input.scss 4:7  root stylesheet
+
+<===> error/conflict/error-libsass
+Error: Function "member(...)" is available from multiple global modules.
+  ,
+2 | @use "other2" as *;
+  | ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
 
 <===>
 ================================================================================

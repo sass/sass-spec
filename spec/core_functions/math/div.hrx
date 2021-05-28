@@ -180,6 +180,14 @@ Error: Missing argument $number2.
   '
   input.scss 2:7  root stylesheet
 
+<===> error/too_few_args/error-libsass
+Error: Missing argument $number2.
+  ,
+2 | a {b: math.div(6)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -195,5 +203,13 @@ Error: Only 2 arguments allowed, but 3 were passed.
   ,--> sass:math
 1 | @function div($number1, $number2) {
   |           ======================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_many_args/error-libsass
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+2 | a {b: math.div(6, 3, 1)}
+  |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
