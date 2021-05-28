@@ -1,0 +1,22 @@
+<===> input.scss
+$root: initial;
+
+@if true {
+  inner {
+    $root: inner;
+  }
+}
+
+outer {
+  @if true {
+    $root: outer;
+  }
+}
+
+result {
+  root: $root;
+}
+<===> output.css
+result {
+  root: initial;
+}

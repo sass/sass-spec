@@ -1,0 +1,27 @@
+<===> input.scss
+:global(.thing) {
+    color: red;
+}
+
+:global(.thing[disabled]) {
+    @extend .thing;
+    background: blue;
+}
+
+<===> error
+Error: The target selector was not found.
+Use "@extend .thing !optional" to avoid this error.
+  ,
+6 |     @extend .thing;
+  |     ^^^^^^^^^^^^^^
+  '
+  input.scss 6:5  root stylesheet
+
+<===> error-libsass
+Error: The target selector was not found.
+Use "@extend .thing !optional" to avoid this error.
+  ,
+6 |     @extend .thing;
+  |             ^^^^^^
+  '
+  input.scss 6:13  root stylesheet
