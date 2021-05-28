@@ -9,6 +9,9 @@
 // Compass (v1.0.3)
 // ----
 
+$config: null;
+$module: null;
+
 @function remove-modifiers($selector) {
     // convert selector to a string
     $selector: inspect(nth($selector, 1));
@@ -266,25 +269,18 @@
   }
 
 <===> output.css
-.button__group, [class*="button__group-"] {
-  content: 'fizzbuzz';
-}
-.button__group .button, .button__group [class*="button--"], [class*="button__group-"] .button, [class*="button__group-"] [class*="button--"] {
-  margin-left: 1em;
-}
-.button__group .button:first-child, .button__group [class*="button--"]:first-child, [class*="button__group-"] .button:first-child, [class*="button__group-"] [class*="button--"]:first-child {
-  margin-left: 0;
-}
-
-[class*="modal--"][class*="--animate"][class*="--zoom"] {
+.button__group, [class*=button__group-] {
   content: "fizzbuzz";
 }
 
-<===> warning-libsass
-DEPRECATION WARNING on line 120 of /sass/spec/libsass-issues/issue_2520/input.scss:
-!global assignments won't be able to declare new variables in future versions.
-Consider adding `$config: null` at the top level.
+.button__group .button, .button__group [class*=button--], [class*=button__group-] .button, [class*=button__group-] [class*=button--] {
+  margin-left: 1em;
+}
 
-DEPRECATION WARNING on line 130 of /sass/spec/libsass-issues/issue_2520/input.scss:
-!global assignments won't be able to declare new variables in future versions.
-Consider adding `$module: null` at the top level.
+.button__group .button:first-child, .button__group [class*=button--]:first-child, [class*=button__group-] .button:first-child, [class*=button__group-] [class*=button--]:first-child {
+  margin-left: 0;
+}
+
+[class*=modal--][class*="--animate"][class*="--zoom"] {
+  content: "fizzbuzz";
+}
