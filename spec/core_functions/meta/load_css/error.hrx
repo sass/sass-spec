@@ -168,6 +168,21 @@ Error: Module loop: input.scss is already being loaded.
   _other.scss 2:1  load-css()
   input.scss 2:1   root stylesheet
 
+<===> load/loop/error-libsass
+Error: An @import loop has been found:
+    input.scss imports _other.scss
+    _other.scss imports input.scss
+  ,
+2 | @include meta.load-css("input");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  _other.scss 2:1  load-css()
+  ,
+2 | @include meta.load-css("other");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1   root stylesheet
+
 <===>
 ================================================================================
 <===> with/undefined/input.scss
