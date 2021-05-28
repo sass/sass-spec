@@ -14,11 +14,12 @@ Error: Expected expression.
   input.scss 5:32  root stylesheet
 
 <===> arglist/invalid/error-libsass
-Error: Invalid CSS after "...) using ($arg1:": expected expression (e.g. 1px, bold), was ") {}"
-        on line 5:32 of test.scss
->> @include mixin() using ($arg1: ) {}
-
-   -------------------------------^
+Error: Expected expression.
+  ,
+5 | @include mixin() using ($arg1: ) {}
+  |                               ^
+  '
+  input.scss 5:31  root stylesheet
 
 <===>
 ================================================================================
@@ -38,11 +39,12 @@ Error: expected "(".
   input.scss 5:22  root stylesheet
 
 <===> arglist/missing/error-libsass
-Error: Invalid CSS after "...ude mixin using": expected "(", was "{}"
-        on line 5:16 of test.scss
->> @include mixin using {}
-
-   ---------------^
+Error: expected "(".
+  ,
+5 | @include mixin using {}
+  |                     ^
+  '
+  input.scss 5:21  root stylesheet
 
 <===>
 ================================================================================
@@ -62,11 +64,12 @@ Error: expected "(".
   input.scss 5:22  root stylesheet
 
 <===> arglist/missing_parens/error-libsass
-Error: Invalid CSS after "...ude mixin using": expected "(", was "$arg1 {}"
-        on line 5:16 of test.scss
->> @include mixin using $arg1 {}
-
-   ---------------^
+Error: expected "(".
+  ,
+5 | @include mixin using $arg1 {}
+  |                     ^
+  '
+  input.scss 5:21  root stylesheet
 
 <===>
 ================================================================================
@@ -86,11 +89,12 @@ Error: expected ";".
   input.scss 5:18  root stylesheet
 
 <===> missing_using/error-libsass
-Error: Invalid CSS after "@include mixin()": expected ";", was "() {}"
-        on line 5:16 of test.scss
->> @include mixin() () {}
-
-   ---------------^
+Error: expected ";".
+  ,
+5 | @include mixin() () {}
+  |                 ^
+  '
+  input.scss 5:17  root stylesheet
 
 <===>
 ================================================================================
