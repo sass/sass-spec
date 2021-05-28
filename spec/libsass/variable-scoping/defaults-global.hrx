@@ -42,3 +42,15 @@ Recommendation: add `$foo: null` at the stylesheet root.
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 2:3  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING on line 2, column 3 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables.
+Consider adding `$foo: null` at the root of the stylesheet.
+
+  ,
+2 |   $foo: inner !default !global;
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:3  root stylesheet
+

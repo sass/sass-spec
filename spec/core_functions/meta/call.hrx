@@ -89,8 +89,20 @@ Recommendation: call(get-function("a"))
     input.scss 2:7  root stylesheet
 
 <===> string/local/warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Dart Sass 2.0.0. Use call(get-function("a")) instead.
+DEPRECATION WARNING on line 2, column 12 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("a")) instead.
+
+  ,
+2 | a {b: call("a", 1)}
+  |            ^^^
+  '
+    input.scss 2:12  call()
+  ,
+2 | a {b: call("a", 1)}
+  |       ^^^^^^^^^^^^
+  '
+    input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -114,8 +126,20 @@ Recommendation: call(get-function("rgb"))
     input.scss 1:7  root stylesheet
 
 <===> string/built_in/warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Dart Sass 2.0.0. Use call(get-function("rgb")) instead.
+DEPRECATION WARNING on line 1, column 12 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("rgb")) instead.
+
+  ,
+1 | a {b: call("rgb", 1, 2, 3)}
+  |            ^^^^^
+  '
+    input.scss 1:12  call()
+  ,
+1 | a {b: call("rgb", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

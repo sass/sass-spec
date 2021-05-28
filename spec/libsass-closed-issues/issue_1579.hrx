@@ -29,5 +29,22 @@ Recommendation: call(get-function(foo))
     input.scss 10:9  root stylesheet
 
 <===> warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(foo)) instead.
+DEPRECATION WARNING on line 6, column 16 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function(foo)) instead.
+
+  ,
+6 |   @return call(foo, $args...);
+  |                ^^^
+  '
+    input.scss 6:16  call()
+  ,
+6 |   @return call(foo, $args...);
+  |           ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 6:11  bar()
+   ,
+10 |   test: bar(3, $c: true);
+   |         ^^^^^^^^^^^^^^^^
+   '
+    input.scss 10:9  root stylesheet

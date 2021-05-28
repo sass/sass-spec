@@ -65,11 +65,57 @@ Recommendation: call(get-function("darken"))
     input.scss 21:14  root stylesheet
 
 <===> warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(foobar)) instead.
+DEPRECATION WARNING on line 19, column 14 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("darken")) instead.
 
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(foobar)) instead.
+   ,
+19 |   call: call('darken', #102030, $arg...);
+   |              ^^^^^^^^
+   '
+    input.scss 19:14  call()
+   ,
+19 |   call: call('darken', #102030, $arg...);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:9   root stylesheet
 
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(foobar)) instead.
+DEPRECATION WARNING on line 5, column 16 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("darken")) instead.
+
+  ,
+5 |   @return call('darken', $color, $args...);
+  |                ^^^^^^^^
+  '
+    input.scss 5:16   call()
+  ,
+5 |   @return call('darken', $color, $args...);
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:11   dark()
+   ,
+20 |   function: dark(#102030, 5%);
+   |             ^^^^^^^^^^^^^^^^^
+   '
+    input.scss 20:13  root stylesheet
+
+DEPRECATION WARNING on line 11, column 16 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("darken")) instead.
+
+   ,
+11 |   @return call('darken', $args...);
+   |                ^^^^^^^^
+   '
+    input.scss 11:16  call()
+   ,
+11 |   @return call('darken', $args...);
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:11  dark2()
+   ,
+21 |   function2: dark2(#102030, 5%);
+   |              ^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 21:14  root stylesheet

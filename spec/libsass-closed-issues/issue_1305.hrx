@@ -20,5 +20,17 @@ Recommendation: call(get-function("unquote"))
     input.scss 2:14  root stylesheet
 
 <===> warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(unquote)) instead.
+DEPRECATION WARNING on line 2, column 19 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("unquote")) instead.
+
+  ,
+2 |     content: call('unquote', 'foo', ()...);
+  |                   ^^^^^^^^^
+  '
+    input.scss 2:19  call()
+  ,
+2 |     content: call('unquote', 'foo', ()...);
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:14  root stylesheet

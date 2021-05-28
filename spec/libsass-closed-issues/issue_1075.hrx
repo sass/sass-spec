@@ -22,5 +22,17 @@ Recommendation: call(get-function("lighten"))
     input.scss 4:8  root stylesheet
 
 <===> warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(function-reference(lighten)) instead.
+DEPRECATION WARNING on line 1, column 8 of input.scss:
+Passing a string to call() is deprecated and will be illegal in LibSass 4.1.0.
+Use call(get-function("lighten")) instead.
+
+  ,
+1 | $name: "lighten";
+  |        ^^^^^^^^^
+  '
+    input.scss 1:8  call()
+  ,
+4 |   bar: call($name, $args...);
+  |        ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:8  root stylesheet

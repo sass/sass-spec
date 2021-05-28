@@ -178,6 +178,22 @@ Recommendation: grayscale(1)
   '
     input.scss 2:7  root stylesheet
 
+<===> css_overloads/grayscale/warning-libsass
+WARNING on line 2, column 23 of input.scss:
+Passing a number to color.grayscale() is deprecated.
+Recommendation: grayscale(1)
+
+  ,
+2 | a {b: color.grayscale(1)}
+  |                       ^
+  '
+    input.scss 2:23  grayscale()
+  ,
+2 | a {b: color.grayscale(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7   root stylesheet
+
 <===>
 ================================================================================
 <===> css_overloads/invert/input.scss
@@ -199,6 +215,23 @@ Recommendation: invert(1)
   |       ^^^^^^^^^^^^^^^
   '
     input.scss 2:7  root stylesheet
+
+<===> css_overloads/invert/warning-libsass
+WARNING on line 2, column 20 of input.scss:
+Passing a number to color.invert() is deprecated.
+
+Recommendation: invert(1)
+
+  ,
+2 | a {b: color.invert(1)}
+  |                    ^
+  '
+    input.scss 2:20  invert()
+  ,
+2 | a {b: color.invert(1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================
@@ -265,6 +298,22 @@ Recommendation: opacity(1)
   |       ^^^^^^^^^^^^^^^^
   '
     input.scss 2:7  root stylesheet
+
+<===> css_overloads/opacity/warning-libsass
+WARNING on line 2, column 21 of input.scss:
+Passing a number to color.opacity() is deprecated.
+
+Recommendation: opacity(1)
+  ,
+2 | a {b: color.opacity(1)}
+  |                     ^
+  '
+    input.scss 2:21  opacity()
+  ,
+2 | a {b: color.opacity(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7   root stylesheet
 
 <===>
 ================================================================================

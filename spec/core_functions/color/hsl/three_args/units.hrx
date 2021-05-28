@@ -46,6 +46,25 @@ See https://sass-lang.com/d/color-units
   '
     input.scss 1:7  root stylesheet
 
+<===> hue/unknown/warning-libsass
+DEPRECATION WARNING on line 1, column 11 of input.scss:
+$hue: Passing a unit other than deg (60in) is deprecated.
+
+To preserve current behavior: $hue / 1in
+
+See https://sass-lang.com/d/color-units
+
+  ,
+1 | a {b: hsl(60in, 100%, 50%)}
+  |           ^^^^
+  '
+    input.scss 1:11  hsl()
+  ,
+1 | a {b: hsl(60in, 100%, 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> hue/angle/input.scss
@@ -73,6 +92,29 @@ See https://sass-lang.com/d/color-units
   '
     input.scss 1:7  root stylesheet
 
+<===> hue/angle/warning-libsass
+DEPRECATION WARNING on line 1, column 11 of input.scss:
+$hue: Passing a unit other than deg (60rad) is deprecated.
+
+You're passing 60rad, which is currently (incorrectly) converted to 60deg.
+Soon, it will instead be correctly converted to 3437.7467707849deg.
+
+To preserve current behavior: $hue * 1deg/1rad
+To migrate to new behavior: 0deg + $hue
+
+See https://sass-lang.com/d/color-units
+
+  ,
+1 | a {b: hsl(60rad, 100%, 50%)}
+  |           ^^^^^
+  '
+    input.scss 1:11  hsl()
+  ,
+1 | a {b: hsl(60rad, 100%, 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
+
 <===>
 ================================================================================
 <===> saturation/unitless/input.scss
@@ -94,6 +136,21 @@ To preserve current behavior: $saturation * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> saturation/unitless/warning-libsass
+DEPRECATION WARNING on line 1, column 14 of input.scss:
+$saturation: Passing a number without unit % (50) is deprecated.
+To preserve current behavior: $saturation * 1%
+
+  ,
+1 | a {b: hsl(0, 50, 50%)}
+  |              ^^
+  '
+    input.scss 1:14  hsl()
+  ,
+1 | a {b: hsl(0, 50, 50%)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -116,6 +173,21 @@ To preserve current behavior: $saturation / 1in * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> saturation/unknown/warning-libsass
+DEPRECATION WARNING on line 1, column 14 of input.scss:
+$saturation: Passing a number without unit % (50in) is deprecated.
+To preserve current behavior: $saturation / 1in * 1%
+
+  ,
+1 | a {b: hsl(0, 50in, 50%)}
+  |              ^^^^
+  '
+    input.scss 1:14  hsl()
+  ,
+1 | a {b: hsl(0, 50in, 50%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -138,6 +210,21 @@ To preserve current behavior: $lightness * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> lightness/unitless/warning-libsass
+DEPRECATION WARNING on line 1, column 20 of input.scss:
+$lightness: Passing a number without unit % (50) is deprecated.
+To preserve current behavior: $lightness * 1%
+
+  ,
+1 | a {b: hsl(0, 100%, 50)}
+  |                    ^^
+  '
+    input.scss 1:20  hsl()
+  ,
+1 | a {b: hsl(0, 100%, 50)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -160,3 +247,18 @@ To preserve current behavior: $lightness / 1in * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> lightness/unknown/warning-libsass
+DEPRECATION WARNING on line 1, column 20 of input.scss:
+$lightness: Passing a number without unit % (50in) is deprecated.
+To preserve current behavior: $lightness / 1in * 1%
+
+  ,
+1 | a {b: hsl(0, 100%, 50in)}
+  |                    ^^^^
+  '
+    input.scss 1:20  hsl()
+  ,
+1 | a {b: hsl(0, 100%, 50in)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet

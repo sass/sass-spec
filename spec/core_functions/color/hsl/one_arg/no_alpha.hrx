@@ -97,6 +97,21 @@ To preserve current behavior: $saturation * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> units/saturation/unitless/warning-libsass
+DEPRECATION WARNING on line 1, column 13 of input.scss:
+$saturation: Passing a number without unit % (50) is deprecated.
+To preserve current behavior: $saturation * 1%
+
+  ,
+1 | a {b: hsl(0 50 50%)}
+  |             ^^
+  '
+    input.scss 1:13  hsl()
+  ,
+1 | a {b: hsl(0 50 50%)}
+  |       ^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================
@@ -119,6 +134,21 @@ To preserve current behavior: $lightness * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> units/lightness/unitless/warning-libsass
+DEPRECATION WARNING on line 1, column 18 of input.scss:
+$lightness: Passing a number without unit % (50) is deprecated.
+To preserve current behavior: $lightness * 1%
+
+  ,
+1 | a {b: hsl(0 100% 50)}
+  |                  ^^
+  '
+    input.scss 1:18  hsl()
+  ,
+1 | a {b: hsl(0 100% 50)}
+  |       ^^^^^^^^^^^^^^
+  '
+    input.scss 1:7   root stylesheet
 
 <===>
 ================================================================================

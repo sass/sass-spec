@@ -134,3 +134,75 @@ Recommendation: add `$check_default: null` at the stylesheet root.
    '
     input.scss 28:3  fn()
     input.scss 33:7  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING on line 5, column 1 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Since this assignment is at the root of the stylesheet, the !global flag is 
+unnecessary and can safely be removed. 
+
+  ,
+5 | $root_explicit: initial !global;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:1  root stylesheet
+
+DEPRECATION WARNING on line 13, column 5 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$local_explicit: null` at the root of the stylesheet. 
+
+   ,
+13 |     $local_explicit: outer !global;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 13:5  fn()
+   ,
+33 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING on line 26, column 3 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$check_implicit: null` at the root of the stylesheet. 
+
+   ,
+26 |   $check_implicit: $root_implicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 26:3  fn()
+   ,
+33 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING on line 27, column 3 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$check_explicit: null` at the root of the stylesheet. 
+
+   ,
+27 |   $check_explicit: $root_explicit !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 27:3  fn()
+   ,
+33 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 33:7  root stylesheet
+
+DEPRECATION WARNING on line 28, column 3 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$check_default: null` at the root of the stylesheet. 
+
+   ,
+28 |   $check_default: $root_default !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 28:3  fn()
+   ,
+33 |   fn: fn();
+   |       ^^^^
+   '
+    input.scss 33:7  root stylesheet

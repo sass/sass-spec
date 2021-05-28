@@ -76,3 +76,25 @@ Recommendation: add `$local_explicit: null` at the stylesheet root.
    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    '
     input.scss 11:3  root stylesheet
+
+<===> warning-libsass
+DEPRECATION WARNING on line 4, column 1 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Since this assignment is at the root of the stylesheet, the !global flag is 
+unnecessary and can safely be removed. 
+
+  ,
+4 | $root_explicit: initial !global;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:1  root stylesheet
+
+DEPRECATION WARNING on line 11, column 3 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$local_explicit: null` at the root of the stylesheet. 
+
+   ,
+11 |   $local_explicit: outer !global;
+   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:3  root stylesheet

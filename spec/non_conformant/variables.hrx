@@ -26,6 +26,18 @@ unnecessary and can safely be removed.
   '
     input.scss 1:1  root stylesheet
 
+<===> global/first_declaration/top_level/warning-libsass
+DEPRECATION WARNING on line 1, column 1 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables.
+Since this assignment is at the root of the stylesheet, the !global flag is
+unnecessary and can safely be removed.
+
+  ,
+1 | $var: value !global;
+  | ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
 <===>
 ================================================================================
 <===> global/first_declaration/nested/input.scss
@@ -41,6 +53,17 @@ a {
 DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
 
 Recommendation: add `$var: null` at the stylesheet root.
+
+  ,
+1 | x {$var: value !global}
+  |    ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:4  root stylesheet
+
+<===> global/first_declaration/nested/warning-libsass
+DEPRECATION WARNING on line 1, column 4 of input.scss:
+As of LibSass 4.1, !global assignments won't be able to declare new variables. 
+Consider adding `$var: null` at the root of the stylesheet. 
 
   ,
 1 | x {$var: value !global}
