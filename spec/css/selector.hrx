@@ -14,11 +14,6 @@
 
 <===>
 ================================================================================
-<===> attribute/modifier/unknown/options.yml
----
-:todo:
-- sass/libsass#2886
-
 <===> attribute/modifier/unknown/input.scss
 // At time of writing, only the modifiers "i" and "s" are allowed by the CSS
 // spec. However, for forwards-compatibility with future CSS additions, any
@@ -320,17 +315,10 @@ Error: expected "]".
 <===> error/attribute/modifier/underscore/error
 Error: expected "]".
   ,
-2 | [a=b _]{c: d}
-  |      ^
+2 | [a=b _] {c: d}
+  |     ^
   '
-  input.scss 2:6  root stylesheet
-
-<===> error/attribute/modifier/underscore/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b _] {c: d}
-
-   ---^
+  input.scss 2:5  root stylesheet
 
 <===>
 ================================================================================
@@ -341,17 +329,10 @@ Error: unterminated attribute selector for a
 <===> error/attribute/modifier/digit/error
 Error: expected "]".
   ,
-2 | [a=b 1]{c: d}
-  |      ^
+2 | [a=b 1] {c: d}
+  |     ^
   '
-  input.scss 2:6  root stylesheet
-
-<===> error/attribute/modifier/digit/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b 1] {c: d}
-
-   ---^
+  input.scss 2:5  root stylesheet
 
 <===>
 ================================================================================
@@ -362,17 +343,18 @@ Error: unterminated attribute selector for a
 <===> error/attribute/modifier/unicode/error
 Error: expected "]".
   ,
-2 | [a=b ï]{c: d}
-  |      ^
+2 | [a=b ï] {c: d}
+  |     ^
   '
-  input.scss 2:6  root stylesheet
+  input.scss 2:5  root stylesheet
 
 <===> error/attribute/modifier/unicode/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b ï] {c: d}
-
-   ---^
+Error: expected "]".
+  ,
+2 | [a=b ?] {c: d}
+  |     ^
+  '
+  input.scss 2:5  root stylesheet
 
 <===>
 ================================================================================
