@@ -4,6 +4,11 @@ mandatory version should still fail.
 
 <===>
 ================================================================================
+<===> optional_and_mandatory/same_file/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> optional_and_mandatory/same_file/input.scss
 @use "other";
 
@@ -26,6 +31,11 @@ Use "@extend %-in-other !optional" to avoid this error.
 
 <===>
 ================================================================================
+<===> optional_and_mandatory/different_files/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> optional_and_mandatory/different_files/input.scss
 @use "optional";
 @use "mandatory";
@@ -62,6 +72,11 @@ an error message.
 
 <===>
 ================================================================================
+<===> scope/sibling/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> scope/sibling/input.scss
 @use "left";
 @use "right";
@@ -84,6 +99,11 @@ Use "@extend right-extendee !optional" to avoid this error.
 
 <===>
 ================================================================================
+<===> scope/downstream/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> scope/downstream/input.scss
 @use "other";
 
@@ -103,6 +123,11 @@ Use "@extend in-input !optional" to avoid this error.
 
 <===>
 ================================================================================
+<===> scope/private/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> scope/private/input.scss
 @use "other";
 
@@ -124,6 +149,11 @@ Use "@extend %-in-other !optional" to avoid this error.
 
 <===>
 ================================================================================
+<===> scope/diamond/options.yml
+---
+:todo:
+- sass/libsass#extend-across
+
 <===> scope/diamond/input.scss
 // Even though left-extendee and right-extendee both end up in the style rule
 // defined in _shared.scss, they aren't extended by the other file because those
