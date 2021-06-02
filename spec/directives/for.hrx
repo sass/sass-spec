@@ -116,6 +116,24 @@ a {
 
 <===>
 ================================================================================
+<===> in_declaration/input.scss
+a {
+  b: {
+    @for $i from 1 through 5 {c: $i}
+  }
+}
+
+<===> in_declaration/output.css
+a {
+  b-c: 1;
+  b-c: 2;
+  b-c: 3;
+  b-c: 4;
+  b-c: 5;
+}
+
+<===>
+================================================================================
 <===> to_scope/input.scss
 // Overriding the variable inside the loop will not impact the end of the loop.
 $limit: 4;
