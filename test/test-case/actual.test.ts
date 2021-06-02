@@ -7,6 +7,8 @@ describe('TestCase::actual()', () => {
   async function getResults(contents: string): Promise<SassResult> {
     const dir = await fromContents(contents.trim());
     const test = await TestCase.create(dir, 'sass-mock', mockCompiler(dir));
+    const {type, error} = test.result();
+    if (type === 'error') throw error;
     return test.actual();
   }
 
@@ -20,6 +22,7 @@ OUTPUT
 `;
     expect(await getResults(contents)).toEqual({
       output: 'OUTPUT',
+      warning: '',
       isSuccess: true,
     });
   });
@@ -50,6 +53,22 @@ OUTPUT
     expect(await getResults(contents)).toEqual({
       output: 'OUTPUT',
       warning: 'WARNING',
+      isSuccess: true,
+    });
+  });
+
+  it('condenses trailing newlines for a warning', async () => {
+    const contents = `
+<===> input.scss
+stdout: OUTPUT
+stderr: "WARNING\n\n"
+status: 0
+<===> output.css
+OUTPUT
+`;
+    expect(await getResults(contents)).toEqual({
+      output: 'OUTPUT',
+      warning: 'WARNING\n',
       isSuccess: true,
     });
   });

@@ -85,10 +85,15 @@ export default class TestCase {
       this.dir.path,
       cmdArgs
     );
+
+    // stderr can contain extra trailing newlines which just clog up the HRX
+    // files without any particular purpose.
+    const normalizedStderr = stderr.replace(/(\r?\n)+$/, '\n');
+
     if (status === 0) {
-      return {isSuccess: true, output: stdout, warning: stderr};
+      return {isSuccess: true, output: stdout, warning: normalizedStderr};
     } else {
-      return {isSuccess: false, error: stderr};
+      return {isSuccess: false, error: normalizedStderr};
     }
   }
 

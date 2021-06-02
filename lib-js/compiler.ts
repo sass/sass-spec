@@ -34,7 +34,7 @@ export class ExecutableCompiler extends Compiler {
     super();
   }
 
-  async compile(path: string, args: string[]) {
+  async compile(path: string, args: string[]): Promise<Stdio> {
     const {error, stdout, stderr, status} = child_process.spawnSync(
       this.command,
       [...this.initArgs, ...args],
