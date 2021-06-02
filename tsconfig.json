@@ -1,8 +1,16 @@
 {
-  "compilerOptions": {
-    "downlevelIteration": true,
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": { 
     "esModuleInterop": true,
-    "strict": true,
-    "typeRoots": ["./node_modules/@types", "./types"]
-  }
+    "rootDir": ".",
+    "paths": {
+      "node-hrx": ["./types/node-hrx"]
+    }
+  },
+  "typeRoots": ["./node_modules/@types", "./types"],
+  "include": [
+    "lib-js/**/*.ts",
+    "test/**/*.ts",
+    "types/**/*.ts",
+  ]
 }

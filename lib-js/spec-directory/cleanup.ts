@@ -1,6 +1,6 @@
 // TODO consider more events
 // e.g. uncaught exceptions, SIGUSR1, SIGUSR2, SIGTERM
-const events = ["beforeExit", "exit", "SIGINT"]
+const events = ['beforeExit', 'exit', 'SIGINT'];
 
 /**
  * Call the function `cb`, ensuring that the `cleanup` function is called
@@ -15,23 +15,23 @@ export async function withAsyncCleanup(
 ): Promise<void> {
   // Cleanup callbacks must be synchronous,
   // so trigger an async function that exits the process
-  const cleanupAndExit = async (status: number = 0) => {
+  const cleanupAndExit = async (status = 0) => {
     // cleanup and then trigger an exit
-    await cleanup()
-    process.exit(status)
-  }
+    await cleanup();
+    process.exit(status); // eslint-disable-line no-process-exit
+  };
 
   for (const event of events) {
-    process.on(event, cleanupAndExit)
+    process.on(event, cleanupAndExit);
   }
 
   try {
-    await cb()
+    await cb();
   } finally {
-    await cleanup()
+    await cleanup();
     // After running the cleanup, remove the listeners so they don't hit the limit
     for (const event of events) {
-      process.removeListener(event, cleanupAndExit)
+      process.removeListener(event, cleanupAndExit);
     }
   }
 }

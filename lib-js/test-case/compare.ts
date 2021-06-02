@@ -1,5 +1,5 @@
-import { createPatch } from "diff"
-import { failures, SassResult, TestResult } from "./util"
+import {createPatch} from 'diff';
+import {failures, SassResult, TestResult} from './util';
 
 /**
  * Normalize the output of the Sass compiler.
@@ -8,11 +8,11 @@ import { failures, SassResult, TestResult } from "./util"
 export function normalizeOutput(output: string): string {
   return (
     output
-      .replace(/(\r?\n)+/g, "\n")
+      .replace(/(\r?\n)+/g, '\n')
       // Normalize paths
-      .replace(/[-_/a-zA-Z0-9]+(input\.s[ca]ss)/g, "$1")
+      .replace(/[-_/a-zA-Z0-9]+(input\.s[ca]ss)/g, '$1')
       .trim()
-  )
+  );
 }
 
 /**
@@ -21,9 +21,9 @@ export function normalizeOutput(output: string): string {
 export function extractErrorMessage(msg: string): string {
   return (
     normalizeOutput(msg)
-      .split("\n")
-      .find((line) => line.startsWith("Error:")) ?? ""
-  )
+      .split('\n')
+      .find(line => line.startsWith('Error:')) ?? ''
+  );
 }
 
 /**
@@ -40,23 +40,23 @@ export function extractWarningMessages(msg: string): string {
   //     .join("\n\n")
   return (
     normalizeOutput(msg)
-      .split("\n")
-      .find((line) => /^\s*(DEPRECATION )?WARNING/.test(line)) ?? ""
-  )
+      .split('\n')
+      .find(line => /^\s*(DEPRECATION )?WARNING/.test(line)) ?? ''
+  );
 }
 
 function getDiff(
   filename: string,
-  expected: string = "",
-  actual: string = "",
+  expected = '',
+  actual = '',
   normalizer: (text: string) => string = normalizeOutput
 ): string | undefined {
-  expected = normalizer(expected)
-  actual = normalizer(actual)
+  expected = normalizer(expected);
+  actual = normalizer(actual);
   if (expected === actual) {
-    return
+    return;
   }
-  return createPatch(filename, expected, actual, "expected", "actual")
+  return createPatch(filename, expected, actual, 'expected', 'actual');
 }
 
 interface CompareOptions {
@@ -64,9 +64,9 @@ interface CompareOptions {
    * if true, errors and warnings will be trimmed
    * so only the messages are compared and not line information
    */
-  trimErrors?: boolean
+  trimErrors?: boolean;
   /** If true, skip warning checks */
-  skipWarning?: boolean
+  skipWarning?: boolean;
 }
 
 /**
@@ -78,40 +78,40 @@ interface CompareOptions {
 export function compareResults(
   expected: SassResult,
   actual: SassResult,
-  { skipWarning, trimErrors }: CompareOptions
+  {skipWarning, trimErrors}: CompareOptions
 ): TestResult {
   if (expected.isSuccess) {
     if (!actual.isSuccess) {
-      return failures.UnexpectedError()
+      return failures.UnexpectedError();
     }
 
-    const diff = getDiff("output.css", expected.output, actual.output)
+    const diff = getDiff('output.css', expected.output, actual.output);
     if (diff) {
-      return failures.OutputDifference(diff)
+      return failures.OutputDifference(diff);
     }
 
     if ((expected.warning || actual.warning) && !skipWarning) {
-      const normalizer = trimErrors ? extractWarningMessages : normalizeOutput
+      const normalizer = trimErrors ? extractWarningMessages : normalizeOutput;
       const diff = getDiff(
-        "warning",
+        'warning',
         expected.warning,
         actual.warning,
         normalizer
-      )
+      );
       if (diff) {
-        return failures.WarningDifference(diff)
+        return failures.WarningDifference(diff);
       }
     }
   } else {
     if (actual.isSuccess) {
-      return failures.UnexpectedSuccess()
+      return failures.UnexpectedSuccess();
     }
-    const normalizer = trimErrors ? extractErrorMessage : normalizeOutput
-    const diff = getDiff("error", expected.error, actual.error, normalizer)
+    const normalizer = trimErrors ? extractErrorMessage : normalizeOutput;
+    const diff = getDiff('error', expected.error, actual.error, normalizer);
     if (diff) {
-      return failures.ErrorDifference(diff)
+      return failures.ErrorDifference(diff);
     }
   }
 
-  return { type: "pass" }
+  return {type: 'pass'};
 }

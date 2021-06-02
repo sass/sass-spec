@@ -1,44 +1,44 @@
-import { fromContents } from "../../lib-js/spec-directory"
-import { mockCompiler } from "../fixtures/mock-compiler"
-import TestCase from "../../lib-js/test-case"
-import { SassResult } from "../../lib-js/test-case/util"
+import {fromContents} from '../../lib-js/spec-directory';
+import {mockCompiler} from '../fixtures/mock-compiler';
+import TestCase from '../../lib-js/test-case';
+import {SassResult} from '../../lib-js/test-case/util';
 
-describe("TestCase::actual()", () => {
+describe('TestCase::actual()', () => {
   async function getResults(contents: string): Promise<SassResult> {
-    const dir = await fromContents(contents.trim())
-    const test = await TestCase.create(dir, "sass-mock", mockCompiler(dir))
-    return test.actual()
+    const dir = await fromContents(contents.trim());
+    const test = await TestCase.create(dir, 'sass-mock', mockCompiler(dir));
+    return test.actual();
   }
 
-  it("works for output case", async () => {
+  it('works for output case', async () => {
     const contents = `
 <===> input.scss
 stdout: OUTPUT
 status: 0
 <===> output.css
 OUTPUT
-`
+`;
     expect(await getResults(contents)).toEqual({
-      output: "OUTPUT",
+      output: 'OUTPUT',
       isSuccess: true,
-    })
-  })
+    });
+  });
 
-  it("works for error case", async () => {
+  it('works for error case', async () => {
     const contents = `
 <===> input.scss
 stderr: ERROR
 status: 1
 <===> output.css
 OUTPUT
-`
+`;
     expect(await getResults(contents)).toEqual({
-      error: "ERROR",
+      error: 'ERROR',
       isSuccess: false,
-    })
-  })
+    });
+  });
 
-  it("works for warning case", async () => {
+  it('works for warning case', async () => {
     const contents = `
 <===> input.scss
 stdout: OUTPUT
@@ -46,15 +46,15 @@ stderr: WARNING
 status: 0
 <===> output.css
 OUTPUT
-`
+`;
     expect(await getResults(contents)).toEqual({
-      output: "OUTPUT",
-      warning: "WARNING",
+      output: 'OUTPUT',
+      warning: 'WARNING',
       isSuccess: true,
-    })
-  })
+    });
+  });
 
-  it("errors if multiple inputs defined in the directory", async () => {
+  it('errors if multiple inputs defined in the directory', async () => {
     const contents = `
 <===> input.scss
 stdout: OUTPUT
@@ -64,12 +64,12 @@ stdout: OUTPUT
 status: 0
 <===> output.css
 OUTPUT
-`
-    expect(() => getResults(contents)).rejects.toThrow()
-  })
+`;
+    expect(() => getResults(contents)).rejects.toThrow();
+  });
 
-  describe("command args", () => {
-    it("passes precision argument to the compiler", async () => {
+  describe('command args', () => {
+    it('passes precision argument to the compiler', async () => {
       const contents = `
 <===> options.yml
 :precision: 6
@@ -79,19 +79,19 @@ stderr: WARNING
 status: 0
 <===> output.css
 OUTPUT
-`.trim()
+`.trim();
       const compile = jest.fn(async () => ({
-        stdout: "",
-        stderr: "",
+        stdout: '',
+        stderr: '',
         status: 0,
-      }))
-      const compiler = { compile, shutdown() {} }
-      const dir = await fromContents(contents.trim())
-      await TestCase.create(dir, "sass-mock", compiler)
+      }));
+      const compiler = {compile, shutdown() {}};
+      const dir = await fromContents(contents.trim());
+      await TestCase.create(dir, 'sass-mock', compiler);
       expect(compile).toHaveBeenCalledWith(
         expect.anything(),
-        expect.arrayContaining(["--precision", "6"])
-      )
-    })
-  })
-})
+        expect.arrayContaining(['--precision', '6'])
+      );
+    });
+  });
+});

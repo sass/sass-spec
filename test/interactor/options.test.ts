@@ -1,55 +1,68 @@
-import { TestCaseArg, optionsFor } from "../../lib-js/interactor"
+import {TestCaseArg, optionsFor} from '../../lib-js/interactor';
+import {SassResult, TestResult} from '../../lib-js/test-case/util';
 
-function mockTestCase(args: any = {}): TestCaseArg {
-  return {
-    impl: args.impl ?? "sass-mock",
-    actual: () => args.actual ?? {},
-    result: () => args.result ?? {},
-  }
+interface MockTestCaseArg {
+  impl?: string;
+  actual?: SassResult;
+  result?: TestResult;
 }
 
-describe("Interactor options", () => {
+function mockTestCase(args: MockTestCaseArg = {}): TestCaseArg {
+  return {
+    impl: args.impl ?? 'sass-mock',
+    actual: () => args.actual ?? {isSuccess: true, output: ''},
+    result: () => args.result ?? {type: 'pass'},
+  };
+}
+
+describe('Interactor options', () => {
   async function expectOption(
     key: string,
-    args: any,
-    valid: boolean = true
+    args: MockTestCaseArg,
+    valid = true
   ): Promise<void> {
-    const options = optionsFor(mockTestCase(args))
-    const keys = options.map((o) => o.key)
+    const options = optionsFor(mockTestCase(args));
+    const keys = options.map(o => o.key);
     if (valid) {
-      expect(keys).toContain(key)
+      expect(keys).toContain(key);
     } else {
-      expect(keys).not.toContain(key)
+      expect(keys).not.toContain(key);
     }
   }
 
-  it("always includes certain choices", async () => {
-    for (const key of "tOITGfX") {
-      await expectOption(key, {})
+  it('always includes certain choices', async () => {
+    for (const key of 'tOITGfX') {
+      await expectOption(key, {});
     }
-  })
+  });
 
   it("does show the 'show output' option when the failure type is `warning_difference", async () => {
-    const arg = { result: { failureType: "warning_difference" } }
-    await expectOption("o", arg, false)
-  })
+    await expectOption(
+      'o',
+      {result: {type: 'fail', failureType: 'warning_difference'}},
+      false
+    );
+  });
 
   it("shows the 'show error' option only when errors and warnings are available", async () => {
     await expectOption(
-      "e",
-      { actual: { isSuccess: true, output: "output" } },
+      'e',
+      {actual: {isSuccess: true, output: 'output'}},
       false
-    )
-    await expectOption("e", {
-      actual: { isSuccess: true, output: "output", warning: "warning" },
-    })
-    await expectOption("e", { actual: { isSuccess: false, error: "error" } })
-  })
+    );
+    await expectOption('e', {
+      actual: {isSuccess: true, output: 'output', warning: 'warning'},
+    });
+    await expectOption('e', {actual: {isSuccess: false, error: 'error'}});
+  });
 
-  it("does not show any of the update test choices on an unexpected todo", async () => {
-    const test = { result: { type: "fail", failureType: "unnecessary_todo" } }
-    for (const key of "OITG") {
-      await expectOption(key, test, false)
+  it('does not show any of the update test choices on an unexpected todo', async () => {
+    for (const key of 'OITG') {
+      await expectOption(
+        key,
+        {result: {type: 'fail', failureType: 'unnecessary_todo'}},
+        false
+      );
     }
-  })
-})
+  });
+});
