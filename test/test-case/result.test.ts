@@ -8,7 +8,7 @@ describe('TestCase::result()', () => {
     content: string,
     opts: {todoMode?: string} = {}
   ): Promise<TestResult> {
-    const dir = await fromContents(content.trim());
+    const dir = await fromContents(content.trimLeft());
     const test = await TestCase.create(
       dir,
       'sass-mock',
@@ -30,7 +30,8 @@ stdout: |
 <===> output.css
 p {
   color: #ff8000;
-}`;
+}
+`;
       expect(await runTestCase(input)).toMatchObject({type: 'pass'});
     });
 
@@ -130,6 +131,7 @@ stderr: |
 p {
   color: #ff8000;
 }
+
 <===> warning
 WARNING: test
 `;
@@ -150,6 +152,7 @@ stderr: |
 p {
   color: #ff8000;
 }
+
 <===> warning
 WARNING: test
 `;
@@ -171,6 +174,7 @@ stdout: |
 p {
   color: #ff8000;
 }
+
 <===> warning
 WARNING: test
 `;
@@ -215,6 +219,7 @@ stderr: |
 p {
   color: #ff8000;
 }
+
 <===> warning
 WARNING: test
 `;
@@ -246,6 +251,7 @@ stderr: |
 p {
   color: #ff8000;
 }
+
 <===> warning
 WARNING: test
 `;
