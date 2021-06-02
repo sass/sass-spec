@@ -6,11 +6,12 @@ describe('toHrx', () => {
     input: string,
     expected: string = input
   ): Promise<void> {
-    input = input.trim();
-    expected = expected.trim();
+    input = input.trimLeft();
+    expected = expected.trimLeft();
     const dir = await fromContents(input);
     expect(await toHrx(dir)).toEqual(expected);
   }
+
   it('writes contents of a normal directory in alphabetical order', async () => {
     const input = `
 <===> apple
@@ -18,7 +19,23 @@ apple
 <===> coconut
 coconut
 <===> banana
+banana`;
+    await expectHrx(input);
+  });
+
+  it('writes the correct number of trailing newlines', async () => {
+    const input = `
+<===> apple
+apple
+
+<===> coconut
+coconut
+
+
+<===> banana
 banana
+
+
 `;
     await expectHrx(input);
   });
@@ -67,40 +84,54 @@ this is a deep file
     await expectHrx(input);
   });
 
-  it('overwrite test directories in style-guide order', async () => {
+  it('overwrites test directories in style-guide order', async () => {
     const input = `
 <===> output.css
 OUTPUT
+
 <===> _util.scss
 UTIL
+
 <===> output-dart-sass.css
 IMPL OUTPUT
+
 <===> warning-libsass
 IMPL WARNING
+
 <===> subdir/input.scss
 MORE UTIL
+
 <===> options.yml
 OPTIONS
+
 <===> input.scss
 INPUT
+
 <===> warning
 WARNING
 `;
     const expected = `
 <===> options.yml
 OPTIONS
+
 <===> input.scss
 INPUT
+
 <===> _util.scss
 UTIL
+
 <===> subdir/input.scss
 MORE UTIL
+
 <===> output.css
 OUTPUT
+
 <===> output-dart-sass.css
 IMPL OUTPUT
+
 <===> warning
 WARNING
+
 <===> warning-libsass
 IMPL WARNING
 `;
@@ -111,22 +142,28 @@ IMPL WARNING
     const input = `
 <===> test-1/input.scss
 INPUT
+
 <===> test-2/error
 ERROR
+
 <===> test-2/input.scss
 INPUT
+
 <===> test-1/output.css
 OUTPUT
 `;
     const expected = `
 <===> test-1/input.scss
 INPUT
+
 <===> test-1/output.css
 OUTPUT
+
 <===>
 ================================================================================
 <===> test-2/input.scss
 INPUT
+
 <===> test-2/error
 ERROR
 `;
