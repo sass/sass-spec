@@ -1,29 +1,29 @@
-import { SpecDirectory } from "../spec-directory"
+import {SpecDirectory} from '../spec-directory';
 
 interface SuccessResult {
-  isSuccess: true
-  output: string
-  warning?: string
+  isSuccess: true;
+  output: string;
+  warning?: string;
 }
 
 interface ErrorResult {
-  isSuccess: false
-  error: string
+  isSuccess: false;
+  error: string;
 }
 
 /** A result of executing a sass compiler */
-export type SassResult = SuccessResult | ErrorResult
+export type SassResult = SuccessResult | ErrorResult;
 
 type FailureType =
   // | "todo_warning_nonexistent"
   // | "conflicting_files"
   // | "missing_output"
-  | "unexpected_error"
-  | "unexpected_success"
-  | "output_difference"
-  | "error_difference"
-  | "warning_difference"
-  | "unnecessary_todo"
+  | 'unexpected_error'
+  | 'unexpected_success'
+  | 'output_difference'
+  | 'error_difference'
+  | 'warning_difference'
+  | 'unnecessary_todo';
 
 // TODO split these up into separate types (e.g. `FailureResult | ErrorResult`).
 // Spliting up the properties into a union type will be cumbersome when
@@ -34,57 +34,57 @@ type FailureType =
  * The result of a test execution, along with metadata for failures and errors
  */
 export interface TestResult {
-  type: "pass" | "fail" | "todo" | "skip" | "error"
+  type: 'pass' | 'fail' | 'todo' | 'skip' | 'error';
   // If `fail`, the type of failure, message, and possible diff
-  failureType?: FailureType
-  message?: string
-  diff?: string
+  failureType?: FailureType;
+  message?: string;
+  diff?: string;
   // If `error`, the thrown error
-  error?: Error
+  error?: Error;
 }
 
 function makeFailureFactory(failureType: FailureType, message: string) {
   return function (diff?: string): TestResult {
     return {
-      type: "fail",
+      type: 'fail',
       failureType,
       message,
       diff,
-    }
-  }
+    };
+  };
 }
 
 export const failures = {
   UnexpectedError: makeFailureFactory(
-    "unexpected_error",
-    "Test case should succeed but it did not"
+    'unexpected_error',
+    'Test case should succeed but it did not'
   ),
   UnexpectedSuccess: makeFailureFactory(
-    "unexpected_success",
-    "Expected test to fail but it did not"
+    'unexpected_success',
+    'Expected test to fail but it did not'
   ),
   OutputDifference: makeFailureFactory(
-    "output_difference",
-    "Expected did not match output"
+    'output_difference',
+    'Expected did not match output'
   ),
   WarningDifference: makeFailureFactory(
-    "warning_difference",
-    "Expected did not match warning"
+    'warning_difference',
+    'Expected did not match warning'
   ),
   ErrorDifference: makeFailureFactory(
-    "error_difference",
-    "Expected did not match error"
+    'error_difference',
+    'Expected did not match error'
   ),
   UnnecessaryTodo: makeFailureFactory(
-    "unnecessary_todo",
-    "Expected test marked TODO to fail but it passed"
+    'unnecessary_todo',
+    'Expected test marked TODO to fail but it passed'
   ),
-}
+};
 
 export function getExpectedFiles(impl?: string): string[] {
   return impl
     ? [`output-${impl}.css`, `warning-${impl}`, `error-${impl}`]
-    : ["output.css", "warning", "error"]
+    : ['output.css', 'warning', 'error'];
 }
 
 // Overwrite the set of results to be equal to the provided result
@@ -93,7 +93,7 @@ export async function overwriteResults(
   actual: SassResult,
   impl?: string
 ): Promise<void> {
-  const [outputFile, warningFile, errorFile] = getExpectedFiles(impl)
+  const [outputFile, warningFile, errorFile] = getExpectedFiles(impl);
   if (actual.isSuccess) {
     await Promise.all([
       dir.writeFile(outputFile, actual.output),
@@ -101,12 +101,12 @@ export async function overwriteResults(
         ? dir.writeFile(warningFile, actual.warning)
         : dir.removeFile(warningFile),
       dir.removeFile(errorFile),
-    ])
+    ]);
   } else {
     await Promise.all([
       dir.writeFile(errorFile, actual.error),
       dir.removeFile(outputFile),
       dir.removeFile(warningFile),
-    ])
+    ]);
   }
 }

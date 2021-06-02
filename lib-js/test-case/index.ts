@@ -1,2 +1,2 @@
-export { default } from "./test-case"
-export type { TestResult } from "./util"
+export {default} from './test-case';
+export type {TestResult} from './util';

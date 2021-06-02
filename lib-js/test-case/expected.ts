@@ -1,35 +1,35 @@
-import { SpecDirectory } from "../spec-directory"
-import { SassResult } from "./util"
+import {SpecDirectory} from '../spec-directory';
+import {SassResult} from './util';
 
 // Ensure that the directory has exactly one output or error file
 function checkDuplicateOutputs(dir: SpecDirectory, impl: string): void {
   if (dir.hasFile(`output-${impl}.css`) && dir.hasFile(`error-${impl}`)) {
-    throw new Error(`Found both output and error file for ${impl}.`)
+    throw new Error(`Found both output and error file for ${impl}.`);
   }
 
-  if (dir.hasFile(`output.css`) && dir.hasFile(`error`)) {
-    throw new Error(`Found both \`output.css\` and \`error\` file.`)
+  if (dir.hasFile('output.css') && dir.hasFile('error')) {
+    throw new Error('Found both `output.css` and `error` file.');
   }
 }
 
 // Returns true if the directory expects a successful result
 // or false if it expects an error
 function expectsSuccess(dir: SpecDirectory, impl: string): boolean {
-  if (dir.hasFile(`output-${impl}.css`)) return true
-  if (dir.hasFile(`error-${impl}`)) return false
-  if (dir.hasFile(`output.css`)) return true
-  if (dir.hasFile(`error`)) return false
-  throw new Error(`Found neither \`output.css\` nor \`error\` file`)
+  if (dir.hasFile(`output-${impl}.css`)) return true;
+  if (dir.hasFile(`error-${impl}`)) return false;
+  if (dir.hasFile('output.css')) return true;
+  if (dir.hasFile('error')) return false;
+  throw new Error('Found neither `output.css` nor `error` file');
 }
 
 function getResultFile(
   dir: SpecDirectory,
   impl: string,
-  type: "output" | "error" | "warning"
+  type: 'output' | 'error' | 'warning'
 ): string {
-  const ext = type === "output" ? ".css" : ""
-  const overrideFile = `${type}-${impl}${ext}`
-  return dir.hasFile(overrideFile) ? overrideFile : `${type}${ext}`
+  const ext = type === 'output' ? '.css' : '';
+  const overrideFile = `${type}-${impl}${ext}`;
+  return dir.hasFile(overrideFile) ? overrideFile : `${type}${ext}`;
 }
 
 /**
@@ -39,30 +39,30 @@ export async function getExpectedResult(
   dir: SpecDirectory,
   impl: string
 ): Promise<SassResult> {
-  checkDuplicateOutputs(dir, impl)
-  const isSuccessCase = expectsSuccess(dir, impl)
+  checkDuplicateOutputs(dir, impl);
+  const isSuccessCase = expectsSuccess(dir, impl);
   const resultFilename = getResultFile(
     dir,
     impl,
-    isSuccessCase ? "output" : "error"
-  )
-  const expected = await dir.readFile(resultFilename)
+    isSuccessCase ? 'output' : 'error'
+  );
+  const expected = await dir.readFile(resultFilename);
 
-  let warning
+  let warning;
   // check if there's a warning
-  const warningFilename = getResultFile(dir, impl, "warning")
+  const warningFilename = getResultFile(dir, impl, 'warning');
   if (dir.hasFile(warningFilename)) {
     // TODO this check is deactivated because there are existing test cases
     // with warning and error files (usually when error is overridden)
     // if (!isSuccessCase) {
     //   throw new Error(`Found warning file for test case expecting failure`)
     // }
-    warning = await dir.readFile(warningFilename)
+    warning = await dir.readFile(warningFilename);
   }
 
   if (isSuccessCase) {
-    return { isSuccess: true, output: expected, warning }
+    return {isSuccess: true, output: expected, warning};
   } else {
-    return { isSuccess: false, error: expected }
+    return {isSuccess: false, error: expected};
   }
 }

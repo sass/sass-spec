@@ -33,6 +33,17 @@ jobs:
       - run: npm install
       - run: npm test
 
+  static_analysis:
+    name: "Static analysis"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ env.NODE_VERSION }}"}
+      - run: npm install
+      - run: npm run lint
+
   dart_sass:
     name: Dart Sass
     runs-on: ubuntu-latest
