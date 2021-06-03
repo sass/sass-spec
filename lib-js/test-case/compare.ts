@@ -11,7 +11,6 @@ export function normalizeOutput(output: string): string {
       .replace(/(\r?\n)+/g, '\n')
       // Normalize paths
       .replace(/[-_/a-zA-Z0-9]+(input\.s[ca]ss)/g, '$1')
-      .trim()
   );
 }
 
