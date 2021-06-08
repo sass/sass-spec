@@ -5,86 +5,180 @@
 
 <===>
 ================================================================================
-<===> imports_only/input.scss
+<===> no_forward/no_use/input.scss
 @import "first";
 @import "second";
 
-<===> imports_only/first.scss
+<===> no_forward/no_use/first.scss
 $variable: value;
 
-<===> imports_only/second.scss
+<===> no_forward/no_use/second.scss
 a {
   b: $variable;
 }
 
-<===> imports_only/output.css
+<===> no_forward/no_use/output.css
 a {
   b: value;
 }
 
 <===>
 ================================================================================
-<===> use_in_second/input.scss
+<===> no_forward/use_in_first/input.scss
 @import "first";
 @import "second";
 
-<===> use_in_second/first.scss
+<===> no_forward/use_in_first/first.scss
+@use "sass:math";
+
 $variable: value;
 
-<===> use_in_second/second.scss
+<===> no_forward/use_in_first/second.scss
+a {
+  b: $variable;
+}
+
+<===> no_forward/use_in_first/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> no_forward/use_in_second/input.scss
+@import "first";
+@import "second";
+
+<===> no_forward/use_in_second/first.scss
+$variable: value;
+
+<===> no_forward/use_in_second/second.scss
 @use "sass:math";
 
 a {
   b: $variable;
 }
 
-<===> use_in_second/output.css
+<===> no_forward/use_in_second/output.css
 a {
   b: value;
 }
 
 <===>
 ================================================================================
-<===> forward_first/input.scss
+<===> no_forward/use_in_both/input.scss
 @import "first";
 @import "second";
 
-<===> forward_first/first.import.scss
-@forward "first";
+<===> no_forward/use_in_both/first.scss
+@use "sass:math";
 
-<===> forward_first/first.scss
 $variable: value;
 
-<===> forward_first/second.scss
-a {
-  b: $variable;
-}
-
-<===> forward_first/output.css
-a {
-  b: value;
-}
-
-<===>
-================================================================================
-<===> use_and_forward/input.scss
-@import "first";
-@import "second";
-
-<===> use_and_forward/first.import.scss
-@forward "first";
-
-<===> use_and_forward/first.scss
-$variable: value;
-
-<===> use_and_forward/second.scss
+<===> no_forward/use_in_both/second.scss
 @use "sass:math";
 
 a {
   b: $variable;
 }
 
-<===> use_and_forward/output.css
+<===> no_forward/use_in_both/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> forwarded_first/no_use/input.scss
+@import "first";
+@import "second";
+
+<===> forwarded_first/no_use/first.import.scss
+@forward "first";
+
+<===> forwarded_first/no_use/first.scss
+$variable: value;
+
+<===> forwarded_first/no_use/second.scss
+a {
+  b: $variable;
+}
+
+<===> forwarded_first/no_use/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> forwarded_first/use_in_first/input.scss
+@import "first";
+@import "second";
+
+<===> forwarded_first/use_in_first/first.import.scss
+@forward "first";
+
+<===> forwarded_first/use_in_first/first.scss
+$variable: value;
+
+<===> forwarded_first/use_in_first/second.scss
+@use "sass:math";
+
+a {
+  b: $variable;
+}
+
+<===> forwarded_first/use_in_first/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> forwarded_first/use_in_second/input.scss
+@import "first";
+@import "second";
+
+<===> forwarded_first/use_in_second/first.import.scss
+@forward "first";
+
+<===> forwarded_first/use_in_second/first.scss
+@use "sass:math";
+
+$variable: value;
+
+<===> forwarded_first/use_in_second/second.scss
+a {
+  b: $variable;
+}
+
+<===> forwarded_first/use_in_second/output.css
+a {
+  b: value;
+}
+
+<===>
+================================================================================
+<===> forwarded_first/use_in_both/input.scss
+@import "first";
+@import "second";
+
+<===> forwarded_first/use_in_both/first.import.scss
+@forward "first";
+
+<===> forwarded_first/use_in_both/first.scss
+@use "sass:math";
+
+$variable: value;
+
+<===> forwarded_first/use_in_both/second.scss
+@use "sass:math";
+
+a {
+  b: $variable;
+}
+
+<===> forwarded_first/use_in_both/output.css
 a {
   b: value;
 }
