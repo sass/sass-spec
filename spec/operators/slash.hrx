@@ -1,0 +1,25 @@
+<===> namespaced_variables/input.scss
+@use "other";
+a {b: other.$a / other.$b}
+
+<===> namespaced_variables/other.scss
+$a: 1;
+$b: 2;
+
+<===> namespaced_variables/output.css
+a {
+  b: 0.5;
+}
+
+<===> namespaced_variables/warning
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(other.$a, other.$b)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | a {b: other.$a / other.$b}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
