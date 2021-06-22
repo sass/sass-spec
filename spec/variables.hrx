@@ -1,0 +1,17 @@
+<===> semi_global/in_local/double_nested/input.scss
+// Regression test for sass/dart-sass#1250
+$a: global;
+b {
+  @if true {
+    @if true {
+      $a: local;
+    }
+  }
+}
+
+c {d: $a}
+
+<===> semi_global/in_local/double_nested/output.css
+c {
+  d: global;
+}
