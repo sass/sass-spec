@@ -1,0 +1,45 @@
+<===> near/input.scss
+@use "other";
+
+in-input {@extend in-other}
+
+<===> near/_other.scss
+in-other {x: y}
+
+<===> near/output.css
+in-other, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> far/input.scss
+@use "midstream";
+
+in-input {@extend in-upstream}
+
+<===> far/_midstream.scss
+@use "upstream";
+
+<===> far/_upstream.scss
+in-upstream {x: y}
+
+<===> far/output.css
+in-upstream, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/input.scss
+@use "other";
+
+in-input {@extend %in-other}
+
+<===> placeholder/_other.scss
+%in-other {x: y}
+
+<===> placeholder/output.css
+in-input {
+  x: y;
+}

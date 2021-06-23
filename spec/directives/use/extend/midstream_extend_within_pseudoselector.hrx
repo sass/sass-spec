@@ -1,0 +1,98 @@
+<===> README.md
+Regression tests for sass/dart-sass#1297.
+
+<===>
+================================================================================
+<===> three_files/is/input.scss
+@use "midstream";
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> three_files/is/_midstream.scss
+@use "upstream";
+:is(in-midstream) {@extend in-upstream}
+
+<===> three_files/is/_upstream.scss
+in-upstream {a: b}
+
+<===> three_files/is/output.css
+in-upstream, :is(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> three_files/matches/input.scss
+@use "midstream";
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> three_files/matches/_midstream.scss
+@use "upstream";
+:matches(in-midstream) {@extend in-upstream}
+
+<===> three_files/matches/_upstream.scss
+in-upstream {a: b}
+
+<===> three_files/matches/output.css
+in-upstream, :matches(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> two_files/is/input.scss
+@use "upstream";
+:is(in-midstream) {@extend in-upstream}
+
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> two_files/is/_upstream.scss
+in-upstream {a: b}
+
+<===> two_files/is/output.css
+in-upstream, :is(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> two_files/matches/input.scss
+@use "upstream";
+:matches(in-midstream) {@extend in-upstream}
+
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> two_files/matches/_upstream.scss
+in-upstream {a: b}
+
+<===> two_files/matches/output.css
+in-upstream, :matches(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}

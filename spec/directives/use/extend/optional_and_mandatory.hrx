@@ -1,0 +1,45 @@
+<===> README.md
+If an optional and a mandatory version of the same extension both exist, the
+mandatory version should be marked as having successfully matched.
+
+<===>
+================================================================================
+<===> same_file/input.scss
+@use "other";
+
+in-input {
+  @extend in-other !optional;
+  @extend in-other;
+}
+
+<===> same_file/_other.scss
+in-other {x: y}
+
+<===> same_file/output.css
+in-other, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> different_files/input.scss
+@use "optional";
+@use "mandatory";
+
+<===> different_files/_optional.scss
+@use "shared";
+
+downstream {@extend in-other !optional};
+
+<===> different_files/_mandatory.scss
+@use "shared";
+
+downstream {@extend in-other};
+
+<===> different_files/_shared.scss
+in-other {x: y}
+
+<===> different_files/output.css
+in-other, downstream {
+  x: y;
+}
