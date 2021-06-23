@@ -1,0 +1,57 @@
+<===> is/options.yml
+---
+:todo:
+- sass/dart-sass#1297
+
+<===> is/input.scss
+@use "midstream";
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> is/_midstream.scss
+@use "upstream";
+:is(in-midstream) {@extend in-upstream}
+
+<===> is/_upstream.scss
+in-upstream {a: b}
+
+<===> is/output.css
+in-upstream, :is(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> matches/options.yml
+---
+:todo:
+- sass/dart-sass#1297
+
+<===> matches/input.scss
+@use "midstream";
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> matches/_midstream.scss
+@use "upstream";
+:matches(in-midstream) {@extend in-upstream}
+
+<===> matches/_upstream.scss
+in-upstream {a: b}
+
+<===> matches/output.css
+in-upstream, :matches(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}

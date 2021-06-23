@@ -1,0 +1,69 @@
+<===> merge/input.scss
+// Sibling modules can't extend one another's selectors, but they can be merged
+// together into the same selector list if they extend the same thing. If they
+// are, they should be optimized with respect to one another.
+//
+// In this case, _left.scss causes the selector ".a.a" to be generated, which is
+// simplified to ".a". Then _right.scss causes ".a.b" to be generated. ".a" is a
+// superselector of ".a.b" and ".a" has the same specificity as the extender,
+// ".b", so ".a.b" can (and should) be optimized away.
+@use "left";
+@use "right";
+
+<===> merge/_left.scss
+@use "other";
+
+.a {@extend %in-other}
+
+<===> merge/_right.scss
+@use "other";
+
+.b {@extend %in-other}
+
+<===> merge/_other.scss
+%in-other.a {x: y}
+
+<===> merge/output.css
+.a {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> dependency/with_midstream_extend/input.scss
+@use "left";
+@use "right";
+
+<===> dependency/with_midstream_extend/_left.scss
+@use "midstream";
+in-left {
+  @extend in-midstream;
+  w: x;
+}
+
+<===> dependency/with_midstream_extend/_right.scss
+@use "midstream";
+in-right {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> dependency/with_midstream_extend/_midstream.scss
+@use "upstream";
+in-midstream {@extend in-upstream}
+
+<===> dependency/with_midstream_extend/_upstream.scss
+in-upstream {a: b}
+
+<===> dependency/with_midstream_extend/output.css
+in-upstream, in-midstream, in-right, in-left {
+  a: b;
+}
+
+in-left {
+  w: x;
+}
+
+in-right {
+  y: z;
+}

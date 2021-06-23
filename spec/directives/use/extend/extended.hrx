@@ -1,0 +1,34 @@
+<===> extended/from_same_file/input.scss
+@use "other";
+
+in-input {@extend in-other-extender}
+
+<===> extended/from_same_file/_other.scss
+in-other-extender {@extend in-other-extendee}
+
+in-other-extendee {x: y}
+
+<===> extended/from_same_file/output.css
+in-other-extendee, in-other-extender, in-input {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> extended/from_other_file/input.scss
+@use "midstream";
+
+in-input {@extend in-midstream}
+
+<===> extended/from_other_file/_midstream.scss
+@use "upstream";
+
+in-midstream {@extend in-upstream}
+
+<===> extended/from_other_file/_upstream.scss
+in-upstream {x: y}
+
+<===> extended/from_other_file/output.css
+in-upstream, in-midstream, in-input {
+  x: y;
+}
