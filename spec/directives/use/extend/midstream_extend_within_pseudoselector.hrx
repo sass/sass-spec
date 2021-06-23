@@ -1,23 +1,23 @@
-<===> is/options.yml
----
-:todo:
-- sass/dart-sass#1297
+<===> README.md
+Regression tests for sass/dart-sass#1297.
 
-<===> is/input.scss
+<===>
+================================================================================
+<===> three_files/is/input.scss
 @use "midstream";
 in-input {
   @extend in-midstream;
   y: z;
 }
 
-<===> is/_midstream.scss
+<===> three_files/is/_midstream.scss
 @use "upstream";
 :is(in-midstream) {@extend in-upstream}
 
-<===> is/_upstream.scss
+<===> three_files/is/_upstream.scss
 in-upstream {a: b}
 
-<===> is/output.css
+<===> three_files/is/output.css
 in-upstream, :is(in-midstream, in-input) {
   a: b;
 }
@@ -28,26 +28,67 @@ in-input {
 
 <===>
 ================================================================================
-<===> matches/options.yml
----
-:todo:
-- sass/dart-sass#1297
-
-<===> matches/input.scss
+<===> three_files/matches/input.scss
 @use "midstream";
 in-input {
   @extend in-midstream;
   y: z;
 }
 
-<===> matches/_midstream.scss
+<===> three_files/matches/_midstream.scss
 @use "upstream";
 :matches(in-midstream) {@extend in-upstream}
 
-<===> matches/_upstream.scss
+<===> three_files/matches/_upstream.scss
 in-upstream {a: b}
 
-<===> matches/output.css
+<===> three_files/matches/output.css
+in-upstream, :matches(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> two_files/is/input.scss
+@use "upstream";
+:is(in-midstream) {@extend in-upstream}
+
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> two_files/is/_upstream.scss
+in-upstream {a: b}
+
+<===> two_files/is/output.css
+in-upstream, :is(in-midstream, in-input) {
+  a: b;
+}
+
+in-input {
+  y: z;
+}
+
+<===>
+================================================================================
+<===> two_files/matches/input.scss
+@use "upstream";
+:matches(in-midstream) {@extend in-upstream}
+
+in-input {
+  @extend in-midstream;
+  y: z;
+}
+
+<===> two_files/matches/_upstream.scss
+in-upstream {a: b}
+
+<===> two_files/matches/output.css
 in-upstream, :matches(in-midstream, in-input) {
   a: b;
 }

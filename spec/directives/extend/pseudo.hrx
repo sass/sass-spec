@@ -1,0 +1,18 @@
+<===> into_pseudo/extends_after/options.yml
+:todo:
+  - libsass
+
+<===> into_pseudo/extends_after/input.scss
+// Regression test for sass/dart-sass#1297, where the root cause was that
+// extending an existing extension accidentally ignored simple selectors in
+// selector pseudos
+:is(midstream) {@extend upstream}
+
+downstream {@extend midstream}
+
+upstream {a: b}
+
+<===> into_pseudo/extends_after/output.css
+upstream, :is(midstream, downstream) {
+  a: b;
+}
