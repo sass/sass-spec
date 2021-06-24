@@ -1,0 +1,27 @@
+<===> one_matches/input.scss
+a {b: selector-extend(".c", ".c, .d", ".e")}
+
+<===> one_matches/output.css
+a {
+  b: .c, .e;
+}
+
+<===>
+================================================================================
+<===> all_match/input.scss
+a {b: selector-extend(".c.d", ".c, .d", ".e")}
+
+<===> all_match/output.css
+a {
+  b: .c.d, .e;
+}
+
+<===>
+================================================================================
+<===> different_matches/input.scss
+a {b: selector-extend(".c.d, .c .e, .d .f", ".c, .d", ".g")}
+
+<===> different_matches/output.css
+a {
+  b: .c.d, .g, .c .e, .g .e, .d .f, .g .f;
+}
