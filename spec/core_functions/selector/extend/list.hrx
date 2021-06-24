@@ -16,6 +16,11 @@ a {
   b: .c.d, .e;
 }
 
+<===> all_match/output-libsass.css
+a {
+  b: .c.d, .d.e, .e;
+}
+
 <===>
 ================================================================================
 <===> different_matches/input.scss
@@ -24,4 +29,9 @@ a {b: selector-extend(".c.d, .c .e, .d .f", ".c, .d", ".g")}
 <===> different_matches/output.css
 a {
   b: .c.d, .g, .c .e, .g .e, .d .f, .g .f;
+}
+
+<===> different_matches/output-libsass.css
+a {
+  b: .c.d, .d.g, .g, .c .e, .g .e, .d .f, .g .f;
 }
