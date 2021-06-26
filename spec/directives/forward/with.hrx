@@ -160,6 +160,35 @@ d {
 
 <===>
 ================================================================================
+<===> facade_contains_multiple_configured_forwards/input.scss
+@use "midstream" with (
+  $a: twice-configured a,
+  $b: twice-configured b,
+);
+
+<===> facade_contains_multiple_configured_forwards/_midstream.scss
+@forward "upstream1" with ($a: configured a !default);
+@forward "upstream2" with ($b: configured b !default);
+
+<===> facade_contains_multiple_configured_forwards/_upstream1.scss
+$a: original a !default;
+a {a: $a}
+
+<===> facade_contains_multiple_configured_forwards/_upstream2.scss
+$b: original b !default;
+b {b: $b}
+
+<===> facade_contains_multiple_configured_forwards/output.css
+a {
+  a: twice-configured a;
+}
+
+b {
+  b: twice-configured b;
+}
+
+<===>
+================================================================================
 <===> some_unconfigured/input.scss
 @use "midstream";
 
