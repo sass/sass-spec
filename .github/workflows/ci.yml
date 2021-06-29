@@ -60,7 +60,7 @@ jobs:
       - name: Install dart-sass
         run: |
           GITHUB_REF=${PR_REF:-$CURRENT_REF}
-          if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=master; fi
+          if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
           git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
           (cd ../dart-sass; dart pub get)
         env:
