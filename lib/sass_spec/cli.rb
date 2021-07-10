@@ -91,7 +91,7 @@ Make sure the command you provide prints to stdout.
         options[:limit] = limit.to_i
       end
 
-      opts.on("--migrate-impl", "Copy tests that fail and make them pass for the current implementatino.") do
+      opts.on("--migrate-impl", "Copy tests that fail and make them pass for the current implementation.") do
         options[:migrate_impl] = true
       end
 
