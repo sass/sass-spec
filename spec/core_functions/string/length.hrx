@@ -28,6 +28,18 @@ a {
 
 <===>
 ================================================================================
+<===> private_use_character/input.scss
+// Dart Sass emits private-use characters as escapes in expanded mode, but it
+// should stil treat them as single characters for the purpose of functions.
+a {b: str-length("\E000")}
+
+<===> private_use_character/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> double_width_character/input.scss
 // Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
 // character is represented as two UTF-16 code units.
