@@ -3,39 +3,322 @@
 :todo:
 - libsass
 
-<===> input.scss
-// If a min() or max() function would be a valid plain CSS value, possibly
-// including interoplation, parse it as plain CSS.
+<===>
+================================================================================
+<===> number/min/input.scss
+a {b: min(1px)}
 
-.plain-css {
-  number: min(1px) max(1px);
-  interpolation: min(#{1px + 2px}) max(#{1px + 2px});
-  nested-min-max: min(max(1px, 2px)) max(min(1px, 2px));
-  calc: min(calc(10% + 1px)) max(calc(10% + 1px));
-  env: min(env(--foo), env(@&[*^{$(*)&}@^]%$), env(inter#{p + o}lated))
-       max(env(--foo), env(@&[*^{$(*)&}@^]%$), env(inter#{p + o}lated));
-  var: min(var(--foo), var(@&[*^{$(*)&}@^]%$), var(inter#{p + o}lated))
-       max(var(--foo), var(@&[*^{$(*)&}@^]%$), var(inter#{p + o}lated));
-  clamp: min(clamp(1, 2, 3)) max(clamp(1, 2, 3));
-  operations: min(1px - 2px * 3px / 4px) max(1px - 2px * 3px / 4px);
-  parens: min((1px + 2px) * 3px) max((1px + 2px) * 3px);
-  two-arguments: min(1px, 2px) max(1px, 2px);
-  three-arguments: min(1px, 2px, 3px) max(1px, 2px, 3px);
-  case-insensitive: mIn(1px + 2px) MaX(1px + 2px);
+<===> number/min/output.css
+a {
+  b: min(1px);
 }
 
-<===> output.css
-.plain-css {
-  number: min(1px) max(1px);
-  interpolation: min(3px) max(3px);
-  nested-min-max: min(max(1px, 2px)) max(min(1px, 2px));
-  calc: min(calc(10% + 1px)) max(calc(10% + 1px));
-  env: min(env(--foo), env(@&[*^{$(*)&}@^]%$), env(interpolated)) max(env(--foo), env(@&[*^{$(*)&}@^]%$), env(interpolated));
-  var: min(var(--foo), var(@&[*^{$(*)&}@^]%$), var(interpolated)) max(var(--foo), var(@&[*^{$(*)&}@^]%$), var(interpolated));
-  clamp: min(clamp(1, 2, 3)) max(clamp(1, 2, 3));
-  operations: min(1px - 2px * 3px / 4px) max(1px - 2px * 3px / 4px);
-  parens: min((1px + 2px) * 3px) max((1px + 2px) * 3px);
-  two-arguments: min(1px, 2px) max(1px, 2px);
-  three-arguments: min(1px, 2px, 3px) max(1px, 2px, 3px);
-  case-insensitive: min(1px + 2px) max(1px + 2px);
+<===>
+================================================================================
+<===> number/max/input.scss
+a {b: max(1px)}
+
+<===> number/max/output.css
+a {
+  b: max(1px);
+}
+
+<===>
+================================================================================
+<===> interpolation/min/input.scss
+a {b: min(#{1px + 2px})}
+
+<===> interpolation/min/output.css
+a {
+  b: min(3px);
+}
+
+<===>
+================================================================================
+<===> interpolation/max/input.scss
+a {b: max(#{1px + 2px})}
+
+<===> interpolation/max/output.css
+a {
+  b: max(3px);
+}
+
+<===>
+================================================================================
+<===> nested/max_in_min/input.scss
+a {b: min(max(1px, 2px))}
+
+<===> nested/max_in_min/output.css
+a {
+  b: min(max(1px, 2px));
+}
+
+<===>
+================================================================================
+<===> nested/min_in_max/input.scss
+a {b: max(min(1px, 2px))}
+
+<===> nested/min_in_max/output.css
+a {
+  b: max(min(1px, 2px));
+}
+
+<===>
+================================================================================
+<===> calc/min/input.scss
+a {b: min(calc(10% + 1px))}
+
+<===> calc/min/output.css
+a {
+  b: min(calc(10% + 1px));
+}
+
+<===>
+================================================================================
+<===> calc/max/input.scss
+a {b: max(calc(10% + 1px))}
+
+<===> calc/max/output.css
+a {
+  b: max(calc(10% + 1px));
+}
+
+<===>
+================================================================================
+<===> env/identifier/min/input.scss
+a {b: min(env(--foo))}
+
+<===> env/identifier/min/output.css
+a {
+  b: min(env(--foo));
+}
+
+<===>
+================================================================================
+<===> env/identifier/max/input.scss
+a {b: max(env(--foo))}
+
+<===> env/identifier/max/output.css
+a {
+  b: max(env(--foo));
+}
+
+<===>
+================================================================================
+<===> env/line_noise/min/input.scss
+a {b: min(env(@&[*^{$(*)&}@^]%$))}
+
+<===> env/line_noise/min/output.css
+a {
+  b: min(env(@&[*^{$(*)&}@^]%$));
+}
+
+<===>
+================================================================================
+<===> env/line_noise/max/input.scss
+a {b: max(env(@&[*^{$(*)&}@^]%$))}
+
+<===> env/line_noise/max/output.css
+a {
+  b: max(env(@&[*^{$(*)&}@^]%$));
+}
+
+<===>
+================================================================================
+<===> env/interpolation/min/input.scss
+a {b: min(env(inter#{p + o}lated))}
+
+<===> env/interpolation/min/output.css
+a {
+  b: min(env(interpolated));
+}
+
+<===>
+================================================================================
+<===> env/interpolation/max/input.scss
+a {b: max(env(inter#{p + o}lated))}
+
+<===> env/interpolation/max/output.css
+a {
+  b: max(env(interpolated));
+}
+
+<===>
+================================================================================
+<===> var/identifier/min/input.scss
+a {b: min(var(--foo))}
+
+<===> var/identifier/min/output.css
+a {
+  b: min(var(--foo));
+}
+
+<===>
+================================================================================
+<===> var/identifier/max/input.scss
+a {b: max(var(--foo))}
+
+<===> var/identifier/max/output.css
+a {
+  b: max(var(--foo));
+}
+
+<===>
+================================================================================
+<===> var/line_noise/min/input.scss
+a {b: min(var(@&[*^{$(*)&}@^]%$))}
+
+<===> var/line_noise/min/output.css
+a {
+  b: min(var(@&[*^{$(*)&}@^]%$));
+}
+
+<===>
+================================================================================
+<===> var/line_noise/max/input.scss
+a {b: max(var(@&[*^{$(*)&}@^]%$))}
+
+<===> var/line_noise/max/output.css
+a {
+  b: max(var(@&[*^{$(*)&}@^]%$));
+}
+
+<===>
+================================================================================
+<===> var/interpolation/min/input.scss
+a {b: min(var(inter#{p + o}lated))}
+
+<===> var/interpolation/min/output.css
+a {
+  b: min(var(interpolated));
+}
+
+<===>
+================================================================================
+<===> var/interpolation/max/input.scss
+a {b: max(var(inter#{p + o}lated))}
+
+<===> var/interpolation/max/output.css
+a {
+  b: max(var(interpolated));
+}
+
+<===>
+================================================================================
+<===> clamp/min/input.scss
+a {b: min(clamp(1, 2, 3))}
+
+<===> clamp/min/output.css
+a {
+  b: min(clamp(1, 2, 3));
+}
+
+<===>
+================================================================================
+<===> clamp/max/input.scss
+a {b: max(clamp(1, 2, 3))}
+
+<===> clamp/max/output.css
+a {
+  b: max(clamp(1, 2, 3));
+}
+
+<===>
+================================================================================
+<===> operations/min/input.scss
+a {b: min(1px - 2px * 3px / 4px)}
+
+<===> operations/min/output.css
+a {
+  b: min(1px - 2px * 3px / 4px);
+}
+
+<===>
+================================================================================
+<===> operations/max/input.scss
+a {b: max(1px - 2px * 3px / 4px)}
+
+<===> operations/max/output.css
+a {
+  b: max(1px - 2px * 3px / 4px);
+}
+
+<===>
+================================================================================
+<===> parens/min/input.scss
+a {b: min((1px + 2px) * 3px)}
+
+<===> parens/min/output.css
+a {
+  b: min((1px + 2px) * 3px);
+}
+
+<===>
+================================================================================
+<===> parens/max/input.scss
+a {b: max((1px + 2px) * 3px)}
+
+<===> parens/max/output.css
+a {
+  b: max((1px + 2px) * 3px);
+}
+
+<===>
+================================================================================
+<===> two_args/min/input.scss
+a {b: min(1px, 2px)}
+
+<===> two_args/min/output.css
+a {
+  b: min(1px, 2px);
+}
+
+<===>
+================================================================================
+<===> two_args/max/input.scss
+a {b: max(1px, 2px)}
+
+<===> two_args/max/output.css
+a {
+  b: max(1px, 2px);
+}
+
+<===>
+================================================================================
+<===> three_args/min/input.scss
+a {b: min(1px, 2px, 3px)}
+
+<===> three_args/min/output.css
+a {
+  b: min(1px, 2px, 3px);
+}
+
+<===>
+================================================================================
+<===> three_args/max/input.scss
+a {b: max(1px, 2px, 3px)}
+
+<===> three_args/max/output.css
+a {
+  b: max(1px, 2px, 3px);
+}
+
+<===>
+================================================================================
+<===> case_insensitive/min/input.scss
+a {b: mIn(1px + 2px)}
+
+<===> case_insensitive/min/output.css
+a {
+  b: min(1px + 2px);
+}
+
+<===>
+================================================================================
+<===> case_insensitive/max/input.scss
+a {b: max(1px + 2px)}
+
+<===> case_insensitive/max/output.css
+a {
+  b: max(1px + 2px);
 }
