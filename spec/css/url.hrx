@@ -1,0 +1,28 @@
+<===> escape/close_paren/input.scss
+a {b: url(\))}
+
+<===> escape/close_paren/output.css
+a {
+  b: url(\));
+}
+
+<===>
+================================================================================
+<===> escape/ascii/input.scss
+a {b: url(\41)}
+
+<===> escape/ascii/output.css
+a {
+  b: url(A);
+}
+
+<===>
+================================================================================
+<===> escape/non_ascii/input.scss
+a {b: url(\2603)}
+
+<===> escape/non_ascii/output.css
+@charset "UTF-8";
+a {
+  b: url(☃);
+}
