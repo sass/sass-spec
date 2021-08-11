@@ -1,27 +1,34 @@
-<===> calc/arg_1/input.scss
-a {b: rgb(calc(1), 2, 3)}
+<===> options.yml
+---
+:todo:
+- sass/libsass#2726
 
-<===> calc/arg_1/output.css
+<===>
+================================================================================
+<===> calc/string/arg_1/input.scss
+a {b: rgb(unquote("calc(1)"), 2, 3)}
+
+<===> calc/string/arg_1/output.css
 a {
   b: rgb(calc(1), 2, 3);
 }
 
 <===>
 ================================================================================
-<===> calc/arg_2/input.scss
-a {b: rgb(1, calc(2), 3)}
+<===> calc/string/arg_2/input.scss
+a {b: rgb(1, unquote("calc(2)"), 3)}
 
-<===> calc/arg_2/output.css
+<===> calc/string/arg_2/output.css
 a {
   b: rgb(1, calc(2), 3);
 }
 
 <===>
 ================================================================================
-<===> calc/arg_3/input.scss
-a {b: rgb(1, 2, calc(3))}
+<===> calc/string/arg_3/input.scss
+a {b: rgb(1, 2, unquote("calc(3)"))}
 
-<===> calc/arg_3/output.css
+<===> calc/string/arg_3/output.css
 a {
   b: rgb(1, 2, calc(3));
 }
@@ -58,11 +65,6 @@ a {
 
 <===>
 ================================================================================
-<===> env/arg_1/options.yml
----
-:todo:
-- sass/libsass#2726
-
 <===> env/arg_1/input.scss
 a {b: rgb(env(--foo), 2, 3)}
 
@@ -73,11 +75,6 @@ a {
 
 <===>
 ================================================================================
-<===> env/arg_2/options.yml
----
-:todo:
-- sass/libsass#2726
-
 <===> env/arg_2/input.scss
 a {b: rgb(1, env(--foo), 3)}
 
@@ -88,11 +85,6 @@ a {
 
 <===>
 ================================================================================
-<===> env/arg_3/options.yml
----
-:todo:
-- sass/libsass#2726
-
 <===> env/arg_3/input.scss
 a {b: rgb(1, 2, env(--foo))}
 
@@ -103,135 +95,90 @@ a {
 
 <===>
 ================================================================================
-<===> min/arg_1/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> min/string/arg_1/input.scss
+a {b: rgb(unquote("min(1)"), 2, 3)}
 
-<===> min/arg_1/input.scss
-a {b: rgb(min(1), 2, 3)}
-
-<===> min/arg_1/output.css
+<===> min/string/arg_1/output.css
 a {
   b: rgb(min(1), 2, 3);
 }
 
 <===>
 ================================================================================
-<===> min/arg_2/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> min/string/arg_2/input.scss
+a {b: rgb(1, unquote("min(2)"), 3)}
 
-<===> min/arg_2/input.scss
-a {b: rgb(1, min(2), 3)}
-
-<===> min/arg_2/output.css
+<===> min/string/arg_2/output.css
 a {
   b: rgb(1, min(2), 3);
 }
 
 <===>
 ================================================================================
-<===> min/arg_3/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> min/string/arg_3/input.scss
+a {b: rgb(1, 2, unquote("min(3)"))}
 
-<===> min/arg_3/input.scss
-a {b: rgb(1, 2, min(3))}
-
-<===> min/arg_3/output.css
+<===> min/string/arg_3/output.css
 a {
   b: rgb(1, 2, min(3));
 }
 
 <===>
 ================================================================================
-<===> max/arg_1/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> max/string/arg_1/input.scss
+a {b: rgb(unquote("max(1)"), 2, 3)}
 
-<===> max/arg_1/input.scss
-a {b: rgb(max(1), 2, 3)}
-
-<===> max/arg_1/output.css
+<===> max/string/arg_1/output.css
 a {
   b: rgb(max(1), 2, 3);
 }
 
 <===>
 ================================================================================
-<===> max/arg_2/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> max/string/arg_2/input.scss
+a {b: rgb(1, unquote("max(2)"), 3)}
 
-<===> max/arg_2/input.scss
-a {b: rgb(1, max(2), 3)}
-
-<===> max/arg_2/output.css
+<===> max/string/arg_2/output.css
 a {
   b: rgb(1, max(2), 3);
 }
 
 <===>
 ================================================================================
-<===> max/arg_3/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> max/string/arg_3/input.scss
+a {b: rgb(1, 2, unquote("max(3)"))}
 
-<===> max/arg_3/input.scss
-a {b: rgb(1, 2, max(3))}
-
-<===> max/arg_3/output.css
+<===> max/string/arg_3/output.css
 a {
   b: rgb(1, 2, max(3));
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_1/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> clamp/string/arg_1/input.scss
+a {b: rgb(unquote("clamp(1, 2, 3)"), 2, 3)}
 
-<===> clamp/arg_1/input.scss
-a {b: rgb(clamp(1, 2, 3), 2, 3)}
-
-<===> clamp/arg_1/output.css
+<===> clamp/string/arg_1/output.css
 a {
   b: rgb(clamp(1, 2, 3), 2, 3);
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_2/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> clamp/string/arg_2/input.scss
+a {b: rgb(1, unquote("clamp(2, 3, 4)"), 3)}
 
-<===> clamp/arg_2/input.scss
-a {b: rgb(1, clamp(2, 3, 4), 3)}
-
-<===> clamp/arg_2/output.css
+<===> clamp/string/arg_2/output.css
 a {
   b: rgb(1, clamp(2, 3, 4), 3);
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_3/options.yml
----
-:todo:
-- sass/libsass#2726
+<===> clamp/string/arg_3/input.scss
+a {b: rgb(1, 2, unquote("clamp(3, 4, 5)"))}
 
-<===> clamp/arg_3/input.scss
-a {b: rgb(1, 2, clamp(3, 4, 5))}
-
-<===> clamp/arg_3/output.css
+<===> clamp/string/arg_3/output.css
 a {
   b: rgb(1, 2, clamp(3, 4, 5));
 }

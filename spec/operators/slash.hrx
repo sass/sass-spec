@@ -27,3 +27,69 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |       ^^^^^^^^^^^^^^^^^^^
   '
     input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> separator/calculation/options.yml
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> separator/calculation/simplified/left/input.scss
+a {b: calc(1)/2}
+
+<===> separator/calculation/simplified/left/output.css
+a {
+  b: 1/2;
+}
+
+<===>
+================================================================================
+<===> separator/calculation/simplified/right/input.scss
+a {b: 1/calc(2)}
+
+<===> separator/calculation/simplified/right/output.css
+a {
+  b: 1/2;
+}
+
+<===>
+================================================================================
+<===> separator/calculation/simplified/both/input.scss
+a {b: calc(1)/calc(2)}
+
+<===> separator/calculation/simplified/both/output.css
+a {
+  b: 1/2;
+}
+
+<===>
+================================================================================
+<===> separator/calculation/preserved/left/input.scss
+a {b: calc(1px + 1%)/2}
+
+<===> separator/calculation/preserved/left/output.css
+a {
+  b: calc(1px + 1%)/2;
+}
+
+<===>
+================================================================================
+<===> separator/calculation/preserved/right/input.scss
+a {b: 2/calc(1px + 1%)}
+
+<===> separator/calculation/preserved/right/output.css
+a {
+  b: 2/calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> separator/calculation/preserved/both/input.scss
+a {b: calc(1px + 1%)/calc(2px + 2%)}
+
+<===> separator/calculation/preserved/both/output.css
+a {
+  b: calc(1px + 1%)/calc(2px + 2%);
+}

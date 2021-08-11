@@ -1,0 +1,80 @@
+<===> multiple_numerator/within_calc/input.scss
+a {b: calc(1% + 1px * 2px)}
+
+<===> multiple_numerator/within_calc/error
+Error: Number 2px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1% + 1px * 2px)}
+  |            ^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> multiple_numerator/from_variable/input.scss
+$a: 1px * 2px;
+b {c: calc(1% + $a)}
+
+<===> multiple_numerator/from_variable/error
+Error: Number 2px*px isn't compatible with CSS calculations.
+  ,
+2 | b {c: calc(1% + $a)}
+  |            ^^^^^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> denominator/within_calc/input.scss
+a {b: calc(1% + 1 / 2px)}
+
+<===> denominator/within_calc/error
+Error: Number 0.5px^-1 isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1% + 1 / 2px)}
+  |            ^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> denominator/from_variable/input.scss
+@use "sass:math";
+$a: math.div(1, 2px);
+b {c: calc(1% + $a)}
+
+<===> denominator/from_variable/error
+Error: Number 0.5px^-1 isn't compatible with CSS calculations.
+  ,
+3 | b {c: calc(1% + $a)}
+  |            ^^^^^^^
+  '
+  input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> numerator_and_denominator/within_calc/input.scss
+a {b: calc(1% + 1s / 2px)}
+
+<===> numerator_and_denominator/within_calc/error
+Error: Number 0.5s/px isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1% + 1s / 2px)}
+  |            ^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> numerator_and_denominator/from_variable/input.scss
+@use "sass:math";
+$a: math.div(1s, 2px);
+b {c: calc(1% + $a)}
+
+<===> numerator_and_denominator/from_variable/error
+Error: Number 0.5s/px isn't compatible with CSS calculations.
+  ,
+3 | b {c: calc(1% + $a)}
+  |            ^^^^^^^
+  '
+  input.scss 3:12  root stylesheet

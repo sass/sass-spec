@@ -1,39 +1,79 @@
-<===> calc/arg_1/input.scss
-a {b: rgb(calc(1) 2 3 / 0.4)}
+<===> calc/string/arg_1/input.scss
+a {b: rgb(unquote("calc(1)") 2 3 / 0.4)}
 
-<===> calc/arg_1/output.css
+<===> calc/string/arg_1/output.css
 a {
   b: rgb(calc(1), 2, 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> calc/arg_2/input.scss
-a {b: rgb(1 calc(2) 3 / 0.4)}
+<===> calc/string/arg_2/input.scss
+a {b: rgb(1 unquote("calc(2)") 3 / 0.4)}
 
-<===> calc/arg_2/output.css
+<===> calc/string/arg_2/output.css
 a {
   b: rgb(1, calc(2), 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> calc/arg_3/input.scss
-a {b: rgb(1 2 calc(3) / 0.4)}
+<===> calc/string/arg_3/input.scss
+a {b: rgb(1 2 unquote("calc(3)") / 0.4)}
 
-<===> calc/arg_3/output.css
+<===> calc/string/arg_3/output.css
 a {
   b: rgb(1 2 calc(3)/0.4);
 }
 
 <===>
 ================================================================================
-<===> calc/arg_4/input.scss
-a {b: rgb(1 2 3 / calc(0.4))}
+<===> calc/string/arg_4/input.scss
+a {b: rgb(1 2 3 / unquote("calc(0.4)"))}
 
-<===> calc/arg_4/output.css
+<===> calc/string/arg_4/output.css
 a {
   b: rgb(1 2 3/calc(0.4));
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_1/input.scss
+a {b: rgb(calc(1px + 1%) 2 3 / 0.4)}
+
+<===> calc/calculation/arg_1/output.css
+a {
+  b: rgb(calc(1px + 1%), 2, 3, 0.4);
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_2/input.scss
+a {b: rgb(1 calc(1px + 1%) 3 / 0.4)}
+
+<===> calc/calculation/arg_2/output.css
+a {
+  b: rgb(1, calc(1px + 1%), 3, 0.4);
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_3/input.scss
+a {b: rgb(1 2 calc(1px + 1%) / 0.4)}
+
+<===> calc/calculation/arg_3/output.css
+a {
+  b: rgb(1 2 calc(1px + 1%)/0.4);
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_4/input.scss
+a {b: rgb(1 2 3 / calc(1px + 1%))}
+
+<===> calc/calculation/arg_4/output.css
+a {
+  b: rgb(1 2 3/calc(1px + 1%));
 }
 
 <===>
@@ -118,120 +158,120 @@ a {
 
 <===>
 ================================================================================
-<===> min/arg_1/input.scss
-a {b: rgb(min(1) 2 3 / 0.4)}
+<===> min/string/arg_1/input.scss
+a {b: rgb(unquote("min(1)") 2 3 / 0.4)}
 
-<===> min/arg_1/output.css
+<===> min/string/arg_1/output.css
 a {
   b: rgb(min(1), 2, 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> min/arg_2/input.scss
-a {b: rgb(1 min(2) 3 / 0.4)}
+<===> min/string/arg_2/input.scss
+a {b: rgb(1 unquote("min(2)") 3 / 0.4)}
 
-<===> min/arg_2/output.css
+<===> min/string/arg_2/output.css
 a {
   b: rgb(1, min(2), 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> min/arg_3/input.scss
-a {b: rgb(1 2 min(3) / 0.4)}
+<===> min/string/arg_3/input.scss
+a {b: rgb(1 2 unquote("min(3)") / 0.4)}
 
-<===> min/arg_3/output.css
+<===> min/string/arg_3/output.css
 a {
   b: rgb(1 2 min(3)/0.4);
 }
 
 <===>
 ================================================================================
-<===> min/arg_4/input.scss
-a {b: rgb(1 2 3 / min(0.4))}
+<===> min/string/arg_4/input.scss
+a {b: rgb(1 2 3 / unquote("min(0.4)"))}
 
-<===> min/arg_4/output.css
+<===> min/string/arg_4/output.css
 a {
   b: rgb(1 2 3/min(0.4));
 }
 
 <===>
 ================================================================================
-<===> max/arg_1/input.scss
-a {b: rgb(max(1) 2 3 / 0.4)}
+<===> max/string/arg_1/input.scss
+a {b: rgb(unquote("max(1)") 2 3 / 0.4)}
 
-<===> max/arg_1/output.css
+<===> max/string/arg_1/output.css
 a {
   b: rgb(max(1), 2, 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> max/arg_2/input.scss
-a {b: rgb(1 max(2) 3 / 0.4)}
+<===> max/string/arg_2/input.scss
+a {b: rgb(1 unquote("max(2)") 3 / 0.4)}
 
-<===> max/arg_2/output.css
+<===> max/string/arg_2/output.css
 a {
   b: rgb(1, max(2), 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> max/arg_3/input.scss
-a {b: rgb(1 2 max(3) / 0.4)}
+<===> max/string/arg_3/input.scss
+a {b: rgb(1 2 unquote("max(3)") / 0.4)}
 
-<===> max/arg_3/output.css
+<===> max/string/arg_3/output.css
 a {
   b: rgb(1 2 max(3)/0.4);
 }
 
 <===>
 ================================================================================
-<===> max/arg_4/input.scss
-a {b: rgb(1 2 3 / max(0.4))}
+<===> max/string/arg_4/input.scss
+a {b: rgb(1 2 3 / unquote("max(0.4)"))}
 
-<===> max/arg_4/output.css
+<===> max/string/arg_4/output.css
 a {
   b: rgb(1 2 3/max(0.4));
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_1/input.scss
-a {b: rgb(clamp(1, 2, 3) 2 3 / 0.4)}
+<===> clamp/string/arg_1/input.scss
+a {b: rgb(unquote("clamp(1, 2, 3)") 2 3 / 0.4)}
 
-<===> clamp/arg_1/output.css
+<===> clamp/string/arg_1/output.css
 a {
   b: rgb(clamp(1, 2, 3), 2, 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_2/input.scss
-a {b: rgb(1 clamp(2, 3, 4) 3 / 0.4)}
+<===> clamp/string/arg_2/input.scss
+a {b: rgb(1 unquote("clamp(2, 3, 4)") 3 / 0.4)}
 
-<===> clamp/arg_2/output.css
+<===> clamp/string/arg_2/output.css
 a {
   b: rgb(1, clamp(2, 3, 4), 3, 0.4);
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_3/input.scss
-a {b: rgb(1 2 clamp(3, 4, 5) / 0.4)}
+<===> clamp/string/arg_3/input.scss
+a {b: rgb(1 2 unquote("clamp(3, 4, 5)") / 0.4)}
 
-<===> clamp/arg_3/output.css
+<===> clamp/string/arg_3/output.css
 a {
   b: rgb(1 2 clamp(3, 4, 5)/0.4);
 }
 
 <===>
 ================================================================================
-<===> clamp/arg_4/input.scss
-a {b: rgb(1 2 3 / clamp(0.4, 0.5, 0.6))}
+<===> clamp/string/arg_4/input.scss
+a {b: rgb(1 2 3 / unquote("clamp(0.4, 0.5, 0.6)"))}
 
-<===> clamp/arg_4/output.css
+<===> clamp/string/arg_4/output.css
 a {
   b: rgb(1 2 3/clamp(0.4, 0.5, 0.6));
 }

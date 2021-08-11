@@ -1,0 +1,359 @@
+<===> plus/simplified/input.scss
+a {b: calc(1px + 2px)}
+
+<===> plus/simplified/output.css
+a {
+  b: 3px;
+}
+
+<===>
+================================================================================
+<===> plus/preserved/input.scss
+a {b: calc(1px + 2%)}
+
+<===> plus/preserved/output.css
+a {
+  b: calc(1px + 2%);
+}
+
+<===>
+================================================================================
+<===> minus/simplified/input.scss
+a {b: calc(1px - 2px)}
+
+<===> minus/simplified/output.css
+a {
+  b: -1px;
+}
+
+<===>
+================================================================================
+<===> minus/preserved/input.scss
+a {b: calc(1px - 2%)}
+
+<===> minus/preserved/output.css
+a {
+  b: calc(1px - 2%);
+}
+
+<===>
+================================================================================
+<===> times/simplified/input.scss
+a {b: calc(1px * 2)}
+
+<===> times/simplified/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> times/preserved/input.scss
+a {b: calc(1px * var(--c))}
+
+<===> times/preserved/output.css
+a {
+  b: calc(1px * var(--c));
+}
+
+<===>
+================================================================================
+<===> times/no_whitespace/input.scss
+a {b: calc(1px*2)}
+
+<===> times/no_whitespace/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> divide/simplified/input.scss
+a {b: calc(1px / 2)}
+
+<===> divide/simplified/output.css
+a {
+  b: 0.5px;
+}
+
+<===>
+================================================================================
+<===> divide/preserved/input.scss
+a {b: calc(1px / var(--c))}
+
+<===> divide/preserved/output.css
+a {
+  b: calc(1px / var(--c));
+}
+
+<===>
+================================================================================
+<===> divide/no_whitespace/input.scss
+a {b: calc(1px/2)}
+
+<===> divide/no_whitespace/output.css
+a {
+  b: 0.5px;
+}
+
+<===>
+================================================================================
+<===> precedence/simplified/additive/input.scss
+a {b: calc(1px + 20px - 300px + 4000px - 50000px)}
+
+<===> precedence/simplified/additive/output.css
+a {
+  b: -46279px;
+}
+
+<===>
+================================================================================
+<===> precedence/simplified/multiplicative/input.scss
+a {b: calc(2 * 3 / 5 * 7 / 11)}
+
+<===> precedence/simplified/multiplicative/output.css
+a {
+  b: 0.7636363636;
+}
+
+<===>
+================================================================================
+<===> precedence/simplified/multiplicative_and_additive/input.scss
+a {b: calc(2 * 3 + 4 / 5 - 6)}
+
+<===> precedence/simplified/multiplicative_and_additive/output.css
+a {
+  b: 0.8;
+}
+
+<===>
+================================================================================
+<===> precedence/simplified/parens/multiplicative_and_additive/input.scss
+a {b: calc(2 * (3 + 4) / (5 - 6))}
+
+<===> precedence/simplified/parens/multiplicative_and_additive/output.css
+a {
+  b: -14;
+}
+
+<===>
+================================================================================
+<===> precedence/simplified/parens/multiplicative/input.scss
+a {b: calc(1 / (2 * 3))}
+
+<===> precedence/simplified/parens/multiplicative/output.css
+a {
+  b: 0.1666666667;
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/additive/parens/input.scss
+a {b: calc(1px + (2% - 3em))}
+
+<===> precedence/preserved/additive/parens/output.css
+a {
+  b: calc(1px + 2% - 3em);
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/additive/calculation/input.scss
+a {b: calc(1px + calc(2% - 3em))}
+
+<===> precedence/preserved/additive/calculation/output.css
+a {
+  b: calc(1px + 2% - 3em);
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative/default/parens/input.scss
+a {b: calc(1px * (2 / var(--c)))}
+
+<===> precedence/preserved/multiplicative/default/parens/output.css
+a {
+  b: calc(1px * 2 / var(--c));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative/default/calculation/input.scss
+a {b: calc(1px * calc(2 / var(--c)))}
+
+<===> precedence/preserved/multiplicative/default/calculation/output.css
+a {
+  b: calc(1px * 2 / var(--c));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative/needs_parens/parens/input.scss
+a {b: calc(1px / (2 * var(--c)))}
+
+<===> precedence/preserved/multiplicative/needs_parens/parens/output.css
+a {
+  b: calc(1px / (2 * var(--c)));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative/needs_parens/calculation/input.scss
+a {b: calc(1px / calc(2 * var(--c)))}
+
+<===> precedence/preserved/multiplicative/needs_parens/calculation/output.css
+a {
+  b: calc(1px / (2 * var(--c)));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/additive_then_multiplicative/parens/input.scss
+a {b: calc(1px + (2px * var(--c)))}
+
+<===> precedence/preserved/additive_then_multiplicative/parens/output.css
+a {
+  b: calc(1px + 2px * var(--c));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/additive_then_multiplicative/calculation/input.scss
+a {b: calc(1px + calc(2px * var(--c)))}
+
+<===> precedence/preserved/additive_then_multiplicative/calculation/output.css
+a {
+  b: calc(1px + 2px * var(--c));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative_then_additive/parens/input.scss
+a {b: calc(1px * (2 + var(--c)))}
+
+<===> precedence/preserved/multiplicative_then_additive/parens/output.css
+a {
+  b: calc(1px * (2 + var(--c)));
+}
+
+<===>
+================================================================================
+<===> precedence/preserved/multiplicative_then_additive/calculation/input.scss
+a {b: calc(1px * calc(2 + var(--c)))}
+
+<===> precedence/preserved/multiplicative_then_additive/calculation/output.css
+a {
+  b: calc(1px * (2 + var(--c)));
+}
+
+<===>
+================================================================================
+<===> precedence/interpolation/parens/lhs/input.scss
+a {b: calc((#{c}) + 1)}
+
+<===> precedence/interpolation/parens/lhs/output.css
+a {
+  b: calc((c) + 1);
+}
+
+<===>
+================================================================================
+<===> precedence/interpolation/parens/rhs/input.scss
+a {b: calc(1 + (#{c}))}
+
+<===> precedence/interpolation/parens/rhs/output.css
+a {
+  b: calc(1 + (c));
+}
+
+<===>
+================================================================================
+<===> precedence/interpolation/calculation/lhs/input.scss
+a {b: calc(calc(#{c}) + 1)}
+
+<===> precedence/interpolation/calculation/lhs/output.css
+a {
+  b: calc((c) + 1);
+}
+
+<===>
+================================================================================
+<===> precedence/interpolation/calculation/rhs/input.scss
+a {b: calc(1 + calc(#{c}))}
+
+<===> precedence/interpolation/calculation/rhs/output.css
+a {
+  b: calc(1 + (c));
+}
+
+<===>
+================================================================================
+<===> units/percent/and_known/input.scss
+a {b: calc(1% + 1px)}
+
+<===> units/percent/and_known/output.css
+a {
+  b: calc(1% + 1px);
+}
+
+<===>
+================================================================================
+<===> units/percent/and_unknown/input.scss
+a {b: calc(1% + 1unknown)}
+
+<===> units/percent/and_unknown/output.css
+a {
+  b: calc(1% + 1unknown);
+}
+
+<===>
+================================================================================
+<===> units/unknown/and_known/input.scss
+a {b: calc(1unknown + 1px)}
+
+<===> units/unknown/and_known/output.css
+a {
+  b: calc(1unknown + 1px);
+}
+
+<===>
+================================================================================
+<===> units/unknown/and_unknown/input.scss
+a {b: calc(1unknown + 1other)}
+
+<===> units/unknown/and_unknown/output.css
+a {
+  b: calc(1unknown + 1other);
+}
+
+<===>
+================================================================================
+<===> units/denominators/input.scss
+a {b: calc(1/2px + 1/4px) * 1px}
+
+<===> units/denominators/output.css
+a {
+  b: 0.75;
+}
+
+<===>
+================================================================================
+<===> units/multiplication/input.scss
+@use "sass:math";
+a {b: math.div(calc(2px * 3px), 4px)}
+
+<===> units/multiplication/output.css
+a {
+  b: 1.5px;
+}
+
+<===>
+================================================================================
+<===> units/division/input.scss
+@use "sass:math";
+a {b: calc(1px / 2px)}
+
+<===> units/division/output.css
+a {
+  b: 0.5;
+}
