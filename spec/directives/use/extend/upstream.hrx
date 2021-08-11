@@ -43,3 +43,20 @@ in-input {@extend %in-other}
 in-input {
   x: y;
 }
+
+<===>
+================================================================================
+<===> double/input.scss
+// Regression test for sass/dart-sass#1393
+@use "other";
+
+downstream {@extend upstream}
+
+<===> double/_other.scss
+upstream {a: b}
+downstream {@extend upstream}
+
+<===> double/output.css
+upstream, downstream {
+  a: b;
+}
