@@ -1,23 +1,31 @@
 import {SpecDirectory} from '../spec-directory';
 
+// The Sass compiler is expected to succeed.
 interface SuccessResult {
   isSuccess: true;
   output: string;
   warning?: string;
 }
 
+// The Sass compiler is expected to fail.
 interface ErrorResult {
   isSuccess: false;
   error: string;
 }
 
-/** A result of executing a sass compiler */
+/** The result of compiling a test case. */
 export type SassResult = SuccessResult | ErrorResult;
+
+/**
+ * The expected result of compiling a test case. This also includes the
+ * possibility of a test case that doesn't set any expectations for its output.
+ */
+export type ExpectedSassResult = SassResult | {isSuccess: null};
 
 type FailureType =
   // | "todo_warning_nonexistent"
   // | "conflicting_files"
-  // | "missing_output"
+  | 'missing_output'
   | 'unexpected_error'
   | 'unexpected_success'
   | 'output_difference'
@@ -78,6 +86,10 @@ export const failures = {
   UnnecessaryTodo: makeFailureFactory(
     'unnecessary_todo',
     'Expected test marked TODO to fail but it passed'
+  ),
+  MissingOutput: makeFailureFactory(
+    'missing_output',
+    'Test case is missing an output file'
   ),
 };
 

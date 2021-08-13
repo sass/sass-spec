@@ -1,5 +1,5 @@
 import {createPatch} from 'diff';
-import {failures, SassResult, TestResult} from './util';
+import {failures, ExpectedSassResult, SassResult, TestResult} from './util';
 
 /**
  * Normalize the output of the Sass compiler.
@@ -75,11 +75,13 @@ interface CompareOptions {
  * @param options options for comparison
  */
 export function compareResults(
-  expected: SassResult,
+  expected: ExpectedSassResult,
   actual: SassResult,
   {skipWarning, trimErrors}: CompareOptions
 ): TestResult {
-  if (expected.isSuccess) {
+  if (expected.isSuccess === null) {
+    return failures.MissingOutput();
+  } else if (expected.isSuccess) {
     if (!actual.isSuccess) {
       return failures.UnexpectedError();
     }
