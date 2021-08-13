@@ -51,6 +51,7 @@ export default class TestCase {
     try {
       testCase._result = await testCase.run();
     } catch (error) {
+      testCase._actual = {isSuccess: false, error: error.toString()};
       testCase._result = {type: 'error', error};
     }
     return testCase;
