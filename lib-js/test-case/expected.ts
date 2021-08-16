@@ -1,5 +1,5 @@
 import {SpecDirectory} from '../spec-directory';
-import {SassResult} from './util';
+import {ExpectedSassResult} from './util';
 
 // Ensure that the directory has exactly one output or error file
 function checkDuplicateOutputs(dir: SpecDirectory, impl: string): void {
@@ -12,14 +12,14 @@ function checkDuplicateOutputs(dir: SpecDirectory, impl: string): void {
   }
 }
 
-// Returns true if the directory expects a successful result
-// or false if it expects an error
-function expectsSuccess(dir: SpecDirectory, impl: string): boolean {
+// Returns true if the directory expects a successful result, false if it
+// expects an error, or null if it doesn't have any expectation at all.
+function expectsSuccess(dir: SpecDirectory, impl: string): boolean | null {
   if (dir.hasFile(`output-${impl}.css`)) return true;
   if (dir.hasFile(`error-${impl}`)) return false;
   if (dir.hasFile('output.css')) return true;
   if (dir.hasFile('error')) return false;
-  throw new Error('Found neither `output.css` nor `error` file');
+  return null;
 }
 
 function getResultFile(
@@ -38,9 +38,10 @@ function getResultFile(
 export async function getExpectedResult(
   dir: SpecDirectory,
   impl: string
-): Promise<SassResult> {
+): Promise<ExpectedSassResult> {
   checkDuplicateOutputs(dir, impl);
   const isSuccessCase = expectsSuccess(dir, impl);
+  if (isSuccessCase === null) return {isSuccess: null};
   const resultFilename = getResultFile(
     dir,
     impl,

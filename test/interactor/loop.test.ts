@@ -101,6 +101,34 @@ OUTPUT
     expect(output).toContain('Invalid option chosen');
   });
 
+  describe('overwrites a missing output', () => {
+    it('with a valid output', async () => {
+      const {test} = await runInteractor(
+        ['O'],
+        `
+<===> input.scss
+stdout: OUTPUT
+status: 0
+    `
+      );
+      expect(test.result()).toMatchObject({type: 'pass'});
+      expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+    });
+
+    it('with an error', async () => {
+      const {test} = await runInteractor(
+        ['O'],
+        `
+<===> input.scss
+stderr: ERROR
+status: 1
+    `
+      );
+      expect(test.result()).toMatchObject({type: 'pass'});
+      expect(await test.dir.readFile('error')).toEqual('ERROR');
+    });
+  });
+
   describe('repeat', () => {
     it('keeps track of chosen options', async () => {
       const input = makeInputStream(['O!']);
