@@ -22,24 +22,48 @@ in-other, in-input {
 
 <===>
 ================================================================================
-<===> different_files/input.scss
+<===> different_files/optional_first/input.scss
 @use "optional";
 @use "mandatory";
 
-<===> different_files/_optional.scss
+<===> different_files/optional_first/_optional.scss
 @use "shared";
 
 downstream {@extend in-other !optional};
 
-<===> different_files/_mandatory.scss
+<===> different_files/optional_first/_mandatory.scss
 @use "shared";
 
 downstream {@extend in-other};
 
-<===> different_files/_shared.scss
+<===> different_files/optional_first/_shared.scss
 in-other {x: y}
 
-<===> different_files/output.css
+<===> different_files/optional_first/output.css
+in-other, downstream {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> different_files/mandatory_first/input.scss
+@use "mandatory";
+@use "optional";
+
+<===> different_files/mandatory_first/_optional.scss
+@use "shared";
+
+downstream {@extend in-other !optional};
+
+<===> different_files/mandatory_first/_mandatory.scss
+@use "shared";
+
+downstream {@extend in-other};
+
+<===> different_files/mandatory_first/_shared.scss
+in-other {x: y}
+
+<===> different_files/mandatory_first/output.css
 in-other, downstream {
   x: y;
 }
