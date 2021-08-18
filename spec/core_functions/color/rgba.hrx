@@ -1,0 +1,43 @@
+<===> README.md
+The `rgba()` function should behave identically to `rgb()`, but for conciseness
+we only test a few cases and let the `rgb()` tests cover the rest.
+
+<===>
+================================================================================
+<===> one_arg/no_alpha/input.scss
+a {b: rgba(190 173 237)}
+
+<===> one_arg/no_alpha/output.css
+a {
+  b: #beaded;
+}
+
+<===>
+================================================================================
+<===> one_arg/alpha/input.scss
+a {b: rgba(0 255 127 / 0.4)}
+
+<===> one_arg/alpha/output.css
+a {
+  b: rgba(0, 255, 127, 0.4);
+}
+
+<===>
+================================================================================
+<===> three_args/input.scss
+a {b: rgba(190, 173, 237)}
+
+<===> three_args/output.css
+a {
+  b: #beaded;
+}
+
+<===>
+================================================================================
+<===> four_args/input.scss
+a {b: rgba(0, 255, 127, 0.4)}
+
+<===> four_args/output.css
+a {
+  b: rgba(0, 255, 127, 0.4);
+}
