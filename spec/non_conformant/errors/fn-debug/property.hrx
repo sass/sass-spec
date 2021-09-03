@@ -1,3 +1,7 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
 <===> input.scss
 a {
   b: {
@@ -5,15 +9,15 @@ a {
     foo: bar;
   }
 }
-<===> error
-Error: Illegal nesting: Only properties may be nested beneath properties.
-        on line 3 of input.scss
-  Use --trace for backtrace.
-
-<===> output-dart-sass.css
+<===> output.css
 a {
   b-foo: bar;
 }
 
-<===> warning-dart-sass
+<===> warning
 spec/errors/fn-debug/property-dart-sass/input.scss:3 DEBUG: debug
+
+<===> error-libsass
+Error: Illegal nesting: Only properties may be nested beneath properties.
+        on line 3 of input.scss
+  Use --trace for backtrace.
