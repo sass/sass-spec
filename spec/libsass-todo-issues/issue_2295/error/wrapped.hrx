@@ -1,18 +1,12 @@
-<===> include.scss
-@if (true) {
-  display: none;
-}
 <===> input.scss
 .my-scope {
   @import 'include.scss';
 }
+<===> include.scss
+@if (true) {
+  display: none;
+}
 <===> error
-Error: Properties are only allowed within rules, directives, mixin includes, or other properties.
-        on line 2 of include.scss
-        from line 2 of input.scss
-  Use --trace for backtrace.
-
-<===> error-dart-sass
 Error: expected "{".
   ,
 2 |   display: none;
@@ -20,3 +14,9 @@ Error: expected "{".
   '
   include.scss 2:16  @import
   input.scss 2:11    root stylesheet
+
+<===> error-libsass
+Error: Properties are only allowed within rules, directives, mixin includes, or other properties.
+        on line 2 of include.scss
+        from line 2 of input.scss
+  Use --trace for backtrace.

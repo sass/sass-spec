@@ -14,15 +14,7 @@ b {
     unquote: unquote($foo);
 }
 
-<===> error-dart-sass
-Error: $string: null is not a string.
-  ,
-7 |     unquote: unquote($foo);
-  |              ^^^^^^^^^^^^^
-  '
-  input.scss 7:14  root stylesheet
-
-<===> output.css
+<===> output-libsass.css
 a {
   foo: bar;
 }
@@ -34,3 +26,11 @@ will be an error in future versions of Sass.
 DEPRECATION WARNING: Passing null, a non-string value, to unquote()
 will be an error in future versions of Sass.
         on line 13 of input.scss
+
+<===> error
+Error: $string: null is not a string.
+  ,
+7 |     unquote: unquote($foo);
+  |              ^^^^^^^^^^^^^
+  '
+  input.scss 7:14  root stylesheet

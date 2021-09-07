@@ -84,11 +84,11 @@ a {
 <===> precedence/normal_before_index/input.scss
 @import "dir";
 
-<===> precedence/normal_before_index/dir/index.scss
-a {index: true}
-
 <===> precedence/normal_before_index/dir.scss
 a {index: false}
+
+<===> precedence/normal_before_index/dir/index.scss
+a {index: true}
 
 <===> precedence/normal_before_index/output.css
 a {
@@ -234,11 +234,11 @@ a {
 // Index files, even import-only ones, always come after non-index files.
 @import "other";
 
-<===> precedence/import_only/index_after_normal/other/index.import.scss
-a {import-only: true}
-
 <===> precedence/import_only/index_after_normal/other.scss
 a {import-only: false}
+
+<===> precedence/import_only/index_after_normal/other/index.import.scss
+a {import-only: true}
 
 <===> precedence/import_only/index_after_normal/output.css
 a {
@@ -247,13 +247,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/scss/input.scss
+@import "dir";
+
 <===> index/scss/dir/index.scss
 .foo {
   a: b;
 }
-
-<===> index/scss/input.scss
-@import "dir";
 
 <===> index/scss/output.css
 .foo {
@@ -262,12 +262,12 @@ a {
 
 <===>
 ================================================================================
+<===> index/sass/input.scss
+@import "dir";
+
 <===> index/sass/dir/index.sass
 .foo 
   a: b
-
-<===> index/sass/input.scss
-@import "dir";
 
 <===> index/sass/output.css
 .foo {
@@ -276,13 +276,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/partial/input.scss
+@import "dir";
+
 <===> index/partial/dir/_index.scss
 .foo {
   a: b;
 }
-
-<===> index/partial/input.scss
-@import "dir";
 
 <===> index/partial/output.css
 .foo {
@@ -291,13 +291,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/dir_dot_foo/input.scss
+@import "dir.foo";
+
 <===> index/dir_dot_foo/dir.foo/index.scss
 .foo {
   a: b;
 }
-
-<===> index/dir_dot_foo/input.scss
-@import "dir.foo";
 
 <===> index/dir_dot_foo/output.css
 .foo {
@@ -306,20 +306,21 @@ a {
 
 <===>
 ================================================================================
+<===> index/dir_dot_scss/input.scss
+@import "dir.scss";
+
 <===> index/dir_dot_scss/dir.scss/index.scss
 .foo {
   a: b;
 }
 
-<===> index/dir_dot_scss/input.scss
-@import "dir.scss";
-
 <===> index/dir_dot_scss/error
-Error: File to import not found or unreadable: dir.scss.
-<===> index/dir_dot_scss/error-dart-sass
 Error: Can't find stylesheet to import.
   ,
 1 | @import "dir.scss";
   |         ^^^^^^^^^^
   '
   input.scss 1:9  root stylesheet
+
+<===> index/dir_dot_scss/error-libsass
+Error: File to import not found or unreadable: dir.scss.
