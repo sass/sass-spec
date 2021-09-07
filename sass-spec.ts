@@ -4,12 +4,6 @@ import {parseArgs, CliArgs} from './lib-js/cli-args';
 import TestCase from './lib-js/test-case';
 import Tabulator from './lib-js/tabulator';
 
-// FIXME These files contain invalid utf8 sequences and fail the dart compiler right now
-const naughtyDirs = [
-  'spec/libsass-todo-issues/issue_221267',
-  'spec/libsass-todo-issues/issue_221286',
-];
-
 async function runAllTests() {
   let args_: CliArgs | undefined;
   try {
@@ -28,9 +22,6 @@ async function runAllTests() {
           args.testDirs.map(dir => dir.replace(/\.hrx$/, ''));
 
     await rootDir.forEachTest(async testDir => {
-      if (naughtyDirs.includes(testDir.relPath())) {
-        return;
-      }
       const test = await TestCase.create(
         testDir,
         args.impl,
