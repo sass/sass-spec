@@ -1,0 +1,92 @@
+<===> supports/declaration/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/declaration/input.scss
+@import "a.css" supports(a: b);
+
+<===> supports/declaration/output.css
+@import "a.css" supports(a: b);
+
+<===>
+================================================================================
+<===> supports/condition/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/condition/input.scss
+@import "a.css" supports((a: b));
+
+<===> supports/condition/output.css
+@import "a.css" supports(a: b);
+
+<===>
+================================================================================
+<===> supports/condition_and/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/condition_and/input.scss
+@import "a.css" supports((a: b) and (c: d));
+
+<===> supports/condition_and/output.css
+@import "a.css" supports((a: b) and (c: d));
+
+<===>
+================================================================================
+<===> supports/condition_negation/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/condition_negation/input.scss
+@import "a.css" supports(not (a: b));
+<===> supports/condition_negation/output.css
+@import "a.css" supports(not (a: b));
+
+<===>
+================================================================================
+<===> media/simple/input.scss
+@import url("a.css") print;
+
+<===> media/simple/output.css
+@import url("a.css") print;
+
+<===>
+================================================================================
+<===> media/complex/input.scss
+@import url("a.css") handheld and (max-width: 400px);
+
+<===> media/complex/output.css
+@import url("a.css") handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> both/options.yml
+:ignore_for:
+  - libsass
+
+<===> both/input.scss
+@import url("a.css") supports(display: flex) handheld and (max-width: 400px);
+
+<===> both/output.css
+@import url("a.css") supports(display: flex) handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> error/wrong_order/input.scss
+@import url("a.css") (max-width: 400px) supports(display: flex);
+
+<===> error/wrong_order/error
+Error: expected ";".
+  ,
+1 | @import url("a.css") (max-width: 400px) supports(display: flex);
+  |                                         ^
+  '
+  input.scss 1:41  root stylesheet
+
+<===> error/wrong_order/error-libsass
+Error: Invalid CSS after "...x-width: 400px)": expected 1 selector or at-rule, was "supports(display: f"
+        on line 1:40 of input.scss
+>> @import url("a.css") (max-width: 400px) supports(display: flex);
+
+   ---------------------------------------^
