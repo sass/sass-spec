@@ -31,3 +31,105 @@ b {
 a {
   b: c;
 }
+
+<===>
+================================================================================
+<===> nested_import/with_no_use/input.scss
+a {
+  @import "other";
+}
+
+<===> nested_import/with_no_use/other.scss
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> nested_import/with_no_use/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nested_import/with_builtin_use/options.yml
+---
+:ignore_for:
+  - libsass
+
+<===> nested_import/with_builtin_use/input.scss
+a {
+  @import "other";
+}
+
+<===> nested_import/with_builtin_use/other.scss
+@use "sass:math";
+
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> nested_import/with_builtin_use/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nested_import/with_user_use/options.yml
+---
+:todo:
+  - sass/dart-sass#1347
+:ignore_for:
+  - libsass
+
+<===> nested_import/with_user_use/input.scss
+a {
+  @import "other";
+}
+
+<===> nested_import/with_user_use/other.scss
+@use "used";
+
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> nested_import/with_user_use/used.scss
+// nothing
+
+<===> nested_import/with_user_use/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> load_css/options.yml
+---
+:ignore_for:
+  - libsass
+
+<===> load_css/input.scss
+@use "sass:meta";
+
+a {
+  @include meta.load-css("other");
+}
+
+<===> load_css/other.scss
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> load_css/output.css
+a b {
+  c: d;
+}
