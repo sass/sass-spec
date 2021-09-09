@@ -318,6 +318,79 @@ c {
 
 <===>
 ================================================================================
+<===> through_forward/with/and_variable/before/input.scss
+@use "used" with ($a: from input, $b: from input);
+
+<===> through_forward/with/and_variable/before/_used.scss
+$a: from used !default;
+@forward "forwarded" with ($b: from used !default);
+in-used {c: $a}
+
+<===> through_forward/with/and_variable/before/_forwarded.scss
+$b: from forwarded !default;
+in-forwarded {d: $b}
+
+<===> through_forward/with/and_variable/before/output.css
+in-forwarded {
+  d: from input;
+}
+
+in-used {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/and_variable/after/input.scss
+// Regression test for sass/dart-sass#1460
+@use "used" with ($a: from input, $b: from input);
+
+<===> through_forward/with/and_variable/after/_used.scss
+@forward "forwarded" with ($b: from used !default);
+$a: from used !default;
+in-used {c: $a}
+
+<===> through_forward/with/and_variable/after/_forwarded.scss
+$b: from forwarded !default;
+in-forwarded {d: $b}
+
+<===> through_forward/with/and_variable/after/output.css
+in-forwarded {
+  d: from input;
+}
+
+in-used {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> through_forward/with/multiple/input.scss
+@use "used" with ($a: from input, $b: from input);
+
+<===> through_forward/with/multiple/_used.scss
+@forward "left" with ($a: from used !default);
+@forward "right" with ($b: from used !default);
+
+<===> through_forward/with/multiple/_left.scss
+$a: from left !default;
+in-left {c: $a}
+
+<===> through_forward/with/multiple/_right.scss
+$b: from left !default;
+in-right {d: $b}
+
+<===> through_forward/with/multiple/output.css
+in-left {
+  c: from input;
+}
+
+in-right {
+  d: from input;
+}
+
+<===>
+================================================================================
 <===> through_forward/hide/input.scss
 @use "used" with ($a: configured);
 
