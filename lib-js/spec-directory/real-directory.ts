@@ -56,6 +56,7 @@ export default class RealDirectory extends SpecDirectory {
   }
 
   async removeFile(filename: string): Promise<void> {
-    await fs.promises.rm(filename, {force: true});
+    const filepath = path.resolve(this.path, filename);
+    await fs.promises.rm(filepath, {force: true});
   }
 }

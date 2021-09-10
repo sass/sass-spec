@@ -12,9 +12,9 @@ span {
 
 @import "bar.css";
 <===> output.css
-@import url(hux bux.css);
-@import url(foo.css);
-@import url(bar.css);
+@import "hux\ bux.css";
+@import "foo.css";
+@import "bar.css";
 div {
   color: red;
 }
@@ -23,10 +23,10 @@ span {
   color: blue;
 }
 
-<===> output-dart-sass.css
-@import "hux\ bux.css";
-@import "foo.css";
-@import "bar.css";
+<===> output-libsass.css
+@import url(hux bux.css);
+@import url(foo.css);
+@import url(bar.css);
 div {
   color: red;
 }

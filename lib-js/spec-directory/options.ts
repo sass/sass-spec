@@ -72,6 +72,6 @@ export default class SpecOptions {
 
   /** Convert this options object to a Yaml string */
   toYaml(): string {
-    return yaml.safeDump(this.data);
+    return yaml.safeDump(this.data).replace(/'(:[^']+)':/g, '$1:');
   }
 }

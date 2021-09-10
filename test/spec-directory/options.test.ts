@@ -59,4 +59,28 @@ describe('SpecDirectory options', () => {
     const deepChild = await dir.atPath('deep/child');
     expect((await deepChild.options()).precision()).toEqual(4);
   });
+
+  it('dumps options in a format compatible with the Ruby runner', async () => {
+    const dir = await fromContents(
+      `
+<===> options.yml
+:todo:
+  - dart-sass
+:ignore_for:
+  - libsass
+:precision: 3
+`.trimStart()
+    );
+    const options = await dir.options();
+
+    expect(options.toYaml()).toEqual(
+      `
+:todo:
+  - dart-sass
+:ignore_for:
+  - libsass
+:precision: 3
+`.trimStart()
+    );
+  });
 });
