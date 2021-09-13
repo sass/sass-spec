@@ -1,0 +1,231 @@
+<===> empty/input.scss
+a {b: calc()}
+
+<===> empty/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc()}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> leading_operator/input.scss
+a {b: calc(+ 1px)}
+
+<===> leading_operator/error
+Error: Expected digit.
+  ,
+1 | a {b: calc(+ 1px)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> trailing_operator/input.scss
+a {b: calc(1px *)}
+
+<===> trailing_operator/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(1px *)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> double_operator/input.scss
+a {b: calc(1px ** 2px)}
+
+<===> double_operator/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(1px ** 2px)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> multiple_args/input.scss
+a {b: calc(1px, 2px)}
+
+<===> multiple_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: calc(1px, 2px)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> unknown_operator/input.scss
+a {b: calc(1px % 2px)}
+
+<===> unknown_operator/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: calc(1px % 2px)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> hash/input.scss
+a {b: calc(#)}
+
+<===> hash/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(#)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> dollar/input.scss
+a {b: calc($)}
+
+<===> dollar/error
+Error: Expected identifier.
+  ,
+1 | a {b: calc($)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> identifier/input.scss
+a {b: calc(c)}
+
+<===> identifier/error
+Error: Expected "(" or ".".
+  ,
+1 | a {b: calc(c)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/in_parens/input.scss
+a {b: calc(1 (#{c}))}
+
+<===> interpolation/in_parens/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: calc(1 (#{c}))}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/in_floating_function/input.scss
+a {b: calc(1 c(#{d}))}
+
+<===> interpolation/in_floating_function/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: calc(1 c(#{d}))}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/in_function_arg/input.scss
+a {b: calc(c(~#{d}))}
+
+<===> interpolation/in_function_arg/error
+Error: expected ")".
+  ,
+1 | a {b: calc(c(~#{d}))}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/plus/before/input.scss
+a {b: calc(1+ 1)}
+
+<===> no_whitespace/plus/before/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1+ 1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/plus/after/input.scss
+a {b: calc(1 +1)}
+
+<===> no_whitespace/plus/after/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1 +1)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/plus/both/input.scss
+a {b: calc(1+1)}
+
+<===> no_whitespace/plus/both/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1+1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/minus/before/input.scss
+a {b: calc(1- 1)}
+
+<===> no_whitespace/minus/before/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1- 1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/minus/after/input.scss
+a {b: calc(1 -1)}
+
+<===> no_whitespace/minus/after/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1 -1)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> no_whitespace/minus/both/input.scss
+a {b: calc(1-1)}
+
+<===> no_whitespace/minus/both/error
+Error: "+" and "-" must be surrounded by whitespace in calculations.
+  ,
+1 | a {b: calc(1-1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

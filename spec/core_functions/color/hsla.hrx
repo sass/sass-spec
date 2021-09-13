@@ -1,0 +1,53 @@
+<===> README.md
+The `hsla()` function should behave identically to `hsl()`, but for conciseness
+we only test a few cases and let the `hsl()` tests cover the rest.
+
+<===>
+================================================================================
+<===> one_arg/options.yml
+':ignore_for':
+  - libsass
+
+<===>
+================================================================================
+<===> one_arg/no_alpha/input.scss
+a {b: hsla(180 60% 50%)}
+
+<===> one_arg/no_alpha/output.css
+a {
+  b: #33cccc;
+}
+
+<===>
+================================================================================
+<===> one_arg/alpha/input.scss
+a {b: hsla(180 60% 50% / 0.4)}
+
+<===> one_arg/alpha/output.css
+a {
+  b: rgba(51, 204, 204, 0.4);
+}
+
+<===>
+================================================================================
+<===> three_args/options.yml
+':ignore_for':
+  - libsass
+
+<===> three_args/input.scss
+a {b: hsla(180, 60%, 50%)}
+
+<===> three_args/output.css
+a {
+  b: #33cccc;
+}
+
+<===>
+================================================================================
+<===> four_args/input.scss
+a {b: hsla(180, 60%, 50%, 0.4)}
+
+<===> four_args/output.css
+a {
+  b: rgba(51, 204, 204, 0.4);
+}

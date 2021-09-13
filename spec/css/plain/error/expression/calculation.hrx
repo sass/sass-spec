@@ -1,0 +1,82 @@
+<===> variable/input.scss
+@use "plain";
+
+<===> variable/plain.css
+a {b: calc($var)}
+
+<===> variable/error
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+1 | a {b: calc($var)}
+  |            ^^^^
+  '
+  plain.css 1:12  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+@use "plain";
+
+<===> interpolation/plain.css
+a {b: calc(#{1px})}
+
+<===> interpolation/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: calc(#{1px})}
+  |            ^^^^^^
+  '
+  plain.css 1:12  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced_function/input.scss
+@use "plain";
+
+<===> namespaced_function/plain.css
+a {b: calc(c.d())}
+
+<===> namespaced_function/error
+Error: Module namespaces aren't allowed in plain CSS.
+  ,
+1 | a {b: calc(c.d())}
+  |            ^^^^^
+  '
+  plain.css 1:12  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> line_noise/input.scss
+@use "plain";
+
+<===> line_noise/plain.css
+a {b: calc(#%^&)}
+
+<===> line_noise/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(#%^&)}
+  |            ^
+  '
+  plain.css 1:12  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_args/input.scss
+@use "plain";
+
+<===> wrong_args/plain.css
+a {b: calc()}
+
+<===> wrong_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc()}
+  |            ^
+  '
+  plain.css 1:12  @use
+  input.scss 1:1  root stylesheet

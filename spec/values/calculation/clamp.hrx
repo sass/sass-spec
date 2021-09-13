@@ -1,0 +1,287 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `clamp()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> error/syntax/no_args/input.scss
+a {b: clamp()}
+
+<===> error/syntax/no_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: clamp()}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/one_arg/input.scss
+a {b: clamp(1px)}
+
+<===> error/syntax/one_arg/error
+Error: 3 arguments required, but only 1 was passed.
+  ,
+1 | a {b: clamp(1px)}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/two_args/input.scss
+a {b: clamp(1px, 2px)}
+
+<===> error/syntax/two_args/error
+Error: 3 arguments required, but only 2 were passed.
+  ,
+1 | a {b: clamp(1px, 2px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/four_args/input.scss
+a {b: clamp(1px, 2px, 3px, 4px)}
+
+<===> error/syntax/four_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: clamp(1px, 2px, 3px, 4px)}
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/rest/input.scss
+a {b: clamp(1px 2px 3px...)}
+
+<===> error/syntax/rest/error
+Error: expected "+", "-", "*", "/", ",", or ")".
+  ,
+1 | a {b: clamp(1px 2px 3px...)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: clamp(1px, c, 2px)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected "(" or ".".
+  ,
+1 | a {b: clamp(1px, c, 2px)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/first/input.scss
+a {b: clamp(1s, 2px, 3px)}
+
+<===> error/known_incompatible/first/error
+Error: 1s and 2px are incompatible.
+  ,
+1 | a {b: clamp(1s, 2px, 3px)}
+  |             ^^ 1s
+  |                 === 2px
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/second/input.scss
+a {b: clamp(1px, 2s, 3px)}
+
+<===> error/known_incompatible/second/error
+Error: 1px and 2s are incompatible.
+  ,
+1 | a {b: clamp(1px, 2s, 3px)}
+  |             ^^^ 1px
+  |                  == 2s
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/third/input.scss
+a {b: clamp(1px, 2px, 3s)}
+
+<===> error/known_incompatible/third/error
+Error: 1px and 3s are incompatible.
+  ,
+1 | a {b: clamp(1px, 2px, 3s)}
+  |             ^^^ 1px
+  |                       == 3s
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/complex_unit/input.scss
+a {b: clamp(1px*1px, 2%*2%, 3px*3px)}
+
+<===> error/complex_unit/error
+Error: Number 1px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: clamp(1px*1px, 2%*2%, 3px*3px)}
+  |             ^^^^^^^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> simplified/lower_bound/far_below/input.scss
+a {b: clamp(1px, 0px, 3px)}
+
+<===> simplified/lower_bound/far_below/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> simplified/lower_bound/fuzzy_equal/input.scss
+a {b: clamp(1px, 1.00000000001px, 3px)}
+
+<===> simplified/lower_bound/fuzzy_equal/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> simplified/between/input.scss
+a {b: clamp(1px, 2.5px, 3px)}
+
+<===> simplified/between/output.css
+a {
+  b: 2.5px;
+}
+
+<===>
+================================================================================
+<===> simplified/upper_bound/far_above/input.scss
+a {b: clamp(1px, 4px, 3px)}
+
+<===> simplified/upper_bound/far_above/output.css
+a {
+  b: 3px;
+}
+
+<===>
+================================================================================
+<===> simplified/upper_bound/fuzzy_equal/input.scss
+a {b: clamp(1px, 2.99999999999px, 3px)}
+
+<===> simplified/upper_bound/fuzzy_equal/output.css
+a {
+  b: 3px;
+}
+
+<===>
+================================================================================
+<===> simplified/compatible_units/input.scss
+a {b: clamp(1px, 1in, 1cm)}
+
+<===> simplified/compatible_units/output.css
+a {
+  b: 1cm;
+}
+
+<===>
+================================================================================
+<===> preserved/math/first/input.scss
+a {b: clamp(1% + 1px, 2px, 3px)}
+
+<===> preserved/math/first/output.css
+a {
+  b: clamp(1% + 1px, 2px, 3px);
+}
+
+<===>
+================================================================================
+<===> preserved/math/second/input.scss
+a {b: clamp(1px, 1% + 2px, 3px)}
+
+<===> preserved/math/second/output.css
+a {
+  b: clamp(1px, 1% + 2px, 3px);
+}
+
+<===>
+================================================================================
+<===> preserved/math/third/input.scss
+a {b: clamp(1px, 2px, 1% + 3px)}
+
+<===> preserved/math/third/output.css
+a {
+  b: clamp(1px, 2px, 1% + 3px);
+}
+
+<===>
+================================================================================
+<===> preserved/unit/first/input.scss
+a {b: clamp(1%, 2px, 3px)}
+
+<===> preserved/unit/first/output.css
+a {
+  b: clamp(1%, 2px, 3px);
+}
+
+<===>
+================================================================================
+<===> preserved/unit/second/input.scss
+a {b: clamp(1px, 2%, 3px)}
+
+<===> preserved/unit/second/output.css
+a {
+  b: clamp(1px, 2%, 3px);
+}
+
+<===>
+================================================================================
+<===> preserved/unit/third/input.scss
+a {b: clamp(1px, 2px, 3%)}
+
+<===> preserved/unit/third/output.css
+a {
+  b: clamp(1px, 2px, 3%);
+}
+
+<===>
+================================================================================
+<===> preserved/single_arg/var/input.scss
+a {b: clamp(var(--c))}
+
+<===> preserved/single_arg/var/output.css
+a {
+  b: clamp(var(--c));
+}
+
+<===>
+================================================================================
+<===> preserved/single_arg/unquoted_string/input.scss
+$a: b;
+c {d: clamp($a)}
+
+<===> preserved/single_arg/unquoted_string/output.css
+c {
+  d: clamp(b);
+}
+
+<===>
+================================================================================
+<===> preserved/single_arg/interpolation/input.scss
+a {b: clamp(#{c})}
+
+<===> preserved/single_arg/interpolation/output.css
+a {
+  b: clamp(c);
+}
