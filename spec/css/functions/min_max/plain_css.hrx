@@ -5,6 +5,37 @@
 
 <===>
 ================================================================================
+<===> extra_whitespace/min/input.scss
+a {b: min( 1px )}
+
+<===> extra_whitespace/min/output.css
+a {
+  b: min(1px);
+}
+
+<===>
+================================================================================
+<===> extra_whitespace/max/input.scss
+a {b: max( 1px )}
+
+<===> extra_whitespace/max/output.css
+a {
+  b: max(1px);
+}
+
+<===>
+================================================================================
+<===> extra_whitespace/min_in_max/input.scss
+// Regression test for sass/dart-sass#1444
+a {b: max( min( 1px ) )}
+
+<===> extra_whitespace/min_in_max/output.css
+a {
+  b: max(min(1px));
+}
+
+<===>
+================================================================================
 <===> number/integer/min/input.scss
 a {b: min(1px)}
 
