@@ -350,10 +350,41 @@ a {
 <===>
 ================================================================================
 <===> units/division/input.scss
-@use "sass:math";
 a {b: calc(1px / 2px)}
 
 <===> units/division/output.css
 a {
   b: 0.5;
+}
+
+<===>
+================================================================================
+<===> sass_script/plus_string/lhs/input.scss
+@use "sass:meta";
+$result: calc(1px + 1%) + "";
+a {
+  value: $result;
+  type: meta.type-of($result);
+}
+
+<===> sass_script/plus_string/lhs/output.css
+a {
+  value: calc(1px + 1%);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> sass_script/plus_string/rhs/input.scss
+@use "sass:meta";
+$result: "" + calc(1px + 1%);
+a {
+  value: $result;
+  type: meta.type-of($result);
+}
+
+<===> sass_script/plus_string/rhs/output.css
+a {
+  value: calc(1px + 1%);
+  type: string;
 }
