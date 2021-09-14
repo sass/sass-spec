@@ -1,0 +1,55 @@
+<===> options.yml
+':ignore_for':
+  - libsass
+
+<===>
+================================================================================
+<===> simplified/input.scss
+@use "plain";
+
+<===> simplified/plain.css
+a {b: calc(1px)}
+
+<===> simplified/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> operation/input.scss
+@use "plain";
+
+<===> operation/plain.css
+a {b: calc(1px + 1%)}
+
+<===> operation/output.css
+a {
+  b: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> parentheses/input.scss
+@use "plain";
+
+<===> parentheses/plain.css
+a {b: calc(2 * (1px + 1%))}
+
+<===> parentheses/output.css
+a {
+  b: calc(2 * (1px + 1%));
+}
+
+<===>
+================================================================================
+<===> function/input.scss
+@use "plain";
+
+<===> function/plain.css
+a {b: calc(c())}
+
+<===> function/output.css
+a {
+  b: calc(c());
+}

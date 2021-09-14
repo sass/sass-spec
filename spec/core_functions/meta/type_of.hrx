@@ -142,6 +142,43 @@ a {
 
 <===>
 ================================================================================
+<===> calculation/options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> calculation/simplified/input.scss
+a {b: type-of(calc(1px))}
+
+<===> calculation/simplified/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> calculation/preserved/calc/input.scss
+a {b: type-of(calc(var(--c)))}
+
+<===> calculation/preserved/calc/output.css
+a {
+  b: calculation;
+}
+
+<===>
+================================================================================
+<===> calculation/preserved/clamp/input.scss
+a {b: type-of(clamp(1%, 1px, 2px))}
+
+<===> calculation/preserved/clamp/output.css
+a {
+  b: calculation;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 a {b: type-of($value: c)}
 

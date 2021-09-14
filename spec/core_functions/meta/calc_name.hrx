@@ -1,0 +1,87 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> calc/input.scss
+@use "sass:meta";
+a {b: meta.calc-name(calc(var(--c)))}
+
+<===> calc/output.css
+a {
+  b: "calc";
+}
+
+<===>
+================================================================================
+<===> clamp/input.scss
+@use "sass:meta";
+a {b: meta.calc-name(clamp(1%, 2px, 3px))}
+
+<===> clamp/output.css
+a {
+  b: "clamp";
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+a {b: meta.calc-name($calc: calc(var(--c)))}
+
+<===> named/output.css
+a {
+  b: "calc";
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-name()}
+
+<===> error/too_few_args/error
+Error: Missing argument $calc.
+  ,--> input.scss
+2 | a {b: meta.calc-name()}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function calc-name($calc) {
+  |           ================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-name(calc(var(--c)), calc(var(--d)))}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: meta.calc-name(calc(var(--c)), calc(var(--d)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function calc-name($calc) {
+  |           ================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/invalid_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-name(1)}
+
+<===> error/invalid_args/error
+Error: $calc: 1 is not a calculation.
+  ,
+2 | a {b: meta.calc-name(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

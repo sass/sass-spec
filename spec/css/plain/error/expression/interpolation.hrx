@@ -1,0 +1,69 @@
+<===> calc/input.scss
+@import 'plain'
+<===> calc/plain.css
+a {
+  w: calc(#{1px} + 10%);
+}
+
+<===> calc/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: calc(#{1px} + 10%);
+  |           ^^^^^^
+  '
+  plain.css 2:11  @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> identifier/input.scss
+@import 'plain'
+<===> identifier/plain.css
+a {
+  w: x#{y}z;
+}
+
+<===> identifier/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: x#{y}z;
+  |       ^^^^
+  '
+  plain.css 2:7   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> quoted_string/input.scss
+@import 'plain'
+<===> quoted_string/plain.css
+a {
+  w: "x#{y}z";
+}
+
+<===> quoted_string/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: "x#{y}z";
+  |        ^^^^
+  '
+  plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> standalone/input.scss
+@import 'plain'
+<===> standalone/plain.css
+a {
+  w: #{x};
+}
+
+<===> standalone/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w: #{x};
+  |      ^^^^
+  '
+  plain.css 2:6   @import
+  input.scss 1:9  root stylesheet

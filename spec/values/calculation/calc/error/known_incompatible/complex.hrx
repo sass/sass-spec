@@ -1,0 +1,88 @@
+<===> unitless/and_numerator/input.scss
+a {b: calc(1 + 1px)}
+
+<===> unitless/and_numerator/error
+Error: 1 and 1px are incompatible.
+  ,
+1 | a {b: calc(1 + 1px)}
+  |            ^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> unitless/and_denominator/input.scss
+a {b: calc(1 + 1/1px)}
+
+<===> unitless/and_denominator/error
+Error: Number 1px^-1 isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1 + 1/1px)}
+  |            ^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> numerator_and_denominator/input.scss
+a {b: calc(1px + 1/1px)}
+
+<===> numerator_and_denominator/error
+Error: Number 1px^-1 isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1px + 1/1px)}
+  |            ^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> numerator_and_numerators/input.scss
+a {b: calc(1px + 1px*1px)}
+
+<===> numerator_and_numerators/error
+Error: Number 1px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1px + 1px*1px)}
+  |            ^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> denominator_and_denominators/input.scss
+a {b: calc(1/1px + 1/1px/1px)}
+
+<===> denominator_and_denominators/error
+Error: Number 1px^-1 isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1/1px + 1/1px/1px)}
+  |            ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> mismatched_numerators/input.scss
+a {b: calc(1px*1s + 1px*1px)}
+
+<===> mismatched_numerators/error
+Error: Number 1px*s isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1px*1s + 1px*1px)}
+  |            ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> mismatched_denominators/input.scss
+a {b: calc(1/1px/1s + 1/1px/1px)}
+
+<===> mismatched_denominators/error
+Error: Number 1(px*s)^-1 isn't compatible with CSS calculations.
+  ,
+1 | a {b: calc(1/1px/1s + 1/1px/1px)}
+  |            ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet

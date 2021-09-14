@@ -1,0 +1,282 @@
+<===> number/integer/input.scss
+a {b: calc(1px)}
+
+<===> number/integer/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> number/leading_plus/input.scss
+a {b: calc(+1px)}
+
+<===> number/leading_plus/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> number/leading_minus/input.scss
+a {b: calc(-1px)}
+
+<===> number/leading_minus/output.css
+a {
+  b: -1px;
+}
+
+<===>
+================================================================================
+<===> number/unitless/input.scss
+a {b: calc(1)}
+
+<===> number/unitless/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> number/exponent/input.scss
+a {b: calc(1e2px)}
+
+<===> number/exponent/output.css
+a {
+  b: 100px;
+}
+
+<===>
+================================================================================
+<===> number/decimal/leading_digit/input.scss
+a {b: calc(1.2px)}
+
+<===> number/decimal/leading_digit/output.css
+a {
+  b: 1.2px;
+}
+
+<===>
+================================================================================
+<===> number/decimal/leading_dot/input.scss
+a {b: calc(.2px)}
+
+<===> number/decimal/leading_dot/output.css
+a {
+  b: 0.2px;
+}
+
+<===>
+================================================================================
+<===> variable/number/simple_unit/input.scss
+$a: 1px;
+b {c: calc($a)}
+
+<===> variable/number/simple_unit/output.css
+b {
+  c: 1px;
+}
+
+<===>
+================================================================================
+<===> variable/number/complex_unit/input.scss
+@use "sass:math";
+$a: math.div(1px*1s, 1rad);
+b {c: math.div(calc($a) * 2rad, 2s)}
+
+<===> variable/number/complex_unit/output.css
+b {
+  c: 1px;
+}
+
+<===>
+================================================================================
+<===> variable/unquoted_string/input.scss
+$a: foobar;
+b {c: calc($a)}
+
+<===> variable/unquoted_string/output.css
+b {
+  c: calc(foobar);
+}
+
+<===>
+================================================================================
+<===> variable/calculation/input.scss
+$a: calc(1px + 1%);
+b {c: calc($a)}
+
+<===> variable/calculation/output.css
+b {
+  c: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> variable/namespace/input.scss
+@use "sass:math";
+a {b: calc(math.$pi)}
+
+<===> variable/namespace/output.css
+a {
+  b: 3.1415926536;
+}
+
+<===>
+================================================================================
+<===> function/css/input.scss
+a {b: calc(c())}
+
+<===> function/css/output.css
+a {
+  b: calc(c());
+}
+
+<===>
+================================================================================
+<===> function/sass/global/input.scss
+@function a() {@return 1px}
+
+b {c: calc(a())}
+
+<===> function/sass/global/output.css
+b {
+  c: 1px;
+}
+
+<===>
+================================================================================
+<===> function/sass/namespace/input.scss
+@use "sass:math";
+b {c: calc(math.round(2.3))}
+
+<===> function/sass/namespace/output.css
+b {
+  c: 2;
+}
+
+<===>
+================================================================================
+<===> function/if/input.scss
+b {c: calc(if(true, 1, $undefined))}
+
+<===> function/if/output.css
+b {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> parentheses/input.scss
+a {b: calc((1px))}
+
+<===> parentheses/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> calculation/calc/simplified/input.scss
+a {b: calc(calc(1px))}
+
+<===> calculation/calc/simplified/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> calculation/calc/preserved/input.scss
+a {b: calc(calc(1px + 1%))}
+
+<===> calculation/calc/preserved/output.css
+a {
+  b: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> calculation/clamp/simplified/input.scss
+a {b: calc(clamp(1px, 2px, 3px))}
+
+<===> calculation/clamp/simplified/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> calculation/clamp/preserved/input.scss
+a {b: calc(clamp(1%, 2px, 3%))}
+
+<===> calculation/clamp/preserved/output.css
+a {
+  b: clamp(1%, 2px, 3%);
+}
+
+<===>
+================================================================================
+<===> interpolation/line_noise/input.scss
+// Interpolation shifts the parser into a special mode where it allows any
+// interpolated declaration value.
+a {b: calc(!{@}#$%^&*#{c}_-[+]=)}
+
+<===> interpolation/line_noise/output.css
+a {
+  b: calc(!{@}#$%^&*c_-[+]=);
+}
+
+<===>
+================================================================================
+<===> interpolation/number/input.scss
+// Although interpolation may return a value that looks like a valid `calc()`,
+// it's always treated as an unquoted string.
+a {b: calc(#{1px + 2px})}
+
+<===> interpolation/number/output.css
+a {
+  b: calc(3px);
+}
+
+<===>
+================================================================================
+<===> interpolation/parens/input.scss
+// Interpolation is isolated to a single parenthesized context, so the
+// parentheses themselves are stripped off.
+a {b: calc((#{1px + 2px}))}
+
+<===> interpolation/parens/output.css
+a {
+  b: calc(3px);
+}
+
+<===>
+================================================================================
+<===> interpolation/nested/input.scss
+a {b: calc(calc(#{c}))}
+
+<===> interpolation/nested/output.css
+a {
+  b: calc(c);
+}
+
+<===>
+================================================================================
+<===> extra_whitespace/input.scss
+a {b: calc( 1px )}
+
+<===> extra_whitespace/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: CaLc(1px)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1px;
+}

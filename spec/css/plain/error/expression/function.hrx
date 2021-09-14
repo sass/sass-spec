@@ -1,0 +1,51 @@
+<===> built_in/input.scss
+@import 'plain'
+<===> built_in/plain.css
+a {
+  x: index(1 2 3, 1);
+}
+
+<===> built_in/error
+Error: This function isn't allowed in plain CSS.
+  ,
+2 |   x: index(1 2 3, 1);
+  |      ^^^^^^^^^^^^^^^
+  '
+  plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> variable_arguments/input.scss
+@import 'plain'
+<===> variable_arguments/plain.css
+a {
+  x: hsl(0, 100%, 50%...);
+}
+
+<===> variable_arguments/error
+Error: expected ")".
+  ,
+2 |   x: hsl(0, 100%, 50%...);
+  |                      ^
+  '
+  plain.css 2:22  @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> keyword_arguments/input.scss
+@import 'plain'
+<===> keyword_arguments/plain.css
+a {
+  x: hsl(0, 100%, $lightness: 50%);
+}
+
+<===> keyword_arguments/error
+Error: Sass variables aren't allowed in plain CSS.
+  ,
+2 |   x: hsl(0, 100%, $lightness: 50%);
+  |                   ^^^^^^^^^^
+  '
+  plain.css 2:19  @import
+  input.scss 1:9  root stylesheet

@@ -1,0 +1,195 @@
+<===> variable/null/input.scss
+$a: null;
+b {c: calc($a)}
+
+<===> variable/null/error
+Error: Value null can't be used in a calculation.
+  ,
+2 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/boolean/input.scss
+$a: true;
+b {c: calc($a)}
+
+<===> variable/boolean/error
+Error: Value true can't be used in a calculation.
+  ,
+2 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/color/input.scss
+$a: blue;
+b {c: calc($a)}
+
+<===> variable/color/error
+Error: Value blue can't be used in a calculation.
+  ,
+2 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/function/input.scss
+@use 'sass:meta';
+$a: meta.get-function("get-function", $module: "meta");
+b {c: calc($a)}
+
+<===> variable/function/error
+Error: Value get-function("get-function") can't be used in a calculation.
+  ,
+3 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/list/input.scss
+$a: 1 2 3;
+b {c: calc($a)}
+
+<===> variable/list/error
+Error: Value 1 2 3 can't be used in a calculation.
+  ,
+2 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/map/input.scss
+$a: (b: c);
+d {e: calc($a)}
+
+<===> variable/map/error
+Error: Value (b: c) can't be used in a calculation.
+  ,
+2 | d {e: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable/quoted_string/input.scss
+$a: "foo";
+b {c: calc($a)}
+
+<===> variable/quoted_string/error
+Error: Value "foo" can't be used in a calculation.
+  ,
+2 | b {c: calc($a)}
+  |            ^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/null/input.scss
+@function a() {@return null}
+b {c: calc(a())}
+
+<===> function/null/error
+Error: Value null can't be used in a calculation.
+  ,
+2 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/boolean/input.scss
+@function a() {@return true}
+b {c: calc(a())}
+
+<===> function/boolean/error
+Error: Value true can't be used in a calculation.
+  ,
+2 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/color/input.scss
+@function a() {@return blue}
+b {c: calc(a())}
+
+<===> function/color/error
+Error: Value blue can't be used in a calculation.
+  ,
+2 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/function/input.scss
+@use 'sass:meta';
+@function a() {@return meta.get-function("get-function", $module: "meta")}
+b {c: calc(a())}
+
+<===> function/function/error
+Error: Value get-function("get-function") can't be used in a calculation.
+  ,
+3 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/list/input.scss
+@function a() {@return 1 2 3}
+b {c: calc(a())}
+
+<===> function/list/error
+Error: Value 1 2 3 can't be used in a calculation.
+  ,
+2 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/map/input.scss
+@function a() {@return (b: c)}
+d {e: calc(a())}
+
+<===> function/map/error
+Error: Value (b: c) can't be used in a calculation.
+  ,
+2 | d {e: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> function/quoted_string/input.scss
+@function a() {@return "foo"}
+b {c: calc(a())}
+
+<===> function/quoted_string/error
+Error: Value "foo" can't be used in a calculation.
+  ,
+2 | b {c: calc(a())}
+  |            ^^^
+  '
+  input.scss 2:12  root stylesheet

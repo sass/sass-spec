@@ -1,0 +1,210 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> one_arg/length/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.length(meta.calc-args(calc(var(--c))))}
+
+<===> one_arg/length/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> one_arg/first/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.nth(meta.calc-args(calc(var(--c))), 1)}
+
+<===> one_arg/first/output.css
+a {
+  b: var(--c);
+}
+
+<===>
+================================================================================
+<===> multi_args/length/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.length(meta.calc-args(clamp(1%, 2px, 3px)))}
+
+<===> multi_args/length/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> multi_args/first/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.nth(meta.calc-args(clamp(1%, 2px, 3px)), 1)}
+
+<===> multi_args/first/output.css
+a {
+  b: 1%;
+}
+
+<===>
+================================================================================
+<===> multi_args/second/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.nth(meta.calc-args(clamp(1%, 2px, 3px)), 2)}
+
+<===> multi_args/second/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> multi_args/third/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: list.nth(meta.calc-args(clamp(1%, 2px, 3px)), 3)}
+
+<===> multi_args/third/output.css
+a {
+  b: 3px;
+}
+
+<===>
+================================================================================
+<===> type/number/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.type-of(list.nth(meta.calc-args(clamp(1%, 2px, 5%)), 1))}
+
+<===> type/number/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> type/css_function/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.type-of(list.nth(meta.calc-args(calc(var(--c))), 1))}
+
+<===> type/css_function/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> type/interpolation/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.type-of(list.nth(meta.calc-args(calc(#{1px})), 1))}
+
+<===> type/interpolation/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> type/math/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.type-of(list.nth(meta.calc-args(calc(1% + 1px)), 1))}
+
+<===> type/math/output.css
+a {
+  b: string;
+}
+
+<===>
+================================================================================
+<===> type/string_variable/input.scss
+@use "sass:list";
+@use "sass:meta";
+$a: b;
+c {d: meta.type-of(list.nth(meta.calc-args(calc($a)), 1))}
+
+<===> type/string_variable/output.css
+c {
+  d: string;
+}
+
+<===>
+================================================================================
+<===> type/calculation/input.scss
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.type-of(list.nth(meta.calc-args(clamp(max(1%, 1px), 2px, 3px)), 1))}
+
+<===> type/calculation/output.css
+a {
+  b: calculation;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+a {b: meta.calc-args($calc: calc(var(--c)))}
+
+<===> named/output.css
+a {
+  b: var(--c);
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-args()}
+
+<===> error/too_few_args/error
+Error: Missing argument $calc.
+  ,--> input.scss
+2 | a {b: meta.calc-args()}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function calc-args($calc) {
+  |           ================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-args(calc(var(--c)), calc(var(--d)))}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: meta.calc-args(calc(var(--c)), calc(var(--d)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function calc-args($calc) {
+  |           ================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/invalid_args/input.scss
+@use "sass:meta";
+a {b: meta.calc-args(1)}
+
+<===> error/invalid_args/error
+Error: $calc: 1 is not a calculation.
+  ,
+2 | a {b: meta.calc-args(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

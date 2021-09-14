@@ -1,34 +1,31 @@
-<===> options.yml
----
-:ignore_for:
-- libsass
+<===> prefixed/calc/number/input.scss
+a {b: -a-calc(0)}
 
-<===>
-================================================================================
-<===> clamp/numbers/input.scss
-a {b: clamp(0, 1, 2)}
-
-<===> clamp/numbers/output.css
+<===> prefixed/calc/number/output.css
 a {
-  b: clamp(0, 1, 2);
+  b: -a-calc(0);
 }
 
 <===>
 ================================================================================
-<===> clamp/punctuation/input.scss
-a {b: clamp(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+<===> prefixed/calc/punctuation/options.yml
+':ignore_for':
+  - libsass
 
-<===> clamp/punctuation/output.css
+<===> prefixed/calc/punctuation/input.scss
+a {b: -a-calc(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> prefixed/calc/punctuation/output.css
 a {
-  b: clamp(@#$%^&*({[]})_-+=|\\:""""<>,.?/);
+  b: -a-calc(@#$%^&*({[]})_-+=|\\:""""<>,.?/);
 }
 
 <===>
 ================================================================================
-<===> clamp/interpolation/input.scss
-a {b: clamp(#{0}, #{1}, #{2})}
+<===> prefixed/calc/interpolation/input.scss
+a {b: -a-calc(#{0})}
 
-<===> clamp/interpolation/output.css
+<===> prefixed/calc/interpolation/output.css
 a {
-  b: clamp(0, 1, 2);
+  b: -a-calc(0);
 }

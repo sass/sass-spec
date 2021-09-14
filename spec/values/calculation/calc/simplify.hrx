@@ -1,0 +1,114 @@
+<===> README.md
+The initial release of calculation support only simplifies operations that parse
+as "number + number" where both numbers are compatible, so for example
+`calc(1% + 1px + 2px)` isn't simplified because it parses as `(1% + 1px) + 2px`.
+
+<===>
+================================================================================
+<===> nested/input.scss
+a {b: calc(1% + calc(1px))}
+
+<===> nested/output.css
+a {
+  b: calc(1% + 1px);
+}
+
+<===>
+================================================================================
+<===> plus/left/input.scss
+a {b: calc(1px + 2px + 1%)}
+
+<===> plus/left/output.css
+a {
+  b: calc(3px + 1%);
+}
+
+<===>
+================================================================================
+<===> plus/right/input.scss
+a {b: calc(1% + 1px + 2px)}
+
+<===> plus/right/output.css
+a {
+  b: calc(1% + 1px + 2px);
+}
+
+<===>
+================================================================================
+<===> minus/left/input.scss
+a {b: calc(3px - 2px + 1%)}
+
+<===> minus/left/output.css
+a {
+  b: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> minus/right/input.scss
+a {b: calc(1% + 3px - 2px)}
+
+<===> minus/right/output.css
+a {
+  b: calc(1% + 3px - 2px);
+}
+
+<===>
+================================================================================
+<===> times/left/input.scss
+a {b: calc(3px * 2 + 1%)}
+
+<===> times/left/output.css
+a {
+  b: calc(6px + 1%);
+}
+
+<===>
+================================================================================
+<===> times/right/input.scss
+a {b: calc(1% + 3px * 2)}
+
+<===> times/right/output.css
+a {
+  b: calc(1% + 6px);
+}
+
+<===>
+================================================================================
+<===> divide/left/input.scss
+a {b: calc(3px / 2 + 1%)}
+
+<===> divide/left/output.css
+a {
+  b: calc(1.5px + 1%);
+}
+
+<===>
+================================================================================
+<===> divide/right/input.scss
+a {b: calc(1% + 3px / 2)}
+
+<===> divide/right/output.css
+a {
+  b: calc(1% + 1.5px);
+}
+
+<===>
+================================================================================
+<===> invert/plus/input.scss
+a {b: calc(1% + -1px)}
+
+<===> invert/plus/output.css
+a {
+  b: calc(1% - 1px);
+}
+
+<===>
+================================================================================
+<===> invert/minus/input.scss
+a {b: calc(1% - -1px)}
+
+<===> invert/minus/output.css
+a {
+  b: calc(1% + 1px);
+}
