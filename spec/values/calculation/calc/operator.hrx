@@ -360,31 +360,19 @@ a {
 <===>
 ================================================================================
 <===> sass_script/plus_string/lhs/input.scss
-@use "sass:meta";
-$result: calc(1px + 1%) + "";
-a {
-  value: $result;
-  type: meta.type-of($result);
-}
+a {b: calc(1px + 1%) + ""}
 
 <===> sass_script/plus_string/lhs/output.css
 a {
-  value: calc(1px + 1%);
-  type: string;
+  b: "calc(1px + 1%)";
 }
 
 <===>
 ================================================================================
 <===> sass_script/plus_string/rhs/input.scss
-@use "sass:meta";
-$result: "" + calc(1px + 1%);
-a {
-  value: $result;
-  type: meta.type-of($result);
-}
+a {b: "" + calc(1px + 1%)}
 
 <===> sass_script/plus_string/rhs/output.css
 a {
-  value: calc(1px + 1%);
-  type: string;
+  b: "calc(1px + 1%)";
 }
