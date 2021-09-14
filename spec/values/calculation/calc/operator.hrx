@@ -430,10 +430,29 @@ a {
 <===>
 ================================================================================
 <===> units/division/input.scss
-@use "sass:math";
 a {b: calc(1px / 2px)}
 
 <===> units/division/output.css
 a {
   b: 0.5;
+}
+
+<===>
+================================================================================
+<===> sass_script/plus_string/lhs/input.scss
+a {b: calc(1px + 1%) + ""}
+
+<===> sass_script/plus_string/lhs/output.css
+a {
+  b: "calc(1px + 1%)";
+}
+
+<===>
+================================================================================
+<===> sass_script/plus_string/rhs/input.scss
+a {b: "" + calc(1px + 1%)}
+
+<===> sass_script/plus_string/rhs/output.css
+a {
+  b: "calc(1px + 1%)";
 }
