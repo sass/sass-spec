@@ -3,6 +3,28 @@ If a `min()` or `max()` function uses a SassScript feature, parse it as Sass.
 
 <===>
 ================================================================================
+<===> surrounding_whitespace/min/input.scss
+$a: 2px;
+b {c:  min( 1px, $a )}
+
+<===> surrounding_whitespace/min/output.css
+b {
+  c: 1px;
+}
+
+<===>
+================================================================================
+<===> surrounding_whitespace/max/input.scss
+$a: 2px;
+b {c:  max( 1px, $a )}
+
+<===> surrounding_whitespace/max/output.css
+b {
+  c: 2px;
+}
+
+<===>
+================================================================================
 <===> variable/min/input.scss
 $a: 2px;
 b {c:  min(1px, $a)}
