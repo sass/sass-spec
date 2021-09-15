@@ -75,6 +75,46 @@ a {
 
 <===>
 ================================================================================
+<===> global/README.md
+`min()` expressions without a namespace are parsed as calculations unless they
+contain a Sass feature that's not valid in a calculation. We verify here that
+these Sass features still work despite being invalid if it were parsed as a
+calculation.
+
+<===>
+================================================================================
+<===> global/surrounding_whitespace/input.scss
+// The extra whitespace doesn't cause this to be parsed as a Sass function, but
+// we want to verify that it also doesn't interfere.
+b {c: min( 1px, 2px, )}
+
+<===> global/surrounding_whitespace/output.css
+b {
+  c: 1px;
+}
+
+<===>
+================================================================================
+<===> global/modulo/input.scss
+a {b: min(1px, 7px % 4)}
+
+<===> global/modulo/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> global/trailing_comma/input.scss
+a {b: min(1px, 2px,)}
+
+<===> global/trailing_comma/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
 <===> error/type/arg_1/input.scss
 @use "sass:math";
 a {b: math.min(c)}

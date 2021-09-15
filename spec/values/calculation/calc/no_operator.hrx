@@ -187,6 +187,26 @@ b {
 
 <===>
 ================================================================================
+<===> function/min/input.scss
+b {c: calc(min(1 2 3...))}
+
+<===> function/min/output.css
+b {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> function/max/input.scss
+b {c: calc(max(1 2 3...))}
+
+<===> function/max/output.css
+b {
+  c: 3;
+}
+
+<===>
+================================================================================
 <===> parentheses/input.scss
 a {b: calc((1px))}
 
@@ -233,6 +253,46 @@ a {b: calc(clamp(1%, 2px, 3%))}
 <===> calculation/clamp/preserved/output.css
 a {
   b: clamp(1%, 2px, 3%);
+}
+
+<===>
+================================================================================
+<===> calculation/min/simplified/input.scss
+a {b: calc(min(1px, 2px))}
+
+<===> calculation/min/simplified/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> calculation/min/preserved/input.scss
+a {b: calc(min(1%, 2px))}
+
+<===> calculation/min/preserved/output.css
+a {
+  b: min(1%, 2px);
+}
+
+<===>
+================================================================================
+<===> calculation/max/simplified/input.scss
+a {b: calc(max(1px, 2px))}
+
+<===> calculation/max/simplified/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> calculation/max/preserved/input.scss
+a {b: calc(max(1%, 2px))}
+
+<===> calculation/max/preserved/output.css
+a {
+  b: max(1%, 2px);
 }
 
 <===>
