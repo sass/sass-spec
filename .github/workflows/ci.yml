@@ -1,9 +1,11 @@
 name: CI
 
+defaults:
+  run: {shell: bash}
+
 env:
   PROTOC_VERSION: 3.x
   NODE_VERSION: 14
-
 
 on:
   push: {branches: [main, feature.*]}
@@ -97,20 +99,32 @@ jobs:
       - name: Run specs
         run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
 
+  # The versions should be kept up-to-date with the latest LTS Node releases.
+  # They next need to be rotated October 2021. See
+  # https://github.com/nodejs/Release.
   dart_sass_js:
-    name: "JS API | Dart Sass | ${{ matrix.os }}"
-    runs-on: ubuntu-latest
+    name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        node_version: [16]
+        include:
+          # Include LTS versions on Ubuntu
+          - os: ubuntu-latest
+            node_version: 14
+          - os: ubuntu-latest
+            node_version: 12
+          - os: ubuntu-latest
+            node_version: 10
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
@@ -122,6 +136,8 @@ jobs:
             cd ../dart-sass
             dart pub get
             dart pub run grinder pkg-npm-dev
+            cd build/npm
+            npm install
           )
           npm install ../dart-sass/build/npm
 
@@ -132,19 +148,28 @@ jobs:
         run: npm run js-api-spec -- --sassSassRepo ../sass
 
   embedded_host_js:
-    name: "JS API | Embedded Host | ${{ matrix.os }}"
-    runs-on: ubuntu-latest
+    name: "JS API | Embedded Host | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip embedded-host')"
 
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        node_version: [16]
+        include:
+          # Include LTS versions on Ubuntu
+          - os: ubuntu-latest
+            node_version: 14
+          - os: ubuntu-latest
+            node_version: 12
+          - os: ubuntu-latest
+            node_version: 10
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
@@ -174,4 +199,4 @@ jobs:
         run: git clone https://github.com/sass/sass.git ../sass --depth 1
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassSassRepo ../sass --sassPackage
+        run: npm run js-api-spec -- --sassSassRepo ../sass
