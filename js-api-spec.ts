@@ -1,5 +1,6 @@
 /* eslint-disable no-process-exit */
 
+import * as del from 'del';
 import * as fs from 'fs';
 import * as jest from 'jest';
 import * as p from 'path';
@@ -52,7 +53,7 @@ const tmpObject = tmp.dirSync({
   unsafeCleanup: true,
 });
 const dir = tmpObject.name;
-fs.rmSync(dir, {recursive: true, force: true});
+del.sync(dir); // TODO(nweiz): Use fs.rmSync() when we drop support for Node 12
 fs.mkdirSync(p.join(dir, 'node_modules', '@types', 'sass'), {recursive: true});
 
 const configPath = p.join(dir, 'jest.config.json');
@@ -86,20 +87,14 @@ if (argv.sassSassRepo) {
   );
 }
 
-fs.rmSync(p.join('js-api-spec', 'node_modules'), {
-  recursive: true,
-  force: true,
-});
+del.sync(p.join('js-api-spec', 'node_modules'));
 fs.symlinkSync(
   p.resolve(p.join(dir, 'node_modules')),
   p.join('js-api-spec', 'node_modules')
 );
 
 process.on('exit', () => {
-  fs.rmSync(p.join('js-api-spec', 'node_modules'), {
-    recursive: true,
-    force: true,
-  });
+  del.sync(p.join('js-api-spec', 'node_modules'));
   tmpObject.removeCallback();
 });
 

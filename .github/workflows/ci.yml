@@ -1,9 +1,11 @@
 name: CI
 
+defaults:
+  run: {shell: bash}
+
 env:
   PROTOC_VERSION: 3.x
   NODE_VERSION: 14
-
 
 on:
   push: {branches: [main, feature.*]}
@@ -97,65 +99,62 @@ jobs:
       - name: Run specs
         run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
 
-  dart_sass_js:
-    name: "JS API | Dart Sass | ${{ matrix.os }}"
-    runs-on: ubuntu-latest
+  # The versions should be kept up-to-date with the latest LTS Node releases.
+  # They next need to be rotated October 2021. See
+  # https://github.com/nodejs/Release.
+  js_api:
+    name: "JS API | ${{ matrix.impl }} | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
       fail-fast: false
       matrix:
+        impl: ["Dart Sass", "Embedded Host"]
         os: [ubuntu-latest, windows-latest, macos-latest]
+        node_version: [12, 14, 16]
+        # Only test LTS versions on Ubuntu
+        exclude:
+        - os: windows-latest
+          node_version: 12
+        - os: windows-latest
+          node_version: 14
+        - os: macos-latest
+          node_version: 12
+        - os: macos-latest
+          node_version: 14
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
+      - uses: arduino/setup-protoc@v1
+        if: ${{ matrix.impl == 'Embedded Host' }}
+        with:
+          version: ${{ env.PROTOC_VERSION }}
+          repo-token: '${{ github.token }}'
 
-      - name: Install dart-sass
+      - name: Install Dart Sass
+        if: ${{ matrix.impl == 'Dart Sass' }}
         run: |
           git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
           (
             cd ../dart-sass
             dart pub get
             dart pub run grinder pkg-npm-dev
+            cd build/npm
+            npm install
           )
           npm install ../dart-sass/build/npm
-
-      - name: Check out Sass specification
-        run: git clone https://github.com/sass/sass.git ../sass --depth 1
-
-      - name: Run specs
-        run: npm run js-api-spec -- --sassSassRepo ../sass
-
-  embedded_host_js:
-    name: "JS API | Embedded Host | ${{ matrix.os }}"
-    runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip embedded-host')"
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
-      - run: npm install
-      - uses: dart-lang/setup-dart@v1
-        with: {sdk: stable}
-      - uses: arduino/setup-protoc@v1
-        with:
-          version: ${{ env.PROTOC_VERSION }}
-          repo-token: '${{ github.token }}'
-
-      - name: Install embedded-host-node
+        
+      - name: Install Embedded Host
+        if: ${{ matrix.impl == 'Embedded Host' }}
         run: |
-          git clone https://github.com/sass/embedded-host-node.git ../embedded-host-node --depth 1
+          git clone https://github.com/sass/embedded-host-node.git \
+              ../embedded-host-node --depth 1
           (
             cd ../embedded-host-node
             npm install
@@ -174,4 +173,4 @@ jobs:
         run: git clone https://github.com/sass/sass.git ../sass --depth 1
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassSassRepo ../sass --sassPackage
+        run: npm run js-api-spec -- --sassSassRepo ../sass
