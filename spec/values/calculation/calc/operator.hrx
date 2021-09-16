@@ -439,6 +439,26 @@ a {
 
 <===>
 ================================================================================
+<===> var/directly_parenthesized/input.scss
+a {b: calc(1 + (var(--c)))}
+
+<===> var/directly_parenthesized/output.css
+a {
+  b: calc(1 + (var(--c)));
+}
+
+<===>
+================================================================================
+<===> var/indirectly_parenthesized/input.scss
+a {b: calc((1 + var(--c)))}
+
+<===> var/indirectly_parenthesized/output.css
+a {
+  b: calc(1 + var(--c));
+}
+
+<===>
+================================================================================
 <===> sass_script/plus_string/lhs/input.scss
 a {b: calc(1px + 1%) + ""}
 
