@@ -1,0 +1,313 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `min()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> error/syntax/no_args/input.scss
+a {b: min()}
+
+<===> error/syntax/no_args/error
+Error: At least one argument must be passed.
+  ,
+1 | a {b: min()}
+  |       ^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: min(c)}
+
+<===> error/syntax/invalid_arg/error
+Error: c is not a number.
+  ,
+1 | a {b: min(c)}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/first/input.scss
+a {b: min(1s, 2px)}
+
+<===> error/known_incompatible/first/error
+Error: 1s and 2px are incompatible.
+  ,
+1 | a {b: min(1s, 2px)}
+  |           ^^ 1s
+  |               === 2px
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/second/input.scss
+a {b: min(1px, 2s)}
+
+<===> error/known_incompatible/second/error
+Error: 1px and 2s are incompatible.
+  ,
+1 | a {b: min(1px, 2s)}
+  |           ^^^ 1px
+  |                == 2s
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/known_incompatible/third/input.scss
+a {b: min(1px, 2px, 3s)}
+
+<===> error/known_incompatible/third/error
+Error: 1px and 3s are incompatible.
+  ,
+1 | a {b: min(1px, 2px, 3s)}
+  |           ^^^ 1px
+  |                     == 3s
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_after_potentially_incompatible/input.scss
+a {b: min(1c, 2d, 3)}
+
+<===> error/unitless_after_potentially_incompatible/error
+Error: 1c and 3 are incompatible.
+  ,
+1 | a {b: min(1c, 2d, 3)}
+  |           ^^ 1c
+  |                   = 3
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_and_unit/in_calc/input.scss
+a {b: min(calc(1px + 2))}
+
+<===> error/unitless_and_unit/in_calc/error
+Error: 1px and 2 are incompatible.
+  ,
+1 | a {b: min(calc(1px + 2))}
+  |                ^^^^^^^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/complex_unit/input.scss
+a {b: min(1px*1px, 2%*2%)}
+
+<===> error/complex_unit/error
+Error: Number 1px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: min(1px*1px, 2%*2%)}
+  |           ^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> extra_whitespace/number/input.scss
+a {b: min( 1px )}
+
+<===> extra_whitespace/number/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> extra_whitespace/max_in_min/input.scss
+// Regression test for sass/dart-sass#1444
+a {b: min( max( 1px ) )}
+
+<===> extra_whitespace/max_in_min/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> simplified/only/input.scss
+a {b: min(1px)}
+
+<===> simplified/only/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> simplified/first/input.scss
+a {b: min(0px, 1px)}
+
+<===> simplified/first/output.css
+a {
+  b: 0px;
+}
+
+<===>
+================================================================================
+<===> simplified/second/input.scss
+a {b: min(1px, 0.5px)}
+
+<===> simplified/second/output.css
+a {
+  b: 0.5px;
+}
+
+<===>
+================================================================================
+<===> simplified/third/input.scss
+a {b: min(1px, 2.5px, 0.9px)}
+
+<===> simplified/third/output.css
+a {
+  b: 0.9px;
+}
+
+<===>
+================================================================================
+<===> simplified/compatible_units/input.scss
+a {b: min(1px, 1in, 1cm)}
+
+<===> simplified/compatible_units/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> simplified/unitless_between_potentially_incompatible/input.scss
+a {b: min(3d, 2, 1e)}
+
+<===> simplified/unitless_between_potentially_incompatible/output.css
+a {
+  b: 1e;
+}
+
+<===>
+================================================================================
+<===> simplified/unitless_and_unit/input.scss
+a {b: min(1px, 2.5, 0.9px)}
+
+<===> simplified/unitless_and_unit/output.css
+a {
+  b: 0.9px;
+}
+
+<===>
+================================================================================
+<===> simplified/operation/unitless_and_unit/input.scss
+a {b: min(1px, 2.5 + 0.9px)}
+
+<===> simplified/operation/unitless_and_unit/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> perserved/math/first/input.scss
+a {b: min(1% + 1px, 2px)}
+
+<===> perserved/math/first/output.css
+a {
+  b: min(1% + 1px, 2px);
+}
+
+<===>
+================================================================================
+<===> perserved/math/second/input.scss
+a {b: min(1px, 1% + 2px)}
+
+<===> perserved/math/second/output.css
+a {
+  b: min(1px, 1% + 2px);
+}
+
+<===>
+================================================================================
+<===> perserved/math/third/input.scss
+a {b: min(1px, 2px, 1% + 3px)}
+
+<===> perserved/math/third/output.css
+a {
+  b: min(1px, 2px, 1% + 3px);
+}
+
+<===>
+================================================================================
+<===> perserved/unit/first/input.scss
+a {b: min(1%, 2px)}
+
+<===> perserved/unit/first/output.css
+a {
+  b: min(1%, 2px);
+}
+
+<===>
+================================================================================
+<===> perserved/unit/second/input.scss
+a {b: min(1px, 2%)}
+
+<===> perserved/unit/second/output.css
+a {
+  b: min(1px, 2%);
+}
+
+<===>
+================================================================================
+<===> perserved/unit/third/input.scss
+a {b: min(1px, 2px, 3%)}
+
+<===> perserved/unit/third/output.css
+a {
+  b: min(1px, 2px, 3%);
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+$a: 1%;
+b {c: min($a, 1px)}
+
+<===> preserved/variable/output.css
+b {
+  c: min(1%, 1px);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless_and_unit/plus/input.scss
+a {b: min(1%, 2.5 + 0.9px)}
+
+<===> preserved/operation/unitless_and_unit/plus/output.css
+a {
+  b: min(1%, 3.4px);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless_and_unit/minus/input.scss
+a {b: min(1%, 2.5 - 0.9px)}
+
+<===> preserved/operation/unitless_and_unit/minus/output.css
+a {
+  b: min(1%, 1.6px);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless_and_unit/in_calc/input.scss
+a {b: calc(min(1%, 2.5 + 0.9px))}
+
+<===> preserved/operation/unitless_and_unit/in_calc/output.css
+a {
+  b: min(1%, 3.4px);
+}
