@@ -1,8 +1,11 @@
 name: CI
 
-env:
-  NODE_VERSION: 14
+defaults:
+  run: {shell: bash}
 
+env:
+  PROTOC_VERSION: 3.x
+  NODE_VERSION: 14
 
 on:
   push: {branches: [main, feature.*]}
@@ -10,7 +13,7 @@ on:
 
 jobs:
   unit_tests_rb:
-    name: "Unit tests: Ruby"
+    name: "Unit tests | Ruby"
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +24,7 @@ jobs:
         run: bundle exec rspec tests/
 
   unit_tests_ts:
-    name: "Unit tests: Typescript"
+    name: "Unit tests | Typescript"
     runs-on: ubuntu-latest
 
     steps:
@@ -44,8 +47,8 @@ jobs:
       - run: npm install
       - run: npm run lint
 
-  dart_sass:
-    name: Dart Sass
+  dart_sass_language:
+    name: "Language | Dart Sass"
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
@@ -71,7 +74,7 @@ jobs:
         run: npm run sass-spec -- --dart ../dart-sass
 
   libsass:
-    name: LibSass
+    name: "Language | LibSass"
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
@@ -95,3 +98,79 @@ jobs:
 
       - name: Run specs
         run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
+
+  # The versions should be kept up-to-date with the latest LTS Node releases.
+  # They next need to be rotated October 2021. See
+  # https://github.com/nodejs/Release.
+  js_api:
+    name: "JS API | ${{ matrix.impl }} | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        impl: ["Dart Sass", "Embedded Host"]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node_version: [12, 14, 16]
+        # Only test LTS versions on Ubuntu
+        exclude:
+        - os: windows-latest
+          node_version: 12
+        - os: windows-latest
+          node_version: 14
+        - os: macos-latest
+          node_version: 12
+        - os: macos-latest
+          node_version: 14
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ matrix.node_version }}"}
+      - run: npm install
+      - uses: dart-lang/setup-dart@v1
+        with: {sdk: stable}
+      - uses: arduino/setup-protoc@v1
+        if: ${{ matrix.impl == 'Embedded Host' }}
+        with:
+          version: ${{ env.PROTOC_VERSION }}
+          repo-token: '${{ github.token }}'
+
+      - name: Install Dart Sass
+        if: ${{ matrix.impl == 'Dart Sass' }}
+        run: |
+          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
+          (
+            cd ../dart-sass
+            dart pub get
+            dart pub run grinder pkg-npm-dev
+            cd build/npm
+            npm install
+          )
+          npm install ../dart-sass/build/npm
+        
+      - name: Install Embedded Host
+        if: ${{ matrix.impl == 'Embedded Host' }}
+        run: |
+          git clone https://github.com/sass/embedded-host-node.git \
+              ../embedded-host-node --depth 1
+          (
+            cd ../embedded-host-node
+            npm install
+            npm run init
+            npm run compile
+            ln -s {`pwd`/,dist/}lib/src/vendor/dart-sass-embedded
+            # Prefer the Sass specification to the natively-generated .d.ts
+            # files. This ensures that when we add tests for new features, they
+            # won't cause compile-time failures if the embedded host doesn't
+            # support them.
+            find dist -name '*.d.ts' -exec rm {} \;
+          )
+          npm install sass@file:../embedded-host-node
+
+      - name: Check out Sass specification
+        run: git clone https://github.com/sass/sass.git ../sass --depth 1
+
+      - name: Run specs
+        run: npm run js-api-spec -- --sassSassRepo ../sass
