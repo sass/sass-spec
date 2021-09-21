@@ -154,6 +154,56 @@ a {
 
 <===>
 ================================================================================
+<===> variable/not_parsed_as_interpolation/README.md
+Regression tests for https://github.com/sass/dart-sass/issues/1499.
+
+<===>
+================================================================================
+<===> variable/not_parsed_as_interpolation/followed_by_parenthesized_interp/input.scss
+$a: 1;
+b {
+  c: calc($a);
+  $_: ("#{''}");
+}
+
+<===> variable/not_parsed_as_interpolation/followed_by_parenthesized_interp/output.css
+b {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> variable/not_parsed_as_interpolation/parentheses_in_string/input.scss
+@function a($arg) {@return 1}
+
+$b: 2;
+c {
+  // A naive parser might check for closing parentheses regardless of string
+  // context when looking for interpolation in a calc.
+  d: calc($b + a(")#{''}"));
+}
+
+<===> variable/not_parsed_as_interpolation/parentheses_in_string/output.css
+c {
+  d: 3;
+}
+
+<===>
+================================================================================
+<===> variable/not_parsed_as_interpolation/in_comment/input.scss
+$a: 1;
+b {
+  // A naive parser might check for interpolation in a comment.
+  c: calc($a /* #{''} */);
+}
+
+<===> variable/not_parsed_as_interpolation/in_comment/output.css
+b {
+  c: 1;
+}
+
+<===>
+================================================================================
 <===> function/css/input.scss
 a {b: calc(c())}
 
