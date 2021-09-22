@@ -105,7 +105,13 @@ jobs:
   js_api:
     name: "JS API | ${{ matrix.impl }} | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+    if: |
+      github.event_name != 'pull_request' || (
+        !(matrix.impl == "Dart Sass" &&
+            contains(github.event.pull_request.body, 'skip dart-sass')) &&
+        !(matrix.impl == "Embedded Host" &&
+            contains(github.event.pull_request.body, 'skip embedded-host'))
+      )
 
     strategy:
       fail-fast: false
