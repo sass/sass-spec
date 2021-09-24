@@ -1,3 +1,26 @@
+<===> bubble/rules/input.scss
+// Regression test for sass/libsass#472
+a {
+  b: c;
+  @keyframes d {
+    to {
+      e: f;
+    }
+  }
+}
+
+<===> bubble/rules/output.css
+a {
+  b: c;
+}
+@keyframes d {
+  to {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
 <===> bubble/empty/input.scss
 // Regression test for sass/dart-sass#611.
 a {
@@ -7,4 +30,135 @@ a {
 <===> bubble/empty/output.css
 @keyframes {
   /**/
+}
+
+<===>
+================================================================================
+<===> name/variable_like/input.scss
+$a: b;
+@keyframes $a {
+  to {
+    c: d;
+  }
+}
+
+<===> name/variable_like/output.css
+@keyframes $a {
+  to {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> name/interpolated/input.scss
+$a: b;
+@keyframes #{$a} {
+  to {
+    c: d;
+  }
+}
+
+<===> name/interpolated/output.css
+@keyframes b {
+  to {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/from/input.scss
+@keyframes a {
+  from {
+    c: d;
+  }
+}
+
+<===> selector/from/output.css
+@keyframes a {
+  from {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/to/input.scss
+@keyframes a {
+  to {
+    c: d;
+  }
+}
+
+<===> selector/to/output.css
+@keyframes a {
+  to {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/percentage/int/input.scss
+@keyframes a {
+  10% {
+    c: d;
+  }
+}
+
+<===> selector/percentage/int/output.css
+@keyframes a {
+  10% {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/percentage/double/input.scss
+@keyframes a {
+  10.3% {
+    c: d;
+  }
+}
+
+<===> selector/percentage/double/output.css
+@keyframes a {
+  10.3% {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/interpolated/input.scss
+@keyframes a {
+  $b: 10%;
+  #{$b} {
+    c: d;
+  }
+}
+
+<===> selector/interpolated/output.css
+@keyframes a {
+  10% {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> selector/list/input.scss
+@keyframes a {
+  from, 15%, to {
+    c: d;
+  }
+}
+
+<===> selector/list/output.css
+@keyframes a {
+  from, 15%, to {
+    c: d;
+  }
 }
