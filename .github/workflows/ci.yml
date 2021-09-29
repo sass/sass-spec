@@ -102,26 +102,21 @@ jobs:
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
-  js_api:
-    name: "JS API | ${{ matrix.impl }} | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+  js_api_dart_sass:
+    name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
       fail-fast: false
       matrix:
-        impl: ["Dart Sass", "Embedded Host"]
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: [12, 14, 16]
+        node_version: [16]
         # Only test LTS versions on Ubuntu
-        exclude:
-        - os: windows-latest
+        include:
+        - os: ubuntu-latest
           node_version: 12
-        - os: windows-latest
-          node_version: 14
-        - os: macos-latest
-          node_version: 12
-        - os: macos-latest
+        - os: ubuntu-latest
           node_version: 14
 
     steps:
@@ -131,14 +126,8 @@ jobs:
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
-      - uses: arduino/setup-protoc@v1
-        if: ${{ matrix.impl == 'Embedded Host' }}
-        with:
-          version: ${{ env.PROTOC_VERSION }}
-          repo-token: '${{ github.token }}'
 
       - name: Install Dart Sass
-        if: ${{ matrix.impl == 'Dart Sass' }}
         run: |
           git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
           (
@@ -149,9 +138,46 @@ jobs:
             npm install
           )
           npm install ../dart-sass/build/npm
+
+      - name: Check out Sass specification
+        run: git clone https://github.com/sass/sass.git ../sass --depth 1
+
+      - name: Run specs
+        run: npm run js-api-spec -- --sassSassRepo ../sass
+
+  # The versions should be kept up-to-date with the latest LTS Node releases.
+  # They next need to be rotated October 2021. See
+  # https://github.com/nodejs/Release.
+  js_api_embedded_host:
+    name: "JS API | Embedded Host | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip embedded-host')"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node_version: [16]
+        # Only test LTS versions on Ubuntu
+        include:
+        - os: ubuntu-latest
+          node_version: 12
+        - os: ubuntu-latest
+          node_version: 14
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ matrix.node_version }}"}
+      - run: npm install
+      - uses: dart-lang/setup-dart@v1
+        with: {sdk: stable}
+      - uses: arduino/setup-protoc@v1
+        with:
+          version: ${{ env.PROTOC_VERSION }}
+          repo-token: '${{ github.token }}'
         
       - name: Install Embedded Host
-        if: ${{ matrix.impl == 'Embedded Host' }}
         run: |
           git clone https://github.com/sass/embedded-host-node.git \
               ../embedded-host-node --depth 1
