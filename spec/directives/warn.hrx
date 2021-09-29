@@ -1,0 +1,162 @@
+<===> position/top_level/input.scss
+@warn "w";
+
+<===> position/top_level/output.css
+
+<===> position/top_level/warning
+WARNING: w
+    input.scss 1:1  root stylesheet
+
+<===> position/top_level/warning-libsass
+WARNING: w
+         on line 1:1 of input.scss
+
+<===>
+================================================================================
+<===> position/ruleset/input.scss
+a {
+  @warn "w";
+  b: c;
+}
+
+<===> position/ruleset/output.css
+a {
+  b: c;
+}
+
+<===> position/ruleset/warning
+WARNING: w
+    input.scss 2:3  root stylesheet
+
+<===> position/ruleset/warning-libsass
+WARNING: w
+         on line 2:3 of input.scss
+
+<===>
+================================================================================
+<===> position/property/options.yml
+:ignore_for:
+  - libsass
+
+<===> position/property/input.scss
+a {
+  b: {
+    @warn "w";
+    c: d;
+  }
+}
+
+<===> position/property/output.css
+a {
+  b-c: d;
+}
+
+<===> position/property/warning
+WARNING: w
+    input.scss 3:5  root stylesheet
+
+<===>
+================================================================================
+<===> position/mixin/input.scss
+@mixin b() {
+  @warn test;
+  c: d;
+}
+
+a {
+  @include b();
+}
+
+<===> position/mixin/output.css
+a {
+  c: d;
+}
+
+<===> position/mixin/warning
+WARNING: test
+    input.scss 2:3  b()
+    input.scss 7:3  root stylesheet
+
+<===> position/mixin/warning-libsass
+WARNING: test
+         on line 2:3 of input.scss, in mixin `b`
+         from line 7:12 of input.scss
+
+<===>
+================================================================================
+<===> position/function/input.scss
+@function c() {
+  @warn test;
+  @return d;
+}
+
+a {
+  b: c();
+}
+
+<===> position/function/output.css
+a {
+  b: d;
+}
+
+<===> position/function/warning
+WARNING: test
+    input.scss 2:3  c()
+    input.scss 7:6  root stylesheet
+
+<===> position/function/warning-libsass
+WARNING: test
+         on line 2:3 of input.scss, in function `c`
+         from line 7:6 of input.scss
+
+<===>
+================================================================================
+<===> escaped/options.yml
+:ignore_for:
+- libsass
+
+<===> escaped/input.scss
+@w\61rn warning;
+a {b: c}
+
+<===> escaped/output.css
+a {
+  b: c;
+}
+
+<===> escaped/warning
+WARNING: warning
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> functions_in_stack/input.scss
+@function issues-warning($a) {
+  @warn "From function: #{inspect($a)}";
+  @return $a;
+}
+
+@mixin calls-function-that-warns($a) {
+  warned: issues-warning($a);
+}
+
+.test {
+  @include calls-function-that-warns(testing);
+}
+
+<===> functions_in_stack/output.css
+.test {
+  warned: testing;
+}
+
+<===> functions_in_stack/warning
+WARNING: From function: testing
+    input.scss 2:3   issues-warning()
+    input.scss 7:11  calls-function-that-warns()
+    input.scss 11:3  root stylesheet
+
+<===> functions_in_stack/warning-libsass
+WARNING: From function: testing
+         on line 2:3 of input.scss, in function `issues-warning`
+         from line 7:11 of input.scss, in mixin `calls-function-that-warns`
+         from line 11:12 of input.scss
