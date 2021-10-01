@@ -32,12 +32,6 @@ skipForImpl('sass-embedded', () => {
           );
         });
 
-        it('compiles SCSS with explicit syntax', () => {
-          expect(compileString('$a: b; c {d: $a}', {syntax: 'scss'}).css).toBe(
-            'c {\n  d: b;\n}'
-          );
-        });
-
         it('compiles indented syntax with explicit syntax', () => {
           expect(compileString('a\n  b: c', {syntax: 'indented'}).css).toBe(
             'a {\n  b: c;\n}'
