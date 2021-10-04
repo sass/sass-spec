@@ -6,7 +6,7 @@ import {compileString, Logger} from 'sass';
 
 import {skipForImpl, captureStdio} from './utils';
 
-skipForImpl('embedded-host', () => {
+skipForImpl('sass-embedded', () => {
   it('emits debug to stderr by default', () => {
     const stdio = captureStdio(() => {
       compileString('@debug heck');
