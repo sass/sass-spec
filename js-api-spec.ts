@@ -74,8 +74,15 @@ if (argv.sassPackage) {
 }
 
 if (argv.sassSassRepo) {
+  const specPath = p.join(argv.sassSassRepo, 'spec/js-api');
+  const specIndex = p.join(specPath, 'index.d.ts');
+  if (!fs.existsSync(specIndex)) {
+    console.error(`${specIndex} doesn't exist!`);
+    process.exit(1);
+  }
+
   fs.symlinkSync(
-    p.resolve(p.join(argv.sassSassRepo, 'spec/js-api')),
+    p.resolve(specPath),
     p.join(dir, 'node_modules', '@types', 'sass', 'js-api')
   );
   fs.writeFileSync(

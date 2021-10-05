@@ -63,7 +63,10 @@ expect.extend({
             message: () => `expected ${received} to throw`,
             pass: false,
           }),
-          thrown => verifyThrown(thrown, options)
+          thrown => {
+            console.log('verify thrown');
+            return verifyThrown(thrown, options);
+          }
         );
       }
     } catch (thrown: unknown) {
