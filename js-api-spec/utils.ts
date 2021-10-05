@@ -6,6 +6,7 @@ import {URL} from 'url';
 
 import 'jest-extended';
 import * as sass from 'sass';
+import interceptStdout from 'intercept-stdout';
 
 /** The name of the implementation of Sass being tested. */
 export const sassImpl = sass.info.split('\t')[0];
@@ -150,4 +151,26 @@ export function skipForImpl(
   } else {
     block();
   }
+}
+
+/** Runs `block` and captures any stdout or stderr it emits. */
+export function captureStdio(block: () => void): {out: string; err: string} {
+  let out = '';
+  let err = '';
+  const unhook = interceptStdout(
+    chunk => {
+      out += chunk;
+    },
+    chunk => {
+      err += chunk;
+    }
+  );
+
+  try {
+    block();
+  } finally {
+    unhook();
+  }
+
+  return {out, err};
 }
