@@ -161,6 +161,7 @@ d {
 <===>
 ================================================================================
 <===> facade_contains_multiple_configured_forwards/input.scss
+// Regression test for sass/dart-sass/#1343.
 @use "midstream" with (
   $a: twice-configured a,
   $b: twice-configured b,
@@ -168,17 +169,17 @@ d {
 );
 
 <===> facade_contains_multiple_configured_forwards/_midstream.scss
-@forward "upstream1" with ($a: configured a !default);
-@forward "upstream2" with ($b: configured b !default);
+@forward "left" with ($a: configured a !default);
+@forward "right" with ($b: configured b !default);
 
 $c: original c !default;
 c {c: $c}
 
-<===> facade_contains_multiple_configured_forwards/_upstream1.scss
+<===> facade_contains_multiple_configured_forwards/_left.scss
 $a: original a !default;
 a {a: $a}
 
-<===> facade_contains_multiple_configured_forwards/_upstream2.scss
+<===> facade_contains_multiple_configured_forwards/_right.scss
 $b: original b !default;
 b {b: $b}
 
