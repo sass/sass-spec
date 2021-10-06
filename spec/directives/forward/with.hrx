@@ -164,11 +164,15 @@ d {
 @use "midstream" with (
   $a: twice-configured a,
   $b: twice-configured b,
+  $c: configured c,
 );
 
 <===> facade_contains_multiple_configured_forwards/_midstream.scss
 @forward "upstream1" with ($a: configured a !default);
 @forward "upstream2" with ($b: configured b !default);
+
+$c: original c !default;
+c {c: $c}
 
 <===> facade_contains_multiple_configured_forwards/_upstream1.scss
 $a: original a !default;
@@ -185,6 +189,10 @@ a {
 
 b {
   b: twice-configured b;
+}
+
+c {
+  c: configured c;
 }
 
 <===>
