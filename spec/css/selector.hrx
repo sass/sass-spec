@@ -495,3 +495,26 @@ Error: unterminated attribute selector for a
 .u\28 {
   a: b;
 }
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/where/nesting/options.yml
+---
+:todo:
+- sass/dart-sass#1451
+:ignore_for:
+- libsass
+
+<===> placeholder/pseudoselectors/where/nesting/input.scss
+a {
+  :where(&) {
+    b: c;
+  }
+}
+
+<===> placeholder/pseudoselectors/where/nesting/output.css
+:where(a) {
+  b: c;
+}
+
+<===>
