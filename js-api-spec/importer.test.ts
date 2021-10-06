@@ -419,9 +419,7 @@ skipForImpl('sass-embedded', () => {
       mock({'dir/_other.scss': 'a {b: c}'});
 
       const result = compileString('@import "other";', {
-        importers: [
-          {findFileUrl: () => ({url: pathToFileURL('dir/_other.scss')})},
-        ],
+        importers: [{findFileUrl: () => pathToFileURL('dir/_other.scss')}],
       });
       expect(result.css).toBe('a {\n  b: c;\n}');
     });
@@ -430,7 +428,7 @@ skipForImpl('sass-embedded', () => {
       mock({'dir/other/_index.scss': 'a {b: c}'});
 
       const result = compileString('@import "other";', {
-        importers: [{findFileUrl: () => ({url: pathToFileURL('dir/other')})}],
+        importers: [{findFileUrl: () => pathToFileURL('dir/other')}],
       });
       expect(result.css).toBe('a {\n  b: c;\n}');
     });
@@ -449,9 +447,7 @@ skipForImpl('sass-embedded', () => {
       mock({'dir/_other.scss': 'a {from: dir}'});
 
       const result = compileString('@import "other";', {
-        importers: [
-          {findFileUrl: () => ({url: pathToFileURL('nonexistent/other')})},
-        ],
+        importers: [{findFileUrl: () => pathToFileURL('nonexistent/other')}],
         loadPaths: ['dir'],
       });
       expect(result.css).toBe('a {\n  from: dir;\n}');
@@ -471,27 +467,10 @@ skipForImpl('sass-embedded', () => {
       }).toThrowSassException({line: 0});
     });
 
-    it("uses an importer's source map URL", () => {
-      mock({'dir/_other.scss': 'a {b: c}'});
-      const result = compileString('@import "other";', {
-        importers: [
-          {
-            findFileUrl: () => ({
-              url: pathToFileURL('dir/other'),
-              sourceMapUrl: new URL('u:blue'),
-            }),
-          },
-        ],
-        sourceMap: true,
-      });
-
-      expect(result.sourceMap!.sources).toInclude('u:blue');
-    });
-
     it('rejects a non-file URL', () => {
       expect(() => {
         compileString('@import "other";', {
-          importers: [{findFileUrl: () => ({url: new URL('u:other.scss')})}],
+          importers: [{findFileUrl: () => new URL('u:other.scss')}],
         });
       }).toThrowSassException({line: 0});
     });
@@ -500,7 +479,7 @@ skipForImpl('sass-embedded', () => {
       it('.scss, parses it as SCSS', () => {
         mock({'dir/_other.scss': '$a: value; b {c: $a}'});
         const result = compileString('@import "other";', {
-          importers: [{findFileUrl: () => ({url: pathToFileURL('dir/other')})}],
+          importers: [{findFileUrl: () => pathToFileURL('dir/other')}],
         });
         expect(result.css).toBe('b {\n  c: value;\n}');
       });
@@ -508,7 +487,7 @@ skipForImpl('sass-embedded', () => {
       it('.sass, parses it as the indented syntax', () => {
         mock({'dir/_other.sass': '$a: value\nb\n  c: $a'});
         const result = compileString('@import "other";', {
-          importers: [{findFileUrl: () => ({url: pathToFileURL('dir/other')})}],
+          importers: [{findFileUrl: () => pathToFileURL('dir/other')}],
         });
         expect(result.css).toBe('b {\n  c: value;\n}');
       });
@@ -516,7 +495,7 @@ skipForImpl('sass-embedded', () => {
       it('.css, allows plain CSS', () => {
         mock({'dir/_other.css': 'a {b: c}'});
         const result = compileString('@import "other";', {
-          importers: [{findFileUrl: () => ({url: pathToFileURL('dir/other')})}],
+          importers: [{findFileUrl: () => pathToFileURL('dir/other')}],
         });
         expect(result.css).toBe('a {\n  b: c;\n}');
       });
@@ -525,9 +504,7 @@ skipForImpl('sass-embedded', () => {
         mock({'dir/_other.css': '$a: value; b {c: $a}'});
         expect(() => {
           compileString('@import "other";', {
-            importers: [
-              {findFileUrl: () => ({url: pathToFileURL('dir/other')})},
-            ],
+            importers: [{findFileUrl: () => pathToFileURL('dir/other')}],
           });
         }).toThrowSassException({
           line: 0,
@@ -544,7 +521,7 @@ skipForImpl('sass-embedded', () => {
             {
               findFileUrl(url, options) {
                 expect(options.fromImport).toBeTrue();
-                return {url: pathToFileURL('dir/other')};
+                return pathToFileURL('dir/other');
               },
             },
           ],
@@ -558,7 +535,7 @@ skipForImpl('sass-embedded', () => {
             {
               findFileUrl(url, {fromImport}) {
                 expect(fromImport).toBeFalse();
-                return {url: pathToFileURL('dir/other')};
+                return pathToFileURL('dir/other');
               },
             },
           ],
@@ -572,8 +549,7 @@ skipForImpl('sass-embedded', () => {
         const result = await compileStringAsync('@use "other"', {
           importers: [
             {
-              findFileUrl: () =>
-                Promise.resolve({url: pathToFileURL('dir/other')}),
+              findFileUrl: () => Promise.resolve(pathToFileURL('dir/other')),
             },
           ],
         });
@@ -604,7 +580,7 @@ skipForImpl('sass-embedded', () => {
         compileString('', {
           importers: [
             {
-              findFileUrl: () => ({url: pathToFileURL('dir/other')}),
+              findFileUrl: () => pathToFileURL('dir/other'),
               canonicalize: () => new URL('u:other'),
               load: () => ({contents: 'a {b: c}', syntax: 'scss'}),
             } as unknown as Importer<'sync'>,
