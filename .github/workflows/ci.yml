@@ -140,10 +140,13 @@ jobs:
           npm install ../dart-sass/build/npm
 
       - name: Check out Sass specification
-        run: git clone https://github.com/sass/sass.git ../sass --depth 1
+        uses: sass/clone-linked-repo@v1
+        with:
+          repo: sass/sass
+          path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassSassRepo ../sass
+        run: npm run js-api-spec -- --sassSassRepo language
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
@@ -196,7 +199,10 @@ jobs:
           npm install sass@file:../embedded-host-node
 
       - name: Check out Sass specification
-        run: git clone https://github.com/sass/sass.git ../sass --depth 1
+        uses: sass/clone-linked-repo@v1
+        with:
+          repo: sass/sass
+          path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassSassRepo ../sass
+        run: npm run js-api-spec -- --sassSassRepo language
