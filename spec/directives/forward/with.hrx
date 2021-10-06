@@ -160,6 +160,44 @@ d {
 
 <===>
 ================================================================================
+<===> facade_contains_multiple_configured_forwards/input.scss
+// Regression test for sass/dart-sass/#1343.
+@use "midstream" with (
+  $a: twice-configured a,
+  $b: twice-configured b,
+  $c: configured c,
+);
+
+<===> facade_contains_multiple_configured_forwards/_midstream.scss
+@forward "left" with ($a: configured a !default);
+@forward "right" with ($b: configured b !default);
+
+$c: original c !default;
+c {c: $c}
+
+<===> facade_contains_multiple_configured_forwards/_left.scss
+$a: original a !default;
+a {a: $a}
+
+<===> facade_contains_multiple_configured_forwards/_right.scss
+$b: original b !default;
+b {b: $b}
+
+<===> facade_contains_multiple_configured_forwards/output.css
+a {
+  a: twice-configured a;
+}
+
+b {
+  b: twice-configured b;
+}
+
+c {
+  c: configured c;
+}
+
+<===>
+================================================================================
 <===> some_unconfigured/input.scss
 @use "midstream";
 
