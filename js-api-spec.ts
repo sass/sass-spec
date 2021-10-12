@@ -24,6 +24,7 @@ const args = yargs(process.argv.slice(2))
       'the sass package being tested declares its own types, those are used ' +
       'instead, but this can provide type declarations for packages without ' +
       'them.',
+    demand: true,
   })
   .option('sassPackage', {
     type: 'string',
@@ -31,6 +32,7 @@ const args = yargs(process.argv.slice(2))
       'The path to the npm package that exports the Sass API. ' +
       'Used to test locally against different APIs without having to install ' +
       'and uninstall them.',
+    demand: true,
   })
   .option('help', {
     type: 'boolean',
@@ -54,7 +56,8 @@ const tmpObject = tmp.dirSync({
 });
 const dir = tmpObject.name;
 del.sync(dir); // TODO(nweiz): Use fs.rmSync() when we drop support for Node 12
-fs.mkdirSync(p.join(dir, 'node_modules', '@types', 'sass'), {recursive: true});
+const sassPackagePath = p.join(dir, 'node_modules', 'sass');
+fs.mkdirSync(sassPackagePath, {recursive: true});
 
 const configPath = p.join(dir, 'jest.config.json');
 fs.writeFileSync(
@@ -66,33 +69,32 @@ fs.writeFileSync(
   })
 );
 
-if (argv.sassPackage) {
-  fs.symlinkSync(
-    p.resolve(argv.sassPackage),
-    p.join(dir, 'node_modules', 'sass')
-  );
+// We want to use the type information from --sassSassRepo even if --sassPackage
+// is written in TypeScript, because the specs may test behavior that's not yet
+// implemented in --sassPackage and we don't want that to cause a compile error.
+// We accomplish this by creating a JavaScript package named "sass" that
+// requires and re-exports --sassPackage, and using the type annotations from
+// --sassSassRepo as that package's annotations.
+fs.writeFileSync(
+  `${sassPackagePath}/index.js`,
+  `module.exports = require("${p.resolve(argv.sassPackage)}");`
+);
+
+const specPath = p.join(argv.sassSassRepo, 'spec/js-api');
+const specIndex = p.join(specPath, 'index.d.ts');
+if (!fs.existsSync(specIndex)) {
+  console.error(`${specIndex} doesn't exist!`);
+  process.exit(1);
 }
 
-if (argv.sassSassRepo) {
-  const specPath = p.join(argv.sassSassRepo, 'spec/js-api');
-  const specIndex = p.join(specPath, 'index.d.ts');
-  if (!fs.existsSync(specIndex)) {
-    console.error(`${specIndex} doesn't exist!`);
-    process.exit(1);
-  }
-
-  fs.symlinkSync(
-    p.resolve(specPath),
-    p.join(dir, 'node_modules', '@types', 'sass', 'js-api')
-  );
-  fs.writeFileSync(
-    p.join(dir, 'node_modules', '@types', 'sass', 'package.json'),
-    JSON.stringify({
-      name: '@types/sass',
-      types: 'js-api/index.d.ts',
-    })
-  );
-}
+fs.symlinkSync(p.resolve(specPath), p.join(sassPackagePath, 'js-api'));
+fs.writeFileSync(
+  p.join(sassPackagePath, 'package.json'),
+  JSON.stringify({
+    name: 'sass',
+    types: 'js-api/index.d.ts',
+  })
+);
 
 del.sync(p.join('js-api-spec', 'node_modules'));
 fs.symlinkSync(
