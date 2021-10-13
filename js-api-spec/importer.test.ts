@@ -453,6 +453,59 @@ skipForImpl('sass-embedded', () => {
       expect(result.css).toBe('a {\n  from: dir;\n}');
     });
 
+    it('passes an absolute non-file: URL to the importer', () => {
+      mock({'dir/_other.scss': 'a {b: c}'});
+
+      const result = compileString('@import "u:other";', {
+        importers: [
+          {
+            findFileUrl(url) {
+              expect(url).toEqual('u:other');
+              return pathToFileURL('dir/other');
+            },
+          },
+        ],
+      });
+      expect(result.css).toBe('a {\n  b: c;\n}');
+    });
+
+    it("doesn't pass an absolute file: URL to the importer", () => {
+      mock({'dir/_other.scss': 'a {b: c}'});
+
+      const result = compileString(`@import "${pathToFileURL('dir/other')}";`, {
+        importers: [
+          {
+            findFileUrl() {
+              fail('findFileUrl() should not be called');
+            },
+          },
+        ],
+      });
+      expect(result.css).toBe('a {\n  b: c;\n}');
+    });
+
+    it("doesn't pass relative loads to the importer", () => {
+      mock({'dir/_midstream.scss': '@import "upstream"'});
+      mock({'dir/_upstream.scss': 'a {b: c}'});
+
+      let count = 0;
+      const result = compileString('@import "midstream";', {
+        importers: [
+          {
+            findFileUrl() {
+              if (count === 0) {
+                count++;
+                return pathToFileURL('dir/upstream');
+              } else {
+                fail('findFileUrl() should only be called once');
+              }
+            },
+          },
+        ],
+      });
+      expect(result.css).toBe('a {\n  b: c;\n}');
+    });
+
     it('wraps an error', () => {
       expect(() => {
         compileString('@import "other";', {
