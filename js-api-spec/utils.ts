@@ -8,6 +8,8 @@ import 'jest-extended';
 import * as sass from 'sass';
 import interceptStdout from 'intercept-stdout';
 
+export {sandbox} from './sandbox';
+
 /** The name of the implementation of Sass being tested. */
 export const sassImpl = sass.info.split('\t')[0];
 
@@ -63,10 +65,7 @@ expect.extend({
             message: () => `expected ${received} to throw`,
             pass: false,
           }),
-          thrown => {
-            console.log('verify thrown');
-            return verifyThrown(thrown, options);
-          }
+          thrown => verifyThrown(thrown, options)
         );
       }
     } catch (thrown: unknown) {
