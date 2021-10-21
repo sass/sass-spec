@@ -20,18 +20,12 @@ const args = yargs(process.argv.slice(2))
   .option('sassSassRepo', {
     type: 'string',
     description:
-      'The path to the sass/sass repo. Used to load type declarations. If ' +
-      'the sass package being tested declares its own types, those are used ' +
-      'instead, but this can provide type declarations for packages without ' +
-      'them.',
+      'The path to the sass/sass repo. Used to load type declarations.',
     demand: true,
   })
   .option('sassPackage', {
     type: 'string',
-    description:
-      'The path to the npm package that exports the Sass API. ' +
-      'Used to test locally against different APIs without having to install ' +
-      'and uninstall them.',
+    description: 'The path to the npm package that exports the Sass API.',
     demand: true,
   })
   .option('help', {
