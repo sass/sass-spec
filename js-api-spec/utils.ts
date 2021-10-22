@@ -6,6 +6,7 @@ import {URL} from 'url';
 
 import 'jest-extended';
 import * as sass from 'sass';
+import * as immutable from 'immutable';
 import interceptStdout from 'intercept-stdout';
 
 export {sandbox} from './sandbox';
@@ -175,4 +176,15 @@ export function captureStdio(block: () => void): {out: string; err: string} {
   }
 
   return {out, err};
+}
+
+/**
+ * Asserts that `val1` and `val2` are equal and have the same hashcode.
+ */
+export function expectEqualWithHashCode(
+  val1: immutable.ValueObject,
+  val2: immutable.ValueObject
+): void {
+  expect(val1.equals(val2)).toBe(true);
+  expect(val1.hashCode()).toBe(val2.hashCode());
 }
