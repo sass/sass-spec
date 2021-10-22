@@ -22,7 +22,7 @@ export default class SpecOptions {
   /** Create SpecOptions from yaml contents (as a string) */
   static fromYaml(content: string): SpecOptions {
     // TODO validate
-    return new SpecOptions((yaml.safeLoad(content) ?? {}) as OptionsData);
+    return new SpecOptions((yaml.load(content) ?? {}) as OptionsData);
   }
 
   /** Create new SpecOptions by merging this with other options */
@@ -72,6 +72,6 @@ export default class SpecOptions {
 
   /** Convert this options object to a Yaml string */
   toYaml(): string {
-    return yaml.safeDump(this.data).replace(/'(:[^']+)':/g, '$1:');
+    return yaml.dump(this.data).replace(/'(:[^']+)':/g, '$1:');
   }
 }

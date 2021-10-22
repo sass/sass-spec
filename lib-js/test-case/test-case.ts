@@ -50,7 +50,8 @@ export default class TestCase {
     const testCase = new TestCase(dir, impl, compiler, todoMode);
     try {
       testCase._result = await testCase.run();
-    } catch (error) {
+    } catch (caught) {
+      const error = caught instanceof Error ? caught : new Error(`${caught}`);
       testCase._actual = {isSuccess: false, error: error.toString()};
       testCase._result = {type: 'error', error};
     }

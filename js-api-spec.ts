@@ -34,7 +34,7 @@ const args = yargs(process.argv.slice(2))
     hidden: true,
   });
 
-const argv = args.argv;
+const argv = args.parseSync();
 
 if (argv.help) {
   args.showHelp();
@@ -49,7 +49,8 @@ const tmpObject = tmp.dirSync({
   unsafeCleanup: true,
 });
 const dir = tmpObject.name;
-del.sync(dir); // TODO(nweiz): Use fs.rmSync() when we drop support for Node 12
+// TODO(nweiz): Use fs.rmSync() when we drop support for Node 12
+del.sync(dir, {force: true});
 const sassPackagePath = p.join(dir, 'node_modules', 'sass');
 fs.mkdirSync(sassPackagePath, {recursive: true});
 

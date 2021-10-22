@@ -10,7 +10,10 @@ skipForImpl('dart-sass', () => {
   describe('SassColor', () => {
     describe('construction', () => {
       describe('type', () => {
-        const color = SassColor.rgb(18, 52, 86);
+        let color: SassColor;
+        beforeEach(() => {
+          color = SassColor.rgb(18, 52, 86);
+        });
 
         it('is a value', () => {
           expect(color).toBeInstanceOf(Value);
@@ -83,7 +86,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('an RGB color', () => {
-      const color = SassColor.rgb(18, 52, 86);
+      let color: SassColor;
+      beforeEach(() => {
+        color = SassColor.rgb(18, 52, 86);
+      });
 
       it('has RGB channels', () => {
         expect(color.red).toBe(18);
@@ -119,7 +125,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('an HSL color', () => {
-      const color = SassColor.hsl(120, 42, 42);
+      let color: SassColor;
+      beforeEach(() => {
+        color = SassColor.hsl(120, 42, 42);
+      });
 
       it('has RGB channels', () => {
         expect(color.red).toBe(62);
@@ -153,7 +162,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('an HWB color', () => {
-      const color = SassColor.hwb(120, 42, 42);
+      let color: SassColor;
+      beforeEach(() => {
+        color = SassColor.hwb(120, 42, 42);
+      });
 
       it('has RGB channels', () => {
         expect(color.red).toBe(107);
@@ -189,7 +201,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('changing color values', () => {
-      const color = SassColor.rgb(18, 52, 86);
+      let color: SassColor;
+      beforeEach(() => {
+        color = SassColor.rgb(18, 52, 86);
+      });
 
       describe('changeRgb()', () => {
         it('changes RGB values', () => {

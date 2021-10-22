@@ -13,7 +13,10 @@ skipForImpl('dart-sass', () => {
   describe('Sass number', () => {
     describe('unitless', () => {
       describe('integer', () => {
-        const number = new SassNumber(123);
+        let number: SassNumber;
+        beforeEach(() => {
+          number = new SassNumber(123);
+        });
 
         describe('construction', () => {
           it('is a value', () => {
@@ -214,7 +217,10 @@ skipForImpl('dart-sass', () => {
       });
 
       describe('fuzzy integer', () => {
-        const number = new SassNumber(123.000000000001);
+        let number: SassNumber;
+        beforeEach(() => {
+          number = new SassNumber(123.000000000001);
+        });
 
         it('has the correct value', () => {
           expect(number.value).toBe(123.000000000001);
@@ -252,7 +258,10 @@ skipForImpl('dart-sass', () => {
       });
 
       describe('double', () => {
-        const number = new SassNumber(123.456);
+        let number: SassNumber;
+        beforeEach(() => {
+          number = new SassNumber(123.456);
+        });
 
         it('has the correct value', () => {
           expect(number.value).toBe(123.456);
@@ -267,7 +276,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('single numerator unit', () => {
-      const number = new SassNumber(123, 'px');
+      let number: SassNumber;
+      beforeEach(() => {
+        number = new SassNumber(123, 'px');
+      });
 
       describe('construction', () => {
         it('has that unit', () => {
@@ -481,9 +493,12 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('numerator and denominator units', () => {
-      const number = SassNumber.withUnits(123, {
-        numeratorUnits: ['px'],
-        denominatorUnits: ['ms'],
+      let number: SassNumber;
+      beforeEach(() => {
+        number = SassNumber.withUnits(123, {
+          numeratorUnits: ['px'],
+          denominatorUnits: ['ms'],
+        });
       });
 
       describe('construction', () => {
