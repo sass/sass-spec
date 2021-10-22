@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassNumber, SassString} from 'sass';
-import {expectEqualWithHashCode, skipForImpl} from '../utils';
+import {skipForImpl} from '../utils';
 
 skipForImpl('dart-sass', () => {
   describe('Sass string', () => {
@@ -34,7 +34,7 @@ skipForImpl('dart-sass', () => {
 
       it('is equal to the same string', () => {
         const string = new SassString('nb', {quotes: true});
-        expectEqualWithHashCode(string, new SassString('nb', {quotes: false}));
+        expect(string).toEqualWithHash(new SassString('nb', {quotes: false}));
       });
 
       it('is a value', () => {

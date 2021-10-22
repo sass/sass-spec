@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassNull} from 'sass';
-import {expectEqualWithHashCode, skipForImpl} from '../utils';
+import {skipForImpl} from '../utils';
 
 skipForImpl('dart-sass', () => {
   describe('Sass null', () => {
@@ -18,7 +18,7 @@ skipForImpl('dart-sass', () => {
     });
 
     it('is equal to itself', () => {
-      expectEqualWithHashCode(value, sassNull);
+      expect(value).toEqualWithHash(sassNull);
     });
 
     it('is a value', () => {

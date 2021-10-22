@@ -5,7 +5,7 @@
 import {List} from 'immutable';
 
 import {Value, SassNumber} from 'sass';
-import {expectEqualWithHashCode, skipForImpl} from '../utils';
+import {skipForImpl} from '../utils';
 
 const precision = 10;
 
@@ -69,16 +69,14 @@ skipForImpl('dart-sass', () => {
 
         describe('equality', () => {
           it('equals the same number', () => {
-            expectEqualWithHashCode(number, new SassNumber(123));
+            expect(number).toEqualWithHash(new SassNumber(123));
           });
 
           it('equals the same number within precision tolerance', () => {
-            expectEqualWithHashCode(
-              number,
+            expect(number).toEqualWithHash(
               new SassNumber(123 + Math.pow(10, -precision - 2))
             );
-            expectEqualWithHashCode(
-              number,
+            expect(number).toEqualWithHash(
               new SassNumber(123 - Math.pow(10, -precision - 2))
             );
           });
@@ -240,16 +238,14 @@ skipForImpl('dart-sass', () => {
         });
 
         it('equals the same number', () => {
-          expectEqualWithHashCode(
-            number,
+          expect(number).toEqualWithHash(
             new SassNumber(123 + Math.pow(10, -precision - 2))
           );
         });
 
         it('equals the same number within precision tolerance', () => {
-          expectEqualWithHashCode(number, new SassNumber(123));
-          expectEqualWithHashCode(
-            number,
+          expect(number).toEqualWithHash(new SassNumber(123));
+          expect(number).toEqualWithHash(
             new SassNumber(123 - Math.pow(10, -precision - 2))
           );
         });
@@ -451,11 +447,11 @@ skipForImpl('dart-sass', () => {
 
       describe('equality', () => {
         it('equals the same number', () => {
-          expectEqualWithHashCode(number, new SassNumber(123, 'px'));
+          expect(number).toEqualWithHash(new SassNumber(123, 'px'));
         });
 
         it('equals an equivalent number', () => {
-          expectEqualWithHashCode(number, new SassNumber(1.28125, 'in'));
+          expect(number).toEqualWithHash(new SassNumber(1.28125, 'in'));
         });
 
         it("doesn't equal a unitless number", () => {
@@ -499,8 +495,8 @@ skipForImpl('dart-sass', () => {
         });
 
         it('does not simplify incompatible units', () => {
-          expectEqualWithHashCode(number.numeratorUnits, List(['px']));
-          expectEqualWithHashCode(number.denominatorUnits, List(['ms']));
+          expect(number.numeratorUnits).toEqualWithHash(List(['px']));
+          expect(number.denominatorUnits).toEqualWithHash(List(['ms']));
         });
 
         it('simplifies compatible units', () => {
@@ -763,8 +759,7 @@ skipForImpl('dart-sass', () => {
 
       describe('equality', () => {
         it('equals the same number', () => {
-          expectEqualWithHashCode(
-            number,
+          expect(number).toEqualWithHash(
             SassNumber.withUnits(123, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
@@ -773,8 +768,7 @@ skipForImpl('dart-sass', () => {
         });
 
         it('equals an equivalent number', () => {
-          expectEqualWithHashCode(
-            number,
+          expect(number).toEqualWithHash(
             SassNumber.withUnits(1281.25, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
