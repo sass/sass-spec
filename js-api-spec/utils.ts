@@ -3,9 +3,11 @@
 // https://opensource.org/licenses/MIT.
 
 import {URL} from 'url';
+import * as util from 'util';
 
 import 'jest-extended';
 import * as sass from 'sass';
+import * as immutable from 'immutable';
 import interceptStdout from 'intercept-stdout';
 
 export {sandbox} from './sandbox';
@@ -33,6 +35,12 @@ declare global {
        * no URL.
        */
       toThrowSassException(object: {line?: number; noUrl: boolean}): R;
+
+      /**
+       * Matches a value that's `.equal()` to and has the same `.hashCode()` as
+       * `value`.
+       */
+      toEqualWithHash(value: immutable.ValueObject): R;
     }
   }
 }
@@ -76,6 +84,55 @@ expect.extend({
       message: () => `expected ${received} to throw`,
       pass: false,
     };
+  },
+
+  toEqualWithHash(
+    received: unknown,
+    actual: immutable.ValueObject
+  ): SyncExpectationResult {
+    if (typeof received !== 'object' || received === null) {
+      return {
+        message: () => `expected ${util.inspect(received)} to be an object`,
+        pass: false,
+      };
+    } else if (
+      !('equals' in received) ||
+      typeof (received as {equals: unknown}).equals !== 'function'
+    ) {
+      return {
+        message: () =>
+          `expected ${util.inspect(received)} to have an "equals" method`,
+        pass: false,
+      };
+    } else if (
+      !('hashCode' in received) ||
+      typeof (received as {hashCode: unknown}).hashCode !== 'function'
+    ) {
+      return {
+        message: () =>
+          `expected ${util.inspect(received)} to have a "hashCode" method`,
+        pass: false,
+      };
+    }
+
+    const receivedValue = received as immutable.ValueObject;
+    if (!receivedValue.equals(actual)) {
+      return {
+        message: () => `expected ${received} to be .equal() to ${actual}`,
+        pass: false,
+      };
+    } else if (receivedValue.hashCode() !== actual.hashCode()) {
+      return {
+        message: () =>
+          `expected ${received} to have the same .hashCode() as ${actual}`,
+        pass: false,
+      };
+    } else {
+      return {
+        message: () => `expected ${received} not to be .equal() to ${actual}`,
+        pass: true,
+      };
+    }
   },
 });
 
