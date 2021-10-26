@@ -233,14 +233,3 @@ export function captureStdio(block: () => void): {out: string; err: string} {
 
   return {out, err};
 }
-
-/**
- * Asserts that `val1` and `val2` are equal and have the same hashcode.
- */
-export function expectEqualWithHashCode(
-  val1: sass.Value,
-  val2: sass.Value
-): void {
-  expect(val1.equals(val2)).toBe(true);
-  expect(val1.hashCode()).toBe(val2.hashCode());
-}
