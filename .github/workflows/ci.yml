@@ -150,10 +150,10 @@ jobs:
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
-  js_api_embedded_host:
-    name: "JS API | Embedded Host | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+  js_api_sass_embedded:
+    name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip embedded-host')"
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')"
 
     strategy:
       fail-fast: false
@@ -179,7 +179,7 @@ jobs:
           version: ${{ env.PROTOC_VERSION }}
           repo-token: '${{ github.token }}'
         
-      - name: Install Embedded Host
+      - name: Install sass-embedded
         run: |
           git clone https://github.com/sass/embedded-host-node.git \
               ../embedded-host-node --depth 1
