@@ -219,14 +219,42 @@ export function captureStdio(block: () => void): {out: string; err: string} {
   const unhook = interceptStdout(
     chunk => {
       out += chunk;
+      return '';
     },
     chunk => {
       err += chunk;
+      return '';
     }
   );
 
   try {
     block();
+  } finally {
+    unhook();
+  }
+
+  return {out, err};
+}
+
+/** Like `captureStdio` but asynchronous. */
+export async function captureStdioAsync(
+  block: () => Promise<void>
+): Promise<{out: string; err: string}> {
+  let out = '';
+  let err = '';
+  const unhook = interceptStdout(
+    chunk => {
+      out += chunk;
+      return '';
+    },
+    chunk => {
+      err += chunk;
+      return '';
+    }
+  );
+
+  try {
+    await block();
   } finally {
     unhook();
   }
