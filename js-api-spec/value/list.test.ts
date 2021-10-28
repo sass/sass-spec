@@ -1,0 +1,283 @@
+// Copyright 2021 Google Inc. Use of this source code is governed by an
+// MIT-style license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
+import {Value, SassList, SassMap, SassNumber, SassString} from 'sass';
+import {List} from 'immutable';
+
+import {skipForImpl} from '../utils';
+
+skipForImpl('dart-sass', () => {
+  describe('SassList', () => {
+    describe('construction', () => {
+      const list = new SassList(
+        [new SassString('a'), new SassString('b'), new SassString('c')],
+        {separator: ','}
+      );
+
+      it('is a value', () => {
+        expect(list).toBeInstanceOf(Value);
+      });
+
+      it('is a list', () => {
+        expect(list).toBeInstanceOf(SassList);
+      });
+
+      it("isn't any other type", () => {
+        expect(() => list.assertBoolean()).toThrow();
+        expect(() => list.assertColor()).toThrow();
+        expect(() => list.assertFunction()).toThrow();
+        expect(() => list.assertMap()).toThrow();
+        expect(list.tryMap()).toBe(null);
+        expect(() => list.assertNumber()).toThrow();
+        expect(() => list.assertString()).toThrow();
+      });
+
+      it('returns its contents as a list', () => {
+        expect(
+          list.asList.equals(
+            List([
+              new SassString('a'),
+              new SassString('b'),
+              new SassString('c'),
+            ])
+          )
+        ).toBe(true);
+      });
+    });
+
+    describe('equality', () => {
+      const list = new SassList(
+        [new SassString('a'), new SassString('b'), new SassString('c')],
+        {separator: ','}
+      );
+
+      it('equals the same list', () => {
+        expect(list).toEqualWithHash(
+          new SassList(
+            [new SassString('a'), new SassString('b'), new SassString('c')],
+            {separator: ','}
+          )
+        );
+      });
+
+      it("doesn't equal a value with different metadata", () => {
+        expect(
+          list.equals(
+            new SassList(
+              [
+                new SassString('a', {quotes: false}),
+                new SassString('b', {quotes: false}),
+                new SassString('c', {quotes: false}),
+              ],
+              {separator: ' '}
+            )
+          )
+        ).toBe(false);
+
+        expect(
+          list.equals(
+            new SassList(
+              [
+                new SassString('a', {quotes: false}),
+                new SassString('b', {quotes: false}),
+                new SassString('c', {quotes: false}),
+              ],
+              {separator: ',', brackets: true}
+            )
+          )
+        ).toBe(false);
+      });
+
+      it("doesn't equal a value with different contents", () => {
+        expect(
+          list.equals(
+            new SassList(
+              [
+                new SassString('a', {quotes: false}),
+                new SassString('x', {quotes: false}),
+                new SassString('c', {quotes: false}),
+              ],
+              {separator: ','}
+            )
+          )
+        ).toBe(false);
+      });
+    });
+
+    describe('Sass to JS index conversion', () => {
+      const list = new SassList([
+        new SassString('a'),
+        new SassString('b'),
+        new SassString('c'),
+      ]);
+
+      it('converts a positive index', () => {
+        expect(list.sassIndexToListIndex(new SassNumber(1))).toBe(0);
+        expect(list.sassIndexToListIndex(new SassNumber(2))).toBe(1);
+        expect(list.sassIndexToListIndex(new SassNumber(3))).toBe(2);
+      });
+
+      it('converts a negative index', () => {
+        expect(list.sassIndexToListIndex(new SassNumber(-1))).toBe(2);
+        expect(list.sassIndexToListIndex(new SassNumber(-2))).toBe(1);
+        expect(list.sassIndexToListIndex(new SassNumber(-3))).toBe(0);
+      });
+
+      it('rejects a non-number', () => {
+        expect(() =>
+          list.sassIndexToListIndex(new SassString('foo', {quotes: false}))
+        ).toThrow();
+      });
+
+      it('rejects a non-integer', () => {
+        expect(() => list.sassIndexToListIndex(new SassNumber(1.1))).toThrow();
+      });
+
+      it('rejects invalid indices', () => {
+        expect(() => list.sassIndexToListIndex(new SassNumber(0))).toThrow();
+        expect(() => list.sassIndexToListIndex(new SassNumber(4))).toThrow();
+        expect(() => list.sassIndexToListIndex(new SassNumber(-4))).toThrow();
+      });
+    });
+
+    describe('delimiters', () => {
+      it('defaults to comma separator and no brackets', () => {
+        const list = new SassList([
+          new SassString('a'),
+          new SassString('b'),
+          new SassString('c'),
+        ]);
+        expect(list.separator).toBe(',');
+        expect(list.hasBrackets).toBe(false);
+      });
+
+      it('supports null separators', () => {
+        const list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: null}
+        );
+        expect(list.separator).toBe(null);
+      });
+
+      it('supports space separators', () => {
+        const list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: ' '}
+        );
+        expect(list.separator).toBe(' ');
+      });
+
+      it('supports slash separators', () => {
+        const list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: '/'}
+        );
+        expect(list.separator).toBe('/');
+      });
+
+      it('supports brackets', () => {
+        const list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {brackets: true}
+        );
+        expect(list.hasBrackets).toBe(true);
+      });
+    });
+
+    describe('single-element list', () => {
+      const list = new SassList([new SassNumber(1)]);
+
+      it('has a comma separator', () => {
+        expect(list.separator).toBe(',');
+      });
+
+      it('has no brackets', () => {
+        expect(list.hasBrackets).toBe(false);
+      });
+
+      it('returns its contents as a list', () => {
+        expect(list.asList.equals(List([new SassNumber(1)]))).toBe(true);
+      });
+    });
+
+    describe('a scalar value', () => {
+      const string = new SassString('blue');
+
+      it('has a null separator', () => {
+        expect(string.separator).toBe(null);
+      });
+
+      it('has no brackets', () => {
+        expect(string.hasBrackets).toBe(false);
+      });
+
+      it('returns itself as a list', () => {
+        const list = string.asList;
+        expect(list.size).toBe(1);
+        expect(list.get(0)).toBe(string);
+      });
+
+      describe('Sass to JS index conversion', () => {
+        it('converts a positive index', () => {
+          expect(string.sassIndexToListIndex(new SassNumber(1))).toBe(0);
+        });
+
+        it('converts a negative index', () => {
+          expect(string.sassIndexToListIndex(new SassNumber(-1))).toBe(0);
+        });
+
+        it('rejects invalid indices', () => {
+          expect(() =>
+            string.sassIndexToListIndex(new SassNumber(0))
+          ).toThrow();
+          expect(() =>
+            string.sassIndexToListIndex(new SassNumber(2))
+          ).toThrow();
+          expect(() =>
+            string.sassIndexToListIndex(new SassNumber(-2))
+          ).toThrow();
+        });
+      });
+    });
+
+    describe('an empty list', () => {
+      const list = SassList.empty();
+
+      it('has a null separator', () => {
+        expect(list.separator).toBe(null);
+      });
+
+      it('has no brackets', () => {
+        expect(list.hasBrackets).toBe(false);
+      });
+
+      it('returns its contents as a list', () => {
+        expect(list.asList.isEmpty()).toBe(true);
+      });
+
+      it('counts as an empty map', () => {
+        expect(list.assertMap().contents.isEmpty()).toBe(true);
+        expect(list.tryMap()?.isEmpty()).toBe(true);
+      });
+
+      it('equals an empty map', () => {
+        expect(list).toEqualWithHash(SassMap.empty());
+      });
+
+      it("isn't any other type", () => {
+        expect(() => list.assertBoolean()).toThrow();
+        expect(() => list.assertColor()).toThrow();
+        expect(() => list.assertFunction()).toThrow();
+        expect(() => list.assertNumber()).toThrow();
+        expect(() => list.assertString()).toThrow();
+      });
+
+      it('rejects invalid indices', () => {
+        expect(() => list.sassIndexToListIndex(new SassNumber(0))).toThrow();
+        expect(() => list.sassIndexToListIndex(new SassNumber(1))).toThrow();
+        expect(() => list.sassIndexToListIndex(new SassNumber(-1))).toThrow();
+      });
+    });
+  });
+});
