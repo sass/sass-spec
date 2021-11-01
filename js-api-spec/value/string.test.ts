@@ -59,7 +59,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('length and index handling', () => {
-      const string = new SassString('nb');
+      let string: SassString;
+      beforeEach(() => {
+        string = new SassString('nb');
+      });
 
       it('rejects a zero index', () => {
         expect(() =>
@@ -80,7 +83,10 @@ skipForImpl('dart-sass', () => {
       });
 
       describe('ASCII', () => {
-        const string = new SassString('nb');
+        let string: SassString;
+        beforeEach(() => {
+          string = new SassString('nb');
+        });
 
         // sass/embedded-host-node#72
         skipForImpl('sass-embedded', () => {
@@ -110,7 +116,10 @@ skipForImpl('dart-sass', () => {
       });
 
       describe('Unicode', () => {
-        const string = new SassString('a👭b👬c');
+        let string: SassString;
+        beforeEach(() => {
+          string = new SassString('a👭b👬c');
+        });
 
         // sass/embedded-host-node#72
         skipForImpl('sass-embedded', () => {

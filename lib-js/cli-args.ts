@@ -97,7 +97,8 @@ export async function parseArgs(
         'When a test fails, enter into a dialog for how to handle it',
       type: 'boolean',
       default: false,
-    }).argv;
+    })
+    .parseSync();
 
   const root = path.resolve(process.cwd(), argv['root-path']);
 
