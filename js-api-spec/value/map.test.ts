@@ -196,6 +196,11 @@ skipForImpl('dart-sass', () => {
         expect(map.asList.isEmpty()).toBe(true);
       });
 
+      it('equals another empty map', () => {
+        expect(map).toEqualWithHash(new SassMap(OrderedMap()));
+        expect(map).toEqualWithHash(SassMap.empty());
+      });
+
       it('equals an empty list', () => {
         expect(map).toEqualWithHash(SassList.empty());
       });

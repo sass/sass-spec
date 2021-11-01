@@ -61,15 +61,22 @@ skipForImpl('dart-sass', () => {
         );
       });
 
-      it("doesn't equal a value with different metadata", () => {
+      it("doesn't equal the same list with a different ordering", () => {
         expect(
           list.equals(
             new SassList(
-              [
-                new SassString('a', {quotes: false}),
-                new SassString('b', {quotes: false}),
-                new SassString('c', {quotes: false}),
-              ],
+              [new SassString('c'), new SassString('b'), new SassString('a')],
+              {separator: ','}
+            )
+          )
+        ).toBe(false);
+      });
+
+      it("doesn't equal a list with different metadata", () => {
+        expect(
+          list.equals(
+            new SassList(
+              [new SassString('a'), new SassString('b'), new SassString('c')],
               {separator: ' '}
             )
           )
@@ -78,25 +85,43 @@ skipForImpl('dart-sass', () => {
         expect(
           list.equals(
             new SassList(
-              [
-                new SassString('a', {quotes: false}),
-                new SassString('b', {quotes: false}),
-                new SassString('c', {quotes: false}),
-              ],
+              [new SassString('a'), new SassString('b'), new SassString('c')],
               {separator: ',', brackets: true}
             )
           )
         ).toBe(false);
       });
 
-      it("doesn't equal a value with different contents", () => {
+      it("doesn't equal a list with different contents", () => {
+        expect(
+          list.equals(
+            new SassList(
+              [new SassString('a'), new SassString('x'), new SassString('c')],
+              {separator: ','}
+            )
+          )
+        ).toBe(false);
+      });
+
+      it("doesn't equal a list with a missing entry", () => {
+        expect(
+          list.equals(
+            new SassList([new SassString('a'), new SassString('b')], {
+              separator: ',',
+            })
+          )
+        ).toBe(false);
+      });
+
+      it("doesn't equal a list with an additional entry", () => {
         expect(
           list.equals(
             new SassList(
               [
-                new SassString('a', {quotes: false}),
-                new SassString('x', {quotes: false}),
-                new SassString('c', {quotes: false}),
+                new SassString('a'),
+                new SassString('b'),
+                new SassString('c'),
+                new SassString('d'),
               ],
               {separator: ','}
             )
@@ -126,7 +151,7 @@ skipForImpl('dart-sass', () => {
 
       it('rejects a non-number', () => {
         expect(() =>
-          list.sassIndexToListIndex(new SassString('foo', {quotes: false}))
+          list.sassIndexToListIndex(new SassString('foo'))
         ).toThrow();
       });
 
@@ -152,12 +177,21 @@ skipForImpl('dart-sass', () => {
         expect(list.hasBrackets).toBe(false);
       });
 
-      it('supports null separators', () => {
-        const list = new SassList(
-          [new SassString('a'), new SassString('b'), new SassString('c')],
-          {separator: null}
-        );
+      it('allows an undecided separator for empty and single-element lists', () => {
+        let list = SassList.empty();
         expect(list.separator).toBe(null);
+
+        list = new SassList([new SassString('a')], {separator: null});
+        expect(list.separator).toBe(null);
+      });
+
+      it('does not allow an undecided separator for lists with more than one element', () => {
+        expect(
+          () =>
+            new SassList([new SassString('a'), new SassString('b')], {
+              separator: null,
+            })
+        ).toThrow();
       });
 
       it('supports space separators', () => {
@@ -204,7 +238,7 @@ skipForImpl('dart-sass', () => {
     describe('a scalar value', () => {
       const string = new SassString('blue');
 
-      it('has a null separator', () => {
+      it('has an undecided separator', () => {
         expect(string.separator).toBe(null);
       });
 
@@ -244,7 +278,7 @@ skipForImpl('dart-sass', () => {
     describe('an empty list', () => {
       const list = SassList.empty();
 
-      it('has a null separator', () => {
+      it('has an undecided separator', () => {
         expect(list.separator).toBe(null);
       });
 
@@ -254,6 +288,11 @@ skipForImpl('dart-sass', () => {
 
       it('returns its contents as a list', () => {
         expect(list.asList.isEmpty()).toBe(true);
+      });
+
+      it('equals another empty list', () => {
+        expect(list).toEqualWithHash(new SassList([]));
+        expect(list).toEqualWithHash(SassList.empty());
       });
 
       it('counts as an empty map', () => {
