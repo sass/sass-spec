@@ -9,12 +9,15 @@ import {skipForImpl} from '../utils';
 
 skipForImpl('dart-sass', () => {
   describe('SassMap', () => {
-    const map = new SassMap(
-      OrderedMap([
-        [new SassString('a'), new SassString('b')],
-        [new SassString('c'), new SassString('d')],
-      ])
-    );
+    let map: SassMap;
+    beforeEach(() => {
+      map = new SassMap(
+        OrderedMap([
+          [new SassString('a'), new SassString('b')],
+          [new SassString('c'), new SassString('d')],
+        ])
+      );
+    });
 
     describe('construction', () => {
       it('is a value', () => {
@@ -182,7 +185,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('an empty map', () => {
-      const map = SassMap.empty();
+      let map: SassMap;
+      beforeEach(() => {
+        map = SassMap.empty();
+      });
 
       it('has a null separator', () => {
         expect(map.separator).toBe(null);

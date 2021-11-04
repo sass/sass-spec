@@ -10,10 +10,13 @@ import {skipForImpl} from '../utils';
 skipForImpl('dart-sass', () => {
   describe('SassList', () => {
     describe('construction', () => {
-      const list = new SassList(
-        [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: ','}
-      );
+      let list: SassList;
+      beforeEach(() => {
+        list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: ','}
+        );
+      });
 
       it('is a value', () => {
         expect(list).toBeInstanceOf(Value);
@@ -47,10 +50,13 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('equality', () => {
-      const list = new SassList(
-        [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: ','}
-      );
+      let list: SassList;
+      beforeEach(() => {
+        list = new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: ','}
+        );
+      });
 
       it('equals the same list', () => {
         expect(list).toEqualWithHash(
@@ -131,11 +137,14 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('Sass to JS index conversion', () => {
-      const list = new SassList([
-        new SassString('a'),
-        new SassString('b'),
-        new SassString('c'),
-      ]);
+      let list: SassList;
+      beforeEach(() => {
+        list = new SassList([
+          new SassString('a'),
+          new SassString('b'),
+          new SassString('c'),
+        ]);
+      });
 
       it('converts a positive index', () => {
         expect(list.sassIndexToListIndex(new SassNumber(1))).toBe(0);
@@ -220,7 +229,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('single-element list', () => {
-      const list = new SassList([new SassNumber(1)]);
+      let list: SassList;
+      beforeEach(() => {
+        list = new SassList([new SassNumber(1)]);
+      });
 
       it('has a comma separator', () => {
         expect(list.separator).toBe(',');
@@ -236,7 +248,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('a scalar value', () => {
-      const string = new SassString('blue');
+      let string: SassString;
+      beforeEach(() => {
+        string = new SassString('blue');
+      });
 
       it('has an undecided separator', () => {
         expect(string.separator).toBe(null);
@@ -276,7 +291,10 @@ skipForImpl('dart-sass', () => {
     });
 
     describe('an empty list', () => {
-      const list = SassList.empty();
+      let list: SassList;
+      beforeEach(() => {
+        list = SassList.empty();
+      });
 
       it('has an undecided separator', () => {
         expect(list.separator).toBe(null);
