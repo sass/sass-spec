@@ -27,12 +27,7 @@ skipForImpl('dart-sass', () => {
       it('is a map', () => {
         expect(map).toBeInstanceOf(SassMap);
         expect(map.assertMap()).toEqualWithHash(map);
-        expect(map.tryMap()).toEqual(
-          OrderedMap([
-            [new SassString('a'), new SassString('b')],
-            [new SassString('c'), new SassString('d')],
-          ])
-        );
+        expect(map.tryMap()).toEqual(map);
       });
 
       it("isn't any other type", () => {
@@ -184,10 +179,60 @@ skipForImpl('dart-sass', () => {
       });
     });
 
+    describe('get()', () => {
+    let map: SassMap;
+    beforeEach(() => {
+      map = new SassMap(
+        OrderedMap([
+          [new SassString('a'), new SassString('b')],
+          [new SassString('c'), new SassString('d')],
+        ])
+      );
+    });
+
+      describe('with a number', () => {
+      it('returns elements for non-negative indices', () => {
+        expect(map.get(0)).toEqualWithHash(new SassList([new SassString('a'), new SassString('b')]));
+        expect(map.get(1)).toEqualWithHash(new SassList([new SassString('c'), new SassString('d')]));
+      });
+
+      it('returns elements for negative indices', () => {
+        expect(map.get(-2)).toEqualWithHash(new SassList([new SassString('a'), new SassString('b')]));
+        expect(map.get(-1)).toEqualWithHash(new SassList([new SassString('c'), new SassString('d')]));
+      });
+
+      it('returns undefined for out-of-bounds values', () => {
+        expect(map.get(2)).toBe(undefined);
+        expect(map.get(-3)).toBe(undefined);
+      });
+
+      it('rounds indices down', () => {
+        expect(map.get(0.1)).toEqualWithHash(new SassList([new SassString('a'), new SassString('b')]));
+        expect(map.get(1.9)).toEqualWithHash(new SassList([new SassString('c'), new SassString('d')]));
+        expect(map.get(2.1)).toBe(undefined);
+        expect(map.get(-0.1)).toEqualWithHash(new SassList([new SassString('c'), new SassString('d')]));
+        expect(map.get(-1.9)).toEqualWithHash(new SassList([new SassString('a'), new SassString('b')]));
+        expect(map.get(-2.1)).toBe(undefined);
+      });
+      });
+
+      describe('with a Value', () => {
+        it('returns values associated with keys', () => {
+          expect(map.get(new SassString('a'))).toEqualWithHash(new SassString('b'));
+          expect(map.get(new SassString('c'))).toEqualWithHash(new SassString('d'));
+        });
+
+        it('returns undefined for keys that have no values', () => {
+          expect(map.get(new SassString('b'))).toBe(undefined);
+          expect(map.get(new SassString('d'))).toBe(undefined);
+        });
+      });
+    });
+
     describe('an empty map', () => {
       let map: SassMap;
       beforeEach(() => {
-        map = SassMap.empty();
+        map = new SassMap();
       });
 
       it('has a null separator', () => {
@@ -204,11 +249,11 @@ skipForImpl('dart-sass', () => {
 
       it('equals another empty map', () => {
         expect(map).toEqualWithHash(new SassMap(OrderedMap()));
-        expect(map).toEqualWithHash(SassMap.empty());
+        expect(map).toEqualWithHash(new SassMap());
       });
 
       it('equals an empty list', () => {
-        expect(map).toEqualWithHash(SassList.empty());
+        expect(map).toEqualWithHash(new SassList());
       });
 
       it('rejects invalid indices', () => {

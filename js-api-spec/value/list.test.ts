@@ -187,7 +187,7 @@ skipForImpl('dart-sass', () => {
       });
 
       it('allows an undecided separator for empty and single-element lists', () => {
-        let list = SassList.empty();
+        let list = new SassList({separator: null});
         expect(list.separator).toBe(null);
 
         list = new SassList([new SassString('a')], {separator: null});
@@ -225,6 +225,43 @@ skipForImpl('dart-sass', () => {
           {brackets: true}
         );
         expect(list.hasBrackets).toBe(true);
+      });
+    });
+
+    describe('get()', () => {
+      let list: SassList;
+      beforeEach(() => {
+        list = new SassList([
+          new SassString('a'),
+          new SassString('b'),
+          new SassString('c'),
+        ]);
+      });
+
+      it('returns elements for non-negative indices', () => {
+        expect(list.get(0)).toEqualWithHash(new SassString('a'));
+        expect(list.get(1)).toEqualWithHash(new SassString('b'));
+        expect(list.get(2)).toEqualWithHash(new SassString('c'));
+      });
+
+      it('returns elements for negative indices', () => {
+        expect(list.get(-3)).toEqualWithHash(new SassString('a'));
+        expect(list.get(-2)).toEqualWithHash(new SassString('b'));
+        expect(list.get(-1)).toEqualWithHash(new SassString('c'));
+      });
+
+      it('returns undefined for out-of-bounds values', () => {
+        expect(list.get(3)).toBe(undefined);
+        expect(list.get(-4)).toBe(undefined);
+      });
+
+      it('rounds indices down', () => {
+        expect(list.get(0.1)).toEqualWithHash(new SassString('a'));
+        expect(list.get(2.9)).toEqualWithHash(new SassString('c'));
+        expect(list.get(3.1)).toBe(undefined);
+        expect(list.get(-0.1)).toEqualWithHash(new SassString('c'));
+        expect(list.get(-2.9)).toEqualWithHash(new SassString('a'));
+        expect(list.get(3.1)).toBe(undefined);
       });
     });
 
@@ -288,16 +325,38 @@ skipForImpl('dart-sass', () => {
           ).toThrow();
         });
       });
+
+      describe('get()', () => {
+      it('returns the value for index 0', () => {
+        expect(string.get(0)).toEqualWithHash(string);
+      });
+
+      it('returns the value for index -1', () => {
+        expect(string.get(-1)).toEqualWithHash(string);
+      });
+
+      it('returns undefined for out-of-bounds values', () => {
+        expect(string.get(1)).toBe(undefined);
+        expect(string.get(-2)).toBe(undefined);
+      });
+
+      it('rounds indices down', () => {
+        expect(string.get(0.1)).toEqualWithHash(string);
+        expect(string.get(1.9)).toBe(undefined);
+        expect(string.get(-0.1)).toEqualWithHash(string);
+        expect(string.get(-1.9)).toBe(undefined);
+      });
+      });
     });
 
     describe('an empty list', () => {
       let list: SassList;
       beforeEach(() => {
-        list = SassList.empty();
+        list = new SassList();
       });
 
-      it('has an undecided separator', () => {
-        expect(list.separator).toBe(null);
+      it('defaults to a comma separator', () => {
+        expect(list.separator).toBe(',');
       });
 
       it('has no brackets', () => {
@@ -310,16 +369,16 @@ skipForImpl('dart-sass', () => {
 
       it('equals another empty list', () => {
         expect(list).toEqualWithHash(new SassList([]));
-        expect(list).toEqualWithHash(SassList.empty());
+        expect(list).toEqualWithHash(new SassList());
       });
 
       it('counts as an empty map', () => {
         expect(list.assertMap().contents.isEmpty()).toBe(true);
-        expect(list.tryMap()?.isEmpty()).toBe(true);
+        expect(list.tryMap()?.contents?.isEmpty()).toBe(true);
       });
 
       it('equals an empty map', () => {
-        expect(list).toEqualWithHash(SassMap.empty());
+        expect(list).toEqualWithHash(new SassMap());
       });
 
       it("isn't any other type", () => {
@@ -334,6 +393,12 @@ skipForImpl('dart-sass', () => {
         expect(() => list.sassIndexToListIndex(new SassNumber(0))).toThrow();
         expect(() => list.sassIndexToListIndex(new SassNumber(1))).toThrow();
         expect(() => list.sassIndexToListIndex(new SassNumber(-1))).toThrow();
+      });
+
+      it('get() always returns undefined', () => {
+        expect(list.get(0)).toBe(undefined);
+        expect(list.get(1)).toBe(undefined);
+        expect(list.get(-1)).toBe(undefined);
       });
     });
   });

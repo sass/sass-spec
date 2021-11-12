@@ -6,13 +6,43 @@ import {Value, SassColor} from 'sass';
 
 import {skipForImpl} from '../utils';
 
+/** A utility function for creating an RGB color. */
+function rgb(
+  red: number,
+  green: number,
+  blue: number,
+  alpha?: number
+): SassColor {
+  return new SassColor({red, green, blue, alpha});
+}
+
+/** A utility function for creating an HSL color. */
+function hsl(
+  hue: number,
+  saturation: number,
+  lightness: number,
+  alpha?: number
+): SassColor {
+  return new SassColor({hue, saturation, lightness, alpha});
+}
+
+/** A utility function for creating an HWB color. */
+function hwb(
+  hue: number,
+  whiteness: number,
+  blackness: number,
+  alpha?: number
+): SassColor {
+  return new SassColor({hue, whiteness, blackness, alpha});
+}
+
 skipForImpl('dart-sass', () => {
   describe('SassColor', () => {
     describe('construction', () => {
       describe('type', () => {
         let color: SassColor;
         beforeEach(() => {
-          color = SassColor.rgb(18, 52, 86);
+          color = rgb(18, 52, 86);
         });
 
         it('is a value', () => {
@@ -36,51 +66,51 @@ skipForImpl('dart-sass', () => {
 
       describe('rgb()', () => {
         it('allows valid values', () => {
-          expect(() => SassColor.rgb(0, 0, 0, 0)).not.toThrow();
-          expect(() => SassColor.rgb(255, 255, 255, 1)).not.toThrow();
+          expect(() => rgb(0, 0, 0, 0)).not.toThrow();
+          expect(() => rgb(255, 255, 255, 1)).not.toThrow();
         });
 
         it('disallows invalid values', () => {
-          expect(() => SassColor.rgb(-1, 0, 0, 0)).toThrow();
-          expect(() => SassColor.rgb(0, -1, 0, 0)).toThrow();
-          expect(() => SassColor.rgb(0, 0, -1, 0)).toThrow();
-          expect(() => SassColor.rgb(0, 0, 0, -0.1)).toThrow();
-          expect(() => SassColor.rgb(256, 0, 0, 0)).toThrow();
-          expect(() => SassColor.rgb(0, 256, 0, 0)).toThrow();
-          expect(() => SassColor.rgb(0, 0, 256, 0)).toThrow();
-          expect(() => SassColor.rgb(0, 0, 0, 1.1)).toThrow();
+          expect(() => rgb(-1, 0, 0, 0)).toThrow();
+          expect(() => rgb(0, -1, 0, 0)).toThrow();
+          expect(() => rgb(0, 0, -1, 0)).toThrow();
+          expect(() => rgb(0, 0, 0, -0.1)).toThrow();
+          expect(() => rgb(256, 0, 0, 0)).toThrow();
+          expect(() => rgb(0, 256, 0, 0)).toThrow();
+          expect(() => rgb(0, 0, 256, 0)).toThrow();
+          expect(() => rgb(0, 0, 0, 1.1)).toThrow();
         });
       });
 
       describe('hsl()', () => {
         it('allows valid values', () => {
-          expect(() => SassColor.hsl(0, 0, 0, 0)).not.toThrow();
-          expect(() => SassColor.hsl(4320, 100, 100, 1)).not.toThrow();
+          expect(() => hsl(0, 0, 0, 0)).not.toThrow();
+          expect(() => hsl(4320, 100, 100, 1)).not.toThrow();
         });
 
         it('disallows invalid values', () => {
-          expect(() => SassColor.hsl(0, -0.1, 0, 0)).toThrow();
-          expect(() => SassColor.hsl(0, 0, -0.1, 0)).toThrow();
-          expect(() => SassColor.hsl(0, 0, 0, -0.1)).toThrow();
-          expect(() => SassColor.hsl(0, 100.1, 0, 0)).toThrow();
-          expect(() => SassColor.hsl(0, 0, 100.1, 0)).toThrow();
-          expect(() => SassColor.hsl(0, 0, 0, 1.1)).toThrow();
+          expect(() => hsl(0, -0.1, 0, 0)).toThrow();
+          expect(() => hsl(0, 0, -0.1, 0)).toThrow();
+          expect(() => hsl(0, 0, 0, -0.1)).toThrow();
+          expect(() => hsl(0, 100.1, 0, 0)).toThrow();
+          expect(() => hsl(0, 0, 100.1, 0)).toThrow();
+          expect(() => hsl(0, 0, 0, 1.1)).toThrow();
         });
       });
 
       describe('hwb()', () => {
         it('allows valid values', () => {
-          expect(() => SassColor.hwb(0, 0, 0, 0)).not.toThrow();
-          expect(() => SassColor.hwb(4320, 100, 100, 1)).not.toThrow();
+          expect(() => hwb(0, 0, 0, 0)).not.toThrow();
+          expect(() => hwb(4320, 100, 100, 1)).not.toThrow();
         });
 
         it('disallows invalid values', () => {
-          expect(() => SassColor.hwb(0, -0.1, 0, 0)).toThrow();
-          expect(() => SassColor.hwb(0, 0, -0.1, 0)).toThrow();
-          expect(() => SassColor.hwb(0, 0, 0, -0.1)).toThrow();
-          expect(() => SassColor.hwb(0, 100.1, 0, 0)).toThrow();
-          expect(() => SassColor.hwb(0, 0, 100.1, 0)).toThrow();
-          expect(() => SassColor.hwb(0, 0, 0, 1.1)).toThrow();
+          expect(() => hwb(0, -0.1, 0, 0)).toThrow();
+          expect(() => hwb(0, 0, -0.1, 0)).toThrow();
+          expect(() => hwb(0, 0, 0, -0.1)).toThrow();
+          expect(() => hwb(0, 100.1, 0, 0)).toThrow();
+          expect(() => hwb(0, 0, 100.1, 0)).toThrow();
+          expect(() => hwb(0, 0, 0, 1.1)).toThrow();
         });
       });
     });
@@ -88,7 +118,7 @@ skipForImpl('dart-sass', () => {
     describe('an RGB color', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = SassColor.rgb(18, 52, 86);
+        color = rgb(18, 52, 86);
       });
 
       it('has RGB channels', () => {
@@ -114,12 +144,12 @@ skipForImpl('dart-sass', () => {
       });
 
       it('equals the same color', () => {
-        expect(color).toEqualWithHash(SassColor.rgb(18, 52, 86));
+        expect(color).toEqualWithHash(rgb(18, 52, 86));
         expect(color).toEqualWithHash(
-          SassColor.hsl(210, 65.3846153846154, 20.392156862745097)
+          hsl(210, 65.3846153846154, 20.392156862745097)
         );
         expect(color).toEqualWithHash(
-          SassColor.hwb(210, 7.0588235294117645, 66.27450980392157)
+          hwb(210, 7.0588235294117645, 66.27450980392157)
         );
       });
     });
@@ -127,7 +157,7 @@ skipForImpl('dart-sass', () => {
     describe('an HSL color', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = SassColor.hsl(120, 42, 42);
+        color = hsl(120, 42, 42);
       });
 
       it('has RGB channels', () => {
@@ -153,10 +183,10 @@ skipForImpl('dart-sass', () => {
       });
 
       it('equals the same color', () => {
-        expect(color).toEqualWithHash(SassColor.rgb(62, 152, 62));
-        expect(color).toEqualWithHash(SassColor.hsl(120, 42, 42));
+        expect(color).toEqualWithHash(rgb(62, 152, 62));
+        expect(color).toEqualWithHash(hsl(120, 42, 42));
         expect(color).toEqualWithHash(
-          SassColor.hwb(120, 24.313725490196077, 40.3921568627451)
+          hwb(120, 24.313725490196077, 40.3921568627451)
         );
       });
     });
@@ -164,7 +194,7 @@ skipForImpl('dart-sass', () => {
     describe('an HWB color', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = SassColor.hwb(120, 42, 42);
+        color = hwb(120, 42, 42);
       });
 
       it('has RGB channels', () => {
@@ -190,12 +220,10 @@ skipForImpl('dart-sass', () => {
       });
 
       it('equals the same color', () => {
-        expect(color).toEqualWithHash(SassColor.rgb(107, 148, 107));
+        expect(color).toEqualWithHash(rgb(107, 148, 107));
+        expect(color).toEqualWithHash(hsl(120, 16.078431372549026, 50));
         expect(color).toEqualWithHash(
-          SassColor.hsl(120, 16.078431372549026, 50)
-        );
-        expect(color).toEqualWithHash(
-          SassColor.hwb(120, 41.96078431372549, 41.96078431372548)
+          hwb(120, 41.96078431372549, 41.96078431372548)
         );
       });
     });
@@ -203,157 +231,151 @@ skipForImpl('dart-sass', () => {
     describe('changing color values', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = SassColor.rgb(18, 52, 86);
+        color = rgb(18, 52, 86);
       });
 
-      describe('changeRgb()', () => {
+      describe('change()', () => {
         it('changes RGB values', () => {
-          expect(color.changeRgb({red: 0})).toEqualWithHash(
-            SassColor.rgb(0, 52, 86)
-          );
-          expect(color.changeRgb({green: 0})).toEqualWithHash(
-            SassColor.rgb(18, 0, 86)
-          );
-          expect(color.changeRgb({blue: 0})).toEqualWithHash(
-            SassColor.rgb(18, 52, 0)
-          );
-          expect(color.changeRgb({alpha: 0.5})).toEqualWithHash(
-            SassColor.rgb(18, 52, 86, 0.5)
+          expect(color.change({red: 0})).toEqualWithHash(rgb(0, 52, 86));
+          expect(color.change({green: 0})).toEqualWithHash(rgb(18, 0, 86));
+          expect(color.change({blue: 0})).toEqualWithHash(rgb(18, 52, 0));
+          expect(color.change({alpha: 0.5})).toEqualWithHash(
+            rgb(18, 52, 86, 0.5)
           );
           expect(
-            color.changeRgb({red: 0, green: 0, blue: 0, alpha: 0.5})
-          ).toEqualWithHash(SassColor.rgb(0, 0, 0, 0.5));
+            color.change({red: 0, green: 0, blue: 0, alpha: 0.5})
+          ).toEqualWithHash(rgb(0, 0, 0, 0.5));
         });
 
         it('allows valid values', () => {
-          expect(color.changeRgb({red: 0}).red).toBe(0);
-          expect(color.changeRgb({red: 255}).red).toBe(255);
-          expect(color.changeRgb({green: 0}).green).toBe(0);
-          expect(color.changeRgb({green: 255}).green).toBe(255);
-          expect(color.changeRgb({blue: 0}).blue).toBe(0);
-          expect(color.changeRgb({blue: 255}).blue).toBe(255);
-          expect(color.changeRgb({alpha: 0}).alpha).toBe(0);
-          expect(color.changeRgb({alpha: 1}).alpha).toBe(1);
+          expect(color.change({red: 0}).red).toBe(0);
+          expect(color.change({red: 255}).red).toBe(255);
+          expect(color.change({green: 0}).green).toBe(0);
+          expect(color.change({green: 255}).green).toBe(255);
+          expect(color.change({blue: 0}).blue).toBe(0);
+          expect(color.change({blue: 255}).blue).toBe(255);
+          expect(color.change({alpha: 0}).alpha).toBe(0);
+          expect(color.change({alpha: 1}).alpha).toBe(1);
         });
 
         it('disallows invalid values', () => {
-          expect(() => color.changeRgb({red: -1})).toThrow();
-          expect(() => color.changeRgb({red: 256})).toThrow();
-          expect(() => color.changeRgb({green: -1})).toThrow();
-          expect(() => color.changeRgb({green: 256})).toThrow();
-          expect(() => color.changeRgb({blue: -1})).toThrow();
-          expect(() => color.changeRgb({blue: 256})).toThrow();
-          expect(() => color.changeRgb({alpha: -0.1})).toThrow();
-          expect(() => color.changeRgb({alpha: 1.1})).toThrow();
+          expect(() => color.change({red: -1})).toThrow();
+          expect(() => color.change({red: 256})).toThrow();
+          expect(() => color.change({green: -1})).toThrow();
+          expect(() => color.change({green: 256})).toThrow();
+          expect(() => color.change({blue: -1})).toThrow();
+          expect(() => color.change({blue: 256})).toThrow();
+          expect(() => color.change({alpha: -0.1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
         });
       });
 
-      describe('changeHsl()', () => {
+      describe('change()', () => {
         it('changes HSL values', () => {
-          expect(color.changeHsl({hue: 120})).toEqualWithHash(
-            SassColor.hsl(120, 65.3846153846154, 20.392156862745097)
+          expect(color.change({hue: 120})).toEqualWithHash(
+            hsl(120, 65.3846153846154, 20.392156862745097)
           );
-          expect(color.changeHsl({saturation: 42})).toEqualWithHash(
-            SassColor.hsl(210, 42, 20.392156862745097)
+          expect(color.change({saturation: 42})).toEqualWithHash(
+            hsl(210, 42, 20.392156862745097)
           );
-          expect(color.changeHsl({lightness: 42})).toEqualWithHash(
-            SassColor.hsl(210, 65.3846153846154, 42)
+          expect(color.change({lightness: 42})).toEqualWithHash(
+            hsl(210, 65.3846153846154, 42)
           );
-          expect(color.changeHsl({alpha: 0.5})).toEqualWithHash(
-            SassColor.hsl(210, 65.3846153846154, 20.392156862745097, 0.5)
+          expect(color.change({alpha: 0.5})).toEqualWithHash(
+            hsl(210, 65.3846153846154, 20.392156862745097, 0.5)
           );
           expect(
-            color.changeHsl({
+            color.change({
               hue: 120,
               saturation: 42,
               lightness: 42,
               alpha: 0.5,
             })
-          ).toEqualWithHash(SassColor.hsl(120, 42, 42, 0.5));
+          ).toEqualWithHash(hsl(120, 42, 42, 0.5));
         });
 
         it('allows valid values', () => {
-          expect(color.changeHsl({saturation: 0}).saturation).toBe(0);
-          expect(color.changeHsl({saturation: 100}).saturation).toBe(100);
-          expect(color.changeHsl({lightness: 0}).lightness).toBe(0);
-          expect(color.changeHsl({lightness: 100}).lightness).toBe(100);
-          expect(color.changeHsl({alpha: 0}).alpha).toBe(0);
-          expect(color.changeHsl({alpha: 1}).alpha).toBe(1);
+          expect(color.change({saturation: 0}).saturation).toBe(0);
+          expect(color.change({saturation: 100}).saturation).toBe(100);
+          expect(color.change({lightness: 0}).lightness).toBe(0);
+          expect(color.change({lightness: 100}).lightness).toBe(100);
+          expect(color.change({alpha: 0}).alpha).toBe(0);
+          expect(color.change({alpha: 1}).alpha).toBe(1);
         });
 
         it('disallows invalid values', () => {
-          expect(() => color.changeHsl({saturation: -0.1})).toThrow();
-          expect(() => color.changeHsl({saturation: 100.1})).toThrow();
-          expect(() => color.changeHsl({lightness: -0.1})).toThrow();
-          expect(() => color.changeHsl({lightness: 100.1})).toThrow();
-          expect(() => color.changeHsl({alpha: -0.1})).toThrow();
-          expect(() => color.changeHsl({alpha: 1.1})).toThrow();
+          expect(() => color.change({saturation: -0.1})).toThrow();
+          expect(() => color.change({saturation: 100.1})).toThrow();
+          expect(() => color.change({lightness: -0.1})).toThrow();
+          expect(() => color.change({lightness: 100.1})).toThrow();
+          expect(() => color.change({alpha: -0.1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
         });
       });
 
-      describe('changeHwb()', () => {
+      describe('change()', () => {
         it('changes HWB values', () => {
-          expect(color.changeHwb({hue: 120})).toEqualWithHash(
-            SassColor.hwb(120, 7.0588235294117645, 66.27450980392157)
+          expect(color.change({hue: 120})).toEqualWithHash(
+            hwb(120, 7.0588235294117645, 66.27450980392157)
           );
-          expect(color.changeHwb({whiteness: 42})).toEqualWithHash(
-            SassColor.hwb(210, 42, 66.27450980392157)
+          expect(color.change({whiteness: 42})).toEqualWithHash(
+            hwb(210, 42, 66.27450980392157)
           );
-          expect(color.changeHwb({whiteness: 50})).toEqualWithHash(
-            SassColor.hwb(210, 50, 66.27450980392157)
+          expect(color.change({whiteness: 50})).toEqualWithHash(
+            hwb(210, 50, 66.27450980392157)
           );
-          expect(color.changeHwb({blackness: 42})).toEqualWithHash(
-            SassColor.hwb(210, 7.0588235294117645, 42)
+          expect(color.change({blackness: 42})).toEqualWithHash(
+            hwb(210, 7.0588235294117645, 42)
           );
-          expect(color.changeHwb({alpha: 0.5})).toEqualWithHash(
-            SassColor.hwb(210, 7.0588235294117645, 66.27450980392157, 0.5)
+          expect(color.change({alpha: 0.5})).toEqualWithHash(
+            hwb(210, 7.0588235294117645, 66.27450980392157, 0.5)
           );
           expect(
-            color.changeHwb({
+            color.change({
               hue: 120,
               whiteness: 42,
               blackness: 42,
               alpha: 0.5,
             })
-          ).toEqualWithHash(SassColor.hwb(120, 42, 42, 0.5));
+          ).toEqualWithHash(hwb(120, 42, 42, 0.5));
         });
 
         it('allows valid values', () => {
-          expect(color.changeHwb({whiteness: 0}).whiteness).toBe(0);
-          expect(color.changeHwb({whiteness: 100}).whiteness).toBe(60.0);
-          expect(color.changeHwb({blackness: 0}).blackness).toBe(0);
-          expect(color.changeHwb({blackness: 100}).blackness).toBe(
+          expect(color.change({whiteness: 0}).whiteness).toBe(0);
+          expect(color.change({whiteness: 100}).whiteness).toBe(60.0);
+          expect(color.change({blackness: 0}).blackness).toBe(0);
+          expect(color.change({blackness: 100}).blackness).toBe(
             93.33333333333333
           );
-          expect(color.changeHwb({alpha: 0}).alpha).toBe(0);
-          expect(color.changeHwb({alpha: 1}).alpha).toBe(1);
+          expect(color.change({alpha: 0}).alpha).toBe(0);
+          expect(color.change({alpha: 1}).alpha).toBe(1);
         });
 
         it('disallows invalid values', () => {
-          expect(() => color.changeHwb({whiteness: -0.1})).toThrow();
-          expect(() => color.changeHwb({whiteness: 100.1})).toThrow();
-          expect(() => color.changeHwb({blackness: -0.1})).toThrow();
-          expect(() => color.changeHwb({blackness: 100.1})).toThrow();
-          expect(() => color.changeHwb({alpha: -0.1})).toThrow();
-          expect(() => color.changeHwb({alpha: 1.1})).toThrow();
+          expect(() => color.change({whiteness: -0.1})).toThrow();
+          expect(() => color.change({whiteness: 100.1})).toThrow();
+          expect(() => color.change({blackness: -0.1})).toThrow();
+          expect(() => color.change({blackness: 100.1})).toThrow();
+          expect(() => color.change({alpha: -0.1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
         });
       });
 
       describe('changeAlpha()', () => {
         it('changes the alpha value', () => {
-          expect(color.changeAlpha(0.5)).toEqualWithHash(
-            SassColor.rgb(18, 52, 86, 0.5)
+          expect(color.change({alpha: 0.5})).toEqualWithHash(
+            rgb(18, 52, 86, 0.5)
           );
         });
 
         it('allows valid alphas', () => {
-          expect(color.changeAlpha(0).alpha).toBe(0);
-          expect(color.changeAlpha(1).alpha).toBe(1);
+          expect(color.change({alpha: 0}).alpha).toBe(0);
+          expect(color.change({alpha: 1}).alpha).toBe(1);
         });
 
         it('rejects invalid alphas', () => {
-          expect(() => color.changeAlpha(-0.1)).toThrow();
-          expect(() => color.changeAlpha(1.1)).toThrow();
+          expect(() => color.change({alpha: -0.1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
         });
       });
     });

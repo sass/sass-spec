@@ -169,7 +169,7 @@ skipForImpl('dart-sass', () => {
           it('can be coerced to a unit', () => {
             expect(
               number.coerce(['px'], []).equals(
-                SassNumber.withUnits(123, {
+                new SassNumber(123, {
                   numeratorUnits: ['px'],
                 })
               )
@@ -180,12 +180,12 @@ skipForImpl('dart-sass', () => {
             expect(
               number
                 .coerceToMatch(
-                  SassNumber.withUnits(456, {
+                  new SassNumber(456, {
                     numeratorUnits: ['px'],
                   })
                 )
                 .equals(
-                  SassNumber.withUnits(123, {
+                  new SassNumber(123, {
                     numeratorUnits: ['px'],
                   })
                 )
@@ -207,7 +207,7 @@ skipForImpl('dart-sass', () => {
           it('can coerce its value to match a unit', () => {
             expect(
               number.coerceValueToMatch(
-                SassNumber.withUnits(456, {
+                new SassNumber(456, {
                   numeratorUnits: ['px'],
                 })
               )
@@ -473,20 +473,18 @@ skipForImpl('dart-sass', () => {
         it("doesn't equal a number with different units", () => {
           expect(number.equals(new SassNumber(123, 'abc'))).toBe(false);
           expect(
-            number.equals(
-              SassNumber.withUnits(123, {numeratorUnits: ['px', 'px']})
-            )
+            number.equals(new SassNumber(123, {numeratorUnits: ['px', 'px']}))
           ).toBe(false);
           expect(
             number.equals(
-              SassNumber.withUnits(123, {
+              new SassNumber(123, {
                 numeratorUnits: ['px'],
                 denominatorUnits: ['abc'],
               })
             )
           ).toBe(false);
           expect(
-            number.equals(SassNumber.withUnits(123, {denominatorUnits: ['px']}))
+            number.equals(new SassNumber(123, {denominatorUnits: ['px']}))
           ).toBe(false);
         });
       });
@@ -495,7 +493,7 @@ skipForImpl('dart-sass', () => {
     describe('numerator and denominator units', () => {
       let number: SassNumber;
       beforeEach(() => {
-        number = SassNumber.withUnits(123, {
+        number = new SassNumber(123, {
           numeratorUnits: ['px'],
           denominatorUnits: ['ms'],
         });
@@ -515,7 +513,7 @@ skipForImpl('dart-sass', () => {
         });
 
         it('simplifies compatible units', () => {
-          const number = SassNumber.withUnits(123, {
+          const number = new SassNumber(123, {
             numeratorUnits: ['px', 's'],
             denominatorUnits: ['ms'],
           });
@@ -525,7 +523,7 @@ skipForImpl('dart-sass', () => {
         });
 
         it('does not simplify unknown units', () => {
-          const number = SassNumber.withUnits(123, {
+          const number = new SassNumber(123, {
             numeratorUnits: ['abc'],
             denominatorUnits: ['def'],
           });
@@ -558,7 +556,7 @@ skipForImpl('dart-sass', () => {
           expect(number.convert(['px'], ['ms']).equals(number)).toBe(true);
           expect(
             number.convert(['in'], ['s']).equals(
-              SassNumber.withUnits(1281.25, {
+              new SassNumber(1281.25, {
                 numeratorUnits: ['in'],
                 denominatorUnits: ['s'],
               })
@@ -570,7 +568,7 @@ skipForImpl('dart-sass', () => {
           expect(
             number
               .convertToMatch(
-                SassNumber.withUnits(456, {
+                new SassNumber(456, {
                   numeratorUnits: ['px'],
                   denominatorUnits: ['ms'],
                 })
@@ -580,13 +578,13 @@ skipForImpl('dart-sass', () => {
           expect(
             number
               .convertToMatch(
-                SassNumber.withUnits(456, {
+                new SassNumber(456, {
                   numeratorUnits: ['in'],
                   denominatorUnits: ['s'],
                 })
               )
               .equals(
-                SassNumber.withUnits(1281.25, {
+                new SassNumber(1281.25, {
                   numeratorUnits: ['in'],
                   denominatorUnits: ['s'],
                 })
@@ -622,7 +620,7 @@ skipForImpl('dart-sass', () => {
         it('can convert its value to match compatible units', () => {
           expect(
             number.convertValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['px'],
                 denominatorUnits: ['ms'],
               })
@@ -630,7 +628,7 @@ skipForImpl('dart-sass', () => {
           ).toBe(123);
           expect(
             number.convertValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['in'],
                 denominatorUnits: ['s'],
               })
@@ -666,7 +664,7 @@ skipForImpl('dart-sass', () => {
           expect(number.coerce(['px'], ['ms']).equals(number)).toBe(true);
           expect(
             number.coerce(['in'], ['s']).equals(
-              SassNumber.withUnits(1281.25, {
+              new SassNumber(1281.25, {
                 numeratorUnits: ['in'],
                 denominatorUnits: ['s'],
               })
@@ -678,7 +676,7 @@ skipForImpl('dart-sass', () => {
           expect(
             number
               .coerceToMatch(
-                SassNumber.withUnits(456, {
+                new SassNumber(456, {
                   numeratorUnits: ['px'],
                   denominatorUnits: ['ms'],
                 })
@@ -688,13 +686,13 @@ skipForImpl('dart-sass', () => {
           expect(
             number
               .coerceToMatch(
-                SassNumber.withUnits(456, {
+                new SassNumber(456, {
                   numeratorUnits: ['in'],
                   denominatorUnits: ['s'],
                 })
               )
               .equals(
-                SassNumber.withUnits(1281.25, {
+                new SassNumber(1281.25, {
                   numeratorUnits: ['in'],
                   denominatorUnits: ['s'],
                 })
@@ -709,7 +707,7 @@ skipForImpl('dart-sass', () => {
         it('cannot be coerced to match incompatible units', () => {
           expect(() =>
             number.coerceToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['abc'],
                 denominatorUnits: [],
               })
@@ -724,7 +722,7 @@ skipForImpl('dart-sass', () => {
         it('can coerce its value to match unitless', () => {
           expect(
             number.coerceValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: [],
                 denominatorUnits: [],
               })
@@ -740,7 +738,7 @@ skipForImpl('dart-sass', () => {
         it('can coerce its value to match compatible units', () => {
           expect(
             number.coerceValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['px'],
                 denominatorUnits: ['ms'],
               })
@@ -748,7 +746,7 @@ skipForImpl('dart-sass', () => {
           ).toBe(123);
           expect(
             number.coerceValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['in'],
                 denominatorUnits: ['s'],
               })
@@ -763,7 +761,7 @@ skipForImpl('dart-sass', () => {
         it('cannot coerce its value to match incompatible units', () => {
           expect(() =>
             number.coerceValueToMatch(
-              SassNumber.withUnits(456, {
+              new SassNumber(456, {
                 numeratorUnits: ['abc'],
                 denominatorUnits: [],
               })
@@ -775,7 +773,7 @@ skipForImpl('dart-sass', () => {
       describe('equality', () => {
         it('equals the same number', () => {
           expect(number).toEqualWithHash(
-            SassNumber.withUnits(123, {
+            new SassNumber(123, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
             })
@@ -784,7 +782,7 @@ skipForImpl('dart-sass', () => {
 
         it('equals an equivalent number', () => {
           expect(number).toEqualWithHash(
-            SassNumber.withUnits(1281.25, {
+            new SassNumber(1281.25, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
             })
@@ -798,11 +796,11 @@ skipForImpl('dart-sass', () => {
         it("doesn't equal a number with different units", () => {
           expect(number.equals(new SassNumber(123, 'px'))).toBe(false);
           expect(
-            number.equals(SassNumber.withUnits(123, {denominatorUnits: ['ms']}))
+            number.equals(new SassNumber(123, {denominatorUnits: ['ms']}))
           ).toBe(false);
           expect(
             number.equals(
-              SassNumber.withUnits(123, {
+              new SassNumber(123, {
                 numeratorUnits: ['ms'],
                 denominatorUnits: ['px'],
               })
@@ -810,7 +808,7 @@ skipForImpl('dart-sass', () => {
           ).toBe(false);
           expect(
             number.equals(
-              SassNumber.withUnits(123, {
+              new SassNumber(123, {
                 numeratorUnits: ['in'],
                 denominatorUnits: ['s'],
               })

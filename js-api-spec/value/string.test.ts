@@ -21,15 +21,21 @@ skipForImpl('dart-sass', () => {
       });
 
       it('creates an empty quoted string', () => {
-        const string = SassString.empty({quotes: true});
+        const string = new SassString({quotes: true});
         expect(string.text).toBe('');
         expect(string.hasQuotes).toBe(true);
       });
 
       it('creates an empty unquoted string', () => {
-        const string = SassString.empty({quotes: false});
+        const string = new SassString({quotes: false});
         expect(string.text).toBe('');
         expect(string.hasQuotes).toBe(false);
+      });
+
+      it('an empty string defaults to being quoted', () => {
+        const string = new SassString();
+        expect(string.text).toBe('');
+        expect(string.hasQuotes).toBe(true);
       });
 
       it('is equal to the same string', () => {
