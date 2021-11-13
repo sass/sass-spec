@@ -79,6 +79,11 @@ describe('SassColor', () => {
         expect(() => rgb(0, 0, 256, 0)).toThrow();
         expect(() => rgb(0, 0, 0, 1.1)).toThrow();
       });
+
+      it('rounds channels to the nearest integer', () => {
+        expect(rgb(0.1, 50.4, 90.3)).toEqualWithHash(rgb(0, 50, 90));
+        expect(rgb(-0.1, 50.5, 90.7)).toEqualWithHash(rgb(0, 51, 91));
+      });
     });
 
     describe('hsl()', () => {
@@ -266,6 +271,15 @@ describe('SassColor', () => {
         expect(() => color.change({blue: 256})).toThrow();
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
+      });
+
+      it('rounds channels to the nearest integer', () => {
+        expect(
+          color.change({red: 0.1, green: 50.4, blue: 90.3})
+        ).toEqualWithHash(rgb(0, 50, 90));
+        expect(
+          color.change({red: -0.1, green: 50.5, blue: 90.9})
+        ).toEqualWithHash(rgb(0, 51, 91));
       });
     });
 
