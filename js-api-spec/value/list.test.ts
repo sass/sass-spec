@@ -36,11 +36,9 @@ describe('SassList', () => {
     });
 
     it('returns its contents as a list', () => {
-      expect(
-        list.asList.equals(
-          List([new SassString('a'), new SassString('b'), new SassString('c')])
-        )
-      ).toBe(true);
+      expect(list.asList).toEqualWithHash(
+        List([new SassString('a'), new SassString('b'), new SassString('c')])
+      );
     });
   });
 
@@ -63,71 +61,59 @@ describe('SassList', () => {
     });
 
     it("doesn't equal the same list with a different ordering", () => {
-      expect(
-        list.equals(
-          new SassList(
-            [new SassString('c'), new SassString('b'), new SassString('a')],
-            {separator: ','}
-          )
+      expect(list).not.toEqualWithHash(
+        new SassList(
+          [new SassString('c'), new SassString('b'), new SassString('a')],
+          {separator: ','}
         )
-      ).toBe(false);
+      );
     });
 
     it("doesn't equal a list with different metadata", () => {
-      expect(
-        list.equals(
-          new SassList(
-            [new SassString('a'), new SassString('b'), new SassString('c')],
-            {separator: ' '}
-          )
+      expect(list).not.toEqualWithHash(
+        new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: ' '}
         )
-      ).toBe(false);
+      );
 
-      expect(
-        list.equals(
-          new SassList(
-            [new SassString('a'), new SassString('b'), new SassString('c')],
-            {separator: ',', brackets: true}
-          )
+      expect(list).not.toEqualWithHash(
+        new SassList(
+          [new SassString('a'), new SassString('b'), new SassString('c')],
+          {separator: ',', brackets: true}
         )
-      ).toBe(false);
+      );
     });
 
     it("doesn't equal a list with different contents", () => {
-      expect(
-        list.equals(
-          new SassList(
-            [new SassString('a'), new SassString('x'), new SassString('c')],
-            {separator: ','}
-          )
+      expect(list).not.toEqualWithHash(
+        new SassList(
+          [new SassString('a'), new SassString('x'), new SassString('c')],
+          {separator: ','}
         )
-      ).toBe(false);
+      );
     });
 
     it("doesn't equal a list with a missing entry", () => {
-      expect(
-        list.equals(
-          new SassList([new SassString('a'), new SassString('b')], {
-            separator: ',',
-          })
-        )
-      ).toBe(false);
+      expect(list).not.toEqualWithHash(
+        new SassList([new SassString('a'), new SassString('b')], {
+          separator: ',',
+        })
+      );
     });
 
     it("doesn't equal a list with an additional entry", () => {
-      expect(
-        list.equals(
-          new SassList(
-            [
-              new SassString('a'),
-              new SassString('b'),
-              new SassString('c'),
-              new SassString('d'),
-            ],
-            {separator: ','}
-          )
+      expect(list).not.toEqualWithHash(
+        new SassList(
+          [
+            new SassString('a'),
+            new SassString('b'),
+            new SassString('c'),
+            new SassString('d'),
+          ],
+          {separator: ','}
         )
-      ).toBe(false);
+      );
     });
   });
 
@@ -273,7 +259,7 @@ describe('SassList', () => {
     });
 
     it('returns its contents as a list', () => {
-      expect(list.asList.equals(List([new SassNumber(1)]))).toBe(true);
+      expect(list.asList).toEqualWithHash(List([new SassNumber(1)]));
     });
   });
 

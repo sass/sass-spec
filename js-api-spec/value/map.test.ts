@@ -88,72 +88,60 @@ describe('SassMap', () => {
     });
 
     it("doesn't equal the equivalent list", () => {
-      expect(
-        map.equals(
-          new SassList(
-            [
-              new SassList([new SassString('a'), new SassString('b')], {
-                separator: ',',
-              }),
-              new SassList([new SassString('c'), new SassString('d')], {
-                separator: ',',
-              }),
-            ],
-            {separator: ','}
-          )
+      expect(map).not.toEqualWithHash(
+        new SassList(
+          [
+            new SassList([new SassString('a'), new SassString('b')], {
+              separator: ',',
+            }),
+            new SassList([new SassString('c'), new SassString('d')], {
+              separator: ',',
+            }),
+          ],
+          {separator: ','}
         )
-      ).toBe(false);
+      );
     });
 
     describe("doesn't equal a map with", () => {
       it('a different value', () => {
-        expect(
-          map.equals(
-            new SassMap(
-              OrderedMap([
-                [new SassString('a'), new SassString('x')],
-                [new SassString('c'), new SassString('d')],
-              ])
-            )
+        expect(map).not.toEqualWithHash(
+          new SassMap(
+            OrderedMap([
+              [new SassString('a'), new SassString('x')],
+              [new SassString('c'), new SassString('d')],
+            ])
           )
-        ).toBe(false);
+        );
       });
 
       it('a different key', () => {
-        expect(
-          map.equals(
-            new SassMap(
-              OrderedMap([
-                [new SassString('a'), new SassString('b')],
-                [new SassString('x'), new SassString('d')],
-              ])
-            )
+        expect(map).not.toEqualWithHash(
+          new SassMap(
+            OrderedMap([
+              [new SassString('a'), new SassString('b')],
+              [new SassString('x'), new SassString('d')],
+            ])
           )
-        ).toBe(false);
+        );
       });
 
       it('a missing pair', () => {
-        expect(
-          map.equals(
-            new SassMap(
-              OrderedMap([[new SassString('a'), new SassString('b')]])
-            )
-          )
-        ).toBe(false);
+        expect(map).not.toEqualWithHash(
+          new SassMap(OrderedMap([[new SassString('a'), new SassString('b')]]))
+        );
       });
 
       it('an additional pair', () => {
-        expect(
-          map.equals(
-            new SassMap(
-              OrderedMap([
-                [new SassString('a'), new SassString('b')],
-                [new SassString('c'), new SassString('d')],
-                [new SassString('e'), new SassString('f')],
-              ])
-            )
+        expect(map).not.toEqualWithHash(
+          new SassMap(
+            OrderedMap([
+              [new SassString('a'), new SassString('b')],
+              [new SassString('c'), new SassString('d')],
+              [new SassString('e'), new SassString('f')],
+            ])
           )
-        ).toBe(false);
+        );
       });
     });
   });
