@@ -4,7 +4,7 @@
 
 import * as sass from 'sass';
 
-import {skipForImpl, captureStdio, captureStdioAsync} from '../utils';
+import {skipForImpl, captureStdioAsync} from '../utils';
 
 describe('render()', () => {
   it('renders a string', done => {
