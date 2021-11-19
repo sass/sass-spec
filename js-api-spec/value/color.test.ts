@@ -193,6 +193,11 @@ describe('SassColor', () => {
         hwb(120, 24.313725490196077, 40.3921568627451)
       );
     });
+
+    it('allows negative hue', () => {
+      expect(hsl(-240, 42, 42).hue).toBe(120);
+      expect(hsl(-240, 42, 42)).toEqualWithHash(color);
+    });
   });
 
   describe('an HWB color', () => {
@@ -230,6 +235,11 @@ describe('SassColor', () => {
         hwb(120, 41.96078431372549, 41.96078431372548)
       );
     });
+
+    it('allows negative hue', () => {
+      expect(hwb(-240, 42, 42).hue).toBe(120);
+      expect(hwb(-240, 42, 42)).toEqualWithHash(color);
+    });
   });
 
   describe('changing color values', () => {
@@ -238,7 +248,7 @@ describe('SassColor', () => {
       color = rgb(18, 52, 86);
     });
 
-    describe('change()', () => {
+    describe('change() for RGB', () => {
       it('changes RGB values', () => {
         expect(color.change({red: 0})).toEqualWithHash(rgb(0, 52, 86));
         expect(color.change({green: 0})).toEqualWithHash(rgb(18, 0, 86));
@@ -283,10 +293,13 @@ describe('SassColor', () => {
       });
     });
 
-    describe('change()', () => {
+    describe('change() for HSL', () => {
       it('changes HSL values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           hsl(120, 65.3846153846154, 20.392156862745097)
+        );
+        expect(color.change({hue: -120})).toEqualWithHash(
+          hsl(240, 65.3846153846154, 20.392156862745097)
         );
         expect(color.change({saturation: 42})).toEqualWithHash(
           hsl(210, 42, 20.392156862745097)
@@ -326,10 +339,13 @@ describe('SassColor', () => {
       });
     });
 
-    describe('change()', () => {
+    describe('change() for HWB', () => {
       it('changes HWB values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           hwb(120, 7.0588235294117645, 66.27450980392157)
+        );
+        expect(color.change({hue: -120})).toEqualWithHash(
+          hwb(240, 7.0588235294117645, 66.27450980392157)
         );
         expect(color.change({whiteness: 42})).toEqualWithHash(
           hwb(210, 42, 66.27450980392157)
