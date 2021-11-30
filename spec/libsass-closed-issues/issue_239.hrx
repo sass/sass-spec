@@ -108,9 +108,9 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   '
     input.scss 1:10  root stylesheet
 
-DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
-Recommendation: math.div(12, $n)
+Recommendation: math.div(12, $n) or calc(12 / $n)
 
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
@@ -121,9 +121,9 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
     input.scss 6:15   col-width()
     input.scss 21:16  root stylesheet
 
-DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
-Recommendation: math.div(100% - $gutter * $divisor - 1, $divisor)
+Recommendation: math.div(100% - $gutter * ($divisor - 1), $divisor) or calc((100% - $gutter * ($divisor - 1)) / $divisor)
 
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
