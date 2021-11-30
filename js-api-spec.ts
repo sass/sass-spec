@@ -1,7 +1,7 @@
 /* eslint-disable no-process-exit */
 
 import * as del from 'del';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as jest from 'jest';
 import * as p from 'path';
 import * as tmp from 'tmp';
@@ -83,7 +83,10 @@ if (!fs.existsSync(specIndex)) {
   process.exit(1);
 }
 
-fs.symlinkSync(p.resolve(specPath), p.join(sassPackagePath, 'js-api'));
+// Copy rather than symlinking so we don't end up using the Sass repo's
+// `node_modules` directory.
+fs.copySync(p.resolve(specPath), p.join(sassPackagePath, 'js-api'));
+
 fs.writeFileSync(
   p.join(sassPackagePath, 'package.json'),
   JSON.stringify({
