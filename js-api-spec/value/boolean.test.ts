@@ -3,66 +3,64 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassTrue, sassFalse} from 'sass';
-import {skipForImpl} from '../utils';
+import '../utils';
 
-skipForImpl('dart-sass', () => {
-  describe('Sass boolean', () => {
-    describe('sassTrue', () => {
-      const value: Value = sassTrue;
+describe('Sass boolean', () => {
+  describe('sassTrue', () => {
+    const value: Value = sassTrue;
 
-      it('is truthy', () => {
-        expect(value.isTruthy).toBe(true);
-      });
-
-      it('is sassTrue', () => {
-        expect(value).toEqualWithHash(sassTrue);
-      });
-
-      it('is a value', () => {
-        expect(value).toBeInstanceOf(Value);
-      });
-
-      it('is a boolean', () => {
-        expect(value.assertBoolean()).toBe(sassTrue);
-      });
-
-      it("isn't any other type", () => {
-        expect(value.assertColor).toThrow();
-        expect(value.assertFunction).toThrow();
-        expect(value.assertMap).toThrow();
-        expect(value.tryMap()).toBe(null);
-        expect(value.assertNumber).toThrow();
-        expect(value.assertString).toThrow();
-      });
+    it('is truthy', () => {
+      expect(value.isTruthy).toBe(true);
     });
 
-    describe('sassFalse', () => {
-      const value: Value = sassFalse;
+    it('is sassTrue', () => {
+      expect(value).toEqualWithHash(sassTrue);
+    });
 
-      it('is falsey', () => {
-        expect(value.isTruthy).toBe(false);
-      });
+    it('is a value', () => {
+      expect(value).toBeInstanceOf(Value);
+    });
 
-      it('is sassFalse', () => {
-        expect(value).toEqualWithHash(sassFalse);
-      });
+    it('is a boolean', () => {
+      expect(value.assertBoolean()).toBe(sassTrue);
+    });
 
-      it('is a value', () => {
-        expect(value).toBeInstanceOf(Value);
-      });
+    it("isn't any other type", () => {
+      expect(value.assertColor).toThrow();
+      expect(value.assertFunction).toThrow();
+      expect(value.assertMap).toThrow();
+      expect(value.tryMap()).toBe(null);
+      expect(value.assertNumber).toThrow();
+      expect(value.assertString).toThrow();
+    });
+  });
 
-      it('is a boolean', () => {
-        expect(value.assertBoolean()).toBe(sassFalse);
-      });
+  describe('sassFalse', () => {
+    const value: Value = sassFalse;
 
-      it("isn't any other type", () => {
-        expect(value.assertColor).toThrow();
-        expect(value.assertFunction).toThrow();
-        expect(value.assertMap).toThrow();
-        expect(value.tryMap()).toBe(null);
-        expect(value.assertNumber).toThrow();
-        expect(value.assertString).toThrow();
-      });
+    it('is falsey', () => {
+      expect(value.isTruthy).toBe(false);
+    });
+
+    it('is sassFalse', () => {
+      expect(value).toEqualWithHash(sassFalse);
+    });
+
+    it('is a value', () => {
+      expect(value).toBeInstanceOf(Value);
+    });
+
+    it('is a boolean', () => {
+      expect(value.assertBoolean()).toBe(sassFalse);
+    });
+
+    it("isn't any other type", () => {
+      expect(value.assertColor).toThrow();
+      expect(value.assertFunction).toThrow();
+      expect(value.assertMap).toThrow();
+      expect(value.tryMap()).toBe(null);
+      expect(value.assertNumber).toThrow();
+      expect(value.assertString).toThrow();
     });
   });
 });

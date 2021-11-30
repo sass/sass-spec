@@ -3,36 +3,34 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassNull} from 'sass';
-import {skipForImpl} from '../utils';
+import '../utils';
 
-skipForImpl('dart-sass', () => {
-  describe('Sass null', () => {
-    const value: Value = sassNull;
+describe('Sass null', () => {
+  const value: Value = sassNull;
 
-    it('is falsey', () => {
-      expect(value.isTruthy).toBe(false);
-    });
+  it('is falsey', () => {
+    expect(value.isTruthy).toBe(false);
+  });
 
-    it('returns null in realNull check', () => {
-      expect(value.realNull).toBe(null);
-    });
+  it('returns null in realNull check', () => {
+    expect(value.realNull).toBe(null);
+  });
 
-    it('is equal to itself', () => {
-      expect(value).toEqualWithHash(sassNull);
-    });
+  it('is equal to itself', () => {
+    expect(value).toEqualWithHash(sassNull);
+  });
 
-    it('is a value', () => {
-      expect(value).toBeInstanceOf(Value);
-    });
+  it('is a value', () => {
+    expect(value).toBeInstanceOf(Value);
+  });
 
-    it("isn't any type", () => {
-      expect(value.assertBoolean).toThrow();
-      expect(value.assertColor).toThrow();
-      expect(value.assertFunction).toThrow();
-      expect(value.assertMap).toThrow();
-      expect(value.tryMap()).toBe(null);
-      expect(value.assertNumber).toThrow();
-      expect(value.assertString).toThrow();
-    });
+  it("isn't any type", () => {
+    expect(value.assertBoolean).toThrow();
+    expect(value.assertColor).toThrow();
+    expect(value.assertFunction).toThrow();
+    expect(value.assertMap).toThrow();
+    expect(value.tryMap()).toBe(null);
+    expect(value.assertNumber).toThrow();
+    expect(value.assertString).toThrow();
   });
 });
