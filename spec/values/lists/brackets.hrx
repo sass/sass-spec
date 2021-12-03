@@ -1,3 +1,11 @@
+<===> empty/input.scss
+a { b: [] }
+
+<===> empty/output.css
+a {
+  b: [];
+}
+
 <===>
 <==============================================================================>
 <===> single/input.scss
@@ -11,21 +19,21 @@ a {
 <===>
 <==============================================================================>
 <===> multiple/input.scss
-a { b: [c, d] }
+a { b: [c d] }
 
 <===> multiple/output.css
 a {
-  b: [c, d];
+  b: [c d];
 }
 
 <===>
 <==============================================================================>
-<===> empty/input.scss
-a { b: [] }
+<===> nested/empty/input.scss
+a { b: [[]] }
 
-<===> empty/output.css
+<===> nested/empty/output.css
 a {
-  b: [];
+  b: [[]];
 }
 
 <===>
@@ -41,11 +49,21 @@ a {
 <===>
 <==============================================================================>
 <===> nested/multiple/input.scss
-a { b: [[c], [d, e]] }
+a { b: [[c] [d]] }
 
 <===> nested/multiple/output.css
 a {
-  b: [[c], [d, e]];
+  b: [[c] [d]];
+}
+
+<===>
+<==============================================================================>
+<===> nested/unbracketed/empty/input.scss
+a { b: [()] }
+
+<===> nested/unbracketed/empty/output.css
+a {
+  b: [];
 }
 
 <===>
@@ -61,30 +79,9 @@ a {
 <===>
 <==============================================================================>
 <===> nested/unbracketed/multiple/input.scss
-a { b: [(c,), (d, e)] }
+a { b: [(c,) (d e)] }
 
 <===> nested/unbracketed/multiple/output.css
 a {
-  b: [c, d, e];
-}
-
-<===>
-<==============================================================================>
-<===> trailing_comma/input.scss
-a { b: [c, d,] }
-
-<===> trailing_comma/output.css
-a {
-  b: [c, d];
-}
-
-
-<===>
-<==============================================================================>
-<===> space_separated/input.scss
-a { b: [c d] }
-
-<===> space_separated/output.css
-a {
-  b: [c d];
+  b: [c d e];
 }
