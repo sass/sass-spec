@@ -5,6 +5,28 @@
 <===> supports/declaration/input.scss
 @import "a.css" supports(a: b);
 
+<===> supports/declaration/custom_prop/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/declaration/custom_prop/value/input.scss
+@import "a.css" supports(--a: b);
+
+<===> supports/declaration/custom_prop/value/output.css
+@import "a.css" supports(--a: b);
+
+<===> supports/declaration/custom_prop/whitespace/input.scss
+@import "a.css" supports(--a: );
+
+<===> supports/declaration/custom_prop/whitespace/output.css
+@import "a.css" supports(--a: );
+
+<===> supports/declaration/custom_prop/punctuation/input.scss
+@import "a.css" supports(--a: ,);
+
+<===> supports/declaration/custom_prop/punctuation/output.css
+@import "a.css" supports(--a: ,);
+
 <===> supports/declaration/output.css
 @import "a.css" supports(a: b);
 
@@ -52,6 +74,7 @@
 
 <===> supports/condition_negation/input.scss
 @import "a.css" supports(not (a: b));
+
 <===> supports/condition_negation/output.css
 @import "a.css" supports(not (a: b));
 
@@ -102,3 +125,23 @@ Error: Invalid CSS after "...x-width: 400px)": expected 1 selector or at-rule, w
 >> @import url("a.css") (max-width: 400px) supports(display: flex);
 
    ---------------------------------------^
+
+<===>
+================================================================================
+<===> error/supports/declaration/custom_prop/empty/input.scss
+@import url("a.css") supports(--a:);
+
+<===> error/supports/declaration/custom_prop/empty/error
+Error: Expected token.
+  ,
+1 | @import url("a.css") supports(--a:);
+  |                                   ^
+  '
+  input.scss 1:35  root stylesheet
+
+<===> error/supports/declaration/custom_prop/empty/error-libsass
+Error: Invalid CSS after '....css") supports': expected 1 selector or at-rule, was "(--a:);"
+        on line 1:22 of input.scss
+>> @import url("a.css") supports(--a:);
+
+   ---------------------^

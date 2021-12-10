@@ -53,6 +53,43 @@
 
 <===>
 ================================================================================
+<===> declaration/custom_prop/options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> declaration/custom_prop/value/input.scss
+@supports (--a: b) {@c}
+
+<===> declaration/custom_prop/value/output.css
+@supports (--a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/whitespace/input.scss
+@supports (--a: ) {@c}
+
+<===> declaration/custom_prop/whitespace/output.css
+@supports (--a: ) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/comma/input.scss
+@supports (--a: ,) {@c}
+
+<===> declaration/custom_prop/comma/output.css
+@supports (--a: ,) {
+  @c;
+}
+
+<===>
+================================================================================
 <===> operator/not/input.scss
 @supports not (a: b) {@c}
 
