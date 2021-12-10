@@ -407,14 +407,16 @@ skipForImpl('sass-embedded', () => {
       });
     });
   });
+});
 
-  describe('compileStringAsync returns a promise that', () => {
-    it('succeeds when compilation succeeds', async () => {
-      await expect(compileStringAsync('a {b: c}')).resolves.toMatchObject({
-        css: 'a {\n  b: c;\n}',
-      });
+describe('compileStringAsync returns a promise that', () => {
+  it('succeeds when compilation succeeds', async () => {
+    await expect(compileStringAsync('a {b: c}')).resolves.toMatchObject({
+      css: 'a {\n  b: c;\n}',
     });
+  });
 
+  skipForImpl('sass-embedded', () => {
     describe('fails when compilation fails', () => {
       it('with a syntax error', async () => {
         await expect(() => compileStringAsync('a {b:')).toThrowSassException({
@@ -431,16 +433,18 @@ skipForImpl('sass-embedded', () => {
       });
     });
   });
+});
 
-  describe('compileAsync returns a promise that', () => {
-    it('succeeds when compilation succeeds', () =>
-      sandbox(async dir => {
-        dir.write({'input.scss': 'a {b: c}'});
-        await expect(compileAsync(dir('input.scss'))).resolves.toMatchObject({
-          css: 'a {\n  b: c;\n}',
-        });
-      }));
+describe('compileAsync returns a promise that', () => {
+  it('succeeds when compilation succeeds', () =>
+    sandbox(async dir => {
+      dir.write({'input.scss': 'a {b: c}'});
+      await expect(compileAsync(dir('input.scss'))).resolves.toMatchObject({
+        css: 'a {\n  b: c;\n}',
+      });
+    }));
 
+  skipForImpl('sass-embedded', () => {
     describe('fails when compilation fails', () => {
       it('with a syntax error', () =>
         sandbox(async dir => {
