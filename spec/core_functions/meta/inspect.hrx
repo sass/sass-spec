@@ -287,6 +287,16 @@ a {
 }
 
 <===>
+<==============================================================================>
+<===> inspect/empty/bracketed/input.scss
+a {b: inspect([])}
+
+<===> inspect/empty/bracketed/output.css
+a {
+  b: [];
+}
+
+<===>
 ================================================================================
 <===> list/single/space/options.yml
 ---
@@ -516,6 +526,26 @@ a {
 a {
   value: () / ();
   type: string;
+}
+
+<===>
+<==============================================================================>
+<===> list/nested/empty_bracketed/bracketed/input.scss
+a {b: inspect([[] []])}
+
+<===> list/nested/empty_bracketed/bracketed/output.css
+a {
+  b: [[] []];
+}
+
+<===>
+<==============================================================================>
+<===> list/nested/empty_bracketed/unbracketed/input.scss
+a {b: inspect(([] []))}
+
+<===> list/nested/empty_bracketed/unbracketed/output.css
+a {
+  b: [] [];
 }
 
 <===>

@@ -1,52 +1,87 @@
-<===> input.scss
-.bracketed-lists {
-  empty: [];
-  single: [foo];
-  multiple: [foo, bar];
-  nested: [[foo], [[bar, baz]]];
-  space-separated: [foo bar baz];
-  trailing-comma: [foo, bar,];
+<===> empty/input.scss
+a {b: []}
 
-  // List functions treat it like a list.
-  nth-comma: nth([foo, bar], 2);
-  nth-space: nth([foo bar], 2);
-  comma-separator: list-separator([foo, bar]);
-  space-separator: list-separator([foo bar]);
-
-  // List functions preserve bracketedness.
-  set-nth: set-nth([foo, bar, baz], 2, qux);
-  append: append([foo, bar], baz);
-  append-with-separator: append([foo, bar], baz, $separator: space);
-
-  // Inspection produces valid input. This also verifies that nested lists of
-  // various sorts are parsed properly.
-  inspect-empty: inspect([]);
-  inspect-simple: inspect([foo, bar]);
-  inspect-nested-bracketed: inspect([[foo]]);
-  inspect-nested-unbracketed: inspect([(foo bar)]);
-  inspect-nested-unbracketed-comma: inspect([foo bar,]);
-  inspect-nested-unbracketed-singleton: inspect([(foo,)]);
+<===> empty/output.css
+a {
+  b: [];
 }
 
-<===> output.css
-.bracketed-lists {
-  empty: [];
-  single: [foo];
-  multiple: [foo, bar];
-  nested: [[foo], [[bar, baz]]];
-  space-separated: [foo bar baz];
-  trailing-comma: [foo, bar];
-  nth-comma: bar;
-  nth-space: bar;
-  comma-separator: comma;
-  space-separator: space;
-  set-nth: [foo, qux, baz];
-  append: [foo, bar, baz];
-  append-with-separator: [foo bar baz];
-  inspect-empty: [];
-  inspect-simple: [foo, bar];
-  inspect-nested-bracketed: [[foo]];
-  inspect-nested-unbracketed: [(foo bar)];
-  inspect-nested-unbracketed-comma: [foo bar,];
-  inspect-nested-unbracketed-singleton: [(foo,)];
+<===>
+<==============================================================================>
+<===> single/input.scss
+a {b: [c]}
+
+<===> single/output.css
+a {
+  b: [c];
+}
+
+<===>
+<==============================================================================>
+<===> multiple/input.scss
+a {b: [c d]}
+
+<===> multiple/output.css
+a {
+  b: [c d];
+}
+
+<===>
+<==============================================================================>
+<===> nested/empty/input.scss
+a {b: [[]]}
+
+<===> nested/empty/output.css
+a {
+  b: [[]];
+}
+
+<===>
+<==============================================================================>
+<===> nested/single/input.scss
+a {b: [[c]]}
+
+<===> nested/single/output.css
+a {
+  b: [[c]];
+}
+
+<===>
+<==============================================================================>
+<===> nested/multiple/input.scss
+a {b: [[c] [d]]}
+
+<===> nested/multiple/output.css
+a {
+  b: [[c] [d]];
+}
+
+<===>
+<==============================================================================>
+<===> nested/unbracketed/empty/input.scss
+a {b: [()]}
+
+<===> nested/unbracketed/empty/output.css
+a {
+  b: [];
+}
+
+<===>
+<==============================================================================>
+<===> nested/unbracketed/single/input.scss
+a {b: [(c,)]}
+
+<===> nested/unbracketed/single/output.css
+a {
+  b: [c];
+}
+
+<===>
+<==============================================================================>
+<===> nested/unbracketed/multiple/input.scss
+a {b: [(c,) (d e)]}
+
+<===> nested/unbracketed/multiple/output.css
+a {
+  b: [c d e];
 }
