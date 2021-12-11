@@ -178,6 +178,23 @@ Error: @supports condition expected declaration
 
 <===>
 ================================================================================
+<===> syntax/declaration/custom_prop/empty/options.yml
+:ignore_for:
+  - libsass
+
+<===> syntax/declaration/custom_prop/empty/input.scss
+@supports (--a:) {@c}
+
+<===> syntax/declaration/custom_prop/empty/error
+Error: Expected token.
+  ,
+1 | @supports (--a:) {@c}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
 <===> syntax/operator/and_after_not/input.scss
 @supports not (a: b) and (c: d) {@e}
 
