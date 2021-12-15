@@ -13,7 +13,7 @@ import {
   OutputStyle,
 } from 'sass';
 
-import {skipForImpl, sandbox} from './utils';
+import {sandbox} from './utils';
 
 describe('compileString', () => {
   describe('success', () => {
@@ -48,183 +48,180 @@ describe('compileString', () => {
       });
     });
 
-    skipForImpl('sass-embedded', () => {
-      describe('loadedUrls', () => {
-        it('is empty with no URL', () => {
-          expect(compileString('a {b: c}').loadedUrls).toEqual([]);
-        });
+    describe('loadedUrls', () => {
+      it('is empty with no URL', () => {
+        expect(compileString('a {b: c}').loadedUrls).toEqual([]);
+      });
 
-        it('contains the URL if one is passed', () => {
-          const url = new URL('file:///foo.scss');
-          expect(compileString('a {b: c}', {url}).loadedUrls).toEqual([url]);
-        });
+      it('contains the URL if one is passed', () => {
+        const url = new URL('file:///foo.scss');
+        expect(compileString('a {b: c}', {url}).loadedUrls).toEqual([url]);
+      });
 
-        it('contains an immediate dependency', () =>
-          sandbox(dir => {
-            const url = dir.url('input.scss');
-            dir.write({'_other.scss': 'a {b: c}'});
-            expect(compileString('@use "other"', {url}).loadedUrls).toEqual([
-              url,
-              dir.url('_other.scss'),
-            ]);
-          }));
+      it('contains an immediate dependency', () =>
+        sandbox(dir => {
+          const url = dir.url('input.scss');
+          dir.write({'_other.scss': 'a {b: c}'});
+          expect(compileString('@use "other"', {url}).loadedUrls).toEqual([
+            url,
+            dir.url('_other.scss'),
+          ]);
+        }));
 
-        it('contains a transitive dependency', () =>
+      it('contains a transitive dependency', () =>
+        sandbox(dir => {
+          const url = dir.url('input.scss');
+          dir.write({
+            '_midstream.scss': '@use "upstream"',
+            '_upstream.scss': 'a {b: c}',
+          });
+          expect(compileString('@use "midstream"', {url}).loadedUrls).toEqual([
+            url,
+            dir.url('_midstream.scss'),
+            dir.url('_upstream.scss'),
+          ]);
+        }));
+
+      describe('contains a dependency only once', () => {
+        it('for @use', () =>
           sandbox(dir => {
             const url = dir.url('input.scss');
             dir.write({
-              '_midstream.scss': '@use "upstream"',
+              '_left.scss': '@use "upstream"',
+              '_right.scss': '@use "upstream"',
               '_upstream.scss': 'a {b: c}',
             });
-            expect(compileString('@use "midstream"', {url}).loadedUrls).toEqual(
-              [url, dir.url('_midstream.scss'), dir.url('_upstream.scss')]
-            );
+            expect(
+              compileString('@use "left"; @use "right"', {url}).loadedUrls
+            ).toEqual([
+              url,
+              dir.url('_left.scss'),
+              dir.url('_upstream.scss'),
+              dir.url('_right.scss'),
+            ]);
           }));
 
-        describe('contains a dependency only once', () => {
-          it('for @use', () =>
-            sandbox(dir => {
-              const url = dir.url('input.scss');
-              dir.write({
-                '_left.scss': '@use "upstream"',
-                '_right.scss': '@use "upstream"',
-                '_upstream.scss': 'a {b: c}',
-              });
-              expect(
-                compileString('@use "left"; @use "right"', {url}).loadedUrls
-              ).toEqual([
-                url,
-                dir.url('_left.scss'),
-                dir.url('_upstream.scss'),
-                dir.url('_right.scss'),
-              ]);
-            }));
+        it('for @import', () =>
+          sandbox(dir => {
+            const url = dir.url('input.scss');
+            dir.write({
+              '_left.scss': '@import "upstream"',
+              '_right.scss': '@import "upstream"',
+              '_upstream.scss': 'a {b: c}',
+            });
+            expect(
+              compileString('@import "left"; @import "right"', {url}).loadedUrls
+            ).toEqual([
+              url,
+              dir.url('_left.scss'),
+              dir.url('_upstream.scss'),
+              dir.url('_right.scss'),
+            ]);
+          }));
+      });
 
-          it('for @import', () =>
-            sandbox(dir => {
-              const url = dir.url('input.scss');
-              dir.write({
-                '_left.scss': '@import "upstream"',
-                '_right.scss': '@import "upstream"',
-                '_upstream.scss': 'a {b: c}',
-              });
-              expect(
-                compileString('@import "left"; @import "right"', {url})
-                  .loadedUrls
-              ).toEqual([
-                url,
-                dir.url('_left.scss'),
-                dir.url('_upstream.scss'),
-                dir.url('_right.scss'),
-              ]);
-            }));
+      it('url is used to resolve relative loads', () =>
+        sandbox(dir => {
+          dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+
+          expect(
+            compileString('@use "other";', {
+              url: dir.url('foo/bar/style.scss'),
+            }).css
+          ).toBe('a {\n  b: c;\n}');
+        }));
+
+      describe('loadPaths', () => {
+        it('is used to resolve loads', () =>
+          sandbox(dir => {
+            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+
+            expect(
+              compileString('@use "other";', {
+                loadPaths: [dir('foo/bar')],
+              }).css
+            ).toBe('a {\n  b: c;\n}');
+          }));
+
+        it('resolves relative paths', () =>
+          sandbox(dir => {
+            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+
+            expect(
+              compileString('@use "bar/other";', {
+                loadPaths: [dir('foo')],
+              }).css
+            ).toBe('a {\n  b: c;\n}');
+          }));
+
+        it("resolves loads using later paths if earlier ones don't match", () =>
+          sandbox(dir => {
+            dir.write({'baz/_other.scss': 'a {b: c}'});
+
+            expect(
+              compileString('@use "other";', {
+                loadPaths: [dir('foo'), dir('bar'), dir('baz')],
+              }).css
+            ).toBe('a {\n  b: c;\n}');
+          }));
+
+        it("doesn't take precedence over loads relative to the url", () =>
+          sandbox(dir => {
+            dir.write({
+              'url/_other.scss': 'a {b: url}',
+              'load-path/_other.scss': 'a {b: load path}',
+            });
+
+            expect(
+              compileString('@use "other";', {
+                loadPaths: [dir('load-path')],
+                url: dir.url('url/input.scss'),
+              }).css
+            ).toBe('a {\n  b: url;\n}');
+          }));
+
+        it('uses earlier paths in preference to later ones', () =>
+          sandbox(dir => {
+            dir.write({
+              'earlier/_other.scss': 'a {b: earlier}',
+              'later/_other.scss': 'a {b: later}',
+            });
+
+            expect(
+              compileString('@use "other";', {
+                loadPaths: [dir('earlier'), dir('later')],
+              }).css
+            ).toBe('a {\n  b: earlier;\n}');
+          }));
+      });
+
+      it('recognizes the expanded output style', () => {
+        expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
+          'a {\n  b: c;\n}'
+        );
+      });
+
+      describe('sourceMap', () => {
+        it("doesn't include one by default", () => {
+          expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
+        });
+
+        it('includes one if sourceMap is true', () => {
+          const result = compileString('a {b: c}', {sourceMap: true});
+          expect(result).toHaveProperty('sourceMap');
+
+          // Explicitly don't test the details of the source map, because
+          // individual implementations are allowed to generate a custom map.
+          const sourceMap = result.sourceMap!;
+          expect(typeof sourceMap.version).toBeString();
+          expect(sourceMap.sources).toBeArray();
+          expect(sourceMap.names).toBeArray();
+          expect(sourceMap.mappings).toBeString();
         });
       });
     });
 
-    it('url is used to resolve relative loads', () =>
-      sandbox(dir => {
-        dir.write({'foo/bar/_other.scss': 'a {b: c}'});
-
-        expect(
-          compileString('@use "other";', {
-            url: dir.url('foo/bar/style.scss'),
-          }).css
-        ).toBe('a {\n  b: c;\n}');
-      }));
-
-    describe('loadPaths', () => {
-      it('is used to resolve loads', () =>
-        sandbox(dir => {
-          dir.write({'foo/bar/_other.scss': 'a {b: c}'});
-
-          expect(
-            compileString('@use "other";', {
-              loadPaths: [dir('foo/bar')],
-            }).css
-          ).toBe('a {\n  b: c;\n}');
-        }));
-
-      it('resolves relative paths', () =>
-        sandbox(dir => {
-          dir.write({'foo/bar/_other.scss': 'a {b: c}'});
-
-          expect(
-            compileString('@use "bar/other";', {
-              loadPaths: [dir('foo')],
-            }).css
-          ).toBe('a {\n  b: c;\n}');
-        }));
-
-      it("resolves loads using later paths if earlier ones don't match", () =>
-        sandbox(dir => {
-          dir.write({'baz/_other.scss': 'a {b: c}'});
-
-          expect(
-            compileString('@use "other";', {
-              loadPaths: [dir('foo'), dir('bar'), dir('baz')],
-            }).css
-          ).toBe('a {\n  b: c;\n}');
-        }));
-
-      it("doesn't take precedence over loads relative to the url", () =>
-        sandbox(dir => {
-          dir.write({
-            'url/_other.scss': 'a {b: url}',
-            'load-path/_other.scss': 'a {b: load path}',
-          });
-
-          expect(
-            compileString('@use "other";', {
-              loadPaths: [dir('load-path')],
-              url: dir.url('url/input.scss'),
-            }).css
-          ).toBe('a {\n  b: url;\n}');
-        }));
-
-      it('uses earlier paths in preference to later ones', () =>
-        sandbox(dir => {
-          dir.write({
-            'earlier/_other.scss': 'a {b: earlier}',
-            'later/_other.scss': 'a {b: later}',
-          });
-
-          expect(
-            compileString('@use "other";', {
-              loadPaths: [dir('earlier'), dir('later')],
-            }).css
-          ).toBe('a {\n  b: earlier;\n}');
-        }));
-    });
-
-    it('recognizes the expanded output style', () => {
-      expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
-        'a {\n  b: c;\n}'
-      );
-    });
-
-    describe('sourceMap', () => {
-      it("doesn't include one by default", () => {
-        expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
-      });
-
-      it('includes one if sourceMap is true', () => {
-        const result = compileString('a {b: c}', {sourceMap: true});
-        expect(result).toHaveProperty('sourceMap');
-
-        // Explicitly don't test the details of the source map, because
-        // individual implementations are allowed to generate a custom map.
-        const sourceMap = result.sourceMap!;
-        expect(typeof sourceMap.version).toBeString();
-        expect(sourceMap.sources).toBeArray();
-        expect(sourceMap.names).toBeArray();
-        expect(sourceMap.mappings).toBeString();
-      });
-    });
-  });
-
-  describe('error', () => {
-    skipForImpl('sass-embedded', () => {
+    describe('error', () => {
       it('requires plain CSS with explicit syntax', () => {
         expect(() =>
           compileString('$a: b; c {d: $a}', {syntax: 'css'})
@@ -309,35 +306,33 @@ describe('compile', () => {
         expect(compile(dir('input.css')).css).toBe('a {\n  b: c;\n}');
       }));
 
-    skipForImpl('sass-embedded', () => {
-      describe('loadedUrls', () => {
-        it("includes a relative path's URL", () =>
-          sandbox(dir => {
-            dir.write({'input.scss': 'a {b: c}'});
-            expect(compile(dir('input.scss')).loadedUrls).toEqual([
-              dir.url('input.scss'),
-            ]);
-          }));
+    describe('loadedUrls', () => {
+      it("includes a relative path's URL", () =>
+        sandbox(dir => {
+          dir.write({'input.scss': 'a {b: c}'});
+          expect(compile(dir('input.scss')).loadedUrls).toEqual([
+            dir.url('input.scss'),
+          ]);
+        }));
 
-        it("includes an absolute path's URL", () =>
-          sandbox(dir => {
-            const path = p.resolve(dir('input.scss'));
-            dir.write({'input.scss': 'a {b: c}'});
-            expect(compile(path).loadedUrls).toEqual([dir.url('input.scss')]);
-          }));
+      it("includes an absolute path's URL", () =>
+        sandbox(dir => {
+          const path = p.resolve(dir('input.scss'));
+          dir.write({'input.scss': 'a {b: c}'});
+          expect(compile(path).loadedUrls).toEqual([dir.url('input.scss')]);
+        }));
 
-        it('contains a dependency', () =>
-          sandbox(dir => {
-            dir.write({
-              'input.scss': '@use "other"',
-              '_other.scss': 'a {b: c}',
-            });
-            expect(compile(dir('input.scss')).loadedUrls).toEqual([
-              dir.url('input.scss'),
-              dir.url('_other.scss'),
-            ]);
-          }));
-      });
+      it('contains a dependency', () =>
+        sandbox(dir => {
+          dir.write({
+            'input.scss': '@use "other"',
+            '_other.scss': 'a {b: c}',
+          });
+          expect(compile(dir('input.scss')).loadedUrls).toEqual([
+            dir.url('input.scss'),
+            dir.url('_other.scss'),
+          ]);
+        }));
     });
 
     it('the path is used to resolve relative loads', () =>
@@ -378,36 +373,34 @@ describe('compile', () => {
     });
   });
 
-  skipForImpl('sass-embedded', () => {
-    describe('error', () => {
-      it('requires plain CSS for a .css file', () =>
+  describe('error', () => {
+    it('requires plain CSS for a .css file', () =>
+      sandbox(dir => {
+        dir.write({'input.css': '$a: b; c {d: $a}'});
+        expect(() => compile(dir('input.css'))).toThrowSassException({
+          line: 0,
+          url: dir.url('input.css'),
+        });
+      }));
+
+    describe("includes the path's URL", () => {
+      it('in syntax errors', () =>
         sandbox(dir => {
-          dir.write({'input.css': '$a: b; c {d: $a}'});
-          expect(() => compile(dir('input.css'))).toThrowSassException({
+          dir.write({'input.scss': 'a {b:'});
+          expect(() => compile(dir('input.scss'))).toThrowSassException({
             line: 0,
-            url: dir.url('input.css'),
+            url: dir.url('input.scss'),
           });
         }));
 
-      describe("includes the path's URL", () => {
-        it('in syntax errors', () =>
-          sandbox(dir => {
-            dir.write({'input.scss': 'a {b:'});
-            expect(() => compile(dir('input.scss'))).toThrowSassException({
-              line: 0,
-              url: dir.url('input.scss'),
-            });
-          }));
-
-        it('in runtime errors', () =>
-          sandbox(dir => {
-            dir.write({'input.scss': '@error "oh no"'});
-            expect(() => compile(dir('input.scss'))).toThrowSassException({
-              line: 0,
-              url: dir.url('input.scss'),
-            });
-          }));
-      });
+      it('in runtime errors', () =>
+        sandbox(dir => {
+          dir.write({'input.scss': '@error "oh no"'});
+          expect(() => compile(dir('input.scss'))).toThrowSassException({
+            line: 0,
+            url: dir.url('input.scss'),
+          });
+        }));
     });
   });
 });
@@ -419,20 +412,18 @@ describe('compileStringAsync returns a promise that', () => {
     });
   });
 
-  skipForImpl('sass-embedded', () => {
-    describe('fails when compilation fails', () => {
-      it('with a syntax error', async () => {
-        await expect(() => compileStringAsync('a {b:')).toThrowSassException({
-          line: 0,
-        });
+  describe('fails when compilation fails', () => {
+    it('with a syntax error', async () => {
+      await expect(() => compileStringAsync('a {b:')).toThrowSassException({
+        line: 0,
       });
+    });
 
-      it('with a runtime error', async () => {
-        await expect(() =>
-          compileStringAsync('@error "oh no";')
-        ).toThrowSassException({
-          line: 0,
-        });
+    it('with a runtime error', async () => {
+      await expect(() =>
+        compileStringAsync('@error "oh no";')
+      ).toThrowSassException({
+        line: 0,
       });
     });
   });
@@ -447,27 +438,25 @@ describe('compileAsync returns a promise that', () => {
       });
     }));
 
-  skipForImpl('sass-embedded', () => {
-    describe('fails when compilation fails', () => {
-      it('with a syntax error', () =>
-        sandbox(async dir => {
-          dir.write({'input.scss': 'a {b:'});
-          await expect(() =>
-            compileAsync(dir('input.scss'))
-          ).toThrowSassException({
-            line: 0,
-          });
-        }));
+  describe('fails when compilation fails', () => {
+    it('with a syntax error', () =>
+      sandbox(async dir => {
+        dir.write({'input.scss': 'a {b:'});
+        await expect(() =>
+          compileAsync(dir('input.scss'))
+        ).toThrowSassException({
+          line: 0,
+        });
+      }));
 
-      it('with a runtime error', () =>
-        sandbox(async dir => {
-          dir.write({'input.scss': '@error "oh no";'});
-          await expect(() =>
-            compileAsync(dir('input.scss'))
-          ).toThrowSassException({
-            line: 0,
-          });
-        }));
-    });
+    it('with a runtime error', () =>
+      sandbox(async dir => {
+        dir.write({'input.scss': '@error "oh no";'});
+        await expect(() =>
+          compileAsync(dir('input.scss'))
+        ).toThrowSassException({
+          line: 0,
+        });
+      }));
   });
 });
