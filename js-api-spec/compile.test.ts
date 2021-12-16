@@ -15,40 +15,40 @@ import {
 
 import {skipForImpl, sandbox} from './utils';
 
-skipForImpl('sass-embedded', () => {
-  describe('compileString', () => {
-    describe('success', () => {
-      describe('input', () => {
-        it('compiles SCSS by default', () => {
-          expect(compileString('$a: b; c {d: $a}').css).toBe('c {\n  d: b;\n}');
-        });
-
-        it('compiles SCSS with explicit syntax', () => {
-          expect(compileString('$a: b; c {d: $a}', {syntax: 'scss'}).css).toBe(
-            'c {\n  d: b;\n}'
-          );
-        });
-
-        it('compiles indented syntax with explicit syntax', () => {
-          expect(compileString('a\n  b: c', {syntax: 'indented'}).css).toBe(
-            'a {\n  b: c;\n}'
-          );
-        });
-
-        it('compiles plain CSS with explicit syntax', () => {
-          expect(compileString('a {b: c}', {syntax: 'css'}).css).toBe(
-            'a {\n  b: c;\n}'
-          );
-        });
-
-        it("doesn't take its syntax from the URL's extension", () => {
-          // Shouldn't parse the file as the indented syntax.
-          expect(
-            compileString('a {b: c}', {url: new URL('file:///foo.sass')}).css
-          ).toBe('a {\n  b: c;\n}');
-        });
+describe('compileString', () => {
+  describe('success', () => {
+    describe('input', () => {
+      it('compiles SCSS by default', () => {
+        expect(compileString('$a: b; c {d: $a}').css).toBe('c {\n  d: b;\n}');
       });
 
+      it('compiles SCSS with explicit syntax', () => {
+        expect(compileString('$a: b; c {d: $a}', {syntax: 'scss'}).css).toBe(
+          'c {\n  d: b;\n}'
+        );
+      });
+
+      it('compiles indented syntax with explicit syntax', () => {
+        expect(compileString('a\n  b: c', {syntax: 'indented'}).css).toBe(
+          'a {\n  b: c;\n}'
+        );
+      });
+
+      it('compiles plain CSS with explicit syntax', () => {
+        expect(compileString('a {b: c}', {syntax: 'css'}).css).toBe(
+          'a {\n  b: c;\n}'
+        );
+      });
+
+      it("doesn't take its syntax from the URL's extension", () => {
+        // Shouldn't parse the file as the indented syntax.
+        expect(
+          compileString('a {b: c}', {url: new URL('file:///foo.sass')}).css
+        ).toBe('a {\n  b: c;\n}');
+      });
+    });
+
+    skipForImpl('sass-embedded', () => {
       describe('loadedUrls', () => {
         it('is empty with no URL', () => {
           expect(compileString('a {b: c}').loadedUrls).toEqual([]);
@@ -120,109 +120,111 @@ skipForImpl('sass-embedded', () => {
             }));
         });
       });
+    });
 
-      it('url is used to resolve relative loads', () =>
+    it('url is used to resolve relative loads', () =>
+      sandbox(dir => {
+        dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+
+        expect(
+          compileString('@use "other";', {
+            url: dir.url('foo/bar/style.scss'),
+          }).css
+        ).toBe('a {\n  b: c;\n}');
+      }));
+
+    describe('loadPaths', () => {
+      it('is used to resolve loads', () =>
         sandbox(dir => {
           dir.write({'foo/bar/_other.scss': 'a {b: c}'});
 
           expect(
             compileString('@use "other";', {
-              url: dir.url('foo/bar/style.scss'),
+              loadPaths: [dir('foo/bar')],
             }).css
           ).toBe('a {\n  b: c;\n}');
         }));
 
-      describe('loadPaths', () => {
-        it('is used to resolve loads', () =>
-          sandbox(dir => {
-            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+      it('resolves relative paths', () =>
+        sandbox(dir => {
+          dir.write({'foo/bar/_other.scss': 'a {b: c}'});
 
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('foo/bar')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
+          expect(
+            compileString('@use "bar/other";', {
+              loadPaths: [dir('foo')],
+            }).css
+          ).toBe('a {\n  b: c;\n}');
+        }));
 
-        it('resolves relative paths', () =>
-          sandbox(dir => {
-            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+      it("resolves loads using later paths if earlier ones don't match", () =>
+        sandbox(dir => {
+          dir.write({'baz/_other.scss': 'a {b: c}'});
 
-            expect(
-              compileString('@use "bar/other";', {
-                loadPaths: [dir('foo')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('foo'), dir('bar'), dir('baz')],
+            }).css
+          ).toBe('a {\n  b: c;\n}');
+        }));
 
-        it("resolves loads using later paths if earlier ones don't match", () =>
-          sandbox(dir => {
-            dir.write({'baz/_other.scss': 'a {b: c}'});
+      it("doesn't take precedence over loads relative to the url", () =>
+        sandbox(dir => {
+          dir.write({
+            'url/_other.scss': 'a {b: url}',
+            'load-path/_other.scss': 'a {b: load path}',
+          });
 
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('foo'), dir('bar'), dir('baz')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('load-path')],
+              url: dir.url('url/input.scss'),
+            }).css
+          ).toBe('a {\n  b: url;\n}');
+        }));
 
-        it("doesn't take precedence over loads relative to the url", () =>
-          sandbox(dir => {
-            dir.write({
-              'url/_other.scss': 'a {b: url}',
-              'load-path/_other.scss': 'a {b: load path}',
-            });
+      it('uses earlier paths in preference to later ones', () =>
+        sandbox(dir => {
+          dir.write({
+            'earlier/_other.scss': 'a {b: earlier}',
+            'later/_other.scss': 'a {b: later}',
+          });
 
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('load-path')],
-                url: dir.url('url/input.scss'),
-              }).css
-            ).toBe('a {\n  b: url;\n}');
-          }));
-
-        it('uses earlier paths in preference to later ones', () =>
-          sandbox(dir => {
-            dir.write({
-              'earlier/_other.scss': 'a {b: earlier}',
-              'later/_other.scss': 'a {b: later}',
-            });
-
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('earlier'), dir('later')],
-              }).css
-            ).toBe('a {\n  b: earlier;\n}');
-          }));
-      });
-
-      it('recognizes the expanded output style', () => {
-        expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
-          'a {\n  b: c;\n}'
-        );
-      });
-
-      describe('sourceMap', () => {
-        it("doesn't include one by default", () => {
-          expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
-        });
-
-        it('includes one if sourceMap is true', () => {
-          const result = compileString('a {b: c}', {sourceMap: true});
-          expect(result).toHaveProperty('sourceMap');
-
-          // Explicitly don't test the details of the source map, because
-          // individual implementations are allowed to generate a custom map.
-          const sourceMap = result.sourceMap!;
-          expect(typeof sourceMap.version).toBeString();
-          expect(sourceMap.sources).toBeArray();
-          expect(sourceMap.names).toBeArray();
-          expect(sourceMap.mappings).toBeString();
-        });
-      });
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('earlier'), dir('later')],
+            }).css
+          ).toBe('a {\n  b: earlier;\n}');
+        }));
     });
 
-    describe('error', () => {
+    it('recognizes the expanded output style', () => {
+      expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
+        'a {\n  b: c;\n}'
+      );
+    });
+
+    describe('sourceMap', () => {
+      it("doesn't include one by default", () => {
+        expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
+      });
+
+      it('includes one if sourceMap is true', () => {
+        const result = compileString('a {b: c}', {sourceMap: true});
+        expect(result).toHaveProperty('sourceMap');
+
+        // Explicitly don't test the details of the source map, because
+        // individual implementations are allowed to generate a custom map.
+        const sourceMap = result.sourceMap!;
+        expect(typeof sourceMap.version).toBeString();
+        expect(sourceMap.sources).toBeArray();
+        expect(sourceMap.names).toBeArray();
+        expect(sourceMap.mappings).toBeString();
+      });
+    });
+  });
+
+  describe('error', () => {
+    skipForImpl('sass-embedded', () => {
       it('requires plain CSS with explicit syntax', () => {
         expect(() =>
           compileString('$a: b; c {d: $a}', {syntax: 'css'})
@@ -265,47 +267,49 @@ skipForImpl('sass-embedded', () => {
           })
         ).toThrow();
       });
+    });
 
-      it("doesn't throw a Sass exception for an argument error", () => {
-        expect(() =>
-          compileString('a {b: c}', {
-            style: 'unrecognized style' as OutputStyle,
-          })
-        ).not.toThrowSassException();
-      });
+    it("doesn't throw a Sass exception for an argument error", () => {
+      expect(() =>
+        compileString('a {b: c}', {
+          style: 'unrecognized style' as OutputStyle,
+        })
+      ).not.toThrowSassException();
+    });
 
-      it('is an instance of Error', () => {
-        expect(() => compileString('a {b:')).toThrow(Error);
-      });
+    it('is an instance of Error', () => {
+      expect(() => compileString('a {b:')).toThrow(Error);
     });
   });
+});
 
-  describe('compile', () => {
-    describe('success', () => {
-      it('compiles SCSS for a .scss file', () =>
-        sandbox(dir => {
-          dir.write({'input.scss': '$a: b; c {d: $a}'});
-          expect(compile(dir('input.scss')).css).toBe('c {\n  d: b;\n}');
-        }));
+describe('compile', () => {
+  describe('success', () => {
+    it('compiles SCSS for a .scss file', () =>
+      sandbox(dir => {
+        dir.write({'input.scss': '$a: b; c {d: $a}'});
+        expect(compile(dir('input.scss')).css).toBe('c {\n  d: b;\n}');
+      }));
 
-      it('compiles SCSS for a file with an unknown extension', () =>
-        sandbox(dir => {
-          dir.write({'input.asdf': '$a: b; c {d: $a}'});
-          expect(compile(dir('input.asdf')).css).toBe('c {\n  d: b;\n}');
-        }));
+    it('compiles SCSS for a file with an unknown extension', () =>
+      sandbox(dir => {
+        dir.write({'input.asdf': '$a: b; c {d: $a}'});
+        expect(compile(dir('input.asdf')).css).toBe('c {\n  d: b;\n}');
+      }));
 
-      it('compiles indented syntax for a .sass file', () =>
-        sandbox(dir => {
-          dir.write({'input.sass': 'a\n  b: c'});
-          expect(compile(dir('input.sass')).css).toBe('a {\n  b: c;\n}');
-        }));
+    it('compiles indented syntax for a .sass file', () =>
+      sandbox(dir => {
+        dir.write({'input.sass': 'a\n  b: c'});
+        expect(compile(dir('input.sass')).css).toBe('a {\n  b: c;\n}');
+      }));
 
-      it('compiles plain CSS for a .css file', () =>
-        sandbox(dir => {
-          dir.write({'input.css': 'a {b: c}'});
-          expect(compile(dir('input.css')).css).toBe('a {\n  b: c;\n}');
-        }));
+    it('compiles plain CSS for a .css file', () =>
+      sandbox(dir => {
+        dir.write({'input.css': 'a {b: c}'});
+        expect(compile(dir('input.css')).css).toBe('a {\n  b: c;\n}');
+      }));
 
+    skipForImpl('sass-embedded', () => {
       describe('loadedUrls', () => {
         it("includes a relative path's URL", () =>
           sandbox(dir => {
@@ -334,48 +338,47 @@ skipForImpl('sass-embedded', () => {
             ]);
           }));
       });
+    });
 
-      it('the path is used to resolve relative loads', () =>
+    it('the path is used to resolve relative loads', () =>
+      sandbox(dir => {
+        dir.write({
+          'foo/bar/input.scss': '@use "other"',
+          'foo/bar/_other.scss': 'a {b: c}',
+        });
+
+        expect(compile(dir('foo/bar/input.scss')).css).toBe('a {\n  b: c;\n}');
+      }));
+
+    describe('loadPaths', () => {
+      it('is used to resolve loads', () =>
         sandbox(dir => {
           dir.write({
-            'foo/bar/input.scss': '@use "other"',
+            'input.scss': '@use "other"',
             'foo/bar/_other.scss': 'a {b: c}',
           });
 
-          expect(compile(dir('foo/bar/input.scss')).css).toBe(
-            'a {\n  b: c;\n}'
-          );
+          expect(
+            compile(dir('input.scss'), {loadPaths: [dir('foo/bar')]}).css
+          ).toBe('a {\n  b: c;\n}');
         }));
 
-      describe('loadPaths', () => {
-        it('is used to resolve loads', () =>
-          sandbox(dir => {
-            dir.write({
-              'input.scss': '@use "other"',
-              'foo/bar/_other.scss': 'a {b: c}',
-            });
+      it("doesn't take precedence over loads relative to the entrypoint", () =>
+        sandbox(dir => {
+          dir.write({
+            'url/input.scss': '@use "other";',
+            'url/_other.scss': 'a {b: url}',
+            'load-path/_other.scss': 'a {b: load path}',
+          });
 
-            expect(
-              compile(dir('input.scss'), {loadPaths: [dir('foo/bar')]}).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
-
-        it("doesn't take precedence over loads relative to the entrypoint", () =>
-          sandbox(dir => {
-            dir.write({
-              'url/input.scss': '@use "other";',
-              'url/_other.scss': 'a {b: url}',
-              'load-path/_other.scss': 'a {b: load path}',
-            });
-
-            expect(
-              compile(dir('url/input.scss'), {loadPaths: [dir('load-path')]})
-                .css
-            ).toBe('a {\n  b: url;\n}');
-          }));
-      });
+          expect(
+            compile(dir('url/input.scss'), {loadPaths: [dir('load-path')]}).css
+          ).toBe('a {\n  b: url;\n}');
+        }));
     });
+  });
 
+  skipForImpl('sass-embedded', () => {
     describe('error', () => {
       it('requires plain CSS for a .css file', () =>
         sandbox(dir => {
