@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassNumber, SassString} from 'sass';
-import {skipForImpl} from '../utils';
+import '../utils';
 
 describe('Sass string', () => {
   describe('construction', () => {
@@ -91,11 +91,8 @@ describe('Sass string', () => {
         string = new SassString('nb');
       });
 
-      // sass/embedded-host-node#72
-      skipForImpl('sass-embedded', () => {
-        it('returns the length', () => {
-          expect(string.sassLength).toBe(2);
-        });
+      it('returns the length', () => {
+        expect(string.sassLength).toBe(2);
       });
 
       it('converts a positive index', () => {
@@ -124,11 +121,8 @@ describe('Sass string', () => {
         string = new SassString('a👭b👬c');
       });
 
-      // sass/embedded-host-node#72
-      skipForImpl('sass-embedded', () => {
-        it('returns the length', () => {
-          expect(string.sassLength).toBe(5);
-        });
+      it('returns the length', () => {
+        expect(string.sassLength).toBe(5);
       });
 
       it('converts a positive index', () => {
