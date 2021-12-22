@@ -2,17 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {OrderedMap} from 'immutable';
-import {
-  CustomFunction,
-  SassArgumentList,
-  SassFunction,
-  SassNumber,
-  SassString,
-  compileString,
-  compileStringAsync,
-  sassNull,
-} from 'sass';
+import {SassFunction, SassNumber, compileString, sassNull} from 'sass';
 
 import '../utils';
 
@@ -24,14 +14,17 @@ it('can round-trip a function reference from Sass', () => {
   });
 
   expect(
-    compileString(`
+    compileString(
+      `
       @use 'sass:meta';
 
       @function plusOne($n) {@return $n + 1}
       a {b: meta.call(foo(meta.get-function('plusOne')), 2)}
-    `, {
-      functions: {'foo($arg)': fn},
-    }).css
+    `,
+      {
+        functions: {'foo($arg)': fn},
+      }
+    ).css
   ).toBe('a {\n  b: 3;\n}');
 
   expect(fn).toBeCalled();
@@ -40,7 +33,7 @@ it('can round-trip a function reference from Sass', () => {
 it('can call a function reference from JS', () => {
   const fn = jest.fn(args => {
     expect(args).toHaveLength(0);
-    return new SassFunction("plusOne($n)", (args) => {
+    return new SassFunction('plusOne($n)', args => {
       expect(args).toHaveLength(1);
       expect(args[0].assertNumber().value).toBe(2);
       return new SassNumber(args[0].assertNumber().value + 1);
@@ -48,13 +41,16 @@ it('can call a function reference from JS', () => {
   });
 
   expect(
-    compileString(`
+    compileString(
+      `
       @use 'sass:meta';
 
       a {b: meta.call(foo(), 2)}
-    `, {
-      functions: {'foo()': fn},
-    }).css
+    `,
+      {
+        functions: {'foo()': fn},
+      }
+    ).css
   ).toBe('a {\n  b: 3;\n}');
 
   expect(fn).toBeCalled();
@@ -65,9 +61,7 @@ describe('rejects a function signature that', () => {
   // function is instantiated *or* when it's returned from the custom function
   // callback. This test works in either case.
   function rejectsSignature(signature: string): void {
-    const fn = jest.fn(args => 
-      new SassFunction(signature, () => sassNull)
-    );
+    const fn = jest.fn(() => new SassFunction(signature, () => sassNull));
 
     expect(() =>
       compileString('a {b: inspect(foo())}', {
