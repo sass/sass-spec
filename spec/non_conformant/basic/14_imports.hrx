@@ -1,3 +1,15 @@
+<===> input.scss
+@import "a.scss";
+
+foo {
+  blah: blah;
+  goo {
+    blee: blee;
+    @import "../14_imports/b.scss";
+    hello: world;
+  }
+  @import "sub/c.scss";
+}
 <===> a.scss
 div {
   span {
@@ -15,18 +27,6 @@ hoo {
 <===> d.scss
 d {
   inside: d now;
-}
-<===> input.scss
-@import "a.scss";
-
-foo {
-  blah: blah;
-  goo {
-    blee: blee;
-    @import "../14_imports/b.scss";
-    hello: world;
-  }
-  @import "sub/c.scss";
 }
 <===> sub/c.scss
 blux {

@@ -1,9 +1,3 @@
-<===> _input-bug.scss
-$include-foo: true !default;
-.bar { display: none; }
-@if ($include-foo) {
-  .foo { display: none; }
-}
 <===> input.scss
 $include-foo: true !default;
 .my-scope {
@@ -12,6 +6,12 @@ $include-foo: true !default;
     .foo { display: none; }
   }
   @import 'input-bug';
+}
+<===> _input-bug.scss
+$include-foo: true !default;
+.bar { display: none; }
+@if ($include-foo) {
+  .foo { display: none; }
 }
 <===> output.css
 .my-scope .bar {

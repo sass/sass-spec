@@ -37,6 +37,18 @@ a {
 
 <===>
 ================================================================================
+<===> same_module/non_existent/input.scss
+a {
+  b: global-variable-exists(non-existent);
+}
+
+<===> same_module/non_existent/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> dash_insensitive/dash_to_underscore/input.scss
 $a_b: null;
 
@@ -57,18 +69,6 @@ c {d: global-variable-exists(a_b)}
 <===> dash_insensitive/underscore_to_dash/output.css
 c {
   d: true;
-}
-
-<===>
-================================================================================
-<===> same_module/non_existent/input.scss
-a {
-  b: global-variable-exists(non-existent);
-}
-
-<===> same_module/non_existent/output.css
-a {
-  b: false;
 }
 
 <===>

@@ -74,11 +74,11 @@ a {
 <===> precedence/normal_before_index/input.scss
 @use "dir";
 
-<===> precedence/normal_before_index/dir/index.scss
-a {index: true}
-
 <===> precedence/normal_before_index/dir.scss
 a {index: false}
+
+<===> precedence/normal_before_index/dir/index.scss
+a {index: true}
 
 <===> precedence/normal_before_index/output.css
 a {
@@ -103,13 +103,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/scss/input.scss
+@use "dir";
+
 <===> index/scss/dir/index.scss
 .foo {
   a: b;
 }
-
-<===> index/scss/input.scss
-@use "dir";
 
 <===> index/scss/output.css
 .foo {
@@ -118,12 +118,12 @@ a {
 
 <===>
 ================================================================================
+<===> index/sass/input.scss
+@use "dir";
+
 <===> index/sass/dir/index.sass
 .foo 
   a: b
-
-<===> index/sass/input.scss
-@use "dir";
 
 <===> index/sass/output.css
 .foo {
@@ -132,13 +132,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/partial/input.scss
+@use "dir";
+
 <===> index/partial/dir/_index.scss
 .foo {
   a: b;
 }
-
-<===> index/partial/input.scss
-@use "dir";
 
 <===> index/partial/output.css
 .foo {
@@ -147,13 +147,13 @@ a {
 
 <===>
 ================================================================================
+<===> index/dir_dot_foo/input.scss
+@use "dir.foo";
+
 <===> index/dir_dot_foo/dir.foo/index.scss
 .foo {
   a: b;
 }
-
-<===> index/dir_dot_foo/input.scss
-@use "dir.foo";
 
 <===> index/dir_dot_foo/output.css
 .foo {

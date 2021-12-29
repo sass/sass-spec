@@ -3,6 +3,17 @@
 :todo:
 - sass/libsass#2807
 
+<===> _util.scss
+@use "sass:meta";
+
+@mixin print-function-map($functions) {
+  a {
+    @each $name, $function in $functions {
+      #{$name}: meta.call($function);
+    }
+  }
+}
+
 <===>
 ================================================================================
 <===> empty/input.scss
@@ -17,19 +28,6 @@ a {b: meta.inspect(meta.module-functions("other"))}
 <===> empty/output.css
 a {
   b: ();
-}
-
-<===>
-================================================================================
-<===> _util.scss
-@use "sass:meta";
-
-@mixin print-function-map($functions) {
-  a {
-    @each $name, $function in $functions {
-      #{$name}: meta.call($function);
-    }
-  }
 }
 
 <===>
