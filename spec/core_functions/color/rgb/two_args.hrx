@@ -123,3 +123,42 @@ a {
   b: rgba(17, 34, 51, 0.5);
 }
 
+<===>
+================================================================================
+<===> special_functions/calc/string/arg_2/input.scss
+a {b: rgb(blue, unquote("calc(0.4)"))}
+
+<===> special_functions/calc/string/arg_2/output.css
+a {
+  b: rgb(0, 0, 255, calc(0.4));
+}
+
+<===>
+================================================================================
+<===> special_functions/var/args/alpha/input.scss
+a {b: rgb(blue, var(--foo))}
+
+<===> special_functions/var/args/alpha/output.css
+a {
+  b: rgb(0, 0, 255, var(--foo));
+}
+
+<===>
+================================================================================
+<===> special_functions/var/args/color/input.scss
+a {b: rgb(var(--foo), 0.4)}
+
+<===> special_functions/var/args/color/output.css
+a {
+  b: rgb(var(--foo), 0.4);
+}
+
+<===>
+================================================================================
+<===> special_functions/var/args/both/input.scss
+a {b: rgb(var(--foo), var(--foo))}
+
+<===> special_functions/var/args/both/output.css
+a {
+  b: rgb(var(--foo), var(--foo));
+}

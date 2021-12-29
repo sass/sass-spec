@@ -49,17 +49,17 @@ b {
 
 <===>
 ================================================================================
-<===> trailing_comma/input.scss
+<===> trailing_comma/single/input.scss
 @use "midstream";
 
-<===> trailing_comma/_midstream.scss
+<===> trailing_comma/single/_midstream.scss
 @forward "upstream" with ($a: configured,);
 
-<===> trailing_comma/_upstream.scss
+<===> trailing_comma/single/_upstream.scss
 $a: original !default;
 b {c: $a}
 
-<===> trailing_comma/output.css
+<===> trailing_comma/single/output.css
 b {
   c: configured;
 }
@@ -100,17 +100,17 @@ b {
 
 <===>
 ================================================================================
-<===> multiple/input.scss
+<===> multiple/non_default/input.scss
 @use "midstream";
 
-<===> multiple/_midstream.scss
+<===> multiple/non_default/_midstream.scss
 @forward "upstream" with (
   $a: configured a,
   $b: configured b,
   $c: configured c
 );
 
-<===> multiple/_upstream.scss
+<===> multiple/non_default/_upstream.scss
 $a: original a !default;
 $b: original b !default;
 $c: original c !default;
@@ -121,7 +121,7 @@ d {
   c: $c;
 }
 
-<===> multiple/output.css
+<===> multiple/non_default/output.css
 d {
   a: configured a;
   b: configured b;
