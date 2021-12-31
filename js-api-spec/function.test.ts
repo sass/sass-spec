@@ -2,17 +2,15 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {OrderedMap} from 'immutable';
 import {
   CustomFunction,
-  SassArgumentList,
   SassString,
   compileString,
   compileStringAsync,
   sassNull,
 } from 'sass';
 
-import {skipForImpl} from './utils';
+import './utils';
 
 it('passes an argument to a custom function and uses its return value', () => {
   const fn = jest.fn(args => {
@@ -77,48 +75,6 @@ it('passes a default argument value', () => {
   ).toBe('');
 
   expect(fn).toBeCalled();
-});
-
-skipForImpl('sass-embedded', () => {
-  it('passes an argument list', () => {
-    const fn = jest.fn(args => {
-      expect(args).toHaveLength(1);
-      const arglist = args[0].asList;
-      expect(arglist.size).toBe(3);
-      expect(arglist.get(0).assertString().text).toBe('x');
-      expect(arglist.get(1).assertString().text).toBe('y');
-      expect(arglist.get(2).assertString().text).toBe('z');
-      return sassNull;
-    });
-
-    expect(
-      compileString('a {b: foo(x, y, z)}', {
-        functions: {'foo($args...)': fn},
-      }).css
-    ).toBe('');
-
-    expect(fn).toBeCalled();
-  });
-
-  it('passes keyword arguments', () => {
-    const fn = jest.fn(args => {
-      expect(args).toHaveLength(1);
-      expect(args[0].asList.size).toBe(0);
-      const keywords = (args[0] as SassArgumentList).keywords;
-      expect(keywords).toEqualWithHash(
-        OrderedMap([['bar', new SassString('baz', {quotes: false})]])
-      );
-      return sassNull;
-    });
-
-    expect(
-      compileString('a {b: foo($bar: baz)}', {
-        functions: {'foo($args...)': fn},
-      }).css
-    ).toBe('');
-
-    expect(fn).toBeCalled();
-  });
 });
 
 describe('gracefully handles a custom function', () => {
