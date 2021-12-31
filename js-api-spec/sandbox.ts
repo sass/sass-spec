@@ -41,6 +41,15 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
+        chdir: (callback: () => unknown) => {
+          const oldPath = process.cwd();
+          process.chdir(testDir);
+          try {
+            return callback();
+          } finally {
+            process.chdir(oldPath);
+          }
+        },
       })
     );
   } finally {
@@ -69,4 +78,7 @@ interface SandboxDirectory {
    * Each key is a filename, and each value is the file's contents.
    */
   write(paths: {[path: string]: string}): void;
+
+  /** Runs `callback` with `root` as the current directory. */
+  chdir<T>(callback: () => T): void;
 }
