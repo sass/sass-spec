@@ -37,6 +37,12 @@ declare global {
       toThrowSassException(object: {line?: number; noUrl: boolean}): R;
 
       /**
+       * Matches a callback that throws a `sass.LegacyException` with with the
+       * given `line` number and `file` path.
+       */
+      toThrowLegacyException(object?: {line?: number; file?: string}): R;
+
+      /**
        * Matches a value that's `.equal()` to and has the same `.hashCode()` as
        * `value`.
        */
@@ -78,6 +84,90 @@ expect.extend({
       }
     } catch (thrown: unknown) {
       return verifyThrown(thrown, options);
+    }
+
+    return {
+      message: () => `expected ${received} to throw`,
+      pass: false,
+    };
+  },
+
+  toThrowLegacyException(
+    received: unknown,
+    options: {line?: number; file?: string} = {}
+  ): SyncExpectationResult {
+    if (typeof received !== 'function') {
+      throw new Error('Received value must be a function');
+    }
+
+    try {
+      received();
+    } catch (thrown: unknown) {
+      if (typeof thrown !== 'object' || thrown === null) {
+        return {
+          message: () => `expected ${thrown} to be an object`,
+          pass: false,
+        };
+      } else if (!('formatted' in thrown)) {
+        return {
+          message: () => "expected exception to have a 'formatted' field",
+          pass: false,
+        };
+      } else if (!('status' in thrown)) {
+        return {
+          message: () => "expected exception to have a 'status' field",
+          pass: false,
+        };
+      }
+
+      if (options?.line !== undefined) {
+        if (!('line' in thrown)) {
+          return {
+            message: () => "expected exception to have a 'line' field",
+            pass: false,
+          };
+        } else if ((thrown as {line: unknown}).line !== options.line) {
+          return {
+            message: () =>
+              `expected exception.line to be ${options.line}, was ` +
+              `${(thrown as {line: unknown}).line}`,
+            pass: false,
+          };
+        }
+      }
+
+      if (options?.file !== undefined) {
+        if (!('file' in thrown)) {
+          return {
+            message: () => "expected exception to have a 'file' field",
+            pass: false,
+          };
+        } else if ((thrown as {file: unknown}).file !== options.file) {
+          return {
+            message: () =>
+              `expected exception.file to be "${options.file}", was ` +
+              `"${(thrown as {file: unknown}).file}"`,
+            pass: false,
+          };
+        }
+      }
+
+      if (options?.line !== undefined) {
+        return {
+          message: () => `expected exception.line not to be ${options.line}`,
+          pass: true,
+        };
+      } else if (options?.file !== undefined) {
+        return {
+          message: () => `expected exception.file not to be "${options.file}"`,
+          pass: true,
+        };
+      } else {
+        return {
+          message: () => 'expected callback not to throw a LegacyException',
+          pass: true,
+        };
+      }
     }
 
     return {
