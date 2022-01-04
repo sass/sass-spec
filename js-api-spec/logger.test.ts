@@ -21,7 +21,7 @@ it('emits debug to stderr by default', () => {
 });
 
 describe('with @warn', () => {
-  fit('passes the message and stack trace to the logger', done => {
+  it('passes the message and stack trace to the logger', done => {
     compileString(
       `
         @mixin foo {@warn heck}
