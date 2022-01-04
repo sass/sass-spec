@@ -21,15 +21,17 @@ it('emits debug to stderr by default', () => {
 });
 
 describe('with @warn', () => {
-  it('passes the message and stack trace to the logger', done => {
+  fit('passes the message and stack trace to the logger', done => {
     compileString(
-      `@mixin foo {@warn heck}
-         @include foo;`,
+      `
+        @mixin foo {@warn heck}
+        @include foo;
+      `,
       {
         logger: {
           warn(message, {deprecation, span, stack}) {
             expect(message).toBe('heck');
-            expect(span).toBeNull();
+            expect(span).toBeUndefined();
             expect(stack).toBeString();
             expect(deprecation).toBeFalse();
             done();
