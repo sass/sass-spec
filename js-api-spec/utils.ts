@@ -2,13 +2,13 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {URL} from 'url';
-import * as util from 'util';
-
 import 'jest-extended';
-import * as sass from 'sass';
 import * as immutable from 'immutable';
+import * as sass from 'sass';
+import * as util from 'util';
 import interceptStdout from 'intercept-stdout';
+import {Console} from 'console';
+import {URL} from 'url';
 
 export {sandbox} from './sandbox';
 
@@ -304,6 +304,16 @@ export function skipForImpl(
 
 /** Runs `block` and captures any stdout or stderr it emits. */
 export function captureStdio(block: () => void): {out: string; err: string} {
+  // Jest overrides the console to pipe output to test reporter, so while we
+  // execute `block` we have to replace Jest's console with a normal one that
+  // can be intercepted by `interceptStdout`.
+  const nativeConsole = new Console({
+    stdout: process.stdout,
+    stderr: process.stderr,
+  });
+  const jestConsole = global.console;
+  global.console = nativeConsole;
+
   let out = '';
   let err = '';
   const unhook = interceptStdout(
@@ -321,6 +331,7 @@ export function captureStdio(block: () => void): {out: string; err: string} {
     block();
   } finally {
     unhook();
+    global.console = jestConsole;
   }
 
   return {out, err};
@@ -330,6 +341,16 @@ export function captureStdio(block: () => void): {out: string; err: string} {
 export async function captureStdioAsync(
   block: () => Promise<void>
 ): Promise<{out: string; err: string}> {
+  // Jest overrides the console to pipe output to test reporter, so while we
+  // execute `block` we have to replace Jest's console with a normal one that
+  // can be intercepted by `interceptStdout`.
+  const nativeConsole = new Console({
+    stdout: process.stdout,
+    stderr: process.stderr,
+  });
+  const jestConsole = global.console;
+  global.console = nativeConsole;
+
   let out = '';
   let err = '';
   const unhook = interceptStdout(
@@ -347,6 +368,7 @@ export async function captureStdioAsync(
     await block();
   } finally {
     unhook();
+    global.console = jestConsole;
   }
 
   return {out, err};
