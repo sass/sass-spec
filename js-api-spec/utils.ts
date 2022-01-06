@@ -39,8 +39,15 @@ declare global {
       /**
        * Matches a callback that throws a `sass.LegacyException` with with the
        * given `line` number and `file` path.
+       *
+       * If `includes` is passed, this verifies that the exception's
+       * `toString()` includes that value.
        */
-      toThrowLegacyException(object?: {line?: number; file?: string}): R;
+      toThrowLegacyException(object?: {
+        line?: number;
+        file?: string;
+        includes?: string;
+      }): R;
 
       /**
        * Matches a value that's `.equal()` to and has the same `.hashCode()` as
@@ -94,7 +101,7 @@ expect.extend({
 
   toThrowLegacyException(
     received: unknown,
-    options: {line?: number; file?: string} = {}
+    options: {line?: number; file?: string; includes?: string} = {}
   ): SyncExpectationResult {
     if (typeof received !== 'function') {
       throw new Error('Received value must be a function');
@@ -152,6 +159,18 @@ expect.extend({
         }
       }
 
+      if (
+        options?.includes !== undefined &&
+        !`${thrown}`.includes(options.includes)
+      ) {
+        return {
+          message: () =>
+            `expected exception.toString() to contain "${options.includes}", ` +
+            `was "${thrown}"`,
+          pass: false,
+        };
+      }
+
       if (options?.line !== undefined) {
         return {
           message: () => `expected exception.line not to be ${options.line}`,
@@ -160,6 +179,13 @@ expect.extend({
       } else if (options?.file !== undefined) {
         return {
           message: () => `expected exception.file not to be "${options.file}"`,
+          pass: true,
+        };
+      } else if (options?.includes !== undefined) {
+        return {
+          message: () =>
+            'expected exception.toString() not to contain ' +
+            `"${options.includes}"`,
           pass: true,
         };
       } else {
