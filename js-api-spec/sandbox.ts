@@ -22,7 +22,9 @@ export async function sandbox(
     sassPathDirs?: string[];
   }
 ): Promise<void> {
-  const testDir = p.join('spec', 'sandbox', `${Math.random()}`.slice(2));
+  const testDir = p.resolve(
+    p.join('spec', 'sandbox', `${Math.random()}`.slice(2))
+  );
   fs.mkdirSync(testDir, {recursive: true});
   if (options?.sassPathDirs) {
     process.env.SASS_PATH = options.sassPathDirs.join(
