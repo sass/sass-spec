@@ -10,103 +10,103 @@ import * as sass from 'sass';
 import {sandbox} from '../sandbox';
 import {skipForImpl} from '../utils';
 
-skipForImpl('sass-embedded', () => {
-  describe('a basic invocation', () => {
-    let css: string;
-    let map: {[key: string]: unknown};
-    beforeEach(() => {
-      const result = sass.renderSync({
-        data: 'a {b: c}',
-        sourceMap: true,
-        outFile: 'out.css',
-      });
-      css = result.css.toString();
-      map = JSON.parse(result.map!.toString()) as {[key: string]: unknown};
+describe('a basic invocation', () => {
+  let css: string;
+  let map: {[key: string]: unknown};
+  beforeEach(() => {
+    const result = sass.renderSync({
+      data: 'a {b: c}',
+      sourceMap: true,
+      outFile: 'out.css',
     });
-
-    it('includes reasonable-looking mappings', () => {
-      expect(map).toContainKey('mappings');
-      expect(map['mappings']).toMatch(/^([A-Za-z\d+/=]*[,;]?)*$/);
-    });
-
-    it('includes the name of the output file', () =>
-      expect(map).toContainEntry(['file', 'out.css']));
-
-    it('includes stdin as a source', () =>
-      expect(map).toContainEntry(['sources', ['stdin']]));
-
-    it('includes a source map comment', () =>
-      expect(css).toEndWith('\n\n/*# sourceMappingURL=out.css.map */'));
+    css = result.css.toString();
+    map = JSON.parse(result.map!.toString()) as {[key: string]: unknown};
   });
 
-  describe('the sources list', () => {
-    it('contains a relative path to an input file', () =>
-      sandbox(dir => {
-        dir.write({'test.scss': 'a {b: c}'});
+  it('includes reasonable-looking mappings', () => {
+    expect(map).toContainKey('mappings');
+    expect(map['mappings']).toMatch(/^([A-Za-z\d+/=]*[,;]?)*$/);
+  });
 
-        const map = renderSourceMap({
-          file: dir('test.scss'),
-          sourceMap: true,
-          outFile: dir('out.css'),
-        });
-        expect(map).toContainEntry(['sources', ['test.scss']]);
-      }));
+  it('includes the name of the output file', () =>
+    expect(map).toContainEntry(['file', 'out.css']));
 
-    it('makes the path relative to outFile', () =>
-      sandbox(dir => {
-        dir.write({'test.scss': 'a {b: c}'});
+  it('includes stdin as a source', () =>
+    expect(map).toContainEntry(['sources', ['stdin']]));
 
-        const map = renderSourceMap({
-          file: dir('test.scss'),
-          sourceMap: true,
-          outFile: dir('dir/out.css'),
-        });
-        expect(map).toContainEntry([
-          'sources',
-          [p.relative(dir('dir'), dir('test.scss')).replace(/\\/g, '/')],
-        ]);
-      }));
+  it('includes a source map comment', () =>
+    expect(css).toEndWith('\n\n/*# sourceMappingURL=out.css.map */'));
+});
 
-    it("contains an imported file's path", () =>
-      sandbox(dir => {
-        dir.write({
-          'test.scss': `
+describe('the sources list', () => {
+  it('contains a relative path to an input file', () =>
+    sandbox(dir => {
+      dir.write({'test.scss': 'a {b: c}'});
+
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        outFile: dir('out.css'),
+      });
+      expect(map).toContainEntry(['sources', ['test.scss']]);
+    }));
+
+  it('makes the path relative to outFile', () =>
+    sandbox(dir => {
+      dir.write({'test.scss': 'a {b: c}'});
+
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        outFile: dir('dir/out.css'),
+      });
+      expect(map).toContainEntry([
+        'sources',
+        [p.relative(dir('dir'), dir('test.scss')).replace(/\\/g, '/')],
+      ]);
+    }));
+
+  it("contains an imported file's path", () =>
+    sandbox(dir => {
+      dir.write({
+        'test.scss': `
             @import "other";
             a {b: c}
           `,
-          '_other.scss': 'x {y: z}',
-        });
+        '_other.scss': 'x {y: z}',
+      });
 
-        const map = renderSourceMap({
-          file: dir('test.scss'),
-          sourceMap: true,
-          outFile: dir('out.css'),
-        });
-        expect(map).toContainEntry(['sources', ['_other.scss', 'test.scss']]);
-      }));
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        outFile: dir('out.css'),
+      });
+      expect(map).toContainEntry(['sources', ['_other.scss', 'test.scss']]);
+    }));
 
-    it('contains the resolved path of a file imported via includePaths', () =>
-      sandbox(dir => {
-        dir.write({
-          'test.scss': `
+  it('contains the resolved path of a file imported via includePaths', () =>
+    sandbox(dir => {
+      dir.write({
+        'test.scss': `
             @import "other";
             a {b: c}
           `,
-          'subdir/_other.scss': 'x {y: z}',
-        });
+        'subdir/_other.scss': 'x {y: z}',
+      });
 
-        const map = renderSourceMap({
-          file: dir('test.scss'),
-          sourceMap: true,
-          includePaths: [dir('subdir')],
-          outFile: dir('out.css'),
-        });
-        expect(map).toContainEntry([
-          'sources',
-          ['subdir/_other.scss', 'test.scss'],
-        ]);
-      }));
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        includePaths: [dir('subdir')],
+        outFile: dir('out.css'),
+      });
+      expect(map).toContainEntry([
+        'sources',
+        ['subdir/_other.scss', 'test.scss'],
+      ]);
+    }));
 
+  skipForImpl('sass-embedded', () => {
     it('contains a URL handled by an importer', () => {
       const map = renderSourceMap({
         data: `
@@ -120,66 +120,68 @@ skipForImpl('sass-embedded', () => {
       expect(map).toContainEntry(['sources', ['other', 'stdin']]);
     });
   });
+});
 
-  describe("doesn't emit the source map", () => {
-    it('without sourceMap', () => {
-      const result = sass.renderSync({data: 'a {b: c}', outFile: 'out.css'});
-      expect(result.map).toBeNull();
-      expect(result.css.toString).not.toContain('/*#');
-    });
-
-    it('with sourceMap: false', () => {
-      const result = sass.renderSync({
-        data: 'a {b: c}',
-        sourceMap: false,
-        outFile: 'out.css',
-      });
-      expect(result.map).toBeNull();
-      expect(result.css.toString).not.toContain('/*#');
-    });
-
-    it('without outFile', () => {
-      const result = sass.renderSync({data: 'a {b: c}', sourceMap: false});
-      expect(result.map).toBeNull();
-      expect(result.css.toString).not.toContain('/*#');
-    });
+describe("doesn't emit the source map", () => {
+  it('without sourceMap', () => {
+    const result = sass.renderSync({data: 'a {b: c}', outFile: 'out.css'});
+    expect(result.map).toBeUndefined();
+    expect(result.css.toString).not.toContain('/*#');
   });
 
-  describe('with a string sourceMap and no outFile', () => {
-    it('emits a source map', () =>
+  it('with sourceMap: false', () => {
+    const result = sass.renderSync({
+      data: 'a {b: c}',
+      sourceMap: false,
+      outFile: 'out.css',
+    });
+    expect(result.map).toBeUndefined();
+    expect(result.css.toString).not.toContain('/*#');
+  });
+
+  it('without outFile', () => {
+    const result = sass.renderSync({data: 'a {b: c}', sourceMap: false});
+    expect(result.map).toBeUndefined();
+    expect(result.css.toString).not.toContain('/*#');
+  });
+});
+
+describe('with a string sourceMap and no outFile', () => {
+  it('emits a source map', () =>
+    expect(
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
+    ).toContainEntry(['sources', ['stdin']]));
+
+  it('derives the target URL from the input file', () =>
+    sandbox(dir => {
+      dir.write({'test.scss': 'a {b: c}'});
+
       expect(
-        renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
-      ).toContainEntry(['sources', ['stdin']]));
+        renderSourceMap({
+          file: dir('test.scss'),
+          sourceMap: 'out.css.map',
+        })
+      ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
+    }));
 
-    it('derives the target URL from the input file', () =>
-      sandbox(dir => {
-        dir.write({'test.scss': 'a {b: c}'});
+  it('derives the target URL from the input file without an extension', () =>
+    sandbox(dir => {
+      dir.write({test: 'a {b: c}'});
 
-        expect(
-          renderSourceMap({
-            file: dir('test.scss'),
-            sourceMap: 'out.css.map',
-          })
-        ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
-      }));
-
-    it('derives the target URL from the input file without an extension', () =>
-      sandbox(dir => {
-        dir.write({test: 'a {b: c}'});
-
-        expect(
-          renderSourceMap({
-            file: dir('test'),
-            sourceMap: 'out.css.map',
-          })
-        ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
-      }));
-
-    it('derives the target URL from stdin', () =>
       expect(
-        renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
-      ).toContainEntry(['file', 'stdin.css']));
+        renderSourceMap({
+          file: dir('test'),
+          sourceMap: 'out.css.map',
+        })
+      ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
+    }));
 
+  it('derives the target URL from stdin', () =>
+    expect(
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
+    ).toContainEntry(['file', 'stdin.css']));
+
+  skipForImpl('sass-embedded', () => {
     // Regression test for sass/dart-sass#922
     it('contains a URL handled by an importer when sourceMap is absolute', () =>
       expect(
@@ -194,78 +196,77 @@ skipForImpl('sass-embedded', () => {
         })
       ).toContainEntry(['sources', ['other', 'stdin']]));
   });
+});
 
-  it("with omitSourceMapUrl, doesn't include a source map comment", () => {
+it("with omitSourceMapUrl, doesn't include a source map comment", () => {
+  const result = sass.renderSync({
+    data: 'a {b: c}',
+    sourceMap: true,
+    outFile: 'out.css',
+    omitSourceMapUrl: true,
+  });
+  expect(result.map).not.toBeNil();
+  expect(result.css.toString).not.toContain('/*#');
+});
+
+describe('with a string sourceMap', () => {
+  it('uses it in the source map comment', () => {
     const result = sass.renderSync({
       data: 'a {b: c}',
-      sourceMap: true,
+      sourceMap: 'map',
       outFile: 'out.css',
-      omitSourceMapUrl: true,
     });
-    expect(result.map).not.toBeNull();
-    expect(result.css.toString).not.toContain('/*#');
+    expect(result.map).not.toBeNil();
+    expect(result.css.toString()).toEndWith('\n\n/*# sourceMappingURL=map */');
   });
 
-  describe('with a string sourceMap', () => {
-    it('uses it in the source map comment', () => {
-      const result = sass.renderSync({
+  it('makes the source map comment relative to the outfile', () => {
+    const result = sass.renderSync({
+      data: 'a {b: c}',
+      sourceMap: 'map',
+      outFile: 'dir/out.css',
+    });
+    expect(result.map).not.toBeNil();
+    expect(result.css.toString()).toEndWith(
+      '\n\n/*# sourceMappingURL=../map */'
+    );
+  });
+
+  it('makes the file field relative to the source map location', () =>
+    expect(
+      renderSourceMap({
         data: 'a {b: c}',
-        sourceMap: 'map',
+        sourceMap: 'dir/map',
         outFile: 'out.css',
-      });
-      expect(result.map).not.toBeNull();
-      expect(result.css.toString()).toEndWith(
-        '\n\n/*# sourceMappingURL=map */'
-      );
-    });
+      })
+    ).toContainEntry(['file', '../out.css']));
 
-    it('makes the source map comment relative to the outfile', () => {
-      const result = sass.renderSync({
-        data: 'a {b: c}',
-        sourceMap: 'map',
-        outFile: 'dir/out.css',
-      });
-      expect(result.map).not.toBeNull();
-      expect(result.css.toString()).toEndWith(
-        '\n\n/*# sourceMappingURL=../map */'
-      );
+  it('makes the source map comment relative even if the path is absolute', () => {
+    const result = sass.renderSync({
+      data: 'a {b: c}',
+      sourceMap: p.resolve('map'),
+      outFile: 'out.css',
     });
+    expect(result.map).not.toBeNil();
+    expect(result.css.toString()).toEndWith('\n\n/*# sourceMappingURL=map */');
+  });
 
-    it('makes the file field relative to the source map location', () =>
+  it('makes the sources list relative to the map location', () =>
+    sandbox(dir => {
+      dir.write({'test.scss': 'a {b: c}'});
+
       expect(
         renderSourceMap({
-          data: 'a {b: c}',
-          sourceMap: 'dir/map',
+          file: dir('test.scss'),
+          sourceMap: dir('map'),
           outFile: 'out.css',
         })
-      ).toContainEntry(['file', '../out.css']));
+      ).toContainEntry(['sources', ['test.scss']]);
+    }));
+});
 
-    it('makes the source map comment relative even if the path is absolute', () => {
-      const result = sass.renderSync({
-        data: 'a {b: c}',
-        sourceMap: p.resolve('map'),
-        outFile: 'out.css',
-      });
-      expect(result.map).not.toBeNull();
-      expect(result.css.toString()).toEndWith(
-        '\n\n/*# sourceMappingURL=map */'
-      );
-    });
-
-    it('makes the sources list relative to the map location', () =>
-      sandbox(dir => {
-        dir.write({'test.scss': 'a {b: c}'});
-
-        expect(
-          renderSourceMap({
-            file: dir('test.scss'),
-            sourceMap: dir('map'),
-            outFile: 'out.css',
-          })
-        ).toContainEntry(['sources', ['test.scss']]);
-      }));
-  });
-
+// sass/embedded-protocol#46
+skipForImpl('sass-embedded', () => {
   describe('with sourceMapContents', () => {
     it('includes the source contents in the source map', () =>
       expect(
@@ -295,45 +296,45 @@ skipForImpl('sass-embedded', () => {
         ).toContainEntry(['sourcesContent', ['x {y: z}', scss]]);
       }));
   });
+});
 
-  it('with sourceMapEmbed includes the source map in the CSS', () => {
-    const result = sass.renderSync({
-      data: 'a {b: c}',
-      sourceMap: true,
-      outFile: 'out.css',
-      sourceMapEmbed: true,
-    });
-
-    const map = embeddedSourceMap(result.css.toString());
-    expect(map).toEqual(JSON.parse(result.map!.toString()));
+it('with sourceMapEmbed includes the source map in the CSS', () => {
+  const result = sass.renderSync({
+    data: 'a {b: c}',
+    sourceMap: true,
+    outFile: 'out.css',
+    sourceMapEmbed: true,
   });
 
-  describe('with sourceMapRoot', () => {
-    it('includes the root as-is in the map', () =>
-      expect(
-        renderSourceMap({
-          data: 'a {b: c}',
-          sourceMap: true,
-          outFile: 'out.css',
-          sourceMapRoot: 'some random string',
-        })
-      ).toContainEntry(['sourceRoot', 'some random string']));
+  const map = embeddedSourceMap(result.css.toString());
+  expect(map).toEqual(JSON.parse(result.map!.toString()));
+});
 
-    it("doesn't modify the source URLs", () =>
-      sandbox(dir => {
-        dir.write({'test.scss': 'a {b: c}'});
+describe('with sourceMapRoot', () => {
+  it('includes the root as-is in the map', () =>
+    expect(
+      renderSourceMap({
+        data: 'a {b: c}',
+        sourceMap: true,
+        outFile: 'out.css',
+        sourceMapRoot: 'some random string',
+      })
+    ).toContainEntry(['sourceRoot', 'some random string']));
 
-        const root = pathToFileURL(dir.root).toString();
-        const map = renderSourceMap({
-          file: dir('test.scss'),
-          sourceMap: true,
-          outFile: dir('out.css'),
-          sourceMapRoot: root,
-        });
-        expect(map).toContainEntry(['sourceRoot', root]);
-        expect(map).toContainEntry(['sources', ['test.scss']]);
-      }));
-  });
+  it("doesn't modify the source URLs", () =>
+    sandbox(dir => {
+      dir.write({'test.scss': 'a {b: c}'});
+
+      const root = pathToFileURL(dir.root).toString();
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        outFile: dir('out.css'),
+        sourceMapRoot: root,
+      });
+      expect(map).toContainEntry(['sourceRoot', root]);
+      expect(map).toContainEntry(['sources', ['test.scss']]);
+    }));
 });
 
 /// Renders [options] and returns the decoded source map.
