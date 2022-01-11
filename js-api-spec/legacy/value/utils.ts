@@ -2,22 +2,21 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-/* eslint @typescript-eslint/no-explicit-any: ["error", { "ignoreRestArgs": true }] */
-
 import * as sass from 'sass';
 
 /**
  * Parses `source` as a Sass expression, asserts that it's an instance of
  * `constructor`, and returns it.
  */
-export function parseValue<T>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function parseValue<T extends new (...args: any[]) => any>(
   source: string,
-  constructor: new (...args: any[]) => T
-): T {
-  let value: T | undefined;
+  constructor: T
+): InstanceType<T> {
+  let value: InstanceType<T> | undefined;
 
   const fn = jest.fn(value_ => {
-    value = value_ as T;
+    value = value_ as InstanceType<T>;
     return sass.types.Null.NULL;
   });
 

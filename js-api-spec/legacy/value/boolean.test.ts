@@ -10,15 +10,10 @@ import {parseValue} from './utils';
 skipForImpl('sass-embedded', () => {
   describe('from a parameter', () => {
     it('true is true', () =>
-      // Explicit generic required due to microsoft/TypeScript#47340
-      expect(
-        parseValue<sass.types.Boolean>('true', sass.types.Boolean).getValue()
-      ).toBeTrue());
+      expect(parseValue('true', sass.types.Boolean).getValue()).toBeTrue());
 
     it('false is false', () =>
-      expect(
-        parseValue<sass.types.Boolean>('false', sass.types.Boolean).getValue()
-      ).toBeFalse());
+      expect(parseValue('false', sass.types.Boolean).getValue()).toBeFalse());
   });
 
   describe('from a constant', () => {
