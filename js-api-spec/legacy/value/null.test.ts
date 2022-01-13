@@ -4,16 +4,13 @@
 
 import * as sass from 'sass';
 
-import {skipForImpl} from '../../utils';
 import {parseValue} from './utils';
 
-skipForImpl('sass-embedded', () => {
-  it('from a parameter equals NULL', () =>
-    expect(parseValue('null', sass.types.Null)).toBe(sass.types.Null.NULL));
+it('from a parameter equals NULL', () =>
+  expect(parseValue('null', sass.types.Null)).toBe(sass.types.Null.NULL));
 
-  it('the constructor throws', () =>
-    expect(() => new sass.types.Null()).toThrow());
+it('the constructor throws', () =>
+  expect(() => new sass.types.Null()).toThrow());
 
-  it('the convenience accessor sass.NULL exists', () =>
-    expect(sass.NULL).toBe(sass.types.Null.NULL));
-});
+it('the convenience accessor sass.NULL exists', () =>
+  expect(sass.NULL).toBe(sass.types.Null.NULL));
