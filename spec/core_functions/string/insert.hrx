@@ -138,10 +138,21 @@ a {
 
 <===>
 ================================================================================
-<===> index/negative/after_last/input.scss
+<===> index/negative/after_last/less_than_double/input.scss
+// Regression test for sass/dart-sass#1568
+a {b: str-insert("cdefghijkl", "mno", -15)}
+
+<===> index/negative/after_last/less_than_double/output.css
+a {
+  b: "mnocdefghijkl";
+}
+
+<===>
+================================================================================
+<===> index/negative/after_last/more_than_double/input.scss
 a {b: str-insert("cde", "f", -100)}
 
-<===> index/negative/after_last/output.css
+<===> index/negative/after_last/more_than_double/output.css
 a {
   b: "fcde";
 }
