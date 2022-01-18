@@ -117,12 +117,12 @@ expect.extend({
         };
       } else if (!('formatted' in thrown)) {
         return {
-          message: () => "expected exception to have a 'formatted' field",
+          message: () => `expected ${thrown} to have a 'formatted' field`,
           pass: false,
         };
       } else if (!('status' in thrown)) {
         return {
-          message: () => "expected exception to have a 'status' field",
+          message: () => `expected ${thrown} to have a 'status' field`,
           pass: false,
         };
       }
@@ -130,7 +130,7 @@ expect.extend({
       if (options?.line !== undefined) {
         if (!('line' in thrown)) {
           return {
-            message: () => "expected exception to have a 'line' field",
+            message: () => `expected ${thrown} to have a 'line' field`,
             pass: false,
           };
         } else if ((thrown as {line: unknown}).line !== options.line) {
@@ -146,7 +146,7 @@ expect.extend({
       if (options?.file !== undefined) {
         if (!('file' in thrown)) {
           return {
-            message: () => "expected exception to have a 'file' field",
+            message: () => `expected ${thrown} to have a 'file' field`,
             pass: false,
           };
         } else if ((thrown as {file: unknown}).file !== options.file) {
