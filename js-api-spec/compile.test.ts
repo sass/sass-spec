@@ -219,19 +219,17 @@ describe('compileString', () => {
           expect(sourceMap.mappings).toBeString();
         });
 
-        skipForImpl('sass-embedded', () => {
-          it('includes one with source content if sourceMapIncludeSources is true', () => {
-            const result = compileString('a {b: c}', {
-              sourceMap: true,
-              sourceMapIncludeSources: true,
-            });
-            expect(result).toHaveProperty('sourceMap');
-
-            const sourceMap = result.sourceMap!;
-            expect(sourceMap).toHaveProperty('sourcesContent');
-            expect(sourceMap.sourcesContent!).toBeArray();
-            expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
+        it('includes one with source content if sourceMapIncludeSources is true', () => {
+          const result = compileString('a {b: c}', {
+            sourceMap: true,
+            sourceMapIncludeSources: true,
           });
+          expect(result).toHaveProperty('sourceMap');
+
+          const sourceMap = result.sourceMap!;
+          expect(sourceMap).toHaveProperty('sourcesContent');
+          expect(sourceMap.sourcesContent!).toBeArray();
+          expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
         });
       });
     });
