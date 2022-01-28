@@ -119,164 +119,165 @@ describe('compileString', () => {
             ]);
           }));
       });
+    });
 
-      it('url is used to resolve relative loads', () =>
+    it('url is used to resolve relative loads', () =>
+      sandbox(dir => {
+        dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+
+        expect(
+          compileString('@use "other";', {
+            url: dir.url('foo/bar/style.scss'),
+          }).css
+        ).toBe('a {\n  b: c;\n}');
+      }));
+
+    describe('loadPaths', () => {
+      it('is used to resolve loads', () =>
         sandbox(dir => {
           dir.write({'foo/bar/_other.scss': 'a {b: c}'});
 
           expect(
             compileString('@use "other";', {
-              url: dir.url('foo/bar/style.scss'),
+              loadPaths: [dir('foo/bar')],
             }).css
           ).toBe('a {\n  b: c;\n}');
         }));
 
-      describe('loadPaths', () => {
-        it('is used to resolve loads', () =>
-          sandbox(dir => {
-            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+      it('resolves relative paths', () =>
+        sandbox(dir => {
+          dir.write({'foo/bar/_other.scss': 'a {b: c}'});
 
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('foo/bar')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
+          expect(
+            compileString('@use "bar/other";', {
+              loadPaths: [dir('foo')],
+            }).css
+          ).toBe('a {\n  b: c;\n}');
+        }));
 
-        it('resolves relative paths', () =>
-          sandbox(dir => {
-            dir.write({'foo/bar/_other.scss': 'a {b: c}'});
+      it("resolves loads using later paths if earlier ones don't match", () =>
+        sandbox(dir => {
+          dir.write({'baz/_other.scss': 'a {b: c}'});
 
-            expect(
-              compileString('@use "bar/other";', {
-                loadPaths: [dir('foo')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('foo'), dir('bar'), dir('baz')],
+            }).css
+          ).toBe('a {\n  b: c;\n}');
+        }));
 
-        it("resolves loads using later paths if earlier ones don't match", () =>
-          sandbox(dir => {
-            dir.write({'baz/_other.scss': 'a {b: c}'});
-
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('foo'), dir('bar'), dir('baz')],
-              }).css
-            ).toBe('a {\n  b: c;\n}');
-          }));
-
-        it("doesn't take precedence over loads relative to the url", () =>
-          sandbox(dir => {
-            dir.write({
-              'url/_other.scss': 'a {b: url}',
-              'load-path/_other.scss': 'a {b: load path}',
-            });
-
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('load-path')],
-                url: dir.url('url/input.scss'),
-              }).css
-            ).toBe('a {\n  b: url;\n}');
-          }));
-
-        it('uses earlier paths in preference to later ones', () =>
-          sandbox(dir => {
-            dir.write({
-              'earlier/_other.scss': 'a {b: earlier}',
-              'later/_other.scss': 'a {b: later}',
-            });
-
-            expect(
-              compileString('@use "other";', {
-                loadPaths: [dir('earlier'), dir('later')],
-              }).css
-            ).toBe('a {\n  b: earlier;\n}');
-          }));
-      });
-
-      it('recognizes the expanded output style', () => {
-        expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
-          'a {\n  b: c;\n}'
-        );
-      });
-
-      describe('sourceMap', () => {
-        it("doesn't include one by default", () => {
-          expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
-        });
-
-        it('includes one if sourceMap is true', () => {
-          const result = compileString('a {b: c}', {sourceMap: true});
-          expect(result).toHaveProperty('sourceMap');
-
-          // Explicitly don't test the details of the source map, because
-          // individual implementations are allowed to generate a custom map.
-          const sourceMap = result.sourceMap!;
-          expect(typeof sourceMap.version).toBeString();
-          expect(sourceMap.sources).toBeArray();
-          expect(sourceMap.names).toBeArray();
-          expect(sourceMap.mappings).toBeString();
-        });
-
-        it('includes one with source content if sourceMapIncludeSources is true', () => {
-          const result = compileString('a {b: c}', {
-            sourceMap: true,
-            sourceMapIncludeSources: true,
+      it("doesn't take precedence over loads relative to the url", () =>
+        sandbox(dir => {
+          dir.write({
+            'url/_other.scss': 'a {b: url}',
+            'load-path/_other.scss': 'a {b: load path}',
           });
-          expect(result).toHaveProperty('sourceMap');
 
-          const sourceMap = result.sourceMap!;
-          expect(sourceMap).toHaveProperty('sourcesContent');
-          expect(sourceMap.sourcesContent!).toBeArray();
-          expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
-        });
-      });
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('load-path')],
+              url: dir.url('url/input.scss'),
+            }).css
+          ).toBe('a {\n  b: url;\n}');
+        }));
+
+      it('uses earlier paths in preference to later ones', () =>
+        sandbox(dir => {
+          dir.write({
+            'earlier/_other.scss': 'a {b: earlier}',
+            'later/_other.scss': 'a {b: later}',
+          });
+
+          expect(
+            compileString('@use "other";', {
+              loadPaths: [dir('earlier'), dir('later')],
+            }).css
+          ).toBe('a {\n  b: earlier;\n}');
+        }));
     });
 
-    describe('error', () => {
-      it('requires plain CSS with explicit syntax', () => {
-        expect(() =>
-          compileString('$a: b; c {d: $a}', {syntax: 'css'})
-        ).toThrowSassException({line: 0, noUrl: true});
+    it('recognizes the expanded output style', () => {
+      expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
+        'a {\n  b: c;\n}'
+      );
+    });
+
+    describe('sourceMap', () => {
+      it("doesn't include one by default", () => {
+        expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
       });
 
-      it('relative loads fail without a URL', () =>
-        sandbox(dir => {
-          dir.write({'other.scss': 'a {b: c}'});
+      it('includes one if sourceMap is true', () => {
+        const result = compileString('a {b: c}', {sourceMap: true});
+        expect(result).toHaveProperty('sourceMap');
 
-          expect(() => compileString('@use "other";')).toThrowSassException({
+        // Explicitly don't test the details of the source map, because
+        // individual implementations are allowed to generate a custom map.
+        const sourceMap = result.sourceMap!;
+        expect(typeof sourceMap.version).toBeString();
+        expect(sourceMap.sources).toBeArray();
+        expect(sourceMap.names).toBeArray();
+        expect(sourceMap.mappings).toBeString();
+      });
+
+
+      it('includes one with source content if sourceMapIncludeSources is true', () => {
+        const result = compileString('a {b: c}', {
+          sourceMap: true,
+          sourceMapIncludeSources: true,
+        });
+        expect(result).toHaveProperty('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveProperty('sourcesContent');
+        expect(sourceMap.sourcesContent!).toBeArray();
+        expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
+      });
+    });
+  });
+
+  describe('error', () => {
+    it('requires plain CSS with explicit syntax', () => {
+      expect(() =>
+        compileString('$a: b; c {d: $a}', {syntax: 'css'})
+      ).toThrowSassException({line: 0, noUrl: true});
+    });
+
+    it('relative loads fail without a URL', () =>
+      sandbox(dir => {
+        dir.write({'other.scss': 'a {b: c}'});
+
+        expect(() => compileString('@use "other";')).toThrowSassException({
+          line: 0,
+          noUrl: true,
+        });
+      }));
+
+    describe('includes source span information', () => {
+      it('in syntax errors', () =>
+        sandbox(dir => {
+          const url = dir.url('foo.scss');
+          expect(() => compileString('a {b:', {url})).toThrowSassException({
             line: 0,
-            noUrl: true,
+            url,
           });
         }));
 
-      describe('includes source span information', () => {
-        it('in syntax errors', () =>
-          sandbox(dir => {
-            const url = dir.url('foo.scss');
-            expect(() => compileString('a {b:', {url})).toThrowSassException({
-              line: 0,
-              url,
-            });
-          }));
+      it('in runtime errors', () =>
+        sandbox(dir => {
+          const url = dir.url('foo.scss');
+          expect(() =>
+            compileString('@error "oh no"', {url})
+          ).toThrowSassException({line: 0, url});
+        }));
+    });
 
-        it('in runtime errors', () =>
-          sandbox(dir => {
-            const url = dir.url('foo.scss');
-            expect(() =>
-              compileString('@error "oh no"', {url})
-            ).toThrowSassException({line: 0, url});
-          }));
-      });
-
-      it('throws an error for an unrecognized style', () => {
-        expect(() =>
-          compileString('a {b: c}', {
-            style: 'unrecognized style' as OutputStyle,
-          })
-        ).toThrow();
-      });
+    it('throws an error for an unrecognized style', () => {
+      expect(() =>
+        compileString('a {b: c}', {
+          style: 'unrecognized style' as OutputStyle,
+        })
+      ).toThrow();
     });
 
     it("doesn't throw a Sass exception for an argument error", () => {
