@@ -13,7 +13,7 @@ import {
   OutputStyle,
 } from 'sass';
 
-import {sandbox, skipForImpl} from './utils';
+import {sandbox} from './utils';
 
 describe('compileString', () => {
   describe('success', () => {
