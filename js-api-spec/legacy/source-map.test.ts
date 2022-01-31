@@ -265,37 +265,34 @@ describe('with a string sourceMap', () => {
     }));
 });
 
-// sass/embedded-protocol#46
-skipForImpl('sass-embedded', () => {
-  describe('with sourceMapContents', () => {
-    it('includes the source contents in the source map', () =>
+describe('with sourceMapContents', () => {
+  it('includes the source contents in the source map', () =>
+    expect(
+      renderSourceMap({
+        data: 'a {b: c}',
+        sourceMap: true,
+        outFile: 'out.css',
+        sourceMapContents: true,
+      })
+    ).toContainEntry(['sourcesContent', ['a {b: c}']]));
+
+  it("includes an imported file's contents in the source map", () =>
+    sandbox(dir => {
+      const scss = `
+        @import "other";
+        a {b: c}
+      `;
+      dir.write({'test.scss': scss, 'other.scss': 'x {y: z}'});
+
       expect(
         renderSourceMap({
-          data: 'a {b: c}',
+          file: dir('test.scss'),
           sourceMap: true,
           outFile: 'out.css',
           sourceMapContents: true,
         })
-      ).toContainEntry(['sourcesContent', ['a {b: c}']]));
-
-    it("includes an imported file's contents in the source map", () =>
-      sandbox(dir => {
-        const scss = `
-          @import "other";
-          a {b: c}
-        `;
-        dir.write({'test.scss': scss, 'other.scss': 'x {y: z}'});
-
-        expect(
-          renderSourceMap({
-            file: dir('test.scss'),
-            sourceMap: true,
-            outFile: 'out.css',
-            sourceMapContents: true,
-          })
-        ).toContainEntry(['sourcesContent', ['x {y: z}', scss]]);
-      }));
-  });
+      ).toContainEntry(['sourcesContent', ['x {y: z}', scss]]);
+    }));
 });
 
 it('with sourceMapEmbed includes the source map in the CSS', () => {
