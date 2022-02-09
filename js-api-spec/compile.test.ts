@@ -220,7 +220,6 @@ describe('compileString', () => {
         expect(sourceMap.mappings).toBeString();
       });
 
-
       it('includes one with source content if sourceMapIncludeSources is true', () => {
         const result = compileString('a {b: c}', {
           sourceMap: true,
