@@ -8,7 +8,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {skipForImpl} from '../utils';
+import '../utils';
 
 describe('a basic invocation', () => {
   let css: string;
@@ -106,20 +106,42 @@ describe('the sources list', () => {
       ]);
     }));
 
-  skipForImpl('sass-embedded', () => {
-    it('contains a URL handled by an importer', () => {
-      const map = renderSourceMap({
-        data: `
-          @import "other";
-          a {b: c}
-        `,
-        sourceMap: true,
-        importer: () => ({contents: 'x {y: z}'}),
-        outFile: 'out.css',
-      });
-      expect(map).toContainEntry(['sources', ['other', 'stdin']]);
+  it('contains a URL handled by an importer', () => {
+    const map = renderSourceMap({
+      data: `
+        @import "other";
+        a {b: c}
+      `,
+      sourceMap: true,
+      importer: () => ({contents: 'x {y: z}'}),
+      outFile: 'out.css',
     });
+    expect(map).toContainEntry(['sources', ['other', 'stdin']]);
   });
+
+  // Regression test for the embedded host.
+  it('contains a relative file URL even if an importer exists', () =>
+    sandbox(dir => {
+      dir.write({
+        'test.scss': `
+            @import "other";
+            a {b: c}
+          `,
+        'subdir/_other.scss': 'x {y: z}',
+      });
+
+      const map = renderSourceMap({
+        file: dir('test.scss'),
+        sourceMap: true,
+        includePaths: [dir('subdir')],
+        outFile: dir('out.css'),
+        importer: () => null,
+      });
+      expect(map).toContainEntry([
+        'sources',
+        ['subdir/_other.scss', 'test.scss'],
+      ]);
+    }));
 });
 
 describe("doesn't emit the source map", () => {
@@ -181,21 +203,19 @@ describe('with a string sourceMap and no outFile', () => {
       renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
     ).toContainEntry(['file', 'stdin.css']));
 
-  skipForImpl('sass-embedded', () => {
-    // Regression test for sass/dart-sass#922
-    it('contains a URL handled by an importer when sourceMap is absolute', () =>
-      expect(
-        renderSourceMap({
-          data: `
+  // Regression test for sass/dart-sass#922
+  it('contains a URL handled by an importer when sourceMap is absolute', () =>
+    expect(
+      renderSourceMap({
+        data: `
             @import "other";
             a {b: c}
           `,
-          importer: () => ({contents: 'x {y: z}'}),
-          sourceMap: p.resolve('out.css.map'),
-          outFile: 'out.css',
-        })
-      ).toContainEntry(['sources', ['other', 'stdin']]));
-  });
+        importer: () => ({contents: 'x {y: z}'}),
+        sourceMap: p.resolve('out.css.map'),
+        outFile: 'out.css',
+      })
+    ).toContainEntry(['sources', ['other', 'stdin']]));
 });
 
 it("with omitSourceMapUrl, doesn't include a source map comment", () => {
