@@ -5,6 +5,8 @@
 import p from 'path';
 import {URL} from 'url';
 
+require('sass');
+
 import {
   compile,
   compileAsync,
