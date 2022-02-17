@@ -6,3 +6,28 @@
 
 <===> unquoted/output-libsass.css
 @import url(other.css);
+
+<===>
+================================================================================
+<===> css_import_after_style_rule/options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===> css_import_after_style_rule/input.scss
+// Regression test for sass/dart-sass#1628.
+@import "rule";
+@import "import";
+
+<===> css_import_after_style_rule/rule.scss
+a {b: c}
+
+<===> css_import_after_style_rule/import.scss
+@use "sass:math";
+@import url(http://example.com);
+
+<===> css_import_after_style_rule/output.css
+@import url(http://example.com);
+a {
+  b: c;
+}
