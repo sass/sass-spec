@@ -87,6 +87,24 @@ describe('import precedence:', () => {
           ).toEqualIgnoringWhitespace('a { from: cwd; }')
         );
       }));
+
+    // Regression test for embedded host.
+    it('falls back to load path if imports list is empty', () =>
+      sandbox(dir => {
+        dir.write({
+          'test.scss': 'a {from: load path}',
+        });
+
+        expect(
+          sass
+            .renderSync({
+              data: '@import "test"',
+              includePaths: [dir.root],
+              importer: [],
+            })
+            .css.toString()
+        ).toEqualIgnoringWhitespace('a { from: load path; }');
+      }));
   });
 });
 
