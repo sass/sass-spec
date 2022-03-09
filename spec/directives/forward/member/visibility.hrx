@@ -1,13 +1,13 @@
+<===> hide/mixin/input.scss
+@use "midstream";
+
+@include midstream.a;
+
 <===> hide/mixin/_midstream.scss
 @forward "upstream" hide b;
 
 <===> hide/mixin/_upstream.scss
 @mixin a() {c {d: e}}
-
-<===> hide/mixin/input.scss
-@use "midstream";
-
-@include midstream.a;
 
 <===> hide/mixin/output.css
 c {
@@ -16,6 +16,13 @@ c {
 
 <===>
 ================================================================================
+<===> hide/variable_assignment/input.scss
+@use "midstream";
+
+midstream.$a: new value;
+
+b {c: midstream.get-a()};
+
 <===> hide/variable_assignment/_midstream.scss
 @forward "upstream" hide d;
 
@@ -24,13 +31,6 @@ $a: old value;
 
 @function get-a() {@return $a}
 
-<===> hide/variable_assignment/input.scss
-@use "midstream";
-
-midstream.$a: new value;
-
-b {c: midstream.get-a()};
-
 <===> hide/variable_assignment/output.css
 b {
   c: new value;
@@ -38,16 +38,16 @@ b {
 
 <===>
 ================================================================================
+<===> hide/variable_use/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
 <===> hide/variable_use/_midstream.scss
 @forward "upstream" hide d;
 
 <===> hide/variable_use/_upstream.scss
 $c: e;
-
-<===> hide/variable_use/input.scss
-@use "midstream";
-
-a {b: midstream.$c}
 
 <===> hide/variable_use/output.css
 a {
@@ -56,16 +56,16 @@ a {
 
 <===>
 ================================================================================
+<===> hide/wrong_type/mixin/input.scss
+@use "midstream";
+
+@include midstream.a;
+
 <===> hide/wrong_type/mixin/_midstream.scss
 @forward "upstream" hide $a;
 
 <===> hide/wrong_type/mixin/_upstream.scss
 @mixin a() {c {d: e}}
-
-<===> hide/wrong_type/mixin/input.scss
-@use "midstream";
-
-@include midstream.a;
 
 <===> hide/wrong_type/mixin/output.css
 c {
@@ -74,16 +74,16 @@ c {
 
 <===>
 ================================================================================
+<===> hide/wrong_type/variable_use/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
 <===> hide/wrong_type/variable_use/_midstream.scss
 @forward "upstream" hide c;
 
 <===> hide/wrong_type/variable_use/_upstream.scss
 $c: e;
-
-<===> hide/wrong_type/variable_use/input.scss
-@use "midstream";
-
-a {b: midstream.$c}
 
 <===> hide/wrong_type/variable_use/output.css
 a {
@@ -92,16 +92,16 @@ a {
 
 <===>
 ================================================================================
+<===> show/mixin/input.scss
+@use "midstream";
+
+@include midstream.a;
+
 <===> show/mixin/_midstream.scss
 @forward "upstream" show a;
 
 <===> show/mixin/_upstream.scss
 @mixin a() {b {c: d}}
-
-<===> show/mixin/input.scss
-@use "midstream";
-
-@include midstream.a;
 
 <===> show/mixin/output.css
 b {
@@ -110,6 +110,13 @@ b {
 
 <===>
 ================================================================================
+<===> show/variable_assignment/input.scss
+@use "midstream";
+
+midstream.$a: new value;
+
+b {c: midstream.get-a()};
+
 <===> show/variable_assignment/_midstream.scss
 @forward "upstream" show $a, get-a;
 
@@ -118,13 +125,6 @@ $a: old value;
 
 @function get-a() {@return $a}
 
-<===> show/variable_assignment/input.scss
-@use "midstream";
-
-midstream.$a: new value;
-
-b {c: midstream.get-a()};
-
 <===> show/variable_assignment/output.css
 b {
   c: new value;
@@ -132,16 +132,16 @@ b {
 
 <===>
 ================================================================================
+<===> show/variable_use/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
 <===> show/variable_use/_midstream.scss
 @forward "upstream" show $c;
 
 <===> show/variable_use/_upstream.scss
 $c: d;
-
-<===> show/variable_use/input.scss
-@use "midstream";
-
-a {b: midstream.$c}
 
 <===> show/variable_use/output.css
 a {

@@ -47,6 +47,17 @@ jobs:
       - run: npm install
       - run: npm run lint
 
+  lint_spec:
+    name: "Lint spec files"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: "${{ env.NODE_VERSION }}"}
+      - run: npm install
+      - run: npm run lint-spec
+
   dart_sass_language:
     name: "Language | Dart Sass"
     runs-on: ubuntu-latest
@@ -178,7 +189,7 @@ jobs:
         with:
           version: ${{ env.PROTOC_VERSION }}
           repo-token: '${{ github.token }}'
-        
+
       - name: Install sass-embedded
         run: |
           git clone https://github.com/sass/embedded-host-node.git \

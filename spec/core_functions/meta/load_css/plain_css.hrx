@@ -83,6 +83,9 @@ d {
 @use "subdir/midstream";
 @include midstream.load-css("upstream");
 
+<===> through_other_mixin/_upstream.scss
+a {b: in main dir}
+
 <===> through_other_mixin/subdir/_midstream.scss
 @use "sass:meta";
 
@@ -93,9 +96,6 @@ d {
 
 <===> through_other_mixin/subdir/_upstream.scss
 a {b: in subdir}
-
-<===> through_other_mixin/_upstream.scss
-a {b: in main dir}
 
 <===> through_other_mixin/output.css
 a {

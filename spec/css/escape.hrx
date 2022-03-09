@@ -1,3 +1,8 @@
+<===> zero/options.yml
+---
+:todo:
+- sass/libsass#2700
+
 <===> zero/input.scss
 // Although zero is not a valid code point per spec, we pass it through because
 // it can be used for browser hacks.
@@ -8,13 +13,13 @@ a {
   b: \0 ;
 }
 
-<===> zero/options.yml
+<===>
+================================================================================
+<===> error/syntax/too_high/options.yml
 ---
 :todo:
 - sass/libsass#2700
 
-<===>
-================================================================================
 <===> error/syntax/too_high/input.scss
 // Regression test for sass/dart-sass#1030.
 a {b: \110000}
@@ -26,8 +31,3 @@ Error: Invalid Unicode code point.
   |       ^^^^^^^
   '
   input.scss 2:7  root stylesheet
-
-<===> error/syntax/too_high/options.yml
----
-:todo:
-- sass/libsass#2700

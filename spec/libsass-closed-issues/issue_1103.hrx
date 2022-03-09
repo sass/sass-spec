@@ -1,12 +1,3 @@
-<===> _import.scss
-foo { bar: baz }
-baz { bar: foo }
-
-@media screen and (max-width: 2) {
-    foo { bar: baz }
-    baz { bar: foo }
-}
-
 <===> input.scss
 @import "import";
 
@@ -17,6 +8,15 @@ baz { bar: foo }
 
 @media screen and (min-width: 1) {
     @import "import";
+}
+
+<===> _import.scss
+foo { bar: baz }
+baz { bar: foo }
+
+@media screen and (max-width: 2) {
+    foo { bar: baz }
+    baz { bar: foo }
 }
 
 <===> output.css
