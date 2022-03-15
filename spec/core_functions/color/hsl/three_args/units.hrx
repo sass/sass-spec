@@ -10,6 +10,11 @@ a {b: hsl(0deg, 100%, 50%)}
 
 <===> hue/deg/output.css
 a {
+  b: hsl(0deg, 100%, 50%);
+}
+
+<===> hue/deg/output-libsass.css
+a {
   b: red;
 }
 
@@ -20,6 +25,11 @@ a {b: hsl(60, 100%, 50%)}
 
 <===> hue/unitless/output.css
 a {
+  b: hsl(60deg, 100%, 50%);
+}
+
+<===> hue/unitless/output-libsass.css
+a {
   b: yellow;
 }
 
@@ -29,6 +39,11 @@ a {
 a {b: hsl(60in, 100%, 50%)}
 
 <===> hue/unknown/output.css
+a {
+  b: hsl(60deg, 100%, 50%);
+}
+
+<===> hue/unknown/output-libsass.css
 a {
   b: yellow;
 }
@@ -46,12 +61,19 @@ See https://sass-lang.com/d/color-units
   '
     input.scss 1:7  root stylesheet
 
+<===> hue/unknown/warning-libsass
+
 <===>
 ================================================================================
 <===> hue/angle/input.scss
 a {b: hsl(60rad, 100%, 50%)}
 
 <===> hue/angle/output.css
+a {
+  b: hsl(60deg, 100%, 50%);
+}
+
+<===> hue/angle/output-libsass.css
 a {
   b: yellow;
 }
@@ -73,12 +95,19 @@ See https://sass-lang.com/d/color-units
   '
     input.scss 1:7  root stylesheet
 
+<===> hue/angle/warning-libsass
+
 <===>
 ================================================================================
 <===> saturation/unitless/input.scss
 a {b: hsl(0, 50, 50%)}
 
 <===> saturation/unitless/output.css
+a {
+  b: hsl(0deg, 50%, 50%);
+}
+
+<===> saturation/unitless/output-libsass.css
 a {
   b: #bf4040;
 }
@@ -94,12 +123,19 @@ To preserve current behavior: $saturation * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> saturation/unitless/warning-libsass
+
 <===>
 ================================================================================
 <===> saturation/unknown/input.scss
 a {b: hsl(0, 50in, 50%)}
 
 <===> saturation/unknown/output.css
+a {
+  b: hsl(0deg, 50%, 50%);
+}
+
+<===> saturation/unknown/output-libsass.css
 a {
   b: #bf4040;
 }
@@ -115,12 +151,19 @@ To preserve current behavior: $saturation / 1in * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> saturation/unknown/warning-libsass
+
 <===>
 ================================================================================
 <===> lightness/unitless/input.scss
 a {b: hsl(0, 100%, 50)}
 
 <===> lightness/unitless/output.css
+a {
+  b: hsl(0deg, 100%, 50%);
+}
+
+<===> lightness/unitless/output-libsass.css
 a {
   b: red;
 }
@@ -136,12 +179,19 @@ To preserve current behavior: $lightness * 1%
   '
     input.scss 1:7  root stylesheet
 
+<===> lightness/unitless/warning-libsass
+
 <===>
 ================================================================================
 <===> lightness/unknown/input.scss
 a {b: hsl(0, 100%, 50in)}
 
 <===> lightness/unknown/output.css
+a {
+  b: hsl(0deg, 100%, 50%);
+}
+
+<===> lightness/unknown/output-libsass.css
 a {
   b: red;
 }
@@ -156,3 +206,5 @@ To preserve current behavior: $lightness / 1in * 1%
   |       ^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
+
+<===> lightness/unknown/warning-libsass
