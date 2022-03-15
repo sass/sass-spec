@@ -497,3 +497,84 @@
 @supports (c: 2) and (a: b) {
   @d;
 }
+
+<===>
+================================================================================
+<===> calculations/README.md
+Regression tests for https://github.com/sass/sass/issues/3259.
+
+<===> calculations/options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> calculations/calc/simple/input.scss
+@supports (a: calc(0)) {@d}
+
+<===> calculations/calc/simple/output.css
+@supports (a: calc(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/calc/with_operation/input.scss
+@supports (a: calc(1 + 2)) {@d}
+
+<===> calculations/calc/with_operation/output.css
+@supports (a: calc(1 + 2)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/calc/with_variable/input.scss
+$x: 2;
+@supports (a: calc(1 + $x)) {@d}
+
+<===> calculations/calc/with_variable/output.css
+@supports (a: calc(1 + 2)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/calc/nested/input.scss
+@supports (a: calc(1 + calc(2 + 3))) {@d}
+
+<===> calculations/calc/nested/output.css
+@supports (a: calc(1 + calc(2 + 3))) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/min/input.scss
+@supports (a: min(0)) {@d}
+
+<===> calculations/min/output.css
+@supports (a: min(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/max/input.scss
+@supports (a: max(0)) {@d}
+
+<===> calculations/max/output.css
+@supports (a: max(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/clamp/input.scss
+@supports (a: clamp(0, 1, 2)) {@d}
+
+<===> calculations/clamp/output.css
+@supports (a: clamp(0, 1, 2)) {
+  @d;
+}
