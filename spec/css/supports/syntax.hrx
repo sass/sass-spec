@@ -551,6 +551,36 @@ $x: 2;
 
 <===>
 ================================================================================
+<===> calculations/calc/interpolated/input.scss
+@supports (a: #{calc(1 + 2)}) {@d}
+
+<===> calculations/calc/interpolated/output.css
+@supports (a: 3) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/calc/contains_interpolation/input.scss
+@supports (a: calc(#{1 + 2})) {@d}
+
+<===> calculations/calc/contains_interpolation/output.css
+@supports (a: calc(3)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calculations/calc/in_property_name/input.scss
+@supports (calc(0): a) {@d}
+
+<===> calculations/calc/in_property_name/output.css
+@supports (calc(0): a) {
+  @d;
+}
+
+<===>
+================================================================================
 <===> calculations/min/input.scss
 @supports (a: min(0)) {@d}
 
