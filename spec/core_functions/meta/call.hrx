@@ -14,6 +14,11 @@ a {b: call(get-function("rgb"), 1, 2, 3)}
 
 <===> args/positional/output.css
 a {
+  b: rgb(1, 2, 3);
+}
+
+<===> args/positional/output-libsass.css
+a {
   b: #010203;
 }
 
@@ -23,6 +28,11 @@ a {
 a {b: call(get-function("rgb"), $blue: 1, $green: 2, $red: 3)}
 
 <===> args/named/output.css
+a {
+  b: rgb(3, 2, 1);
+}
+
+<===> args/named/output-libsass.css
 a {
   b: #030201;
 }
@@ -35,6 +45,11 @@ a {b: call(get-function("rgb"), $args...)}
 
 <===> args/splat/positional/output.css
 a {
+  b: rgb(1, 2, 3);
+}
+
+<===> args/splat/positional/output-libsass.css
+a {
   b: #010203;
 }
 
@@ -45,6 +60,11 @@ $args: ("green": 1, "blue": 2, "red": 3);
 a {b: call(get-function("rgb"), $args...)}
 
 <===> args/splat/named/output.css
+a {
+  b: rgb(3, 1, 2);
+}
+
+<===> args/splat/named/output-libsass.css
 a {
   b: #030102;
 }
@@ -63,7 +83,7 @@ a {b: call(get-function("rgb"), $positional..., $named...)}
 
 <===> args/splat/combined/output.css
 a {
-  b: #010203;
+  b: rgb(1, 2, 3);
 }
 
 <===>
@@ -99,6 +119,11 @@ a {b: call("rgb", 1, 2, 3)}
 
 <===> string/built_in/output.css
 a {
+  b: rgb(1, 2, 3);
+}
+
+<===> string/built_in/output-libsass.css
+a {
   b: #010203;
 }
 
@@ -115,7 +140,7 @@ Recommendation: call(get-function("rgb"))
 
 <===> string/built_in/warning-libsass
 DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Dart Sass 2.0.0. Use call(get-function("rgb")) instead.
+in Sass 4.0. Use call(get-function("rgb")) instead.
 
 <===>
 ================================================================================
@@ -123,6 +148,11 @@ in Dart Sass 2.0.0. Use call(get-function("rgb")) instead.
 a {b: call($function: get-function("rgb"), $red: 1, $green: 2, $blue: 3)}
 
 <===> named/output.css
+a {
+  b: rgb(1, 2, 3);
+}
+
+<===> named/output-libsass.css
 a {
   b: #010203;
 }
