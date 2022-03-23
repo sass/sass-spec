@@ -51,6 +51,21 @@ a {
 
 <===>
 ================================================================================
+<===> selector_pseudo/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> selector_pseudo/where/input.scss
+a {b: selector-replace(":where(c)", "c", "d")}
+
+<===> selector_pseudo/where/output.css
+a {
+  b: :where(d);
+}
+
+<===>
+================================================================================
 <===> selector_pseudo/matches/input.scss
 a {b: selector-replace(":matches(c)", "c", "d")}
 

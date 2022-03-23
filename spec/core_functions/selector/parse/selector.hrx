@@ -93,6 +93,21 @@ a {
 
 <===>
 ================================================================================
+<===> simple/pseudo/class/selector_arg/where/input.scss
+$result: selector-parse(":where(b, c)");
+a {
+  result: $result;
+  structure: $result == (append((), ":where(b, c)"),);
+}
+
+<===> simple/pseudo/class/selector_arg/where/output.css
+a {
+  result: :where(b, c);
+  structure: true;
+}
+
+<===>
+================================================================================
 <===> simple/pseudo/class/selector_arg/matches/input.scss
 $result: selector-parse(":matches(b, c)");
 a {

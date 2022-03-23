@@ -138,6 +138,26 @@ a {
 
 <===>
 ================================================================================
+<===> selector_arg/where/same/input.scss
+a {b: selector-unify(":where(.c)", ":where(.c)")}
+
+<===> selector_arg/where/same/output.css
+a {
+  b: :where(.c);
+}
+
+<===>
+================================================================================
+<===> selector_arg/where/different/input.scss
+a {b: selector-unify(":where(.c)", ":where(.d)")}
+
+<===> selector_arg/where/different/output.css
+a {
+  b: :where(.c):where(.d);
+}
+
+<===>
+================================================================================
 <===> selector_arg/matches/same/input.scss
 a {b: selector-unify(":matches(.c)", ":matches(.c)")}
 

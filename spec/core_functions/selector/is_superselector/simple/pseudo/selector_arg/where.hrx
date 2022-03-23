@@ -1,20 +1,24 @@
 <===> README.md
-Because `:matches()` is extremely flexible, there are more cases where it is
+Because `:where()` is extremely flexible, there are more cases where it is
 technically a superselector or subselector than those represented here. However,
 universally supporting these would require the equivalent of fully resolving the
-`:matches()` declaration in the same manner as `@extend` which would add way too
+`:where()` declaration in the same manner as `@extend` which would add way too
 much implementation complexity for such a marginal edge case.
 
 In particular, we don't require that superselectors be detected when the
-subselector contains `:matches()` and the superselector does not (even though
-`c` is semantically a superselector of `:matches(c)`).
+subselector contains `:where()` and the superselector does not (even though
+`c` is semantically a superselector of `:where(c)`).
 
-Most changes here should also be reflected in `is.hrx` and `where.hrx`.
+Most changes here should also be reflected in `is.hrx` and `matches.hrx`.
 
 <===>
 ================================================================================
+<===> simple/equal/options.yml
+:todo:
+  - sass/libsass#3154
+
 <===> simple/equal/input.scss
-a {b: is-superselector(":matches(c)", "c")}
+a {b: is-superselector(":where(c)", "c")}
 
 <===> simple/equal/output.css
 a {
@@ -24,7 +28,7 @@ a {
 <===>
 ================================================================================
 <===> simple/unequal/input.scss
-a {b: is-superselector(":matches(c)", "d")}
+a {b: is-superselector(":where(c)", "d")}
 
 <===> simple/unequal/output.css
 a {
@@ -33,8 +37,12 @@ a {
 
 <===>
 ================================================================================
+<===> compound/superset/options.yml
+:todo:
+  - sass/libsass#3154
+
 <===> compound/superset/input.scss
-a {b: is-superselector(":matches(c.e)", "c.d.e")}
+a {b: is-superselector(":where(c.e)", "c.d.e")}
 
 <===> compound/superset/output.css
 a {
@@ -44,7 +52,7 @@ a {
 <===>
 ================================================================================
 <===> compound/subset/input.scss
-a {b: is-superselector(":matches(c.d.e)", "c e")}
+a {b: is-superselector(":where(c.d.e)", "c e")}
 
 <===> compound/subset/output.css
 a {
@@ -59,7 +67,7 @@ a {
 - sass/libsass#2972
 
 <===> complex/superset/input.scss
-a {b: is-superselector(":matches(c e)", "c d e")}
+a {b: is-superselector(":where(c e)", "c d e")}
 
 <===> complex/superset/output.css
 a {
@@ -69,7 +77,7 @@ a {
 <===>
 ================================================================================
 <===> complex/subset/input.scss
-a {b: is-superselector(":matches(c d e)", "c e")}
+a {b: is-superselector(":where(c d e)", "c e")}
 
 <===> complex/subset/output.css
 a {
@@ -84,7 +92,7 @@ a {
 - sass/libsass#2972
 
 <===> list/superset/input.scss
-a {b: is-superselector(":matches(c d, e f, g h)", "c d, e f")}
+a {b: is-superselector(":where(c d, e f, g h)", "c d, e f")}
 
 <===> list/superset/output.css
 a {
@@ -94,7 +102,7 @@ a {
 <===>
 ================================================================================
 <===> list/subset/input.scss
-a {b: is-superselector(":matches(c d, e f)", "c d, e f, g h")}
+a {b: is-superselector(":where(c d, e f)", "c d, e f, g h")}
 
 <===> list/subset/output.css
 a {
@@ -104,14 +112,18 @@ a {
 <===>
 ================================================================================
 <===> both/README.md
-We do *allow* `:matches()` in the subselector, we just require there to be a
-corresponding `:matches()` in the superselector. Then we do a superselector
+We do *allow* `:where()` in the subselector, we just require there to be a
+corresponding `:where()` in the superselector. Then we do a superselector
 check on those two selectors in isolation.
 
 <===>
 ================================================================================
+<===> both/superset/options.yml
+:todo:
+  - sass/libsass#3154
+
 <===> both/superset/input.scss
-a {b: is-superselector(":matches(c d, e f, g h)", ":matches(c d.i, e j f)")}
+a {b: is-superselector(":where(c d, e f, g h)", ":where(c d.i, e j f)")}
 
 <===> both/superset/output.css
 a {
@@ -121,7 +133,7 @@ a {
 <===>
 ================================================================================
 <===> both/subset/input.scss
-a {b: is-superselector(":matches(c d.i, e j f)", ":matches(c d, e f, g h)")}
+a {b: is-superselector(":where(c d.i, e j f)", ":where(c d, e f, g h)")}
 
 <===> both/subset/output.css
 a {
@@ -136,7 +148,7 @@ a {
 - sass/libsass#2972
 
 <===> prefix/superset/input.scss
-a {b: is-superselector(":-pfx-matches(c d, e f, g h)", "c d.i, e j f")}
+a {b: is-superselector(":-pfx-is(c d, e f, g h)", "c d.i, e j f")}
 
 <===> prefix/superset/output.css
 a {
@@ -146,7 +158,7 @@ a {
 <===>
 ================================================================================
 <===> prefix/subset/input.scss
-a {b: is-superselector(":-pfx-matches(c d.i, e j f)", "c d, e f, g h")}
+a {b: is-superselector(":-pfx-is(c d.i, e j f)", "c d, e f, g h")}
 
 <===> prefix/subset/output.css
 a {
@@ -156,13 +168,13 @@ a {
 <===>
 ================================================================================
 <===> not_superselector_of/README.md
-`:matches()` isn't considered a superselector of other selectors with the same
+`:where()` isn't considered a superselector of other selectors with the same
 semantics, because in practice they match different browsers.
 
 <===>
 ================================================================================
 <===> not_superselector_of/any/input.scss
-a {b: is-superselector(":matches(c, d)", ":any(c, d)")}
+a {b: is-superselector(":where(c, d)", ":any(c, d)")}
 
 <===> not_superselector_of/any/output.css
 a {
@@ -172,7 +184,7 @@ a {
 <===>
 ================================================================================
 <===> not_superselector_of/prefixed/input.scss
-a {b: is-superselector(":matches(c, d)", ":-pfx-matches(c, d)")}
+a {b: is-superselector(":where(c, d)", ":-pfx-where(c, d)")}
 
 <===> not_superselector_of/prefixed/output.css
 a {

@@ -46,6 +46,46 @@ a {
 
 <===>
 ================================================================================
+<===> unprefixed/where/class/equal/input.scss
+a {b: selector-extend(":where(c d.e, f g)", ":where(c d.e, f g)", "h")}
+
+<===> unprefixed/where/class/equal/output.css
+a {
+  b: :where(c d.e, f g), h;
+}
+
+<===>
+================================================================================
+<===> unprefixed/where/class/unequal/name/input.scss
+a {b: selector-extend(":where(c d.e, f g)", ":-pfx-where(c d.e, f g)", "h")}
+
+<===> unprefixed/where/class/unequal/name/output.css
+a {
+  b: :where(c d.e, f g);
+}
+
+<===>
+================================================================================
+<===> unprefixed/where/class/unequal/argument/input.scss
+a {b: selector-extend(":where(c d.e, f g)", ":where(d, g)", "h")}
+
+<===> unprefixed/where/class/unequal/argument/output.css
+a {
+  b: :where(c d.e, f g);
+}
+
+<===>
+================================================================================
+<===> unprefixed/where/class/unequal/has_argument/input.scss
+a {b: selector-extend(":where(c d.e, f g)", ":where", "h")}
+
+<===> unprefixed/where/class/unequal/has_argument/output.css
+a {
+  b: :where(c d.e, f g);
+}
+
+<===>
+================================================================================
 <===> unprefixed/matches/class/equal/input.scss
 a {b: selector-extend(":matches(c d.e, f g)", ":matches(c d.e, f g)", "h")}
 
