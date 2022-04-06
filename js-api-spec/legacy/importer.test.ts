@@ -520,6 +520,29 @@ describe('the previous URL', () => {
     expect(importer1).toHaveBeenCalledTimes(2);
     expect(importer2).toHaveBeenCalled();
   });
+
+  // Regression test for sass/embedded-host-node#120
+  it('is passed after a relative import', () =>
+    sandbox(dir => {
+      dir.write({
+        'test.scss': `
+          @import "relative";
+          @import "importer";
+        `,
+        '_relative.scss': 'a {b: relative}',
+      });
+
+      const importer = jest.fn((url, prev) => {
+        expect(url).toBe('importer');
+        expect(prev).toBe(dir('test.scss'));
+        return {contents: 'a {b: importer}'};
+      });
+
+      expect(
+        sass.renderSync({file: dir('test.scss'), importer}).css.toString()
+      ).toEqualIgnoringWhitespace('a { b: relative; } a { b: importer; }');
+      expect(importer).toHaveBeenCalledTimes(1);
+    }));
 });
 
 describe('this', () => {
