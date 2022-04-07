@@ -36,6 +36,12 @@ export async function sandbox(
       Object.assign((...paths: string[]) => p.join(testDir, ...paths), {
         root: testDir,
         url: (...paths: string[]) => pathToFileURL(p.join(testDir, ...paths)),
+        relativeUrl: (...paths: string[]) => {
+          const path = p.relative(process.cwd(), p.join(testDir, ...paths));
+          const components =
+            p.sep === '\\' ? path.split(/[/\\]/) : path.split('/');
+          return components.map(encodeURIComponent).join('/');
+        },
         write: (paths: {[path: string]: string}) => {
           for (const [path, contents] of Object.entries(paths)) {
             const fullPath = p.join(testDir, path);
@@ -73,6 +79,12 @@ interface SandboxDirectory {
    * Joins `paths` underneath `root` and converts the result to a `file:` URL.
    */
   url(...paths: string[]): URL;
+
+  /**
+   * Joins `paths` underneath `root` and converts the result to a relative
+   * `file:`-style URL.
+   */
+  relativeUrl(...paths: string[]): string;
 
   /**
    * Writes `paths` to disk within this directory.

@@ -121,7 +121,7 @@ describe('compileString', () => {
       });
     });
 
-    it('url is used to resolve relative loads', () =>
+    it('file: url is used to resolve relative loads', () =>
       sandbox(dir => {
         dir.write({'foo/bar/_other.scss': 'a {b: c}'});
 
@@ -244,11 +244,27 @@ describe('compileString', () => {
 
     it('relative loads fail without a URL', () =>
       sandbox(dir => {
-        dir.write({'other.scss': 'a {b: c}'});
+        dir.write({'_other.scss': 'a {b: c}'});
 
-        expect(() => compileString('@use "other";')).toThrowSassException({
+        expect(() =>
+          compileString(`@use "${dir.relativeUrl('other')}";`)
+        ).toThrowSassException({
           line: 0,
           noUrl: true,
+        });
+      }));
+
+    it('relative loads fail with a non-file: URL', () =>
+      sandbox(dir => {
+        dir.write({'_other.scss': 'a {b: c}'});
+
+        expect(() =>
+          compileString(`@use "${dir.relativeUrl('other')}";`, {
+            url: new URL('unknown:style.scss'),
+          })
+        ).toThrowSassException({
+          line: 0,
+          url: 'unknown:style.scss',
         });
       }));
 
