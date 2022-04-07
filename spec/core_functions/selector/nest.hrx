@@ -83,6 +83,21 @@ a {
 
 <===>
 ================================================================================
+<===> parent/selector_pseudo/simple_parent/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> parent/selector_pseudo/simple_parent/where/input.scss
+a {b: selector-nest("c", ":where(&)")}
+
+<===> parent/selector_pseudo/simple_parent/where/output.css
+a {
+  b: :where(c);
+}
+
+<===>
+================================================================================
 <===> parent/selector_pseudo/simple_parent/matches/input.scss
 a {b: selector-nest("c", ":matches(&)")}
 
@@ -104,6 +119,21 @@ a {b: selector-nest("c d", ":is(&)")}
 <===> parent/selector_pseudo/complex_parent/is/output.css
 a {
   b: :is(c d);
+}
+
+<===>
+================================================================================
+<===> parent/selector_pseudo/complex_parent/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> parent/selector_pseudo/complex_parent/where/input.scss
+a {b: selector-nest("c d", ":where(&)")}
+
+<===> parent/selector_pseudo/complex_parent/where/output.css
+a {
+  b: :where(c d);
 }
 
 <===>
@@ -224,6 +254,21 @@ a {b: selector-nest("c, d", ":is(&)")}
 <===> list/parent/selector_pseudo/is/output.css
 a {
   b: :is(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> list/parent/selector_pseudo/where/input.scss
+a {b: selector-nest("c, d", ":where(&)")}
+
+<===> list/parent/selector_pseudo/where/output.css
+a {
+  b: :where(c, d);
 }
 
 <===>

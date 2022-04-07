@@ -233,10 +233,42 @@ a {
 
 <===>
 ================================================================================
+<===> unification/subselector_of_target/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> unification/subselector_of_target/where/input.scss
+a {b: selector-extend(".c:where(d)", ":where(d)", "d.e")}
+
+<===> unification/subselector_of_target/where/output.css
+a {
+  b: .c:where(d);
+}
+
+<===>
+================================================================================
 <===> unification/subselector_of_target/matches/input.scss
 a {b: selector-extend(".c:matches(d)", ":matches(d)", "d.e")}
 
 <===> unification/subselector_of_target/matches/output.css
 a {
   b: .c:matches(d);
+}
+
+<===>
+================================================================================
+<===> unification/specificity_modification/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> unification/specificity_modification/where/input.scss
+a {
+  b: selector-extend(":where(.x)", ".x", ".x .y");
+}
+
+<===> unification/specificity_modification/where/output.css
+a {
+  b: :where(.x, .x .y);
 }

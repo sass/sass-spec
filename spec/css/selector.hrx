@@ -187,6 +187,54 @@ a:is(c) {
 
 <===>
 ================================================================================
+<===> placeholder/pseudoselectors/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/where/solo/input.scss
+// Since `%b` doesn't exist, no selectors can match it, so this rule should be
+// removed.
+a:where(%b) {x: y}
+
+<===> placeholder/pseudoselectors/where/solo/output.css
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/where/with_real/input.scss
+// Since `%b` doesn't exist, an element matches `%b` or `c` iff it matches `c`.
+a:where(%b, c) {x: y}
+
+<===> placeholder/pseudoselectors/where/with_real/output.css
+a:where(c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> placeholder/pseudoselectors/where/nesting/options.yml
+---
+:todo:
+- sass/dart-sass#1451
+:ignore_for:
+- libsass
+
+<===> placeholder/pseudoselectors/where/nesting/input.scss
+a {
+  :where(&) {
+    b: c;
+  }
+}
+
+<===> placeholder/pseudoselectors/where/nesting/output.css
+:where(a) {
+  b: c;
+}
+
+<===>
+================================================================================
 <===> placeholder/pseudoselectors/matches/solo/options.yml
 ---
 :todo:
@@ -246,27 +294,6 @@ a:not(c) {
 <===> placeholder/pseudoselectors/not/universal/output.css
 * {
   x: y;
-}
-
-<===>
-================================================================================
-<===> placeholder/pseudoselectors/where/nesting/options.yml
----
-:todo:
-- sass/dart-sass#1451
-:ignore_for:
-- libsass
-
-<===> placeholder/pseudoselectors/where/nesting/input.scss
-a {
-  :where(&) {
-    b: c;
-  }
-}
-
-<===> placeholder/pseudoselectors/where/nesting/output.css
-:where(a) {
-  b: c;
 }
 
 <===>

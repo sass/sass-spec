@@ -67,10 +67,12 @@ a {
 
 <===>
 ================================================================================
-<===> not/is/list/options.yml
+<===> not/is/options.yml
 :todo:
   - sass/libsass#3154
 
+<===>
+================================================================================
 <===> not/is/list/input.scss
 a {b: selector-extend(":not(.c)", ".c", ":is(.d, .e)")}
 
@@ -135,6 +137,46 @@ a {
 
 <===>
 ================================================================================
+<===> not/where/options.yml
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> not/where/list/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":where(.d, .e)")}
+
+<===> not/where/list/output.css
+a {
+  b: :not(.c):not(.d):not(.e);
+}
+
+<===>
+================================================================================
+<===> not/where/list_of_complex/options.yml
+:todo:
+  - sass/libsass#3154
+
+<===> not/where/list_of_complex/input.scss
+a {b: selector-extend(":not(.c)", ".c", ":where(.d .e, .f .g)")}
+
+<===> not/where/list_of_complex/output.css
+a {
+  b: :not(.c):not(.d .e):not(.f .g);
+}
+
+<===>
+================================================================================
+<===> not/where/in_compound/input.scss
+a {b: selector-extend(":not(.c)", ".c", ".d:where(.e, .f)")}
+
+<===> not/where/in_compound/output.css
+a {
+  b: :not(.c):not(.d:where(.e, .f));
+}
+
+<===>
+================================================================================
 <===> not/not_in_extender/input.scss
 // Ideally, this should emit `.d, :not(.c)`, but that would be the only
 // situation where extending a pseudo selector could produce a full-on selector
@@ -182,6 +224,43 @@ a {b: selector-extend(":is(.c)", ".c", ":is(.d, .e)")}
 <===> is/is_in_extender/output.css
 a {
   b: :is(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> where/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===>
+================================================================================
+<===> where/simple/input.scss
+a {b: selector-extend(":where(.c)", ".c", ".d")}
+
+<===> where/simple/output.css
+a {
+  b: :where(.c, .d);
+}
+
+<===>
+================================================================================
+<===> where/list/input.scss
+a {b: selector-extend(":where(.c)", ".c", ".d, .e")}
+
+<===> where/list/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> where/is_in_extender/input.scss
+a {b: selector-extend(":where(.c)", ".c", ":where(.d, .e)")}
+
+<===> where/is_in_extender/output.css
+a {
+  b: :where(.c, .d, .e);
 }
 
 <===>
