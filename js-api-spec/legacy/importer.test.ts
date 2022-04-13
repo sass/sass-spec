@@ -439,13 +439,24 @@ describe('the imported URL', () => {
   });
 
   // Regression test for sass/dart-sass#1137.
-  it("isn't changed if it's root-relative", () => {
+  it("isn't changed if it's root-relative with no nesting", () => {
     const importer = jest.fn(url => {
       expect(url).toBe('/foo');
       return {contents: ''};
     });
 
     sass.renderSync({data: '@import "/foo"', importer});
+    expect(importer).toHaveBeenCalled();
+  });
+
+  // Regression test for sass/embedded-host-node#1137.
+  it("isn't changed if it's root-relative with nesting", () => {
+    const importer = jest.fn(url => {
+      expect(url).toBe('/foo/bar/baz');
+      return {contents: ''};
+    });
+
+    sass.renderSync({data: '@import "/foo/bar/baz"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
