@@ -1,3 +1,50 @@
+<===> layer/options.yml
+:ignore_for:
+  - libsass
+
+<===>
+================================================================================
+<===> layer/default/input.scss
+@import "a.css" layer;
+
+<===> layer/default/output.css
+@import "a.css" layer;
+
+<===>
+================================================================================
+<===> layer/named/input.scss
+@import "a.css" layer(b);
+
+<===> layer/named/output.css
+@import "a.css" layer(b);
+
+<===>
+================================================================================
+<===> layer/nested/input.scss
+@import "a.css" layer(b.c);
+
+<===> layer/nested/output.css
+@import "a.css" layer(b.c);
+
+<===>
+================================================================================
+<===> layer/nested-deep/input.scss
+@import "a.css" layer(b.c.d);
+
+<===> layer/nested-deep/output.css
+@import "a.css" layer(b.c.d);
+
+<===>
+================================================================================
+<===> layer/interpolated/input.scss
+$a: "a";
+@import "a.css" layer(#{$a});
+
+<===> layer/interpolated/output.css
+@import "a.css" layer(a);
+
+<===>
+================================================================================
 <===> supports/declaration/prop/options.yml
 :ignore_for:
   - libsass
@@ -104,38 +151,96 @@
 
 <===>
 ================================================================================
-<===> both/options.yml
+<===> multiple/options.yml
 :ignore_for:
   - libsass
 
-<===> both/input.scss
+<===>
+================================================================================
+<===> multiple/supports_and_media/input.scss
 @import url("a.css") supports(display: flex) handheld and (max-width: 400px);
 
-<===> both/output.css
+<===> multiple/supports_and_media/output.css
 @import url("a.css") supports(display: flex) handheld and (max-width: 400px);
 
 <===>
 ================================================================================
-<===> error/wrong_order/input.scss
+<===> multiple/default_layer_and_media/input.scss
+@import url("a.css") layer handheld and (max-width: 400px);
+
+<===> multiple/default_layer_and_media/output.css
+@import url("a.css") layer handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> multiple/named_layer_and_media/input.scss
+@import url("a.css") layer(b) handheld and (max-width: 400px);
+
+<===> multiple/named_layer_and_media/output.css
+@import url("a.css") layer(b) handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> multiple/default_layer_and_supports/input.scss
+@import url("a.css") layer supports(display: flex);
+
+<===> multiple/default_layer_and_supports/output.css
+@import url("a.css") layer supports(display: flex);
+
+<===>
+================================================================================
+<===> multiple/named_layer_and_supports/input.scss
+@import url("a.css") layer(b) supports(display: flex);
+
+<===> multiple/named_layer_and_supports/output.css
+@import url("a.css") layer(b) supports(display: flex);
+
+<===>
+================================================================================
+<===> multiple/default_layer_and_supports_and_media/input.scss
+@import url("a.css") layer supports(display: flex) handheld and (max-width: 400px);
+
+<===> multiple/default_layer_and_supports_and_media/output.css
+@import url("a.css") layer supports(display: flex) handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> multiple/named_layer_and_supports_and_media/input.scss
+@import url("a.css") layer(b) supports(display: flex) handheld and (max-width: 400px);
+
+<===> multiple/named_layer_and_supports_and_media/output.css
+@import url("a.css") layer(b) supports(display: flex) handheld and (max-width: 400px);
+
+<===>
+================================================================================
+<===> multiple/media_and_supports/input.scss
 @import url("a.css") (max-width: 400px) supports(display: flex);
 
-<===> error/wrong_order/error
-Error: expected ";".
-  ,
-1 | @import url("a.css") (max-width: 400px) supports(display: flex);
-  |                                         ^
-  '
-  input.scss 1:41  root stylesheet
-
-<===> error/wrong_order/error-libsass
-Error: Invalid CSS after "...x-width: 400px)": expected 1 selector or at-rule, was "supports(display: f"
-        on line 1:40 of input.scss
->> @import url("a.css") (max-width: 400px) supports(display: flex);
-
-   ---------------------------------------^
+<===> multiple/media_and_supports/output.css
+@import url("a.css") (max-width: 400px) supports(display: flex);
 
 <===>
 ================================================================================
+<===> multiple/media_and_layer/input.scss
+@import url("a.css") (max-width: 400px) layer(b);
+
+<===> multiple/media_and_layer/output.css
+@import url("a.css") (max-width: 400px) layer(b);
+
+<===>
+================================================================================
+<===> multiple/supports_and_layer/input.scss
+@import url("a.css") supports(display: flex) layer(b);
+
+<===> multiple/supports_and_layer/output.css
+@import url("a.css") supports(display: flex) layer(b);
+
+<===>
+================================================================================
+<===> error/supports/declaration/custom_prop/empty/options.yml
+:ignore_for:
+  - libsass
+
 <===> error/supports/declaration/custom_prop/empty/input.scss
 @import url("a.css") supports(--a:);
 
@@ -146,10 +251,3 @@ Error: Expected token.
   |                                   ^
   '
   input.scss 1:35  root stylesheet
-
-<===> error/supports/declaration/custom_prop/empty/error-libsass
-Error: Invalid CSS after '....css") supports': expected 1 selector or at-rule, was "(--a:);"
-        on line 1:22 of input.scss
->> @import url("a.css") supports(--a:);
-
-   ---------------------^
