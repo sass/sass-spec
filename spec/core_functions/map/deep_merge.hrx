@@ -44,7 +44,7 @@ a {b: inspect(map.deep-merge((c: d, e: f), (1: 2, 3: 4)))}
 
 <===> shallow/different_keys/output.css
 a {
-  b: (1: 2, 3: 4, c: d, e: f);
+  b: (c: d, e: f, 1: 2, 3: 4);
 }
 
 <===>
@@ -66,7 +66,7 @@ a {b: inspect(map.deep-merge((c: d, e: f, g: h), (i: 1, e: 2, j: 3)))}
 
 <===> shallow/overlapping_keys/output.css
 a {
-  b: (i: 1, e: 2, j: 3, c: d, g: h);
+  b: (c: d, e: 2, g: h, i: 1, j: 3);
 }
 
 <===>
@@ -99,7 +99,7 @@ a {b: inspect(map.deep-merge((c: (d: e, f: g)), (c: (1: 2, 3: 4))))}
 
 <===> deep/different_keys/output.css
 a {
-  b: (c: (1: 2, 3: 4, d: e, f: g));
+  b: (c: (d: e, f: g, 1: 2, 3: 4));
 }
 
 <===>
@@ -121,7 +121,7 @@ a {b: inspect(map.deep-merge((c: (d: e, f: g, h: i)), (c: (j: 1, f: 2, k: 3))))}
 
 <===> deep/overlapping_keys/output.css
 a {
-  b: (c: (j: 1, f: 2, k: 3, d: e, h: i));
+  b: (c: (d: e, f: 2, h: i, j: 1, k: 3));
 }
 
 <===>
@@ -132,7 +132,7 @@ a {b: inspect(map.deep-merge((c: (d: (e: (f: g)))), (c: (d: (e: (1: 2))))))}
 
 <===> deep/multiple_layers/output.css
 a {
-  b: (c: (d: (e: (1: 2, f: g))));
+  b: (c: (d: (e: (f: g, 1: 2))));
 }
 
 <===>
@@ -143,7 +143,7 @@ a {b: inspect(map.deep-merge($map1: (c: d), $map2: (1: 2)))}
 
 <===> named/output.css
 a {
-  b: (1: 2, c: d);
+  b: (c: d, 1: 2);
 }
 
 <===>
