@@ -32,7 +32,7 @@ describe('Sass number', () => {
           expect(number.denominatorUnits.isEmpty()).toBe(true);
           expect(number.hasUnits).toBe(false);
           expect(number.hasUnit('px')).toBe(false);
-          expect(() => number.assertNoUnits()).not.toThrow();
+          expect(number.assertNoUnits()).toBe(number);
           expect(() => number.assertUnit('px')).toThrow();
         });
 
@@ -271,7 +271,7 @@ describe('Sass number', () => {
         expect(number.numeratorUnits).toEqualWithHash(List(['px']));
         expect(number.hasUnits).toBe(true);
         expect(number.hasUnit('px')).toBe(true);
-        expect(() => number.assertUnit('px')).not.toThrow();
+        expect(number.assertUnit('px')).toBe(number);
         expect(() => number.assertNoUnits()).toThrow();
       });
 
