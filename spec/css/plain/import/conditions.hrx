@@ -1,3 +1,69 @@
+<===> unknown/options.yml
+:ignore_for:
+  - libsass
+
+<===>
+================================================================================
+<===> unknown/function/empty/input.scss
+@import "a" b();
+
+<===> unknown/function/empty/output.css
+@import "a" b();
+
+<===>
+================================================================================
+<===> unknown/function/argument/input.scss
+@import "a" b(a !&$ZH()&;*{&A}_=-+#/><);
+
+<===> unknown/function/argument/output.css
+@import "a" b(a !&$ZH()&;*{&A}_=-+#/><);
+
+<===>
+================================================================================
+<===> unknown/function/interpolated/input.scss
+$a: "a";
+@import "b" c(#{$a});
+
+<===> unknown/function/interpolated/output.css
+@import "b" c(a);
+
+<===>
+================================================================================
+<===> unknown/function/followed_by_import_arg/input.scss
+@import "b" c(d), "e.css";
+
+<===> unknown/function/followed_by_import_arg/output.css
+@import "b" c(d);
+@import "e.css";
+
+<===>
+================================================================================
+<===> unknown/identifier/static/input.scss
+@import "a" b;
+
+<===> unknown/identifier/static/output.css
+@import "a" b;
+
+<===>
+================================================================================
+<===> unknown/identifier/interpolated/input.scss
+$a: "a";
+@import "b" c#{$a}d;
+
+<===> unknown/identifier/interpolated/output.css
+@import "b" cad;
+
+<===>
+================================================================================
+<===> unknown/identifier/interpolation/input.scss
+$a: "a";
+@import "b" #{$a};
+
+<===> unknown/identifier/interpolation/output.css
+@import "b" a;
+
+<===>
+================================================================================
 <===> supports/declaration/prop/options.yml
 :ignore_for:
   - libsass
@@ -37,6 +103,19 @@
 
 <===> supports/declaration/custom_prop/punctuation/output.css
 @import "a.css" supports(--a: ,);
+
+<===>
+================================================================================
+<===> supports/declaration/followed_by_import_arg/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/declaration/followed_by_import_arg/input.scss
+@import "a" supports(b: c), "d.css";
+
+<===> supports/declaration/followed_by_import_arg/output.css
+@import "a" supports(b: c);
+@import "d.css";
 
 <===>
 ================================================================================
@@ -88,6 +167,18 @@
 
 <===>
 ================================================================================
+<===> supports/calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> supports/calc/input.scss
+@import "a.css" supports(calc(1));
+
+<===> supports/calc/output.css
+@import "a.css" supports(calc(1));
+
+<===>
+================================================================================
 <===> media/simple/input.scss
 @import url("a.css") print;
 
@@ -104,38 +195,264 @@
 
 <===>
 ================================================================================
-<===> both/options.yml
+<===> media/list/after_ident/input.scss
+@import "a" b, (c: d) and (e: f), g;
+
+<===> media/list/after_ident/output.css
+@import "a" b, (c: d) and (e: f), g;
+
+<===>
+================================================================================
+<===> media/list/after_feature/input.scss
+@import "a" (b: c), (d: e) and (f: g), h;
+
+<===> media/list/after_feature/output.css
+@import "a" (b: c), (d: e) and (f: g), h;
+
+<===>
+================================================================================
+<===> media/list/and_without_space/input.scss
+@import "a" b and(c: d), e;
+
+<===> media/list/and_without_space/output.css
+@import "a" b and (c: d), e;
+
+<===>
+================================================================================
+<===> multiple/options.yml
 :ignore_for:
   - libsass
 
-<===> both/input.scss
-@import url("a.css") supports(display: flex) handheld and (max-width: 400px);
+<===>
+================================================================================
+<===> multiple/supports_then/media/input.scss
+@import "a" supports(b: c) (d: e);
 
-<===> both/output.css
-@import url("a.css") supports(display: flex) handheld and (max-width: 400px);
+<===> multiple/supports_then/media/output.css
+@import "a" supports(b: c) (d: e);
 
 <===>
 ================================================================================
-<===> error/wrong_order/input.scss
-@import url("a.css") (max-width: 400px) supports(display: flex);
+<===> multiple/supports_then/unknown_ident/input.scss
+@import "a" supports(b: c) d;
 
-<===> error/wrong_order/error
+<===> multiple/supports_then/unknown_ident/output.css
+@import "a" supports(b: c) d;
+
+<===>
+================================================================================
+<===> multiple/supports_then/unknown_function/input.scss
+@import "a" supports(b: c) d(e);
+
+<===> multiple/supports_then/unknown_function/output.css
+@import "a" supports(b: c) d(e);
+
+<===>
+================================================================================
+<===> multiple/supports_then/supports/input.scss
+@import "a" supports(b: c) supports(e: f);
+
+<===> multiple/supports_then/supports/output.css
+@import "a" supports(b: c) supports(e: f);
+
+<===>
+================================================================================
+<===> multiple/unknown_ident_then/media/input.scss
+@import "a" b (c: d);
+
+<===> multiple/unknown_ident_then/media/output.css
+@import "a" b (c: d);
+
+<===>
+================================================================================
+<===> multiple/unknown_ident_then/unknown_ident/input.scss
+@import "a" b c;
+
+<===> multiple/unknown_ident_then/unknown_ident/output.css
+@import "a" b c;
+
+<===>
+================================================================================
+<===> multiple/unknown_ident_then/unknown_function/input.scss
+@import "a" b c(d);
+
+<===> multiple/unknown_ident_then/unknown_function/output.css
+@import "a" b c(d);
+
+<===>
+================================================================================
+<===> multiple/unknown_ident_then/supports/input.scss
+@import "a" b supports(c: d);
+
+<===> multiple/unknown_ident_then/supports/output.css
+@import "a" b supports(c: d);
+
+<===>
+================================================================================
+<===> multiple/unknown_function_then/media/input.scss
+@import "a" b(c) (d: e);
+
+<===> multiple/unknown_function_then/media/output.css
+@import "a" b(c) (d: e);
+
+<===>
+================================================================================
+<===> multiple/unknown_function_then/unknown_ident/input.scss
+@import "a" b(c) d;
+
+<===> multiple/unknown_function_then/unknown_ident/output.css
+@import "a" b(c) d;
+
+<===>
+================================================================================
+<===> multiple/unknown_function_then/unknown_function/input.scss
+@import "a" b(c) d(e);
+
+<===> multiple/unknown_function_then/unknown_function/output.css
+@import "a" b(c) d(e);
+
+<===>
+================================================================================
+<===> multiple/unknown_function_then/supports/input.scss
+@import "a" b(c) supports(e: f);
+
+<===> multiple/unknown_function_then/supports/output.css
+@import "a" b(c) supports(e: f);
+
+<===>
+================================================================================
+<===> multiple/many/input.scss
+@import "a" b c d(e) supports(f: g) h i j(k) l m (n: o), (p: q);
+
+<===> multiple/many/output.css
+@import "a" b c d(e) supports(f: g) h i j(k) l m (n: o), (p: q);
+
+<===>
+================================================================================
+<===> error/wrong_order/media_before_supports/input.scss
+@import "a" (b: c) supports(d: e);
+
+<===> error/wrong_order/media_before_supports/error
 Error: expected ";".
   ,
-1 | @import url("a.css") (max-width: 400px) supports(display: flex);
-  |                                         ^
+1 | @import "a" (b: c) supports(d: e);
+  |                    ^
   '
-  input.scss 1:41  root stylesheet
+  input.scss 1:20  root stylesheet
 
-<===> error/wrong_order/error-libsass
-Error: Invalid CSS after "...x-width: 400px)": expected 1 selector or at-rule, was "supports(display: f"
-        on line 1:40 of input.scss
->> @import url("a.css") (max-width: 400px) supports(display: flex);
+<===> error/wrong_order/media_before_supports/error-libsass
+Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "supports(d: e);"
+        on line 1:19 of input.scss
+>> @import "a" (b: c) supports(d: e);
 
-   ---------------------------------------^
+   ------------------^
 
 <===>
 ================================================================================
+<===> error/wrong_order/media_before_unknown_ident/input.scss
+@import "a" (b: c) d;
+
+<===> error/wrong_order/media_before_unknown_ident/error
+Error: expected ";".
+  ,
+1 | @import "a" (b: c) d;
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===> error/wrong_order/media_before_unknown_ident/error-libsass
+Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "d;"
+        on line 1:19 of input.scss
+>> @import "a" (b: c) d;
+
+   ------------------^
+
+<===>
+================================================================================
+<===> error/wrong_order/media_before_unknown_function/input.scss
+@import "a" (b: c) d(e);
+
+<===> error/wrong_order/media_before_unknown_function/error
+Error: expected ";".
+  ,
+1 | @import "a" (b: c) d(e);
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===> error/wrong_order/media_before_unknown_function/error-libsass
+Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "d(e);"
+        on line 1:19 of input.scss
+>> @import "a" (b: c) d(e);
+
+   ------------------^
+
+<===>
+================================================================================
+<===> error/wrong_order/supports_after_comma/input.scss
+@import "a" b, supports(c: d);
+
+<===> error/wrong_order/supports_after_comma/error
+Error: expected ";".
+  ,
+1 | @import "a" b, supports(c: d);
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===> error/wrong_order/supports_after_comma/error-libsass
+Error: Invalid CSS after '..."a" b, supports': expected 1 selector or at-rule, was "(c: d);"
+        on line 1:16 of input.scss
+>> @import "a" b, supports(c: d);
+
+   ---------------^
+
+<===>
+================================================================================
+<===> error/wrong_order/unknown_function_after_comma/input.scss
+@import "a" b, c(d);
+
+<===> error/wrong_order/unknown_function_after_comma/error
+Error: expected ";".
+  ,
+1 | @import "a" b, c(d);
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===> error/wrong_order/unknown_function_after_comma/error-libsass
+Error: Invalid CSS after '@import "a" b, c': expected 1 selector or at-rule, was "(d);"
+        on line 1:16 of input.scss
+>> @import "a" b, c(d);
+
+   ---------------^
+
+<===>
+================================================================================
+<===> error/wrong_order/url_after_comma/input.scss
+@import "a" b, "c";
+
+<===> error/wrong_order/url_after_comma/error
+Error: Expected identifier.
+  ,
+1 | @import "a" b, "c";
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===> error/wrong_order/url_after_comma/error-libsass
+Error: media query expression must begin with '('
+        on line 1:16 of input.scss
+>> @import "a" b, "c";
+
+   ---------------^
+
+<===>
+================================================================================
+<===> error/supports/declaration/custom_prop/empty/options.yml
+:ignore_for:
+  - libsass
+
 <===> error/supports/declaration/custom_prop/empty/input.scss
 @import url("a.css") supports(--a:);
 
@@ -146,10 +463,3 @@ Error: Expected token.
   |                                   ^
   '
   input.scss 1:35  root stylesheet
-
-<===> error/supports/declaration/custom_prop/empty/error-libsass
-Error: Invalid CSS after '....css") supports': expected 1 selector or at-rule, was "(--a:);"
-        on line 1:22 of input.scss
->> @import url("a.css") supports(--a:);
-
-   ---------------------^
