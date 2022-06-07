@@ -83,7 +83,7 @@ export function compareResults(
     return failures.MissingOutput();
   } else if (expected.isSuccess) {
     if (!actual.isSuccess) {
-      return failures.UnexpectedError();
+      return failures.UnexpectedError(actual.error);
     }
 
     const diff = getDiff('output.css', expected.output, actual.output);
