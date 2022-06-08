@@ -123,3 +123,22 @@ a {@import "other"}
     d: e;
   }
 }
+
+<===>
+================================================================================
+<===> with_comment/input.scss
+@import 'b';
+@import 'c';
+
+<===> with_comment/_a.scss
+/* Y */
+
+<===> with_comment/_b.scss
+@import 'a'
+
+<===> with_comment/_c.scss
+@import 'a'
+
+<===> with_comment/output.css
+/* Y */
+/* Y */
