@@ -5,7 +5,9 @@ import * as specDirectory from '../lib-js/spec-directory';
 
 it('every directory contains or is contained by a test', async () => {
   // Verifies that `dir` either is a test, or that all its children are tests.
-  async function verifyDirectory(dir: specDirectory.SpecDirectory): Promise<void> {
+  async function verifyDirectory(
+    dir: specDirectory.SpecDirectory
+  ): Promise<void> {
     if (dir.isTestDir()) return;
 
     const subdirs = await dir.subdirs();
