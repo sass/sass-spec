@@ -159,4 +159,8 @@ export default abstract class SpecDirectory {
       }
     }
   }
+
+  toString(): string {
+    return this.path;
+  }
 }
