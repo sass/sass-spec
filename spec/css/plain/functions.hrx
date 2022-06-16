@@ -121,3 +121,50 @@ a {b: saturate(0.1)}
 a {
   b: saturate(0.1);
 }
+
+<===>
+================================================================================
+<===> empty_fallback_var/input.scss
+@import "plain";
+
+<===> empty_fallback_var/plain.css
+a {b: var(--c, )}
+
+<===> empty_fallback_var/output.css
+a {
+  b: var(--c, );
+}
+
+<===>
+================================================================================
+<===> error/empty_fallback_var/invalid_second_arg_syntax/input.scss
+@import "plain";
+
+<===> error/empty_fallback_var/invalid_second_arg_syntax/plain.css
+a {b: var(--c, {})}
+
+<===> error/empty_fallback_var/invalid_second_arg_syntax/error
+Error: Expected expression.
+  ,
+1 | a {b: var(--c, {})}
+  |                ^
+  '
+  plain.css 1:16  @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> error/empty_fallback_var/empty_second_before_third/input.scss
+@import "plain";
+
+<===> error/empty_fallback_var/empty_second_before_third/plain.css
+a {b: var(--c, , d)}
+
+<===> error/empty_fallback_var/empty_second_before_third/error
+Error: Expected expression.
+  ,
+1 | a {b: var(--c, , d)}
+  |                ^
+  '
+  plain.css 1:16  @import
+  input.scss 1:9  root stylesheet
