@@ -214,6 +214,29 @@ describe('renderSync()', () => {
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
   });
+
+  // Regression test for sass/dart-sass#1672
+  it('resolves meta.load-css() relative to the containing file', () =>
+    sandbox(dir => {
+      dir.write({
+        'sub/_upstream.scss': 'a {b: c}',
+        'sub/_midstream.scss': `
+          @use 'sass:meta';
+
+          @mixin mixin {
+            @include meta.load-css('upstream');
+          }
+        `,
+        'downstream.scss': `
+          @use 'sub/midstream';
+
+          @include midstream.mixin;
+        `,
+      });
+      expect(
+        sass.renderSync({file: dir('downstream.scss')}).css.toString()
+      ).toEqualIgnoringWhitespace('a { b: c; }');
+    }));
 });
 
 describe('render()', () => {
