@@ -1,0 +1,338 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> css_function/zero_argument/empty/input.scss
+a {b: var()}
+
+<===> css_function/zero_argument/empty/output.css
+a {
+  b: var();
+}
+
+<===>
+================================================================================
+<===> css_function/single_argument/expression/input.scss
+a {b: var(--c)}
+
+<===> css_function/single_argument/expression/output.css
+a {
+  b: var(--c);
+}
+
+<===>
+================================================================================
+<===> css_function/single_argument/rest/input.scss
+$name: --c;
+a {b: var($name...)}
+
+<===> css_function/single_argument/rest/output.css
+a {
+  b: var(--c);
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/expressions/input.scss
+a {b: var(--c, d)}
+
+<===> css_function/two_argument/expressions/output.css
+a {
+  b: var(--c, d);
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/dynamic/input.scss
+a {b: var(--c, 1 + 2)}
+
+<===> css_function/two_argument/dynamic/output.css
+a {
+  b: var(--c, 3);
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/rest/input.scss
+$args: --c, d;
+a {b: var($args...)}
+
+<===> css_function/two_argument/rest/output.css
+a {
+  b: var(--c, d);
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/empty/whitespace_around/input.scss
+a {b: var(--c , )}
+
+<===> css_function/two_argument/empty/whitespace_around/output.css
+a {
+  b: var(--c, );
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/empty/whitespace_before/input.scss
+a {b: var(--c ,)}
+
+<===> css_function/two_argument/empty/whitespace_before/output.css
+a {
+  b: var(--c, );
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/empty/whitespace_after/input.scss
+a {b: var(--c, )}
+
+<===> css_function/two_argument/empty/whitespace_after/output.css
+a {
+  b: var(--c, );
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/empty/no_whitespace/input.scss
+a {b: var(--c,)}
+
+<===> css_function/two_argument/empty/no_whitespace/output.css
+a {
+  b: var(--c, );
+}
+
+<===>
+================================================================================
+<===> css_function/two_argument/empty/case_insensitive/input.scss
+a {b: VaR(--c,)}
+
+<===> css_function/two_argument/empty/case_insensitive/output.css
+a {
+  b: VaR(--c, );
+}
+
+<===>
+================================================================================
+<===> css_function/three_argument/input.scss
+a {b: var(--c, d, e)}
+
+<===> css_function/three_argument/output.css
+a {
+  b: var(--c, d, e);
+}
+
+<===>
+================================================================================
+<===> sass_function/_list-info.scss
+@use 'sass:list';
+@use 'sass:meta';
+@use 'sass:string';
+
+@function _is-quoted($string) {
+  @return meta.inspect($string) == meta.inspect(string.quote($string));
+}
+
+// A mixin that provides information about the structure of a list of strings.
+@mixin list-info($list) {
+  $quoted: [];
+  $is-quoted: [];
+  @each $element in $list {
+    $quoted: list.join($quoted, string.quote($element), $separator: comma);
+    $is-quoted: list.join($is-quoted, _is-quoted($element), $separator: comma);
+  }
+  quoted: $quoted;
+  is-quoted: $is-quoted;
+}
+
+<===>
+================================================================================
+<===> sass_function/zero_argument/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var())}
+
+<===> sass_function/zero_argument/output.css
+a {
+  quoted: [];
+  is-quoted: [];
+}
+
+<===>
+================================================================================
+<===> sass_function/single_argument/expression/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var(--c))}
+
+<===> sass_function/single_argument/expression/output.css
+a {
+  quoted: ["--c"];
+  is-quoted: [false];
+}
+
+<===>
+================================================================================
+<===> sass_function/single_argument/rest/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+$name: --c;
+a {@include list-info(var($name...))}
+
+<===> sass_function/single_argument/rest/output.css
+a {
+  quoted: ["--c"];
+  is-quoted: [false];
+}
+
+<===>
+================================================================================
+<===> sass_function/two_argument/expressions/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var(--c, d))}
+
+<===> sass_function/two_argument/expressions/output.css
+a {
+  quoted: ["--c", "d"];
+  is-quoted: [false, false];
+}
+
+<===>
+================================================================================
+<===> sass_function/two_argument/dynamic/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var(--c, "d" + "e"))}
+
+<===> sass_function/two_argument/dynamic/output.css
+a {
+  quoted: ["--c", "de"];
+  is-quoted: [false, true];
+}
+
+<===>
+================================================================================
+<===> sass_function/two_argument/rest/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+$args: --c, d;
+a {@include list-info(var($args...))}
+
+<===> sass_function/two_argument/rest/output.css
+a {
+  quoted: ["--c", "d"];
+  is-quoted: [false, false];
+}
+
+<===>
+================================================================================
+<===> sass_function/two_argument/empty/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var(--c, ))}
+
+<===> sass_function/two_argument/empty/output.css
+a {
+  quoted: ["--c", ""];
+  is-quoted: [false, false];
+}
+
+<===>
+================================================================================
+<===> sass_function/two_argument/doesnt_use_function_if_case_doesnt_match/input.scss
+@function var($args...) {@return $args}
+a {b: VaR(--c, )}
+
+<===> sass_function/two_argument/doesnt_use_function_if_case_doesnt_match/output.css
+a {
+  b: var(--c,);
+}
+
+<===>
+================================================================================
+<===> sass_function/three_argument/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+a {@include list-info(var(--c, d, e))}
+
+<===> sass_function/three_argument/output.css
+a {
+  quoted: ["--c", "d", "e"];
+  is-quoted: [false, false, false];
+}
+
+<===>
+================================================================================
+<===> sass_function/normal_trailing_comma_behavior/empty_after_rest/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($args...) {@return $args}
+
+$name: --c;
+a {@include list-info(var($name..., ))}
+
+<===> sass_function/normal_trailing_comma_behavior/empty_after_rest/output.css
+a {
+  quoted: ["--c"];
+  is-quoted: [false];
+}
+
+<===>
+================================================================================
+<===> sass_function/normal_trailing_comma_behavior/empty_after_named/input.scss
+@use 'css/functions/var/sass_function/list-info' as *;
+@function var($arg) {@return [$arg]}
+a {@include list-info(var($arg: --c, ))}
+
+<===> sass_function/normal_trailing_comma_behavior/empty_after_named/output.css
+a {
+  quoted: ["--c"];
+  is-quoted: [false];
+}
+
+<===>
+================================================================================
+<===> error/invalid_second_arg_syntax/input.scss
+// The second argument is *not* parsed as a `<declaration-value>`.
+a {b: var(--c, {})}
+
+<===> error/invalid_second_arg_syntax/error
+Error: expected ")".
+  ,
+2 | a {b: var(--c, {})}
+  |                ^
+  '
+  input.scss 2:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/empty_second_before_third/input.scss
+a {b: var(--c, , d)}
+
+<===> error/empty_second_before_third/error
+Error: expected ")".
+  ,
+1 | a {b: var(--c, , d)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/empty_after_keyword/input.scss
+@function var($name, $arg) {@return null}
+a {b: var($name: --c, )}
+
+<===> error/empty_after_keyword/error
+Error: Missing argument $arg.
+  ,
+1 | @function var($name, $arg) {@return null}
+  |           ================ declaration
+2 | a {b: var($name: --c, )}
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 2:7  var()
+  input.scss 2:7  root stylesheet
