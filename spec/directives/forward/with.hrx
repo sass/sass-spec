@@ -656,3 +656,24 @@ b {
   midstream1: overridden 1;
   midstream2: overridden 2;
 }
+
+<===>
+================================================================================
+<===> use/multiple/same_file/input.scss
+@use 'module' with (
+  $whatever1: 'foo',
+);
+
+<===> use/multiple/same_file/module/list/_variables.scss
+
+<===> use/multiple/same_file/module/list/list-item.scss
+@forward './variables';
+
+<===> use/multiple/same_file/module/list/list.scss
+@forward './variables';
+
+<===> use/multiple/same_file/module/_index.scss
+@forward './list/list';
+@forward './list/list-item';
+
+<===> use/multiple/same_file/output.css
