@@ -233,6 +233,20 @@ describe('compileString', () => {
         expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
       });
     });
+
+    describe('charset', () => {
+      it('emits @charset "UTF-8" or BOM for non-ASCII CSS by default', () => {
+        expect(compileString('a {b: あ;}').css).toBe(
+          '@charset "UTF-8";\na {\n  b: あ;\n}'
+        );
+      });
+
+      it("doesn't emit @charset or BOM if charset is false", () => {
+        expect(compileString('a {b: あ;}', {charset: false}).css).toBe(
+          'a {\n  b: あ;\n}'
+        );
+      });
+    });
   });
 
   describe('error', () => {
