@@ -152,7 +152,7 @@ main() async {
     await fs.promises.writeFile(dartFilename, dartFile, {encoding: 'utf-8'});
     const child = child_process.spawn('dart', [
       '--enable-asserts',
-      `--packages=${repoPath}/.packages`,
+      `--packages=${repoPath}/.dart_tool/package_config.json`,
       dartFilename,
     ]);
     // When this process exits, delete the Dart file.

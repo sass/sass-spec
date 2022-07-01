@@ -12,7 +12,11 @@ describe('DartCompiler', () => {
         path.join(fakeRepo, 'bin', 'sass.dart'),
         'invalid Dart code'
       );
-      await fs.writeFile(path.join(fakeRepo, '.packages'), '');
+      await fs.mkdir(path.join(fakeRepo, '.dart_tool'));
+      await fs.writeFile(
+        path.join(fakeRepo, '.dart_tool', 'package_config.json'),
+        ''
+      );
 
       await expect(DartCompiler.fromRepo(fakeRepo)).rejects.toThrow(
         /Dart Sass process exited unexpectedly/
