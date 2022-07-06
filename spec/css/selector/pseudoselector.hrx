@@ -1,0 +1,10 @@
+<===> nested/adjacent_combinators/input.scss
+// Regression test for sass/dart-sass#1038
+a {
+  b:c, > d {x: y}
+}
+
+<===> nested/adjacent_combinators/output.css
+a b:c, a > d {
+  x: y;
+}
