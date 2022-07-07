@@ -1,0 +1,25 @@
+<===> format/README.md
+These specs verify that all the arguments to `selector-nest()` can take the
+parsed selector format, and that the function returns a selector in that format.
+The full set of possible input formats is tested with `selector-parse()`; this
+spec just verifies one example for each parameter.
+
+<===>
+================================================================================
+<===> format/input/initial/input.scss
+a {b: selector-nest((c, d e), "f")}
+
+<===> format/input/initial/output.css
+a {
+  b: c f, d e f;
+}
+
+<===>
+================================================================================
+<===> format/input/later/input.scss
+a {b: selector-nest("c", (d, e f))}
+
+<===> format/input/later/output.css
+a {
+  b: c d, c e f;
+}

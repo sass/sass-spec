@@ -1,0 +1,147 @@
+<===> alone/input.scss
+a {b: selector-nest("c", "&")}
+
+<===> alone/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> compound/input.scss
+a {b: selector-nest("c", "&.d")}
+
+<===> compound/output.css
+a {
+  b: c.d;
+}
+
+<===>
+================================================================================
+<===> suffix/input.scss
+a {b: selector-nest("c", "&d")}
+
+<===> suffix/output.css
+a {
+  b: cd;
+}
+
+<===>
+================================================================================
+<===> complex/simple_parent/input.scss
+a {b: selector-nest("c", "d &.e")}
+
+<===> complex/simple_parent/output.css
+a {
+  b: d c.e;
+}
+
+<===>
+================================================================================
+<===> complex/complex_parent/input.scss
+a {b: selector-nest("c d", "e &.f")}
+
+<===> complex/complex_parent/output.css
+a {
+  b: e c d.f;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> selector_pseudo/simple_parent/is/input.scss
+a {b: selector-nest("c", ":is(&)")}
+
+<===> selector_pseudo/simple_parent/is/output.css
+a {
+  b: :is(c);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> selector_pseudo/simple_parent/where/input.scss
+a {b: selector-nest("c", ":where(&)")}
+
+<===> selector_pseudo/simple_parent/where/output.css
+a {
+  b: :where(c);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/matches/input.scss
+a {b: selector-nest("c", ":matches(&)")}
+
+<===> selector_pseudo/simple_parent/matches/output.css
+a {
+  b: :matches(c);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> selector_pseudo/complex_parent/is/input.scss
+a {b: selector-nest("c d", ":is(&)")}
+
+<===> selector_pseudo/complex_parent/is/output.css
+a {
+  b: :is(c d);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> selector_pseudo/complex_parent/where/input.scss
+a {b: selector-nest("c d", ":where(&)")}
+
+<===> selector_pseudo/complex_parent/where/output.css
+a {
+  b: :where(c d);
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/matches/input.scss
+a {b: selector-nest("c d", ":matches(&)")}
+
+<===> selector_pseudo/complex_parent/matches/output.css
+a {
+  b: :matches(c d);
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+a {b: selector-nest("c", "&.d &.e")}
+
+<===> multiple/output.css
+a {
+  b: c.d c.e;
+}
+
+<===>
+================================================================================
+<===> in_one_complex/input.scss
+a {b: selector-nest("c", "&.d, e")}
+
+<===> in_one_complex/output.css
+a {
+  b: c.d, c e;
+}
