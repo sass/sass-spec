@@ -121,6 +121,56 @@ a {
 
 <===>
 ================================================================================
+<===> combinator/initial_leading/input.scss
+a {b: selector-append("> c", "d")}
+
+<===> combinator/initial_leading/output.css
+a {
+  b: > cd;
+}
+
+<===>
+================================================================================
+<===> combinator/final_trailing/input.scss
+a {b: selector-append("c", "d ~")}
+
+<===> combinator/final_trailing/output.css
+a {
+  b: cd ~;
+}
+
+<===>
+================================================================================
+<===> combinator/multiple/middle/input.scss
+a {b: selector-append("c > > d", "e")}
+
+<===> combinator/multiple/middle/output.css
+a {
+  b: c > > de;
+}
+
+<===>
+================================================================================
+<===> combinator/multiple/initial_leading/input.scss
+a {b: selector-append("~ ~ c", "d")}
+
+<===> combinator/multiple/initial_leading/output.css
+a {
+  b: ~ ~ cd;
+}
+
+<===>
+================================================================================
+<===> combinator/multiple/final_trailing/input.scss
+a {b: selector-append("c", "d + >")}
+
+<===> combinator/multiple/final_trailing/output.css
+a {
+  b: cd + >;
+}
+
+<===>
+================================================================================
 <===> error/universal/options.yml
 ---
 :todo:
@@ -139,10 +189,10 @@ Error: Can't append * to .c.
 
 <===>
 ================================================================================
-<===> error/leading_combinator/input.scss
+<===> error/combinator/leading/input.scss
 a {b: selector-append(".c", "> .d")}
 
-<===> error/leading_combinator/error
+<===> error/combinator/leading/error
 Error: Can't append > .d to .c.
   ,
 1 | a {b: selector-append(".c", "> .d")}
@@ -150,13 +200,39 @@ Error: Can't append > .d to .c.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/leading_combinator/error-libsass
+<===> error/combinator/leading/error-libsass
 Error: Can't append "> .d" to ".c" for `selector-append'
         on line 1:7 of input.scss, in function `selector-append`
         from line 1:7 of input.scss
 >> a {b: selector-append(".c", "> .d")}
 
    ------^
+
+<===>
+================================================================================
+<===> error/combinator/trailing/input.scss
+a {b: selector-append(".c ~", ".d")}
+
+<===> error/combinator/trailing/error
+Error: Parent ".c ~" is incompatible with this selector.
+  ,
+1 | a {b: selector-append(".c ~", ".d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/combinator/only/input.scss
+a {b: selector-append(".c", ">", ".d")}
+
+<===> error/combinator/only/error
+Error: Can't append > to .c.
+  ,
+1 | a {b: selector-append(".c", ">", ".d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

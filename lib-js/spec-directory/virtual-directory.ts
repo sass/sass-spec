@@ -72,7 +72,13 @@ export default class VirtualDirectory extends SpecDirectory {
     parentOpts?: SpecOptions
   ): Promise<VirtualDirectory> {
     const stream = fs.createReadStream(hrxPath, {encoding: 'utf-8'});
-    const archive = await archiveFromStream(stream);
+    let archive;
+    try {
+      archive = await archiveFromStream(stream);
+    } catch (error: unknown) {
+      throw new Error(`Error parsing ${hrxPath}: ${error}`);
+    }
+
     const {dir, name} = path.parse(hrxPath);
     return new VirtualDirectory(
       path.resolve(dir, name),

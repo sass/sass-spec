@@ -1,0 +1,41 @@
+<===> selector/input.scss
+a {b: selector-extend("+", ".c", ".d")}
+
+<===> selector/output.css
+a {
+  b: +;
+}
+
+<===> selector/warning
+DEPRECATION WARNING: $selector: + is not valid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a {b: selector-extend("+", ".c", ".d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> extender/input.scss
+a {b: selector-extend(".c", ".c", ">")}
+
+<===> extender/output.css
+a {
+  b: .c, >;
+}
+
+<===> extender/warning
+DEPRECATION WARNING: $extender: > is not valid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a {b: selector-extend(".c", ".c", ">")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

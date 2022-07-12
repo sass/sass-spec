@@ -3,6 +3,15 @@
 .b y {@extend x}
 
 <===> output.css
-.a > + x, .a .b > + y, .b .a > + y {
-  a: b;
-}
+
+<===> warning
+DEPRECATION WARNING: The selector ".a > + x" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | .a > + x {a: b}
+  | ^^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
