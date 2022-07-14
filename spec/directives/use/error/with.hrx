@@ -351,3 +351,109 @@ Error: This variable was not declared with !default in the @used module.
   |                   ^^^^^
   '
   input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> unused_distributed_vars/README.md
+A module may load different sets of variables across multiple files triggering
+validation of re-using the same module configuration multiple times.
+
+These tests verify the configuration is reused by opaque ID across multiple
+source files preventing unexpected behaviors when variables are declared on
+separate files with validations that occur when a module is used more than once.
+
+
+<===>
+================================================================================
+<===> unused_distributed_vars/single_use/input.scss
+@use 'module' with (
+  $foo: 'foo',
+  $bar: 'bar',
+  $baz: 'baz',
+);
+
+<===> unused_distributed_vars/single_use/module/_index.scss
+@forward './foo/foo';
+@forward './bar/bar';
+
+<===> unused_distributed_vars/single_use/module/foo/_variables.scss
+$foo: default !default;
+
+<===> unused_distributed_vars/single_use/module/foo/foo.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo {
+  content: #{$foo};
+}
+
+<===> unused_distributed_vars/single_use/module/bar/_variables.scss
+$bar: default !default;
+
+<===> unused_distributed_vars/single_use/module/bar/bar.scss
+@forward './variables';
+@use './variables' as *;
+
+.bar {
+  content: #{$bar};
+}
+
+<===> unused_distributed_vars/single_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $baz: 'baz',
+  |   ^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> unused_distributed_vars/multi_use/input.scss
+@use 'module' with (
+  $foo: 'foo',
+  $bar: 'bar',
+  $baz: 'baz',
+);
+
+<===> unused_distributed_vars/multi_use/module/_index.scss
+@forward './foo/foo1';
+@forward './foo/foo2';
+@forward './bar/bar';
+
+<===> unused_distributed_vars/multi_use/module/foo/_variables.scss
+$foo: default !default;
+
+<===> unused_distributed_vars/multi_use/module/foo/foo1.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo1 {
+  content: #{$foo};
+}
+
+<===> unused_distributed_vars/multi_use/module/foo/foo2.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo2 {
+  content: #{$foo};
+}
+
+<===> unused_distributed_vars/multi_use/module/bar/_variables.scss
+$bar: default !default;
+
+<===> unused_distributed_vars/multi_use/module/bar/bar.scss
+@forward './variables';
+@use './variables' as *;
+
+.bar {
+  content: #{$bar};
+}
+
+<===> unused_distributed_vars/multi_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $baz: 'baz',
+  |   ^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet

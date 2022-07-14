@@ -581,3 +581,109 @@ b {
   midstream1: overridden 1;
   midstream2: overridden 2;
 }
+
+<===>
+================================================================================
+<===> distributed_vars/README.md
+A module may load different sets of variables across multiple files triggering
+validation of re-using the same module configuration multiple times.
+
+These tests verify the configuration is reused by opaque ID across multiple
+source files preventing unexpected behaviors when variables are declared on
+separate files with validations that occur when a module is used more than once.
+
+<===>
+================================================================================
+<===> distributed_vars/single_use/input.scss
+@use 'module' with (
+  $foo: 'foo',
+  $bar: 'bar',
+);
+
+<===> distributed_vars/single_use/module/_index.scss
+@forward './foo/foo';
+@forward './bar/bar';
+
+<===> distributed_vars/single_use/module/foo/_variables.scss
+$foo: default !default;
+
+<===> distributed_vars/single_use/module/foo/foo.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo {
+  content: #{$foo};
+}
+
+<===> distributed_vars/single_use/module/bar/_variables.scss
+$bar: default !default;
+
+<===> distributed_vars/single_use/module/bar/bar.scss
+@forward './variables';
+@use './variables' as *;
+
+.bar {
+  content: #{$bar};
+}
+
+<===> distributed_vars/single_use/output.css
+.foo {
+  content: foo;
+}
+.bar {
+  content: bar;
+}
+
+<===>
+================================================================================
+<===> distributed_vars/repeated/input.scss
+@use 'module' with (
+  $foo: 'foo',
+  $bar: 'bar',
+);
+
+<===> distributed_vars/repeated/module/_index.scss
+@forward './foo/foo1';
+@forward './foo/foo2';
+@forward './bar/bar';
+
+<===> distributed_vars/repeated/module/foo/_variables.scss
+$foo: default !default;
+
+<===> distributed_vars/repeated/module/foo/foo1.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo1 {
+  content: #{$foo};
+}
+
+<===> distributed_vars/repeated/module/foo/foo2.scss
+@forward './variables';
+@use './variables' as *;
+
+.foo2 {
+  content: #{$foo};
+}
+
+<===> distributed_vars/repeated/module/bar/_variables.scss
+$bar: default !default;
+
+<===> distributed_vars/repeated/module/bar/bar.scss
+@forward './variables';
+@use './variables' as *;
+
+.bar {
+  content: #{$bar};
+}
+
+<===> distributed_vars/repeated/output.css
+.foo1 {
+  content: foo;
+}
+.foo2 {
+  content: foo;
+}
+.bar {
+  content: bar;
+}
