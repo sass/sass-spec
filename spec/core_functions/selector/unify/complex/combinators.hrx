@@ -355,6 +355,8 @@ More info: https://sass-lang.com/d/bogus-combinators
   '
     input.scss 1:7  root stylesheet
 
+<===> initial/only_one/selector1/warning-libsass
+
 <===>
 ================================================================================
 <===> initial/only_one/selector2/input.scss
@@ -376,6 +378,8 @@ More info: https://sass-lang.com/d/bogus-combinators
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
+
+<===> initial/only_one/selector2/warning-libsass
 
 <===>
 ================================================================================
@@ -410,8 +414,14 @@ More info: https://sass-lang.com/d/bogus-combinators
   '
     input.scss 1:7  root stylesheet
 
+<===> initial/same/warning-libsass
+
 <===>
 ================================================================================
+<===> initial/supersequence/contiguous/options.yml
+:ignore_for:
+  - libsass
+
 <===> initial/supersequence/contiguous/input.scss
 a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
 
@@ -442,6 +452,10 @@ More info: https://sass-lang.com/d/bogus-combinators
 
 <===>
 ================================================================================
+<===> initial/supersequence/non_contiguous/options.yml
+:ignore_for:
+  - libsass
+
 <===> initial/supersequence/non_contiguous/input.scss
 a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
 
@@ -503,6 +517,8 @@ More info: https://sass-lang.com/d/bogus-combinators
   '
     input.scss 1:15  root stylesheet
 
+<===> initial/different/warning-libsass
+
 <===>
 ================================================================================
 <===> multiple/isolated/input.scss
@@ -522,6 +538,10 @@ random. Any of these specs should pass with any combination of combinators.
 
 <===>
 ================================================================================
+<===> multiple/in_a_row/same/options.yml
+:ignore_for:
+  - libsass
+
 <===> multiple/in_a_row/same/input.scss
 a {b: selector-unify(".c + ~ > .d", ".e + ~ > .f")}
 
@@ -552,6 +572,10 @@ More info: https://sass-lang.com/d/bogus-combinators
 
 <===>
 ================================================================================
+<===> multiple/in_a_row/supersequence/contiguous/options.yml
+:ignore_for:
+  - libsass
+
 <===> multiple/in_a_row/supersequence/contiguous/input.scss
 a {b: selector-unify(".c + ~ > .d", ".e > + ~ > > .f")}
 
@@ -582,6 +606,10 @@ More info: https://sass-lang.com/d/bogus-combinators
 
 <===>
 ================================================================================
+<===> multiple/in_a_row/supersequence/non_contiguous/options.yml
+:ignore_for:
+  - libsass
+
 <===> multiple/in_a_row/supersequence/non_contiguous/input.scss
 a {b: selector-unify(".c + ~ > .d", ".e + > ~ ~ > .f")}
 
@@ -642,3 +670,5 @@ More info: https://sass-lang.com/d/bogus-combinators
   |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:15  root stylesheet
+
+<===> multiple/in_a_row/different/warning-libsass

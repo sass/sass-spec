@@ -221,6 +221,13 @@ Error: Parent ".c ~" is incompatible with this selector.
   '
   input.scss 1:7  root stylesheet
 
+<===> error/combinator/trailing/error-libsass
+Error: Invalid parent selector for "&.d": "&.c ~"
+        on line 1:7 of input.scss
+>> a {b: selector-append(".c ~", ".d")}
+
+   ----------------------------------^
+
 <===>
 ================================================================================
 <===> error/combinator/only/input.scss
@@ -233,6 +240,14 @@ Error: Can't append > to .c.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===> error/combinator/only/error-libsass
+Error: Can't append ">" to ".c" for `selector-append'
+        on line 1:7 of input.scss, in function `selector-append`
+        from line 1:7 of input.scss
+>> a {b: selector-append(".c", ">", ".d")}
+
+   ------^
 
 <===>
 ================================================================================
