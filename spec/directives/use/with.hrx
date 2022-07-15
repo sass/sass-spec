@@ -596,94 +596,94 @@ separate files with validations that occur when a module is used more than once.
 ================================================================================
 <===> distributed_vars/single_use/input.scss
 @use 'module' with (
-  $foo: 'foo',
-  $bar: 'bar',
+  $a: 'a',
+  $b: 'b',
 );
 
 <===> distributed_vars/single_use/module/_index.scss
-@forward './foo/foo';
-@forward './bar/bar';
+@forward './a/a';
+@forward './b/b';
 
-<===> distributed_vars/single_use/module/foo/_variables.scss
-$foo: default !default;
+<===> distributed_vars/single_use/module/a/_variables.scss
+$a: default !default;
 
-<===> distributed_vars/single_use/module/foo/foo.scss
+<===> distributed_vars/single_use/module/a/a.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo {
-  content: #{$foo};
+.a {
+  content: #{$a};
 }
 
-<===> distributed_vars/single_use/module/bar/_variables.scss
-$bar: default !default;
+<===> distributed_vars/single_use/module/b/_variables.scss
+$b: default !default;
 
-<===> distributed_vars/single_use/module/bar/bar.scss
+<===> distributed_vars/single_use/module/b/b.scss
 @forward './variables';
 @use './variables' as *;
 
-.bar {
-  content: #{$bar};
+.b {
+  content: #{$b};
 }
 
 <===> distributed_vars/single_use/output.css
-.foo {
-  content: foo;
+.a {
+  content: a;
 }
-.bar {
-  content: bar;
+.b {
+  content: b;
 }
 
 <===>
 ================================================================================
 <===> distributed_vars/repeated/input.scss
 @use 'module' with (
-  $foo: 'foo',
-  $bar: 'bar',
+  $a: 'a',
+  $b: 'b',
 );
 
 <===> distributed_vars/repeated/module/_index.scss
-@forward './foo/foo1';
-@forward './foo/foo2';
-@forward './bar/bar';
+@forward './a/a1';
+@forward './a/a2';
+@forward './b/b';
 
-<===> distributed_vars/repeated/module/foo/_variables.scss
-$foo: default !default;
+<===> distributed_vars/repeated/module/a/_variables.scss
+$a: default !default;
 
-<===> distributed_vars/repeated/module/foo/foo1.scss
+<===> distributed_vars/repeated/module/a/a1.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo1 {
-  content: #{$foo};
+.a1 {
+  content: #{$a};
 }
 
-<===> distributed_vars/repeated/module/foo/foo2.scss
+<===> distributed_vars/repeated/module/a/a2.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo2 {
-  content: #{$foo};
+.a2 {
+  content: #{$a};
 }
 
-<===> distributed_vars/repeated/module/bar/_variables.scss
-$bar: default !default;
+<===> distributed_vars/repeated/module/b/_variables.scss
+$b: default !default;
 
-<===> distributed_vars/repeated/module/bar/bar.scss
+<===> distributed_vars/repeated/module/b/b.scss
 @forward './variables';
 @use './variables' as *;
 
-.bar {
-  content: #{$bar};
+.b {
+  content: #{$b};
 }
 
 <===> distributed_vars/repeated/output.css
-.foo1 {
-  content: foo;
+.a1 {
+  content: a;
 }
-.foo2 {
-  content: foo;
+.a2 {
+  content: a;
 }
-.bar {
-  content: bar;
+.b {
+  content: b;
 }

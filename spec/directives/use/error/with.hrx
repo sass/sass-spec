@@ -354,7 +354,7 @@ Error: This variable was not declared with !default in the @used module.
 
 <===>
 ================================================================================
-<===> unused_distributed_vars/README.md
+<===> missing_distributed_vars/README.md
 A module may load different sets of variables across multiple files triggering
 validation of re-using the same module configuration multiple times.
 
@@ -365,95 +365,95 @@ separate files with validations that occur when a module is used more than once.
 
 <===>
 ================================================================================
-<===> unused_distributed_vars/single_use/input.scss
+<===> missing_distributed_vars/single_use/input.scss
 @use 'module' with (
-  $foo: 'foo',
-  $bar: 'bar',
-  $baz: 'baz',
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
 );
 
-<===> unused_distributed_vars/single_use/module/_index.scss
-@forward './foo/foo';
-@forward './bar/bar';
+<===> missing_distributed_vars/single_use/module/_index.scss
+@forward './a/a';
+@forward './b/b';
 
-<===> unused_distributed_vars/single_use/module/foo/_variables.scss
-$foo: default !default;
+<===> missing_distributed_vars/single_use/module/a/_variables.scss
+$a: default !default;
 
-<===> unused_distributed_vars/single_use/module/foo/foo.scss
+<===> missing_distributed_vars/single_use/module/a/a.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo {
-  content: #{$foo};
+.a {
+  content: #{$a};
 }
 
-<===> unused_distributed_vars/single_use/module/bar/_variables.scss
-$bar: default !default;
+<===> missing_distributed_vars/single_use/module/b/_variables.scss
+$b: default !default;
 
-<===> unused_distributed_vars/single_use/module/bar/bar.scss
+<===> missing_distributed_vars/single_use/module/b/b.scss
 @forward './variables';
 @use './variables' as *;
 
-.bar {
-  content: #{$bar};
+.b {
+  content: #{$b};
 }
 
-<===> unused_distributed_vars/single_use/error
+<===> missing_distributed_vars/single_use/error
 Error: This variable was not declared with !default in the @used module.
   ,
-4 |   $baz: 'baz',
-  |   ^^^^^^^^^^^
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
   '
   input.scss 4:3  root stylesheet
 
 <===>
 ================================================================================
-<===> unused_distributed_vars/multi_use/input.scss
+<===> missing_distributed_vars/multi_use/input.scss
 @use 'module' with (
-  $foo: 'foo',
-  $bar: 'bar',
-  $baz: 'baz',
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
 );
 
-<===> unused_distributed_vars/multi_use/module/_index.scss
-@forward './foo/foo1';
-@forward './foo/foo2';
-@forward './bar/bar';
+<===> missing_distributed_vars/multi_use/module/_index.scss
+@forward './a/a1';
+@forward './a/a2';
+@forward './b/b';
 
-<===> unused_distributed_vars/multi_use/module/foo/_variables.scss
-$foo: default !default;
+<===> missing_distributed_vars/multi_use/module/a/_variables.scss
+$a: default !default;
 
-<===> unused_distributed_vars/multi_use/module/foo/foo1.scss
+<===> missing_distributed_vars/multi_use/module/a/a1.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo1 {
-  content: #{$foo};
+.a1 {
+  content: #{$a};
 }
 
-<===> unused_distributed_vars/multi_use/module/foo/foo2.scss
+<===> missing_distributed_vars/multi_use/module/a/a2.scss
 @forward './variables';
 @use './variables' as *;
 
-.foo2 {
-  content: #{$foo};
+.a2 {
+  content: #{$a};
 }
 
-<===> unused_distributed_vars/multi_use/module/bar/_variables.scss
-$bar: default !default;
+<===> missing_distributed_vars/multi_use/module/b/_variables.scss
+$b: default !default;
 
-<===> unused_distributed_vars/multi_use/module/bar/bar.scss
+<===> missing_distributed_vars/multi_use/module/b/b.scss
 @forward './variables';
 @use './variables' as *;
 
-.bar {
-  content: #{$bar};
+.b {
+  content: #{$b};
 }
 
-<===> unused_distributed_vars/multi_use/error
+<===> missing_distributed_vars/multi_use/error
 Error: This variable was not declared with !default in the @used module.
   ,
-4 |   $baz: 'baz',
-  |   ^^^^^^^^^^^
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
   '
   input.scss 4:3  root stylesheet
