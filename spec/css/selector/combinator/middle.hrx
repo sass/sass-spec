@@ -1,0 +1,73 @@
+<===> single/child/input.scss
+a > b {c: d}
+
+<===> single/child/output.css
+a > b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> single/next_sibling/input.scss
+a + b {c: d}
+
+<===> single/next_sibling/output.css
+a + b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> single/sibling/input.scss
+a ~ b {c: d}
+
+<===> single/sibling/output.css
+a ~ b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> multiple/whitespace/options.yml
+:ignore_for:
+  - libsass
+
+<===> multiple/whitespace/input.scss
+a > + b {c: d}
+
+<===> multiple/whitespace/output.css
+
+<===> multiple/whitespace/warning
+DEPRECATION WARNING: The selector "a > + b" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a > + b {c: d}
+  | ^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> multiple/no_whitespace/options.yml
+:ignore_for:
+  - libsass
+
+<===> multiple/no_whitespace/input.scss
+a~>b {c: d}
+
+<===> multiple/no_whitespace/output.css
+
+<===> multiple/no_whitespace/warning
+DEPRECATION WARNING: The selector "a ~ > b" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a~>b {c: d}
+  | ^^^^^
+  '
+    input.scss 1:1  root stylesheet

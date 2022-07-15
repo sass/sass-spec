@@ -1,0 +1,115 @@
+<===> single/child/input.scss
+> a {b: c}
+
+<===> single/child/output.css
+> a {
+  b: c;
+}
+
+<===> single/child/warning
+DEPRECATION WARNING: The selector "> a" is invalid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | > a {b: c}
+  | ^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===> single/child/warning-libsass
+
+<===>
+================================================================================
+<===> single/next_sibling/input.scss
++ a {b: c}
+
+<===> single/next_sibling/output.css
++ a {
+  b: c;
+}
+
+<===> single/next_sibling/warning
+DEPRECATION WARNING: The selector "+ a" is invalid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | + a {b: c}
+  | ^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===> single/next_sibling/warning-libsass
+
+<===>
+================================================================================
+<===> single/sibling/input.scss
+~ a {b: c}
+
+<===> single/sibling/output.css
+~ a {
+  b: c;
+}
+
+<===> single/sibling/warning
+DEPRECATION WARNING: The selector "~ a" is invalid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | ~ a {b: c}
+  | ^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===> single/sibling/warning-libsass
+
+<===>
+================================================================================
+<===> multiple/whitespace/options.yml
+:ignore_for:
+  - libsass
+
+<===> multiple/whitespace/input.scss
++ ~ a {b: c}
+
+<===> multiple/whitespace/output.css
+
+<===> multiple/whitespace/warning
+DEPRECATION WARNING: The selector "+ ~ a" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | + ~ a {b: c}
+  | ^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> multiple/no_whitespace/options.yml
+:ignore_for:
+  - libsass
+
+<===> multiple/no_whitespace/input.scss
+> > a {b: c}
+
+<===> multiple/no_whitespace/output.css
+
+<===> multiple/no_whitespace/warning
+DEPRECATION WARNING: The selector "> > a" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | > > a {b: c}
+  | ^^^^^^
+  '
+    input.scss 1:1  root stylesheet
