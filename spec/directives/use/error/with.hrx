@@ -354,6 +354,30 @@ Error: This variable was not declared with !default in the @used module.
 
 <===>
 ================================================================================
+<===> through_forward_twice/with/input.scss
+@use "used" with ($a: input a);
+
+<===> through_forward_twice/with/_used.scss
+@forward "forwarded" with ($a: used a 1);
+@forward "forwarded" with ($a: used a 2);
+
+<===> through_forward_twice/with/_forwarded.scss
+$a: forwarded a !default;
+$b: forwarded b !default;
+
+<===> through_forward_twice/with/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @forward "forwarded" with ($a: used a 1);
+  | ======================================== original load
+2 | @forward "forwarded" with ($a: used a 2);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  _used.scss 2:1  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
 <===> missing_distributed_vars/README.md
 A module may load different sets of variables across multiple files triggering
 validation of re-using the same module configuration multiple times.
