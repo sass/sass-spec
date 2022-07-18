@@ -1,20 +1,19 @@
 <===> input.scss
-> .foo {a: b}
-foo bar {@extend .foo}
+a, + b {c: d}
 
 <===> output.css
-> .foo, > foo bar {
-  a: b;
+a, + b {
+  c: d;
 }
 
 <===> warning
-DEPRECATION WARNING: The selector "> .foo" is invalid CSS.
+DEPRECATION WARNING: The selector "+ b" is invalid CSS.
 This will be an error in Dart Sass 2.0.0.
 
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | > .foo {a: b}
+1 | a, + b {c: d}
   | ^^^^^^^
   '
     input.scss 1:1  root stylesheet

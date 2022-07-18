@@ -1,3 +1,7 @@
+<===> options.yml
+:ignore_for:
+  - libsass
+
 <===> input.scss
 > > E {
   color: red;
@@ -13,14 +17,37 @@ E > > {
   }
 }
 <===> output.css
-> > E {
-  color: red;
-}
 
-E > > {
-  color: red;
-}
+<===> warning
+DEPRECATION WARNING: The selector "> > E" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
 
-> > E > > > > F > > {
-  color: red;
-}
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | > > E {
+  | ^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+DEPRECATION WARNING: The selector "E > >" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+5 | E > > {
+  | ^^^^^^
+  '
+    input.scss 5:1  root stylesheet
+
+DEPRECATION WARNING: The selector "> > E > > > > F > >" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+   ,
+10 |   > > F > > {
+   |   ^^^^^^^^^^
+   '
+    input.scss 10:3  root stylesheet

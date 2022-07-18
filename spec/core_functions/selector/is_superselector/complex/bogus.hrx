@@ -1,0 +1,47 @@
+<===> super/input.scss
+a {b: is-superselector("> c", "c")}
+
+<===> super/output.css
+a {
+  b: false;
+}
+
+<===> super/warning
+DEPRECATION WARNING: $super: > c is not valid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a {b: is-superselector("> c", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===> super/warning-libsass
+
+<===>
+================================================================================
+<===> sub/options.yml
+:ignore_for:
+  - libsass
+
+<===> sub/input.scss
+a {b: is-superselector("c", "d + ~ c")}
+
+<===> sub/output.css
+a {
+  b: false;
+}
+
+<===> sub/warning
+DEPRECATION WARNING: $sub: d + ~ c is not valid CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | a {b: is-superselector("c", "d + ~ c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

@@ -1,3 +1,7 @@
+<===> options.yml
+:ignore_for:
+  - libsass
+
 <===> input.scss
 @mixin odd( $selector, $n) {
   $selector: "& + " + $selector + " + " + $selector;
@@ -13,6 +17,17 @@ ul > {
 }
 
 <===> output.css
-ul > + li + li:first-child + li + li {
-  background: #ccc;
-}
+
+<===> warning
+DEPRECATION WARNING: The selector "ul > + li + li:first-child + li + li" is invalid CSS and can't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+6 |     #{$selector} { @extend %#{$placeholder}; }
+  |     ^^^^^^^^^^^^^ invalid selector
+  |                    ======================== @extend rule
+  '
+    input.scss 6:5   odd()
+    input.scss 11:3  root stylesheet

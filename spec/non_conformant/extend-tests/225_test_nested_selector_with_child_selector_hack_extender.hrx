@@ -6,3 +6,18 @@
 .foo .bar, > .foo foo bar, > foo .foo bar {
   a: b;
 }
+
+<===> warning
+DEPRECATION WARNING: The selector "> foo bar" is invalid CSS and shouldn't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | > foo bar {@extend .bar}
+  | ^^^^^^^^^^ invalid selector
+  |            ============ @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===> warning-libsass

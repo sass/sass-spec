@@ -1,8 +1,33 @@
+<===> options.yml
+:ignore_for:
+  - libsass
+
 <===> input.scss
 .a + > x {a: b}
 .b > + y {@extend x}
 
 <===> output.css
-.a + > x {
-  a: b;
-}
+
+<===> warning
+DEPRECATION WARNING: The selector ".a + > x" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+1 | .a + > x {a: b}
+  | ^^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+DEPRECATION WARNING: The selector ".b > + y" is invalid CSS and can't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | .b > + y {@extend x}
+  | ^^^^^^^^^ invalid selector
+  |           ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet

@@ -1,3 +1,7 @@
+<===> options.yml
+:ignore_for:
+  - libsass
+
 <===> input.sass
 .test
   foo: bar
@@ -32,15 +36,6 @@ commas
 .test {
   foo: bar;
 }
-.test ~ {
-  tilde: true;
-}
-.test + {
-  adjancent: true;
-}
-.test > {
-  child: true;
-}
 .test * {
   universal: true;
 }
@@ -61,3 +56,46 @@ commas and,
 commas indented {
   x: y;
 }
+
+<===> warning
+DEPRECATION WARNING: The selector ".test ~" is only valid for nesting and shouldn't
+have children other than style rules. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+3 |   ~
+  |   ^ invalid selector
+4 |     tilde: true
+  |     =========== this is not a style rule
+  '
+    input.sass 3:3  root stylesheet
+
+DEPRECATION WARNING: The selector ".test +" is only valid for nesting and shouldn't
+have children other than style rules. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+5 |   +
+  |   ^ invalid selector
+6 |     adjancent: true
+  |     =============== this is not a style rule
+  '
+    input.sass 5:3  root stylesheet
+
+DEPRECATION WARNING: The selector ".test >" is only valid for nesting and shouldn't
+have children other than style rules. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+7 |   >
+  |   ^ invalid selector
+8 |     child: true
+  |     =========== this is not a style rule
+  '
+    input.sass 7:3  root stylesheet

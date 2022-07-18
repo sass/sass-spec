@@ -1,0 +1,137 @@
+<===> list/initial/input.scss
+a {b: selector-nest("c, d", "e")}
+
+<===> list/initial/output.css
+a {
+  b: c e, d e;
+}
+
+<===>
+================================================================================
+<===> list/final/input.scss
+a {b: selector-nest("c", "d, e")}
+
+<===> list/final/output.css
+a {
+  b: c d, c e;
+}
+
+<===>
+================================================================================
+<===> list/many/input.scss
+a {b: selector-nest("c, d", "e, f", "g, h")}
+
+<===> list/many/output.css
+a {
+  b: c e g, c e h, c f g, c f h, d e g, d e h, d f g, d f h;
+}
+
+<===> list/many/output-libsass.css
+a {
+  b: c e g, d e g, c f g, d f g, c e h, d e h, c f h, d f h;
+}
+
+<===>
+================================================================================
+<===> list/parent/alone/input.scss
+a {b: selector-nest("c, d", "&")}
+
+<===> list/parent/alone/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> list/parent/compound/input.scss
+a {b: selector-nest("c, d", "&.e")}
+
+<===> list/parent/compound/output.css
+a {
+  b: c.e, d.e;
+}
+
+<===>
+================================================================================
+<===> list/parent/suffix/input.scss
+a {b: selector-nest("c, d", "&e")}
+
+<===> list/parent/suffix/output.css
+a {
+  b: ce, de;
+}
+
+<===>
+================================================================================
+<===> list/parent/complex/input.scss
+a {b: selector-nest("c, d", "e &.f")}
+
+<===> list/parent/complex/output.css
+a {
+  b: e c.f, e d.f;
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/is/options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===> list/parent/selector_pseudo/is/input.scss
+a {b: selector-nest("c, d", ":is(&)")}
+
+<===> list/parent/selector_pseudo/is/output.css
+a {
+  b: :is(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/where/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> list/parent/selector_pseudo/where/input.scss
+a {b: selector-nest("c, d", ":where(&)")}
+
+<===> list/parent/selector_pseudo/where/output.css
+a {
+  b: :where(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/selector_pseudo/matches/input.scss
+a {b: selector-nest("c, d", ":matches(&)")}
+
+<===> list/parent/selector_pseudo/matches/output.css
+a {
+  b: :matches(c, d);
+}
+
+<===>
+================================================================================
+<===> list/parent/multiple/input.scss
+a {b: selector-nest("c, d", "&.e &.f")}
+
+<===> list/parent/multiple/output.css
+a {
+  b: c.e c.f, c.e d.f, d.e c.f, d.e d.f;
+}
+
+<===>
+================================================================================
+<===> list/parent/in_one_complex/input.scss
+a {b: selector-nest("c, d", "&.e, f")}
+
+<===> list/parent/in_one_complex/output.css
+a {
+  b: c.e, c f, d.e, d f;
+}
+
+<===> list/parent/in_one_complex/output-libsass.css
+a {
+  b: c.e, d.e, c f, d f;
+}

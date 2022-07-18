@@ -253,6 +253,81 @@ a {
 
 <===>
 ================================================================================
+<===> complex/bogus/leading/input.scss
+$result: selector-parse("> b");
+a {
+  result: $result;
+  structure: $result == (">" b,);
+}
+
+<===> complex/bogus/leading/output.css
+a {
+  result: > b;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> complex/bogus/trailing/input.scss
+$result: selector-parse("b +");
+a {
+  result: $result;
+  structure: $result == (b "+",);
+}
+
+<===> complex/bogus/trailing/output.css
+a {
+  result: b +;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> complex/bogus/multiple/middle/input.scss
+$result: selector-parse("b + ~ c");
+a {
+  result: $result;
+  structure: $result == (b "+" "~" c,);
+}
+
+<===> complex/bogus/multiple/middle/output.css
+a {
+  result: b + ~ c;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> complex/bogus/multiple/trailing/input.scss
+$result: selector-parse("b ~~");
+a {
+  result: $result;
+  structure: $result == (b "~" "~",);
+}
+
+<===> complex/bogus/multiple/trailing/output.css
+a {
+  result: b ~ ~;
+  structure: true;
+}
+
+<===>
+================================================================================
+<===> complex/bogus/only/input.scss
+$result: selector-parse(">");
+a {
+  result: $result;
+  structure: $result == (append((), ">"),);
+}
+
+<===> complex/bogus/only/output.css
+a {
+  result: >;
+  structure: true;
+}
+
+<===>
+================================================================================
 <===> list/input.scss
 $result: selector-parse("b c, d e, f g");
 a {

@@ -1,0 +1,163 @@
+<===> leading/input.scss
+a {b: c}
+> d {@extend a}
+
+<===> leading/output.css
+a, > d {
+  b: c;
+}
+
+<===> leading/warning
+DEPRECATION WARNING: The selector "> d" is invalid CSS and shouldn't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | > d {@extend a}
+  | ^^^^ invalid selector
+  |      ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===> leading/warning-libsass
+
+<===>
+================================================================================
+<===> trailing/options.yml
+:ignore_for:
+  - libsass
+
+<===> trailing/input.scss
+a {b: c}
+d + {@extend a}
+
+<===> trailing/output.css
+a {
+  b: c;
+}
+
+<===> trailing/warning
+DEPRECATION WARNING: The selector "d +" is invalid CSS and shouldn't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | d + {@extend a}
+  | ^^^^ invalid selector
+  |      ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi/leading/options.yml
+:ignore_for:
+  - libsass
+
+<===> multi/leading/input.scss
+a {b: c}
++ ~ d {@extend a}
+
+<===> multi/leading/output.css
+a {
+  b: c;
+}
+
+<===> multi/leading/warning
+DEPRECATION WARNING: The selector "+ ~ d" is invalid CSS and can't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | + ~ d {@extend a}
+  | ^^^^^^ invalid selector
+  |        ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi/trailing/options.yml
+:ignore_for:
+  - libsass
+
+<===> multi/trailing/input.scss
+a {b: c}
+d > + {@extend a}
+
+<===> multi/trailing/output.css
+a {
+  b: c;
+}
+
+<===> multi/trailing/warning
+DEPRECATION WARNING: The selector "d > +" is invalid CSS and can't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | d > + {@extend a}
+  | ^^^^^^ invalid selector
+  |        ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi/middle/options.yml
+:ignore_for:
+  - libsass
+
+<===> multi/middle/input.scss
+a {b: c}
+d ~ > c {@extend a}
+
+<===> multi/middle/output.css
+a {
+  b: c;
+}
+
+<===> multi/middle/warning
+DEPRECATION WARNING: The selector "d ~ > c" is invalid CSS and can't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | d ~ > c {@extend a}
+  | ^^^^^^^^ invalid selector
+  |          ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> only/options.yml
+:ignore_for:
+  - libsass
+
+<===> only/input.scss
+a {b: c}
++ {@extend a}
+
+<===> only/output.css
+a {
+  b: c;
+}
+
+<===> only/warning
+DEPRECATION WARNING: The selector "+" is invalid CSS and shouldn't be an extender.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+2 | + {@extend a}
+  | ^^ invalid selector
+  |    ========= @extend rule
+  '
+    input.scss 2:1  root stylesheet
