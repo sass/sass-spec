@@ -6,3 +6,55 @@ a {b: color.hwb(0deg, 30%, 40%)}
 a {
   b: #994d4d;
 }
+
+<===>
+================================================================================
+<===> hue/rad/input.scss
+@use 'sass:color';
+a {b: color.hwb(1rad, 30%, 40%)}
+
+<===> hue/rad/output.css
+a {
+  b: #994e4d;
+}
+
+<===> hue/rad/warning
+DEPRECATION WARNING: $hue: Passing a unit other than deg (1rad) is deprecated.
+
+You're passing 1rad, which is currently (incorrectly) converted to 1deg.
+Soon, it will instead be correctly converted to 57.2957795131deg.
+
+To preserve current behavior: $hue * 1deg/1rad
+To migrate to new behavior: 0deg + $hue
+
+See https://sass-lang.com/d/color-units
+
+  ,
+2 | a {b: color.hwb(1rad, 30%, 40%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> hue/non_angle/input.scss
+@use 'sass:color';
+a {b: color.hwb(1in, 30%, 40%)}
+
+<===> hue/non_angle/output.css
+a {
+  b: #994e4d;
+}
+
+<===> hue/non_angle/warning
+DEPRECATION WARNING: $hue: Passing a unit other than deg (1in) is deprecated.
+
+To preserve current behavior: $hue / 1in
+
+See https://sass-lang.com/d/color-units
+
+  ,
+2 | a {b: color.hwb(1in, 30%, 40%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
