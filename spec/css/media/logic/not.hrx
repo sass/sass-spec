@@ -1,0 +1,45 @@
+<===> not/parens/input.scss
+@media not (a) {x {y: z}}
+
+<===> not/parens/output.css
+@media not (a) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> not/comment_after/input.scss
+@media not/**/(a) {x {y: z}}
+
+<===> not/comment_after/output.css
+@media not (a) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> not/interpolation/input.scss
+@media not #{"(a)"} {x {y: z}}
+
+<===> not/interpolation/output.css
+@media not (a) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> not/mixed_case/input.scss
+@media NoT (a) {x {y: z}}
+
+<===> not/mixed_case/output.css
+@media not (a) {
+  x {
+    y: z;
+  }
+}

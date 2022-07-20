@@ -1,0 +1,219 @@
+<===> raw/not/lowercase/input.scss
+@media (not (a)) {x {y: z}}
+
+<===> raw/not/lowercase/output.css
+@media (false) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/not/lowercase/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "not" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{not (a)}
+To migrate to new behavior: #{"not (a)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media (not (a)) {x {y: z}}
+  |         ^^^
+  '
+
+<===>
+================================================================================
+<===> raw/not/mixed_case/input.scss
+@media (NoT (a)) {x {y: z}}
+
+<===> raw/not/mixed_case/output.css
+@media (NoT a) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/not/mixed_case/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "not" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{NoT (a)}
+To migrate to new behavior: #{"NoT (a)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media (NoT (a)) {x {y: z}}
+  |         ^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> raw/and/lowercase/input.scss
+@media ((a) and (b)) {x {y: z}}
+
+<===> raw/and/lowercase/output.css
+@media (b) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/and/lowercase/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{(a) and (b)}
+To migrate to new behavior: #{"(a) and (b)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media ((a) and (b)) {x {y: z}}
+  |         ^^^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> raw/and/mixed_case/input.scss
+@media ((a) AnD (b)) {x {y: z}}
+
+<===> raw/and/mixed_case/output.css
+@media (a AnD b) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/and/mixed_case/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{(a) AnD (b)}
+To migrate to new behavior: #{"(a) AnD (b)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media ((a) AnD (b)) {x {y: z}}
+  |         ^^^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> raw/or/lowercase/input.scss
+@media ((a) or (b)) {x {y: z}}
+
+<===> raw/or/lowercase/output.css
+@media (a) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/or/lowercase/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{(a) or (b)}
+To migrate to new behavior: #{"(a) or (b)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media ((a) or (b)) {x {y: z}}
+  |         ^^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> raw/or/mixed_case/input.scss
+@media ((a) Or (b)) {x {y: z}}
+
+<===> raw/or/mixed_case/output.css
+@media (a Or b) {
+  x {
+    y: z;
+  }
+}
+
+<===> raw/or/mixed_case/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
+
+To preserve existing behavior: #{(a) Or (b)}
+To migrate to new behavior: #{"(a) Or (b)"}
+
+For details, see https://sass-lang.com/d/media-logic
+  ,
+1 | @media ((a) Or (b)) {x {y: z}}
+  |         ^^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> interpolated/not/lowercase/input.scss
+@media (#{"not (a)"}) {x {y: z}}
+
+<===> interpolated/not/lowercase/output.css
+@media not (a) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolated/not/mixed_case/input.scss
+@media (#{"NoT (a)"}) {x {y: z}}
+
+<===> interpolated/not/mixed_case/output.css
+@media (NoT (a)) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolated/and/lowercase/input.scss
+@media (#{"(a) and (b)"}) {x {y: z}}
+
+<===> interpolated/and/lowercase/output.css
+@media ((a) and (b)) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolated/and/mixed_case/input.scss
+@media (#{"(a) AnD (b)"}) {x {y: z}}
+
+<===> interpolated/and/mixed_case/output.css
+@media ((a) AnD (b)) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolated/or/lowercase/input.scss
+@media (#{"(a) or (b)"}) {x {y: z}}
+
+<===> interpolated/or/lowercase/output.css
+@media ((a) or (b)) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolated/or/mixed_case/input.scss
+@media (#{"(a) oR (b)"}) {x {y: z}}
+
+<===> interpolated/or/mixed_case/output.css
+@media ((a) oR (b)) {
+  x {
+    y: z;
+  }
+}

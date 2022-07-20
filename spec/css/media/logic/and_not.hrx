@@ -1,0 +1,93 @@
+<===> after_type/input.scss
+@media a and not (b) {x {y: z}}
+
+<===> after_type/output.css
+@media a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> after_type_and_modifier/input.scss
+@media only a and not (b) {x {y: z}}
+
+<===> after_type_and_modifier/output.css
+@media only a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> comment_after/after_type/input.scss
+@media a and not/**/(b) {x {y: z}}
+
+<===> comment_after/after_type/output.css
+@media a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> comment_after/after_type_and_modifier/input.scss
+@media only a and not/**/(b) {x {y: z}}
+
+<===> comment_after/after_type_and_modifier/output.css
+@media only a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> after_interpolation/input.scss
+@media #{a} and not (b) {x {y: z}}
+
+<===> after_interpolation/output.css
+@media a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+@media a and not #{"(b)"} {x {y: z}}
+
+<===> interpolation/output.css
+@media a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> mixed_case/input.scss
+@media a AnD nOt (b) {x {y: z}}
+
+<===> mixed_case/output.css
+@media a and not (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> one/input.scss
+@media (a) and (b) {x {y: z}}
+
+<===> one/output.css
+@media (a) and (b) {
+  x {
+    y: z;
+  }
+}
