@@ -1,0 +1,69 @@
+<===> one/input.scss
+@media (a) or (b) {x {y: z}}
+
+<===> one/output.css
+@media (a) or (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> no_whitespace_before/input.scss
+@media (a)or (b) {x {y: z}}
+
+<===> no_whitespace_before/output.css
+@media (a) or (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> comment_after/input.scss
+@media (a) or/**/(b) {x {y: z}}
+
+<===> comment_after/output.css
+@media (a) or (b) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@media (a) or (b) or (c) or (d) {x {y: z}}
+
+<===> multiple/output.css
+@media (a) or (b) or (c) or (d) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+@media (a) or #{"(b) or (c)"} {x {y: z}}
+
+<===> interpolation/output.css
+@media (a) or (b) or (c) {
+  x {
+    y: z;
+  }
+}
+
+<===>
+================================================================================
+<===> mixed_case/input.scss
+@media (a) oR (b) {x {y: z}}
+
+<===> mixed_case/output.css
+@media (a) or (b) {
+  x {
+    y: z;
+  }
+}
