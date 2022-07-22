@@ -50,10 +50,60 @@ a {
 
 <===>
 ================================================================================
-<===> pseudo_element/absent/input.scss
+<===> pseudo_element/absent/in_1/input.scss
 a {b: is-superselector("c", "c::d")}
 
-<===> pseudo_element/absent/output.css
+<===> pseudo_element/absent/in_1/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/absent/in_2/input.scss
+a {b: is-superselector("c::d", "c")}
+
+<===> pseudo_element/absent/in_2/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/subset/before/input.scss
+a {b: is-superselector(".c::d", ".c.e::d")}
+
+<===> pseudo_element/subset/before/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/subset/after/input.scss
+a {b: is-superselector("::d:c", "::d:c:e")}
+
+<===> pseudo_element/subset/after/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/superset/before/input.scss
+a {b: is-superselector(".c.e::d", ".c::d")}
+
+<===> pseudo_element/superset/before/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> pseudo_element/superset/after/input.scss
+a {b: is-superselector("::d:c:e", "::d:c")}
+
+<===> pseudo_element/superset/after/output.css
 a {
   b: false;
 }
@@ -73,7 +123,6 @@ a {
 <===> pseudo_element/different_order/options.yml
 ---
 :todo:
-- sass/dart-sass#790
 - sass/libsass#2963
 
 <===> pseudo_element/different_order/input.scss

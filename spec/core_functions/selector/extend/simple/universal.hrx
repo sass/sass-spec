@@ -4,12 +4,16 @@ matched because this phase only cares about full structural equality.
 
 <===>
 ================================================================================
+<===> equal/options.yml
+:ignore_for:
+  - libsass
+
 <===> equal/input.scss
 a {b: selector-extend("*", "*", "c")}
 
 <===> equal/output.css
 a {
-  b: *, c;
+  b: *;
 }
 
 <===>
@@ -274,12 +278,16 @@ a {
 
 <===>
 ================================================================================
+<===> namespace/universal/and_universal/universal/options.yml
+:ignore_for:
+  - libsass
+
 <===> namespace/universal/and_universal/universal/input.scss
 a {b: selector-extend("*|*", "*|*", "c")}
 
 <===> namespace/universal/and_universal/universal/output.css
 a {
-  b: *|*, c;
+  b: *|*;
 }
 
 <===>
