@@ -1,0 +1,118 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2071
+
+<===> README.md
+All rootish selectors are expected to behave like `:root`, but we only test
+`:root` extensively to avoid needless repetition.
+
+<===>
+================================================================================
+<===> root/in_one/selector1/two_layer/input.scss
+a {b: selector-unify(":root .c", ".d .e")}
+
+<===> root/in_one/selector1/two_layer/output.css
+a {
+  b: :root .d .c.e;
+}
+
+<===>
+================================================================================
+<===> root/in_one/selector1/three_layer/input.scss
+a {b: selector-unify(":root .c .d", ".e .f")}
+
+<===> root/in_one/selector1/three_layer/output.css
+a {
+  b: :root .c .e .d.f, :root .e .c .d.f;
+}
+
+<===>
+================================================================================
+<===> root/in_one/selector2/two_layer/input.scss
+a {b: selector-unify(".c .d", ":root .e")}
+
+<===> root/in_one/selector2/two_layer/output.css
+a {
+  b: :root .c .d.e;
+}
+
+<===>
+================================================================================
+<===> root/in_one/selector2/three_layer/input.scss
+a {b: selector-unify(".c .d", ":root .e .f")}
+
+<===> root/in_one/selector2/three_layer/output.css
+a {
+  b: :root .c .e .d.f, :root .e .c .d.f;
+}
+
+<===>
+================================================================================
+<===> root/in_both/cant_unify/input.scss
+a {b: inspect(selector-unify("c:root .d", "e:root .f"))}
+
+<===> root/in_both/cant_unify/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> root/in_both/superselector/input.scss
+a {b: selector-unify("c:root .d", ":root .e")}
+
+<===> root/in_both/superselector/output.css
+a {
+  b: c:root .d.e;
+}
+
+<===>
+================================================================================
+<===> root/in_both/can_unify/input.scss
+a {b: selector-unify(".c:root .d", ".e:root .f")}
+
+<===> root/in_both/can_unify/output.css
+a {
+  b: .e.c:root .d.f;
+}
+
+<===>
+================================================================================
+<===> scope/input.scss
+a {b: selector-unify(":scope .c", ".d .e")}
+
+<===> scope/output.css
+a {
+  b: :scope .d .c.e;
+}
+
+<===>
+================================================================================
+<===> host/input.scss
+a {b: selector-unify(":host .c", ".d .e")}
+
+<===> host/output.css
+a {
+  b: :host .d .c.e;
+}
+
+<===>
+================================================================================
+<===> host_context/input.scss
+a {b: selector-unify(":host-context(f g) .c", ".d .e")}
+
+<===> host_context/output.css
+a {
+  b: :host-context(f g) .d .c.e;
+}
+
+<===>
+================================================================================
+<===> mixed/input.scss
+a {b: selector-unify(":root .c .d", ":scope .e .f")}
+
+<===> mixed/output.css
+a {
+  b: :scope:root .c .e .d.f, :scope:root .e .c .d.f;
+}
