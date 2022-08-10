@@ -187,3 +187,26 @@ Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
 >> a {b: fade-in(red, 1.001)}
 
    ------^
+
+<===>
+================================================================================
+<===> error/bounds/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: fade-in(red, 50%)}
+
+<===> error/bounds/unit/error
+Error: $amount: Expected 50% to be within 0 and 1.
+  ,
+3 | a {b: fade-in(red, 50%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> error/bounds/unit/error-libsass
+Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
+        on line 3:7 of input.scss, in function `fade-in`
+        from line 3:7 of input.scss
+>> a {b: fade-in(red, 50%)}
+
+   ------^

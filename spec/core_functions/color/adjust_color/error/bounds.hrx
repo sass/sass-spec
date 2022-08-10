@@ -40,6 +40,29 @@ Error: argument `$red` of `adjust-color($color, $red: false, $green: false, $blu
 
 <===>
 ================================================================================
+<===> red/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(red, $red: 300px)}
+
+<===> red/unit/error
+Error: $red: Expected 300px to be within -255 and 255.
+  ,
+3 | a {b: adjust-color(red, $red: 300px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> red/unit/error-libsass
+Error: argument `$red` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -255 and 255
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(red, $red: 300px)}
+
+   ------^
+
+<===>
+================================================================================
 <===> green/too_low/input.scss
 a {b: adjust-color(green, $green: -256)}
 
@@ -77,6 +100,29 @@ Error: argument `$green` of `adjust-color($color, $red: false, $green: false, $b
         on line 1:7 of input.scss, in function `adjust-color`
         from line 1:7 of input.scss
 >> a {b: adjust-color(green, $green: 256)}
+
+   ------^
+
+<===>
+================================================================================
+<===> green/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(green, $green: 300px)}
+
+<===> green/unit/error
+Error: $green: Expected 300px to be within -255 and 255.
+  ,
+3 | a {b: adjust-color(green, $green: 300px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> green/unit/error-libsass
+Error: argument `$green` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -255 and 255
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(green, $green: 300px)}
 
    ------^
 
@@ -124,6 +170,29 @@ Error: argument `$blue` of `adjust-color($color, $red: false, $green: false, $bl
 
 <===>
 ================================================================================
+<===> blue/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(blue, $blue: 300px)}
+
+<===> blue/unit/error
+Error: $blue: Expected 300px to be within -255 and 255.
+  ,
+3 | a {b: adjust-color(blue, $blue: 300px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> blue/unit/error-libsass
+Error: argument `$blue` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -255 and 255
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(blue, $blue: 300px)}
+
+   ------^
+
+<===>
+================================================================================
 <===> saturation/too_low/input.scss
 a {b: adjust-color(red, $saturation: -100.001%)}
 
@@ -161,6 +230,39 @@ Error: argument `$saturation` of `adjust-color($color, $red: false, $green: fals
         on line 1:7 of input.scss, in function `adjust-color`
         from line 1:7 of input.scss
 >> a {b: adjust-color(red, $saturation: 100.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> saturation/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(red, $saturation: 200px)}
+
+<===> saturation/unit/error
+DEPRECATION WARNING: $saturation: Passing a number without unit % (200px) is deprecated.
+
+To preserve current behavior: $saturation / 1px * 1%
+
+  ,
+3 | a {b: adjust-color(red, $saturation: 200px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+Error: $saturation: Expected 200px to be within -100% and 100%.
+  ,
+3 | a {b: adjust-color(red, $saturation: 200px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> saturation/unit/error-libsass
+Error: argument `$saturation` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -100 and 100
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(red, $saturation: 200px)}
 
    ------^
 
@@ -208,6 +310,39 @@ Error: argument `$lightness` of `adjust-color($color, $red: false, $green: false
 
 <===>
 ================================================================================
+<===> lightness/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(red, $lightness: 200px)}
+
+<===> lightness/unit/error
+DEPRECATION WARNING: $lightness: Passing a number without unit % (200px) is deprecated.
+
+To preserve current behavior: $lightness / 1px * 1%
+
+  ,
+3 | a {b: adjust-color(red, $lightness: 200px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+Error: $lightness: Expected 200px to be within -100% and 100%.
+  ,
+3 | a {b: adjust-color(red, $lightness: 200px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> lightness/unit/error-libsass
+Error: argument `$lightness` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -100 and 100
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(red, $lightness: 200px)}
+
+   ------^
+
+<===>
+================================================================================
 <===> alpha/too_low/input.scss
 a {b: adjust-color(red, $alpha: -1.001)}
 
@@ -247,6 +382,30 @@ Error: argument `$alpha` of `adjust-color($color, $red: false, $green: false, $b
 >> a {b: adjust-color(red, $alpha: 1.001)}
 
    ------^
+
+<===>
+================================================================================
+<===> alpha/unit/input.scss
+// This test covers sass/dart-sass#1745, but should be removed once units are
+// fully forbidden (sass/sass#3374).
+a {b: adjust-color(red, $alpha: 50%)}
+
+<===> alpha/unit/error
+Error: $alpha: Expected 50% to be within -1 and 1.
+  ,
+3 | a {b: adjust-color(red, $alpha: 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===> alpha/unit/error-libsass
+Error: argument `$alpha` of `adjust-color($color, $red: false, $green: false, $blue: false, $hue: false, $saturation: false, $lightness: false, $alpha: false)` must be between -1 and 1
+        on line 3:7 of input.scss, in function `adjust-color`
+        from line 3:7 of input.scss
+>> a {b: adjust-color(red, $alpha: 50%)}
+
+   ------^
+
 <===>
 ================================================================================
 <===> blackness/options.yml
