@@ -78,6 +78,16 @@ a {
 <===> ignores_units/input.scss
 a {b: random(1px)}
 
+<===> ignores_units/warning
+WARNING: math.random() will no longer ignore $limit units (1px) in a future release.
+
+If you meant to preserve units: math.random(1px) * 1px
+  ,
+1 | a {b: random(1px)}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===> ignores_units/output.css
 a {
   b: 1;
