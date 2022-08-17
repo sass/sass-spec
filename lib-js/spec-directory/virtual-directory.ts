@@ -137,7 +137,7 @@ export default class VirtualDirectory extends SpecDirectory {
     if (this.subdirCache[filename]) {
       throw new Error(`${message}: ${filename} is a directory`);
     }
-    if (filename.includes(path.sep)) {
+    if (filename.includes('/') || filename.includes(path.sep)) {
       throw new Error(`${message}: multi-level paths not supported`);
     }
   }
