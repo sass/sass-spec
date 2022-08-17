@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+
 import {Readable} from 'stream';
 import SpecDirectory, {SpecIteratee} from './spec-directory';
 import {archiveFromStream, Directory as HrxDirectory} from 'node-hrx';
 import SpecOptions from './options';
 import {withAsyncCleanup} from './cleanup';
+import {normalizeSpecPath} from './spec-path';
 
 function createFileCache(dir: HrxDirectory): Record<string, string> {
   const cache: Record<string, string> = {};
@@ -148,13 +150,13 @@ export default class VirtualDirectory extends SpecDirectory {
     return this.subdirNames;
   }
 
-  async getSubdir(itemName: string): Promise<VirtualDirectory> {
-    const subitem = this.subdirCache[itemName];
-    if (!subitem) {
-      throw new Error(`Item does not exist: ${itemName}`);
+  async getSubdir(name: string): Promise<VirtualDirectory> {
+    const subdir = this.subdirCache[normalizeSpecPath(name)];
+    if (!subdir) {
+      throw new Error(`Subdirectory does not exist: ${path}/${name}`);
     }
     const options = await this.options();
-    return new VirtualDirectory(this.basePath, subitem, this.root, options);
+    return new VirtualDirectory(this.basePath, subdir, this.root, options);
   }
 
   // Iteration

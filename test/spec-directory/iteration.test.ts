@@ -4,7 +4,7 @@ import {fromPath, SpecDirectory} from '../../lib-js/spec-directory';
 describe('SpecDirectory iteration', () => {
   describe('forEachTest', () => {
     let dir: SpecDirectory;
-    beforeAll(async () => {
+    beforeEach(async () => {
       dir = await fromPath(path.resolve(__dirname, './fixtures/iterate'));
     });
 
@@ -70,6 +70,116 @@ describe('SpecDirectory iteration', () => {
           ['iterate/archive', 'iterate/unknown']
         )
       ).rejects.toThrow("Path iterate/unknown doesn't exist");
+    });
+
+    describe('supports a trailing slash', () => {
+      describe('in fromPath()', () => {
+        it('for a physical directory', async () => {
+          dir = await fromPath(
+            path.resolve(__dirname, './fixtures/iterate/physical/')
+          );
+
+          const testCases: string[] = [];
+          await dir.forEachTest(async subdir => {
+            testCases.push(subdir.relPath());
+          });
+          expect(testCases).toEqual(['physical']);
+        });
+
+        it('for an HRX archive', async () => {
+          dir = await fromPath(
+            path.resolve(__dirname, './fixtures/iterate/archive/')
+          );
+
+          const testCases: string[] = [];
+          await dir.forEachTest(async subdir => {
+            testCases.push(subdir.relPath());
+          });
+          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+        });
+      });
+
+      describe('in only parameter()', () => {
+        it('for a physical directory', async () => {
+          const testCases: string[] = [];
+          await dir.forEachTest(
+            async subdir => {
+              testCases.push(subdir.relPath());
+            },
+            ['iterate/physical/']
+          );
+          expect(testCases).toEqual(['iterate/physical']);
+        });
+
+        it('for an HRX archive', async () => {
+          const testCases: string[] = [];
+          await dir.forEachTest(
+            async subdir => {
+              testCases.push(subdir.relPath());
+            },
+            ['iterate/archive/']
+          );
+          expect(testCases).toEqual([
+            'iterate/archive/scss',
+            'iterate/archive/indented',
+          ]);
+        });
+      });
+    });
+
+    describe('supports a .hrx extension', () => {
+      describe('in fromPath()', () => {
+        it('for a physical directory', async () => {
+          dir = await fromPath(
+            path.resolve(__dirname, './fixtures/iterate/physical.hrx')
+          );
+
+          const testCases: string[] = [];
+          await dir.forEachTest(async subdir => {
+            testCases.push(subdir.relPath());
+          });
+          expect(testCases).toEqual(['physical']);
+        });
+
+        it('for an HRX archive', async () => {
+          dir = await fromPath(
+            path.resolve(__dirname, './fixtures/iterate/archive.hrx')
+          );
+
+          const testCases: string[] = [];
+          await dir.forEachTest(async subdir => {
+            testCases.push(subdir.relPath());
+          });
+          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+        });
+      });
+
+      describe('in only parameter()', () => {
+        it('for a physical directory', async () => {
+          const testCases: string[] = [];
+          await dir.forEachTest(
+            async subdir => {
+              testCases.push(subdir.relPath());
+            },
+            ['iterate/physical.hrx']
+          );
+          expect(testCases).toEqual(['iterate/physical']);
+        });
+
+        it('for an HRX archive', async () => {
+          const testCases: string[] = [];
+          await dir.forEachTest(
+            async subdir => {
+              testCases.push(subdir.relPath());
+            },
+            ['iterate/archive.hrx']
+          );
+          expect(testCases).toEqual([
+            'iterate/archive/scss',
+            'iterate/archive/indented',
+          ]);
+        });
+      });
     });
   });
 });

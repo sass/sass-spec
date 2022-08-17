@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 
 import SpecOptions from './options';
 import {toHrx} from './hrx';
+import {normalizeSpecPath} from './spec-path';
 
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>;
 
@@ -123,7 +124,7 @@ export default abstract class SpecDirectory {
    */
   async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
     const relPath = this.relPath();
-    if (only === undefined || only.includes(relPath)) {
+    if (only === undefined || only.some(path => normalizeSpecPath(path) === relPath)) {
       if (this.isTestDir()) {
         // If this is a test directory, run the test
         await iteratee(this);
@@ -145,7 +146,7 @@ export default abstract class SpecDirectory {
     // in `foo/bar/baz`) to the full paths under that component.
     const onlyByFirstComponent = _.groupBy(
       only,
-      path => pathSplit(p.relative(relPath, path))[0]
+      path => normalizeSpecPath(pathSplit(p.relative(relPath, path))[0])
     );
 
     for (const [component, paths] of _.toPairs(onlyByFirstComponent)) {
