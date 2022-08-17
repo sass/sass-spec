@@ -124,7 +124,10 @@ export default abstract class SpecDirectory {
    */
   async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
     const relPath = this.relPath();
-    if (only === undefined || only.some(path => normalizeSpecPath(path) === relPath)) {
+    if (
+      only === undefined ||
+      only.some(path => normalizeSpecPath(path) === relPath)
+    ) {
       if (this.isTestDir()) {
         // If this is a test directory, run the test
         await iteratee(this);
@@ -144,9 +147,8 @@ export default abstract class SpecDirectory {
 
     // A map from the first component of each path in `only` (for example, `foo`
     // in `foo/bar/baz`) to the full paths under that component.
-    const onlyByFirstComponent = _.groupBy(
-      only,
-      path => normalizeSpecPath(pathSplit(p.relative(relPath, path))[0])
+    const onlyByFirstComponent = _.groupBy(only, path =>
+      normalizeSpecPath(pathSplit(p.relative(relPath, path))[0])
     );
 
     for (const [component, paths] of _.toPairs(onlyByFirstComponent)) {
