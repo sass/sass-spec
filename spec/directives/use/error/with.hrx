@@ -351,3 +351,133 @@ Error: This variable was not declared with !default in the @used module.
   |                   ^^^^^
   '
   input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward_twice/with/input.scss
+@use "used" with ($a: input a);
+
+<===> through_forward_twice/with/_used.scss
+@forward "forwarded" with ($a: used a 1 !default);
+@forward "forwarded" with ($a: used a 2 !default);
+
+<===> through_forward_twice/with/_forwarded.scss
+$a: forwarded a !default;
+$b: forwarded b !default;
+
+<===> through_forward_twice/with/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @forward "forwarded" with ($a: used a 1 !default);
+  | ================================================= original load
+2 | @forward "forwarded" with ($a: used a 2 !default);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  _used.scss 2:1  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> missing_distributed_vars/README.md
+A module may load different sets of variables across multiple files triggering
+validation of re-using the same module configuration multiple times.
+
+These tests verify the configuration is reused by opaque ID across multiple
+source files preventing unexpected behaviors when variables are declared on
+separate files with validations that occur when a module is used more than once.
+
+
+<===>
+================================================================================
+<===> missing_distributed_vars/single_use/input.scss
+@use 'module' with (
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
+);
+
+<===> missing_distributed_vars/single_use/module/_index.scss
+@forward './a/a';
+@forward './b/b';
+
+<===> missing_distributed_vars/single_use/module/a/_variables.scss
+$a: default !default;
+
+<===> missing_distributed_vars/single_use/module/a/a.scss
+@forward './variables';
+@use './variables' as *;
+
+.a {
+  content: #{$a};
+}
+
+<===> missing_distributed_vars/single_use/module/b/_variables.scss
+$b: default !default;
+
+<===> missing_distributed_vars/single_use/module/b/b.scss
+@forward './variables';
+@use './variables' as *;
+
+.b {
+  content: #{$b};
+}
+
+<===> missing_distributed_vars/single_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> missing_distributed_vars/multi_use/input.scss
+@use 'module' with (
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
+);
+
+<===> missing_distributed_vars/multi_use/module/_index.scss
+@forward './a/a1';
+@forward './a/a2';
+@forward './b/b';
+
+<===> missing_distributed_vars/multi_use/module/a/_variables.scss
+$a: default !default;
+
+<===> missing_distributed_vars/multi_use/module/a/a1.scss
+@forward './variables';
+@use './variables' as *;
+
+.a1 {
+  content: #{$a};
+}
+
+<===> missing_distributed_vars/multi_use/module/a/a2.scss
+@forward './variables';
+@use './variables' as *;
+
+.a2 {
+  content: #{$a};
+}
+
+<===> missing_distributed_vars/multi_use/module/b/_variables.scss
+$b: default !default;
+
+<===> missing_distributed_vars/multi_use/module/b/b.scss
+@forward './variables';
+@use './variables' as *;
+
+.b {
+  content: #{$b};
+}
+
+<===> missing_distributed_vars/multi_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet
