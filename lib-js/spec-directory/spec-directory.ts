@@ -1,8 +1,9 @@
-import path from 'path';
+import p from 'path';
 import * as _ from 'lodash';
 
 import SpecOptions from './options';
 import {toHrx} from './hrx';
+import {normalizeSpecPath} from './spec-path';
 
 export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>;
 
@@ -28,8 +29,8 @@ export default abstract class SpecDirectory {
   relPath(): string {
     // make sure to include the root dir as part of the name
     // (e.g. if the root path is `spec`, everything should be listed as `spec/thing`)
-    const rootDir = path.dirname(this.root.path);
-    return path.relative(rootDir, this.path);
+    const rootDir = p.dirname(this.root.path);
+    return p.relative(rootDir, this.path);
   }
 
   // File manipulation
@@ -50,12 +51,10 @@ export default abstract class SpecDirectory {
   /** Get the subdirectory at the provided path relative to this directory */
   async atPath(subpath: string): Promise<SpecDirectory> {
     if (!subpath) return this;
-    const i = subpath.indexOf(path.sep);
-    if (i === -1) {
-      return await this.subdir(subpath);
-    }
-    const child = await this.subdir(subpath.slice(0, i));
-    return await child.atPath(subpath.slice(i + 1));
+    const components = pathSplit(subpath);
+    if (components.length === 1) return await this.subdir(components[0]);
+    const child = await this.subdir(components[0]);
+    return await child.atPath(components.slice(1).join(p.sep));
   }
 
   // helper to get the subitem with the given name
@@ -125,7 +124,10 @@ export default abstract class SpecDirectory {
    */
   async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
     const relPath = this.relPath();
-    if (only === undefined || only.includes(relPath)) {
+    if (
+      only === undefined ||
+      only.some(path => normalizeSpecPath(path) === relPath)
+    ) {
       if (this.isTestDir()) {
         // If this is a test directory, run the test
         await iteratee(this);
@@ -140,14 +142,13 @@ export default abstract class SpecDirectory {
 
     // A map from the basename of each subdirectory to that subdirectory
     const subdirsByBasename = _.fromPairs(
-      (await this.subdirs()).map(subdir => [path.basename(subdir.path), subdir])
+      (await this.subdirs()).map(subdir => [p.basename(subdir.path), subdir])
     );
 
     // A map from the first component of each path in `only` (for example, `foo`
     // in `foo/bar/baz`) to the full paths under that component.
-    const onlyByFirstComponent = _.groupBy(
-      only,
-      p => path.normalize(path.relative(relPath, p)).split(path.sep)[0]
+    const onlyByFirstComponent = _.groupBy(only, path =>
+      normalizeSpecPath(pathSplit(p.relative(relPath, path))[0])
     );
 
     for (const [component, paths] of _.toPairs(onlyByFirstComponent)) {
@@ -163,4 +164,12 @@ export default abstract class SpecDirectory {
   toString(): string {
     return this.path;
   }
+}
+
+/// Splits a relative path into its constituent components.
+function pathSplit(path: string): string[] {
+  if (p.isAbsolute(path)) throw new Error(`Expected ${path} to be relative.`);
+  path = p.normalize(path);
+  if (path.endsWith(p.sep)) path = path.substring(0, path.length - 1);
+  return path.split(p.sep);
 }
