@@ -139,6 +139,7 @@ export default class VirtualDirectory extends SpecDirectory {
     if (this.subdirCache[filename]) {
       throw new Error(`${message}: ${filename} is a directory`);
     }
+    // `/` is a valid separator everywhere, but `path.sep` is `\` on Windows.
     if (filename.includes('/') || filename.includes(path.sep)) {
       throw new Error(`${message}: multi-level paths not supported`);
     }

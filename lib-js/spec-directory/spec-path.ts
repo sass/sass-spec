@@ -28,10 +28,8 @@ export function resolveSpecPath(path: string): string {
  * `.hrx` extension.
  */
 export function normalizeSpecPath(path: string): string {
-  if (path.endsWith('/') || path.endsWith(p.sep)) {
-    path = path.substring(0, path.length - 1);
-  }
-
+  path = p.normalize(path);
+  if (path.endsWith(p.sep)) path = path.substring(0, path.length - 1);
   return path.endsWith('.hrx')
     ? path.substring(0, path.length - '.hrx'.length)
     : path;
