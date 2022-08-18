@@ -75,6 +75,11 @@ a {
 
 <===>
 ================================================================================
+<===> ignores_units/options.yml
+---
+:ignore_for:
+- libsass
+
 <===> ignores_units/input.scss
 a {b: random(1px)}
 
@@ -82,6 +87,20 @@ a {b: random(1px)}
 a {
   b: 1;
 }
+
+<===> ignores_units/warning
+WARNING: math.random() will no longer ignore $limit units (1px) in a future release.
+
+Recommendation: math.random(math.div($limit, 1px)) * 1px
+
+To preserve current behavior: math.random(math.div($limit, 1px))
+
+More info: https://sass-lang.com/d/random-with-units
+  ,
+1 | a {b: random(1px)}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
