@@ -1,0 +1,42 @@
+<===> mixin/input.scss
+@mixin foo {
+  @use "other";
+}
+
+<===> mixin/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> function/input.scss
+@function foo {
+  @use "other";
+}
+
+<===> function/error
+Error: expected "(".
+  ,
+1 | @function foo {
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/input.scss
+a {
+  @use "other";
+}
+
+<===> style_rule/error
+Error: This at-rule is not allowed here.
+  ,
+2 |   @use "other";
+  |   ^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet

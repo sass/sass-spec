@@ -1,0 +1,387 @@
+<===> undefined/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+
+<===> undefined/_other.scss
+// This file defines no variables.
+
+<===> undefined/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> not_default/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+
+<===> not_default/_other.scss
+$a: c;
+
+<===> not_default/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> namespace/input.scss
+@use "sass:meta";
+@include meta.load-css("midstream", $with: (a: b));
+
+<===> namespace/_midstream.scss
+@use "upstream";
+upstream.$a: c !default;
+
+<===> namespace/_upstream.scss
+$a: d;
+
+<===> namespace/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("midstream", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> nested/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+
+<===> nested/_other.scss
+c {$a: d !default}
+
+<===> nested/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/input.scss
+@use "sass:meta";
+@include meta.load-css("midstream", $with: (a: b));
+
+<===> conflict/_midstream.scss
+@use "left" as *;
+@use "right" as *;
+
+$a: c !default;
+
+<===> conflict/_left.scss
+$a: left;
+
+<===> conflict/_right.scss
+$a: right;
+
+<===> conflict/error
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "left" as *;
+    | ================ includes variable
+2   | @use "right" as *;
+    | ================= includes variable
+... |
+4   | $a: c !default;
+    | ^^^^^^^^^^^^^^ variable use
+    '
+  _midstream.scss 4:1  load-css()
+  input.scss 2:1       root stylesheet
+
+<===>
+================================================================================
+<===> repeated_variable/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a-b: c, a_b: c));
+
+<===> repeated_variable/_other.scss
+$a-b: c !default;
+
+<===> repeated_variable/error
+Error: The variable $a-b was configured twice.
+  ,
+2 | @include meta.load-css("other", $with: (a-b: c, a_b: c));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> core_module/input.scss
+@use "sass:meta";
+@include meta.load-css("sass:color", $with: (a: b));
+
+<===> core_module/error
+Error: Built-in module sass:color can't be configured.
+  ,
+2 | @include meta.load-css("sass:color", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/README.md
+The same file can't be configured multiple times, even if the configuration is
+identical.
+
+<===>
+================================================================================
+<===> multi_configuration/double_load/both_configured/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+@include meta.load-css("other", $with: (a: b));
+
+<===> multi_configuration/double_load/both_configured/_other.scss
+$a: c !default;
+
+<===> multi_configuration/double_load/both_configured/error
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ============================================== original load
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/double_load/unconfigured_first/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+@include meta.load-css("other", $with: (a: b));
+
+<===> multi_configuration/double_load/unconfigured_first/_other.scss
+$a: c !default;
+
+<===> multi_configuration/double_load/unconfigured_first/error
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+2 | @include meta.load-css("other");
+  | =============================== original load
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/double_load/through_forward/input.scss
+@use "sass:meta";
+@include meta.load-css("forwarded");
+@include meta.load-css("midstream", $with: (a: b));
+
+<===> multi_configuration/double_load/through_forward/_midstream.scss
+@forward "forwarded";
+
+$a: c !default;
+
+<===> multi_configuration/double_load/through_forward/_forwarded.scss
+// This file defines no variables, but it still may not be loaded both with and
+// without configuration.
+
+<===> multi_configuration/double_load/through_forward/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> _midstream.scss
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+2 | @include meta.load-css("forwarded");
+  | =================================== original load
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ================================================== configuration
+  '
+  _midstream.scss 1:1  load-css()
+  input.scss 3:1       root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/use_and_load/both_configured/input.scss
+@use "sass:meta";
+@use "other" with ($a: b);
+@include meta.load-css("other", $with: (a: b));
+
+<===> multi_configuration/use_and_load/both_configured/_other.scss
+$a: c !default;
+
+<===> multi_configuration/use_and_load/both_configured/error
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+2 | @use "other" with ($a: b);
+  | ========================= original load
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/use_and_load/load_first/input.scss
+// This indirection is necessary so that we can execute `meta.load-css()` before
+// we begin loading `used`.
+@use "loads";
+@use "other" with ($a: b);
+
+<===> multi_configuration/use_and_load/load_first/_loads.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+
+<===> multi_configuration/use_and_load/load_first/_other.scss
+$a: c !default;
+
+<===> multi_configuration/use_and_load/load_first/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> input.scss
+4 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> _loads.scss
+2 | @include meta.load-css("other", $with: (a: b));
+  | ============================================== original load
+  '
+  input.scss 4:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/use_and_load/unconfigured_first/input.scss
+@use "sass:meta";
+@use "other";
+@include meta.load-css("other", $with: (a: b));
+
+<===> multi_configuration/use_and_load/unconfigured_first/_other.scss
+$a: c !default;
+
+<===> multi_configuration/use_and_load/unconfigured_first/error
+Error: _other.scss was already loaded, so it can't be configured using "with".
+  ,
+2 | @use "other";
+  | ============ original load
+3 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_configuration/use_and_load/through_forward/input.scss
+@use "sass:meta";
+@use "forwarded";
+@include meta.load-css("midstream", $with: (a: b));
+
+<===> multi_configuration/use_and_load/through_forward/_midstream.scss
+@forward "forwarded";
+
+$a: c !default;
+
+<===> multi_configuration/use_and_load/through_forward/_forwarded.scss
+// This file defines no variables, but it still may not be loaded both with and
+// without configuration.
+
+<===> multi_configuration/use_and_load/through_forward/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> _midstream.scss
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+2 | @use "forwarded";
+  | ================ original load
+3 | @include meta.load-css("midstream", $with: (a: b));
+  | ================================================== configuration
+  '
+  _midstream.scss 1:1  load-css()
+  input.scss 3:1       root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> through_forward/show/_used.scss
+@forward "forwarded" show $b;
+
+<===> through_forward/show/_forwarded.scss
+$a: d !default;
+
+<===> through_forward/show/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> through_forward/hide/_used.scss
+@forward "forwarded" hide $a;
+
+<===> through_forward/hide/_forwarded.scss
+$a: d !default;
+
+<===> through_forward/hide/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> through_forward/as/_used.scss
+@forward "forwarded" as c-*;
+
+<===> through_forward/as/_forwarded.scss
+$a: d !default;
+
+<===> through_forward/as/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/with/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> through_forward/with/_used.scss
+@forward "forwarded" with ($a: c);
+
+<===> through_forward/with/_forwarded.scss
+$a: d !default;
+
+<===> through_forward/with/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

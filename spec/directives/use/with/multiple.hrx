@@ -1,0 +1,24 @@
+<===> input.scss
+@use "other" with (
+  $a: configured a,
+  $b: configured b,
+  $c: configured c
+);
+
+<===> _other.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}

@@ -1,0 +1,27 @@
+<===> simple/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ".d")}
+
+<===> simple/output.css
+a {
+  b: :matches(.c, .d);
+}
+
+<===>
+================================================================================
+<===> list/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ".d, .e")}
+
+<===> list/output.css
+a {
+  b: :matches(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> matches_in_extender/input.scss
+a {b: selector-extend(":matches(.c)", ".c", ":matches(.d, .e)")}
+
+<===> matches_in_extender/output.css
+a {
+  b: :matches(.c, .d, .e);
+}

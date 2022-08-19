@@ -1,0 +1,180 @@
+<===> README.md
+When two modules that contain conflicting members are `@forward`ed, that
+produces an error immediately even if the member is never used. This is unlike
+`@use`, which only produces an error on use.
+
+<===>
+================================================================================
+<===> variable/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> variable/_other1.scss
+$a: from other1;
+
+<===> variable/_other2.scss
+$a: from other2;
+
+<===> variable/error
+Error: Two forwarded modules both define a variable named $a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> function/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> function/_other1.scss
+@function a() {@return from other1}
+
+<===> function/_other2.scss
+@function a() {@return from other2}
+
+<===> function/error
+Error: Two forwarded modules both define a function named a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> mixin/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> mixin/_other1.scss
+@mixin a {b: from other1}
+
+<===> mixin/_other2.scss
+@mixin a {b: from other2}
+
+<===> mixin/error
+Error: Two forwarded modules both define a mixin named a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> same_value/variable/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> same_value/variable/_other1.scss
+$a: b;
+
+<===> same_value/variable/_other2.scss
+$a: b;
+
+<===> same_value/variable/error
+Error: Two forwarded modules both define a variable named $a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> same_value/function/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> same_value/function/_other1.scss
+@function a() {@return b}
+
+<===> same_value/function/_other2.scss
+@function a() {@return b}
+
+<===> same_value/function/error
+Error: Two forwarded modules both define a function named a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> same_value/mixin/input.scss
+@forward "other1";
+@forward "other2";
+
+<===> same_value/mixin/_other1.scss
+@mixin a {b: c}
+
+<===> same_value/mixin/_other2.scss
+@mixin a {b: c}
+
+<===> same_value/mixin/error
+Error: Two forwarded modules both define a mixin named a.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> because_of_as/first/input.scss
+@forward "other1" as a-*;
+@forward "other2";
+
+<===> because_of_as/first/_other1.scss
+$b: from other1;
+
+<===> because_of_as/first/_other2.scss
+$a-b: from other2;
+
+<===> because_of_as/first/error
+Error: Two forwarded modules both define a variable named $a-b.
+  ,
+1 | @forward "other1" as a-*;
+  | ======================== original @forward
+2 | @forward "other2";
+  | ^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> because_of_as/last/input.scss
+@forward "other1";
+@forward "other2" as a-*;
+
+<===> because_of_as/last/_other1.scss
+$a-b: from other1;
+
+<===> because_of_as/last/_other2.scss
+$b: from other2;
+
+<===> because_of_as/last/error
+Error: Two forwarded modules both define a variable named $a-b.
+  ,
+1 | @forward "other1";
+  | ================= original @forward
+2 | @forward "other2" as a-*;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^ new @forward
+  '
+  input.scss 2:1  root stylesheet

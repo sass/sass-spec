@@ -1,0 +1,96 @@
+<===> at_rule/unknown/input.scss
+@fblthp;
+@use "other";
+
+<===> at_rule/unknown/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> at_rule/sass/input.scss
+@if true {};
+@use "other";
+
+<===> at_rule/sass/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> at_rule/import/input.scss
+@import "other1";
+@use "other2";
+
+<===> at_rule/import/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other2";
+  | ^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> at_rule/css/input.scss
+@keyframes foo {};
+@use "other";
+
+<===> at_rule/css/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/input.scss
+a {};
+@use "other";
+
+<===> style_rule/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other";
+  | ^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> indented/mixin/input.sass
+=mixin
+  a: b
+@use "other"
+
+<===> indented/mixin/error
+Error: @use rules must be written before any other rules.
+  ,
+3 | @use "other"
+  | ^^^^^^^^^^^^
+  '
+  input.sass 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> indented/include/input.sass
++mixin
+@use "other"
+
+<===> indented/include/error
+Error: @use rules must be written before any other rules.
+  ,
+2 | @use "other"
+  | ^^^^^^^^^^^^
+  '
+  input.sass 2:1  root stylesheet

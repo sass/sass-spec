@@ -1,0 +1,301 @@
+<===> local/variable/input.scss
+@forward "other";
+
+a {b: $c};
+
+<===> local/variable/_other.scss
+$c: d;
+
+<===> local/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $c};
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> local/function/input.scss
+@forward "other";
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: c()};
+
+<===> local/function/_other.scss
+@function c() {@return d}
+
+<===> local/function/output.css
+a {
+  b: c();
+}
+
+<===>
+================================================================================
+<===> local/mixin/input.scss
+@forward "other";
+
+@include a;
+
+<===> local/mixin/_other.scss
+@mixin a {b {c: d}}
+
+<===> local/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> private/variable/input.scss
+@use "midstream" as *;
+
+a {b: $-c};
+
+<===> private/variable/_midstream.scss
+@forward "upstream";
+
+<===> private/variable/_upstream.scss
+$-c: d;
+
+<===> private/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $-c};
+  |       ^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> private/function/input.scss
+@use "midstream" as *;
+
+// This is technically not a compile error, since `-member()` is treated as
+// plain CSS, but it's included here for consistency with the other specs.
+a {b: -c()};
+
+<===> private/function/_midstream.scss
+@forward "upstream";
+
+<===> private/function/_upstream.scss
+@function -c() {@return d}
+
+<===> private/function/output.css
+a {
+  b: -c();
+}
+
+<===>
+================================================================================
+<===> private/mixin/input.scss
+@use "midstream" as *;
+
+@include -a;
+
+<===> private/mixin/_midstream.scss
+@forward "upstream";
+
+<===> private/mixin/_upstream.scss
+@mixin -a {b {c: d}}
+
+<===> private/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include -a;
+  | ^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> hidden/variable/input.scss
+@use "midstream" as *;
+
+a {b: $c}
+
+<===> hidden/variable/_midstream.scss
+@forward "upstream" hide $c;
+
+<===> hidden/variable/_upstream.scss
+$c: d;
+
+<===> hidden/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $c}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> hidden/mixin/input.scss
+@use "midstream" as *;
+
+@include a;
+
+<===> hidden/mixin/_midstream.scss
+@forward "upstream" hide a;
+
+<===> hidden/mixin/_upstream.scss
+@mixin a {b {c: d}}
+
+<===> hidden/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> hidden/as/different_separator/input.scss
+@use "midstream" as *;
+
+@include a;
+
+<===> hidden/as/different_separator/_midstream.scss
+@forward "upstream" as b-* hide b_a;
+
+<===> hidden/as/different_separator/_upstream.scss
+@as a {b {c: d}}
+
+<===> hidden/as/different_separator/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> hidden/as/same_separator/input.scss
+@use "midstream" as *;
+
+@include a;
+
+<===> hidden/as/same_separator/_midstream.scss
+@forward "upstream" as b-* hide b-a;
+
+<===> hidden/as/same_separator/_upstream.scss
+@as a {b {c: d}}
+
+<===> hidden/as/same_separator/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> not_shown/variable/input.scss
+@use "midstream" as *;
+
+a {b: $c}
+
+<===> not_shown/variable/_midstream.scss
+@forward "upstream" show $d;
+
+<===> not_shown/variable/_upstream.scss
+$c: e;
+
+<===> not_shown/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $c}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> not_shown/mixin/input.scss
+@use "midstream" as *;
+
+@include a;
+
+<===> not_shown/mixin/_midstream.scss
+@forward "upstream" show b;
+
+<===> not_shown/mixin/_upstream.scss
+@mixin a {c {d: e}}
+
+<===> not_shown/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> not_shown/wrong_type/variable/input.scss
+@use "midstream" as *;
+
+a {b: $c}
+
+<===> not_shown/wrong_type/variable/_midstream.scss
+@forward "upstream" show c;
+
+<===> not_shown/wrong_type/variable/_upstream.scss
+$c: e;
+
+<===> not_shown/wrong_type/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $c}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> not_shown/wrong_type/mixin/input.scss
+@use "midstream" as *;
+
+@include a;
+
+<===> not_shown/wrong_type/mixin/_midstream.scss
+@forward "upstream" show $a;
+
+<===> not_shown/wrong_type/mixin/_upstream.scss
+@mixin a {c {d: e}}
+
+<===> not_shown/wrong_type/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include a;
+  | ^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> not_shown/as/mixin/input.scss
+@use "midstream" as *;
+
+@include b-a;
+
+<===> not_shown/as/mixin/_midstream.scss
+@forward "upstream" as b-* show a;
+
+<===> not_shown/as/mixin/_upstream.scss
+@mixin a {c {d: e}}
+
+<===> not_shown/as/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include b-a;
+  | ^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet

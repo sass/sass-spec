@@ -1,0 +1,72 @@
+<===> README.md
+If a module is first loaded with a configuration, future loads with no
+configuration will use the configured module.
+
+<===>
+================================================================================
+<===> use/input.scss
+@use "upstream" with ($a: configured);
+@use "midstream";
+
+<===> use/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> use/_upstream.scss
+$a: original !default;
+
+<===> use/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> forward/input.scss
+@use "upstream" with ($a: configured);
+@use "midstream";
+b {c: midstream.$a}
+
+<===> forward/_midstream.scss
+@forward "upstream";
+
+<===> forward/_upstream.scss
+$a: original !default;
+
+<===> forward/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> transitive/input.scss
+// Regression test for sass/dart-sass#854.
+@use "midstream1" with ($a: overridden 1);
+@use "midstream2" with ($a: overridden 2);
+
+b {
+  midstream1: midstream1.$a;
+  midstream2: midstream2.$a;
+}
+
+<===> transitive/_midstream1.scss
+@use "upstream";
+$a: default 1 !default;
+
+<===> transitive/_midstream2.scss
+@use "upstream";
+$a: default 2 !default;
+
+<===> transitive/_upstream.scss
+c {d: e}
+
+<===> transitive/output.css
+c {
+  d: e;
+}
+
+b {
+  midstream1: overridden 1;
+  midstream2: overridden 2;
+}

@@ -1,0 +1,39 @@
+<===> url/input.scss
+@use "sass:meta";
+@include meta.load-css(1);
+
+<===> url/error
+Error: $url: 1 is not a string.
+  ,
+2 | @include meta.load-css(1);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> with/map/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: 1);
+
+<===> with/map/error
+Error: $with: 1 is not a map.
+  ,
+2 | @include meta.load-css("other", $with: 1);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> with/key/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (1: null));
+
+<===> with/key/error
+Error: $with key: 1 is not a string.
+  ,
+2 | @include meta.load-css("other", $with: (1: null));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

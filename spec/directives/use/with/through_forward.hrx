@@ -1,0 +1,262 @@
+<===> bare/input.scss
+@use "used" with ($a: configured);
+
+<===> bare/_used.scss
+@forward "forwarded";
+
+<===> bare/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> bare/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> transitive/input.scss
+@use "used" with ($a: configured);
+
+<===> transitive/_used.scss
+@forward "midstream";
+
+<===> transitive/_midstream.scss
+@forward "upstream";
+
+<===> transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> show/input.scss
+@use "used" with ($a: configured);
+
+<===> show/_used.scss
+@forward "forwarded" show $a;
+
+<===> show/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> show/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> with/default/input.scss
+@use "used" with ($a: from input);
+
+<===> with/default/_used.scss
+@forward "forwarded" with ($a: from used !default);
+
+<===> with/default/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> with/default/output.css
+b {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> with/null/input.scss
+@use "used" with ($a: null);
+
+<===> with/null/_used.scss
+@forward "forwarded" with ($a: from used !default);
+
+<===> with/null/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> with/null/output.css
+b {
+  c: from used;
+}
+
+<===>
+================================================================================
+<===> with/unconfigured/input.scss
+@use "used" with ($a: from input);
+
+<===> with/unconfigured/_used.scss
+@forward "forwarded" with ($b: from used);
+
+<===> with/unconfigured/_forwarded.scss
+$a: from forwarded !default;
+$b: from forwarded !default;
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> with/unconfigured/output.css
+c {
+  a: from input;
+  b: from used;
+}
+
+<===>
+================================================================================
+<===> with/and_variable/before/input.scss
+@use "used" with ($a: from input, $b: from input);
+
+<===> with/and_variable/before/_used.scss
+$a: from used !default;
+@forward "forwarded" with ($b: from used !default);
+in-used {c: $a}
+
+<===> with/and_variable/before/_forwarded.scss
+$b: from forwarded !default;
+in-forwarded {d: $b}
+
+<===> with/and_variable/before/output.css
+in-forwarded {
+  d: from input;
+}
+
+in-used {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> with/and_variable/after/input.scss
+// Regression test for sass/dart-sass#1460
+@use "used" with ($a: from input, $b: from input);
+
+<===> with/and_variable/after/_used.scss
+@forward "forwarded" with ($b: from used !default);
+$a: from used !default;
+in-used {c: $a}
+
+<===> with/and_variable/after/_forwarded.scss
+$b: from forwarded !default;
+in-forwarded {d: $b}
+
+<===> with/and_variable/after/output.css
+in-forwarded {
+  d: from input;
+}
+
+in-used {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> with/multiple/input.scss
+@use "used" with ($a: from input, $b: from input);
+
+<===> with/multiple/_used.scss
+@forward "left" with ($a: from used !default);
+@forward "right" with ($b: from used !default);
+
+<===> with/multiple/_left.scss
+$a: from left !default;
+in-left {c: $a}
+
+<===> with/multiple/_right.scss
+$b: from left !default;
+in-right {d: $b}
+
+<===> with/multiple/output.css
+in-left {
+  c: from input;
+}
+
+in-right {
+  d: from input;
+}
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "used" with ($a: configured);
+
+<===> hide/_used.scss
+@forward "forwarded" hide $b;
+
+<===> hide/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> hide/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "used" with ($b-a: configured);
+
+<===> as/_used.scss
+@forward "forwarded" as b-*;
+
+<===> as/_forwarded.scss
+$a: original !default;
+c {d: $a}
+
+<===> as/output.css
+c {
+  d: configured;
+}
+
+<===>
+================================================================================
+<===> with_unrelated_config/input.scss
+@use "used" with ($from-used: configured);
+
+<===> with_unrelated_config/_used.scss
+@forward "forwarded";
+
+$from-used: original !default;
+
+a {from-used: $from-used}
+
+<===> with_unrelated_config/_forwarded.scss
+$from-forwarded: original !default;
+b {from-forwarded: $from-forwarded}
+
+<===> with_unrelated_config/output.css
+b {
+  from-forwarded: original;
+}
+
+a {
+  from-used: configured;
+}
+
+<===>
+================================================================================
+<===> and_use/input.scss
+// Regression test for sass/sass#2744.
+@use "forwarder" with ($c: e);
+
+a {b: forwarder.$c}
+
+<===> and_use/_forwarder.scss
+@forward "definition";
+@forward "user";
+
+<===> and_use/_definition.scss
+$c: d !default;
+
+<===> and_use/_user.scss
+@use "definition";
+
+<===> and_use/output.css
+a {
+  b: e;
+}

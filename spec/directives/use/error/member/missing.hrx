@@ -1,0 +1,99 @@
+<===> namespaced/variable_use/input.scss
+@use "other";
+
+a {b: other.$member}
+
+<===> namespaced/variable_use/other.scss
+
+<===> namespaced/variable_use/error
+Error: Undefined variable.
+  ,
+3 | a {b: other.$member}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/variable_declaration/input.scss
+@use "other";
+
+other.$member: value;
+
+<===> namespaced/variable_declaration/other.scss
+
+<===> namespaced/variable_declaration/error
+Error: Undefined variable.
+  ,
+3 | other.$member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/function/input.scss
+@use "other";
+
+a {b: other.member()}
+
+<===> namespaced/function/other.scss
+
+<===> namespaced/function/error
+Error: Undefined function.
+  ,
+3 | a {b: other.member()}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> namespaced/mixin/input.scss
+@use "other";
+
+@include other.member;
+
+<===> namespaced/mixin/other.scss
+
+<===> namespaced/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include other.member;
+  | ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> global/variable/input.scss
+@use "other";
+
+a {b: $member}
+
+<===> global/variable/other.scss
+
+<===> global/variable/error
+Error: Undefined variable.
+  ,
+3 | a {b: $member}
+  |       ^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> global/mixin/input.scss
+@use "other";
+
+@include member;
+
+<===> global/mixin/other.scss
+
+<===> global/mixin/error
+Error: Undefined mixin.
+  ,
+3 | @include member;
+  | ^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet

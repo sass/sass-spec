@@ -1,0 +1,41 @@
+<===> README.md
+Members from modules loaded by `load-css` are not avaialable in the loading
+module.
+
+<===>
+================================================================================
+<===> global/input.scss
+@use "sass:meta";
+@meta.load-css("other");
+
+a {b: $c}
+
+<===> global/_other.scss
+$c: d;
+
+<===> global/error
+Error: Undefined variable.
+  ,
+4 | a {b: $c}
+  |       ^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> namespace/input.scss
+@use "sass:meta";
+@meta.load-css("other");
+
+a {b: other.$c}
+
+<===> namespace/_other.scss
+$c: d;
+
+<===> namespace/error
+Error: There is no module with the namespace "other".
+  ,
+4 | a {b: other.$c}
+  |       ^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet

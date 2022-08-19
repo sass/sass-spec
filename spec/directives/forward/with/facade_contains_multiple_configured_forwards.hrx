@@ -1,0 +1,35 @@
+<===> input.scss
+// Regression test for sass/dart-sass/#1343.
+@use "midstream" with (
+  $a: twice-configured a,
+  $b: twice-configured b,
+  $c: configured c,
+);
+
+<===> _midstream.scss
+@forward "left" with ($a: configured a !default);
+@forward "right" with ($b: configured b !default);
+
+$c: original c !default;
+c {c: $c}
+
+<===> _left.scss
+$a: original a !default;
+a {a: $a}
+
+<===> _right.scss
+$b: original b !default;
+b {b: $b}
+
+<===> output.css
+a {
+  a: twice-configured a;
+}
+
+b {
+  b: twice-configured b;
+}
+
+c {
+  c: configured c;
+}

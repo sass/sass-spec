@@ -1,0 +1,39 @@
+<===> options.yml
+:warning_todo:
+  - sass/libsass#2887
+
+<===> input.scss
+$number: 1px * 1rad / 1ms / 1Hz;
+a {
+  b: inspect($number * 1ms);
+}
+
+<===> output.css
+a {
+  b: 1px*rad/Hz;
+}
+
+<===> warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1px * 1rad, 1ms) or calc(1px * 1rad / 1ms)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | $number: 1px * 1rad / 1ms / 1Hz;
+  |          ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(1px * 1rad, 1ms), 1Hz) or calc(1px * 1rad / 1ms / 1Hz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+1 | $number: 1px * 1rad / 1ms / 1Hz;
+  |          ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:10  root stylesheet

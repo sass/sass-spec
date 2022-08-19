@@ -1,0 +1,62 @@
+<===> top_level/alone/input.scss
+@supports #{"(a: b)"} {@c}
+
+<===> top_level/alone/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> top_level/before_operator/input.scss
+@supports #{"(a: b)"} and (c: 1 + 1) {@d}
+
+<===> top_level/before_operator/output.css
+@supports (a: b) and (c: 2) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> top_level/after_operator/input.scss
+@supports (c: 1 + 1) and #{"(a: b)"}  {@d}
+
+<===> top_level/after_operator/output.css
+@supports (c: 2) and (a: b) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> parens/alone/input.scss
+@supports (#{"(a: b)"}) {@c}
+
+<===> parens/alone/output.css
+@supports ((a: b)) {
+  @c;
+}
+
+<===> parens/alone/output-libsass.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> parens/before_operator/input.scss
+@supports (#{"(a: b)"} and (c: 1 + 1)) {@d}
+
+<===> parens/before_operator/output.css
+@supports (a: b) and (c: 2) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> parens/after_operator/input.scss
+@supports ((c: 1 + 1) and #{"(a: b)"})  {@d}
+
+<===> parens/after_operator/output.css
+@supports (c: 2) and (a: b) {
+  @d;
+}

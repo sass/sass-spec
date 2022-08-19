@@ -1,0 +1,57 @@
+<===> nested/variable/input.scss
+a {@import "midstream"}
+
+b {c: $d}
+
+<===> nested/variable/_midstream.scss
+@forward "upstream";
+
+<===> nested/variable/_upstream.scss
+$d: e;
+
+<===> nested/variable/error
+Error: Undefined variable.
+  ,
+3 | b {c: $d}
+  |       ^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> nested/mixin/input.scss
+a {@import "midstream"}
+
+b {@include c}
+
+<===> nested/mixin/_midstream.scss
+@forward "upstream";
+
+<===> nested/mixin/_upstream.scss
+@mixin c {d: e}
+
+<===> nested/mixin/error
+Error: Undefined mixin.
+  ,
+3 | b {@include c}
+  |    ^^^^^^^^^^
+  '
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> nested/function/input.scss
+a {@import "midstream"}
+
+b {c: d()}
+
+<===> nested/function/_midstream.scss
+@forward "upstream";
+
+<===> nested/function/_upstream.scss
+@function d() {@return e}
+
+<===> nested/function/output.css
+b {
+  c: d();
+}

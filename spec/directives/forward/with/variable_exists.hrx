@@ -1,0 +1,19 @@
+<===> input.scss
+@use "midstream";
+
+<===> _midstream.scss
+@forward "upstream" with ($a: configured);
+
+<===> _upstream.scss
+$before-declaration: variable-exists(a);
+$a: original !default;
+b {
+  before-declaration: $before-declaration;
+  after-declaration: variable-exists(a);
+}
+
+<===> output.css
+b {
+  before-declaration: false;
+  after-declaration: true;
+}
