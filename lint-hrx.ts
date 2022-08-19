@@ -13,10 +13,20 @@ const LINE_THRESHOLD = 500;
 
 /**
  * Verifies all HRX files in the project `spec` directory are under the
- * {@code LINE_THRESHOLD}.
+ * {@link LINE_THRESHOLD}.
  *
  * HRX files are unwrapped and transformed into real files when
  * {@link reporter.fix} is true.
+ *
+ * Skips HRX files if they include a top-level `options.yml` file annotated with
+ * :todo: or :ignore-for: `lint-hrx`. For example:
+ *
+ * ```hrx
+ * <===> options.yml
+ * # Ignored because <SOME REASON>
+ * :todo:
+ * - lint-hrx
+ * ```
  */
 async function lintHrxSize(rootPath: string, reporter: GithubActionsReporter) {
   const rootDir = await fromPath(rootPath);
@@ -120,6 +130,13 @@ async function bigHRX(
   const tooBig: string[] = [];
   for (const f of hrxFiles) {
     reporter.reportLintedFile();
+
+    // Skip XHR files annotated with :ignore-for: or :todo: `lint-hrx`
+    const linterAnnotation = (await (await fromPath(f)).options()).getMode(
+      'lint-hrx'
+    );
+    if (linterAnnotation !== undefined) continue;
+
     const lines = await fileLinesCount(f);
     if (lines > LINE_THRESHOLD) tooBig.push(f);
   }

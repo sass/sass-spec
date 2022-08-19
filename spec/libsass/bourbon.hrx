@@ -1,3 +1,13 @@
+<===> options.yml
+
+:todo:
+# This file starts failing when split, sass compiler seems to struggle when
+# `input.scss` is a real file with `@import "a/b/c"` and `a/b` is actually an
+# HRX file containing `c` in its root.
+- lint-hrx
+
+<===>
+================================================================================
 <===> input.scss
 @import "lib/_bourbon.scss";
 
@@ -1623,7 +1633,7 @@ $placeholders: '-webkit-input-placeholder',
 //************************************************************************//
 @function transition-property-names($props, $vendor: false) {
 	$new-props: ();
-	
+
 	@each $prop in $props {
 		$new-props: append($new-props, transition-property-name($prop, $vendor), comma);
 	}
