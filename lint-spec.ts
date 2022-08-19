@@ -1,88 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import {Writable} from 'stream';
 import yargs from 'yargs/yargs';
 
 import {fromPath, SpecDirectory} from './lib-js/spec-directory';
 import VirtualDirectory from './lib-js/spec-directory/virtual-directory';
-
-const args = yargs(process.argv.slice(2)).boolean('fix');
-
-const argv = args.parseSync();
-
-class Reporter {
-  private output: Writable;
-  private errors = 0;
-  private lintedFiles = 0;
-  private githubActionsAnnotations: string[] = [];
-  readonly fix: boolean;
-  private fixableErrorCount = 0;
-
-  constructor(output: Writable, fix = false) {
-    this.output = output;
-    this.fix = fix;
-  }
-
-  reportLintedFile() {
-    this.lintedFiles++;
-  }
-
-  reportError(message: string, path: string, fixable = false): void {
-    this.errors++;
-    if (fixable) this.fixableErrorCount++;
-    this.output.write(`${path}: ${message}\n`);
-    this.githubActionsAnnotations.push(
-      `::error file=${escapeProperty(path)},line=1::${escapeData(message)}`
-    );
-  }
-
-  writeSummary(): void {
-    if (
-      process.env.GITHUB_ACTIONS &&
-      this.githubActionsAnnotations.length > 0
-    ) {
-      this.output.write(`${this.githubActionsAnnotations.join('\n')}\n`);
-    }
-
-    this.output.write('\n');
-    this.output.write(
-      `Found ${this.errors} error${
-        this.errors === 1 ? '' : 's'
-      } while linting ${this.lintedFiles} file${
-        this.lintedFiles === 1 ? '' : 's'
-      }.`
-    );
-    if (this.fixableErrorCount > 0 && !this.fix) {
-      this.output.write(
-        ` ${this.fixableErrorCount} of them can be fixed automatically by passing the "--fix" flag.`
-      );
-    }
-    this.output.write('\n');
-  }
-
-  exitCode(): number {
-    return this.errors > 0 ? 1 : 0;
-  }
-}
-
-function escapeData(s: string): string {
-  return s.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
-}
-
-function escapeProperty(s: string): string {
-  return s
-    .replace(/%/g, '%25')
-    .replace(/\r/g, '%0D')
-    .replace(/\n/g, '%0A')
-    .replace(/:/g, '%3A')
-    .replace(/,/g, '%2C');
-}
+import {GithubActionsReporter} from './lib-js/reporter';
 
 async function lintAllTests() {
   try {
     const rootPath = path.resolve(process.cwd(), 'spec');
     const rootDir = await fromPath(rootPath);
-    const reporter = new Reporter(process.stdout, argv.fix ?? false);
+    const reporter = new GithubActionsReporter(
+      process.stdout,
+      argv.fix ?? false
+    );
 
     await lintDirectory(rootDir, reporter, true);
 
@@ -96,7 +27,7 @@ async function lintAllTests() {
 
 async function lintDirectory(
   directory: SpecDirectory,
-  reporter: Reporter,
+  reporter: GithubActionsReporter,
   canBeHrxRoot = false
 ) {
   if (directory instanceof VirtualDirectory && canBeHrxRoot) {
@@ -151,7 +82,7 @@ async function lintDirectory(
 async function lintNestedTestDirectories(
   directory: SpecDirectory,
   basePath: string,
-  reporter: Reporter
+  reporter: GithubActionsReporter
 ) {
   for (const subdir of await directory.subdirs()) {
     if (subdir.isTestDir()) {
@@ -183,4 +114,6 @@ function getRelativePath(filepath: string): string {
   return path.relative(process.cwd(), filepath);
 }
 
+const args = yargs(process.argv.slice(2)).boolean('fix');
+const argv = args.parseSync();
 lintAllTests();
