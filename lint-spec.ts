@@ -1,21 +1,21 @@
+import fileLinesCount from 'file-lines-count';
 import fs from 'fs';
-import path from 'path';
+import p from 'path';
 import yargs from 'yargs/yargs';
 
+import {LintReporter} from './lib-js/reporter';
 import {fromPath, SpecDirectory} from './lib-js/spec-directory';
+import RealDirectory from './lib-js/spec-directory/real-directory';
 import VirtualDirectory from './lib-js/spec-directory/virtual-directory';
-import {GithubActionsReporter} from './lib-js/reporter';
 
-async function lintAllTests() {
+async function lintAllTests(fix: boolean) {
   try {
-    const rootPath = path.resolve(process.cwd(), 'spec');
+    const rootPath = p.resolve(process.cwd(), 'spec');
     const rootDir = await fromPath(rootPath);
-    const reporter = new GithubActionsReporter(
-      process.stdout,
-      argv.fix ?? false
-    );
+    const reporter = new LintReporter(process.stdout, rootPath);
 
-    await lintDirectory(rootDir, reporter, true);
+    await lintDirectory(rootDir, reporter, {canBeHrxRoot: true, fix});
+    await lintHrxSize(rootPath, reporter, {fix});
 
     reporter.writeSummary();
     process.exitCode = reporter.exitCode();
@@ -27,8 +27,8 @@ async function lintAllTests() {
 
 async function lintDirectory(
   directory: SpecDirectory,
-  reporter: GithubActionsReporter,
-  canBeHrxRoot = false
+  reporter: LintReporter,
+  {canBeHrxRoot = false, fix = false}
 ) {
   if (directory instanceof VirtualDirectory && canBeHrxRoot) {
     const hrxPath = directory.basePath + '.hrx';
@@ -38,7 +38,7 @@ async function lintDirectory(
     const expectedSource = await directory.asArchive();
 
     if (actualSource !== expectedSource) {
-      if (reporter.fix) {
+      if (fix) {
         await fs.promises.writeFile(hrxPath, expectedSource, {
           encoding: 'utf-8',
         });
@@ -53,7 +53,7 @@ async function lintDirectory(
   }
 
   if (directory.isTestDir()) {
-    reporter.reportLintedFile();
+    reporter.reportLintedFile(directory.path);
     if (directory.hasFile('input.sass') && directory.hasFile('input.scss')) {
       reporter.reportError(
         `The test directory "${getRelativePath(
@@ -70,11 +70,10 @@ async function lintDirectory(
     );
   } else {
     for (const subdir of await directory.subdirs()) {
-      await lintDirectory(
-        subdir,
-        reporter,
-        !(directory instanceof VirtualDirectory)
-      );
+      await lintDirectory(subdir, reporter, {
+        canBeHrxRoot: !(directory instanceof VirtualDirectory),
+        fix,
+      });
     }
   }
 }
@@ -82,7 +81,7 @@ async function lintDirectory(
 async function lintNestedTestDirectories(
   directory: SpecDirectory,
   basePath: string,
-  reporter: GithubActionsReporter
+  reporter: LintReporter
 ) {
   for (const subdir of await directory.subdirs()) {
     if (subdir.isTestDir()) {
@@ -104,16 +103,154 @@ function getReportedInputLocation(directory: SpecDirectory): string {
   }
 
   if (directory.hasFile('input.sass')) {
-    return getRelativePath(path.resolve(directory.path, 'input.sass'));
+    return getRelativePath(p.resolve(directory.path, 'input.sass'));
   }
 
-  return getRelativePath(path.resolve(directory.path, 'input.scss'));
+  return getRelativePath(p.resolve(directory.path, 'input.scss'));
 }
 
 function getRelativePath(filepath: string): string {
-  return path.relative(process.cwd(), filepath);
+  return p.relative(process.cwd(), filepath);
+}
+
+/** The number of lines allowed in HRX files. */
+const LINE_THRESHOLD = 500;
+
+/**
+ * Verifies all HRX files in the {@link rootPath} directory are under the
+ * {@link LINE_THRESHOLD}.
+ *
+ * HRX files are unwrapped and transformed into real files when
+ * {@link reporter.fix} is true.
+ *
+ * Skips HRX files if they include a top-level `options.yml` file annotated with
+ * `:todo:` or `:ignore-for:` containing `lint-hrx`. For example:
+ *
+ * ```hrx
+ * <===> options.yml
+ * # Ignored because <SOME REASON>
+ * :todo:
+ * - lint-hrx
+ * ```
+ */
+async function lintHrxSize(
+  rootPath: string,
+  reporter: LintReporter,
+  {fix = false}
+) {
+  const rootDir = await fromPath(rootPath);
+  const tooBig = await bigHrxInTree(rootDir, reporter);
+
+  // No Errors.
+  if (tooBig.length === 0) return;
+
+  if (!fix) {
+    const tooBigRelative = tooBig.map(getRelativePath);
+    for (const f of tooBigRelative) {
+      reporter.reportError(`HRX file exceeds ${LINE_THRESHOLD} lines`, f, true);
+    }
+  } else {
+    for (const archivePath of tooBig) {
+      await hrxToRealFiles(archivePath);
+      // Fixes files recursively.
+      await lintHrxSize(archivePath, reporter, {fix});
+    }
+  }
+}
+
+/**
+ * Transforms one level of a given HRX file into real files.
+ *
+ * Given:
+ * ```
+ * root
+ * |- foo.hrx        (real)
+ *    |- file1       (virtual)
+ *    |- file2       (virtual)
+ *    |- dir1        (virtual)
+ *    |  |- file2    (virtual)
+ *    |  |- dir2     (virtual)
+ *    |     |- dir3  (virtual)
+ *    |- dir4        (virtual)
+ * ```
+ *
+ * Deletes `foo.hrx` and generates:
+ * ```
+ * root
+ * |- foo            (real)
+ *    |- file1       (real)
+ *    |- file2       (real)
+ *    |- dir1.hrx    (real)
+ *    |  |- file2    (virtual)
+ *    |  |- dir2     (virtual)
+ *    |     |- dir3  (virtual)
+ *    |- dir4.hrx    (real)
+ * ```
+ *
+ */
+async function hrxToRealFiles(archivePath: string) {
+  const virtualDir = (await fromPath(archivePath)) as VirtualDirectory;
+  fs.mkdirSync(virtualDir.path, {recursive: true});
+
+  for (const f of await virtualDir.listFiles()) {
+    const contents = await virtualDir.readFile(f);
+    fs.writeFileSync(p.join(virtualDir.path, f), contents);
+  }
+  for (const d of await virtualDir.subdirs()) {
+    const subArchivePath = `${d.path}.hrx`;
+    fs.writeFileSync(subArchivePath, await d.asArchive());
+  }
+  fs.unlinkSync(archivePath);
+}
+
+/**
+ * Navigates a directory tree to verify all HRX files follow the style guide,
+ * such as number of lines in an HRX file.
+ */
+async function bigHrxInTree(
+  dir: SpecDirectory,
+  reporter: LintReporter
+): Promise<string[]> {
+  if (!(dir instanceof RealDirectory)) return [];
+
+  return [
+    ...(await bigHrx(dir, reporter)),
+    ...(
+      await Promise.all(
+        (await dir.subdirs()).map(d => bigHrxInTree(d, reporter))
+      )
+    ).flat(),
+  ];
+}
+
+/**
+ * Returns the absolute paths of all HRX files in {@link dir} that exceed the
+ * {@link LINE_THRESHOLD}.
+ */
+async function bigHrx(
+  dir: RealDirectory,
+  reporter: LintReporter
+): Promise<string[]> {
+  const hrxFiles = (await dir.listFiles())
+    .filter(f => p.extname(f) === '.hrx')
+    .map(f => p.join(dir.path, f));
+
+  const tooBig: string[] = [];
+  for (const f of hrxFiles) {
+    reporter.reportLintedFile(f);
+
+    // Skip XHR files annotated with :ignore-for: or :todo: `lint-hrx`
+    const linterAnnotation = (await (await fromPath(f)).options()).getMode(
+      'lint-hrx'
+    );
+    if (linterAnnotation !== undefined) continue;
+
+    const lines = await fileLinesCount(f);
+    if (lines > LINE_THRESHOLD) tooBig.push(f);
+  }
+  return tooBig;
 }
 
 const args = yargs(process.argv.slice(2)).boolean('fix');
 const argv = args.parseSync();
-lintAllTests();
+lintAllTests(argv.fix ?? false);

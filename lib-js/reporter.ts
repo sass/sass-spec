@@ -1,32 +1,36 @@
 import {Writable} from 'stream';
+import p from 'path';
 
 /**
- * This reporter is used by linters to report findings and add annotations used
- * by GitHub actions to display enhance the output, for example making paths to
- * the problematic files link to the file in a GitHub repo.
+ * This reporter is used by linters to report findings it can also be used by
+ * GitHub actions to display enhance the output, for example making paths to the
+ * problematic files link to the file in a GitHub repo.
  *
  * This reporter will print out a notice suggesting users to add the flag
  * `--fix` on their linter to automatically fix the linter findings reported
  * as being fixable.
  */
-export class GithubActionsReporter {
-  private output: Writable;
+export class LintReporter {
   private errors = 0;
-  private lintedFiles = 0;
-  private githubActionsAnnotations: string[] = [];
-  readonly fix: boolean;
+  private readonly lintedFiles = new Set();
+  private readonly githubActionsAnnotations: string[] = [];
   private fixableErrorCount = 0;
 
-  constructor(output: Writable, fix = false) {
-    this.output = output;
-    this.fix = fix;
+  constructor(
+    private readonly output: Writable,
+    private readonly rootPath: string
+  ) {}
+
+  /** Reports that the linter checked {@link path}. */
+  reportLintedFile(path: string) {
+    if (p.isAbsolute(path)) path = p.relative(this.rootPath, path);
+    this.lintedFiles.add(path);
   }
 
-  reportLintedFile() {
-    this.lintedFiles++;
-  }
-
-  /** Reports an error and whether it's fixable passing the `--fix` flag. */
+  /**
+   * Reports an error in {@link relativePath} and whether it's fixable passing
+   * the `--fix` flag.
+   */
   reportError(message: string, relativePath: string, fixable = false): void {
     this.errors++;
     if (fixable) this.fixableErrorCount++;
@@ -51,10 +55,10 @@ export class GithubActionsReporter {
       `Found ${this.errors} error${
         this.errors === 1 ? '' : 's'
       } while linting ${this.lintedFiles} file${
-        this.lintedFiles === 1 ? '' : 's'
+        this.lintedFiles.size === 1 ? '' : 's'
       }.`
     );
-    if (this.fixableErrorCount > 0 && !this.fix) {
+    if (this.fixableErrorCount > 0) {
       this.output.write(
         ` ${this.fixableErrorCount} of them can be fixed automatically by passing the "--fix" flag.`
       );
