@@ -54,7 +54,7 @@ export class LintReporter {
     this.output.write(
       `Found ${this.errors} error${
         this.errors === 1 ? '' : 's'
-      } while linting ${this.lintedFiles} file${
+      } while linting ${this.lintedFiles.size} file${
         this.lintedFiles.size === 1 ? '' : 's'
       }.`
     );
