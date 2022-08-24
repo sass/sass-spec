@@ -120,18 +120,8 @@ const LINE_THRESHOLD = 500;
  * Verifies all HRX files in the {@link rootPath} directory are under the
  * {@link LINE_THRESHOLD}.
  *
- * HRX files are unwrapped and transformed into real files when
- * {@link reporter.fix} is true.
- *
- * Skips HRX files if they include a top-level `options.yml` file annotated with
- * `:todo:` or `:ignore-for:` containing `lint-hrx`. For example:
- *
- * ```hrx
- * <===> options.yml
- * # Ignored because <SOME REASON>
- * :todo:
- * - lint-hrx
- * ```
+ * HRX files are unwrapped and transformed into real files when {@link fix} is
+ * `true`.
  */
 async function lintHrxSize(
   rootPath: string,
@@ -226,6 +216,24 @@ async function bigHrxInTree(
 /**
  * Returns the absolute paths of all HRX files in {@link dir} that exceed the
  * {@link LINE_THRESHOLD}.
+ *
+ * Skips HRX files that include a top-level `options.yml` file annotated with
+ * `:todo:` or `:ignore-for:` containing `lint-hrx` or `sass/sass-spec#ISSUE`.
+ * For example:
+ *
+ * ```hrx
+ * <===> options.yml
+ * # Ignored because <SOME REASON>
+ * :todo:
+ * - sass/sass-spec#1817
+ * ```
+ * or
+ * ```hrx
+ * <===> options.yml
+ * # Ignored because <SOME REASON>
+ * :ignore_for:
+ * - lint-hrx
+ * ```
  */
 async function bigHrx(
   dir: RealDirectory,
@@ -239,10 +247,11 @@ async function bigHrx(
   for (const f of hrxFiles) {
     reporter.reportLintedFile(f);
 
-    // Skip XHR files annotated with :ignore-for: or :todo: `lint-hrx`
-    const linterAnnotation = (await (await fromPath(f)).options()).getMode(
-      'lint-hrx'
-    );
+    const options = await (await fromPath(f)).options();
+    const linterAnnotation =
+      options.getMode('lint-hrx') ?? options.getMode('sass/sass-spec#');
+    // Skip XHR files annotated with :ignore-for: or :todo: containing
+    // `lint-hrx` or `sass/sass-spec#...`
     if (linterAnnotation !== undefined) continue;
 
     const lines = await fileLinesCount(f);
