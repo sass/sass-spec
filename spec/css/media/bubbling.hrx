@@ -1,0 +1,25 @@
+<===> unmergeable_and_merged/options.yml
+:ignore_for:
+  - libsass
+
+<===> unmergeable_and_merged/input.scss
+// Regression test for sass/sass#3384. In Dart Sass, this caused a bug because
+// we were asking "has this media query been merged?" to determine whether to
+// bubble it up through parent queries, disregarding whether it had been merged
+// with *that particular query*.
+@media not a {
+  @media (b) {
+    @media (c) {
+      d {e: f}
+    }
+  }
+}
+
+<===> unmergeable_and_merged/output.css
+@media not a {
+  @media (b) and (c) {
+    d {
+      e: f;
+    }
+  }
+}
