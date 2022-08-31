@@ -2,7 +2,7 @@ import {Writable} from 'stream';
 import p from 'path';
 
 /**
- * This reporter is used by linters to report findings it can also be used by
+ * This reporter is used by linters to report findings. It can also be used by
  * GitHub actions to display enhance the output, for example making paths to the
  * problematic files link to the file in a GitHub repo.
  *

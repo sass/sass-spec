@@ -3,7 +3,7 @@ import fs from 'fs';
 import p from 'path';
 import yargs from 'yargs/yargs';
 
-import {LintReporter} from './lib-js/reporter';
+import {LintReporter} from './lib-js/lint-reporter';
 import {fromPath, SpecDirectory} from './lib-js/spec-directory';
 import RealDirectory from './lib-js/spec-directory/real-directory';
 import VirtualDirectory from './lib-js/spec-directory/virtual-directory';
