@@ -1,0 +1,57 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2961
+
+<===>
+================================================================================
+<===> simple/input.scss
+a {b: selector-extend(":nth-last-child(2n + 1 of .c)", ".c", ".d")}
+
+<===> simple/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d);
+}
+
+<===>
+================================================================================
+<===> list/input.scss
+a {b: selector-extend(":nth-last-child(2n + 1 of .c)", ".c", ".d, .e")}
+
+<===> list/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> same_arg_in_extender/input.scss
+a {
+  b: selector-extend(
+      ":nth-last-child(2n + 1 of .c)",
+      ".c",
+      ":nth-last-child(2n + 1 of .d, .e)");
+}
+
+<===> same_arg_in_extender/output.css
+a {
+  b: :nth-last-child(2n+1 of .c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> different_arg_in_extender/input.scss
+// This should produce
+// `:nth-last-child(2n + 1 of .c, :nth-last-child(2n + 1 of .d, .e))`.
+// See sass/sass#2828.
+a {
+  b: selector-extend(
+      ":nth-last-child(2n + 1 of .c)",
+      ".c",
+      ":nth-last-child(2n + 2 of .d, .e)");
+}
+
+<===> different_arg_in_extender/output.css
+a {
+  b: :nth-last-child(2n+1 of .c);
+}

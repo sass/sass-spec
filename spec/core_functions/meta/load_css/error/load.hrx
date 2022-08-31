@@ -1,0 +1,36 @@
+<===> README.md
+This mixin should load modules in the same way as the `@use` rule. To avoid tons
+of duplicated tests, we just test a couple basic error cases.
+
+<===>
+================================================================================
+<===> missing/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> missing/error
+Error: Can't find stylesheet to import.
+  ,
+2 | @include meta.load-css("other");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> loop/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> loop/_other.scss
+@use "sass:meta";
+@include meta.load-css("input");
+
+<===> loop/error
+Error: Module loop: input.scss is already being loaded.
+  ,
+2 | @include meta.load-css("input");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  _other.scss 2:1  load-css()
+  input.scss 2:1   root stylesheet

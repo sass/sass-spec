@@ -1,0 +1,89 @@
+<===> plain/ident/input.scss
+@supports (a: b) {@c}
+
+<===> plain/ident/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> plain/quoted_rhs/input.scss
+@supports (a: "b") {@c}
+
+<===> plain/quoted_rhs/output.css
+@supports (a: "b") {
+  @c;
+}
+
+<===>
+================================================================================
+<===> dynamic/lhs/input.scss
+@supports (1 + 1: b) {@c}
+
+<===> dynamic/lhs/output.css
+@supports (2: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> dynamic/rhs/input.scss
+@supports (a: 1 + 1) {@c}
+
+<===> dynamic/rhs/output.css
+@supports (a: 2) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> nested/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> nested/input.scss
+@supports ((((a: b)))) {@c}
+
+<===> nested/output.css
+@supports (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> custom_prop/options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> custom_prop/value/input.scss
+@supports (--a: b) {@c}
+
+<===> custom_prop/value/output.css
+@supports (--a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> custom_prop/whitespace/input.scss
+@supports (--a: ) {@c}
+
+<===> custom_prop/whitespace/output.css
+@supports (--a: ) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> custom_prop/comma/input.scss
+@supports (--a: ,) {@c}
+
+<===> custom_prop/comma/output.css
+@supports (--a: ,) {
+  @c;
+}

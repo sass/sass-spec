@@ -1,0 +1,43 @@
+<===> options.yml
+:warning_todo:
+  - sass/libsass#2887
+
+<===> input.scss
+a {
+  b: inspect((1 / 1px / 1rad));
+}
+
+<===> output.css
+a {
+  b: 1(px*rad)^-1;
+}
+
+<===> output-libsass.css
+a {
+  b: 1/px*rad;
+}
+
+<===> warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1, 1px) or calc(1 / 1px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   b: inspect((1 / 1px / 1rad));
+  |               ^^^^^^^
+  '
+    input.scss 2:15  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(1, 1px), 1rad) or calc(1 / 1px / 1rad)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 |   b: inspect((1 / 1px / 1rad));
+  |               ^^^^^^^^^^^^^^
+  '
+    input.scss 2:15  root stylesheet

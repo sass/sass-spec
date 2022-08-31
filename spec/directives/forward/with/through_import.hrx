@@ -1,0 +1,40 @@
+<===> direct/input.scss
+@use "downstream";
+
+<===> direct/_downstream.scss
+@forward "midstream" with ($a: configured);
+
+<===> direct/_midstream.scss
+@import "upstream";
+
+<===> direct/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> direct/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> transitive/input.scss
+@use "used";
+
+<===> transitive/_used.scss
+@forward "forwarded" with ($a: configured);
+
+<===> transitive/_forwarded.scss
+@import "imported_downstream";
+
+<===> transitive/_imported_downstream.scss
+@import "imported_upstream";
+
+<===> transitive/_imported_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> transitive/output.css
+b {
+  c: configured;
+}

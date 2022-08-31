@@ -1,0 +1,68 @@
+<===> variable_use/input.scss
+$variable: other.$member;
+@use "other";
+
+<===> variable_use/other.scss
+$member: value;
+
+<===> variable_use/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: other.$member;
+  |            ^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> variable_declaration/input.scss
+other.$member: value;
+@use "other";
+
+<===> variable_declaration/other.scss
+$member: value;
+
+<===> variable_declaration/error
+Error: There is no module with the namespace "other".
+  ,
+1 | other.$member: value;
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> variable_declaration_without_namespace/input.scss
+$member: from input;
+
+@use "other" as *;
+
+a {b: $member}
+
+<===> variable_declaration_without_namespace/other.scss
+$member: from other;
+
+<===> variable_declaration_without_namespace/error
+Error: This module and the new module both define a variable named "$member".
+  ,
+3 | @use "other" as *;
+  | ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> function/input.scss
+$variable: other.member();
+@use "other";
+
+<===> function/other.scss
+@function member() {@return null}
+
+<===> function/error
+Error: There is no module with the namespace "other".
+  ,
+1 | $variable: other.member();
+  |            ^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet

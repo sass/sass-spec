@@ -1,0 +1,184 @@
+<===> type/string/input.scss
+a {b: str-slice(1, 2)}
+
+<===> type/string/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: str-slice(1, 2)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/string/error-libsass
+Error: argument `$string` of `str-slice($string, $start-at, $end-at:-1)` must be a string
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice(1, 2)}
+
+   ------^
+
+<===>
+================================================================================
+<===> type/start_at/input.scss
+a {b: str-slice("cde", "f")}
+
+<===> type/start_at/error
+Error: $start-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/start_at/error-libsass
+Error: argument `$start-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("cde", "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> type/end_at/input.scss
+a {b: str-slice("cde", 1, "f")}
+
+<===> type/end_at/error
+Error: $end-at: "f" is not a number.
+  ,
+1 | a {b: str-slice("cde", 1, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/end_at/error-libsass
+Error: argument `$end-at` of `str-slice($string, $start-at, $end-at:-1)` must be a number
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("cde", 1, "f")}
+
+   ------^
+
+<===>
+================================================================================
+<===> decimal/start/input.scss
+a {b: str-slice("", 0.5)}
+
+<===> decimal/start/error
+Error: 0.5 is not an int.
+  ,
+1 | a {b: str-slice("", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> decimal/start/error-libsass
+Error: $start-at: 0.500000 is not an int
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("", 0.5)}
+
+   ------^
+
+<===>
+================================================================================
+<===> decimal/end/input.scss
+a {b: str-slice("", 1, 1.5)}
+
+<===> decimal/end/error
+Error: 1.5 is not an int.
+  ,
+1 | a {b: str-slice("", 1, 1.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> decimal/end/error-libsass
+Error: $end-at: 1.500000 is not an int
+        on line 1:7 of input.scss, in function `str-slice`
+        from line 1:7 of input.scss
+>> a {b: str-slice("", 1, 1.5)}
+
+   ------^
+
+<===>
+================================================================================
+<===> unit/start/options.yml
+:todo:
+  - libsass
+
+<===> unit/start/input.scss
+a {b: str-slice("", 1px)}
+
+<===> unit/start/error
+Error: $start-at: Expected 1px to have no units.
+  ,
+1 | a {b: str-slice("", 1px)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/end/options.yml
+:todo:
+  - libsass
+
+<===> unit/end/input.scss
+a {b: str-slice("", 1, 2px)}
+
+<===> unit/end/error
+Error: $end-at: Expected 2px to have no units.
+  ,
+1 | a {b: str-slice("", 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: str-slice("cde")}
+
+<===> too_few_args/error
+Error: Missing argument $start-at.
+  ,--> input.scss
+1 | a {b: str-slice("cde")}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function slice($string, $start-at, $end-at: -1) {
+  |           ====================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_few_args/error-libsass
+Error: Function str-slice is missing argument $start-at.
+        on line 1 of input.scss
+>> a {b: str-slice("cde")}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: str-slice("cde", 1, 2, 3)}
+
+<===> too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: str-slice("cde", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function slice($string, $start-at, $end-at: -1) {
+  |           ====================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (4 for 3) for `str-slice'
+        on line 1:7 of input.scss
+>> a {b: str-slice("cde", 1, 2, 3)}
+
+   ------^

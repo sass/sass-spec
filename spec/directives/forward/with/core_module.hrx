@@ -1,0 +1,39 @@
+<===> indirect/use/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
+<===> indirect/use/_midstream.scss
+// Regression test for sass/dart-sass#838.
+@forward "upstream" with ($c: e);
+
+<===> indirect/use/_upstream.scss
+@use "sass:color";
+
+$c: d !default;
+
+<===> indirect/use/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> indirect/forward/input.scss
+@use "midstream";
+
+a {b: midstream.$c}
+
+<===> indirect/forward/_midstream.scss
+// Regression test for sass/dart-sass#838.
+@forward "upstream" with ($c: e);
+
+<===> indirect/forward/_upstream.scss
+@forward "sass:color";
+
+$c: d !default;
+
+<===> indirect/forward/output.css
+a {
+  b: e;
+}

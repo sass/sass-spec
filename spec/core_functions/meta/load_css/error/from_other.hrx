@@ -1,0 +1,52 @@
+<===> syntax/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> syntax/_other.scss
+a {b: }
+
+<===> syntax/error
+Error: Expected expression.
+  ,
+1 | a {b: }
+  |       ^
+  '
+  _other.scss 1:7  load-css()
+  input.scss 2:1   root stylesheet
+
+<===>
+================================================================================
+<===> runtime/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> runtime/_other.scss
+a {b: 1px + 1em}
+
+<===> runtime/error
+Error: 1px and 1em have incompatible units.
+  ,
+1 | a {b: 1px + 1em}
+  |       ^^^^^^^^^
+  '
+  _other.scss 1:7  load-css()
+  input.scss 2:1   root stylesheet
+
+<===>
+================================================================================
+<===> extend/input.scss
+@use "sass:meta";
+@include meta.load-css("other");
+
+<===> extend/_other.scss
+a {@extend missing}
+
+<===> extend/error
+Error: The target selector was not found.
+Use "@extend missing !optional" to avoid this error.
+  ,
+1 | a {@extend missing}
+  |    ^^^^^^^^^^^^^^^
+  '
+  _other.scss 1:4  load-css()
+  input.scss 2:1   root stylesheet

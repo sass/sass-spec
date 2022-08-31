@@ -1,0 +1,52 @@
+<===> options.yml
+:warning_todo:
+  - sass/libsass#2887
+
+<===> input.scss
+// Units cancel even if they're totally unknown to Sass.
+$number: 1foo * 1bar / 1baz / 1qux;
+a {
+  b: inspect($number / 1foo);
+}
+
+<===> output.css
+a {
+  b: 1bar/baz*qux;
+}
+
+<===> warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(1foo * 1bar, 1baz) or calc(1foo * 1bar / 1baz)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | $number: 1foo * 1bar / 1baz / 1qux;
+  |          ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(math.div(1foo * 1bar, 1baz), 1qux) or calc(1foo * 1bar / 1baz / 1qux)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | $number: 1foo * 1bar / 1baz / 1qux;
+  |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:10  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($number, 1foo) or calc($number / 1foo)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+4 |   b: inspect($number / 1foo);
+  |              ^^^^^^^^^^^^^^
+  '
+    input.scss 4:14  root stylesheet

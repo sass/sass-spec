@@ -1,0 +1,147 @@
+<===> ident_only/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> ident_only/input.scss
+@supports (a) {@b}
+
+<===> ident_only/output.css
+@supports (a) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> idents/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> idents/input.scss
+@supports (a b) {@c}
+
+<===> idents/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> symbols/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> symbols/input.scss
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {@b}
+
+<===> symbols/output.css
+@supports (a !&$ZH()&;*{&A}_=-+#/><) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> no_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> no_space/input.scss
+@supports (a!) {@b}
+
+<===> no_space/output.css
+@supports (a!) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> only_space/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> only_space/input.scss
+@supports (a ) {@b}
+
+<===> only_space/output.css
+@supports (a ) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> interpolated_ident/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> interpolated_ident/full/input.scss
+@supports (#{"a"} b) {@c}
+
+<===> interpolated_ident/full/output.css
+@supports (a b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> interpolated_ident/full_before_andlike/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> interpolated_ident/full_before_andlike/input.scss
+@supports (#{"a"} andb) {@c}
+
+<===> interpolated_ident/full_before_andlike/output.css
+@supports (a andb) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> interpolated_ident/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> interpolated_ident/partial/input.scss
+@supports (a#{"b"}c d) {@e}
+
+<===> interpolated_ident/partial/output.css
+@supports (abc d) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> interpolated_any_value/full/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> interpolated_any_value/full/input.scss
+@supports (a #{1 + 1}) {@b}
+
+<===> interpolated_any_value/full/output.css
+@supports (a 2) {
+  @b;
+}
+
+<===>
+================================================================================
+<===> interpolated_any_value/partial/options.yml
+---
+:ignore_for:
+- libsass
+
+<===> interpolated_any_value/partial/input.scss
+@supports (a <#{1 + 1}>) {@b}
+
+<===> interpolated_any_value/partial/output.css
+@supports (a <2>) {
+  @b;
+}

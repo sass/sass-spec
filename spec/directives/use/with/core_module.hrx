@@ -1,0 +1,33 @@
+<===> indirect/use/input.scss
+// Regression test for sass/dart-sass#838.
+@use "other" with ($c: e);
+
+a {b: other.$c}
+
+<===> indirect/use/_other.scss
+@use "sass:color";
+
+$c: d !default;
+
+<===> indirect/use/output.css
+a {
+  b: e;
+}
+
+<===>
+================================================================================
+<===> indirect/forward/input.scss
+// Regression test for sass/dart-sass#838.
+@use "other" with ($c: e);
+
+a {b: other.$c}
+
+<===> indirect/forward/_other.scss
+@forward "sass:color";
+
+$c: d !default;
+
+<===> indirect/forward/output.css
+a {
+  b: e;
+}

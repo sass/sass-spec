@@ -1,0 +1,83 @@
+<===> number/input.scss
+$result: inspect((1: 2, 3: 4));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> number/output.css
+a {
+  value: (1: 2, 3: 4);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/key/space/input.scss
+$result: inspect((1 2: 3, 4 5: 6));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/key/space/output.css
+a {
+  value: (1 2: 3, 4 5: 6);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/key/comma/options.yml
+---
+:todo:
+- sass/libsass#2932
+
+<===> list/key/comma/input.scss
+$result: inspect(((1, 2): 3, (4, 5): 6));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/key/comma/output.css
+a {
+  value: ((1, 2): 3, (4, 5): 6);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/value/space/input.scss
+$result: inspect((1: 2 3, 4: 5 6));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/value/space/output.css
+a {
+  value: (1: 2 3, 4: 5 6);
+  type: string;
+}
+
+<===> list/value/space/output-libsass.css
+a {
+  value: (1: (2 3), 4: (5 6));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> list/value/comma/input.scss
+$result: inspect((1: (2, 3), 4: (5, 6)));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> list/value/comma/output.css
+a {
+  value: (1: (2, 3), 4: (5, 6));
+  type: string;
+}

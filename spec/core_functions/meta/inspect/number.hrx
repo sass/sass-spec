@@ -1,0 +1,29 @@
+<===> unitless/input.scss
+$result: inspect(123.456);
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> unitless/output.css
+a {
+  value: 123.456;
+  type: string;
+}
+
+<===>
+================================================================================
+<===> unit/input.scss
+// We explicitly don't test the inspect format for complex units. Their format
+// isn't guaranteed by the spec, since they can't be written literally in Sass.
+$result: inspect(50px);
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> unit/output.css
+a {
+  value: 50px;
+  type: string;
+}

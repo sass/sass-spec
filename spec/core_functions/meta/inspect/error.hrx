@@ -1,0 +1,45 @@
+<===> too_few_args/input.scss
+a {a: inspect()}
+
+<===> too_few_args/error
+Error: Missing argument $value.
+  ,--> input.scss
+1 | a {a: inspect()}
+  |       ^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function inspect($value) {
+  |           =============== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_few_args/error-libsass
+Error: Function inspect is missing argument $value.
+        on line 1 of input.scss
+>> a {a: inspect()}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {a: inspect(1, 2)}
+
+<===> too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+1 | a {a: inspect(1, 2)}
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function inspect($value) {
+  |           =============== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (2 for 1) for `inspect'
+        on line 1:7 of input.scss
+>> a {a: inspect(1, 2)}
+
+   ------^

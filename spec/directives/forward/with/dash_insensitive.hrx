@@ -1,0 +1,14 @@
+<===> input.scss
+@use "midstream";
+
+<===> _midstream.scss
+@forward "upstream" with ($a_b: configured);
+
+<===> _upstream.scss
+$a-b: original !default;
+b {c: $a-b}
+
+<===> output.css
+b {
+  c: configured;
+}

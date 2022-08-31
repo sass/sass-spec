@@ -1,0 +1,57 @@
+<===> not/input.scss
+@supports not (a: b) {@c}
+
+<===> not/output.css
+@supports not (a: b) {
+  @c;
+}
+
+<===>
+================================================================================
+<===> and/input.scss
+@supports (a: b) and (c: d) and (e: f) {@g}
+
+<===> and/output.css
+@supports (a: b) and (c: d) and (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> or/input.scss
+@supports (a: b) or (c: d) or (e: f) {@g}
+
+<===> or/output.css
+@supports (a: b) or (c: d) or (e: f) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> mixed/and_in_not/input.scss
+@supports not ((a: b) and (c: d)) {@e}
+
+<===> mixed/and_in_not/output.css
+@supports not ((a: b) and (c: d)) {
+  @e;
+}
+
+<===>
+================================================================================
+<===> mixed/or_in_and/input.scss
+@supports (a: b) and ((c: d) or (e: f)) {@g}
+
+<===> mixed/or_in_and/output.css
+@supports (a: b) and ((c: d) or (e: f)) {
+  @g;
+}
+
+<===>
+================================================================================
+<===> mixed/and_in_or/input.scss
+@supports ((a: b) and (c: d)) or (e: f) {@g}
+
+<===> mixed/and_in_or/output.css
+@supports ((a: b) and (c: d)) or (e: f) {
+  @g;
+}

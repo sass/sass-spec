@@ -1,0 +1,27 @@
+<===> simple/input.scss
+a {b: selector-extend(":current(.c)", ".c", ".d")}
+
+<===> simple/output.css
+a {
+  b: :current(.c, .d);
+}
+
+<===>
+================================================================================
+<===> list/input.scss
+a {b: selector-extend(":current(.c)", ".c", ".d, .e")}
+
+<===> list/output.css
+a {
+  b: :current(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> current_in_extender/input.scss
+a {b: selector-extend(":current(.c)", ".c", ":current(.d, .e)")}
+
+<===> current_in_extender/output.css
+a {
+  b: :current(.c, .d, .e);
+}

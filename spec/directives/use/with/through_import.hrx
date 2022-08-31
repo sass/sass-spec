@@ -1,0 +1,34 @@
+<===> direct/input.scss
+@use "used" with ($a: configured);
+
+<===> direct/_used.scss
+@import "imported";
+
+<===> direct/_imported.scss
+$a: original !default;
+b {c: $a}
+
+<===> direct/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> transitive/input.scss
+@use "used" with ($a: configured);
+
+<===> transitive/_used.scss
+@import "midstream";
+
+<===> transitive/_midstream.scss
+@import "upstream";
+
+<===> transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> transitive/output.css
+b {
+  c: configured;
+}

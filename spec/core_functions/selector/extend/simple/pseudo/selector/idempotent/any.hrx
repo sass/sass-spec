@@ -1,0 +1,27 @@
+<===> simple/input.scss
+a {b: selector-extend(":any(.c)", ".c", ".d")}
+
+<===> simple/output.css
+a {
+  b: :any(.c, .d);
+}
+
+<===>
+================================================================================
+<===> list/input.scss
+a {b: selector-extend(":any(.c)", ".c", ".d, .e")}
+
+<===> list/output.css
+a {
+  b: :any(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> any_in_extender/input.scss
+a {b: selector-extend(":any(.c)", ".c", ":any(.d, .e)")}
+
+<===> any_in_extender/output.css
+a {
+  b: :any(.c, .d, .e);
+}

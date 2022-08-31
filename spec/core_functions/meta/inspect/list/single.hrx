@@ -1,0 +1,82 @@
+<===> space/options.yml
+---
+:todo:
+- sass/libsass#2926
+
+<===> space/input.scss
+$result: inspect(append((), 1, space));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> space/output.css
+a {
+  value: 1;
+  type: string;
+}
+
+<===>
+================================================================================
+<===> comma/input.scss
+$result: inspect((1,));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> comma/output.css
+a {
+  value: (1,);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> slash/options.yml
+---
+:todo:
+- sass/libsass#2887
+
+<===> slash/input.scss
+$result: inspect(append((), 1, slash));
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> slash/output.css
+a {
+  value: (1/);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> bracketed/undecided/input.scss
+$result: inspect([1]);
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> bracketed/undecided/output.css
+a {
+  value: [1];
+  type: string;
+}
+
+<===>
+================================================================================
+<===> bracketed/comma/input.scss
+$result: inspect([1,]);
+a {
+  value: $result;
+  type: type-of($result);
+}
+
+<===> bracketed/comma/output.css
+a {
+  value: [1,];
+  type: string;
+}

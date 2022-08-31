@@ -1,0 +1,34 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#3154
+
+<===>
+================================================================================
+<===> simple/input.scss
+a {b: selector-extend(":is(.c)", ".c", ".d")}
+
+<===> simple/output.css
+a {
+  b: :is(.c, .d);
+}
+
+<===>
+================================================================================
+<===> list/input.scss
+a {b: selector-extend(":is(.c)", ".c", ".d, .e")}
+
+<===> list/output.css
+a {
+  b: :is(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> is_in_extender/input.scss
+a {b: selector-extend(":is(.c)", ".c", ":is(.d, .e)")}
+
+<===> is_in_extender/output.css
+a {
+  b: :is(.c, .d, .e);
+}

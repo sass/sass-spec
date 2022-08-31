@@ -1,0 +1,40 @@
+<===> unquoted/input.scss
+@use foo;
+
+<===> unquoted/error
+Error: Expected string.
+  ,
+1 | @use foo;
+  |      ^
+  '
+  input.scss 1:6  root stylesheet
+
+<===>
+================================================================================
+<===> empty/input.scss
+@use "";
+
+<===> empty/error
+Error: The default namespace "" is not a valid Sass identifier.
+
+Recommendation: add an "as" clause to define an explicit namespace.
+  ,
+1 | @use "";
+  | ^^^^^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> non_identifier/input.scss
+@use "123";
+
+<===> non_identifier/error
+Error: The default namespace "123" is not a valid Sass identifier.
+
+Recommendation: add an "as" clause to define an explicit namespace.
+  ,
+1 | @use "123";
+  | ^^^^^^^^^^
+  '
+  input.scss 1:1  root stylesheet

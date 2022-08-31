@@ -1,0 +1,16 @@
+<===> input.scss
+@use "other" with ($a: configured);
+
+<===> _other.scss
+$before-declaration: variable-exists(a);
+$a: original !default;
+b {
+  before-declaration: $before-declaration;
+  after-declaration: variable-exists(a);
+}
+
+<===> output.css
+b {
+  before-declaration: false;
+  after-declaration: true;
+}

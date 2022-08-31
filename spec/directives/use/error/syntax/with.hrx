@@ -1,0 +1,115 @@
+<===> empty/input.scss
+@use "other" with ();
+
+<===> empty/error
+Error: expected "$".
+  ,
+1 | @use "other" with ();
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> missing_keyword/input.scss
+@use "other" with (a);
+
+<===> missing_keyword/error
+Error: expected "$".
+  ,
+1 | @use "other" with (a);
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> missing_value/input.scss
+@use "other" with ($a);
+
+<===> missing_value/error
+Error: expected ":".
+  ,
+1 | @use "other" with ($a);
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
+
+<===>
+================================================================================
+<===> space_after_dollar/input.scss
+@use "other" with ($ a: b);
+
+<===> space_after_dollar/error
+Error: Expected identifier.
+  ,
+1 | @use "other" with ($ a: b);
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> namespace_variable/input.scss
+@use "other" with (a.$b: c);
+
+<===> namespace_variable/error
+Error: expected "$".
+  ,
+1 | @use "other" with (a.$b: c);
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> extra_comma/input.scss
+@use "other" with ($a: b,,);
+
+<===> extra_comma/error
+Error: expected ")".
+  ,
+1 | @use "other" with ($a: b,,);
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> default/input.scss
+@use "other" with ($a: b !default);
+
+<===> default/error
+Error: expected ")".
+  ,
+1 | @use "other" with ($a: b !default);
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> no_arguments/input.scss
+@use "other" with;
+
+<===> no_arguments/error
+Error: expected "(".
+  ,
+1 | @use "other" with;
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> before_as/input.scss
+@use "other" with ($a: b) as c;
+
+
+<===> before_as/error
+Error: expected ";".
+  ,
+1 | @use "other" with ($a: b) as c;
+  |                           ^
+  '
+  input.scss 1:27  root stylesheet

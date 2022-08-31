@@ -1,0 +1,108 @@
+<===> README.md
+Regression tests for https://github.com/sass/sass/issues/3259.
+
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> calc/simple/input.scss
+@supports (a: calc(0)) {@d}
+
+<===> calc/simple/output.css
+@supports (a: calc(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/with_operation/input.scss
+@supports (a: calc(1 + 2)) {@d}
+
+<===> calc/with_operation/output.css
+@supports (a: calc(1 + 2)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/with_variable/input.scss
+$x: 2;
+@supports (a: calc(1 + $x)) {@d}
+
+<===> calc/with_variable/output.css
+@supports (a: calc(1 + 2)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/nested/input.scss
+@supports (a: calc(1 + calc(2 + 3))) {@d}
+
+<===> calc/nested/output.css
+@supports (a: calc(1 + calc(2 + 3))) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/interpolated/input.scss
+@supports (a: #{calc(1 + 2)}) {@d}
+
+<===> calc/interpolated/output.css
+@supports (a: 3) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/contains_interpolation/input.scss
+@supports (a: calc(#{1 + 2})) {@d}
+
+<===> calc/contains_interpolation/output.css
+@supports (a: calc(3)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> calc/in_property_name/input.scss
+@supports (calc(0): a) {@d}
+
+<===> calc/in_property_name/output.css
+@supports (calc(0): a) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> min/input.scss
+@supports (a: min(0)) {@d}
+
+<===> min/output.css
+@supports (a: min(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> max/input.scss
+@supports (a: max(0)) {@d}
+
+<===> max/output.css
+@supports (a: max(0)) {
+  @d;
+}
+
+<===>
+================================================================================
+<===> clamp/input.scss
+@supports (a: clamp(0, 1, 2)) {@d}
+
+<===> clamp/output.css
+@supports (a: clamp(0, 1, 2)) {
+  @d;
+}

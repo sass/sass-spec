@@ -1,0 +1,97 @@
+<===> positive/0/input.scss
+a {b: str-slice("cde", 0)}
+
+<===> positive/0/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> positive/1/input.scss
+a {b: str-slice("cde", 1)}
+
+<===> positive/1/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> positive/2/input.scss
+a {b: str-slice("cde", 2)}
+
+<===> positive/2/output.css
+a {
+  b: "de";
+}
+
+<===>
+================================================================================
+<===> positive/last/input.scss
+a {b: str-slice("cde", 4)}
+
+<===> positive/last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> positive/after_last/input.scss
+a {b: str-slice("cde", 100)}
+
+<===> positive/after_last/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> positive/after_end/input.scss
+a {b: str-slice("cdef", 3, 2)}
+
+<===> positive/after_end/output.css
+a {
+  b: "";
+}
+
+<===>
+================================================================================
+<===> negative/1/input.scss
+a {b: str-slice("cde", -1)}
+
+<===> negative/1/output.css
+a {
+  b: "e";
+}
+
+<===>
+================================================================================
+<===> negative/2/input.scss
+a {b: str-slice("cde", -2)}
+
+<===> negative/2/output.css
+a {
+  b: "de";
+}
+
+<===>
+================================================================================
+<===> negative/last/input.scss
+a {b: str-slice("cde", -3)}
+
+<===> negative/last/output.css
+a {
+  b: "cde";
+}
+
+<===>
+================================================================================
+<===> negative/after_last/input.scss
+a {b: str-slice("cde", -100)}
+
+<===> negative/after_last/output.css
+a {
+  b: "cde";
+}

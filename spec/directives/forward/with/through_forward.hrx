@@ -1,0 +1,196 @@
+<===> bare/input.scss
+@use "downstream";
+
+<===> bare/_downstream.scss
+@forward "midstream" with ($a: configured);
+
+<===> bare/_midstream.scss
+@forward "upstream";
+
+<===> bare/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> bare/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> with/default/input.scss
+@use "downstream";
+
+<===> with/default/_downstream.scss
+@forward "midstream" with ($a: from downstream);
+
+<===> with/default/_midstream.scss
+@forward "upstream" with ($a: from midstream !default);
+
+<===> with/default/_upstream.scss
+$a: from upstream !default;
+b {c: $a}
+
+<===> with/default/output.css
+b {
+  c: from downstream;
+}
+
+<===>
+================================================================================
+<===> with/null/input.scss
+@use "downstream";
+
+<===> with/null/_downstream.scss
+@forward "midstream" with ($a: null);
+
+<===> with/null/_midstream.scss
+@forward "upstream" with ($a: from midstream !default);
+
+<===> with/null/_upstream.scss
+$a: from upstream !default;
+b {c: $a}
+
+<===> with/null/output.css
+b {
+  c: from midstream;
+}
+
+<===>
+================================================================================
+<===> with/unconfigured/input.scss
+@use "downstream";
+
+<===> with/unconfigured/_downstream.scss
+@forward "midstream" with ($a: from downstream);
+
+<===> with/unconfigured/_midstream.scss
+@forward "upstream" with ($b: from midstream !default);
+
+<===> with/unconfigured/_upstream.scss
+$a: from upstream !default;
+$b: from upstream !default;
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> with/unconfigured/output.css
+c {
+  a: from downstream;
+  b: from midstream;
+}
+
+<===>
+================================================================================
+<===> show/input.scss
+@use "downstream";
+
+<===> show/_downstream.scss
+@forward "midstream" with ($a: configured);
+
+<===> show/_midstream.scss
+@forward "upstream" show $a;
+
+<===> show/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> show/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "downstream";
+
+<===> hide/_downstream.scss
+@forward "midstream" with ($a: configured);
+
+<===> hide/_midstream.scss
+@forward "upstream" hide $b;
+
+<===> hide/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> hide/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "downstream";
+
+<===> as/_downstream.scss
+@forward "midstream" with ($b-a: configured);
+
+<===> as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> as/_upstream.scss
+$a: original !default;
+c {d: $a}
+
+<===> as/output.css
+c {
+  d: configured;
+}
+
+<===>
+================================================================================
+<===> with_unrelated_config/input.scss
+@use "downstream";
+
+<===> with_unrelated_config/_downstream.scss
+@forward "midstream" with ($from-midstream: configured);
+
+<===> with_unrelated_config/_midstream.scss
+@forward "upstream";
+
+$from-midstream: original !default;
+
+a {from-midstream: $from-midstream}
+
+<===> with_unrelated_config/_upstream.scss
+$from-upstream: original !default;
+b {from-upstream: $from-upstream}
+
+<===> with_unrelated_config/output.css
+b {
+  from-upstream: original;
+}
+
+a {
+  from-midstream: configured;
+}
+
+<===>
+================================================================================
+<===> and_use/input.scss
+@use "downstream";
+
+<===> and_use/_downstream.scss
+// Regression test for sass/sass#2744.
+@use "midstream" with ($c: e);
+
+a {b: midstream.$c}
+
+<===> and_use/_midstream.scss
+@forward "definition";
+@forward "user";
+
+<===> and_use/_definition.scss
+$c: d !default;
+
+<===> and_use/_user.scss
+@use "definition";
+
+<===> and_use/output.css
+a {
+  b: e;
+}

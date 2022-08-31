@@ -1,0 +1,11 @@
+<===> input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units, so inserting a character
+// at index 2 shouldn't break this emoji in two.
+a {b: str-slice("c👭d", 2, 2)}
+
+<===> output.css
+@charset "UTF-8";
+a {
+  b: "👭";
+}

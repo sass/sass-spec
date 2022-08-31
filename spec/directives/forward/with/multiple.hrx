@@ -1,0 +1,57 @@
+<===> non_default/input.scss
+@use "midstream";
+
+<===> non_default/_midstream.scss
+@forward "upstream" with (
+  $a: configured a,
+  $b: configured b,
+  $c: configured c
+);
+
+<===> non_default/_upstream.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> non_default/output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}
+
+<===>
+================================================================================
+<===> default/input.scss
+@use "midstream";
+
+<===> default/_midstream.scss
+@forward "upstream" with (
+  $a: configured a !default,
+  $b: configured b !default,
+  $c: configured c !default
+);
+
+<===> default/_upstream.scss
+$a: original a !default;
+$b: original b !default;
+$c: original c !default;
+
+d {
+  a: $a;
+  b: $b;
+  c: $c;
+}
+
+<===> default/output.css
+d {
+  a: configured a;
+  b: configured b;
+  c: configured c;
+}

@@ -1,0 +1,101 @@
+<===> input.scss
+@mixin test-hues($name, $hues...) {
+  #{$name} {
+    @each $hue in $hues {
+      hue-#{$hue}: hsl($hue, 100%, 50%);
+    }
+  }
+}
+
+@include test-hues("red", 0, -360, 360, 6120);
+@include test-hues("yellow", 60, -300, 420, -9660);
+@include test-hues("green", 120, -240, 480, 99840);
+@include test-hues("cyan", 180, -180, 540, -900);
+@include test-hues("blue", 240, -120, 600, -104880);
+@include test-hues("purple", 300, -60, 660, 2820);
+
+<===> output.css
+red {
+  hue-0: hsl(0deg, 100%, 50%);
+  hue--360: hsl(0deg, 100%, 50%);
+  hue-360: hsl(0deg, 100%, 50%);
+  hue-6120: hsl(0deg, 100%, 50%);
+}
+
+yellow {
+  hue-60: hsl(60deg, 100%, 50%);
+  hue--300: hsl(60deg, 100%, 50%);
+  hue-420: hsl(60deg, 100%, 50%);
+  hue--9660: hsl(60deg, 100%, 50%);
+}
+
+green {
+  hue-120: hsl(120deg, 100%, 50%);
+  hue--240: hsl(120deg, 100%, 50%);
+  hue-480: hsl(120deg, 100%, 50%);
+  hue-99840: hsl(120deg, 100%, 50%);
+}
+
+cyan {
+  hue-180: hsl(180deg, 100%, 50%);
+  hue--180: hsl(180deg, 100%, 50%);
+  hue-540: hsl(180deg, 100%, 50%);
+  hue--900: hsl(180deg, 100%, 50%);
+}
+
+blue {
+  hue-240: hsl(240deg, 100%, 50%);
+  hue--120: hsl(240deg, 100%, 50%);
+  hue-600: hsl(240deg, 100%, 50%);
+  hue--104880: hsl(240deg, 100%, 50%);
+}
+
+purple {
+  hue-300: hsl(300deg, 100%, 50%);
+  hue--60: hsl(300deg, 100%, 50%);
+  hue-660: hsl(300deg, 100%, 50%);
+  hue-2820: hsl(300deg, 100%, 50%);
+}
+
+<===> output-libsass.css
+red {
+  hue-0: red;
+  hue--360: red;
+  hue-360: red;
+  hue-6120: red;
+}
+
+yellow {
+  hue-60: yellow;
+  hue--300: yellow;
+  hue-420: yellow;
+  hue--9660: yellow;
+}
+
+green {
+  hue-120: lime;
+  hue--240: lime;
+  hue-480: lime;
+  hue-99840: lime;
+}
+
+cyan {
+  hue-180: cyan;
+  hue--180: cyan;
+  hue-540: cyan;
+  hue--900: cyan;
+}
+
+blue {
+  hue-240: blue;
+  hue--120: blue;
+  hue-600: blue;
+  hue--104880: blue;
+}
+
+purple {
+  hue-300: magenta;
+  hue--60: magenta;
+  hue-660: magenta;
+  hue-2820: magenta;
+}
