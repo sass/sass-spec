@@ -1,0 +1,164 @@
+<===> syntax/whitespace/neither/input.scss
+a {b: (c)-(d)}
+
+<===> syntax/whitespace/neither/output.css
+a {
+  b: c-d;
+}
+
+<===>
+================================================================================
+<===> syntax/whitespace/both/input.scss
+a {b: c - d}
+
+<===> syntax/whitespace/both/output.css
+a {
+  b: c-d;
+}
+
+<===>
+================================================================================
+<===> syntax/whitespace/left/options.yml
+:ignore_for:
+  - libsass
+
+<===>
+================================================================================
+<===> syntax/whitespace/left/space/input.scss
+a {b: c -(d)}
+
+<===> syntax/whitespace/left/space/output.css
+a {
+  b: c-d;
+}
+
+<===> syntax/whitespace/left/space/warning
+DEPRECATION WARNING on line 1, column 7 of input.scss: 
+This operation is parsed as:
+
+    c - (d)
+
+but you may have intended it to mean:
+
+    c (-(d))
+
+Add a space after - to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 | a {b: c -(d)}
+  |       ^^^^^^
+  '
+
+<===>
+================================================================================
+<===> syntax/whitespace/left/tab/input.scss
+a {b: c	-(d)}
+
+<===> syntax/whitespace/left/tab/output.css
+a {
+  b: c-d;
+}
+
+<===> syntax/whitespace/left/tab/warning
+DEPRECATION WARNING on line 1, column 7 of input.scss: 
+This operation is parsed as:
+
+    c - (d)
+
+but you may have intended it to mean:
+
+    c (-(d))
+
+Add a space after - to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 | a {b: c    -(d)}
+  |       ^^^^^^^^^
+  '
+
+<===>
+================================================================================
+<===> syntax/whitespace/left/newline/input.scss
+a {b: c
+-(d)}
+
+<===> syntax/whitespace/left/newline/output.css
+a {
+  b: c-d;
+}
+
+<===> syntax/whitespace/left/newline/warning
+DEPRECATION WARNING on line 1, column 7 of input.scss: 
+This operation is parsed as:
+
+    c - (d)
+
+but you may have intended it to mean:
+
+    c (-(d))
+
+Add a space after - to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 |   a {b: c
+  | ,-------^
+2 | | -(d)}
+  | '----^
+  '
+
+<===>
+================================================================================
+<===> syntax/whitespace/right/input.scss
+a {b: (c)- d}
+
+<===> syntax/whitespace/right/output.css
+a {
+  b: c-d;
+}
+
+<===>
+================================================================================
+<===> syntax/comment/both/options.yml
+:ignore_for:
+  - libsass
+
+<===> syntax/comment/both/input.scss
+a {b: c/**/-/**/d}
+
+<===> syntax/comment/both/output.css
+a {
+  b: c-d;
+}
+
+<===>
+================================================================================
+<===> syntax/comment/left/options.yml
+:ignore_for:
+  - libsass
+
+<===> syntax/comment/left/input.scss
+a {b: c/**/-(d)}
+
+<===> syntax/comment/left/output.css
+a {
+  b: c-d;
+}
+
+<===>
+================================================================================
+<===> syntax/comment/right/input.scss
+a {b: (c)-/**/d}
+
+<===> syntax/comment/right/output.css
+a {
+  b: c-d;
+}
