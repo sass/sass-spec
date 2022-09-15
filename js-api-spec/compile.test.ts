@@ -299,6 +299,14 @@ describe('compileString', () => {
             compileString('@error "oh no"', {url})
           ).toThrowSassException({line: 0, url});
         }));
+
+      it('with multi-span errors', () =>
+        sandbox(dir => {
+          const url = dir.url('foo.scss');
+          expect(() =>
+            compileString('@use "sass:math"; @use "sass:math"', {url})
+          ).toThrowSassException({line: 0, url});
+        }));
     });
 
     it('throws an error for an unrecognized style', () => {
