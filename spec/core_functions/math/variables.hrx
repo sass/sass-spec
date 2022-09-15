@@ -7,22 +7,82 @@
 ================================================================================
 <===> e/input.scss
 @use "sass:math" as math;
-a {b: math.$e}
+// Multiplied by 1e15 so Sass's serialization doesn't remove the precision
+a {b: math.$e * 1e15}
 
 <===> e/output.css
 a {
-  b: 2.7182818285;
+  b: 2718281828459045;
 }
 
 <===>
 ================================================================================
 <===> pi/input.scss
 @use "sass:math" as math;
-a {b: math.$pi}
+// Multiplied by 1e15 so Sass's serialization doesn't remove the precision
+a {b: math.$pi * 1e15}
 
 <===> pi/output.css
 a {
-  b: 3.1415926536;
+  b: 3141592653589793;
+}
+
+<===>
+================================================================================
+<===> epsilon/input.scss
+@use "sass:math" as math;
+// Multiplied by 1e31 so Sass's serialization doesn't remove the precision
+a {b: math.$epsilon * 1e31}
+
+<===> epsilon/output.css
+a {
+  b: 2220446049250313;
+}
+
+<===>
+================================================================================
+<===> max_safe_integer/input.scss
+@use "sass:math" as math;
+a {b: math.$max-safe-integer}
+
+<===> max_safe_integer/output.css
+a {
+  b: 9007199254740991;
+}
+
+<===>
+================================================================================
+<===> min_safe_integer/input.scss
+@use "sass:math" as math;
+a {b: math.$min-safe-integer}
+
+<===> min_safe_integer/output.css
+a {
+  b: -9007199254740991;
+}
+
+<===>
+================================================================================
+<===> max_number/input.scss
+@use "sass:math" as math;
+a {b: math.$max-number}
+
+<===> max_number/output.css
+a {
+  b: 179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+}
+
+<===>
+================================================================================
+<===> min_number/input.scss
+@use "sass:math" as math;
+// Multiplied by 1e339 so Sass's serialization doesn't remove the precision.
+// But 1e339 is too big for a double, so we multiply it multiple times.
+a {b: math.$min-number * 1e300 * 1e39}
+
+<===> min_number/output.css
+a {
+  b: 4940656458412465;
 }
 
 <===>
@@ -50,5 +110,75 @@ Error: Cannot modify built-in variable.
   ,
 2 | math.$pi: 0;
   | ^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/epsilon/input.scss
+@use "sass:math" as math;
+math.$epsilon: 0;
+
+<===> error/assignment/epsilon/error
+Error: Cannot modify built-in variable.
+  ,
+2 | math.$epsilon: 0;
+  | ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/max_safe_integer/input.scss
+@use "sass:math" as math;
+math.$max-safe-integer: 0;
+
+<===> error/assignment/max_safe_integer/error
+Error: Cannot modify built-in variable.
+  ,
+2 | math.$max-safe-integer: 0;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/min_safe_integer/input.scss
+@use "sass:math" as math;
+math.$min-safe-integer: 0;
+
+<===> error/assignment/min_safe_integer/error
+Error: Cannot modify built-in variable.
+  ,
+2 | math.$min-safe-integer: 0;
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/max_number/input.scss
+@use "sass:math" as math;
+math.$max-number: 0;
+
+<===> error/assignment/max_number/error
+Error: Cannot modify built-in variable.
+  ,
+2 | math.$max-number: 0;
+  | ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/assignment/min_number/input.scss
+@use "sass:math" as math;
+math.$min-number: 0;
+
+<===> error/assignment/min_number/error
+Error: Cannot modify built-in variable.
+  ,
+2 | math.$min-number: 0;
+  | ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet
