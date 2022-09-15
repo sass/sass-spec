@@ -245,9 +245,12 @@ async function bigHrx(
 
   const tooBig: string[] = [];
   for (const f of hrxFiles) {
+    const subDir = await fromPath(f);
+    if (subDir.isTestDir()) continue;
+
     reporter.reportLintedFile(f);
 
-    const options = await (await fromPath(f)).options();
+    const options = await subDir.options();
     const linterAnnotation =
       options.getMode('lint-hrx') ?? options.getMode('sass/sass-spec#');
     // Skip XHR files annotated with :ignore-for: or :todo: containing
