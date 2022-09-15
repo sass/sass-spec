@@ -20,6 +20,24 @@ it('emits debug to stderr by default', () => {
   expect(stdio.err).not.toBeEmpty();
 });
 
+describe('deprecation warning', () => {
+  // Regression test for sass/dart-sass#1790
+  it('passes the message and span to the logger', done => {
+    compileString('* > { --foo: bar }', {
+      logger: {
+        warn(message, {span}) {
+          expect(message).toInclude('only valid for nesting');
+          expect(span?.start.line).toBe(0);
+          expect(span?.start.column).toBe(0);
+          expect(span?.end.line).toBe(0);
+          expect(span?.end.column).toBe(4);
+          done();
+        },
+      },
+    });
+  });
+});
+
 describe('with @warn', () => {
   it('passes the message and stack trace to the logger', done => {
     compileString(
