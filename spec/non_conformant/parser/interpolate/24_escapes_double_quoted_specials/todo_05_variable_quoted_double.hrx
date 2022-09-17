@@ -1,0 +1,32 @@
+<===> input.scss
+$input: "\0_\a_\A";
+.result {
+  dquoted: "#{#{$input}}";
+  dquoted: "#{"[#{$input}]"}";
+  dquoted: "#{"#{$input}"}";
+  dquoted: "#{'#{$input}'}";
+  dquoted: "#{"['#{$input}']"}";
+  squoted: '#{#{$input}}';
+  squoted: '#{"[#{$input}]"}';
+  squoted: '#{"#{$input}"}';
+  squoted: '#{'#{$input}'}';
+  squoted: '#{"['#{$input}']"}';
+}
+
+<===> todo.txt
+Fails on shared build (gcc/clang)
+Looks like some issue with "\r"
+<===> output.css
+@charset "UTF-8";
+.result {
+  dquoted: "�_\a_\a";
+  dquoted: "[�_\a_\a]";
+  dquoted: "�_\a_\a";
+  dquoted: "�_\a_\a";
+  dquoted: "['�_\a_\a']";
+  squoted: "�_\a_\a";
+  squoted: "[�_\a_\a]";
+  squoted: "�_\a_\a";
+  squoted: "�_\a_\a";
+  squoted: "['�_\a_\a']";
+}

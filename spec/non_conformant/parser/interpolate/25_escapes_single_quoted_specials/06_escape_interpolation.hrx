@@ -1,0 +1,30 @@
+<===> options.yml
+---
+:todo:
+- libsass
+
+<===> input.scss
+$input: '\0_\a_\A';
+.result {
+  output: "[\#{'\0_\a_\A'}]";
+  output: "\#{'\0_\a_\A'}";
+  output: '\#{'\0_\a_\A'}';
+  output: "['\#{'\0_\a_\A'}']";
+}
+
+<===> output.css
+@charset "UTF-8";
+.result {
+  output: "[#{'�_\a_\a'}]";
+  output: "#{'�_\a_\a'}";
+  output: "#{" \0 _\a _\a  "}";
+  output: "['#{'�_\a_\a'}']";
+}
+
+<===> output-libsass.css
+.result {
+  output: "[\#{'\0_\a_\A'}]";
+  output: "\#{'\0_\a_\A'}";
+  output: "#{" \0 _\a _\a  "}";
+  output: "['\#{'\0_\a_\A'}']";
+}
