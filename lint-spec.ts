@@ -68,6 +68,8 @@ async function lintDirectory(
       getRelativePath(directory.path),
       reporter
     );
+
+    await lintNonHrxTestDir(directory, reporter, {fix});
   } else {
     for (const subdir of await directory.subdirs()) {
       await lintDirectory(subdir, reporter, {
@@ -111,6 +113,48 @@ function getReportedInputLocation(directory: SpecDirectory): string {
 
 function getRelativePath(filepath: string): string {
   return p.relative(process.cwd(), filepath);
+}
+
+/**
+ * Verifies that test directories are stored as HRX files.
+ *
+ * Test directories are transformed into HRX files when {@link fix} is
+ * `true`.
+ *
+ * Skips directories that include a top-level `options.yml` file annotated with
+ * `:todo:` or `:ignore-for:` containing `lint-hrx` or `sass/sass-spec#ISSUE`.
+ * This allows keeping a real directory when files contain invalid UTF-8 or a BOM, as
+ * those cannot be represented in HRX files.
+ */
+async function lintNonHrxTestDir(
+  directory: SpecDirectory,
+  reporter: LintReporter,
+  {fix = false}
+) {
+  if (!directory.isTestDir()) return;
+
+  if (directory instanceof VirtualDirectory) return;
+
+  const options = await directory.options();
+
+  const linterAnnotation =
+    options.getMode('lint-hrx') ?? options.getMode('sass/sass-spec#');
+  // Skip XHR files annotated with :ignore-for: or :todo: containing
+  // `lint-hrx` or `sass/sass-spec#...`
+  if (linterAnnotation !== undefined) return;
+
+  if (!fix) {
+    reporter.reportError(
+      `The test directory "${getRelativePath(
+        directory.path
+      )}" must use the HRX format.`,
+      getReportedInputLocation(directory)
+    );
+  } else {
+    fs.writeFileSync(`${directory.path}.hrx`, await directory.asArchive());
+
+    fs.rmSync(directory.path, {recursive: true});
+  }
 }
 
 /** The number of lines allowed in HRX files. */
