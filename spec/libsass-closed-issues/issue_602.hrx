@@ -1,0 +1,47 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2700
+
+<===> input.scss
+#foo.\bar {
+  color: red;
+}
+
+#foo.b\ar {
+  color: red;
+}
+
+#foo\.bar {
+  color: red;
+}
+
+#foo\bar {
+  color: red;
+}
+
+#fo\o.bar {
+  color: red;
+}
+
+<===> output.css
+@charset "UTF-8";
+#foo.ºr {
+  color: red;
+}
+
+#foo.b\a r {
+  color: red;
+}
+
+#foo\.bar {
+  color: red;
+}
+
+#fooºr {
+  color: red;
+}
+
+#foo.bar {
+  color: red;
+}

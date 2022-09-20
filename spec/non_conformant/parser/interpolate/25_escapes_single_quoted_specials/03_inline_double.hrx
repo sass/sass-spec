@@ -1,0 +1,18 @@
+<===> input.scss
+.result {
+  output: #{#{'\0_\a_\A'}};
+  output: #{"[#{'\0_\a_\A'}]"};
+  output: #{"#{'\0_\a_\A'}"};
+  output: #{'#{'\0_\a_\A'}'};
+  output: #{"['#{'\0_\a_\A'}']"};
+}
+
+<===> output.css
+@charset "UTF-8";
+.result {
+  output: �_ _ ;
+  output: [�_ _ ];
+  output: �_ _ ;
+  output: �_ _ ;
+  output: ['�_ _ '];
+}
