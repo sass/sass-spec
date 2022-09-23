@@ -1,0 +1,184 @@
+<===> empty/input.scss
+a {b: split("")}
+
+<===> empty/output.css
+a {
+  b: ""
+}
+
+<===>
+================================================================================
+<===> separator/input.scss
+a {b: split("a, b, c", ", ")}
+
+<===> separator/output.css
+a {
+  b: "a", "b", "c"
+}
+
+<===>
+================================================================================
+<===> separator_empty/input.scss
+a {b: split("Helvetica", "")}
+
+<===> separator_empty/output.css
+a {
+  b: "H", "e", "l", "v", "e", "t", "i", "c", "a"
+}
+
+<===>
+================================================================================
+<===> separator_null/input.scss
+a {b: split("a, b, c", "&")}
+
+<===> separator_null/output.css
+a {
+  b: "a, b, c"
+}
+
+<===>
+================================================================================
+<===> limit_zero/input.scss
+a {b: split("a, b, c", ", ", 0)}
+
+<===> limit_zero/output.css
+a {
+  b: "a, b, c"
+}
+
+<===>
+================================================================================
+================================================================================
+<===> limit/input.scss
+a {b: split("a, b, c, d", ", ", 2)}
+
+<===> limit/output.css
+a {
+  b: "a", "b", "c, d"
+}
+
+<===>
+================================================================================
+<===> double_width_character/input.scss
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units.
+a {b: split("👭a", "")}
+
+<===> double_width_character/output.css
+a {
+  b: "👭", "a";
+}
+<===>
+================================================================================
+<===> named/input.scss
+a {b: split($string: "a/b/c", $separator: "/", $limit: 1)}
+
+<===> named/output.css
+a {
+  b: "a", "b/c";
+}
+
+<===>
+================================================================================
+<===> error/type/string/input.scss
+a {b: split(1, "%")}
+
+<===> error/type/string/error
+Error: $string: 1 is not a string.
+  ,
+1 | a {b: split(1, "%")}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/string/error-libsass
+Error: argument `$string` of `split($string, $separator, $limit: null)` must be a string
+        on line 1:7 of input.scss, in function `split`
+        from line 1:7 of input.scss
+>> a {b: split(1, "%")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/separator/input.scss
+a {b: split("1/2/3", /)}
+
+<===> error/type/separator/error
+Error: $separator: / is not a string.
+  ,
+1 | a {b: split("1/2/3", /)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/separator/error-libsass
+Error: argument `$separator` of `split($string, $separator, $limit: null)` must be a string
+        on line 1:7 of input.scss, in function `split`
+        from line 1:7 of input.scss
+>> a {b: split("1/2/3", /)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/type/limit/input.scss
+a {b: split("1/2/3", "/", "1")}
+
+<===> error/type/limit/error
+Error: $limit: "1" is not a number.
+  ,
+1 | a {b: split("1/2/3", "/", "1")}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/limit/error-libsass
+Error: argument `$limit` of `split($string, $separator, $limit: null)` must be a number
+        on line 1:7 of input.scss, in function `split`
+        from line 1:7 of input.scss
+>> a {b: split("1/2/3", "/", "1")}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/decimal/input.scss
+a {b: split("1/2/3", "/", 0.5)}
+
+<===> error/decimal/error
+Error: $limit: 0.5 is not an int.
+  ,
+1 | a {b: split("1/2/3", "/", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/type/limit/error-libsass
+Error: $limit: 0.500000 is not an int
+        on line 1:7 of input.scss, in function `split`
+        from line 1:7 of input.scss
+>> a {b: split("1/2/3", "/", 0.5)}
+
+   ------^
+
+<===>
+================================================================================
+<===> error/negative_limit/input.scss
+a {b: split("1/2/3", "/", -1)}
+
+<===> error/negative_limit/error
+Error: $limit: Must be a positive int or null.
+  ,
+1 | a {b: split("1/2/3", "/", -1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> error/negative_limit/error-libsass
+Error: $limit: -1 is not a positive int or null
+        on line 1:7 of input.scss, in function `split`
+        from line 1:7 of input.scss
+>> a {b: split("1/2/3", "/", -1)}
+
+   ------^
