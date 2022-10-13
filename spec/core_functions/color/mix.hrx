@@ -273,12 +273,58 @@ Error: Missing argument $color2.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function mix is missing argument $color2.
-        on line 1 of input.scss
->> a {b: mix(red)}
 
-   ------^
+<===>
+================================================================================
+<===> error/null_method/non_legacy/color1/input.scss
+a {b: mix(lch(20% -20 0), red, $method: null)}
+
+<===> error/null_method/non_legacy/color1/error
+Error: $color1 is not a legacy color.
+  ,--> input.scss
+1 | a {b: mix(lch(20% -20 0), red, $method: null)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/null_method/non_legacy/color2/input.scss
+a {b: mix(red, lch(20% -20 0), $method: null)}
+
+<===> error/null_method/non_legacy/color2/error
+Error: $color2 is not a legacy color.
+  ,--> input.scss
+1 | a {b: mix(red, lch(20% -20 0), $method: null)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/color_interpolation_method/input.scss
+a {b: mix(red, blue, $method: brighter)}
+
+<===> error/color_interpolation_method/error
+Error: Brighter is not a color interpolation method.
+  ,--> input.scss
+1 | a {b: mix(red, blue, $method: brighter)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
