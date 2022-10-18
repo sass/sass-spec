@@ -225,11 +225,61 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: mix($color1: #91e16f, $color2: #0144bf, $weight: 92%)}
+a {b: mix($color1: #91e16f, $color2: #0144bf, $weight: 92%, $method: lch)}
 
 <===> named/output.css
 a {
-  b: #85d475;
+  b: #62DA78;
+}
+
+<===>
+================================================================================
+<===> non_rgb/xyz/input.scss
+a {b: mix(red, green, xyz)}
+
+<===> non_rgb/xyz/input.scss
+a {
+  b: #BC5C00;
+}
+
+<===>
+================================================================================
+<===> non_rgb/lab/input.scss
+a {b: mix(red, green, lab)}
+
+<===> non_rgb/lab/input.scss
+a {
+  b: #A16C00;
+}
+
+<===>
+================================================================================
+<===> non_rgb/lch/input.scss
+a {b: mix(red, green, lch)}
+
+<===> non_rgb/lch/input.scss
+a {
+  b: #917400;
+}
+
+<===>
+================================================================================
+<===> non_rgb/hsl/input.scss
+a {b: mix(red, green, hsl)}
+
+<===> non_rgb/hsl/input.scss
+a {
+  b: #C0C000;
+}
+
+<===>
+================================================================================
+<===> non_rgb/hwb/input.scss
+a {b: mix(red, green, hwb)}
+
+<===> non_rgb/hwb/input.scss
+a {
+  b: #C0C000;
 }
 
 <===>
