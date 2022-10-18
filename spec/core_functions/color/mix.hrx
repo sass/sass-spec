@@ -238,21 +238,21 @@ a {
 a {b: mix(red, blue, 100, 1)}
 
 <===> error/too_many_args/error
-Error: Only 3 arguments allowed, but 4 were passed.
+Error: Only 4 arguments allowed, but 5 were passed.
   ,--> input.scss
-1 | a {b: mix(red, blue, 100, 1)}
+1 | a {b: mix(red, blue, 100, xyz, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%) {
-  |           =================================== declaration
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
   '
   input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `mix'
+Error: wrong number of arguments (5 for 4) for `mix'
         on line 1:7 of input.scss
->> a {b: mix(red, blue, 100, 1)}
+>> a {b: mix(red, blue, 100, xyz, 1)}
 
    ------^
 
@@ -268,8 +268,8 @@ Error: Missing argument $color2.
   |       ^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%) {
-  |           =================================== declaration
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
   '
   input.scss 1:7  root stylesheet
 
