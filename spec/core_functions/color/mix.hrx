@@ -234,52 +234,34 @@ a {
 
 <===>
 ================================================================================
-<===> non_srgb/xyz/input.scss
+<===> interpolation/input.scss
 a {b: mix(red, green, xyz)}
 
-<===> non_rgb/xyz/input.scss
+<===> interpolation/output.scss
 a {
   b: #BC5C00;
 }
 
 <===>
 ================================================================================
-<===> non_srgb/lab/input.scss
-a {b: mix(red, green, lab)}
+<===> hue_interpolation/input.scss
 
-<===> non_srgb/lab/input.scss
+a {b: mix(red, green, lch longer hue)}
+
+<===> hue_interpolation/output.scss
 a {
-  b: #A16C00;
+  b: #0080FF;
 }
 
 <===>
 ================================================================================
-<===> non_srgb/lch/input.scss
-a {b: mix(red, green, lch)}
+<===> different_spaces/input.scss
 
-<===> non_rgb/lch/input.scss
+a {b: mix(hsl(0, 100%, 50%), green, lch)}
+
+<===> different_spaces/output.scss
 a {
-  b: #917400;
-}
-
-<===>
-================================================================================
-<===> hsl/input.scss
-a {b: mix(red, green, hsl)}
-
-<===> hsl/input.scss
-a {
-  b: #C0C000;
-}
-
-<===>
-================================================================================
-<===> hwb/input.scss
-a {b: mix(red, green, hwb)}
-
-<===> hwb/input.scss
-a {
-  b: #C0C000;
+  b: hsl(48, 100%, 28.4%);
 }
 
 <===>
