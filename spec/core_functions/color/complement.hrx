@@ -88,8 +88,8 @@ Error: Missing argument $color.
   |       ^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function complement($color) {
-  |           ================== declaration
+1 | @function complement($color, $space: null) {
+  |           ================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -103,17 +103,17 @@ Error: Function complement is missing argument $color.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: complement(red, 1)}
+a {b: complement(red, lch, 1)}
 
 <===> error/too_many_args/error
-Error: Only 1 argument allowed, but 2 were passed.
+Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: complement(red, 1)}
-  |       ^^^^^^^^^^^^^^^^^^ invocation
+1 | a {b: complement(red, lch, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function complement($color) {
-  |           ================== declaration
+1 | @function complement($color, $space: null) {
+  |           ================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -144,3 +144,21 @@ Error: argument `$color` of `complement($color)` must be a color
 >> a {b: complement(1)}
 
    ------^
+
+   <===>
+================================================================================
+<===> error/null_space/non_legacy/input.scss
+a {b: complement(oklch(62.796% 0.2577 29.234))}
+
+<===> error/null_space/non_legacy/error
+Error: $color: oklch(62.796% 0.2577 29.234) is not a legacy color. 
+        Non-legacy colors require a $space.
+  ,--> input.scss
+1 | a {b: complement(oklch(62.796% 0.2577 29.234)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function complement($color, $space: null) {
+  |           ================================ declaration
+  '
+  input.scss 1:7  root stylesheet
