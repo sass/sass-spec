@@ -81,26 +81,6 @@ a {
 
 <===>
 ================================================================================
-<===> unitless_weight/firstwards/input.scss
-a {b: mix(#91e16f, #0144bf, 92%)}
-
-<===> unitless_weight/firstwards/output.css
-a {
-  b: #85d475;
-}
-
-<===>
-================================================================================
-<===> unitless_weight/lastwards/input.scss
-a {b: mix(#91e16f, #0144bf, 43%)}
-
-<===> unitless_weight/lastwards/output.css
-a {
-  b: #3f889d;
-}
-
-<===>
-================================================================================
 <===> alpha/even/input.scss
 a {b: mix(rgba(#91e16f, 0.3), rgba(#0144bf, 0.3))}
 
@@ -400,21 +380,9 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a num
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
-a {b: mix(red, blue, -0.001)}
+a {b: mix(red, blue, -0.001%)}
 
 <===> error/bounds/too_low/error
-DEPRECATION WARNING: $weight: Passing a number without unit % (-0.001) is deprecated.
-
-To preserve current behavior: $weight * 1%
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-1 | a {b: mix(red, blue, -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:7  root stylesheet
-
 Error: $weight: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: mix(red, blue, -0.001)}
@@ -433,21 +401,9 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be betwe
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
-a {b: mix(red, blue, 100.001)}
+a {b: mix(red, blue, 100.001%)}
 
 <===> error/bounds/too_high/error
-DEPRECATION WARNING: $weight: Passing a number without unit % (100.001) is deprecated.
-
-To preserve current behavior: $weight * 1%
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-1 | a {b: mix(red, blue, 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:7  root stylesheet
-
 Error: $weight: Expected 100.001 to be within 0 and 100.
   ,
 1 | a {b: mix(red, blue, 100.001)}
