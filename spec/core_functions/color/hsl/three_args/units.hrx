@@ -51,7 +51,7 @@ a {
 <===> hue/unknown/warning
 DEPRECATION WARNING: $hue: Passing a unit other than deg (60in) is deprecated.
 
-To preserve current behavior: $hue / 1in
+To preserve current behavior: calc($hue / 1in)
 
 See https://sass-lang.com/d/color-units
 
@@ -84,7 +84,7 @@ DEPRECATION WARNING: $hue: Passing a unit other than deg (60rad) is deprecated.
 You're passing 60rad, which is currently (incorrectly) converted to 60deg.
 Soon, it will instead be correctly converted to 3437.7467707849deg.
 
-To preserve current behavior: $hue * 1deg/1rad
+To preserve current behavior: calc($hue * 1deg/1rad)
 To migrate to new behavior: 0deg + $hue
 
 See https://sass-lang.com/d/color-units
@@ -143,7 +143,7 @@ a {
 <===> saturation/unknown/warning
 DEPRECATION WARNING: $saturation: Passing a number without unit % (50in) is deprecated.
 
-To preserve current behavior: $saturation / 1in * 1%
+To preserve current behavior: calc($saturation / 1in * 1%)
 
   ,
 1 | a {b: hsl(0, 50in, 50%)}
@@ -199,7 +199,7 @@ a {
 <===> lightness/unknown/warning
 DEPRECATION WARNING: $lightness: Passing a number without unit % (50in) is deprecated.
 
-To preserve current behavior: $lightness / 1in * 1%
+To preserve current behavior: calc($lightness / 1in * 1%)
 
   ,
 1 | a {b: hsl(0, 100%, 50in)}

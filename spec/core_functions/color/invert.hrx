@@ -118,6 +118,48 @@ a {
 
 <===>
 ================================================================================
+<===> units/weight/unitless/input.scss
+a {b: invert(turquoise, 10)}
+
+<===> units/weight/unitless/output.css
+a {
+  b: #4dcdc0;
+}
+
+<===> units/weight/unitless/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (10) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+  ,
+1 | a {b: invert(turquoise, 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/weight/unknown/input.scss
+a {b: invert(turquoise, 10px)}
+
+<===> units/weight/unknown/output.css
+a {
+  b: #4dcdc0;
+}
+
+<===> units/weight/unknown/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (10px) is deprecated.
+
+To preserve current behavior: calc($weight / 1px * 1%)
+
+  ,
+1 | a {b: invert(turquoise, 10px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 a {b: invert()}
 
@@ -222,13 +264,13 @@ Error: argument `$weight` of `invert($color, $weight: 100%)` must be a number
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
-a {b: invert(red, -0.001)}
+a {b: invert(red, -0.001%)}
 
 <===> error/bounds/too_low/error
-Error: $weight: Expected -0.001 to be within 0 and 100.
+Error: $weight: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: invert(red, -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^
+1 | a {b: invert(red, -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -243,13 +285,13 @@ Error: argument `$weight` of `invert($color, $weight: 100%)` must be between -0 
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
-a {b: invert(red, 100.001)}
+a {b: invert(red, 100.001%)}
 
 <===> error/bounds/too_high/error
-Error: $weight: Expected 100.001 to be within 0 and 100.
+Error: $weight: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: invert(red, 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+1 | a {b: invert(red, 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 

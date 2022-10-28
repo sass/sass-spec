@@ -82,7 +82,7 @@ a {
 <===>
 ================================================================================
 <===> unitless_weight/firstwards/input.scss
-a {b: mix(#91e16f, #0144bf, 92)}
+a {b: mix(#91e16f, #0144bf, 92%)}
 
 <===> unitless_weight/firstwards/output.css
 a {
@@ -92,7 +92,7 @@ a {
 <===>
 ================================================================================
 <===> unitless_weight/lastwards/input.scss
-a {b: mix(#91e16f, #0144bf, 43)}
+a {b: mix(#91e16f, #0144bf, 43%)}
 
 <===> unitless_weight/lastwards/output.css
 a {
@@ -234,6 +234,48 @@ a {
 
 <===>
 ================================================================================
+<===> units/weight/unitless/input.scss
+a {b: mix(#91e16f, #0144bf, 50)}
+
+<===> units/weight/unitless/output.css
+a {
+  b: #499397;
+}
+
+<===> units/weight/unitless/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (50) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+  ,
+1 | a {b: mix(#91e16f, #0144bf, 50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/weight/unknown/input.scss
+a {b: mix(#91e16f, #0144bf, 50px)}
+
+<===> units/weight/unknown/output.css
+a {
+  b: #499397;
+}
+
+<===> units/weight/unknown/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (50px) is deprecated.
+
+To preserve current behavior: calc($weight / 1px * 1%)
+
+  ,
+1 | a {b: mix(#91e16f, #0144bf, 50px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_many_args/input.scss
 a {b: mix(red, blue, 100, 1)}
 
@@ -349,6 +391,16 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a num
 a {b: mix(red, blue, -0.001)}
 
 <===> error/bounds/too_low/error
+DEPRECATION WARNING: $weight: Passing a number without unit % (-0.001) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+  ,
+1 | a {b: mix(red, blue, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 Error: $weight: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: mix(red, blue, -0.001)}
@@ -370,6 +422,16 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be betwe
 a {b: mix(red, blue, 100.001)}
 
 <===> error/bounds/too_high/error
+DEPRECATION WARNING: $weight: Passing a number without unit % (100.001) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+  ,
+1 | a {b: mix(red, blue, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 Error: $weight: Expected 100.001 to be within 0 and 100.
   ,
 1 | a {b: mix(red, blue, 100.001)}
