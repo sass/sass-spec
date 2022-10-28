@@ -383,10 +383,10 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a num
 a {b: mix(red, blue, -0.001%)}
 
 <===> error/bounds/too_low/error
-Error: $weight: Expected -0.001 to be within 0 and 100.
+Error: $weight: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: mix(red, blue, -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: mix(red, blue, -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -404,10 +404,10 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be betwe
 a {b: mix(red, blue, 100.001%)}
 
 <===> error/bounds/too_high/error
-Error: $weight: Expected 100.001 to be within 0 and 100.
+Error: $weight: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: mix(red, blue, 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: mix(red, blue, 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
