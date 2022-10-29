@@ -133,6 +133,33 @@ a {
 
 <===>
 ================================================================================
+<===> units/options.yml
+:ignore_for:
+  - libsass
+
+<===> units/input.scss
+a {b: set-nth(c d, 1px, e)}
+
+<===> units/output.css
+a {
+  b: e d;
+}
+
+<===> units/warning
+DEPRECATION WARNING: $n: Passing a number with unit px is deprecated.
+
+To preserve current behavior: calc($n / 1px)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: set-nth(c d, 1px, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/input.scss
 a {b: set-nth(c d, e, f)}
 
