@@ -2,24 +2,11 @@
 @media (not (a)) {x {y: z}}
 
 <===> raw/not/lowercase/output.css
-@media (false) {
+@media not (a) {
   x {
     y: z;
   }
 }
-
-<===> raw/not/lowercase/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "not" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{not (a)}
-To migrate to new behavior: #{"not (a)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media (not (a)) {x {y: z}}
-  |         ^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -27,24 +14,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media (NoT (a)) {x {y: z}}
 
 <===> raw/not/mixed_case/output.css
-@media (NoT a) {
+@media not (a) {
   x {
     y: z;
   }
 }
-
-<===> raw/not/mixed_case/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "not" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{NoT (a)}
-To migrate to new behavior: #{"NoT (a)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media (NoT (a)) {x {y: z}}
-  |         ^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -52,24 +26,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media ((a) and (b)) {x {y: z}}
 
 <===> raw/and/lowercase/output.css
-@media (b) {
+@media ((a) and (b)) {
   x {
     y: z;
   }
 }
-
-<===> raw/and/lowercase/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{(a) and (b)}
-To migrate to new behavior: #{"(a) and (b)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media ((a) and (b)) {x {y: z}}
-  |         ^^^^^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -77,24 +38,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media ((a) AnD (b)) {x {y: z}}
 
 <===> raw/and/mixed_case/output.css
-@media (a AnD b) {
+@media ((a) and (b)) {
   x {
     y: z;
   }
 }
-
-<===> raw/and/mixed_case/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{(a) AnD (b)}
-To migrate to new behavior: #{"(a) AnD (b)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media ((a) AnD (b)) {x {y: z}}
-  |         ^^^^^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -102,24 +50,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media ((a) or (b)) {x {y: z}}
 
 <===> raw/or/lowercase/output.css
-@media (a) {
+@media ((a) or (b)) {
   x {
     y: z;
   }
 }
-
-<===> raw/or/lowercase/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{(a) or (b)}
-To migrate to new behavior: #{"(a) or (b)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media ((a) or (b)) {x {y: z}}
-  |         ^^^^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -127,24 +62,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media ((a) Or (b)) {x {y: z}}
 
 <===> raw/or/mixed_case/output.css
-@media (a Or b) {
+@media ((a) or (b)) {
   x {
     y: z;
   }
 }
-
-<===> raw/or/mixed_case/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{(a) Or (b)}
-To migrate to new behavior: #{"(a) Or (b)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media ((a) Or (b)) {x {y: z}}
-  |         ^^^^^^^^^^
-  '
 
 <===>
 ================================================================================
@@ -152,24 +74,11 @@ For details, see https://sass-lang.com/d/media-logic
 @media (a) and ((b) or (c)) {x {y: z}}
 
 <===> raw/different_than_top_level/output.css
-@media (a) and (b) {
+@media (a) and ((b) or (c)) {
   x {
     y: z;
   }
 }
-
-<===> raw/different_than_top_level/warning
-DEPRECATION WARNING on line 1, column 17 of input.scss: 
-Starting a @media query with "(" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{(b) or (c)}
-To migrate to new behavior: #{"(b) or (c)"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-1 | @media (a) and ((b) or (c)) {x {y: z}}
-  |                 ^^^^^^^^^^
-  '
 
 <===>
 ================================================================================
