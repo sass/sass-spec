@@ -3,6 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {URL} from 'url';
+import * as fs from 'fs';
 
 import {compile, compileString, compileStringAsync, Importer} from 'sass';
 
@@ -659,6 +660,116 @@ it(
       expect(callback).not.toThrowSassException();
     })
 );
+
+it('throws an error when importer does not return string contents', () =>
+  sandbox(dir => {
+    dir.write({'dir/_other.scss': '// non empty file'});
+
+    expect(() => {
+      compileString('@import "other";', {
+        importers: [
+          {
+            canonicalize: url => dir.url(`dir/_${url}.scss`),
+            load: url => {
+              return {
+                contents: fs.readFileSync(url.pathname) as any,
+                syntax: 'scss',
+              };
+            },
+          },
+        ],
+        loadPaths: [dir('dir')],
+      });
+    }).toThrowSassException({
+      line: 0,
+      message:
+        'Invalid argument (contents): must be a string but was: Buffer: ' +
+        "Instance of 'NativeUint8List'",
+    });
+  }));
+
+describe('when importer does not return string contents', () => {
+  it('throws an error in sync mode', () =>
+    sandbox(dir => {
+      dir.write({'dir/_other.scss': '// non empty file'});
+
+      expect(() => {
+        compileString('@import "other";', {
+          importers: [
+            {
+              canonicalize: url => dir.url(`dir/_${url}.scss`),
+              load: url => {
+                return {
+                  contents: fs.readFileSync(url.pathname) as any,
+                  syntax: 'scss',
+                };
+              },
+            },
+          ],
+          loadPaths: [dir('dir')],
+        });
+      }).toThrowSassException({
+        line: 0,
+        message:
+          'Invalid argument (contents): must be a string but was: Buffer: ' +
+          "Instance of 'NativeUint8List'",
+      });
+    }));
+
+  it('throws an error in async mode', () =>
+    sandbox(async dir => {
+      dir.write({'dir/_other.scss': '// non empty file'});
+
+      await expect(async () => {
+        await compileStringAsync('@import "other";', {
+          importers: [
+            {
+              canonicalize: url => dir.url(`dir/_${url}.scss`),
+              load: url => {
+                return {
+                  contents: fs.readFileSync(url.pathname) as any,
+                  syntax: 'scss',
+                };
+              },
+            },
+          ],
+          loadPaths: [dir('dir')],
+        });
+      }).toThrowSassException({
+        line: 0,
+        message:
+          'Invalid argument (contents): must be a string but was: Buffer: ' +
+          "Instance of 'NativeUint8List'",
+      });
+    }));
+});
+
+it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', () =>
+  sandbox(dir => {
+    dir.write({'dir/_other.scss': '// non empty file'});
+
+    expect(() => {
+      compileString('@import "other";', {
+        importers: [
+          {
+            canonicalize: url => dir.url(`dir/_${url}.scss`),
+            load: url => {
+              return {
+                contents: fs.readFileSync(url.pathname, {encoding: 'utf-8'}),
+                syntax: 'scss',
+                sourceMapUrl: {},
+              };
+            },
+          },
+        ],
+        loadPaths: [dir('dir')],
+      });
+    }).toThrowSassException({
+      line: 0,
+      message:
+        "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
+    });
+  }));
 
 /**
  * Returns an importer that asserts that `fromImport` is `expected`, and
