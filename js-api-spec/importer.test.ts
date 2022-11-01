@@ -675,7 +675,7 @@ describe('when importer does not return string contents', () => {
                 return {
                   // Need to force an invalid type to test bad-type handling.
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  contents: fs.readFileSync(url.pathname) as any,
+                  contents: fs.readFileSync(url) as any,
                   syntax: 'scss',
                 };
               },
@@ -704,7 +704,7 @@ describe('when importer does not return string contents', () => {
                 return {
                   // Need to force an invalid type to test bad-type handling.
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  contents: fs.readFileSync(url.pathname) as any,
+                  contents: fs.readFileSync(url) as any,
                   syntax: 'scss',
                 };
               },
@@ -732,7 +732,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
             canonicalize: url => dir.url(`dir/_${url}.scss`),
             load: url => {
               return {
-                contents: fs.readFileSync(url.pathname, {encoding: 'utf-8'}),
+                contents: fs.readFileSync(url, {encoding: 'utf-8'}),
                 syntax: 'scss',
                 sourceMapUrl: {},
               };

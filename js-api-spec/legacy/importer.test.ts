@@ -874,7 +874,7 @@ describe('when importer returns non-string contents', () => {
             return {
               // Need to force an invalid type to test bad-type handling.
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              contents: fs.readFileSync(url.pathname) as any,
+              contents: fs.readFileSync(url) as any,
               syntax: 'scss',
             };
           },
@@ -899,7 +899,7 @@ describe('when importer returns non-string contents', () => {
             return {
               // Need to force an invalid type to test bad-type handling.
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              contents: fs.readFileSync(url.pathname) as any,
+              contents: fs.readFileSync(url) as any,
               syntax: 'scss',
             };
           },
