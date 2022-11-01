@@ -243,7 +243,9 @@ a {b: change-color(red, $saturation: 200px)}
 <===> saturation/unit/error
 DEPRECATION WARNING: $saturation: Passing a number without unit % (200px) is deprecated.
 
-To preserve current behavior: $saturation / 1px * 1%
+To preserve current behavior: calc($saturation / 1px * 1%)
+
+More info: https://sass-lang.com/d/function-units
 
   ,
 3 | a {b: change-color(red, $saturation: 200px)}
@@ -318,7 +320,9 @@ a {b: change-color(red, $lightness: 200px)}
 <===> lightness/unit/error
 DEPRECATION WARNING: $lightness: Passing a number without unit % (200px) is deprecated.
 
-To preserve current behavior: $lightness / 1px * 1%
+To preserve current behavior: calc($lightness / 1px * 1%)
+
+More info: https://sass-lang.com/d/function-units
 
   ,
 3 | a {b: change-color(red, $lightness: 200px)}
@@ -391,6 +395,18 @@ Error: argument `$alpha` of `change-color($color, $red: false, $green: false, $b
 a {b: change-color(red, $alpha: 50%)}
 
 <===> alpha/unit/error
+DEPRECATION WARNING: $alpha: Passing a number with unit % is deprecated.
+
+To preserve current behavior: calc($alpha / 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+3 | a {b: change-color(red, $alpha: 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: $alpha: Expected 50% to be within 0 and 1.
   ,
 3 | a {b: change-color(red, $alpha: 50%)}

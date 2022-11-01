@@ -1,0 +1,109 @@
+<===> options.yml
+':ignore_for':
+  - libsass
+
+<===>
+================================================================================
+<===> simple_selector_on_different_lines/input.scss
+@media a {
+  b,
+  a { c: d }
+}
+<===> simple_selector_on_different_lines/output.css
+@media a {
+  b,
+  a {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nested_selector/different_lines_parent/same_line/input.scss
+@media a {
+  b,
+  a {
+    c, d { e: f }
+  }
+}
+<===> nested_selector/different_lines_parent/same_line/output.css
+@media a {
+  b c, b d,
+  a c,
+  a d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> nested_selector/different_lines_parent/different_lines/input.scss
+@media a {
+  b,
+  a {
+    c,
+    d { e: f }
+  }
+}
+<===> nested_selector/different_lines_parent/different_lines/output.css
+@media a {
+  b c,
+  b d,
+  a c,
+  a d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> nested_selector/same_lines_parent/same_line/input.scss
+@media a {
+  b, a {
+    c, d { e: f }
+  }
+}
+<===> nested_selector/same_lines_parent/same_line/output.css
+@media a {
+  b c, b d, a c, a d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> nested_selector/same_lines_parent/different_lines/input.scss
+@media a {
+  b, a {
+    c,
+    d { e: f }
+  }
+}
+<===> nested_selector/same_lines_parent/different_lines/output.css
+@media a {
+  b c,
+  b d, a c,
+  a d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> media_nested_in_selector/input.scss
+a,
+b {
+  @media c {
+    d,
+    e { f: g }
+  }
+}
+<===> media_nested_in_selector/output.css
+@media c {
+  a d,
+  a e,
+  b d,
+  b e {
+    f: g;
+  }
+}

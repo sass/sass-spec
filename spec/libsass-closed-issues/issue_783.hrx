@@ -1,0 +1,266 @@
+<===> options.yml
+---
+:warning_todo:
+- sass/libsass#2887
+
+<===> input.scss
+// $a: 12px / 1em;
+// $b: 6px / 1em;
+// $c: 10em;
+// $x: -9999em;
+// $aa: 1px * 1px;
+
+a {
+  $foo: 2em;
+  $bar: 2em;
+
+  foo: $foo;          // 2em  ✔
+  bar: $bar;          // 2em  ✔
+  // a: $foo * $bar;     // 4em*em isn't a valid CSS value.  ✔
+  a: $foo / $bar;     // 1  ✔
+  a: $foo + $bar;     // 4em  ✔
+  a: $foo - $bar;     // 0em  ✔
+
+
+  $foo: 2px;
+  $bar: 2em;
+
+  foo: $foo;          // 2px  ✔
+  bar: $bar;          // 2em  ✔
+  // a: $foo * $bar;     // 4em*px isn't a valid CSS value.  ✔
+  // a: $foo / $bar;     // 1px/em isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: 'em' and 'px'.  ✔
+  // a: $foo - $bar;     // Incompatible units: 'em' and 'px'.  ✔
+
+
+  $foo: 2em;
+  $bar: 2px;
+
+  foo: $foo;          // 2em  ✔
+  bar: $bar;          // 2px  ✔
+  // a: $foo * $bar;     // 4em*px isn't a valid CSS value.  ✔
+  // a: $foo / $bar;     // 1em/px isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: 'px' and 'em'.  ✔
+  // a: $foo - $bar;     // Incompatible units: 'px' and 'em'.  ✔
+
+
+  $foo: 2px / 2em;
+  $bar: 2px;
+
+  // foo: $foo;          // 1px/em isn't a valid CSS value.  ✔
+  bar: $bar;          // 2px  ✔
+  // a: $foo * $bar;     // 2px*px/em isn't a valid CSS value.  ✔
+  // a: $foo / $bar;     // 0.5/em isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: '' and 'em'.
+  // a: $foo - $bar;     // Incompatible units: '' and 'em'.
+
+
+  $foo: 2em / 2px;
+  $bar: 2px;
+
+  // foo: $foo;          // 1em/px isn't a valid CSS value.  ✔
+  bar: $bar;          // 2px  ✔
+  a: $foo * $bar;     // 2em  ✔
+  // a: $foo / $bar;     // 0.5em/px*px isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: 'px' and 'em'.
+  // a: $foo - $bar;     // Incompatible units: 'px' and 'em'.
+
+
+  $foo: 2em / 2px;
+  $bar: 2em / 2px;
+
+  // foo: $foo;          // 1em/px isn't a valid CSS value.  ✔
+  // bar: $bar;          // 1em/px isn't a valid CSS value.  ✔
+  // a: $foo * $bar;     // 1em*em/px*px isn't a valid CSS value.  ✔
+  a: $foo / $bar;     // 1  ✔
+  // a: $foo + $bar;     // 2em/px isn't a valid CSS value.  ✔
+  // a: $foo - $bar;     // 0em/px isn't a valid CSS value.  ✔
+
+
+  $foo: 2px / 2em;
+  $bar: 2em / 2px;
+
+  // foo: $foo;          // 1px/em isn't a valid CSS value.  ✔
+  // bar: $bar;          // 1em/px isn't a valid CSS value.  ✔
+  a: $foo * $bar;     // 1  ✔
+  // a: $foo / $bar;     // 1px*px/em*em isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: 'em' and 'px'.
+  // a: $foo - $bar;     // Incompatible units: 'em' and 'px'.
+
+
+  $foo: 2px;
+  $bar: 2px / 2em;
+
+  foo: $foo;          // 2px  ✔
+  // bar: $bar;          // 1px/em isn't a valid CSS value.  ✔
+  // a: $foo * $bar;     // 2px*px/em isn't a valid CSS value.  ✔
+  a: $foo / $bar;     // 2em  ✔
+  // a: $foo + $bar;     // Incompatible units: 'em' and ''.
+  // a: $foo - $bar;     // Incompatible units: 'em' and ''.
+
+
+  $foo: 2px;
+  $bar: 2em / 2px;
+
+  foo: $foo;          // 2px  ✔
+  // bar: $bar;          // 1em/px isn't a valid CSS value.  ✔
+  a: $foo * $bar;     // 2em  ✔
+  // a: $foo / $bar;     // 2px*px/em isn't a valid CSS value.  ✔
+  // a: $foo + $bar;     // Incompatible units: 'em' and 'px'.
+  // a: $foo - $bar;     // Incompatible units: 'em' and 'px'.
+}
+
+<===> output.css
+a {
+  foo: 2em;
+  bar: 2em;
+  a: 1;
+  a: 4em;
+  a: 0em;
+  foo: 2px;
+  bar: 2em;
+  foo: 2em;
+  bar: 2px;
+  bar: 2px;
+  bar: 2px;
+  a: 2em;
+  a: 1;
+  a: 1;
+  foo: 2px;
+  a: 2em;
+  foo: 2px;
+  a: 2em;
+}
+
+<===> warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($foo, $bar) or calc($foo / $bar)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+14 |   a: $foo / $bar;     // 1  ✔
+   |      ^^^^^^^^^^^
+   '
+    input.scss 14:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2px, 2em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+41 |   $foo: 2px / 2em;
+   |         ^^^^^^^^^
+   '
+    input.scss 41:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2em, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+52 |   $foo: 2em / 2px;
+   |         ^^^^^^^^^
+   '
+    input.scss 52:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2em, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+63 |   $foo: 2em / 2px;
+   |         ^^^^^^^^^
+   '
+    input.scss 63:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2em, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+64 |   $bar: 2em / 2px;
+   |         ^^^^^^^^^
+   '
+    input.scss 64:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($foo, $bar) or calc($foo / $bar)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+69 |   a: $foo / $bar;     // 1  ✔
+   |      ^^^^^^^^^^^
+   '
+    input.scss 69:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2px, 2em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+74 |   $foo: 2px / 2em;
+   |         ^^^^^^^^^
+   '
+    input.scss 74:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2em, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+75 |   $bar: 2em / 2px;
+   |         ^^^^^^^^^
+   '
+    input.scss 75:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2px, 2em)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+86 |   $bar: 2px / 2em;
+   |         ^^^^^^^^^
+   '
+    input.scss 86:9  root stylesheet
+
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div($foo, $bar) or calc($foo / $bar)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+91 |   a: $foo / $bar;     // 2em  ✔
+   |      ^^^^^^^^^^^
+   '
+    input.scss 91:6  root stylesheet
+
+DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
+
+Recommendation: math.div(2em, 2px)
+
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+   ,
+97 |   $bar: 2em / 2px;
+   |         ^^^^^^^^^
+   '
+    input.scss 97:9  root stylesheet
