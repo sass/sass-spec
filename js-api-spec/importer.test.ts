@@ -661,33 +661,6 @@ it(
     })
 );
 
-it('throws an error when importer does not return string contents', () =>
-  sandbox(dir => {
-    dir.write({'dir/_other.scss': '// non empty file'});
-
-    expect(() => {
-      compileString('@import "other";', {
-        importers: [
-          {
-            canonicalize: url => dir.url(`dir/_${url}.scss`),
-            load: url => {
-              return {
-                contents: fs.readFileSync(url.pathname) as any,
-                syntax: 'scss',
-              };
-            },
-          },
-        ],
-        loadPaths: [dir('dir')],
-      });
-    }).toThrowSassException({
-      line: 0,
-      message:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
-    });
-  }));
-
 describe('when importer does not return string contents', () => {
   it('throws an error in sync mode', () =>
     sandbox(dir => {
@@ -700,6 +673,8 @@ describe('when importer does not return string contents', () => {
               canonicalize: url => dir.url(`dir/_${url}.scss`),
               load: url => {
                 return {
+                  // Need to force an invalid type to test bad-type handling.
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   contents: fs.readFileSync(url.pathname) as any,
                   syntax: 'scss',
                 };
@@ -727,6 +702,8 @@ describe('when importer does not return string contents', () => {
               canonicalize: url => dir.url(`dir/_${url}.scss`),
               load: url => {
                 return {
+                  // Need to force an invalid type to test bad-type handling.
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   contents: fs.readFileSync(url.pathname) as any,
                   syntax: 'scss',
                 };

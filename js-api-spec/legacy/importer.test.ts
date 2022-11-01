@@ -872,6 +872,8 @@ describe('when importer returns non-string contents', () => {
           importer(path: string) {
             const url = dir.url(`dir/_${path}.scss`);
             return {
+              // Need to force an invalid type to test bad-type handling.
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               contents: fs.readFileSync(url.pathname) as any,
               syntax: 'scss',
             };
@@ -895,6 +897,8 @@ describe('when importer returns non-string contents', () => {
           importer(path: string) {
             const url = dir.url(`dir/_${path}.scss`);
             return {
+              // Need to force an invalid type to test bad-type handling.
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               contents: fs.readFileSync(url.pathname) as any,
               syntax: 'scss',
             };
