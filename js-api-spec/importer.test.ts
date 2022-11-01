@@ -685,7 +685,7 @@ describe('when importer does not return string contents', () => {
         });
       }).toThrowSassException({
         line: 0,
-        message:
+        includes:
           'Invalid argument (contents): must be a string but was: Buffer: ' +
           "Instance of 'NativeUint8List'",
       });
@@ -714,7 +714,7 @@ describe('when importer does not return string contents', () => {
         });
       }).toThrowSassException({
         line: 0,
-        message:
+        includes:
           'Invalid argument (contents): must be a string but was: Buffer: ' +
           "Instance of 'NativeUint8List'",
       });
@@ -743,7 +743,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
       });
     }).toThrowSassException({
       line: 0,
-      message:
+      includes:
         "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
     });
   }));

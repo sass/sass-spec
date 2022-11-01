@@ -34,7 +34,7 @@ declare global {
       toThrowSassException(object?: {
         line?: number;
         url?: string | URL;
-        message?: string;
+        includes?: string;
       }): R;
 
       /**
