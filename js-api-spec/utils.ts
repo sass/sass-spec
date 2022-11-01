@@ -28,8 +28,8 @@ declare global {
        * If `url` is passed, asserts that the exception has a span with the
        * given URL.
        *
-       * If `message` is passed, asserts that the exception's `sassMessage` is
-       * equal to the given `message`.
+       * If `includes` is passed, asserts that the exception's `sassMessage`
+       * contains the given `includes` string.
        */
       toThrowSassException(object?: {
         line?: number;
@@ -69,7 +69,7 @@ interface ToThrowSassExceptionOptions {
   line?: number;
   url?: string | URL;
   noUrl?: boolean;
-  message?: string;
+  includes?: string;
 }
 
 interface SyncExpectationResult {
@@ -266,7 +266,7 @@ expect.extend({
  */
 function verifyThrown(
   thrown: unknown,
-  {line, url, noUrl, message}: ToThrowSassExceptionOptions
+  {line, url, noUrl, includes}: ToThrowSassExceptionOptions
 ): SyncExpectationResult {
   if (!(thrown instanceof sass.Exception)) {
     return {
@@ -296,10 +296,10 @@ function verifyThrown(
       message: () => `expected a sassMessage field:\n${thrown}`,
       pass: false,
     };
-  } else if (message && thrown.sassMessage !== message) {
+  } else if (includes && !thrown.sassMessage.includes(includes)) {
     return {
       message: () =>
-        `expected sassMessage to be ${message}, was ` +
+        `expected sassMessage to contain ${includes}, was ` +
         `${thrown.sassMessage}:\n` +
         `${thrown}`,
       pass: false,
