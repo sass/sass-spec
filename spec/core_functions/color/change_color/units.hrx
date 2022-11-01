@@ -36,9 +36,9 @@ a {
 <===> hue/unknown/warning
 DEPRECATION WARNING: $hue: Passing a unit other than deg (60in) is deprecated.
 
-To preserve current behavior: $hue / 1in
+To preserve current behavior: calc($hue / 1in)
 
-See https://sass-lang.com/d/color-units
+See https://sass-lang.com/d/function-units
 
   ,
 1 | a {b: change-color(red, $hue: 60in)}
@@ -48,30 +48,17 @@ See https://sass-lang.com/d/color-units
 
 <===>
 ================================================================================
+<===> hue/angle/options.yml
+:ignore_for:
+  - libsass
+
 <===> hue/angle/input.scss
 a {b: change-color(red, $hue: 60rad)}
 
 <===> hue/angle/output.css
 a {
-  b: yellow;
+  b: #00b4ff;
 }
-
-<===> hue/angle/warning
-DEPRECATION WARNING: $hue: Passing a unit other than deg (60rad) is deprecated.
-
-You're passing 60rad, which is currently (incorrectly) converted to 60deg.
-Soon, it will instead be correctly converted to 3437.7467707849deg.
-
-To preserve current behavior: $hue * 1deg/1rad
-To migrate to new behavior: 0deg + $hue
-
-See https://sass-lang.com/d/color-units
-
-  ,
-1 | a {b: change-color(red, $hue: 60rad)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -98,6 +85,8 @@ DEPRECATION WARNING: $saturation: Passing a number without unit % (50) is deprec
 
 To preserve current behavior: $saturation * 1%
 
+More info: https://sass-lang.com/d/function-units
+
   ,
 1 | a {b: change-color(red, $saturation: 50)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -117,7 +106,9 @@ a {
 <===> saturation/unknown/warning
 DEPRECATION WARNING: $saturation: Passing a number without unit % (50in) is deprecated.
 
-To preserve current behavior: $saturation / 1in * 1%
+To preserve current behavior: calc($saturation / 1in * 1%)
+
+More info: https://sass-lang.com/d/function-units
 
   ,
 1 | a {b: change-color(red, $saturation: 50in)}
@@ -150,6 +141,8 @@ DEPRECATION WARNING: $lightness: Passing a number without unit % (30) is depreca
 
 To preserve current behavior: $lightness * 1%
 
+More info: https://sass-lang.com/d/function-units
+
   ,
 1 | a {b: change-color(red, $lightness: 30)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -169,10 +162,68 @@ a {
 <===> lightness/unknown/warning
 DEPRECATION WARNING: $lightness: Passing a number without unit % (30in) is deprecated.
 
-To preserve current behavior: $lightness / 1in * 1%
+To preserve current behavior: calc($lightness / 1in * 1%)
+
+More info: https://sass-lang.com/d/function-units
 
   ,
 1 | a {b: change-color(red, $lightness: 30in)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/unitless/input.scss
+a {b: change-color(red, $alpha: 0.5)}
+
+<===> alpha/unitless/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/percent/input.scss
+a {b: adjust-color(red, $alpha: 0.5%)}
+
+<===> alpha/percent/output.css
+a {
+  b: red;
+}
+
+<===> alpha/percent/warning
+DEPRECATION WARNING: $alpha: Passing a number with unit % is deprecated.
+
+To preserve current behavior: calc($alpha / 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: adjust-color(red, $alpha: 0.5%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/unknown/input.scss
+a {b: adjust-color(red, $alpha: 0.5px)}
+
+<===> alpha/unknown/output.css
+a {
+  b: red;
+}
+
+<===> alpha/unknown/warning
+DEPRECATION WARNING: $alpha: Passing a number with unit px is deprecated.
+
+To preserve current behavior: calc($alpha / 1px)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: adjust-color(red, $alpha: 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
