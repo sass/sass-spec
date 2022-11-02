@@ -1,9 +1,16 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
 <===> empty/input.scss
 a {b: split("")}
 
 <===> empty/output.css
 a {
-  b: ""
+  b: [""];
 }
 
 <===>
@@ -13,7 +20,7 @@ a {b: split("a, b, c", ", ")}
 
 <===> separator/output.css
 a {
-  b: "a", "b", "c"
+  b: ["a", "b", "c"];
 }
 
 <===>
@@ -23,7 +30,7 @@ a {b: split("Helvetica", "")}
 
 <===> separator_empty/output.css
 a {
-  b: "H", "e", "l", "v", "e", "t", "i", "c", "a"
+  b: ["H", "e", "l", "v", "e", "t", "i", "c", "a"];
 }
 
 <===>
@@ -33,7 +40,7 @@ a {b: split("a, b, c", "&")}
 
 <===> separator_null/output.css
 a {
-  b: "a, b, c"
+  b: ["a, b, c"];
 }
 
 <===>
@@ -43,18 +50,17 @@ a {b: split("a, b, c", ", ", 0)}
 
 <===> limit_zero/output.css
 a {
-  b: "a, b, c"
+  b: ["a, b, c"];
 }
 
 <===>
-================================================================================
 ================================================================================
 <===> limit/input.scss
 a {b: split("a, b, c, d", ", ", 2)}
 
 <===> limit/output.css
 a {
-  b: "a", "b", "c, d"
+  b: ["a", "b", "c, d"];
 }
 
 <===>
@@ -66,7 +72,7 @@ a {b: split("👭a", "")}
 
 <===> double_width_character/output.css
 a {
-  b: "👭", "a";
+  b: ["👭", "a"];
 }
 <===>
 ================================================================================
@@ -75,7 +81,7 @@ a {b: split($string: "a/b/c", $separator: "/", $limit: 1)}
 
 <===> named/output.css
 a {
-  b: "a", "b/c";
+  b: ["a", "b/c"];
 }
 
 <===>
@@ -87,17 +93,9 @@ a {b: split(1, "%")}
 Error: $string: 1 is not a string.
   ,
 1 | a {b: split(1, "%")}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/string/error-libsass
-Error: argument `$string` of `split($string, $separator, $limit: null)` must be a string
-        on line 1:7 of input.scss, in function `split`
-        from line 1:7 of input.scss
->> a {b: split(1, "%")}
-
-   ------^
 
 <===>
 ================================================================================
@@ -112,14 +110,6 @@ Error: $separator: / is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/separator/error-libsass
-Error: argument `$separator` of `split($string, $separator, $limit: null)` must be a string
-        on line 1:7 of input.scss, in function `split`
-        from line 1:7 of input.scss
->> a {b: split("1/2/3", /)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/limit/input.scss
@@ -129,17 +119,9 @@ a {b: split("1/2/3", "/", "1")}
 Error: $limit: "1" is not a number.
   ,
 1 | a {b: split("1/2/3", "/", "1")}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/limit/error-libsass
-Error: argument `$limit` of `split($string, $separator, $limit: null)` must be a number
-        on line 1:7 of input.scss, in function `split`
-        from line 1:7 of input.scss
->> a {b: split("1/2/3", "/", "1")}
-
-   ------^
 
 <===>
 ================================================================================
@@ -150,17 +132,9 @@ a {b: split("1/2/3", "/", 0.5)}
 Error: $limit: 0.5 is not an int.
   ,
 1 | a {b: split("1/2/3", "/", 0.5)}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/limit/error-libsass
-Error: $limit: 0.500000 is not an int
-        on line 1:7 of input.scss, in function `split`
-        from line 1:7 of input.scss
->> a {b: split("1/2/3", "/", 0.5)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -171,14 +145,6 @@ a {b: split("1/2/3", "/", -1)}
 Error: $limit: Must be a positive int or null.
   ,
 1 | a {b: split("1/2/3", "/", -1)}
-  |       ^^^^^^^^^^^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/negative_limit/error-libsass
-Error: $limit: -1 is not a positive int or null
-        on line 1:7 of input.scss, in function `split`
-        from line 1:7 of input.scss
->> a {b: split("1/2/3", "/", -1)}
-
-   ------^
