@@ -3,8 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {URL} from 'url';
-import * as fs from 'fs';
-
 import {compile, compileString, compileStringAsync, Importer} from 'sass';
 
 import {sandbox} from './utils';
@@ -625,7 +623,7 @@ describe('FileImporter', () => {
       }));
 
     it('wraps an error', async () => {
-      await expect(() =>
+      expect(() =>
         compileStringAsync('@import "other";', {
           importers: [
             {
@@ -662,91 +660,79 @@ it(
 );
 
 describe('when importer does not return string contents', () => {
-  it('throws an error in sync mode', () =>
-    sandbox(dir => {
-      dir.write({'dir/_other.scss': '// non empty file'});
-
-      expect(() => {
-        compileString('@import "other";', {
-          importers: [
-            {
-              canonicalize: url => dir.url(`dir/_${url}.scss`),
-              load: url => {
-                return {
-                  // Need to force an invalid type to test bad-type handling.
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  contents: fs.readFileSync(url) as any,
-                  syntax: 'scss',
-                };
-              },
-            },
-          ],
-          loadPaths: [dir('dir')],
-        });
-      }).toThrowSassException({
-        line: 0,
-        includes:
-          'Invalid argument (contents): must be a string but was: Buffer: ' +
-          "Instance of 'NativeUint8List'",
-      });
-    }));
-
-  it('throws an error in async mode', () =>
-    sandbox(async dir => {
-      dir.write({'dir/_other.scss': '// non empty file'});
-
-      await expect(async () => {
-        await compileStringAsync('@import "other";', {
-          importers: [
-            {
-              canonicalize: url => dir.url(`dir/_${url}.scss`),
-              load: url => {
-                return {
-                  // Need to force an invalid type to test bad-type handling.
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  contents: fs.readFileSync(url) as any,
-                  syntax: 'scss',
-                };
-              },
-            },
-          ],
-          loadPaths: [dir('dir')],
-        });
-      }).toThrowSassException({
-        line: 0,
-        includes:
-          'Invalid argument (contents): must be a string but was: Buffer: ' +
-          "Instance of 'NativeUint8List'",
-      });
-    }));
-});
-
-it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', () =>
-  sandbox(dir => {
-    dir.write({'dir/_other.scss': '// non empty file'});
-
+  it('throws an error in sync mode', () => {
     expect(() => {
       compileString('@import "other";', {
         importers: [
           {
-            canonicalize: url => dir.url(`dir/_${url}.scss`),
-            load: url => {
+            canonicalize: url => new URL(`u:${url}`),
+            load() {
               return {
-                contents: fs.readFileSync(url, {encoding: 'utf-8'}),
+                // Need to force an invalid type to test bad-type handling.
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                contents: Buffer.from('not a string') as any,
                 syntax: 'scss',
-                sourceMapUrl: {},
               };
             },
           },
         ],
-        loadPaths: [dir('dir')],
       });
     }).toThrowSassException({
       line: 0,
       includes:
-        "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
+        'Invalid argument (contents): must be a string but was: Buffer: ' +
+        "Instance of 'NativeUint8List'",
     });
-  }));
+  });
+
+  it('throws an error in async mode', async () => {
+    expect(async () => {
+      await compileStringAsync('@import "other";', {
+        importers: [
+          {
+            canonicalize: url => new URL(`u:${url}`),
+            load() {
+              return {
+                // Need to force an invalid type to test bad-type handling.
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                contents: Buffer.from('not a string') as any,
+                syntax: 'scss',
+              };
+            },
+          },
+        ],
+      });
+    }).toThrowSassException({
+      line: 0,
+      includes:
+        'Invalid argument (contents): must be a string but was: Buffer: ' +
+        "Instance of 'NativeUint8List'",
+    });
+  });
+});
+
+it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', () => {
+  expect(() => {
+    compileString('@import "other";', {
+      importers: [
+        {
+          canonicalize: url => new URL(`u:${url}`),
+          load() {
+            return {
+              contents: '',
+              syntax: 'scss',
+              sourceMapUrl: {} as URL,
+            };
+          },
+        },
+      ],
+    });
+  }).toThrowSassException({
+    line: 0,
+    includes:
+      "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
+  });
+});
 
 /**
  * Returns an importer that asserts that `fromImport` is `expected`, and
