@@ -670,7 +670,7 @@ describe('when importer does not return string contents', () => {
               return {
                 // Need to force an invalid type to test bad-type handling.
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                contents: Buffer.from('not a string') as any,
+                contents: {whatever: 123} as any,
                 syntax: 'scss',
               };
             },
@@ -679,9 +679,7 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
+      includes: 'Invalid argument (contents): must be a string but was:',
     });
   });
 
@@ -695,7 +693,7 @@ describe('when importer does not return string contents', () => {
               return {
                 // Need to force an invalid type to test bad-type handling.
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                contents: Buffer.from('not a string') as any,
+                contents: {whatever: 123} as any,
                 syntax: 'scss',
               };
             },
@@ -704,9 +702,7 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
+      includes: 'Invalid argument (contents): must be a string but was:',
     });
   });
 });
@@ -729,8 +725,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
     });
   }).toThrowSassException({
     line: 0,
-    includes:
-      "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
+    includes: 'Invalid argument (sourceMapUrl): must be absolute:',
   });
 });
 
