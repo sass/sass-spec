@@ -63,17 +63,17 @@ a {
 
 <===>
 ================================================================================
+<===> named/options.yml
+:ignore_for:
+  - libsass
+  
 <===> named/input.scss
-a {b: complement($color: red)}
+a {
+  b: complement($color: red, $space: lab)}
 
 <===> named/output.css
 a {
-  b: aqua;
-}
-
-<===> named/output-libsass.css
-a {
-  b: cyan;
+  b: lab(90.7 -51 -15);
 }
 
 <===>
@@ -145,7 +145,7 @@ Error: argument `$color` of `complement($color)` must be a color
 
    ------^
 
-   <===>
+<===>
 ================================================================================
 <===> error/null_space/non_legacy/input.scss
 a {b: complement(oklch(62.796% 0.2577 29.234))}
