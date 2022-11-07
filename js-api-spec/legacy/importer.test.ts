@@ -859,3 +859,53 @@ describe('render()', () => {
       done();
     }));
 });
+
+describe('when importer returns non-string contents', () => {
+  it('throws an error in sync mode', () => {
+    expect(() => {
+      sass.renderSync({
+        data: '@import "other";',
+        importer() {
+          return {
+            // Need to force an invalid type to test bad-type handling.
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            contents: Buffer.from('not a string') as any,
+            syntax: 'scss',
+          };
+        },
+      });
+    }).toThrowLegacyException({
+      line: 1,
+      includes:
+        'Invalid argument (contents): must be a string but was: Buffer: ' +
+        "Instance of 'NativeUint8List'",
+    });
+  });
+
+  it('throws an error in async mode', done => {
+    sass.render(
+      {
+        data: '@import "other";',
+        importer() {
+          return {
+            // Need to force an invalid type to test bad-type handling.
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            contents: Buffer.from('not a string') as any,
+            syntax: 'scss',
+          };
+        },
+      },
+      err => {
+        expect(() => {
+          throw err;
+        }).toThrowLegacyException({
+          line: 1,
+          includes:
+            'Invalid argument (contents): must be a string but was: ' +
+            "Buffer: Instance of 'NativeUint8List'",
+        });
+        done();
+      }
+    );
+  });
+});

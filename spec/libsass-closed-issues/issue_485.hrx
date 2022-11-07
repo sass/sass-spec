@@ -18,21 +18,8 @@
     foo: bar;
   }
 }
-@media (false), print and (color) {
+@media not (color), print and (color) {
   a {
     foo: bar;
   }
 }
-
-<===> warning
-DEPRECATION WARNING on line 3, column 9 of input.scss: 
-Starting a @media query with "not" is deprecated because it conflicts with official CSS syntax.
-
-To preserve existing behavior: #{not (screen and (color))}
-To migrate to new behavior: #{"not (screen and (color))"}
-
-For details, see https://sass-lang.com/d/media-logic
-  ,
-3 | @media (not (screen and (color))), print and (color) { a {foo: bar} }
-  |         ^^^^^^^^^^^^^^^^^^^^^^^^
-  '

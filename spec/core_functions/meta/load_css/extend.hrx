@@ -66,3 +66,41 @@ d {@extend a !optional}
 a {
   b: c;
 }
+
+<===>
+================================================================================
+<===> shared_cssless_midstream/input.scss
+// Regression test for sass/sass#3322
+@use 'sass:meta';
+@use 'target';
+
+@include meta.load-css('extender');
+
+<===> shared_cssless_midstream/extender.scss
+@use 'target';
+
+.extender {
+  @extend .target;
+}
+
+<===> shared_cssless_midstream/_target.scss
+@use 'midstream';
+
+.target {a: b}
+
+<===> shared_cssless_midstream/_midstream.scss
+@use 'upstream';
+
+<===> shared_cssless_midstream/_upstream.scss
+@c;
+
+<===> shared_cssless_midstream/output.css
+@c;
+.target {
+  a: b;
+}
+
+@c;
+.target, .extender {
+  a: b;
+}
