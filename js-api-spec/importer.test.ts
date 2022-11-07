@@ -623,7 +623,7 @@ describe('FileImporter', () => {
       }));
 
     it('wraps an error', async () => {
-      expect(() =>
+      await expect(() =>
         compileStringAsync('@import "other";', {
           importers: [
             {
