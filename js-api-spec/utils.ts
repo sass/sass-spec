@@ -13,7 +13,9 @@ import {URL} from 'url';
 export {sandbox} from './sandbox';
 
 /** The name of the implementation of Sass being tested. */
-export const sassImpl = sass.info.split('\t')[0];
+export const sassImpl = sass.info.split('\t')[0] as
+  | 'dart-sass'
+  | 'sass-embedded';
 
 declare global {
   /* eslint-disable-next-line @typescript-eslint/no-namespace */
