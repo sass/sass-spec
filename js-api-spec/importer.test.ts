@@ -679,14 +679,12 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
+      includes: 'Invalid argument (contents): must be a string but was: Buffer',
     });
   });
 
   it('throws an error in async mode', async () => {
-    expect(async () => {
+    await expect(async () => {
       await compileStringAsync('@import "other";', {
         importers: [
           {
@@ -704,9 +702,7 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
+      includes: 'Invalid argument (contents): must be a string but was: Buffer',
     });
   });
 });
@@ -729,8 +725,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
     });
   }).toThrowSassException({
     line: 0,
-    includes:
-      "Invalid argument (sourceMapUrl): must be absolute: Instance of '_Uri'",
+    includes: 'Invalid argument (sourceMapUrl): must be absolute',
   });
 });
 

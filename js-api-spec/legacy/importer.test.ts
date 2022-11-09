@@ -876,9 +876,7 @@ describe('when importer returns non-string contents', () => {
       });
     }).toThrowLegacyException({
       line: 1,
-      includes:
-        'Invalid argument (contents): must be a string but was: Buffer: ' +
-        "Instance of 'NativeUint8List'",
+      includes: 'Invalid argument (contents): must be a string but was: Buffer',
     });
   });
 
@@ -900,9 +898,7 @@ describe('when importer returns non-string contents', () => {
           throw err;
         }).toThrowLegacyException({
           line: 1,
-          includes:
-            'Invalid argument (contents): must be a string but was: ' +
-            "Buffer: Instance of 'NativeUint8List'",
+          includes: 'Invalid argument (contents): must be a string but was',
         });
         done();
       }
