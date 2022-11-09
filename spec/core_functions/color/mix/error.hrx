@@ -1,0 +1,233 @@
+<===> too_many_args/options.yml
+:ignore_for:
+  - libsass
+
+<===> too_many_args/input.scss
+a {b: mix(red, blue, 100, 1)}
+
+<===> too_many_args/error
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,--> input.scss
+1 | a {b: mix(red, blue, 100, xyz, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===> too_many_args/error-libsass
+Error: wrong number of arguments (5 for 3) for `mix'
+        on line 1:7 of input.scss
+>> a {b: mix(red, blue, 100, xyz, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> too_few_args/options.yml
+:ignore_for:
+  - libsass
+
+<===> too_few_args/input.scss
+a {b: mix(red)}
+
+<===> too_few_args/error
+Error: Missing argument $color2.
+  ,--> input.scss
+1 | a {b: mix(red)}
+  |       ^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> null_method/non_legacy/color1/options.yml
+:ignore_for:
+  - libsass
+
+<===> null_method/non_legacy/color1/input.scss
+a {b: mix(lch(20% -20 0), red)}
+
+<===> null_method/non_legacy/color1/error
+Error: $color1 is not a legacy color. Method is required for non-legacy colors.
+  ,--> input.scss
+1 | a {b: mix(lch(20% -20 0), red, $method: null)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> null_method/non_legacy/color2/options.yml
+:ignore_for:
+  - libsass
+
+<===> null_method/non_legacy/color2/input.scss
+a {b: mix(red, lch(20% -20 0))}
+
+<===> null_method/non_legacy/color2/error
+Error: $color2 is not a legacy color. Method is required for non-legacy colors.
+  ,--> input.scss
+1 | a {b: mix(red, lch(20% -20 0), $method: null)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> color_interpolation_method/options.yml
+:ignore_for:
+  - libsass
+
+<===> color_interpolation_method/input.scss
+a {b: mix(red, blue, brighter)}
+
+<===> color_interpolation_method/error
+Error: Brighter is not a color interpolation method.
+  ,--> input.scss
+1 | a {b: mix(red, blue, $method: brighter)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color1/input.scss
+a {b: mix(1, blue)}
+
+<===> type/color1/error
+Error: $color1: 1 is not a color.
+  ,
+1 | a {b: mix(1, blue)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/color1/error-libsass
+Error: argument `$color1` of `mix($color1, $color2, $weight: 50%)` must be a color
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(1, blue)}
+
+   ------^
+
+<===>
+================================================================================
+<===> type/color2/input.scss
+a {b: mix(red, 1)}
+
+<===> type/color2/error
+Error: $color2: 1 is not a color.
+  ,
+1 | a {b: mix(red, 1)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/color2/error-libsass
+Error: argument `$color2` of `mix($color1, $color2, $weight: 50%)` must be a color
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, 1)}
+
+   ------^
+
+<===>
+================================================================================
+<===> type/weight/input.scss
+a {b: mix(red, blue, green)}
+
+<===> type/weight/error
+Error: $weight: green is not a number.
+  ,
+1 | a {b: mix(red, blue, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> type/weight/error-libsass
+Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a number
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, green)}
+
+   ------^
+
+<===>
+================================================================================
+<===> bounds/too_low/input.scss
+a {b: mix(red, blue, -0.001%)}
+
+<===> bounds/too_low/error
+Error: $weight: Expected -0.001% to be within 0% and 100%.
+  ,
+1 | a {b: mix(red, blue, -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> bounds/too_low/error-libsass
+Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, -0.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> bounds/too_high/input.scss
+a {b: mix(red, blue, 100.001%)}
+
+<===> bounds/too_high/error
+Error: $weight: Expected 100.001% to be within 0% and 100%.
+  ,
+1 | a {b: mix(red, blue, 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===> bounds/too_high/error-libsass
+Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
+        on line 1:7 of input.scss, in function `mix`
+        from line 1:7 of input.scss
+>> a {b: mix(red, blue, 100.001)}
+
+   ------^
+
+<===>
+================================================================================
+<===> weight/incompatible_unit/options.yml
+:ignore_for:
+  - libsass
+
+<===> weight/incompatible_unit/input.scss
+a {b: mix(#91e16f, #0144bf, 50px)}
+
+<===> weight/incompatible_unit/error
+Error: $weight: Expected number 50px to have unit %.
+  ,
+1 | a {b: mix(#91e16f, #0144bf, 50px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
