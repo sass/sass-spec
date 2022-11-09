@@ -217,7 +217,7 @@ a {
 <===> interpolation/input.scss
 a {b: mix(red, green, xyz)}
 
-<===> interpolation/output.scss
+<===> interpolation/output.css
 a {
   b: #BC5C00;
 }
@@ -227,7 +227,7 @@ a {
 <===> hue_interpolation/input.scss
 a {b: mix(red, green, lch longer hue)}
 
-<===> hue_interpolation/output.scss
+<===> hue_interpolation/output.css
 a {
   b: #0080FF;
 }
@@ -237,7 +237,7 @@ a {
 <===> different_spaces/input.scss
 a {b: mix(hsl(0, 100%, 50%), green, lch)}
 
-<===> different_spaces/output.scss
+<===> different_spaces/output.css
 a {
   b: hsl(48 100% 28.4%);
 }
@@ -341,10 +341,10 @@ Error: Missing argument $color2.
 <===>
 ================================================================================
 <===> error/null_method/non_legacy/color1/input.scss
-a {b: mix(lch(20% -20 0), red, $method: null)}
+a {b: mix(lch(20% -20 0), red)}
 
 <===> error/null_method/non_legacy/color1/error
-Error: $color1 is not a legacy color.
+Error: $color1 is not a legacy color. Method is required for non-legacy colors.
   ,--> input.scss
 1 | a {b: mix(lch(20% -20 0), red, $method: null)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
@@ -358,10 +358,10 @@ Error: $color1 is not a legacy color.
 <===>
 ================================================================================
 <===> error/null_method/non_legacy/color2/input.scss
-a {b: mix(red, lch(20% -20 0), $method: null)}
+a {b: mix(red, lch(20% -20 0))}
 
 <===> error/null_method/non_legacy/color2/error
-Error: $color2 is not a legacy color.
+Error: $color2 is not a legacy color. Method is required for non-legacy colors.
   ,--> input.scss
 1 | a {b: mix(red, lch(20% -20 0), $method: null)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
@@ -375,7 +375,7 @@ Error: $color2 is not a legacy color.
 <===>
 ================================================================================
 <===> error/color_interpolation_method/input.scss
-a {b: mix(red, blue, $method: brighter)}
+a {b: mix(red, blue, brighter)}
 
 <===> error/color_interpolation_method/error
 Error: Brighter is not a color interpolation method.
