@@ -14,6 +14,17 @@ a {
   b: 100%;
 }
 
+<===> max/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(black, blackness)
+
+  ,
+2 | a {b: color.blackness(black)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    max/input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -24,6 +35,17 @@ a {b: color.blackness(white)}
 a {
   b: 0%;
 }
+
+<===> min/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(white, blackness)
+
+  ,
+2 | a {b: color.blackness(white)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    min/input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -36,6 +58,17 @@ a {
   b: 49.8039215686%;
 }
 
+<===> middle/zero_whiteness/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(color.hwb(0, 0%, 50%), blackness)
+
+  ,
+2 | a {b: color.blackness(color.hwb(0, 0%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    middle/zero_whiteness/input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/half_whiteness/input.scss
@@ -46,6 +79,17 @@ a {b: color.blackness(color.hwb(0, 50%, 50%))}
 a {
   b: 49.8039215686%;
 }
+
+<===> middle/half_whiteness/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(color.hwb(0, 50%, 50%), blackness)
+
+  ,
+2 | a {b: color.blackness(color.hwb(0, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    middle/half_whiteness/input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -58,6 +102,17 @@ a {
   b: 49.8039215686%;
 }
 
+<===> middle/high_whiteness/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(color.hwb(0, 70%, 70%), blackness)
+
+  ,
+2 | a {b: color.blackness(color.hwb(0, 70%, 70%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    middle/high_whiteness/input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> fraction/input.scss
@@ -69,6 +124,17 @@ a {
   b: 0.3921568627%;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+Recommendation: color.channel(color.hwb(0, 0%, 0.5%), blackness)
+
+  ,
+2 | a {b: color.blackness(color.hwb(0, 0%, 0.5%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    fraction/input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -79,6 +145,15 @@ a {b: color.blackness($color: color.hwb(0, 0%, 42%))}
 a {
   b: 41.9607843137%;
 }
+
+<===> named/warning
+DEPRECATION WARNING: Individual color-channel functions defined globally or in the color module are deprecated in favor of the new color.channel() function.
+
+  ,
+2 | a {b: color.blackness($color: color.hwb(0, 0%, 42%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    named/input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
