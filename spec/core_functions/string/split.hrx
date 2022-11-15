@@ -25,20 +25,20 @@ a {
 
 <===>
 ================================================================================
-<===> separator_empty/input.scss
+<===> empty_separator/input.scss
 a {b: split("Helvetica", "")}
 
-<===> separator_empty/output.css
+<===> empty_separator/output.css
 a {
   b: ["H", "e", "l", "v", "e", "t", "i", "c", "a"];
 }
 
 <===>
 ================================================================================
-<===> separator_null/input.scss
+<===> separator_not_found/input.scss
 a {b: split("a, b, c", "&")}
 
-<===> separator_null/output.css
+<===> separator_not_found/output.css
 a {
   b: ["a, b, c"];
 }
@@ -77,6 +77,18 @@ a {
 
 <===>
 ================================================================================
+<===> private_use_character/input.scss
+// Dart Sass emits private-use characters as escapes in expanded mode, but it
+// should stil treat them as single characters for the purpose of functions.
+a {b: split("\E000"), ""}
+
+<===> private_use_character/output.css
+a {
+  b: ["\E000"];
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 a {b: split($string: "a/b/c", $separator: "/", $limit: 1)}
 
@@ -92,8 +104,8 @@ a {b: split("a/b/c", "/", 1, 3)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
-1 | a {b: split($string, $separator, $limit: null)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+1 | a {b: split("a/b/c", "/", 1, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function split($string, $separator, $limit: null) {
