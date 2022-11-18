@@ -2,10 +2,31 @@
 :ignore_for:
   - libsass
 
-<===> input.scss
-a {b: mix(red, green, lch longer hue)}
+<===> longer/input.scss
+a {b: mix(red, green, hsl longer hue)}
 
-<===> output.css
+<===> longer/output.css
 a {
-  b: #0080FF;
+  b: rgb(0, 0, 192);
 }
+
+<===>
+================================================================================
+<===> specified/input.scss
+a {b: mix(red, green, lch specified hue)}
+
+<===> specified/output.css
+a {
+  b: rgb(145, 116, 0);
+}
+
+<===>
+================================================================================
+<===> increasing/weighted/input.scss
+a {b: mix(red, green, 20%, lch increasing hue)}
+
+<===> increasing/weighted/output.css
+a {
+  b: rgb(75, 127, 0);
+}
+
