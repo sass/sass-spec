@@ -15,10 +15,21 @@ a {
 }
 
 <===>
+===================================================================
+<===> rgba/input.scss
+@use "sass:color";
+a {b: color.is-legacy(rgba(72 122 180 / .2))}
+
+<===> rgba/output.css
+a {
+  b: true;
+}
+
+<===>
 ================================================================================
 <===> hwb/input.scss
 @use "sass:color";
-a {b: color.is-legacy(hwb(0, 50%, 0%))}
+a {b: color.is-legacy(hwb(0 50% 0%))}
 
 <===> hwb/output.css
 a {
@@ -29,7 +40,7 @@ a {
 ================================================================================
 <===> hsl/input.scss
 @use "sass:color";
-a {b: color.is-legacy(hsl(110, 31%, 32%))}
+a {b: color.is-legacy(hsl(110 31% 32%))}
 
 <===> hsl/output.css
 a {
@@ -38,9 +49,31 @@ a {
 
 <===>
 ================================================================================
+<===> hex/input.scss
+@use "sass:color";
+a {b: color.is-legacy(#f2ece4)}
+
+<===> hex/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {b: color.is-legacy(midnightblue)}
+
+<===> named/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> srgb/input.scss
 @use "sass:color";
-a {b: color.is-legacy(srgb(115, 20, 210))}
+a {b: color.is-legacy(color(srgb 0.45098 0.07843 0.823530))}
 
 <===> srgb/output.css
 a {
@@ -51,7 +84,7 @@ a {
 ================================================================================
 <===> srgb-linear/input.scss
 @use "sass:color";
-a {b: color.is-legacy(?????)}
+a {b: color.is-legacy(color(srgb-linear 0.45098 0.07843 0.823530))}
 
 <===> srgb-linear/output.css
 a {
@@ -62,7 +95,7 @@ a {
 ================================================================================
 <===> display-p3/input.scss
 @use "sass:color";
-a {b: color.is-legacy((display-p3 0.515 0.35 0.3 / 1))}
+a {b: color.is-legacy(color(display-p3 0.515 0.35 0.3 / 1))}
 
 <===> display-p3/output.css
 a {
@@ -73,7 +106,7 @@ a {
 ================================================================================
 <===> a98-rgb/input.scss
 @use "sass:color";
-a {b: color.is-legacy(?????)}
+a {b: color.is-legacy(color(a98-rgb 0 1 0))}
 
 <===> a98-rgb/output.css
 a {
@@ -84,7 +117,7 @@ a {
 ================================================================================
 <===> prophoto-rgb/input.scss
 @use "sass:color";
-a {b: color.is-legacy(?????)}
+a {b: color.is-legacy(color(prophoto-rgb 0.42444 0.934918 0.190922))}
 
 <===> prophoto-rgb/output.css
 a {
@@ -106,7 +139,7 @@ a {
 ================================================================================
 <===> xyz/input.scss
 @use "sass:color";
-a {b: color.is-legacy(xyz(0.0426 0.0442 0.0364))}
+a {b: color.is-legacy(color(xyz 0.0426 0.0442 0.0364))}
 
 <===> xyz/output.css
 a {
@@ -117,7 +150,7 @@ a {
 ================================================================================
 <===> xyz-d50/input.scss
 @use "sass:color";
-a {b: color.is-legacy(?????)}
+a {b: color.is-legacy(color(xyz-d50 0.2005 0.14089 0.4472))}
 
 <===> xyz-d50/output.css
 a {
@@ -128,7 +161,7 @@ a {
 ================================================================================
 <===> xyz-d65/input.scss
 @use "sass:color";
-a {b: color.is-legacy(?????)}
+a {b: color.is-legacy(color(xyz-d65 0.21661 0.14602 0.59452))}
 
 <===> xyz-d65/output.css
 a {
@@ -161,7 +194,7 @@ a {
 ================================================================================
 <===> oklab/input.scss
 @use "sass:color";
-a {b: color.is-legacy(oklab(0.44027, 0.08818, -0.13386))}
+a {b: color.is-legacy(oklab(0.44027 0.08818 -0.13386))}
 
 <===> oklab/output.css
 a {
