@@ -3,26 +3,9 @@
   - libsass
 
 <===> too_many_args/input.scss
-a {b: mix(red, blue, 100, 1)}
+a {b: mix(red, blue, 30%, lch, 1)}
 
 <===> too_many_args/error
-Error: Only 4 arguments allowed, but 5 were passed.
-  ,--> input.scss
-1 | a {b: mix(red, blue, 100, xyz, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
-  |           ================================================== declaration
-  '
-  input.scss 1:7  root stylesheet
-
-<===> too_many_args/error-libsass
-Error: wrong number of arguments (5 for 3) for `mix'
-        on line 1:7 of input.scss
->> a {b: mix(red, blue, 100, xyz, 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -34,17 +17,6 @@ Error: wrong number of arguments (5 for 3) for `mix'
 a {b: mix(red)}
 
 <===> too_few_args/error
-Error: Missing argument $color2.
-  ,--> input.scss
-1 | a {b: mix(red)}
-  |       ^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
-  |           ================================================== declaration
-  '
-  input.scss 1:7  root stylesheet
-
 
 <===>
 ================================================================================
@@ -56,16 +28,6 @@ Error: Missing argument $color2.
 a {b: mix(lch(20% -20 0), red)}
 
 <===> null_method/non_legacy/color1/error
-Error: $color1 is not a legacy color. Method is required for non-legacy colors.
-  ,--> input.scss
-1 | a {b: mix(lch(20% -20 0), red, $method: null)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
-  |           ================================================== declaration
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -77,16 +39,6 @@ Error: $color1 is not a legacy color. Method is required for non-legacy colors.
 a {b: mix(red, lch(20% -20 0))}
 
 <===> null_method/non_legacy/color2/error
-Error: $color2 is not a legacy color. Method is required for non-legacy colors.
-  ,--> input.scss
-1 | a {b: mix(red, lch(20% -20 0), $method: null)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
-  |           ================================================== declaration
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -98,16 +50,6 @@ Error: $color2 is not a legacy color. Method is required for non-legacy colors.
 a {b: mix(red, blue, brighter)}
 
 <===> color_interpolation_method/error
-Error: Brighter is not a color interpolation method.
-  ,--> input.scss
-1 | a {b: mix(red, blue, $method: brighter)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
-  |           ================================================== declaration
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -224,10 +166,5 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be betwe
 a {b: mix(#91e16f, #0144bf, 50px)}
 
 <===> weight/incompatible_unit/error
-Error: $weight: Expected number 50px to have unit %.
-  ,
-1 | a {b: mix(#91e16f, #0144bf, 50px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
+
 
