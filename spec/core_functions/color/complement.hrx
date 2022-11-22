@@ -158,16 +158,6 @@ Error: Function complement is missing argument $color.
 a {b: complement(red, lch, 1)}
 
 <===> error/too_many_args/error
-Error: Only 2 arguments allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: complement(red, lch, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function complement($color, $space: null) {
-  |           ================================ declaration
-  '
-  input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
 Error: wrong number of arguments (2 for 1) for `complement'
@@ -203,17 +193,6 @@ Error: argument `$color` of `complement($color)` must be a color
 a {b: complement(oklch(0.63 0.26 29.2))}
 
 <===> error/null_space/non_legacy/error
-Error: $color: oklch(0.63 0.26 29.2) is not a legacy color. 
-        Non-legacy colors require a $space.
-  ,--> input.scss
-1 | a {b: complement(oklch(0.63 0.26 29.2)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function complement($color, $space: null) {
-  |           ================================ declaration
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -221,13 +200,4 @@ Error: $color: oklch(0.63 0.26 29.2) is not a legacy color.
 a {b: complement(red, xyz)}
 
 <===> error/space/hue_channel/error
-Error: $space: xyz must be a known color space with a polar-angle hue channel.
-  ,--> input.scss
-1 | a {b: complement(red, xyz)}
-  |       ^^^^^^^^^^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function complement(red, xyz) {
-  |           ==================== declaration
-  '
-  input.scss 1:7  root stylesheet
+
