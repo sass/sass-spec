@@ -3,7 +3,12 @@ a {b: grayscale(white)}
 
 <===> no_saturation/white/output.css
 a {
-  b: white;
+  b: hsl(0 0% 100%);
+}
+
+<===> no_saturation/white/output-libsass.css
+a {
+  b: cyan;
 }
 
 <===>
@@ -12,6 +17,11 @@ a {
 a {b: grayscale(black)}
 
 <===> no_saturation/black/output.css
+a {
+  b: hsl(0 0% 0%);
+}
+
+<===> no_saturation/black/output-libsass.css
 a {
   b: black;
 }
@@ -23,6 +33,11 @@ a {b: grayscale(#494949)}
 
 <===> no_saturation/gray/output.css
 a {
+  b: hsl(0 0% 28.6%);
+}
+
+<===> no_saturation/gray/output-libsass.css
+a {
   b: #494949;
 }
 
@@ -32,6 +47,11 @@ a {
 a {b: grayscale(red)}
 
 <===> max_saturation/output.css
+a {
+  b: hsl(0 0% 50%);
+}
+
+<===> max_saturation/output-libsass.css
 a {
   b: gray;
 }
@@ -43,6 +63,11 @@ a {b: grayscale(#633736)}
 
 <===> mid_saturation/output.css
 a {
+  b: hsl(1.33 0% 30%);
+}
+
+<===> mid_saturation/output-libsass.css
+a {
   b: #4d4d4d;
 }
 
@@ -52,6 +77,11 @@ a {
 a {b: grayscale(rgba(#633736, 0.3))}
 
 <===> alpha/output.css
+a {
+  b: hsl(1.33 0% 30% / 0.3);
+}
+
+<===> alpha/output-libsass.css
 a {
   b: rgba(77, 77, 77, 0.3);
 }
@@ -74,7 +104,54 @@ a {b: grayscale($color: white)}
 
 <===> named/output.css
 a {
+  b:  hsl(0 0% 100%);
+}
+
+<===> named/output-libsass.css
+a {
   b: white;
+}
+
+<===>
+================================================================================
+<===> non_legacy/rectangular/options.yml
+:ignore_for:
+  - libsass
+
+<===> non_legacy/rectangular/input.scss
+a {b: grayscale(lab(62.2345% -34.9638 47.7721))}
+
+<===> non_legacy/rectangular/output.css
+a {
+  b: lab(44.3 0 0);
+}
+
+<===>
+================================================================================
+<===> non_legacy/polar/options.yml
+:ignore_for:
+  - libsass
+
+<===> non_legacy/polar/input.scss
+a {b: grayscale(lch(54.3 107 40.9))}
+
+<===> non_legacy/polar/output.css
+a {
+  b: lch(56.9 0 0);
+}
+
+<===>
+================================================================================
+<===> non_legacy/specialty/options.yml
+:ignore_for:
+  - libsass
+
+<===> non_legacy/specialty/input.scss
+a {b: grayscale(color(xyz-d65 0.41 0.21 0.02))}
+
+<===> non_legacy/specialty/output.css
+a {
+  b: color(xyz-d65 0.23 0.24 0.27);
 }
 
 <===>
