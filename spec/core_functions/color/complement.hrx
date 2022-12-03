@@ -88,8 +88,8 @@ Error: Missing argument $color.
   |       ^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function complement($color) {
-  |           ================== declaration
+1 | @function complement($color, $space: null) {
+  |           ================================ declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -102,6 +102,11 @@ Error: Function complement is missing argument $color.
 
 <===>
 ================================================================================
+<===> error/too_many_args/options.yml
+---
+:todo:
+- dart-sass
+
 <===> error/too_many_args/input.scss
 a {b: complement(red, 1)}
 
