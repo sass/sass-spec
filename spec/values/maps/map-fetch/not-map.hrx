@@ -1,0 +1,11 @@
+<===> input.scss
+$map: (foo: bar);
+test { baz: map-fetch($map, foo, baz); }
+
+<===> error
+Error: Map not found at foo.
+  ,
+2 | test { baz: map-fetch($map, foo, baz); }
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:13  root stylesheet

@@ -1,0 +1,13 @@
+<===> input.scss
+$map: (a: 100, b: (c: 200));
+
+test {
+  a: map-fetch($map, a);
+  bc: map-fetch($map, b, c);
+}
+
+<===> output.css
+test {
+  a: 100;
+  bc: 200;
+}

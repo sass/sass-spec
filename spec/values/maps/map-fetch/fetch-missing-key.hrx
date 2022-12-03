@@ -1,0 +1,11 @@
+<===> input.scss
+$map: (foo: bar);
+test { baz: map-fetch($map, baz); }
+
+<===> error
+Error: Key not found: baz.
+  ,
+2 | test { baz: map-fetch($map, baz); }
+  |             ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:13  root stylesheet
