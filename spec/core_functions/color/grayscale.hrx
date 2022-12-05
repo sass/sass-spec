@@ -3,12 +3,7 @@ a {b: grayscale(white)}
 
 <===> no_saturation/white/output.css
 a {
-  b: hsl(0 0% 100%);
-}
-
-<===> no_saturation/white/output-libsass.css
-a {
-  b: cyan;
+  b: white;
 }
 
 <===>
@@ -17,11 +12,6 @@ a {
 a {b: grayscale(black)}
 
 <===> no_saturation/black/output.css
-a {
-  b: hsl(0 0% 0%);
-}
-
-<===> no_saturation/black/output-libsass.css
 a {
   b: black;
 }
@@ -33,11 +23,6 @@ a {b: grayscale(#494949)}
 
 <===> no_saturation/gray/output.css
 a {
-  b: hsl(0 0% 28.6%);
-}
-
-<===> no_saturation/gray/output-libsass.css
-a {
   b: #494949;
 }
 
@@ -47,11 +32,6 @@ a {
 a {b: grayscale(red)}
 
 <===> max_saturation/output.css
-a {
-  b: hsl(0 0% 50%);
-}
-
-<===> max_saturation/output-libsass.css
 a {
   b: gray;
 }
@@ -63,11 +43,6 @@ a {b: grayscale(#633736)}
 
 <===> mid_saturation/output.css
 a {
-  b: hsl(1.33 0% 30%);
-}
-
-<===> mid_saturation/output-libsass.css
-a {
   b: #4d4d4d;
 }
 
@@ -77,11 +52,6 @@ a {
 a {b: grayscale(rgba(#633736, 0.3))}
 
 <===> alpha/output.css
-a {
-  b: hsl(1.33 0% 30% / 0.3);
-}
-
-<===> alpha/output-libsass.css
 a {
   b: rgba(77, 77, 77, 0.3);
 }
@@ -104,12 +74,7 @@ a {b: grayscale($color: white)}
 
 <===> named/output.css
 a {
-  b:  hsl(0 0% 100%);
-}
-
-<===> named/output-libsass.css
-a {
-  b: white;
+  b:  white;
 }
 
 <===>
@@ -119,11 +84,11 @@ a {
   - libsass
 
 <===> non_legacy/rectangular/input.scss
-a {b: grayscale(lab(62.2345% -34.9638 47.7721))}
+a {b: grayscale(lab(50 -30 40))}
 
 <===> non_legacy/rectangular/output.css
 a {
-  b: lab(44.3 0 0);
+  b: lab(48.6 0 0);
 }
 
 <===>
@@ -142,14 +107,14 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/specialty/options.yml
+<===> non_legacy/predefined/options.yml
 :ignore_for:
   - libsass
 
-<===> non_legacy/specialty/input.scss
+<===> non_legacy/predefined/input.scss
 a {b: grayscale(color(xyz-d65 0.41 0.21 0.02))}
 
-<===> non_legacy/specialty/output.css
+<===> non_legacy/predefined/output.css
 a {
   b: color(xyz-d65 0.23 0.24 0.27);
 }
