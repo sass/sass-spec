@@ -215,6 +215,7 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
+@use "sass:color";
 a {b: color.is-legacy(rgb(0 255))}
 
 <===> error/too_few_args/error 
@@ -222,13 +223,15 @@ a {b: color.is-legacy(rgb(0 255))}
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: color.is-legacy(rgb(0 255 0), blue)}
+@use "sass:color";
+a {b: color.is-legacy(rgb(0 255 0), a)}
 
 <===> error/too_many_args/error
 
 <===>
 ================================================================================
 <===> error/type/input.scss
+@use "sass:color";
 a {b: color.is-legacy(1)}
 
 <===> error/type/error
