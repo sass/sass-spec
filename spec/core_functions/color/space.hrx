@@ -22,7 +22,7 @@ a {b: color.space(rgba(72 122 180 / .2))}
 
 <===> rgba/output.css
 a {
-  b: rgba;
+  b: rgb;
 }
 
 <===>
@@ -55,7 +55,7 @@ a {b: color.space(#f2ece4)}
 
 <===> hex/output.css
 a {
-  b: #f2ece4;
+  b: rgb;
 }
 
 <===>
@@ -66,7 +66,7 @@ a {b: color.space($color: midnightblue)}
 
 <===> named/output.css
 a {
-  b: midnightblue;
+  b: rgb;
 }
 
 <===>
@@ -215,20 +215,23 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: color.space(rgb(0 255))}
+@use "sass:color";
+a {b: color.space()}
 
 <===> error/too_few_args/error 
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: color.space(rgb(0 255 0), blue)}
+@use "sass:color";
+a {b: color.space(rgb(0 255 0), a)}
 
 <===> error/too_many_args/error
 
 <===>
 ================================================================================
 <===> error/type/input.scss
+@use "sass:color";
 a {b: color.space(1)}
 
 <===> error/type/error
