@@ -59,9 +59,13 @@ jobs:
       - run: npm run lint-spec
 
   dart_sass_language:
-    name: "Language | Dart Sass"
+    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }}"
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+
+    strategy:
+      matrix:
+        dart_channel: [stable, dev]
 
     steps:
       - uses: actions/checkout@v2
@@ -69,7 +73,7 @@ jobs:
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
-        with: {sdk: stable}
+        with: {sdk: "${{ matrix.dart_channel }}"}
 
       - name: Install dart-sass
         run: |
