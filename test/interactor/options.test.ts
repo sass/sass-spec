@@ -1,5 +1,5 @@
-import {TestCaseArg, optionsFor} from '../../lib-js/interactor';
-import {SassResult, TestResult} from '../../lib-js/test-case/util';
+import {TestCaseArg, optionsFor} from '../../lib/interactor';
+import {SassResult, TestResult} from '../../lib/test-case/util';
 
 interface MockTestCaseArg {
   impl?: string;

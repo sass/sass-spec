@@ -1,5 +1,5 @@
 import path from 'path';
-import {fromPath} from '../../lib-js/spec-directory';
+import {fromPath} from '../../lib/spec-directory';
 
 // Tests for methods on SpecDirectory that mutate its contents
 describe('SpecDirectory mutations', () => {

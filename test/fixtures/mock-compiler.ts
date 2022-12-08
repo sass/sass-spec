@@ -1,6 +1,6 @@
 import yaml from 'js-yaml';
-import {Compiler, Stdio} from '../../lib-js/compiler';
-import {SpecDirectory} from '../../lib-js/spec-directory';
+import {Compiler, Stdio} from '../../lib/compiler';
+import {SpecDirectory} from '../../lib/spec-directory';
 
 class MockCompiler extends Compiler {
   constructor(private readonly specDir: SpecDirectory) {
