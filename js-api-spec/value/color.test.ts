@@ -377,11 +377,11 @@ describe('SassColor', () => {
 
       it('allows valid values', () => {
         expect(color.change({whiteness: 0}).whiteness).toBe(0);
-        expect(color.change({whiteness: 100}).whiteness).toBe(60.141509433962256);
-        expect(color.change({blackness: 0}).blackness).toBe(0);
-        expect(color.change({blackness: 100}).blackness).toBe(
-          93.4065934065934
+        expect(color.change({whiteness: 100}).whiteness).toBe(
+          60.141509433962256
         );
+        expect(color.change({blackness: 0}).blackness).toBe(0);
+        expect(color.change({blackness: 100}).blackness).toBe(93.4065934065934);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
       });
