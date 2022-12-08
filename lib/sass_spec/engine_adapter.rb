@@ -66,7 +66,6 @@ class DartEngineAdapter < EngineAdapter
     @path = path
     Tempfile.open("dart-sass-spec") do |f|
       f.write(<<-DART)
-        // @dart=2.9
         import "dart:convert";
         import "dart:io";
 
