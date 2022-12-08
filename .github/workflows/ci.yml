@@ -12,19 +12,8 @@ on:
   pull_request:
 
 jobs:
-  unit_tests_rb:
-    name: "Unit tests | Ruby"
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with: {bundler-cache: true}
-      - name: Run tests
-        run: bundle exec rspec tests/
-
-  unit_tests_ts:
-    name: "Unit tests | Typescript"
+  unit_tests:
+    name: "Unit tests"
     runs-on: ubuntu-latest
 
     steps:

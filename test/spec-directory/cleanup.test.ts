@@ -1,4 +1,4 @@
-import {withAsyncCleanup} from '../../lib-js/spec-directory/cleanup';
+import {withAsyncCleanup} from '../../lib/spec-directory/cleanup';
 
 describe('withAsyncCleanup', () => {
   it('does the cleanup function on normal exit', async () => {
