@@ -164,7 +164,10 @@ jobs:
   js_api_sass_embedded:
     name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')"
+    if: >-
+      github.event_name != 'pull_request' ||
+          (!contains(github.event.pull_request.body, 'skip sass-embedded') &&
+              !contains(github.event.pull_request.body, 'skip dart-sass'))"
 
     strategy:
       fail-fast: false
