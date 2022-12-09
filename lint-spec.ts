@@ -3,10 +3,10 @@ import fs from 'fs';
 import p from 'path';
 import yargs from 'yargs/yargs';
 
-import {LintReporter} from './lib-js/lint-reporter';
-import {fromPath, SpecDirectory} from './lib-js/spec-directory';
-import RealDirectory from './lib-js/spec-directory/real-directory';
-import VirtualDirectory from './lib-js/spec-directory/virtual-directory';
+import {LintReporter} from './lib/lint-reporter';
+import {fromPath, SpecDirectory} from './lib/spec-directory';
+import RealDirectory from './lib/spec-directory/real-directory';
+import VirtualDirectory from './lib/spec-directory/virtual-directory';
 
 async function lintAllTests(fix: boolean) {
   try {
