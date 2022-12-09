@@ -12,19 +12,8 @@ on:
   pull_request:
 
 jobs:
-  unit_tests_rb:
-    name: "Unit tests | Ruby"
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
-        with: {bundler-cache: true}
-      - name: Run tests
-        run: bundle exec rspec tests/
-
-  unit_tests_ts:
-    name: "Unit tests | Typescript"
+  unit_tests:
+    name: "Unit tests"
     runs-on: ubuntu-latest
 
     steps:
@@ -59,9 +48,13 @@ jobs:
       - run: npm run lint-spec
 
   dart_sass_language:
-    name: "Language | Dart Sass"
+    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }}"
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+
+    strategy:
+      matrix:
+        dart_channel: [stable, dev]
 
     steps:
       - uses: actions/checkout@v2
@@ -69,7 +62,7 @@ jobs:
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
-        with: {sdk: stable}
+        with: {sdk: "${{ matrix.dart_channel }}"}
 
       - name: Install dart-sass
         run: |
@@ -164,7 +157,10 @@ jobs:
   js_api_sass_embedded:
     name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')"
+    if: >-
+      github.event_name != 'pull_request' ||
+          (!contains(github.event.pull_request.body, 'skip sass-embedded') &&
+              !contains(github.event.pull_request.body, 'skip dart-sass'))
 
     strategy:
       fail-fast: false

@@ -1,4 +1,4 @@
-import {fromContents} from '../../lib-js/spec-directory';
+import {fromContents} from '../../lib/spec-directory';
 
 describe('SpecDirectory options', () => {
   it('works in the basic case', async () => {

@@ -2,7 +2,7 @@
 a {b: adjust-color(red, $red: 1, $hue: 1)}
 
 <===> red_and_hue/error
-Error: RGB parameters may not be passed along with HSL parameters.
+Error: $hue: Color space rgb doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $red: 1, $hue: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -23,7 +23,7 @@ Error: Cannot specify HSL and RGB values for a color at the same time for `adjus
 a {b: adjust-color(red, $green: 1, $saturation: 1%)}
 
 <===> green_and_saturation/error
-Error: RGB parameters may not be passed along with HSL parameters.
+Error: $saturation: Color space rgb doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $green: 1, $saturation: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -44,7 +44,7 @@ Error: Cannot specify HSL and RGB values for a color at the same time for `adjus
 a {b: adjust-color(red, $blue: 1, $lightness: 1%)}
 
 <===> blue_and_lightness/error
-Error: RGB parameters may not be passed along with HSL parameters.
+Error: $lightness: Color space rgb doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $blue: 1, $lightness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -70,7 +70,7 @@ Error: Cannot specify HSL and RGB values for a color at the same time for `adjus
 a {b: adjust-color(red, $red: 1, $blackness: 1%)}
 
 <===> red_and_blackness/error
-Error: RGB parameters may not be passed along with HWB parameters.
+Error: $blackness: Color space rgb doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $red: 1, $blackness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -88,7 +88,7 @@ Error: RGB parameters may not be passed along with HWB parameters.
 a {b: adjust-color(red, $green: 1, $whiteness: 1%)}
 
 <===> green_and_whiteness/error
-Error: RGB parameters may not be passed along with HWB parameters.
+Error: $whiteness: Color space rgb doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $green: 1, $whiteness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -106,7 +106,7 @@ Error: RGB parameters may not be passed along with HWB parameters.
 a {b: adjust-color(red, $saturation: 1%, $blackness: 1%)}
 
 <===> saturation_and_blackness/error
-Error: HSL parameters may not be passed along with HWB parameters.
+Error: $blackness: Color space hsl doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $saturation: 1%, $blackness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ Error: HSL parameters may not be passed along with HWB parameters.
 a {b: adjust-color(red, $lightness: 1%, $whiteness: 1%)}
 
 <===> lightness_and_whiteness/error
-Error: HSL parameters may not be passed along with HWB parameters.
+Error: $whiteness: Color space hsl doesn't have a channel with this name.
   ,
 1 | a {b: adjust-color(red, $lightness: 1%, $whiteness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

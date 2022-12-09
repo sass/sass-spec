@@ -1,5 +1,5 @@
 import * as p from 'path';
-import * as specDirectory from '../lib-js/spec-directory';
+import * as specDirectory from '../lib/spec-directory';
 
 // Spot checks for common spec errors.
 

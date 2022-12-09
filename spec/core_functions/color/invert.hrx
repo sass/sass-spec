@@ -182,8 +182,8 @@ Error: Missing argument $color.
   |       ^^^^^^^^ invocation
   '
   ,--> sass:color
-1 | @function invert($color, $weight: 100%) {
-  |           ============================= declaration
+1 | @function invert($color, $weight: 100%, $space: null) {
+  |           =========================================== declaration
   '
   input.scss 1:7  root stylesheet
 
@@ -196,6 +196,11 @@ Error: Function invert is missing argument $color.
 
 <===>
 ================================================================================
+<===> error/too_many_args/options.yml
+---
+:todo:
+- dart-sass
+
 <===> error/too_many_args/input.scss
 a {b: invert(turquoise, 0%, 1)}
 
