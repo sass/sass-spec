@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs';
 import os from 'os';
 import path from 'path';
-import {DartCompiler} from '../lib-js/compiler';
+import {DartCompiler} from '../lib/compiler';
 
 describe('DartCompiler', () => {
   it('gracefully handles an executable that crashes on launch', async () => {
