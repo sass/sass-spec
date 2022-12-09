@@ -1,5 +1,5 @@
-import {fromContents} from '../../lib-js/spec-directory';
-import {toHrx} from '../../lib-js/spec-directory/hrx';
+import {fromContents} from '../../lib/spec-directory';
+import {toHrx} from '../../lib/spec-directory/hrx';
 
 describe('toHrx', () => {
   async function expectHrx(

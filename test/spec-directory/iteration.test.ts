@@ -1,5 +1,5 @@
 import path from 'path';
-import {fromPath, SpecDirectory} from '../../lib-js/spec-directory';
+import {fromPath, SpecDirectory} from '../../lib/spec-directory';
 
 describe('SpecDirectory iteration', () => {
   describe('forEachTest', () => {
