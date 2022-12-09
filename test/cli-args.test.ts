@@ -1,8 +1,8 @@
 import yargs from 'yargs';
-import {parseArgs, CliArgs} from '../lib-js/cli-args';
+import {parseArgs, CliArgs} from '../lib/cli-args';
 
 // mock the compiler, since we don't actually care that it's created
-jest.mock('../lib-js/compiler');
+jest.mock('../lib/compiler');
 
 function wrap(yargs: yargs.Argv<{}>): yargs.Argv<{}> {
   return yargs.fail((msg, error) => {
