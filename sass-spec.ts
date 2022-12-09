@@ -1,8 +1,8 @@
-import {fromPath} from './lib-js/spec-directory';
-import {Interactor} from './lib-js/interactor';
-import {parseArgs, CliArgs} from './lib-js/cli-args';
-import TestCase from './lib-js/test-case';
-import Tabulator from './lib-js/tabulator';
+import {fromPath} from './lib/spec-directory';
+import {Interactor} from './lib/interactor';
+import {parseArgs, CliArgs} from './lib/cli-args';
+import TestCase from './lib/test-case';
+import Tabulator from './lib/tabulator';
 
 async function runAllTests() {
   let args_: CliArgs | undefined;
