@@ -116,7 +116,6 @@ export class DartCompiler implements Compiler {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`);
     }
     const dartFile = `
-// @dart=2.9
 import "dart:convert";
 import "dart:io";
 

@@ -2,7 +2,7 @@ import {
   extractErrorMessage,
   extractWarningMessages,
   normalizeOutput,
-} from '../../lib-js/test-case/compare';
+} from '../../lib/test-case/compare';
 
 describe('result comparison', () => {
   describe('normalizeOutput', () => {
