@@ -16,6 +16,38 @@ a {
 
 <===>
 ================================================================================
+<===> empty/input.scss
+@use "sass:string";
+$result: string.split("", "/");
+a {
+  value: inspect($result);
+  separator: list-separator($result); 
+}
+
+<===> empty/output.css
+a {
+  value: [];
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> single/input.scss
+@use "sass:string";
+$result: string.split("a", "");
+a {
+  value: inspect($result);
+  separator: list-separator($result); 
+}
+
+<===> single/output.css
+a {
+  value: ["a"];
+  separator: comma;
+}
+
+<===>
+================================================================================
 <===> empty_separator/input.scss
 @use "sass:string";
 a {b: string.split("Helvetica", "")}
@@ -108,6 +140,17 @@ a {
 
 <===>
 ================================================================================
+<===> unquoted_string/input.scss
+@use "sass:string";
+a {b: string.split(abc, "")}
+
+<===> unquoted_string/output.css
+a {
+  b: [a, b, c];
+}
+
+<===>
+================================================================================
 <===> error/too_many_args/input.scss
 @use "sass:string";
 a {b: string.split("a/b/c", "/", 1, 3)}
@@ -158,10 +201,10 @@ Error: $string: 1 is not a string.
 ================================================================================
 <===> error/type/separator/input.scss
 @use "sass:string";
-a {b: string.split("1/2/3", /)}
+a {b: string.split("1/2/3", 1)}
 
 <===> error/type/separator/error
-Error: $separator: / is not a string.
+Error: $separator: 1 is not a string.
   ,
 1 | a {b: string.split("1/2/3", /)}
   |       ^^^^^^^^^^^^^^^^^
