@@ -227,6 +227,16 @@ a {b: color.is-legacy(rgb(0 255))}
 a {b: color.is-legacy(rgb(0 255 0), a)}
 
 <===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: color.is-legacy(rgb(0 255 0), a)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-legacy($color) {
+  |           ================= declaration
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -235,3 +245,9 @@ a {b: color.is-legacy(rgb(0 255 0), a)}
 a {b: color.is-legacy(1)}
 
 <===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.is-legacy(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
