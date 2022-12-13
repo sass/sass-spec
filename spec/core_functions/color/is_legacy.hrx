@@ -62,9 +62,20 @@ a {
 ================================================================================
 <===> named/input.scss
 @use "sass:color";
-a {b: color.is-legacy($color: midnightblue)}
+a {b: color.is-legacy($color: rgb(255 0 0))}
 
 <===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> color_keyword/input.scss
+@use "sass:color";
+a {b: color.is-legacy(midnightblue)}
+
+<===> color_keyword/output.css
 a {
   b: true;
 }
@@ -216,7 +227,7 @@ a {
 ================================================================================
 <===> error/too_few_args/input.scss
 @use "sass:color";
-a {b: color.is-legacy(rgb(0 255))}
+a {b: color.is-legacy()}
 
 <===> error/too_few_args/error 
 
