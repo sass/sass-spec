@@ -64,7 +64,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with: {sdk: "${{ matrix.dart_channel }}"}
 
-      - name: Install dart-sass
+      - name: Install Dart Sass
         run: |
           GITHUB_REF=${PR_REF:-$CURRENT_REF}
           if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
@@ -88,7 +88,7 @@ jobs:
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
 
-      - name: Install sassc
+      - name: Install SassC
         run: |
           export SASS_LIBSASS_PATH=$BUILD_DIR/../libsass
           export SASS_SASSC_PATH=$BUILD_DIR/../sassc
@@ -133,7 +133,9 @@ jobs:
 
       - name: Install Dart Sass
         run: |
-          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
+          GITHUB_REF=${PR_REF:-$CURRENT_REF}
+          if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
+          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
           (
             cd ../dart-sass
             dart pub get
@@ -141,6 +143,9 @@ jobs:
             cd build/npm
             npm install
           )
+        env:
+          PR_REF: "${{ github.base_ref }}"
+          CURRENT_REF: "${{ github.ref }}"
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
@@ -188,14 +193,18 @@ jobs:
 
       - name: Install sass-embedded
         run: |
-          git clone https://github.com/sass/embedded-host-node.git \
-              ../embedded-host-node --depth 1
+          GITHUB_REF=${PR_REF:-$CURRENT_REF}
+          if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
+          git clone https://github.com/sass/embedded-host-node.git ../embedded-host-node --depth 1 --branch "$branch"
           (
             cd ../embedded-host-node
             npm install
             npm run init
             npm run compile
           )
+        env:
+          PR_REF: "${{ github.base_ref }}"
+          CURRENT_REF: "${{ github.ref }}"
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
