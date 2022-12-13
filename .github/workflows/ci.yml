@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: sass/dart-sass
-          ref: "${{ startsWith(github.base_ref, 'feature.') ? github.base_ref : 'main' }}"
+          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
           path: ../dart-sass
       - name: Dart Sass | dart pub get
         run: dart pub get
@@ -135,7 +135,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: sass/dart-sass
-          ref: "${{ startsWith(github.base_ref, 'feature.') ? github.base_ref : 'main' }}"
+          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
           path: ../dart-sass
       - name: Dart Sass | Install
         run: |
@@ -193,7 +193,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: sass/embedded-host-node
-          ref: "${{ startsWith(github.base_ref, 'feature.') ? github.base_ref : 'main' }}"
+          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
           path: ../embedded-host-node
       - name: Node.js Embedded Host | Install
         run: |
