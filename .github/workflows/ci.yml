@@ -69,13 +69,13 @@ jobs:
         with:
           repository: sass/dart-sass
           ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: ../dart-sass
+          path: dart-sass
       - name: Dart Sass | dart pub get
         run: dart pub get
-        working-directory: ../dart-sass
+        working-directory: dart-sass
 
       - name: Run specs
-        run: npm run sass-spec -- --dart ../dart-sass
+        run: npm run sass-spec -- --dart dart-sass
 
   libsass:
     name: "Language | LibSass"
@@ -136,14 +136,14 @@ jobs:
         with:
           repository: sass/dart-sass
           ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: ../dart-sass
+          path: dart-sass
       - name: Dart Sass | Install
         run: |
           dart pub get
           dart pub run grinder pkg-npm-dev
           cd build/npm
           npm install
-        working-directory: ../dart-sass
+        working-directory: dart-sass
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
@@ -152,7 +152,7 @@ jobs:
           path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language
+        run: npm run js-api-spec -- --sassPackage dart-sass/build/npm --sassSassRepo language
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
@@ -194,13 +194,13 @@ jobs:
         with:
           repository: sass/embedded-host-node
           ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: ../embedded-host-node
+          path: embedded-host-node
       - name: Node.js Embedded Host | Install
         run: |
           npm install
           npm run init
           npm run compile
-        working-directory: ../embedded-host-node
+        working-directory: embedded-host-node
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
@@ -209,4 +209,4 @@ jobs:
           path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage ../embedded-host-node --sassSassRepo language
+        run: npm run js-api-spec -- --sassPackage embedded-host-node --sassSassRepo language
