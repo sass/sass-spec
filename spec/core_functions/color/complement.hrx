@@ -18,8 +18,7 @@ a {b: complement(turquoise)}
 
 <===> turquoise/output.css
 a {
-  b: rgb(224, 64, 80);
-};
+  b: #e04050;
 }
 
 <===> turquoise/output-libsass.css
@@ -98,7 +97,7 @@ a {b: complement(red, hwb)}
 
 <===> explicit_space/output.css
 a {
-  b: rgb(0, 255, 255);
+  b: aqua;
 }
 
 <===>
@@ -140,7 +139,7 @@ a {b: complement($color: red, $space: hwb)}
 
 <===> named/output.css
 a {
-  b: rgb(0, 255, 255);
+  b: aqua;
 }
 
 <===>
@@ -213,6 +212,12 @@ Error: argument `$color` of `complement($color)` must be a color
 a {b: complement(oklch(0.63 0.26 29.2))}
 
 <===> error/null_space/non_legacy/error
+Error: $space: null is not a string.
+  ,
+1 | a {b: complement(oklch(0.63 0.26 29.2))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -220,3 +225,9 @@ a {b: complement(oklch(0.63 0.26 29.2))}
 a {b: complement(red, xyz)}
 
 <===> error/space/non_polar_angle/error
+Error: $space: Color space xyz doesn't have a hue channel.
+  ,
+1 | a {b: complement(red, xyz)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

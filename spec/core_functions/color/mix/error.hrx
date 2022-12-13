@@ -6,6 +6,16 @@
 a {b: mix(red, blue, 30%, lch, 1)}
 
 <===> too_many_args/error
+Error: Only 4 arguments allowed, but 5 were passed.
+  ,--> input.scss
+1 | a {b: mix(red, blue, 30%, lch, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -17,6 +27,16 @@ a {b: mix(red, blue, 30%, lch, 1)}
 a {b: mix(red)}
 
 <===> too_few_args/error
+Error: Missing argument $color2.
+  ,--> input.scss
+1 | a {b: mix(red)}
+  |       ^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function mix($color1, $color2, $weight: 50%, $method: null) {
+  |           ================================================== declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -28,6 +48,12 @@ a {b: mix(red)}
 a {b: mix(lch(20% -20 0), red)}
 
 <===> null_method/non_legacy/color1/error
+Error: $color1: To use color.mix() with non-legacy color lch(20% -20 0deg), you must provide a $method.
+  ,
+1 | a {b: mix(lch(20% -20 0), red)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -39,6 +65,12 @@ a {b: mix(lch(20% -20 0), red)}
 a {b: mix(red, lch(20% -20 0))}
 
 <===> null_method/non_legacy/color2/error
+Error: $color1: To use color.mix() with non-legacy color red, you must provide a $method.
+  ,
+1 | a {b: mix(red, lch(20% -20 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
