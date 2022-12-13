@@ -161,6 +161,20 @@ describe('asynchronously', () => {
   });
 });
 
+describe('accepts a function signature that', () => {
+  it('has whitespace after function name', () => {
+    const fn = jest.fn(() => sassNull);
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo ()': fn},
+      }).css
+    ).toBe('');
+
+    expect(fn).toBeCalled();
+  });
+});
+
 describe('rejects a function signature that', () => {
   it('is empty', () => {
     expect(() =>
@@ -195,6 +209,18 @@ describe('rejects a function signature that', () => {
   it('has a non-identifier name', () => {
     expect(() =>
       compileString('', {functions: {'$foo()': () => sassNull}})
+    ).toThrow();
+  });
+
+  it('has whitespace before signature', () => {
+    expect(() =>
+      compileString('', {functions: {' foo()': () => sassNull}})
+    ).toThrow();
+  });
+
+  it('has whitespace after signature', () => {
+    expect(() =>
+      compileString('', {functions: {'foo() ': () => sassNull}})
     ).toThrow();
   });
 });
