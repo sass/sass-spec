@@ -65,11 +65,8 @@ jobs:
         with: {sdk: "${{ matrix.dart_channel }}"}
 
       - name: Dart Sass | Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: sass/dart-sass
-          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: dart-sass
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/dart-sass, path: dart-sass}
       - name: Dart Sass | dart pub get
         run: dart pub get
         working-directory: dart-sass
@@ -132,11 +129,8 @@ jobs:
         with: {sdk: stable}
 
       - name: Dart Sass | Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: sass/dart-sass
-          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: dart-sass
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/dart-sass, path: dart-sass}
       - name: Dart Sass | Install
         run: |
           dart pub get
@@ -190,11 +184,8 @@ jobs:
           repo-token: '${{ github.token }}'
 
       - name: Node.js Embedded Host | Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: sass/embedded-host-node
-          ref: "${{ startsWith(github.base_ref, 'feature.') && github.base_ref || 'main' }}"
-          path: embedded-host-node
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/embedded-host-node, path: embedded-host-node}
       - name: Node.js Embedded Host | Install
         run: |
           npm install
