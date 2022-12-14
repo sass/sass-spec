@@ -41,6 +41,24 @@ describe('rejects a signature', () => {
       })
     ).toThrowLegacyException();
   });
+
+  it('with whitespace between the function name and arguments', () => {
+    expect(() =>
+      sass.renderSync({
+        data: '',
+        functions: {'foo ()': () => sass.types.Null.NULL},
+      })
+    ).toThrowLegacyException();
+  });
+
+  it('with whitespace after the function', () => {
+    expect(() =>
+      sass.renderSync({
+        data: '',
+        functions: {'foo() ': () => sass.types.Null.NULL},
+      })
+    ).toThrowLegacyException();
+  });
 });
 
 describe('allows a signature', () => {
@@ -68,6 +86,15 @@ describe('allows a signature', () => {
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 12; }');
+  });
+
+  it('with whitespace before the function', () => {
+    expect(() =>
+      sass.renderSync({
+        data: '',
+        functions: {' foo()': () => sass.types.Null.NULL},
+      })
+    ).toThrowLegacyException();
   });
 });
 
