@@ -5,11 +5,11 @@
 <===>
 ================================================================================
 <===> rgb/input.scss
-a {b: mix(color(display-p3 1 0 0), color(display-p3 0 1 0), 20%)}
+a {b: mix(color(display-p3 1 0 0), color(display-p3 0 1 0), 20%, oklch)}
 
 <===> rgb/output.css
 a {
-  b: color(display-p3 0.2 0.8 0);
+  b: color(display-p3 0.6684751745 0.8535262883 -0.4281891831);
 }
 
 <===>
@@ -19,17 +19,17 @@ a {b: mix(color(display-p3 1 0 0), color(display-p3 0 1 0), 60%, $method: hsl)}
 
 <===> rgb_explicit_method/output.css
 a {
-  b: color(display-p3 0.9 0.93 0.3);
+  b: color(display-p3 0.9849707148 0.9141322646 0.3079881122);
 }
 
 <===>
 ================================================================================
 <===> xyz/input.scss
-a {b: mix(color(xyz 0.15 0.24 0), color(xyz 1 .2 0), 65%)}
+a {b: mix(color(xyz 0.15 0.24 0), color(xyz 1 .2 0), 65%, lch)}
 
 <===> xyz/output.css
 a {
-  b: color(xyz-d65 0.25 0.23 0.03);
+  b: color(xyz 0.2607187352 0.230899759 -0.0359437687);
 }
 
 <===>
@@ -39,6 +39,5 @@ a {b: mix(color(xyz-d50 0.15 0.24 0), color(xyz-d65 1 .2 0), $method: hwb)}
 
 <===> xyz_explicit_method/output.css
 a {
-  b: color(xyz-d50 0.3 0.21 0.02);
+  b: color(xyz-d50 0.3464867621 0.2923393699 0.0410088495);
 }
-

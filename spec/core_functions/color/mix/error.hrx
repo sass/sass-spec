@@ -65,7 +65,7 @@ Error: $color1: To use color.mix() with non-legacy color lch(20% -20 0deg), you 
 a {b: mix(red, lch(20% -20 0))}
 
 <===> null_method/non_legacy/color2/error
-Error: $color1: To use color.mix() with non-legacy color red, you must provide a $method.
+Error: $color2: To use color.mix() with non-legacy color lch(20% -20 0), you must provide a $method.
   ,
 1 | a {b: mix(red, lch(20% -20 0))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -79,9 +79,15 @@ Error: $color1: To use color.mix() with non-legacy color red, you must provide a
   - libsass
 
 <===> color_interpolation_method/input.scss
-a {b: mix(red, blue, brighter)}
+a {b: mix(red, blue, $method: brighter)}
 
 <===> color_interpolation_method/error
+Error: $method: Unknown color space "brighter".
+  ,
+1 | a {b: mix(red, blue, $method: brighter)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -187,16 +193,3 @@ Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be betwe
 >> a {b: mix(red, blue, 100.001)}
 
    ------^
-
-<===>
-================================================================================
-<===> weight/incompatible_unit/options.yml
-:ignore_for:
-  - libsass
-
-<===> weight/incompatible_unit/input.scss
-a {b: mix(#91e16f, #0144bf, 50px)}
-
-<===> weight/incompatible_unit/error
-
-
