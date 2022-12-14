@@ -64,18 +64,15 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with: {sdk: "${{ matrix.dart_channel }}"}
 
-      - name: Install dart-sass
-        run: |
-          GITHUB_REF=${PR_REF:-$CURRENT_REF}
-          if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
-          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
-          (cd ../dart-sass; dart pub get)
-        env:
-          PR_REF: "${{ github.base_ref }}"
-          CURRENT_REF: "${{ github.ref }}"
+      - name: Dart Sass | Checkout
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/dart-sass, path: dart-sass}
+      - name: Dart Sass | dart pub get
+        run: dart pub get
+        working-directory: dart-sass
 
       - name: Run specs
-        run: npm run sass-spec -- --dart ../dart-sass
+        run: npm run sass-spec -- --dart dart-sass
 
   libsass:
     name: "Language | LibSass"
@@ -88,7 +85,7 @@ jobs:
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
 
-      - name: Install sassc
+      - name: Install SassC
         run: |
           export SASS_LIBSASS_PATH=$BUILD_DIR/../libsass
           export SASS_SASSC_PATH=$BUILD_DIR/../sassc
@@ -131,16 +128,16 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
 
-      - name: Install Dart Sass
+      - name: Dart Sass | Checkout
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/dart-sass, path: dart-sass}
+      - name: Dart Sass | Install
         run: |
-          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
-          (
-            cd ../dart-sass
-            dart pub get
-            dart pub run grinder pkg-npm-dev
-            cd build/npm
-            npm install
-          )
+          dart pub get
+          dart pub run grinder pkg-npm-dev
+          cd build/npm
+          npm install
+        working-directory: dart-sass
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
@@ -149,7 +146,7 @@ jobs:
           path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language
+        run: npm run js-api-spec -- --sassPackage dart-sass/build/npm --sassSassRepo language
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
@@ -186,16 +183,15 @@ jobs:
           version: ${{ env.PROTOC_VERSION }}
           repo-token: '${{ github.token }}'
 
-      - name: Install sass-embedded
+      - name: Node.js Embedded Host | Checkout
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/embedded-host-node, path: embedded-host-node}
+      - name: Node.js Embedded Host | Install
         run: |
-          git clone https://github.com/sass/embedded-host-node.git \
-              ../embedded-host-node --depth 1
-          (
-            cd ../embedded-host-node
-            npm install
-            npm run init
-            npm run compile
-          )
+          npm install
+          npm run init
+          npm run compile
+        working-directory: embedded-host-node
 
       - name: Check out Sass specification
         uses: sass/clone-linked-repo@v1
@@ -204,4 +200,4 @@ jobs:
           path: language
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage ../embedded-host-node --sassSassRepo language
+        run: npm run js-api-spec -- --sassPackage embedded-host-node --sassSassRepo language
