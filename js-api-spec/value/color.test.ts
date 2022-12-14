@@ -4,7 +4,7 @@
 
 import {Value, SassColor} from 'sass';
 
-import '../utils';
+import {skipForImpl} from '../utils';
 
 /** A utility function for creating an RGB color. */
 function rgb(
@@ -178,10 +178,13 @@ describe('SassColor', () => {
       expect(color.lightness).toBe(42);
     });
 
-    it('has HWB channels', () => {
-      expect(color.hue).toBe(120);
-      expect(color.whiteness).toBe(24.360000000000003);
-      expect(color.blackness).toBe(40.36000000000001);
+    // sass/embedded-host-node#170
+    skipForImpl('sass-embedded', () => {
+      it('has HWB channels', () => {
+        expect(color.hue).toBe(120);
+        expect(color.whiteness).toBe(24.360000000000003);
+        expect(color.blackness).toBe(40.36000000000001);
+      });
     });
 
     it('has an alpha channel', () => {
@@ -215,16 +218,22 @@ describe('SassColor', () => {
       expect(color.blue).toBe(107);
     });
 
-    it('has HSL channels', () => {
-      expect(color.hue).toBe(120);
-      expect(color.saturation).toBe(16.000000000000007);
-      expect(color.lightness).toBe(50);
+    // sass/embedded-host-node#170
+    skipForImpl('sass-embedded', () => {
+      it('has HSL channels', () => {
+        expect(color.hue).toBe(120);
+        expect(color.saturation).toBe(16.000000000000007);
+        expect(color.lightness).toBe(50);
+      });
     });
 
-    it('has HWB channels', () => {
-      expect(color.hue).toBe(120);
-      expect(color.whiteness).toBe(42);
-      expect(color.blackness).toBe(42);
+    // sass/embedded-host-node#170
+    skipForImpl('sass-embedded', () => {
+      it('has HWB channels', () => {
+        expect(color.hue).toBe(120);
+        expect(color.whiteness).toBe(42);
+        expect(color.blackness).toBe(42);
+      });
     });
 
     it('has an alpha channel', () => {
@@ -375,15 +384,20 @@ describe('SassColor', () => {
         ).toEqualWithHash(hwb(120, 42, 42, 0.5));
       });
 
-      it('allows valid values', () => {
-        expect(color.change({whiteness: 0}).whiteness).toBe(0);
-        expect(color.change({whiteness: 100}).whiteness).toBe(
-          60.141509433962256
-        );
-        expect(color.change({blackness: 0}).blackness).toBe(0);
-        expect(color.change({blackness: 100}).blackness).toBe(93.4065934065934);
-        expect(color.change({alpha: 0}).alpha).toBe(0);
-        expect(color.change({alpha: 1}).alpha).toBe(1);
+      // sass/embedded-host-node#170
+      skipForImpl('sass-embedded', () => {
+        it('allows valid values', () => {
+          expect(color.change({whiteness: 0}).whiteness).toBe(0);
+          expect(color.change({whiteness: 100}).whiteness).toBe(
+            60.141509433962256
+          );
+          expect(color.change({blackness: 0}).blackness).toBe(0);
+          expect(color.change({blackness: 100}).blackness).toBe(
+            93.4065934065934
+          );
+          expect(color.change({alpha: 0}).alpha).toBe(0);
+          expect(color.change({alpha: 1}).alpha).toBe(1);
+        });
       });
 
       it('disallows invalid values', () => {
