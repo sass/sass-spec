@@ -92,7 +92,7 @@ describe('allows a signature', () => {
     expect(
       sass.renderSync({
         data: 'a {b: foo()}',
-        functions: {' foo()': () => sass.types.Number(12)},
+        functions: {' foo()': () => new sass.types.Number(12)},
       })
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
