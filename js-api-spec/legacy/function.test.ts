@@ -90,10 +90,12 @@ describe('allows a signature', () => {
 
   it('with whitespace before the function', () => {
     expect(
-      sass.renderSync({
-        data: 'a {b: foo()}',
-        functions: {' foo()': () => new sass.types.Number(12)},
-      })
+      sass
+        .renderSync({
+          data: 'a {b: foo()}',
+          functions: {' foo()': () => new sass.types.Number(12)},
+        })
+        .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 });
