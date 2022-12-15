@@ -89,12 +89,12 @@ describe('allows a signature', () => {
   });
 
   it('with whitespace before the function', () => {
-    expect(() =>
+    expect(
       sass.renderSync({
-        data: '',
-        functions: {' foo()': () => sass.types.Null.NULL},
+        data: 'a {b: foo()}',
+        functions: {' foo()': () => sass.types.Number(12)},
       })
-    ).toThrowLegacyException();
+    ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 });
 
