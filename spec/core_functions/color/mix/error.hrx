@@ -60,14 +60,12 @@ Error: $color1: To use color.mix() with non-legacy color lch(20% -20 0deg), you 
 <===> null_method/non_legacy/color2/options.yml
 :ignore_for:
   - libsass
-:todo:
-  - dart-sass
 
 <===> null_method/non_legacy/color2/input.scss
 a {b: mix(red, lch(20% -20 0))}
 
 <===> null_method/non_legacy/color2/error
-Error: $color2: To use color.mix() with non-legacy color lch(20% -20 0), you must provide a $method.
+Error: $color2: To use color.mix() with non-legacy color lch(20% -20 0deg), you must provide a $method.
   ,
 1 | a {b: mix(red, lch(20% -20 0))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -266,8 +264,6 @@ Error: $method: Unknown hue interpolation method longerhue.
 <===> rectangular_space/options.yml
 :ignore_for:
   - libsass
-:todo:
-  - dart-sass
 
 <===> rectangular_space/input.scss
 a {b: mix(red, blue, $method: oklab)}
@@ -279,13 +275,17 @@ a {b: mix(red, blue, $method: oklab)}
 <===> rectangular_space_with_method/options.yml
 :ignore_for:
   - libsass
-:todo:
-  - dart-sass
 
 <===> rectangular_space_with_method/input.scss
 a {b: mix(red, blue, $method: srgb longer hue)}
 
 <===> rectangular_space_with_method/error
+Error: $method: Hue interpolation method "HueInterpolationMethod.longer hue" may not be set for rectangular color space srgb.
+  ,
+1 | a {b: mix(red, blue, $method: srgb longer hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

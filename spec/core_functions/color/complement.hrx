@@ -161,16 +161,23 @@ Error: Missing argument $color.
 <===>
 ================================================================================
 <===> error/too_many_args/options.yml
----
 :ignore_for:
   - libsass
-:todo:
-- dart-sass
 
 <===> error/too_many_args/input.scss
 a {b: complement(red, lch, 1)}
 
 <===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+1 | a {b: complement(red, lch, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function complement($color, $space: null) {
+  |           ================================ declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -198,8 +205,6 @@ Error: argument `$color` of `complement($color)` must be a color
 <===> error/null_space/non_legacy/options.yml
 :ignore_for:
   - libsass
-:todo:
-  - dart-sass
 
 <===> error/null_space/non_legacy/input.scss
 a {b: complement(oklch(0.63 0.26 29.2))}
@@ -222,7 +227,7 @@ Error: $space: null is not a string.
 a {b: complement(red, xyz)}
 
 <===> error/space/non_polar_angle/error
-Error: Color color(xyz 0.4123907993 0.2126390059 0.0193308187) doesn't have a channel named "hue".
+Error: $space: Color space xyz doesn't have a hue channel.
   ,
 1 | a {b: complement(red, xyz)}
   |       ^^^^^^^^^^^^^^^^^^^^
