@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import SpecOptions from './options';
 import SpecDirectory from './spec-directory';
 import VirtualDirectory from './virtual-directory';
 import {resolveSpecPath} from './spec-path';
@@ -9,8 +8,8 @@ import {resolveSpecPath} from './spec-path';
 export default class RealDirectory extends SpecDirectory {
   path: string;
 
-  constructor(path: string, root?: SpecDirectory, parentOpts?: SpecOptions) {
-    super(root, parentOpts);
+  constructor(path: string, root?: SpecDirectory) {
+    super(root);
     this.path = path;
   }
 
@@ -41,11 +40,10 @@ export default class RealDirectory extends SpecDirectory {
   }
 
   async getSubdir(name: string): Promise<SpecDirectory> {
-    const options = await this.options();
     const resolved = resolveSpecPath(path.resolve(this.path, name));
     return resolved.endsWith('.hrx')
-      ? await VirtualDirectory.fromArchive(resolved, this.root, options)
-      : new RealDirectory(resolved, this.root, options);
+      ? await VirtualDirectory.fromArchive(resolved, this)
+      : new RealDirectory(resolved, this.root);
   }
 
   async writeFile(filename: string, contents: string): Promise<void> {

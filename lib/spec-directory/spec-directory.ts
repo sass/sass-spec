@@ -13,19 +13,26 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>;
  * Contains methods for accessing the direct files and subdirectories of the directory.
  */
 export default abstract class SpecDirectory {
-  protected readonly root: SpecDirectory;
-  private readonly parentOpts?: SpecOptions;
   private readonly _subdirs: Record<string, SpecDirectory> = {};
+
+  /** The root of the test suite. */
+  readonly root: SpecDirectory;
 
   /** The full path of this directory */
   abstract path: string;
 
-  constructor(root?: SpecDirectory, parentOpts?: SpecOptions) {
+  constructor(root?: SpecDirectory) {
     this.root = root ?? this;
-    this.parentOpts = parentOpts;
   }
 
-  /** The path of this directory relative to the top level that was created */
+  /** Returns this directory's parent, unless it's the root directory. */
+  async parent(): Promise<SpecDirectory | null> {
+    if (this === this.root) return null;
+    const parentPath = p.dirname(p.relative(this.root.path, this.path));
+    return parentPath === '.' ? this.root : await this.root.atPath(parentPath);
+  }
+
+  /** The path of this directory relative to the root's parent directory. */
   relPath(): string {
     // make sure to include the root dir as part of the name
     // (e.g. if the root path is `spec`, everything should be listed as `spec/thing`)
@@ -94,7 +101,8 @@ export default abstract class SpecDirectory {
   /** Get the spec options of this directory, including those inherited from its parent */
   async options(): Promise<SpecOptions> {
     const opts = await this.directOptions();
-    return this.parentOpts?.merge(opts) ?? opts;
+    const parentOpts = await (await this.parent())?.options();
+    return parentOpts?.merge(opts) ?? opts;
   }
 
   // Test case info
