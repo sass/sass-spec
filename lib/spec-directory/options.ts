@@ -19,6 +19,13 @@ export default class SpecOptions {
     this.data = data;
   }
 
+  /** Return whether this options file is empty and has no effect on test semantics. */
+  get isEmpty(): boolean {
+    return Object.entries(this.data).every(([key, value]) =>
+      key === ':precision' ? value === 10 : value.length === 0
+    );
+  }
+
   /** Create SpecOptions from yaml contents (as a string) */
   static fromYaml(content: string): SpecOptions {
     // TODO validate
@@ -55,7 +62,8 @@ export default class SpecOptions {
     return this.hasForImpl(impl, ':warning_todo');
   }
 
-  private hasForImpl(impl: string, option: OptionKey): boolean {
+  /** Return whether this options object has the given `option` for `impl`. */
+  hasForImpl(impl: string, option: OptionKey): boolean {
     return !!this.data[option]?.some(item => item.includes(impl));
   }
 
@@ -68,6 +76,29 @@ export default class SpecOptions {
   addImpl(impl: string, optKey: OptionKey): SpecOptions {
     const newOption = [...(this.data[optKey] ?? []), impl];
     return new SpecOptions({...this.data, [optKey]: newOption});
+  }
+
+  /** Return these options modified to remove the given impl from the given option key */
+  removeImpl(impl: string, optKey: OptionKey): SpecOptions {
+    const oldOption = this.data[optKey];
+    if (!oldOption) return this;
+
+    const index = oldOption.findIndex(item => item.includes(impl));
+    if (index === -1) return this;
+
+    if (oldOption.length === 1) {
+      const newOptions = {...this.data};
+      delete newOptions[optKey];
+      return new SpecOptions(newOptions);
+    }
+
+    return new SpecOptions({
+      ...this.data,
+      [optKey]: [
+        ...oldOption.slice(0, index),
+        ...oldOption.slice(index + 1, oldOption.length),
+      ],
+    });
   }
 
   /** Convert this options object to a Yaml string */

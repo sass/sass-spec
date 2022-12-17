@@ -1,7 +1,7 @@
 import p from 'path';
 import * as _ from 'lodash';
 
-import SpecOptions from './options';
+import SpecOptions, {OptionKey} from './options';
 import {toHrx} from './hrx';
 import {normalizeSpecPath} from './spec-path';
 
@@ -103,6 +103,39 @@ export default abstract class SpecDirectory {
     const opts = await this.directOptions();
     const parentOpts = await (await this.parent())?.options();
     return parentOpts?.merge(opts) ?? opts;
+  }
+
+  /** Add the given option for the given impl */
+  async addOptionForImpl(impl: string, option: OptionKey): Promise<void> {
+    const options = await this.directOptions();
+    const updatedOptions = options.addImpl(impl, option);
+    await this.writeFile('options.yml', updatedOptions.toYaml());
+  }
+
+  /** Removes the given option for the given impl */
+  async removeOptionForImpl(impl: string, option: OptionKey): Promise<void> {
+    if (!(await this.options()).hasForImpl(impl, option)) return;
+
+    const options = await this.directOptions();
+    if (options.hasForImpl(impl, option)) {
+      const updatedOptions = options.removeImpl(impl, option);
+      if (updatedOptions.isEmpty) {
+        await this.removeFile('options.yml');
+      } else {
+        await this.writeFile('options.yml', updatedOptions.toYaml());
+      }
+      return;
+    }
+
+    // If `option` isn't set in the directory's direct options, we have to
+    // remove it from a parent directory instead and manually re-apply it to all
+    // this directory's siblings.
+    const parent = (await this.parent())!;
+    parent.removeOptionForImpl(impl, option);
+    for (const sibling of await parent.subdirs()) {
+      if (sibling === this) continue;
+      sibling.addOptionForImpl(impl, option);
+    }
   }
 
   // Test case info

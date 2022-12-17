@@ -1,4 +1,4 @@
-import type {SpecDirectory, OptionKey} from '../spec-directory';
+import type {SpecDirectory} from '../spec-directory';
 import {Compiler} from '../compiler';
 import {
   failures,
@@ -161,13 +161,6 @@ export default class TestCase {
 
   // Mutations
 
-  /** Add the given option for the given impl */
-  async addOptionForImpl(option: OptionKey): Promise<void> {
-    const options = await this.dir.directOptions();
-    const updatedOptions = options.addImpl(this.impl, option);
-    await this.dir.writeFile('options.yml', updatedOptions.toYaml());
-  }
-
   /**
    * Overwrite the base results with the actual results
    */
@@ -178,6 +171,7 @@ export default class TestCase {
     await Promise.all(
       getExpectedFiles(this.impl).map(filename => this.dir.removeFile(filename))
     );
+    await this.dir.removeOptionForImpl(this.impl, ':todo');
     this._result = {type: 'pass'};
   }
 
@@ -203,17 +197,17 @@ export default class TestCase {
   /** Mark this test (or its warning) as TODO */
   async markTodo(): Promise<void> {
     if (this.result().failureType === 'warning_difference') {
-      await this.addOptionForImpl(':warning_todo');
+      await this.dir.addOptionForImpl(this.impl, ':warning_todo');
       this._result = {type: 'pass'};
     } else {
-      await this.addOptionForImpl(':todo');
+      await this.dir.addOptionForImpl(this.impl, ':todo');
       this._result = {type: 'todo'};
     }
   }
 
   /** Mark this test as ignored for the current implementation */
   async markIgnore(): Promise<void> {
-    await this.addOptionForImpl(':ignore_for');
+    await this.dir.addOptionForImpl(this.impl, ':ignore_for');
     this._result = {type: 'skip'};
   }
 }
