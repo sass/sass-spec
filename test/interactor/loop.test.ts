@@ -246,6 +246,30 @@ status: 0
 `.trimLeft()
         );
       });
+
+      it('for a --probe-todo failure', async () => {
+        const {test, output} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:todo:
+  - sass-mock
+
+<===> input.scss
+stdout: OUTPUT
+status: 0
+
+<===> output.css
+OUTPUT
+    `,
+          {todo: 'probe'}
+        );
+
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(output).toContain('Please select an option >');
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(test.dir.hasFile('options.yml')).toEqual(false);
+      });
     });
   });
 

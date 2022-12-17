@@ -56,8 +56,8 @@ describe('Interactor options', () => {
     await expectOption('e', {actual: {isSuccess: false, error: 'error'}});
   });
 
-  it('does not show any of the update test choices on an unexpected todo', async () => {
-    for (const key of 'OITG') {
+  it('does not show most of the update test choices on an unexpected todo', async () => {
+    for (const key of 'ITG') {
       await expectOption(
         key,
         {result: {type: 'fail', failureType: 'unnecessary_todo'}},
