@@ -91,17 +91,12 @@ export default class VirtualDirectory extends SpecDirectory {
   }
 
   /**
-   * Create a virtual directory from string contents, and an optional path.
-   * If no path is given (e.g. in testing), it is set to an empty string.
+   * Create a virtual directory from string contents, for testing purposes.
    */
-  static async fromContents(
-    contents: string,
-    path = ''
-  ): Promise<VirtualDirectory> {
+  static async fromContents(contents: string): Promise<VirtualDirectory> {
     const stream = Readable.from(contents);
     const archive = await archiveFromStream(stream);
-    // TODO where should the temp path be?
-    return new VirtualDirectory(path, archive);
+    return new VirtualDirectory('<test>', archive);
   }
 
   // File access
