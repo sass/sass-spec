@@ -9,20 +9,20 @@ import RealDirectory from './lib/spec-directory/real-directory';
 import VirtualDirectory from './lib/spec-directory/virtual-directory';
 
 async function lintAllTests(fix: boolean) {
-  //try {
-  const rootPath = p.resolve(process.cwd(), 'spec');
-  const rootDir = (await fromRoot(rootPath)) as RealDirectory;
-  const reporter = new LintReporter(process.stdout, rootPath);
+  try {
+    const rootPath = p.resolve(process.cwd(), 'spec');
+    const rootDir = (await fromRoot(rootPath)) as RealDirectory;
+    const reporter = new LintReporter(process.stdout, rootPath);
 
-  await lintDirectory(rootDir, reporter, {canBeHrxRoot: true, fix});
-  await lintHrxSize(rootDir, reporter, {fix});
+    await lintDirectory(rootDir, reporter, {canBeHrxRoot: true, fix});
+    await lintHrxSize(rootDir, reporter, {fix});
 
-  reporter.writeSummary();
-  process.exitCode = reporter.exitCode();
-  // } catch (error) {
-  //   console.log(`${error}`);
-  //   process.exitCode = 255;
-  // }
+    reporter.writeSummary();
+    process.exitCode = reporter.exitCode();
+  } catch (error) {
+    console.log(`${error}`);
+    process.exitCode = 255;
+  }
 }
 
 async function lintDirectory(
