@@ -1,12 +1,13 @@
 import {fromContents} from '../../lib/spec-directory';
 import {mockCompiler} from '../fixtures/mock-compiler';
 import TestCase, {TestResult} from '../../lib/test-case';
+import {TodoMode} from '../../lib/test-case/util';
 
 // TODO most of these tests can be factored out into tests that comparing two results work
 describe('TestCase::result()', () => {
   async function runTestCase(
     content: string,
-    opts: {todoMode?: string} = {}
+    opts: {todoMode?: TodoMode} = {}
   ): Promise<TestResult> {
     const dir = await fromContents(content.trimLeft());
     const test = await TestCase.create(

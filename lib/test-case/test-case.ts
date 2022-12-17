@@ -6,6 +6,7 @@ import {
   getExpectedFiles,
   overwriteResults,
   SassResult,
+  TodoMode,
 } from './util';
 import {compareResults} from './compare';
 import {getExpectedResult} from './expected';
@@ -30,7 +31,7 @@ export default class TestCase {
     dir: SpecDirectory,
     impl: string,
     compiler: Compiler,
-    todoMode?: string
+    todoMode: TodoMode
   ) {
     this.dir = dir;
     this.impl = impl;
@@ -45,7 +46,7 @@ export default class TestCase {
     dir: SpecDirectory,
     impl: string,
     compiler: Compiler,
-    todoMode?: string
+    todoMode?: TodoMode
   ): Promise<TestCase> {
     const testCase = new TestCase(dir, impl, compiler, todoMode);
     try {
