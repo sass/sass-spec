@@ -5,10 +5,31 @@ a {b: to-space(lab(54.3 80.8 69.9), 'lab')}
 a {b: lab(54.3 80.8 69.9) }
 
 ================================================================================
-<===> coverted_legacy/input.scss
-a {b: to-space(lab(54.3 80.8 69.9), 'lab')}
+<===> coverted_legacy_channel_to_zero/input.scss
+a {b: to-space('?', '?')}
 
-<===> converted_legacy/output.scss
-a {b: lab(54.3 80.8 69.9) }
+<===> coverted_legacy_channel_to_zero/output.scss
+a {b: lab('?') }
+
+================================================================================
+<===> error/too_few_args/input.scss
+
+a {b: to-space()}
+
+<===> error/too_few_args/error
+
+================================================================================
+<===> error/too_many_args/input.scss
+
+a {b: to-space('red', lab(54.3 80.8 69.9), 1)}
+
+<===> error/too_many_args/error
+
+================================================================================
+<===> error/wrong_arg_types/input.scss
+
+a {b: to-space(1, 2)}
+
+<===> error/wrong_arg_types/error
 
 ================================================================================
