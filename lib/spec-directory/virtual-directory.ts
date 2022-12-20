@@ -34,19 +34,21 @@ export default class VirtualDirectory extends SpecDirectory {
   path: string;
   basePath: string;
 
-  // The directory that contains this, or `null` if this is the root directory.
+  /**
+   * The directory that contains this, or `null` if this is the root directory.
+   */
   private _parent: SpecDirectory | null;
 
-  // Names of direct files in archive order
+  /** Names of direct files in archive order. */
   private fileNames: string[];
 
-  // Mapping from file names to file contents
+  /** Mapping from file names to file contents. */
   private fileContents: Record<string, string>;
 
-  // Names of direct subdirectories in archive order
+  /** Names of direct subdirectories in archive order. */
   private subdirNames: string[];
 
-  // mapping from subdir names to the HRX Directory object
+  /** The mapping from subdir names to the HRX Directory object. */
   private subdirCache: Record<string, HrxDirectory>;
 
   private isArchiveRoot: boolean;
