@@ -1,0 +1,21 @@
+<===> input.scss
+@use "sass:color";
+a {b: color.lightness(#abcdef)}
+
+<===> output.css
+a {
+  b: 80.3921568627%;
+}
+
+<===> warning
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.lightness(#abcdef)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
