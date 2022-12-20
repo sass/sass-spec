@@ -94,10 +94,15 @@ export class DartCompiler implements Compiler {
     this.stdin.write(`!cd ${path}\n`);
     this.stdin.write([...this.initArgs, ...opts].join(' ') + '\n');
 
+    const [stderr, stdout, status] = await Promise.all([
+      this.stderr.next(),
+      this.stdout.next(),
+      this.stdout.next(),
+    ]);
     return {
-      stdout: (await this.stdout.next()).value,
-      stderr: (await this.stderr.next()).value,
-      status: +(await this.stdout.next()).value,
+      stdout: stdout.value,
+      stderr: stderr.value,
+      status: +status.value,
     };
   }
 
