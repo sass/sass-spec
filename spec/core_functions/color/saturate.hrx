@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> one_arg/README.md
 Sass supports saturate() with one argument for compatibility with [plain CSS][].
 
@@ -48,6 +54,20 @@ a {
   b: #ff7eff;
 }
 
+<===> two_args/max/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> two_args/max_remaining/input.scss
@@ -58,6 +78,20 @@ a {
   b: #ff7eff;
 }
 
+<===> two_args/max_remaining/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 53%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 53%)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> two_args/min/input.scss
@@ -67,6 +101,19 @@ a {b: saturate(plum, 0%)}
 a {
   b: plum;
 }
+
+<===> two_args/min/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestion:
+
+color.adjust($color, $saturation: 0%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 0%)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -83,6 +130,20 @@ a {
   b: #e697e6;
 }
 
+<===> two_args/middle/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 26.5588235294%)
+color.adjust($color, $saturation: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> two_args/alpha/input.scss
@@ -92,6 +153,20 @@ a {b: saturate(rgba(plum, 0.5), 100%)}
 a {
   b: rgba(255, 126, 255, 0.5);
 }
+
+<===> two_args/alpha/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(rgba(plum, 0.5), 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -107,6 +182,20 @@ a {
 a {
   b: #e697e6;
 }
+
+<===> two_args/named/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 26.5588235294%)
+color.adjust($color, $saturation: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate($color: plum, $amount: 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

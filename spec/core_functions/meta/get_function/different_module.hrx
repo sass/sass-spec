@@ -6,23 +6,23 @@
 <===>
 ================================================================================
 <===> defined/input.scss
-@use "sass:color";
-a {b: call(get-function("red", $module: "color"), #abcdef)}
+@use "sass:math";
+a {b: call(get-function("round", $module: "math"), 0.6)}
 
 <===> defined/output.css
 a {
-  b: 171;
+  b: 1;
 }
 
 <===>
 ================================================================================
 <===> chosen_prefix/input.scss
-@use "sass:color" as a;
-b {c: call(get-function("red", $module: "a"), #abcdef)}
+@use "sass:math" as a;
+b {c: call(get-function("round", $module: "a"), 0.6)}
 
 <===> chosen_prefix/output.css
 b {
-  c: 171;
+  c: 1;
 }
 
 <===>
@@ -121,10 +121,10 @@ a {
 - sass/libsass#2807
 
 <===> named/input.scss
-@use "sass:color";
-a {b: call(get-function($name: "red", $module: "color"), #abcdef)}
+@use "sass:math";
+a {b: call(get-function($name: "round", $module: "math"), 0.6)}
 
 <===> named/output.css
 a {
-  b: 171;
+  b: 1;
 }
