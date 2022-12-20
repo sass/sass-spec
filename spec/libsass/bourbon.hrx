@@ -1,10 +1,8 @@
 <===> options.yml
-
 :todo:
-# This file starts failing when split, sass compiler seems to struggle when
-# `input.scss` is a real file with `@import "a/b/c"` and `a/b` is actually an
-# HRX file containing `c` in its root.
-- lint-hrx
+  - lint-hrx
+:warning_todo:
+  - libsass
 
 <===> input.scss
 @import "lib/_bourbon.scss";
@@ -1969,3 +1967,17 @@ div {
   background-image: -webkit-url("/images/a.png")-gradient( center), -webkit-url("images/b.png")-gradient( left);
   background-image: url("/images/a.png")-gradient( center), url("images/b.png")-gradient( left);
 }
+
+<===> warning
+DEPRECATION WARNING: darken() is deprecated. Suggestions:
+
+color.scale($color, $lightness: -21.0743801653%)
+color.adjust($color, $lightness: -10%)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ,
+25 |                              linear-gradient(#4e7ba3, darken(#4e7ba4, 10%)));
+   |                                                       ^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 25:55  root stylesheet

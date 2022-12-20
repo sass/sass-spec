@@ -1,3 +1,7 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
 <===> input.scss
 foo {
   @for $i from 0 through 360 {
@@ -369,3 +373,16 @@ foo {
   i359: 359deg;
   i360: 0deg;
 }
+
+<===> warning
+DEPRECATION WARNING: hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+3 |     i#{$i}: hue(hsl($i, 10%, 20%));
+  |             ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:13  root stylesheet

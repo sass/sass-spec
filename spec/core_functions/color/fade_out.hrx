@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> max/input.scss
 a {b: fade-out(rgba(red, 0.5), 1)}
 
@@ -5,6 +11,20 @@ a {b: fade-out(rgba(red, 0.5), 1)}
 a {
   b: rgba(255, 0, 0, 0);
 }
+
+<===> max/warning
+DEPRECATION WARNING: fade-out() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -100%)
+color.adjust($color, $alpha: -1)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: fade-out(rgba(red, 0.5), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -16,6 +36,20 @@ a {
   b: rgba(255, 0, 0, 0);
 }
 
+<===> max_remaining/warning
+DEPRECATION WARNING: fade-out() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -100%)
+color.adjust($color, $alpha: -0.5)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: fade-out(rgba(red, 0.5), 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -25,6 +59,19 @@ a {b: fade-out(rgba(red, 0.5), 0)}
 a {
   b: rgba(255, 0, 0, 0.5);
 }
+
+<===> min/warning
+DEPRECATION WARNING: fade-out() is deprecated. Suggestion:
+
+color.adjust($color, $alpha: 0)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: fade-out(rgba(red, 0.5), 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -36,6 +83,20 @@ a {
   b: rgba(255, 0, 0, 0.36);
 }
 
+<===> middle/warning
+DEPRECATION WARNING: fade-out() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -28%)
+color.adjust($color, $alpha: -0.14)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: fade-out(rgba(red, 0.5), 0.14)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -46,6 +107,20 @@ a {
   b: rgba(255, 0, 0, 0.36);
 }
 
+<===> named/warning
+DEPRECATION WARNING: fade-out() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -28%)
+color.adjust($color, $alpha: -0.14)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: fade-out($color: rgba(red, 0.5), $amount: 0.14)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> transparentize/input.scss
@@ -55,6 +130,20 @@ a {b: transparentize($color: rgba(red, 0.5), $amount: 0.14)}
 a {
   b: rgba(255, 0, 0, 0.36);
 }
+
+<===> transparentize/warning
+DEPRECATION WARNING: transparentize() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -28%)
+color.adjust($color, $alpha: -0.14)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: transparentize($color: rgba(red, 0.5), $amount: 0.14)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

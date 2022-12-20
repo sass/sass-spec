@@ -1,3 +1,7 @@
+<===> max/options.yml
+:warning_todo:
+  - libsass
+
 <===> max/input.scss
 a {b: adjust-hue(red, 359)}
 
@@ -11,8 +15,25 @@ a {
   b: #ff0004;
 }
 
+<===> max/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 359deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 359)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> above_max/options.yml
+:warning_todo:
+  - libsass
+
 <===> above_max/input.scss
 a {b: adjust-hue(red, 540)}
 
@@ -26,8 +47,25 @@ a {
   b: cyan;
 }
 
+<===> above_max/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 540deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 540)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> min/options.yml
+:warning_todo:
+  - libsass
+
 <===> min/input.scss
 a {b: adjust-hue(blue, 0)}
 
@@ -36,8 +74,25 @@ a {
   b: blue;
 }
 
+<===> min/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 0deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(blue, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> negative/options.yml
+:warning_todo:
+  - libsass
+
 <===> negative/input.scss
 a {b: adjust-hue(red, -180)}
 
@@ -51,8 +106,25 @@ a {
   b: cyan;
 }
 
+<===> negative/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: -180deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, -180)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> middle/options.yml
+:warning_todo:
+  - libsass
+
 <===> middle/input.scss
 a {b: adjust-hue(red, 123)}
 
@@ -66,8 +138,25 @@ a {
   b: #00ff0d;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 123deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 123)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> fraction/options.yml
+:warning_todo:
+  - libsass
+
 <===> fraction/input.scss
 a {b: adjust-hue(red, 0.5)}
 
@@ -81,8 +170,25 @@ a {
   b: #ff0200;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 0.5deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> alpha/options.yml
+:warning_todo:
+  - libsass
+
 <===> alpha/input.scss
 a {b: adjust-hue(rgba(red, 0.1), 359)}
 
@@ -95,6 +201,19 @@ a {
 a {
   b: rgba(255, 0, 4, 0.1);
 }
+
+<===> alpha/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 359deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(rgba(red, 0.1), 359)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -113,6 +232,19 @@ a {
   b: yellow;
 }
 
+<===> units/deg/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 60deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 60deg)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> units/unitless/input.scss
@@ -122,6 +254,19 @@ a {b: adjust-hue(red, 60)}
 a {
   b: yellow;
 }
+
+<===> units/unitless/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 60deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 60)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -146,6 +291,18 @@ See https://sass-lang.com/d/function-units
   '
     input.scss 1:7  root stylesheet
 
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 60deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> units/angle/options.yml
@@ -160,8 +317,25 @@ a {
   b: rgb(0, 179.576224164, 255);
 }
 
+<===> units/angle/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 3437.7467707849deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue(red, 60rad)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
+<===> named/options.yml
+:warning_todo:
+  - libsass
+
 <===> named/input.scss
 a {b: adjust-hue($color: red, $degrees: 123)}
 
@@ -174,6 +348,19 @@ a {
 a {
   b: #00ff0d;
 }
+
+<===> named/warning
+DEPRECATION WARNING: adjust-hue() is deprecated. Suggestion:
+
+color.adjust($color, $hue: 123deg)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: adjust-hue($color: red, $degrees: 123)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

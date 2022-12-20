@@ -21,6 +21,19 @@ Recommendation: call(get-function("lighten"))
   '
     input.scss 4:8  root stylesheet
 
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 20%)
+color.adjust($color, $lightness: 10%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+4 |   bar: call($name, $args...);
+  |        ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:8  root stylesheet
+
 <===> warning-libsass
 DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
 in Sass 4.0. Use call(function-reference(lighten)) instead.
