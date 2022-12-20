@@ -18,6 +18,9 @@ export async function fromRoot(path: string): Promise<SpecDirectory> {
     : new RealDirectory(resolved);
 }
 
+/**
+ * Create a virtual directory from string contents, for testing purposes.
+ */
 export function fromContents(contents: string): Promise<SpecDirectory> {
   return VirtualDirectory.fromContents(contents);
 }
