@@ -22,6 +22,7 @@ export default class SpecOptions {
   /** Return whether this options file is empty and has no effect on test semantics. */
   get isEmpty(): boolean {
     return Object.entries(this.data).every(([key, value]) =>
+      // Check whether each entry is set to its default value.
       key === ':precision' ? value === 10 : value.length === 0
     );
   }
