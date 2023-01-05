@@ -33,6 +33,15 @@ type FailureType =
   | 'warning_difference'
   | 'unnecessary_todo';
 
+/**
+ * How to treat tests marked as TODO for the current implementation.
+ *
+ * By default (undefined), TODO tests are skipped. In "run" mode, they're
+ * executed as though the TODO marker didn't exist. In "probe" mode, they're
+ * executed and considered to fail if the TODO is unnecessary.
+ */
+export type TodoMode = undefined | 'run' | 'probe';
+
 // TODO split these up into separate types (e.g. `FailureResult | ErrorResult`).
 // Spliting up the properties into a union type will be cumbersome when
 // results are used as part of a test case across multiple methods (e.g. in `Interactor`).

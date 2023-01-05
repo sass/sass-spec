@@ -158,7 +158,7 @@ export default class VirtualDirectory extends SpecDirectory {
   async getSubdir(name: string): Promise<VirtualDirectory> {
     const subdir = this.subdirCache[normalizeSpecPath(name)];
     if (!subdir) {
-      throw new Error(`Subdirectory does not exist: ${path}/${name}`);
+      throw new Error(`Subdirectory does not exist: ${this.path}/${name}`);
     }
     return new VirtualDirectory(this.basePath, subdir, this);
   }
