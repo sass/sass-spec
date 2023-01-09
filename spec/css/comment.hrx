@@ -163,6 +163,49 @@ a {
 
 <===>
 ================================================================================
+<===> sourcemap/options.yml
+:ignore_for:
+  - libsass
+
+<===>
+================================================================================
+<===> sourcemap/sourcemappingurl/input.scss
+a { b: c }
+/*# sourceMappingURL=whatever */
+
+<===> sourcemap/sourcemappingurl/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> sourcemap/between_loads/input.scss
+@use 'sass:math';
+/*# sourceMappingURL=whatever */
+@use 'sass:list';
+
+a { b: c }
+
+<===> sourcemap/between_loads/output.css
+
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> sourcemap/sourceurl/input.scss
+a { b: c }
+/*# sourceURL=whatever */
+
+<===> sourcemap/sourceurl/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
 <===> error/loud/unterminated/scss/input.scss
 a {
   b: c /* d

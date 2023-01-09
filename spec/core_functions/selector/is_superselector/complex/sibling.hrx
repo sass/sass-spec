@@ -98,6 +98,61 @@ a {
 
 <===>
 ================================================================================
+<===> multiple/extra_middle/README.md
+Regression tests for sass/dart-sass#1843.
+
+<===>
+================================================================================
+<===> multiple/extra_middle/descendant/input.scss
+a {b: is-superselector("a ~ b ~ c", "a ~ x b ~ c")}
+
+<===> multiple/extra_middle/descendant/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> multiple/extra_middle/child/input.scss
+a {b: is-superselector("a ~ b ~ c", "a ~ x > b ~ c")}
+
+<===> multiple/extra_middle/child/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> multiple/extra_middle/following_sibling/input.scss
+a {b: is-superselector("a ~ b ~ c", "a ~ x ~ b ~ c")}
+
+<===> multiple/extra_middle/following_sibling/output.css
+a {
+  b: true;
+}
+
+<===> multiple/extra_middle/following_sibling/output-libsass.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> multiple/extra_middle/next_sibling/input.scss
+a {b: is-superselector("a ~ b ~ c", "a ~ x + b ~ c")}
+
+<===> multiple/extra_middle/next_sibling/output.css
+a {
+  b: true;
+}
+
+<===> multiple/extra_middle/next_sibling/output-libsass.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> and_adjacent_sibling/super/input.scss
 a {b: is-superselector("d ~ c", "d + c")}
 

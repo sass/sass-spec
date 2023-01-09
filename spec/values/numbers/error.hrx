@@ -1,0 +1,18 @@
+<===> plus_dot/input.scss
+// Regression test for sass/dart-sass#1856
+a {b: +.}
+
+<===> plus_dot/error
+Error: Expected digit.
+  ,
+2 | a {b: +.}
+  |         ^
+  '
+  input.scss 2:9  root stylesheet
+
+<===> plus_dot/error-libsass
+Error: Invalid CSS after "a {b: +": expected expression (e.g. 1px, bold), was ".}"
+        on line 2:7 of input.scss
+>> a {b: +.}
+
+   ------^
