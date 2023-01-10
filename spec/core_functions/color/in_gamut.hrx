@@ -335,6 +335,39 @@ a {
 
 <===>
 ================================================================================
+<===> space/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(color(display-p3 1 1 0), hwb)}
+
+<===> space/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> space_named/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut($color: display-p3(1 1 0), $space: srgb)}
+
+<===> named_space/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> space_in/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(color(display-p3 1 1 0), oklch)}
+
+<===> space_in/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut()}
@@ -345,7 +378,7 @@ a {b: color.is-in-gamut()}
 ================================================================================
 <===> error/too_many_args/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 255 0), a)}
+a {b: color.is-in-gamut(rgb(0 255 0), hwb, hsl)}
 
 <===> error/too_many_args/error
 
@@ -356,3 +389,11 @@ a {b: color.is-in-gamut(rgb(0 255 0), a)}
 a {b: color.is-in-gamut(1)}
 
 <===> error/type/error
+
+<===>
+================================================================================
+<===> error/space/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
+
+<===> error/space/error
