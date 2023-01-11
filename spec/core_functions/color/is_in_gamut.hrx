@@ -16,28 +16,6 @@ a {
 
 <===>
 ================================================================================
-<===> rgb/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(rgb(255 -1 0))}
-
-<===> rgb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> rgba/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(rgba(300 122 180))}
-
-<===> rgba/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
 <===> rgba/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(rgba(-1 122 180))}
@@ -54,28 +32,6 @@ a {
 a {b: color.is-in-gamut(hwb(0 300% 0%))}
 
 <===> hwb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> hwb/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(hwb(0 50% -1%))}
-
-<===> hwb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> hsl/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(hsl(0 300% 0%))}
-
-<===> hsl/output.css
 a {
   b: false;
 }
@@ -104,28 +60,6 @@ a {
 
 <===>
 ================================================================================
-<===> srgb/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(srgb -1 0.07843 0.823530))}
-
-<===> srgb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> srgb-linear/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(srgb-linear 2 0.07843 0.823530))}
-
-<===> srgb-linear/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
 <===> srgb-linear/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(color(srgb-linear -1 0.07843 0.823530))}
@@ -148,28 +82,6 @@ a {
 
 <===>
 ================================================================================
-<===> display-p3/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(display-p3 -1 0.35 0.3))}
-
-<===> display-p3/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> a98-rgb/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(a98-rgb 2 1 0))}
-
-<===> a98-rgb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
 <===> a98-rgb/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(color(a98-rgb -1 1 0))}
@@ -186,28 +98,6 @@ a {
 a {b: color.is-in-gamut(color(prophoto-rgb 2 0.934918 0.190922))}
 
 <===> prophoto-rgb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> prophoto-rgb/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(prophoto-rgb -1 0.934918 0.190922))}
-
-<===> prophoto-rgb/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> rec2020/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(rec2020 2 0.979780 0.00579))}
-
-<===> rec2020/output.css
 a {
   b: false;
 }
@@ -313,17 +203,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut($color: rgb(255 0 0))}
-
-<===> named/output.css
-a {
-  b: true;
-}
-
-<===>
-================================================================================
 <===> color_keyword/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(midnightblue)}
@@ -335,33 +214,55 @@ a {
 
 <===>
 ================================================================================
-<===> space/input.scss
-@use "sass:color";
-a {b: color.is-in-gamut(color(display-p3 1 1 0), hwb)}
-
-<===> space/output.css
-a {
-  b: false;
-}
-
-<===>
-================================================================================
-<===> space_named/input.scss
+<===> named/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut($color: display-p3(1 1 0), $space: srgb)}
 
-<===> named_space/output.css
+<===> named/output.css
 a {
   b: false;
 }
 
 <===>
 ================================================================================
-<===> space_in/input.scss
+<===> space/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(color(display-p3 1 1 0), oklch)}
 
-<===> space_in/output.css
+<===> space/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> wide_narrow/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(color(display-p3 1 1 0), hwb)}
+
+<===> wide_narrow/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> narrow_wide/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(hsl(50 40% 30%), oklab)}
+
+<===> narrow_wide/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> oklab_lch/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(oklab(0.44027 0.08818 -0.13386), lch)}
+
+<===> oklab_lch/output.css
 a {
   b: true;
 }
@@ -397,3 +298,11 @@ a {b: color.is-in-gamut(1)}
 a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
 
 <===> error/space/error
+
+<===>
+================================================================================
+<===> error/color_not_space/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(rgb(0 255 0), red)}
+
+<===> error/color_not_space/error
