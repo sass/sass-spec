@@ -335,14 +335,18 @@ Error: $space: Unknown color space "hzl".
 
 <===>
 ================================================================================
-<===> error/color_not_space/input.scss
+<===> error/quoted/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 255 0), c)}
+a {b: color.is-in-gamut(rgb(0 255 0), "hsl")}
 
-<===> error/color_not_space/error
-Error: $space: Unknown color space "c".
+<===> error/quoted/error
+Error: $space: Expected "hsl" to be an unquoted string.
   ,
-2 | a {b: color.is-in-gamut(rgb(0 255 0), c)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.is-in-gamut(rgb(0 255 0), "hsl")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/color_not_space/error
