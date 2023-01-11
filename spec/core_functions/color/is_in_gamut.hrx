@@ -18,7 +18,7 @@ a {
 ================================================================================
 <===> rgba/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgba(-1 122 180))}
+a {b: color.is-in-gamut(rgba(-1 122 180 / 0.4))}
 
 <===> rgba/output.css
 a {
@@ -33,7 +33,7 @@ a {b: color.is-in-gamut(hwb(0 300% 0%))}
 
 <===> hwb/output.css
 a {
-  b: false;
+  b: true;
 }
 
 <===>
@@ -44,14 +44,14 @@ a {b: color.is-in-gamut(hsl(0 -1% 0%))}
 
 <===> hsl/output.css
 a {
-  b: false;
+  b: true;
 }
 
 <===>
 ================================================================================
 <===> srgb/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(color(srgb 2 0.07843 0.823530))}
+a {b: color.is-in-gamut(color(srgb 1.5 0 0))}
 
 <===> srgb/output.css
 a {
@@ -62,7 +62,7 @@ a {
 ================================================================================
 <===> srgb-linear/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(color(srgb-linear -1 0.07843 0.823530))}
+a {b: color.is-in-gamut(color(srgb-linear -1 0 0))}
 
 <===> srgb-linear/output.css
 a {
@@ -73,7 +73,7 @@ a {
 ================================================================================
 <===> display-p3/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(color(display-p3 2 0.35 0.3))}
+a {b: color.is-in-gamut(color(display-p3 2 0 0))}
 
 <===> display-p3/output.css
 a {
@@ -95,7 +95,7 @@ a {
 ================================================================================
 <===> prophoto-rgb/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(color(prophoto-rgb 2 0.934918 0.190922))}
+a {b: color.is-in-gamut(color(prophoto-rgb 2 0 0))}
 
 <===> prophoto-rgb/output.css
 a {
@@ -216,7 +216,7 @@ a {
 ================================================================================
 <===> named/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut($color: display-p3(1 1 0), $space: srgb)}
+a {b: color.is-in-gamut($color: color(display-p3 1 1 0), $space: srgb)}
 
 <===> named/output.css
 a {
@@ -273,15 +273,37 @@ a {
 @use "sass:color";
 a {b: color.is-in-gamut()}
 
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,--> input.scss
+2 | a {b: color.is-in-gamut()}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-in-gamut($color, $space: null) {
+  |           ================================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
 <===> error/too_few_args/error 
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 255 0), hwb, hsl)}
+a {b: color.is-in-gamut(rgb(0 255 0), hwb, c)}
 
 <===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | a {b: color.is-in-gamut(rgb(0 255 0), hwb, c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-in-gamut($color, $space: null) {
+  |           ================================= declaration
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -290,6 +312,12 @@ a {b: color.is-in-gamut(rgb(0 255 0), hwb, hsl)}
 a {b: color.is-in-gamut(1)}
 
 <===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.is-in-gamut(1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -298,11 +326,23 @@ a {b: color.is-in-gamut(1)}
 a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
 
 <===> error/space/error
+Error: $space: Unknown color space "hzl".
+  ,
+2 | a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/color_not_space/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 255 0), red)}
+a {b: color.is-in-gamut(rgb(0 255 0), c)}
 
 <===> error/color_not_space/error
+Error: $space: Unknown color space "c".
+  ,
+2 | a {b: color.is-in-gamut(rgb(0 255 0), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
