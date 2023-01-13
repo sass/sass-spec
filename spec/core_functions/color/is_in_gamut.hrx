@@ -51,7 +51,7 @@ a {
 ================================================================================
 <===> srgb/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(color(srgb 1.5 0 0))}
+a {b: color.is-in-gamut(color(srgb 0 0 1.5))}
 
 <===> srgb/output.css
 a {
@@ -242,7 +242,7 @@ a {b: color.is-in-gamut(color(display-p3 1 1 0), hwb)}
 
 <===> wide_narrow/output.css
 a {
-  b: false;
+  b: true;
 }
 
 <===>
@@ -321,17 +321,45 @@ Error: $color: 1 is not a color.
 
 <===>
 ================================================================================
-<===> error/space/input.scss
+<===> error/space_unknown/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
+a {b: color.is-in-gamut(rgb(0 255 0), c)}
 
-<===> error/space/error
-Error: $space: Unknown color space "hzl".
+<===> error/space_unknown/error
+Error: $space: Unknown color space "c".
   ,
-2 | a {b: color.is-in-gamut(rgb(0 255 0), hzl)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.is-in-gamut(rgb(0 255 0), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/invalid_character_start/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(rgb(0 255 0), .hsl)}
+
+<===> error/invalid_character_start/error
+Error: Expected digit.
+  ,
+2 | a {b: color.is-in-gamut(rgb(0 255 0), .hsl)}
+  |                                        ^
+  '
+  input.scss 2:40  root stylesheet
+
+<===>
+================================================================================
+<===> error/invalid_character_end/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(rgb(0 255 0), hsl.)}
+
+<===> error/invalid_character_end/error
+Error: Expected identifier.
+  ,
+2 | a {b: color.is-in-gamut(rgb(0 255 0), hsl.)}
+  |                                           ^
+  '
+  input.scss 2:43  root stylesheet
 
 <===>
 ================================================================================
@@ -347,6 +375,3 @@ Error: $space: Expected "hsl" to be an unquoted string.
   '
   input.scss 2:7  root stylesheet
 
-<===>
-================================================================================
-<===> error/color_not_space/error
