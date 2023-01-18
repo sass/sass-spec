@@ -1,11 +1,11 @@
 import path from 'path';
-import {fromPath, SpecDirectory} from '../../lib/spec-directory';
+import {fromRoot, SpecDirectory} from '../../lib/spec-directory';
 
 describe('SpecDirectory iteration', () => {
   describe('forEachTest', () => {
     let dir: SpecDirectory;
     beforeEach(async () => {
-      dir = await fromPath(path.resolve(__dirname, './fixtures/iterate'));
+      dir = await fromRoot(path.resolve(__dirname, './fixtures/iterate'));
     });
 
     it('iterates through all test directories', async () => {
@@ -73,9 +73,9 @@ describe('SpecDirectory iteration', () => {
     });
 
     describe('supports a trailing slash', () => {
-      describe('in fromPath()', () => {
+      describe('in fromRoot()', () => {
         it('for a physical directory', async () => {
-          dir = await fromPath(
+          dir = await fromRoot(
             path.resolve(__dirname, './fixtures/iterate/physical/')
           );
 
@@ -87,7 +87,7 @@ describe('SpecDirectory iteration', () => {
         });
 
         it('for an HRX archive', async () => {
-          dir = await fromPath(
+          dir = await fromRoot(
             path.resolve(__dirname, './fixtures/iterate/archive/')
           );
 
@@ -128,9 +128,9 @@ describe('SpecDirectory iteration', () => {
     });
 
     describe('supports a .hrx extension', () => {
-      describe('in fromPath()', () => {
+      describe('in fromRoot()', () => {
         it('for a physical directory', async () => {
-          dir = await fromPath(
+          dir = await fromRoot(
             path.resolve(__dirname, './fixtures/iterate/physical.hrx')
           );
 
@@ -142,7 +142,7 @@ describe('SpecDirectory iteration', () => {
         });
 
         it('for an HRX archive', async () => {
-          dir = await fromPath(
+          dir = await fromRoot(
             path.resolve(__dirname, './fixtures/iterate/archive.hrx')
           );
 
