@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> max/input.scss
 a {b: desaturate(plum, 100%)}
 
@@ -10,6 +16,20 @@ a {
 a {
   b: #bfbfbf;
 }
+
+<===> max/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -26,6 +46,20 @@ a {
   b: #bfbfbf;
 }
 
+<===> max_remaining/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -48%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 48%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -35,6 +69,19 @@ a {b: desaturate(plum, 0%)}
 a {
   b: plum;
 }
+
+<===> min/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestion:
+
+color.adjust($color, $saturation: 0%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 0%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -51,6 +98,20 @@ a {
   b: #d4a9d4;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -29.606557377%)
+color.adjust($color, $saturation: -14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> alpha/input.scss
@@ -66,6 +127,20 @@ a {
   b: rgba(191, 191, 191, 0.3);
 }
 
+<===> alpha/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(rgba(plum, 0.3), 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -80,6 +155,20 @@ a {
 a {
   b: #d4a9d4;
 }
+
+<===> named/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -29.606557377%)
+color.adjust($color, $saturation: -14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate($color: plum, $amount: 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

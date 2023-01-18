@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> max/input.scss
 a {b: lighten(red, 100%)}
 
@@ -5,6 +11,20 @@ a {b: lighten(red, 100%)}
 a {
   b: white;
 }
+
+<===> max/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 100%)
+color.adjust($color, $lightness: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(red, 100%)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -16,6 +36,20 @@ a {
   b: white;
 }
 
+<===> max_remaining/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 100%)
+color.adjust($color, $lightness: 50%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(red, 50%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -25,6 +59,19 @@ a {b: lighten(red, 0%)}
 a {
   b: red;
 }
+
+<===> min/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestion:
+
+color.adjust($color, $lightness: 0%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(red, 0%)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -41,6 +88,20 @@ a {
   b: #ff4747;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 28%)
+color.adjust($color, $lightness: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(red, 14%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> fraction/input.scss
@@ -56,6 +117,20 @@ a {
   b: #ff0303;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 1%)
+color.adjust($color, $lightness: 0.5%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(red, 0.5%)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> alpha/input.scss
@@ -65,6 +140,20 @@ a {b: lighten(rgba(red, 0.4), 100%)}
 a {
   b: rgba(255, 255, 255, 0.4);
 }
+
+<===> alpha/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 100%)
+color.adjust($color, $lightness: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten(rgba(red, 0.4), 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -80,6 +169,20 @@ a {
 a {
   b: #ff4747;
 }
+
+<===> named/warning
+DEPRECATION WARNING: lighten() is deprecated. Suggestions:
+
+color.scale($color, $lightness: 28%)
+color.adjust($color, $lightness: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lighten($color: red, $amount: 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

@@ -1,0 +1,21 @@
+<===> input.scss
+@use "sass:color";
+a {b: color.blue(#abcdef)}
+
+<===> output.css
+a {
+  b: 239;
+}
+
+<===> warning
+DEPRECATION WARNING: color.blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blue(#abcdef)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
