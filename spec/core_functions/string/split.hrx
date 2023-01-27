@@ -1,0 +1,271 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> empty_string/input.scss
+@use "sass:string";
+a {b: string.split("", "/")}
+
+<===> empty_string/output.css
+a {
+  b: [];
+}
+
+<===>
+================================================================================
+<===> empty/input.scss
+@use "sass:string";
+$result: string.split("", "/");
+a {
+  value: inspect($result);
+  separator: list-separator($result); 
+}
+
+<===> empty/output.css
+a {
+  value: [];
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> single/input.scss
+@use "sass:string";
+$result: string.split("a", "");
+a {
+  value: inspect($result);
+  separator: list-separator($result); 
+}
+
+<===> single/output.css
+a {
+  value: ["a",];
+  separator: comma;
+}
+
+<===>
+================================================================================
+<===> empty_separator/input.scss
+@use "sass:string";
+a {b: string.split("Helvetica", "")}
+
+<===> empty_separator/output.css
+a {
+  b: ["H", "e", "l", "v", "e", "t", "i", "c", "a"];
+}
+
+<===>
+================================================================================
+<===> both_empty/input.scss
+@use "sass:string";
+a {b: string.split("", "")}
+
+<===> both_empty/output.css
+a {
+  b: [];
+}
+
+<===>
+================================================================================
+<===> separator/input.scss
+@use "sass:string";
+a {b: string.split("a, b, c", ", ")}
+
+<===> separator/output.css
+a {
+  b: ["a", "b", "c"];
+}
+
+<===>
+================================================================================
+<===> separator_not_found/input.scss
+@use "sass:string";
+a {b: string.split("a, b, c", "&")}
+
+<===> separator_not_found/output.css
+a {
+  b: ["a, b, c"];
+}
+
+<===>
+================================================================================
+<===> limit/input.scss
+@use "sass:string";
+a {b: string.split("a, b, c, d", ", ", 2)}
+
+<===> limit/output.css
+a {
+  b: ["a", "b", "c, d"];
+}
+
+<===>
+================================================================================
+<===> double_width_character/input.scss
+@use "sass:string";
+// Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
+// character is represented as two UTF-16 code units.
+a {b: string.split("👭a", "")}
+
+<===> double_width_character/output.css
+@charset "UTF-8";
+a {
+  b: ["👭", "a"];
+}
+
+<===>
+================================================================================
+<===> private_use_character/input.scss
+@use "sass:string";
+// Dart Sass emits private-use characters as escapes in expanded mode, but it
+// should still treat them as single characters for the purpose of functions.
+a {b: string.split("\E000", "")}
+
+<===> private_use_character/output.css
+a {
+  b: ["\e000"];
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:string";
+a {b: string.split($string: "a/b/c", $separator: "/", $limit: 1)}
+
+<===> named/output.css
+a {
+  b: ["a", "b/c"];
+}
+
+<===>
+================================================================================
+<===> unquoted_string/input.scss
+@use "sass:string";
+a {b: string.split(abc, "")}
+
+<===> unquoted_string/output.css
+a {
+  b: [a, b, c];
+}
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:string";
+a {b: string.split("a/b/c", "/", 1, 3)}
+
+<===> error/too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+2 | a {b: string.split("a/b/c", "/", 1, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function split($string, $separator, $limit: null) {
+  |           ======================================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:string";
+a {b: string.split("a/b/c")}
+
+<===> error/too_few_args/error
+Error: Missing argument $separator.
+  ,--> input.scss
+2 | a {b: string.split("a/b/c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:string
+1 | @function split($string, $separator, $limit: null) {
+  |           ======================================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/string/input.scss
+@use "sass:string";
+a {b: string.split(1, "%")}
+
+<===> error/type/string/error
+Error: $string: 1 is not a string.
+  ,
+2 | a {b: string.split(1, "%")}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/separator/input.scss
+@use "sass:string";
+a {b: string.split("1/2/3", 1)}
+
+<===> error/type/separator/error
+Error: $separator: 1 is not a string.
+  ,
+2 | a {b: string.split("1/2/3", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/limit/input.scss
+@use "sass:string";
+a {b: string.split("1/2/3", "/", "1")}
+
+<===> error/type/limit/error
+Error: $limit: "1" is not a number.
+  ,
+2 | a {b: string.split("1/2/3", "/", "1")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/decimal/input.scss
+@use "sass:string";
+a {b: string.split("1/2/3", "/", 0.5)}
+
+<===> error/decimal/error
+Error: $limit: 0.5 is not an int.
+  ,
+2 | a {b: string.split("1/2/3", "/", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/negative_limit/input.scss
+@use "sass:string";
+a {b: string.split("1/2/3", "/", -1)}
+
+<===> error/negative_limit/error
+Error: $limit: Must be 1 or greater, was -1.
+  ,
+2 | a {b: string.split("1/2/3", "/", -1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/limit_zero/input.scss
+@use "sass:string";
+a {b: string.split("a, b, c", ", ", 0)}
+
+<===> error/limit_zero/error
+Error: $limit: Must be 1 or greater, was 0.
+  ,
+2 | a {b: string.split("a, b, c", ", ", 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

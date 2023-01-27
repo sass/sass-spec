@@ -2,6 +2,7 @@ import {Interactor} from '../../lib/interactor';
 import {Readable, Writable} from 'stream';
 import {fromContents} from '../../lib/spec-directory';
 import TestCase from '../../lib/test-case';
+import {TodoMode} from '../../lib/test-case/util';
 import {mockCompiler} from '../fixtures/mock-compiler';
 
 class MemoryWritable extends Writable {
@@ -19,16 +20,29 @@ function makeInputStream(inputs: string[]): Readable {
   return Readable.from(inputs.map(input => input + '\n'));
 }
 
-async function makeTestCase(contents: string): Promise<TestCase> {
-  const dir = await fromContents(contents.trim());
-  return await TestCase.create(dir, 'sass-mock', mockCompiler(dir));
+async function makeTestCase(
+  contents: string,
+  options?: {todo?: TodoMode; subdir?: string}
+): Promise<TestCase> {
+  let dir = await fromContents(contents.trim());
+  if (options?.subdir) dir = await dir.atPath(options.subdir);
+  return await TestCase.create(
+    dir,
+    'sass-mock',
+    mockCompiler(dir),
+    options?.todo
+  );
 }
 
-async function runInteractor(inputs: string[], contents: string) {
+async function runInteractor(
+  inputs: string[],
+  contents: string,
+  options?: {todo?: TodoMode; subdir?: string}
+) {
   const input = makeInputStream(inputs);
   const output = new MemoryWritable();
   const interactor = new Interactor(input, output);
-  const test = await makeTestCase(contents);
+  const test = await makeTestCase(contents, options);
   await interactor.prompt(test);
   return {test, output: output.contents()};
 }
@@ -126,6 +140,136 @@ status: 1
       );
       expect(test.result()).toMatchObject({type: 'pass'});
       expect(await test.dir.readFile('error')).toEqual('ERROR');
+    });
+
+    describe('and removes a TODO', () => {
+      it('on its own', async () => {
+        const {test} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:todo:
+  - sass-mock
+
+<===> input.scss
+stdout: OUTPUT
+status: 0
+    `,
+          {todo: 'run'}
+        );
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(test.dir.hasFile('options.yml')).toEqual(false);
+      });
+
+      it('with another field', async () => {
+        const {test} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:ignore_for:
+  - libsass
+:todo:
+  - sass-mock
+
+<===> input.scss
+stdout: OUTPUT
+status: 0
+    `,
+          {todo: 'run'}
+        );
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(await test.dir.readFile('options.yml')).toEqual(
+          `
+:ignore_for:
+  - libsass
+`.trimLeft()
+        );
+      });
+
+      it('with another TODO', async () => {
+        const {test} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:todo:
+  - sass-mock
+  - libsass
+
+<===> input.scss
+stdout: OUTPUT
+status: 0
+    `,
+          {todo: 'run'}
+        );
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(await test.dir.readFile('options.yml')).toEqual(
+          `
+:todo:
+  - libsass
+`.trimLeft()
+        );
+      });
+
+      it('in a TODO directory', async () => {
+        const {test} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:todo:
+  - sass-mock
+
+<===> test_to_run/input.scss
+stdout: OUTPUT
+status: 0
+
+<===> other_test/input.scss
+stdout: OUTPUT
+status: 0
+    `,
+          {todo: 'run', subdir: 'test_to_run'}
+        );
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(test.dir.hasFile('options.yml')).toEqual(false);
+
+        const parent = (await test.dir.parent())!;
+        expect(parent.hasFile('options.yml')).toEqual(false);
+        expect(
+          await (await parent.atPath('other_test')).readFile('options.yml')
+        ).toEqual(
+          `
+:todo:
+  - sass-mock
+`.trimLeft()
+        );
+      });
+
+      it('for a --probe-todo failure', async () => {
+        const {test, output} = await runInteractor(
+          ['O'],
+          `
+<===> options.yml
+:todo:
+  - sass-mock
+
+<===> input.scss
+stdout: OUTPUT
+status: 0
+
+<===> output.css
+OUTPUT
+    `,
+          {todo: 'probe'}
+        );
+
+        expect(test.result()).toMatchObject({type: 'pass'});
+        expect(output).toContain('Please select an option >');
+        expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
+        expect(test.dir.hasFile('options.yml')).toEqual(false);
+      });
     });
   });
 

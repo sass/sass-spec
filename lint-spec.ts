@@ -4,18 +4,18 @@ import p from 'path';
 import yargs from 'yargs/yargs';
 
 import {LintReporter} from './lib/lint-reporter';
-import {fromPath, SpecDirectory} from './lib/spec-directory';
+import {fromRoot, SpecDirectory} from './lib/spec-directory';
 import RealDirectory from './lib/spec-directory/real-directory';
 import VirtualDirectory from './lib/spec-directory/virtual-directory';
 
 async function lintAllTests(fix: boolean) {
   try {
     const rootPath = p.resolve(process.cwd(), 'spec');
-    const rootDir = await fromPath(rootPath);
+    const rootDir = (await fromRoot(rootPath)) as RealDirectory;
     const reporter = new LintReporter(process.stdout, rootPath);
 
     await lintDirectory(rootDir, reporter, {canBeHrxRoot: true, fix});
-    await lintHrxSize(rootPath, reporter, {fix});
+    await lintHrxSize(rootDir, reporter, {fix});
 
     reporter.writeSummary();
     process.exitCode = reporter.exitCode();
@@ -161,33 +161,39 @@ async function lintNonHrxTestDir(
 const LINE_THRESHOLD = 500;
 
 /**
- * Verifies all HRX files in the {@link rootPath} directory are under the
- * {@link LINE_THRESHOLD}.
+ * Verifies all HRX files in {@link dir} directory are under the {@link
+ * LINE_THRESHOLD}.
  *
  * HRX files are unwrapped and transformed into real files when {@link fix} is
  * `true`.
  */
 async function lintHrxSize(
-  rootPath: string,
+  dir: RealDirectory,
   reporter: LintReporter,
   {fix = false}
 ) {
-  const rootDir = await fromPath(rootPath);
-  const tooBig = await bigHrxInTree(rootDir, reporter);
+  const tooBig = await bigHrx(dir, reporter);
 
   // No Errors.
   if (tooBig.length === 0) return;
 
   if (!fix) {
-    const tooBigRelative = tooBig.map(getRelativePath);
-    for (const f of tooBigRelative) {
-      reporter.reportError(`HRX file exceeds ${LINE_THRESHOLD} lines`, f, true);
+    for (const dir of tooBig) {
+      reporter.reportError(
+        `HRX file exceeds ${LINE_THRESHOLD} lines`,
+        getRelativePath(dir.path),
+        true
+      );
     }
   } else {
-    for (const archivePath of tooBig) {
-      await hrxToRealFiles(archivePath);
+    for (const archive of tooBig) {
+      await hrxToRealFiles(archive);
       // Fixes files recursively.
-      await lintHrxSize(archivePath, reporter, {fix});
+      await lintHrxSize(
+        (await dir.atPath(archive.relPath())) as RealDirectory,
+        reporter,
+        {fix}
+      );
     }
   }
 }
@@ -222,39 +228,18 @@ async function lintHrxSize(
  * ```
  *
  */
-async function hrxToRealFiles(archivePath: string) {
-  const virtualDir = (await fromPath(archivePath)) as VirtualDirectory;
-  fs.mkdirSync(virtualDir.path, {recursive: true});
+async function hrxToRealFiles(archive: VirtualDirectory) {
+  fs.mkdirSync(archive.path, {recursive: true});
 
-  for (const f of await virtualDir.listFiles()) {
-    const contents = await virtualDir.readFile(f);
-    fs.writeFileSync(p.join(virtualDir.path, f), contents);
+  for (const file of await archive.listFiles()) {
+    const contents = await archive.readFile(file);
+    fs.writeFileSync(p.join(archive.path, file), contents);
   }
-  for (const d of await virtualDir.subdirs()) {
-    const subArchivePath = `${d.path}.hrx`;
-    fs.writeFileSync(subArchivePath, await d.asArchive());
+  for (const subdir of await archive.subdirs()) {
+    const subArchivePath = `${subdir.path}.hrx`;
+    fs.writeFileSync(subArchivePath, await subdir.asArchive());
   }
-  fs.unlinkSync(archivePath);
-}
-
-/**
- * Navigates a directory tree to verify all HRX files follow the style guide,
- * such as number of lines in an HRX file.
- */
-async function bigHrxInTree(
-  dir: SpecDirectory,
-  reporter: LintReporter
-): Promise<string[]> {
-  if (!(dir instanceof RealDirectory)) return [];
-
-  return [
-    ...(await bigHrx(dir, reporter)),
-    ...(
-      await Promise.all(
-        (await dir.subdirs()).map(d => bigHrxInTree(d, reporter))
-      )
-    ).flat(),
-  ];
+  fs.unlinkSync(archive.path);
 }
 
 /**
@@ -282,27 +267,27 @@ async function bigHrxInTree(
 async function bigHrx(
   dir: RealDirectory,
   reporter: LintReporter
-): Promise<string[]> {
-  const hrxFiles = (await dir.listFiles())
-    .filter(f => p.extname(f) === '.hrx')
-    .map(f => p.join(dir.path, f));
+): Promise<VirtualDirectory[]> {
+  const tooBig: VirtualDirectory[] = [];
+  for (const subdir of await dir.subdirs()) {
+    if (subdir.isTestDir()) continue;
+    if (subdir instanceof RealDirectory) {
+      tooBig.push(...(await bigHrx(subdir, reporter)));
+      continue;
+    }
 
-  const tooBig: string[] = [];
-  for (const f of hrxFiles) {
-    const subDir = await fromPath(f);
-    if (subDir.isTestDir()) continue;
+    const hrxPath = subdir.path + '.hrx';
+    reporter.reportLintedFile(hrxPath);
 
-    reporter.reportLintedFile(f);
-
-    const options = await subDir.options();
+    const options = await subdir.options();
     const linterAnnotation =
       options.getMode('lint-hrx') ?? options.getMode('sass/sass-spec#');
     // Skip XHR files annotated with :ignore-for: or :todo: containing
     // `lint-hrx` or `sass/sass-spec#...`
     if (linterAnnotation !== undefined) continue;
 
-    const lines = await fileLinesCount(f);
-    if (lines > LINE_THRESHOLD) tooBig.push(f);
+    const lines = await fileLinesCount(hrxPath);
+    if (lines > LINE_THRESHOLD) tooBig.push(subdir as VirtualDirectory);
   }
   return tooBig;
 }

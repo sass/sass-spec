@@ -1,4 +1,4 @@
-import {fromPath} from './lib/spec-directory';
+import {fromRoot} from './lib/spec-directory';
 import {Interactor} from './lib/interactor';
 import {parseArgs, CliArgs} from './lib/cli-args';
 import TestCase from './lib/test-case';
@@ -11,7 +11,7 @@ async function runAllTests() {
     const start = Date.now();
     const args = (args_ = await parseArgs(process.argv.slice(2)));
     const rootPath = args.root;
-    const rootDir = await fromPath(rootPath);
+    const rootDir = await fromRoot(rootPath);
     const tabulator = new Tabulator(process.stdout, args.verbose);
 
     const dirsToTest =

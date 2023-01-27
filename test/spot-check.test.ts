@@ -25,5 +25,5 @@ it('every directory contains or is contained by a test', async () => {
     }
   }
 
-  await verifyDirectory(await specDirectory.fromPath('spec'));
+  await verifyDirectory(await specDirectory.fromRoot('spec'));
 });

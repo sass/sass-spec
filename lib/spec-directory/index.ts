@@ -5,19 +5,22 @@ import {resolveSpecPath} from './spec-path';
 
 /**
  * Creates either a physical SpecDirectory from a directory or a virtual one
- * from an hrx archive.
+ * from an hrx archive representing the root of a test suite.
  *
  * The `path` parameter may end in `/`, `.hrx`, both, or neither, and will be
  * able to load both HRX archives and physical directories regardless of which
  * suffix it uses.
  */
-export async function fromPath(path: string): Promise<SpecDirectory> {
+export async function fromRoot(path: string): Promise<SpecDirectory> {
   const resolved = resolveSpecPath(path);
   return resolved.endsWith('.hrx')
     ? await VirtualDirectory.fromArchive(resolved)
     : new RealDirectory(resolved);
 }
 
+/**
+ * Create a virtual directory from string contents, for testing purposes.
+ */
 export function fromContents(contents: string): Promise<SpecDirectory> {
   return VirtualDirectory.fromContents(contents);
 }

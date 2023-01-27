@@ -197,4 +197,22 @@ describe('rejects a function signature that', () => {
       compileString('', {functions: {'$foo()': () => sassNull}})
     ).toThrow();
   });
+
+  it('has whitespace before the signature', () => {
+    expect(() =>
+      compileString('', {functions: {' foo()': () => sassNull}})
+    ).toThrow();
+  });
+
+  it('has whitespace after the signature', () => {
+    expect(() =>
+      compileString('', {functions: {'foo() ': () => sassNull}})
+    ).toThrow();
+  });
+
+  it('has whitespace between the identifier and the arguments', () => {
+    expect(() =>
+      compileString('', {functions: {'foo ()': () => sassNull}})
+    ).toThrow();
+  });
 });
