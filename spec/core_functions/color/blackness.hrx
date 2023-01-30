@@ -14,6 +14,19 @@ a {
   b: 100%;
 }
 
+<===> max/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(black)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -25,60 +38,138 @@ a {
   b: 0%;
 }
 
+<===> min/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(white)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/zero_whiteness/input.scss
 @use 'sass:color';
-a {b: color.blackness(color.hwb(0, 0%, 50%))}
+a {b: color.blackness(hwb(0 0% 50%))}
 
 <===> middle/zero_whiteness/output.css
 a {
   b: 50%;
 }
 
+<===> middle/zero_whiteness/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(hwb(0 0% 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/half_whiteness/input.scss
 @use 'sass:color';
-a {b: color.blackness(color.hwb(0, 50%, 50%))}
+a {b: color.blackness(hwb(0 50% 50%))}
 
 <===> middle/half_whiteness/output.css
 a {
   b: 50%;
 }
 
+<===> middle/half_whiteness/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(hwb(0 50% 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/high_whiteness/input.scss
 @use 'sass:color';
-a {b: color.blackness(color.hwb(0, 70%, 70%))}
+a {b: color.blackness(hwb(0 70% 70%))}
 
 <===> middle/high_whiteness/output.css
 a {
   b: 50%;
 }
 
+<===> middle/high_whiteness/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(hwb(0 70% 70%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> fraction/input.scss
 @use 'sass:color';
-a {b: color.blackness(color.hwb(0, 0%, 0.5%))}
+a {b: color.blackness(hwb(0 0% 0.5%))}
 
 <===> fraction/output.css
 a {
   b: 0.5%;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness(hwb(0 0% 0.5%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
 @use 'sass:color';
-a {b: color.blackness($color: color.hwb(0, 0%, 42%))}
+a {b: color.blackness($color: hwb(0 0% 42%))}
 
 <===> named/output.css
 a {
   b: 42%;
 }
+
+<===> named/warning
+DEPRECATION WARNING: color.blackness() is deprecated. Suggestion:
+
+color.channel($color, blackness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.blackness($color: hwb(0 0% 42%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

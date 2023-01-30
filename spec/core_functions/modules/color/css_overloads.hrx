@@ -1,0 +1,113 @@
+<===> README.md
+CSS overloads are still supported for module functions to ease the transition,
+but they should produce deprecation warnings.
+
+<===>
+================================================================================
+<===> grayscale/input.scss
+@use "sass:color";
+a {b: color.grayscale(1)}
+
+<===> grayscale/output.css
+a {
+  b: grayscale(1);
+}
+
+<===> grayscale/warning
+DEPRECATION WARNING: Passing a number (1) to color.grayscale() is deprecated.
+
+Recommendation: grayscale(1)
+
+  ,
+2 | a {b: color.grayscale(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> invert/input.scss
+@use "sass:color";
+a {b: color.invert(1)}
+
+<===> invert/output.css
+a {
+  b: invert(1);
+}
+
+<===> invert/warning
+DEPRECATION WARNING: Passing a number (1) to color.invert() is deprecated.
+
+Recommendation: invert(1)
+
+  ,
+2 | a {b: color.invert(1)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/one_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d)}
+
+<===> alpha/one_arg/output.css
+a {
+  b: alpha(c=d);
+}
+
+<===> alpha/one_arg/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d)
+
+  ,
+2 | a {b: color.alpha(c=d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/multi_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d, e=f, g=h)}
+
+<===> alpha/multi_arg/output.css
+a {
+  b: alpha(c=d, e=f, g=h);
+}
+
+<===> alpha/multi_arg/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d, e=f, g=h)
+
+  ,
+2 | a {b: color.alpha(c=d, e=f, g=h)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> opacity/input.scss
+@use "sass:color";
+a {b: color.opacity(1)}
+
+<===> opacity/output.css
+a {
+  b: opacity(1);
+}
+
+<===> opacity/warning
+DEPRECATION WARNING: Passing a number (1 to color.opacity() is deprecated.
+
+Recommendation: opacity(1)
+
+  ,
+2 | a {b: color.opacity(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet

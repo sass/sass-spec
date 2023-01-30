@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> max/input.scss
 a {b: lightness(hsl(0, 100%, 100%))}
 
@@ -5,6 +11,19 @@ a {b: lightness(hsl(0, 100%, 100%))}
 a {
   b: 100%;
 }
+
+<===> max/warning
+DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lightness(hsl(0, 100%, 100%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -16,6 +35,19 @@ a {
   b: 0%;
 }
 
+<===> min/warning
+DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lightness(hsl(0, 100%, 0%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/input.scss
@@ -25,6 +57,19 @@ a {b: lightness(hsl(0, 100%, 50%))}
 a {
   b: 50%;
 }
+
+<===> middle/warning
+DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lightness(hsl(0, 100%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -36,6 +81,19 @@ a {
   b: 0.5%;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lightness(hsl(0, 100%, 0.5%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -45,6 +103,19 @@ a {b: lightness($color: hsl(0, 100%, 42%))}
 a {
   b: 42%;
 }
+
+<===> named/warning
+DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+
+color.channel($color, lightness)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: lightness($color: hsl(0, 100%, 42%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

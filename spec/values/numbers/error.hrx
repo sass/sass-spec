@@ -1,18 +1,102 @@
-<===> plus_dot/input.scss
-// Regression test for sass/dart-sass#1856
+<===> trailing_dot/README.md
+Regression tests for sass/dart-sass#1856.
+
+<===>
+================================================================================
+<===> trailing_dot/plus/input.scss
 a {b: +.}
 
-<===> plus_dot/error
+<===> trailing_dot/plus/error
 Error: Expected digit.
   ,
-2 | a {b: +.}
+1 | a {b: +.}
   |         ^
   '
-  input.scss 2:9  root stylesheet
+  input.scss 1:9  root stylesheet
 
-<===> plus_dot/error-libsass
+<===> trailing_dot/plus/error-libsass
 Error: Invalid CSS after "a {b: +": expected expression (e.g. 1px, bold), was ".}"
-        on line 2:7 of input.scss
+        on line 1:7 of input.scss
 >> a {b: +.}
 
    ------^
+
+<===>
+================================================================================
+<===> trailing_dot/minus/input.scss
+a {b: -.}
+
+<===> trailing_dot/minus/error
+Error: Expected digit.
+  ,
+1 | a {b: -.}
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===> trailing_dot/minus/error-libsass
+Error: Invalid CSS after "a {b: -": expected expression (e.g. 1px, bold), was ".}"
+        on line 1:7 of input.scss
+>> a {b: -.}
+
+   ------^
+
+<===>
+================================================================================
+<===> trailing_dot/digit/input.scss
+a {b: 1.}
+
+<===> trailing_dot/digit/error
+Error: Expected digit.
+  ,
+1 | a {b: 1.}
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===> trailing_dot/digit/error-libsass
+Error: Invalid CSS after "a {b: 1": expected expression (e.g. 1px, bold), was ".}"
+        on line 1:8 of input.scss
+>> a {b: 1.}
+
+   -------^
+
+<===>
+================================================================================
+<===> trailing_dot/plus_digit/input.scss
+a {b: +1.}
+
+<===> trailing_dot/plus_digit/error
+Error: Expected digit.
+  ,
+1 | a {b: +1.}
+  |          ^
+  '
+  input.scss 1:10  root stylesheet
+
+<===> trailing_dot/plus_digit/error-libsass
+Error: Invalid CSS after "a {b: +1": expected expression (e.g. 1px, bold), was ".}"
+        on line 1:9 of input.scss
+>> a {b: +1.}
+
+   --------^
+
+<===>
+================================================================================
+<===> trailing_dot/minus_digit/input.scss
+a {b: -1.}
+
+<===> trailing_dot/minus_digit/error
+Error: Expected digit.
+  ,
+1 | a {b: -1.}
+  |          ^
+  '
+  input.scss 1:10  root stylesheet
+
+<===> trailing_dot/minus_digit/error-libsass
+Error: Invalid CSS after "a {b: -1": expected expression (e.g. 1px, bold), was ".}"
+        on line 1:9 of input.scss
+>> a {b: -1.}
+
+   --------^

@@ -1,0 +1,265 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> rgb/input.scss
+@use "sass:color";
+a {b: color.space(rgb(0 255 0))}
+
+<===> rgb/output.css
+a {
+  b: rgb;
+}
+
+<===>
+================================================================================
+<===> rgba/input.scss
+@use "sass:color";
+a {b: color.space(rgba(72 122 180 / .2))}
+
+<===> rgba/output.css
+a {
+  b: rgb;
+}
+
+<===>
+================================================================================
+<===> hwb/input.scss
+@use "sass:color";
+a {b: color.space(hwb(0 50% 0%))}
+
+<===> hwb/output.css
+a {
+  b: hwb;
+}
+
+<===>
+================================================================================
+<===> hsl/input.scss
+@use "sass:color";
+a {b: color.space(hsl(110 31% 32%))}
+
+<===> hsl/output.css
+a {
+  b: hsl;
+}
+
+<===>
+================================================================================
+<===> hex/input.scss
+@use "sass:color";
+a {b: color.space(#f2ece4)}
+
+<===> hex/output.css
+a {
+  b: rgb;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {b: color.space($color: midnightblue)}
+
+<===> named/output.css
+a {
+  b: rgb;
+}
+
+<===>
+================================================================================
+<===> srgb/input.scss
+@use "sass:color";
+a {b: color.space(color(srgb 0.45098 0.07843 0.823530))}
+
+<===> srgb/output.css
+a {
+  b: srgb;
+}
+
+<===>
+================================================================================
+<===> srgb-linear/input.scss
+@use "sass:color";
+a {b: color.space(color(srgb-linear 0.45098 0.07843 0.823530))}
+
+<===> srgb-linear/output.css
+a {
+  b: srgb-linear;
+}
+
+<===>
+================================================================================
+<===> display-p3/input.scss
+@use "sass:color";
+a {b: color.space(color(display-p3 0.515 0.35 0.3 / 1))}
+
+<===> display-p3/output.css
+a {
+  b: display-p3;
+}
+
+<===>
+================================================================================
+<===> a98-rgb/input.scss
+@use "sass:color";
+a {b: color.space(color(a98-rgb 0 1 0))}
+
+<===> a98-rgb/output.css
+a {
+  b: a98-rgb;
+}
+
+<===>
+================================================================================
+<===> prophoto-rgb/input.scss
+@use "sass:color";
+a {b: color.space(color(prophoto-rgb 0.42444 0.934918 0.190922))}
+
+<===> prophoto-rgb/output.css
+a {
+  b: prophoto-rgb;
+}
+
+<===>
+================================================================================
+<===> rec2020/input.scss
+@use "sass:color";
+a {b: color.space(color(rec2020 0.42053 0.979780 0.00579))}
+
+<===> rec2020/output.css
+a {
+  b: rec2020;
+}
+
+<===>
+================================================================================
+<===> xyz/input.scss
+@use "sass:color";
+a {b: color.space(color(xyz 0.0426 0.0442 0.0364))}
+
+<===> xyz/output.css
+a {
+  b: xyz;
+}
+
+<===>
+================================================================================
+<===> xyz-d50/input.scss
+@use "sass:color";
+a {b: color.space(color(xyz-d50 0.2005 0.14089 0.4472))}
+
+<===> xyz-d50/output.css
+a {
+  b: xyz-d50;
+}
+
+<===>
+================================================================================
+<===> xyz-d65/input.scss
+@use "sass:color";
+a {b: color.space(color(xyz-d65 0.21661 0.14602 0.59452))}
+
+<===> xyz-d65/output.css
+a {
+  b: xyz;
+}
+
+<===>
+================================================================================
+<===> lab/input.scss
+@use "sass:color";
+a {b: color.space(lab(5 110 115))}
+
+<===> lab/output.css
+a {
+  b: lab;
+}
+
+<===>
+================================================================================
+<===> lch/input.scss
+@use "sass:color";
+a {b: color.space(lch(90.6 52.8 197))}
+
+<===> lch/output.css
+a {
+  b: lch;
+}
+
+<===>
+================================================================================
+<===> oklab/input.scss
+@use "sass:color";
+a {b: color.space(oklab(0.44027 0.08818 -0.13386))}
+
+<===> oklab/output.css
+a {
+  b: oklab;
+}
+
+<===>
+================================================================================
+<===> oklch/input.scss
+@use "sass:color";
+a {b: color.space(oklch(70% 0.1 200))}
+
+<===> oklch/output.css
+a {
+  b: oklch;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:color";
+a {b: color.space()}
+
+<===> error/too_few_args/error
+Error: Missing argument $color.
+  ,--> input.scss
+2 | a {b: color.space()}
+  |       ^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function space($color) {
+  |           ============= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===> error/too_few_args/error 
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:color";
+a {b: color.space(rgb(0 255 0), a)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: color.space(rgb(0 255 0), a)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function space($color) {
+  |           ============= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/input.scss
+@use "sass:color";
+a {b: color.space(1)}
+
+<===> error/type/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.space(1)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -1,0 +1,21 @@
+<===> input.scss
+@use "sass:color";
+a {b: color.red(#abcdef)}
+
+<===> output.css
+a {
+  b: 171;
+}
+
+<===> warning
+DEPRECATION WARNING: color.red() is deprecated. Suggestion:
+
+color.channel($color, red)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.red(#abcdef)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet

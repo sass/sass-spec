@@ -1,3 +1,9 @@
+<===> options.yml
+:warning_todo:
+  - libsass
+
+<===>
+================================================================================
 <===> max/input.scss
 a {b: blue(rgb(0, 0, 255))}
 
@@ -5,6 +11,19 @@ a {b: blue(rgb(0, 0, 255))}
 a {
   b: 255;
 }
+
+<===> max/warning
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: blue(rgb(0, 0, 255))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -16,6 +35,19 @@ a {
   b: 0;
 }
 
+<===> min/warning
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: blue(rgb(0, 0, 0))}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> middle/input.scss
@@ -26,6 +58,19 @@ a {
   b: 123;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: blue(rgb(0, 0, 123))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -35,6 +80,19 @@ a {b: blue($color: rgb(0, 0, 234))}
 a {
   b: 234;
 }
+
+<===> named/warning
+DEPRECATION WARNING: blue() is deprecated. Suggestion:
+
+color.channel($color, blue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: blue($color: rgb(0, 0, 234))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
