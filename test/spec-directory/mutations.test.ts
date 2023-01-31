@@ -1,11 +1,11 @@
 import path from 'path';
-import {fromPath} from '../../lib/spec-directory';
+import {fromRoot} from '../../lib/spec-directory';
 
 // Tests for methods on SpecDirectory that mutate its contents
 describe('SpecDirectory mutations', () => {
   describe('writeFile', () => {
     it('replaces the contents of a virtual file', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await dir.writeFile('output.css', 'NEW OUTPUT');
@@ -13,7 +13,7 @@ describe('SpecDirectory mutations', () => {
     });
 
     it('writes contents to a file that does not exist yet', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await dir.writeFile('output-libsass.css', 'MORE OUTPUT');
@@ -22,7 +22,7 @@ describe('SpecDirectory mutations', () => {
     });
 
     it('errors when passed in a multi-level path', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await expect(() =>
@@ -33,7 +33,7 @@ describe('SpecDirectory mutations', () => {
 
   describe('deleteFile', () => {
     it('removes the contents of the virtual file', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await dir.removeFile('output.css');
@@ -42,7 +42,7 @@ describe('SpecDirectory mutations', () => {
     });
 
     it('no-ops when removing a file that does not exist', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       const files = await dir.listFiles();
@@ -51,14 +51,14 @@ describe('SpecDirectory mutations', () => {
     });
 
     it('errors when trying to remove a directory', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await expect(() => dir.removeFile('subdir')).rejects.toThrow();
     });
 
     it('errors when trying to remove multi-level paths', async () => {
-      const dir = await fromPath(
+      const dir = await fromRoot(
         path.resolve(__dirname, './fixtures/basic.hrx')
       );
       await expect(() =>

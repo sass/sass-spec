@@ -1,7 +1,7 @@
 import p from 'path';
 import * as _ from 'lodash';
 
-import SpecOptions from './options';
+import SpecOptions, {OptionKey} from './options';
 import {toHrx} from './hrx';
 import {normalizeSpecPath} from './spec-path';
 
@@ -13,19 +13,26 @@ export type SpecIteratee = (subdir: SpecDirectory) => Promise<void>;
  * Contains methods for accessing the direct files and subdirectories of the directory.
  */
 export default abstract class SpecDirectory {
-  protected readonly root: SpecDirectory;
-  private readonly parentOpts?: SpecOptions;
   private readonly _subdirs: Record<string, SpecDirectory> = {};
+
+  /** The root of the test suite. */
+  readonly root: SpecDirectory;
 
   /** The full path of this directory */
   abstract path: string;
 
-  constructor(root?: SpecDirectory, parentOpts?: SpecOptions) {
+  constructor(root?: SpecDirectory) {
     this.root = root ?? this;
-    this.parentOpts = parentOpts;
   }
 
-  /** The path of this directory relative to the top level that was created */
+  /** Returns this directory's parent, unless it's the root directory. */
+  async parent(): Promise<SpecDirectory | null> {
+    if (this === this.root) return null;
+    const parentPath = p.dirname(p.relative(this.root.path, this.path));
+    return parentPath === '.' ? this.root : await this.root.atPath(parentPath);
+  }
+
+  /** The path of this directory relative to the root's parent directory. */
   relPath(): string {
     // make sure to include the root dir as part of the name
     // (e.g. if the root path is `spec`, everything should be listed as `spec/thing`)
@@ -94,7 +101,41 @@ export default abstract class SpecDirectory {
   /** Get the spec options of this directory, including those inherited from its parent */
   async options(): Promise<SpecOptions> {
     const opts = await this.directOptions();
-    return this.parentOpts?.merge(opts) ?? opts;
+    const parentOpts = await (await this.parent())?.options();
+    return parentOpts?.merge(opts) ?? opts;
+  }
+
+  /** Add the given option for the given impl */
+  async addOptionForImpl(impl: string, option: OptionKey): Promise<void> {
+    const options = await this.directOptions();
+    const updatedOptions = options.addImpl(impl, option);
+    await this.writeFile('options.yml', updatedOptions.toYaml());
+  }
+
+  /** Removes the given option for the given impl */
+  async removeOptionForImpl(impl: string, option: OptionKey): Promise<void> {
+    if (!(await this.options()).hasForImpl(impl, option)) return;
+
+    const options = await this.directOptions();
+    if (options.hasForImpl(impl, option)) {
+      const updatedOptions = options.removeImpl(impl, option);
+      if (updatedOptions.isEmpty) {
+        await this.removeFile('options.yml');
+      } else {
+        await this.writeFile('options.yml', updatedOptions.toYaml());
+      }
+      return;
+    }
+
+    // If `option` isn't set in the directory's direct options, we have to
+    // remove it from a parent directory instead and manually re-apply it to all
+    // this directory's siblings.
+    const parent = (await this.parent())!;
+    parent.removeOptionForImpl(impl, option);
+    for (const sibling of await parent.subdirs()) {
+      if (sibling === this) continue;
+      sibling.addOptionForImpl(impl, option);
+    }
   }
 
   // Test case info
