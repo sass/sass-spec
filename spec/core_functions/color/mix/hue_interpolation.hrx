@@ -1,0 +1,33 @@
+<===> options.yml
+:ignore_for:
+  - libsass
+
+<===>
+================================================================================
+<===> longer/input.scss
+a {b: mix(red, green, $method: hsl longer hue)}
+
+<===> longer/output.css
+a {
+  b: rgb(0, 0, 191.5);
+}
+
+<===>
+================================================================================
+<===> specified/input.scss
+a {b: mix(red, green, $method: lch specified hue)}
+
+<===> specified/output.css
+a {
+  b: rgb(145.2072868242, 115.9916273156, -48.1699603699);
+}
+
+<===>
+================================================================================
+<===> increasing/weighted/input.scss
+a {b: mix(red, green, 20%, lch increasing hue)}
+
+<===> increasing/weighted/output.css
+a {
+  b: rgb(75.3627215695, 127.0940173535, -38.3383580918);
+}
