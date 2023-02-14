@@ -4,7 +4,6 @@ defaults:
   run: {shell: bash}
 
 env:
-  PROTOC_VERSION: 3.x
   # TODO(jathak): Update this to Node 18 once unit tests are fixed.
   NODE_VERSION: 14
 
@@ -179,10 +178,6 @@ jobs:
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
-      - uses: arduino/setup-protoc@v1
-        with:
-          version: ${{ env.PROTOC_VERSION }}
-          repo-token: '${{ github.token }}'
 
       - name: Install sass-embedded
         run: |
