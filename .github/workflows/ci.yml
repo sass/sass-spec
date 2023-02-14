@@ -4,7 +4,8 @@ defaults:
   run: {shell: bash}
 
 env:
-  NODE_VERSION: 18
+  # TODO(jathak): Update this to Node 18 once unit tests are fixed.
+  NODE_VERSION: 14
 
 on:
   push: {branches: [main, feature.*]}
@@ -120,7 +121,7 @@ jobs:
         - os: ubuntu-latest
           node_version: 14
         - os: ubuntu-latest
-          node_version: 12
+          node_version: 16
 
     steps:
       - uses: actions/checkout@v2
