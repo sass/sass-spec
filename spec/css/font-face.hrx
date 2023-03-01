@@ -1,3 +1,10 @@
+<===> options.yml
+
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
 <===> bubble/rules/input.scss
 a {
   b: c;
@@ -39,4 +46,17 @@ d {
 }
 @font-face {
   b: c;
+}
+
+<===>
+================================================================================
+<===> bubble/deeply-nested/input.scss
+a { b { c { @font-face { e: f } g: h; } } }
+
+<===> bubble/deeply-nested/output.css
+a b c {
+  g: h;
+}
+@font-face {
+  e: f;
 }
