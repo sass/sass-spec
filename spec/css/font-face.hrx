@@ -1,0 +1,42 @@
+<===> bubble/rules/input.scss
+a {
+  b: c;
+  @font-face { d: e }
+}
+
+<===> bubble/rules/output.css
+a {
+  b: c;
+}
+@font-face {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> bubble/empty/input.scss
+a {
+  @font-face {/**/}
+}
+
+<===> bubble/empty/output.css
+@font-face { /**/ }
+
+<===>
+================================================================================
+<===> bubble/in-mixin/input.scss
+@mixin a {
+  @font-face { b: c }
+}
+d {
+  e: f;
+  @include a;
+}
+
+<===> bubble/in-mixin/output.css
+d {
+  e: f;
+}
+@font-face {
+  b: c;
+}
