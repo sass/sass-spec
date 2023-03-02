@@ -63,14 +63,14 @@ a b c {
 
 <===>
 ================================================================================
-<===> bubble/loaded/import/upstream.scss
-@font-face { a: b }
-
 <===> bubble/loaded/import/input.scss
 c {
   @import 'upstream';
   d: e;
 }
+
+<===> bubble/loaded/import/upstream.scss
+@font-face { a: b }
 
 <===> bubble/loaded/import/output.css
 c {
@@ -82,9 +82,6 @@ c {
 
 <===>
 ================================================================================
-<===> bubble/loaded/meta-load-css/upstream.scss
-@font-face { a: b }
-
 <===> bubble/loaded/meta-load-css/input.scss
 @use 'sass:meta';
 
@@ -92,6 +89,9 @@ c {
   @include meta.load-css('upstream');
   d: e;
 }
+
+<===> bubble/loaded/meta-load-css/upstream.scss
+@font-face { a: b }
 
 <===> bubble/loaded/meta-load-css/output.css
 c {
