@@ -3,11 +3,15 @@
 
 <===> error
 Error: expected selector.
-  ,
-1 | .test31@baz{ content: '3.1'; }
-  |        ^
+  ,--> input.scss
+1 | .test31#{'\@baz'} { content: '3.1'; }
+  |          ^^^^^^^ 
   '
-  input.scss 1:8  root stylesheet
+  ,
+1 | .test31@baz 
+  |        = error in interpolated output
+  '
+  input.scss 1:10  root stylesheet
 
 <===> error-libsass
 Error: Invalid CSS after ".test31": expected selector, was "@baz"
