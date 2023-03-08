@@ -1,0 +1,148 @@
+<===> with_defaults/nothing_passed/input.scss
+@mixin mixin {
+  @content;
+}
+
+a {
+  @include mixin using ($arg1: value1, $arg2: value2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> with_defaults/nothing_passed/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}
+
+<===>
+================================================================================
+<===> with_defaults/partial_override/input.scss
+@mixin mixin {
+  @content($arg2: other2);
+}
+
+a {
+  @include mixin using ($arg1: value1, $arg2: value2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> with_defaults/partial_override/output.css
+a {
+  arg1: value1;
+  arg2: other2;
+}
+
+<===>
+================================================================================
+<===> with_defaults/total_override/input.scss
+@mixin mixin {
+  @content(other1, other2);
+}
+
+a {
+  @include mixin using ($arg1: value1, $arg2: value2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> with_defaults/total_override/output.css
+a {
+  arg1: other1;
+  arg2: other2;
+}
+
+<===>
+================================================================================
+<===> with_splat/nothing_passed/input.scss
+@mixin mixin {
+  @content;
+}
+
+a {
+  @include mixin using ($args...) {
+    positional: inspect($args);
+    keywords: inspect(keywords($args));
+  }
+}
+
+<===> with_splat/nothing_passed/output.css
+a {
+  positional: ();
+  keywords: ();
+}
+
+<===>
+================================================================================
+<===> with_splat/positional_passed/input.scss
+@mixin mixin {
+  @content(value1, value2, value3);
+}
+
+a {
+  @include mixin using ($args...) {
+    positional: inspect($args);
+    keywords: inspect(keywords($args));
+  }
+}
+
+<===> with_splat/positional_passed/output.css
+a {
+  positional: value1, value2, value3;
+  keywords: ();
+}
+
+<===>
+================================================================================
+<===> with_splat/named_passed/input.scss
+@mixin mixin {
+  @content($arg1: value1, $arg2: value2);
+}
+
+a {
+  @include mixin using ($args...) {
+    positional: inspect($args);
+    keywords: inspect(keywords($args));
+  }
+}
+
+<===> with_splat/named_passed/output.css
+a {
+  positional: ();
+  keywords: (arg1: value1, arg2: value2);
+}
+
+<===> with_splat/named_passed/output-libsass.css
+a {
+  keywords: (arg1: value1, arg2: value2);
+}
+
+<===>
+================================================================================
+<===> with_splat/both_passed/input.scss
+@mixin mixin {
+  @content(value1, $arg2: value2);
+}
+
+a {
+  @include mixin using ($args...) {
+    positional: inspect($args);
+    keywords: inspect(keywords($args));
+  }
+}
+
+<===> with_splat/both_passed/output.css
+a {
+  positional: (value1,);
+  keywords: (arg2: value2);
+}
+
+<===> with_splat/both_passed/output-libsass.css
+a {
+  positional: value1;
+  keywords: (arg2: value2);
+}

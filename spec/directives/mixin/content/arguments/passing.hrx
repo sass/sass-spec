@@ -1,0 +1,97 @@
+<===> by_position/input.scss
+@mixin mixin {
+  @content(value1, value2);
+}
+
+a {
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> by_position/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}
+
+<===>
+================================================================================
+<===> by_name/input.scss
+@mixin mixin {
+  @content($arg2: value2, $arg1: value1);
+}
+
+a {
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> by_name/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}
+
+<===>
+================================================================================
+<===> list_splat/input.scss
+@mixin mixin {
+  @content((value1 value2)...);
+}
+
+a {
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> list_splat/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}
+
+<===>
+================================================================================
+<===> map_splat/input.scss
+@mixin mixin {
+  @content((arg1: value1, arg2: value2)...);
+}
+
+a {
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> map_splat/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}
+
+<===>
+================================================================================
+<===> mixed_splat/input.scss
+@mixin mixin {
+  @content((value1,)..., (arg2: value2)...);
+}
+
+a {
+  @include mixin using ($arg1, $arg2) {
+    arg1: $arg1;
+    arg2: $arg2;
+  }
+}
+
+<===> mixed_splat/output.css
+a {
+  arg1: value1;
+  arg2: value2;
+}

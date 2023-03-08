@@ -1,0 +1,74 @@
+<===> README.md
+Arguments passed to @content blocks are lexically scoped within those blocks.
+
+<===>
+================================================================================
+<===> no_argument/input.scss
+$var: top-level;
+
+@mixin mixin($var) {
+  mixin-var-before: $var;
+  @content;
+  mixin-var-after: $var;
+}
+
+a {
+  @include mixin(mixin-argument) {
+    content-var: $var;
+  }
+}
+
+<===> no_argument/output.css
+a {
+  mixin-var-before: mixin-argument;
+  content-var: top-level;
+  mixin-var-after: mixin-argument;
+}
+
+<===>
+================================================================================
+<===> with_argument/input.scss
+$var: top-level;
+
+@mixin mixin($var) {
+  mixin-var-before: $var;
+  @content(content-argument);
+  mixin-var-after: $var;
+}
+
+a {
+  @include mixin(mixin-argument) using ($var) {
+    content-var: $var;
+  }
+}
+
+<===> with_argument/output.css
+a {
+  mixin-var-before: mixin-argument;
+  content-var: content-argument;
+  mixin-var-after: mixin-argument;
+}
+
+<===>
+================================================================================
+<===> with_inner_mixin/input.scss
+$var: top-level;
+
+@mixin mixin($var) {
+  @content(content-argument);
+}
+
+@mixin inner {
+  var: $var
+}
+
+a {
+  @include mixin(mixin-argument) using ($var) {
+    @include inner;
+  }
+}
+
+<===> with_inner_mixin/output.css
+a {
+  var: top-level;
+}
