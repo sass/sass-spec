@@ -214,12 +214,16 @@ Error: Can't append "> .d" to ".c" for `selector-append'
 a {b: selector-append(".c ~", ".d")}
 
 <===> error/combinator/trailing/error
-Error: Parent ".c ~" is incompatible with this selector.
+Error: Selector ".c ~" can't be used as a parent in a compound selector.
   ,
-1 | a {b: selector-append(".c ~", ".d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | .c ~
+  | ^^^^ outer selector
   '
-  input.scss 1:7  root stylesheet
+  ,--> input.scss
+1 | a {b: selector-append(".c ~", ".d")}
+  |       ============================= parent selector
+  '
+  - 1:1  root stylesheet
 
 <===> error/combinator/trailing/error-libsass
 Error: Invalid parent selector for "&.d": "&.c ~"

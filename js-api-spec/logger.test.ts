@@ -30,7 +30,7 @@ describe('deprecation warning', () => {
           expect(span?.start.line).toBe(0);
           expect(span?.start.column).toBe(0);
           expect(span?.end.line).toBe(0);
-          expect(span?.end.column).toBe(4);
+          expect(span?.end.column).toBe(3);
           done();
         },
       },

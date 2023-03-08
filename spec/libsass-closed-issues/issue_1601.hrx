@@ -5,12 +5,14 @@
     }
 }
 <===> error
-Error: Parent ".code.ruby >" is incompatible with this selector.
+Error: Selector ".code.ruby >" can't be used as a parent in a compound selector.
   ,
+1 | .code.ruby > {
+  | ^^^^^^^^^^^^ outer selector
 2 |     &.ruby {
-  |     ^^^^^^^
+  |     = parent selector
   '
-  input.scss 2:5  root stylesheet
+  input.scss 1:1  root stylesheet
 
 <===> error-libsass
 Error: Invalid parent selector for "&.ruby": ".code.ruby >"
