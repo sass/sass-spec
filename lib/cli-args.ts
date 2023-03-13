@@ -12,6 +12,9 @@ export interface CliArgs {
   interactive: boolean;
   testDirs: string[];
   todoMode: TodoMode;
+  trimErrors: boolean;
+  skipWarning: boolean;
+  ignoreErrorDiffs: boolean;
 }
 
 const implArgs: Record<string, string[]> = {
@@ -99,6 +102,24 @@ export async function parseArgs(
       type: 'boolean',
       default: false,
     })
+    .options('trim-errors', {
+      description:
+        'Only compare the message for errors',
+      type: 'boolean',
+      default: false,
+    })
+    .options('ignore-warning-diffs', {
+      description:
+        'Ignore diffs in warnings',
+      type: 'boolean',
+      default: false,
+    })
+    .options('ignore-error-diffs', {
+      description:
+        'Ignore the contents of error messages. I.e. only validate that an error was thrown.',
+      type: 'boolean',
+      default: false,
+    })
     .parseSync();
 
   const root = path.resolve(process.cwd(), argv['root-path']);
@@ -111,8 +132,11 @@ export async function parseArgs(
     todoMode: argv['run-todo']
       ? 'run'
       : argv['probe-todo']
-      ? 'probe'
-      : undefined,
+        ? 'probe'
+        : undefined,
+    trimErrors: argv['trim-errors'],
+    skipWarning: argv['ignore-warning-diffs'],
+    ignoreErrorDiffs: argv['ignore-error-diffs'],
   };
   args.impl = argv.dart ? 'dart-sass' : argv.impl!;
   let cmdArgs = implArgs[args.impl] ?? [];
