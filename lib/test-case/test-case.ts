@@ -32,7 +32,7 @@ export default class TestCase {
     impl: string,
     compiler: Compiler,
     todoMode: TodoMode,
-    private compareOpts?: CompareOptions,
+    private compareOpts?: CompareOptions
   ) {
     this.dir = dir;
     this.impl = impl;
@@ -48,7 +48,7 @@ export default class TestCase {
     impl: string,
     compiler: Compiler,
     todoMode?: TodoMode,
-    compareOpts?: CompareOptions,
+    compareOpts?: CompareOptions
   ): Promise<TestCase> {
     const testCase = new TestCase(dir, impl, compiler, todoMode, compareOpts);
     try {
@@ -125,7 +125,8 @@ export default class TestCase {
       // Compare the full error only for dart-sass
       trimErrors: this.impl !== 'dart-sass' || this.compareOpts?.trimErrors,
       // Skip warning checks :warning_todo is enabled and we're not running todos
-      skipWarning: (warningTodo && !this.todoMode) || this.compareOpts?.skipWarning,
+      skipWarning:
+        (warningTodo && !this.todoMode) || this.compareOpts?.skipWarning,
       ignoreErrorDiffs: this.compareOpts?.ignoreErrorDiffs,
     });
     // If we're probing todo
@@ -188,7 +189,7 @@ export default class TestCase {
     // create a warning file
     if (
       this.dir.hasFile('warning') &&
-      await this.dir.readFile('warning') &&
+      (await this.dir.readFile('warning')) &&
       actual.isSuccess &&
       !actual.warning
     ) {

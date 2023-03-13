@@ -103,14 +103,12 @@ export async function parseArgs(
       default: false,
     })
     .options('trim-errors', {
-      description:
-        'Only compare the message for errors',
+      description: 'Only compare the message for errors',
       type: 'boolean',
       default: false,
     })
     .options('ignore-warning-diffs', {
-      description:
-        'Ignore diffs in warnings',
+      description: 'Ignore diffs in warnings',
       type: 'boolean',
       default: false,
     })
@@ -132,8 +130,8 @@ export async function parseArgs(
     todoMode: argv['run-todo']
       ? 'run'
       : argv['probe-todo']
-        ? 'probe'
-        : undefined,
+      ? 'probe'
+      : undefined,
     trimErrors: argv['trim-errors'],
     skipWarning: argv['ignore-warning-diffs'],
     ignoreErrorDiffs: argv['ignore-error-diffs'],

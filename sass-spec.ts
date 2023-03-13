@@ -30,8 +30,8 @@ async function runAllTests() {
         {
           trimErrors: args.trimErrors,
           skipWarning: args.skipWarning,
-          ignoreErrorDiffs: args.ignoreErrorDiffs
-        },
+          ignoreErrorDiffs: args.ignoreErrorDiffs,
+        }
       );
       if (test.result().type === 'fail' && args.interactive) {
         await interactor.prompt(test);
