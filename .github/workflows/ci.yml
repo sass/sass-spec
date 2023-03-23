@@ -180,13 +180,24 @@ jobs:
           version: ${{ env.PROTOC_VERSION }}
           repo-token: '${{ github.token }}'
 
+      # Clone linked versions of Dart Sass Embedded and the Embedded Protocol so
+      # that they match the current feature branch.
+      - name: Dart Sass Embedded | Checkout
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/dart-sass-embedded, path: dart-sass-embedded}
+      - name: Embedded Protocol | Checkout
+        uses: sass/clone-linked-repo@v1
+        with: {repo: sass/embedded-protocol, path: embedded-protocol}
+
       - name: Node.js Embedded Host | Checkout
         uses: sass/clone-linked-repo@v1
         with: {repo: sass/embedded-host-node, path: embedded-host-node}
       - name: Node.js Embedded Host | Install
         run: |
           npm install
-          npm run init
+          npm run init -- \
+            --compiler-path=../dart-sass-embedded \
+            --protocol-path=../embedded-protocol
           npm run compile
         working-directory: embedded-host-node
 
