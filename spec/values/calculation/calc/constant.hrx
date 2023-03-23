@@ -1,0 +1,388 @@
+<===> pi/alone/input.scss
+a {b: calc(pi)}
+
+<===> pi/alone/output.css
+a {
+  b: 3.1415926536;
+}
+
+<===>
+================================================================================
+<===> pi/equals_max_precision/input.scss
+// Verify that pi is equal to the maximum precision representable in a double.
+a {b: calc(pi) == 3.141592653589793}
+
+<===> pi/equals_max_precision/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> pi/math/simplified/input.scss
+a {b: calc(pi * 2)}
+
+<===> pi/math/simplified/output.css
+a {
+  b: 6.2831853072;
+}
+
+<===>
+================================================================================
+<===> pi/math/unsimplified/input.scss
+a {b: calc(pi * (1% + 1px))}
+
+<===> pi/math/unsimplified/output.css
+a {
+  b: calc(3.1415926536 * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> pi/case_insensitive/input.scss
+a {b: calc(pI)}
+
+<===> pi/case_insensitive/output.css
+a {
+  b: 3.1415926536;
+}
+
+<===>
+================================================================================
+<===> e/alone/input.scss
+a {b: calc(e)}
+
+<===> e/alone/output.css
+a {
+  b: 2.7182818285;
+}
+
+<===>
+================================================================================
+<===> e/equals_max_precision/input.scss
+// Verify that e is equal to the maximum precision representable in a double.
+a {b: calc(e) == 2.718281828459045}
+
+<===> e/equals_max_precision/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> e/math/simplified/input.scss
+a {b: calc(e * 2)}
+
+<===> e/math/simplified/output.css
+a {
+  b: 5.4365636569;
+}
+
+<===>
+================================================================================
+<===> e/math/unsimplified/input.scss
+a {b: calc(e * (1% + 1px))}
+
+<===> e/math/unsimplified/output.css
+a {
+  b: calc(2.7182818285 * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> e/case_insensitive/input.scss
+a {b: calc(E)}
+
+<===> e/case_insensitive/output.css
+a {
+  b: 2.7182818285;
+}
+
+<===>
+================================================================================
+<===> infinity/alone/input.scss
+a {b: calc(infinity)}
+
+<===> infinity/alone/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> infinity/type/input.scss
+@use 'sass:meta';
+a {b: meta.type-of(calc(infinity))}
+
+<===> infinity/type/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> infinity/math/simplified/input.scss
+a {b: calc(infinity * 2)}
+
+<===> infinity/math/simplified/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> infinity/math/unsimplified/literal/input.scss
+a {b: calc(infinity * (1% + 1px))}
+
+<===> infinity/math/unsimplified/literal/output.css
+a {
+  b: calc(infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> infinity/math/unsimplified/computed/input.scss
+a {b: calc((1/0) * (1% + 1px))}
+
+<===> infinity/math/unsimplified/computed/output.css
+a {
+  b: calc(infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> infinity/math/unsimplified/from_variable/input.scss
+@use 'sass:math';
+$var: math.div(1, 0);
+a {b: calc($var * (1% + 1px))}
+
+<===> infinity/math/unsimplified/from_variable/output.css
+a {
+  b: calc(infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> infinity/case_insensitive/input.scss
+a {b: calc(InFiNiTy)}
+
+<===> infinity/case_insensitive/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> minus_infinity/alone/input.scss
+a {b: calc(-infinity)}
+
+<===> minus_infinity/alone/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> minus_infinity/type/input.scss
+@use 'sass:meta';
+a {b: meta.type-of(calc(-infinity))}
+
+<===> minus_infinity/type/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> minus_infinity/math/simplified/input.scss
+a {b: calc(-infinity * 2)}
+
+<===> minus_infinity/math/simplified/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> minus_infinity/math/unsimplified/literal/input.scss
+a {b: calc(-infinity * (1% + 1px))}
+
+<===> minus_infinity/math/unsimplified/literal/output.css
+a {
+  b: calc(-infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> minus_infinity/math/unsimplified/computed/input.scss
+a {b: calc((-1/0) * (1% + 1px))}
+
+<===> minus_infinity/math/unsimplified/computed/output.css
+a {
+  b: calc(-infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> minus_infinity/math/unsimplified/from_variable/input.scss
+@use 'sass:math';
+$var: math.div(-1, 0);
+a {b: calc($var * (1% + 1px))}
+
+<===> minus_infinity/math/unsimplified/from_variable/output.css
+a {
+  b: calc(-infinity * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> minus_infinity/case_insensitive/input.scss
+a {b: calc(-iNfInItY)}
+
+<===> minus_infinity/case_insensitive/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> nan/alone/input.scss
+a {b: calc(NaN)}
+
+<===> nan/alone/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/type/input.scss
+@use 'sass:meta';
+a {b: meta.type-of(calc(NaN))}
+
+<===> nan/type/output.css
+a {
+  b: number;
+}
+
+<===>
+================================================================================
+<===> nan/math/simplified/input.scss
+a {b: calc(NaN * 2)}
+
+<===> nan/math/simplified/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/math/unsimplified/literal/input.scss
+a {b: calc(NaN * (1% + 1px))}
+
+<===> nan/math/unsimplified/literal/output.css
+a {
+  b: calc(NaN * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> nan/math/unsimplified/computed/input.scss
+a {b: calc((0/0) * (1% + 1px))}
+
+<===> nan/math/unsimplified/computed/output.css
+a {
+  b: calc(NaN * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> nan/math/unsimplified/from_variable/input.scss
+@use 'sass:math';
+$var: math.div(0, 0);
+a {b: calc($var * (1% + 1px))}
+
+<===> nan/math/unsimplified/from_variable/output.css
+a {
+  b: calc(NaN * (1% + 1px));
+}
+
+<===>
+================================================================================
+<===> nan/case_insensitive/input.scss
+a {b: calc(nan)}
+
+<===> nan/case_insensitive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> precedence/after_plus/input.scss
+a {b: calc(1% + (infinity * 1px))}
+
+<===> precedence/after_plus/output.css
+a {
+  b: calc(1% + infinity * 1px);
+}
+
+<===>
+================================================================================
+<===> precedence/after_minus/input.scss
+a {b: calc(1% - (infinity * 1px))}
+
+<===> precedence/after_minus/output.css
+a {
+  b: calc(1% - infinity * 1px);
+}
+
+<===>
+================================================================================
+<===> precedence/after_times/input.scss
+a {b: calc(var(--c) * (infinity * 1px))}
+
+<===> precedence/after_times/output.css
+a {
+  b: calc(var(--c) * infinity * 1px);
+}
+
+<===>
+================================================================================
+<===> precedence/after_divide/unit/input.scss
+a {b: calc(var(--c) / (infinity * 1px))}
+
+<===> precedence/after_divide/unit/output.css
+a {
+  b: calc(var(--c) / (infinity * 1px));
+}
+
+<===>
+================================================================================
+<===> precedence/after_divide/no_unit/input.scss
+a {b: calc(var(--c) / infinity)}
+
+<===> precedence/after_divide/no_unit/output.css
+a {
+  b: calc(var(--c) / infinity);
+}
+
+<===>
+================================================================================
+<===> undefined/alone/input.scss
+a {b: calc(c)}
+
+<===> undefined/alone/output.css
+a {
+  b: calc(c);
+}
+
+<===>
+================================================================================
+<===> undefined/math/input.scss
+a {b: calc(c * 2)}
+
+<===> undefined/math/output.css
+a {
+  b: calc(c * 2);
+}

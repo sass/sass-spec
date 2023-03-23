@@ -1,0 +1,189 @@
+<===> infinity/unitless/input.scss
+@use 'sass:math';
+a {b: math.div(1, 0)}
+
+<===> infinity/unitless/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> infinity/single_unit/input.scss
+@use 'sass:math';
+a {b: math.div(1px, 0)}
+
+<===> infinity/single_unit/output.css
+a {
+  b: calc(infinity * 1px);
+}
+
+<===>
+================================================================================
+<===> minus_infinity/unitless/input.scss
+@use 'sass:math';
+a {b: math.div(-1, 0)}
+
+<===> minus_infinity/unitless/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> minus_infinity/single_unit/input.scss
+@use 'sass:math';
+a {b: math.div(-1px, 0)}
+
+<===> minus_infinity/single_unit/output.css
+a {
+  b: calc(-infinity * 1px);
+}
+
+<===>
+================================================================================
+<===> nan/unitless/input.scss
+@use 'sass:math';
+a {b: math.div(0, 0)}
+
+<===> nan/unitless/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/single_unit/input.scss
+@use 'sass:math';
+a {b: math.div(0px, 0)}
+
+<===> nan/single_unit/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> error/infinity/multiple_numerator_units/input.scss
+@use 'sass:math';
+a {b: math.div(1px * 1em, 0)}
+
+<===> error/infinity/multiple_numerator_units/error
+Error: calc(Infinitypx*em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(1px * 1em, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/infinity/denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(1, 0px)}
+
+<===> error/infinity/denominator_unit/error
+Error: calc(Infinitypx^-1) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(1, 0px)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/infinity/numerator_and_denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(1px, 0em)}
+
+<===> error/infinity/numerator_and_denominator_unit/error
+Error: calc(Infinitypx/em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(1px, 0em)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/minus_infinity/multiple_numerator_units/input.scss
+@use 'sass:math';
+a {b: math.div(-1px * 1em, 0)}
+
+<===> error/minus_infinity/multiple_numerator_units/error
+Error: calc(-Infinitypx*em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(-1px * 1em, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/minus_infinity/denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(-1, 0px)}
+
+<===> error/minus_infinity/denominator_unit/error
+Error: calc(-Infinitypx^-1) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(-1, 0px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/minus_infinity/numerator_and_denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(-1px, 0em)}
+
+<===> error/minus_infinity/numerator_and_denominator_unit/error
+Error: calc(-Infinitypx/em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(-1px, 0em)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/nan/multiple_numerator_units/input.scss
+@use 'sass:math';
+a {b: math.div(0px * 0em, 0)}
+
+<===> error/nan/multiple_numerator_units/error
+Error: calc(NaNpx*em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(0px * 0em, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/nan/denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(0, 0px)}
+
+<===> error/nan/denominator_unit/error
+Error: calc(NaNpx^-1) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(0, 0px)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/nan/numerator_and_denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(0px, 0em)}
+
+<===> error/nan/numerator_and_denominator_unit/error
+Error: calc(NaNpx/em) isn't a valid CSS value.
+  ,
+2 | a {b: math.div(0px, 0em)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
