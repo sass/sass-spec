@@ -25,6 +25,27 @@ a {
 
 <===>
 ================================================================================
+<===> one_arg/with_sass_var/input.scss
+$c: 1;
+a {b: saturate($c)}
+
+<===> one_arg/with_sass_var/output.css
+a {
+  b: saturate(1);
+}
+
+<===>
+================================================================================
+<===> one_arg/with_css_var/input.scss
+a {b: saturate(var(--c))}
+
+<===> one_arg/with_css_var/output.css
+a {
+  b: saturate(var(--c));
+}
+
+<===>
+================================================================================
 <===> one_arg/named/options.yml
 ---
 :todo:
