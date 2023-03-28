@@ -264,6 +264,24 @@ Error: argument `$color` of `invert($color, $weight: 100%)` must be a color
 
 <===>
 ================================================================================
+<===> error/type/with_module/options.yml
+':ignore_for':
+  - libsass
+
+<===> error/type/with_module/input.scss
+@use 'sass:color';
+a {b: color.invert(var(--c))}
+
+<===> error/type/with_module/error
+Error: $color: var(--c) is not a color.
+  ,
+2 | a {b: color.invert(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/weight/input.scss
 a {b: invert(red, c)}
 

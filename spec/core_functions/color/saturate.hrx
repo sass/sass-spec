@@ -185,6 +185,29 @@ Error: $amount: red is not a number.
   '
   input.scss 1:7  root stylesheet
 
+
+<===>
+================================================================================
+<===> error/with_module/one_arg/type/options.yml
+':ignore_for':
+  - libsass
+
+<===> error/with_module/one_arg/type/input.scss
+@use 'sass:color';
+a {b: color.saturate(var(--c))}
+
+<===> error/with_module/one_arg/type/error
+Error: Missing argument $amount.
+  ,--> input.scss
+2 | a {b: color.saturate(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function saturate($color, $amount) {
+  |           ========================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/two_args/type/color/input.scss

@@ -1,3 +1,9 @@
+<===> options.yml
+':ignore_for':
+  - libsass
+
+<===>
+================================================================================
 <===> color/max/input.scss
 a {b: alpha(red)}
 
@@ -148,11 +154,6 @@ Error: wrong number of arguments (2 for 1) for `alpha'
 
 <===>
 ================================================================================
-<===> error/type/options.yml
----
-:todo:
-- sass/libsass#2898
-
 <===> error/type/input.scss
 a {b: alpha(1)}
 
@@ -166,11 +167,20 @@ Error: $color: 1 is not a color.
 
 <===>
 ================================================================================
-<===> error/quoted_string/options.yml
----
-:todo:
-- sass/libsass#2898
+<===> error/with_module/type/input.scss
+@use 'sass:color';
+a {b: color.opacity(var(--c))}
 
+<===> error/with_module/type/error
+Error: $color: var(--c) is not a color.
+  ,
+2 | a {b: color.opacity(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/quoted_string/input.scss
 a {b: alpha("c=d")}
 
@@ -184,11 +194,6 @@ Error: $color: "c=d" is not a color.
 
 <===>
 ================================================================================
-<===> error/unquoted_string/no_equals/options.yml
----
-:todo:
-- sass/libsass#2898
-
 <===> error/unquoted_string/no_equals/input.scss
 a {b: alpha(cd)}
 
@@ -202,11 +207,6 @@ Error: $color: cd is not a color.
 
 <===>
 ================================================================================
-<===> error/unquoted_string/non_identifier_before_equals/options.yml
----
-:todo:
-- sass/libsass#2898
-
 <===> error/unquoted_string/non_identifier_before_equals/input.scss
 a {b: alpha(unquote("1=c"))}
 
