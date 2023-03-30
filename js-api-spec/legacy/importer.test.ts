@@ -89,6 +89,25 @@ describe('import precedence:', () => {
       }));
 
     // Regression test for embedded host.
+    it('CWD works when neither importer nor includePaths are specified', () =>
+      sandbox(dir => {
+        dir.write({
+          'sub/test.scss': 'a {from: cwd}',
+          'sub/base.scss': '@import "sub/test"',
+        });
+
+        dir.chdir(() =>
+          expect(
+            sass
+              .renderSync({
+                file: dir('sub/base.scss'),
+              })
+              .css.toString()
+          ).toEqualIgnoringWhitespace('a { from: cwd; }')
+        );
+      }));
+
+    // Regression test for embedded host.
     it('falls back to load path if imports list is empty', () =>
       sandbox(dir => {
         dir.write({
