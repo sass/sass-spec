@@ -64,6 +64,53 @@ export DART_SASS_PATH=`pwd`/dart-sass
 npm run sass-spec -- --dart $DART_SASS_PATH
 ```
 
+#### Dart Sass (in browser)
+
+You can also run the spec tests against the `sass` package running in the
+browser. Assuming you have followed the instructions above to install Dart Sass,
+you will first need to build the npm package:
+
+```sh
+cd dart-sass
+dart run grinder pkg-npm-dev
+```
+
+The file `dart-sass/build/npm/sass.default.js` is the entrypoint for the
+browser. You'll need to provide an HTML file that attaches the `sass` object to
+the `window` and defines an import map to load the external dependencies. Here's
+an example file located at `dart-sass/build/npm/index.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sass in browser</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "immutable": "https://esm.sh/immutable@4.3.0"
+        }
+      }
+    </script>
+    <script type="module">
+      import * as sass from './sass.default.js';
+      window.sass = sass;
+    </script>
+  </head>
+  <body></body>
+</html>
+```
+
+Finally, you can run the spec tests by pointing the runner to the folder
+containing the HTML file:
+
+```sh
+export INDEX_FILE_FOLDER=`pwd`/dart-sass/build/npm
+
+npm run sass-spec -- --browser $INDEX_FILE_FOLDER
+```
+
 #### LibSass
 
 To run specs against [LibSass][], the C++ Sass implementation that's used for

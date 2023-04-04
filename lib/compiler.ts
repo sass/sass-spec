@@ -4,6 +4,11 @@ import os from 'os';
 import path from 'path';
 import child_process, {ChildProcessWithoutNullStreams} from 'child_process';
 import {Writable, Readable} from 'stream';
+import playwright from 'playwright';
+import {fromRoot} from '../lib/spec-directory';
+import handler from 'serve-handler';
+import http from 'http';
+import {AddressInfo} from 'net';
 
 export interface Stdio {
   stdout: string;
@@ -226,5 +231,76 @@ main() async {
       text += chunk;
     }
     return text;
+  }
+}
+
+export class BrowserCompiler extends Compiler {
+  private server?: http.Server;
+  private serverUrl?: string;
+  private browser?: playwright.Browser;
+
+  public static async start(serverRoot: string) {
+    const compiler = new BrowserCompiler();
+    compiler.server = http.createServer((request, response) => {
+      return handler(request, response, {
+        public: serverRoot,
+      });
+    });
+    compiler.server.listen();
+
+    compiler.browser = await playwright.chromium.launch();
+    const {port} = compiler.server.address() as AddressInfo;
+    compiler.serverUrl = `http://localhost:${port}`;
+
+    return compiler;
+  }
+
+  shutdown(): void {
+    this.server?.close();
+    this.browser?.close();
+  }
+
+  async compile(path: string, args: string[]): Promise<Stdio> {
+    const [fileName] = args.slice(-1);
+    const testDir = await fromRoot(path);
+    const fileContents = await testDir.readFile(fileName);
+
+    if (!this.serverUrl) throw new Error('Server not started');
+    if (!this.browser) throw new Error('Browser not started');
+    const page = await this.browser.newPage();
+    await page.goto(this.serverUrl);
+
+    const hasSass = await page.evaluate(() => {
+      // @ts-ignore
+      return window.sass?.compileString !== undefined;
+    });
+    if (!hasSass) {
+      page.close();
+      throw new Error(
+        'Sass not present in browser. Was it attached to `window`?'
+      );
+    }
+
+    const {stdout, stderr, status} = await page.evaluate(
+      ([name, src]) => {
+        let stdout = '',
+          stderr = '',
+          status = 0;
+        try {
+          // @ts-ignore
+          const options = {url: new window.URL(name, window.location)};
+          // @ts-ignore
+          stdout = window.sass.compileString(src, options).css;
+        } catch (e: any) {
+          stderr = e.message || 'Unknown error';
+          status = 1;
+        }
+        return {stdout, stderr, status};
+      },
+      [fileName, fileContents]
+    );
+
+    await page.close();
+    return {stdout, stderr, status};
   }
 }

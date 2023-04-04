@@ -1,7 +1,12 @@
 import path from 'path';
 import yargs from 'yargs/yargs';
 import {Argv} from 'yargs';
-import {Compiler, DartCompiler, ExecutableCompiler} from './compiler';
+import {
+  BrowserCompiler,
+  Compiler,
+  DartCompiler,
+  ExecutableCompiler,
+} from './compiler';
 import {TodoMode} from './test-case/util';
 
 export interface CliArgs {
@@ -65,10 +70,15 @@ export async function parseArgs(
       description: 'Sets a specific binary to run',
       type: 'string',
     })
-    .conflicts('dart', 'command')
-    .check(({dart, command}) => {
-      if (!dart && !command) {
-        throw new Error('Must specify --dart or --command');
+    .option('browser', {
+      description:
+        'Provide a path to a folder containing the browser implementation and test against it',
+      type: 'string',
+    })
+    .conflicts('dart', ['command', 'browser'])
+    .check(({dart, command, browser}) => {
+      if (!dart && !command && !browser) {
+        throw new Error('Must specify --dart or --command or --browser');
       } else {
         return true;
       }
@@ -152,6 +162,9 @@ export async function parseArgs(
   if (argv.dart) {
     const repoPath = path.resolve(process.cwd(), argv.dart);
     args.compiler = await DartCompiler.fromRepo(repoPath, cmdArgs);
+  }
+  if (argv.browser) {
+    args.compiler = await BrowserCompiler.start(argv.browser);
   }
 
   return args as CliArgs;
