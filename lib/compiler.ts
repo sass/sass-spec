@@ -287,9 +287,9 @@ export class BrowserCompiler extends Compiler {
           // @ts-ignore
           const options = {url: new window.URL(name, window.location)};
           // @ts-ignore
-          stdout = window.sass.compileString(src, options).css;
+          stdout = window.sass.compileString(src, options).css + '\n';
         } catch (e: any) {
-          stderr = 'Error: ' + e.message || 'Unknown error';
+          stderr = e.message ? `Error: ${e.message}\n` : 'Unknown error';
           status = 1;
         }
         return {stdout, stderr, status};
@@ -301,3 +301,6 @@ export class BrowserCompiler extends Compiler {
     return {stdout, stderr, status};
   }
 }
+
+// 7023 runs, 1293 passing, 3854 failures, 0 todo, 0 ignored, 1876 errors
+// Finished in 30.823s
