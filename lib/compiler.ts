@@ -261,10 +261,6 @@ export class BrowserCompiler extends Compiler {
   }
 
   async compile(path: string, args: string[]): Promise<Stdio> {
-    const [fileName] = args.slice(-1);
-    const testDir = await fromRoot(path);
-    const fileContents = await testDir.readFile(fileName);
-
     if (!this.serverUrl) throw new Error('Server not started');
     if (!this.browser) throw new Error('Browser not started');
     const page = await this.browser.newPage();
@@ -281,6 +277,9 @@ export class BrowserCompiler extends Compiler {
       );
     }
 
+    const [fileName] = args.slice(-1);
+    const testDir = await fromRoot(path);
+    const fileContents = await testDir.readFile(fileName);
     const {stdout, stderr, status} = await page.evaluate(
       ([name, src]) => {
         let stdout = '',
@@ -292,7 +291,7 @@ export class BrowserCompiler extends Compiler {
           // @ts-ignore
           stdout = window.sass.compileString(src, options).css;
         } catch (e: any) {
-          stderr = e.message || 'Unknown error';
+          stderr = 'Error: ' + e.message || 'Unknown error';
           status = 1;
         }
         return {stdout, stderr, status};
@@ -300,6 +299,7 @@ export class BrowserCompiler extends Compiler {
       [fileName, fileContents]
     );
 
+    await testDir.cleanup();
     await page.close();
     return {stdout, stderr, status};
   }
