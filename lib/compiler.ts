@@ -288,8 +288,9 @@ export class BrowserCompiler extends Compiler {
           const options = {url: new window.URL(name, window.location)};
           // @ts-ignore
           stdout = window.sass.compileString(src, options).css + '\n';
-        } catch (e: any) {
-          stderr = e.message ? `Error: ${e.message}\n` : 'Unknown error';
+        } catch (e: unknown) {
+          stderr =
+            e instanceof Error ? `Error: ${e.message}\n` : 'Unknown error';
           status = 1;
         }
         return {stdout, stderr, status};
