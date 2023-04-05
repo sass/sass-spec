@@ -13,42 +13,42 @@ on:
 
 jobs:
   unit_tests:
-    name: "Unit tests"
+    name: 'Unit tests'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '${{ env.NODE_VERSION }}'}
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
       - run: npm install
       - run: npm test
 
   static_analysis:
-    name: "Static analysis"
+    name: 'Static analysis'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '${{ env.NODE_VERSION }}'}
       - run: npm install
       - run: npm run lint
 
   lint_spec:
-    name: "Lint spec files"
+    name: 'Lint spec files'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '${{ env.NODE_VERSION }}'}
       - run: npm install
       - run: npm run lint-spec
 
   dart_sass_language:
-    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }}"
+    name: 'Language | Dart Sass | Dart ${{ matrix.dart_channel }}'
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
@@ -59,10 +59,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '${{ env.NODE_VERSION }}'}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
-        with: {sdk: "${{ matrix.dart_channel }}"}
+        with: {sdk: '${{ matrix.dart_channel }}'}
 
       - name: Install dart-sass
         run: |
@@ -71,21 +71,21 @@ jobs:
           git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
           (cd ../dart-sass; dart pub get)
         env:
-          PR_REF: "${{ github.base_ref }}"
-          CURRENT_REF: "${{ github.ref }}"
+          PR_REF: '${{ github.base_ref }}'
+          CURRENT_REF: '${{ github.ref }}'
 
       - name: Run specs
         run: npm run sass-spec -- --dart ../dart-sass
 
   libsass:
-    name: "Language | LibSass"
+    name: 'Language | LibSass'
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: '${{ env.NODE_VERSION }}'}
       - run: npm install
 
       - name: Install sassc
@@ -98,17 +98,46 @@ jobs:
           (cd $SASS_SASSC_PATH; git checkout $GITISH)
           make -C $SASS_SASSC_PATH
         env:
-          BUILD_DIR: "${{ github.workspace }}"
+          BUILD_DIR: '${{ github.workspace }}'
 
       - name: Run specs
         run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
+
+  browser:
+    name: 'Language | Browser'
+    runs-on: ubuntu-latest
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip browser')"
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with: {node-version: '${{ env.NODE_VERSION }}'}
+      - run: npm install
+      - uses: dart-lang/setup-dart@v1
+        with: {sdk: stable}
+
+      - name: Build for the browser
+        run: |
+          git clone https://github.com/oddbird/dart-sass.git ../dart-sass --depth 1 --branch browser
+          (
+            cd ../dart-sass
+            git checkout
+            dart pub get
+            dart pub run grinder pkg-npm-dev
+            cd build/npm
+            npm install
+            echo '<script type="importmap">{"imports": {"immutable": "./node_modules/immutable/dist/immutable.es.js"}}</script><script type="module">import * as sass from "./sass.default.js";window.sass = sass;</script>' > index.html
+          )
+
+      - name: Run specs
+        run: npm run sass-spec -- --browser ../dart-sass/build/npm
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
   js_api_dart_sass:
-    name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
-    runs-on: "${{ matrix.os }}"
+    name: 'JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
@@ -118,15 +147,15 @@ jobs:
         node_version: [18]
         # Only test LTS versions on Ubuntu
         include:
-        - os: ubuntu-latest
-          node_version: 14
-        - os: ubuntu-latest
-          node_version: 16
+          - os: ubuntu-latest
+            node_version: 14
+          - os: ubuntu-latest
+            node_version: 16
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ matrix.node_version }}"}
+        with: {node-version: '${{ matrix.node_version }}'}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
@@ -155,8 +184,8 @@ jobs:
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
   js_api_sass_embedded:
-    name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
-    runs-on: "${{ matrix.os }}"
+    name: 'JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')"
 
     strategy:
@@ -166,15 +195,15 @@ jobs:
         node_version: [18]
         # Only test LTS versions on Ubuntu
         include:
-        - os: ubuntu-latest
-          node_version: 14
-        - os: ubuntu-latest
-          node_version: 16
+          - os: ubuntu-latest
+            node_version: 14
+          - os: ubuntu-latest
+            node_version: 16
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
-        with: {node-version: "${{ matrix.node_version }}"}
+        with: {node-version: '${{ matrix.node_version }}'}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}

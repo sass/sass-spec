@@ -73,12 +73,14 @@ you will first need to build the npm package:
 ```sh
 cd dart-sass
 dart run grinder pkg-npm-dev
+cd build/npm
+npm install
 ```
 
 The file `dart-sass/build/npm/sass.default.js` is the entrypoint for the
 browser. You'll need to provide an HTML file that attaches the `sass` object to
-the `window` and defines an import map to load the external dependencies. Here's
-an example file located at `dart-sass/build/npm/index.html`:
+the `window` and defines an import map to load the external dependencies. This
+is a reference file that can be saved at `dart-sass/build/npm/index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -89,7 +91,7 @@ an example file located at `dart-sass/build/npm/index.html`:
     <script type="importmap">
       {
         "imports": {
-          "immutable": "https://esm.sh/immutable@4.3.0"
+          "immutable": "./node_modules/immutable/dist/immutable.es.js"
         }
       }
     </script>
