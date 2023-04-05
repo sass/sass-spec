@@ -236,8 +236,8 @@ main() async {
 
 export class BrowserCompiler extends Compiler {
   private server?: http.Server;
-  private serverUrl?: string;
   private browser?: playwright.Browser;
+  private page?: playwright.Page;
 
   public static async start(serverRoot: string) {
     const compiler = new BrowserCompiler();
@@ -250,37 +250,35 @@ export class BrowserCompiler extends Compiler {
 
     compiler.browser = await playwright.chromium.launch();
     const {port} = compiler.server.address() as AddressInfo;
-    compiler.serverUrl = `http://localhost:${port}`;
+    compiler.page = await compiler.browser.newPage();
+    await compiler.page.goto(`http://localhost:${port}`);
+
+    const hasSass = await compiler.page.evaluate(() => {
+      // @ts-ignore
+      return window.sass?.compileString !== undefined;
+    });
+    if (!hasSass) {
+      throw new Error(
+        'Sass not present in browser. Was it attached to `window`?'
+      );
+    }
 
     return compiler;
   }
 
   shutdown(): void {
     this.server?.close();
+    this.page?.close();
     this.browser?.close();
   }
 
   async compile(path: string, args: string[]): Promise<Stdio> {
-    if (!this.serverUrl) throw new Error('Server not started');
-    if (!this.browser) throw new Error('Browser not started');
-    const page = await this.browser.newPage();
-    await page.goto(this.serverUrl);
-
-    const hasSass = await page.evaluate(() => {
-      // @ts-ignore
-      return window.sass?.compileString !== undefined;
-    });
-    if (!hasSass) {
-      page.close();
-      throw new Error(
-        'Sass not present in browser. Was it attached to `window`?'
-      );
-    }
+    if (!this.page) throw new Error('Browser page not started');
 
     const [fileName] = args.slice(-1);
     const testDir = await fromRoot(path);
     const fileContents = await testDir.readFile(fileName);
-    const {stdout, stderr, status} = await page.evaluate(
+    const {stdout, stderr, status} = await this.page.evaluate(
       ([name, src]) => {
         let stdout = '',
           stderr = '',
@@ -300,7 +298,6 @@ export class BrowserCompiler extends Compiler {
     );
 
     await testDir.cleanup();
-    await page.close();
     return {stdout, stderr, status};
   }
 }
