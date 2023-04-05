@@ -301,6 +301,3 @@ export class BrowserCompiler extends Compiler {
     return {stdout, stderr, status};
   }
 }
-
-// 7023 runs, 1293 passing, 3854 failures, 0 todo, 0 ignored, 1876 errors
-// Finished in 30.823s
