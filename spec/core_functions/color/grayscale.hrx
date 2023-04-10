@@ -93,6 +93,48 @@ a {
 
 <===>
 ================================================================================
+<===> with_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> with_calc/input.scss
+a {b: grayscale(calc(1 + 2))}
+
+<===> with_calc/output.css
+a {
+  b: grayscale(3);
+}
+
+<===>
+================================================================================
+<===> with_unquoted_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> with_unquoted_calc/input.scss
+a {b: grayscale(unquote('calc(1)'))}
+
+<===> with_unquoted_calc/output.css
+a {
+  b: grayscale(calc(1));
+}
+
+<===>
+================================================================================
+<===> with_clamp/options.yml
+:ignore_for:
+  - libsass
+
+<===> with_clamp/input.scss
+a {b: grayscale(clamp(1rem, 2.5vw, 2rem))}
+
+<===> with_clamp/output.css
+a {
+  b: grayscale(clamp(1rem, 2.5vw, 2rem));
+}
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 a {b: grayscale()}
 

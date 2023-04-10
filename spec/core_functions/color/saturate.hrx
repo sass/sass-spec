@@ -46,6 +46,48 @@ a {
 
 <===>
 ================================================================================
+<===> one_arg/with_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> one_arg/with_calc/input.scss
+a {b: saturate(calc(1 + 2))}
+
+<===> one_arg/with_calc/output.css
+a {
+  b: saturate(3);
+}
+
+<===>
+================================================================================
+<===> one_arg/with_unquoted_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> one_arg/with_unquoted_calc/input.scss
+a {b: saturate(unquote('calc(1)'))}
+
+<===> one_arg/with_unquoted_calc/output.css
+a {
+  b: saturate(calc(1));
+}
+
+<===>
+================================================================================
+<===> one_arg/with_clamp/options.yml
+:ignore_for:
+  - libsass
+
+<===> one_arg/with_clamp/input.scss
+a {b: saturate(clamp(1rem, 2.5vw, 2rem))}
+
+<===> one_arg/with_clamp/output.css
+a {
+  b: saturate(clamp(1rem, 2.5vw, 2rem));
+}
+
+<===>
+================================================================================
 <===> one_arg/named/options.yml
 ---
 :todo:

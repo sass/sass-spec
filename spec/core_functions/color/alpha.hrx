@@ -1,9 +1,3 @@
-<===> options.yml
-':ignore_for':
-  - libsass
-
-<===>
-================================================================================
 <===> color/max/input.scss
 a {b: alpha(red)}
 
@@ -104,12 +98,58 @@ a {
 
 <===>
 ================================================================================
+<===> opacity/with_css_var/options.yml
+:ignore_for:
+  - libsass
+
 <===> opacity/with_css_var/input.scss
 a {b: opacity(var(--c))}
 
 <===> opacity/with_css_var/output.css
 a {
   b: opacity(var(--c));
+}
+
+<===>
+================================================================================
+<===> opacity/with_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> opacity/with_calc/input.scss
+a {b: opacity(calc(1 + 2))}
+
+<===> opacity/with_calc/output.css
+a {
+  b: opacity(3);
+}
+
+<===>
+================================================================================
+<===> opacity/with_unquoted_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> opacity/with_unquoted_calc/input.scss
+a {b: opacity(unquote('calc(1)'))}
+
+<===> opacity/with_unquoted_calc/output.css
+a {
+  b: opacity(calc(1));
+}
+
+<===>
+================================================================================
+<===> opacity/with_clamp/options.yml
+:ignore_for:
+  - libsass
+
+<===> opacity/with_clamp/input.scss
+a {b: opacity(clamp(1rem, 2.5vw, 2rem))}
+
+<===> opacity/with_clamp/output.css
+a {
+  b: opacity(clamp(1rem, 2.5vw, 2rem));
 }
 
 <===>
@@ -154,6 +194,11 @@ Error: wrong number of arguments (2 for 1) for `alpha'
 
 <===>
 ================================================================================
+<===> error/type/options.yml
+---
+:todo:
+- sass/libsass#2898
+
 <===> error/type/input.scss
 a {b: alpha(1)}
 
@@ -167,6 +212,10 @@ Error: $color: 1 is not a color.
 
 <===>
 ================================================================================
+<===> error/with_module/type/options.yml
+:ignore_for:
+  - libsass
+
 <===> error/with_module/type/input.scss
 @use 'sass:color';
 a {b: color.opacity(var(--c))}
@@ -181,6 +230,11 @@ Error: $color: var(--c) is not a color.
 
 <===>
 ================================================================================
+<===> error/quoted_string/options.yml
+---
+:todo:
+- sass/libsass#2898
+
 <===> error/quoted_string/input.scss
 a {b: alpha("c=d")}
 
@@ -194,6 +248,11 @@ Error: $color: "c=d" is not a color.
 
 <===>
 ================================================================================
+<===> error/unquoted_string/no_equals/options.yml
+---
+:todo:
+- sass/libsass#2898
+
 <===> error/unquoted_string/no_equals/input.scss
 a {b: alpha(cd)}
 
@@ -207,6 +266,11 @@ Error: $color: cd is not a color.
 
 <===>
 ================================================================================
+<===> error/unquoted_string/non_identifier_before_equals/options.yml
+---
+:todo:
+- sass/libsass#2898
+
 <===> error/unquoted_string/non_identifier_before_equals/input.scss
 a {b: alpha(unquote("1=c"))}
 
