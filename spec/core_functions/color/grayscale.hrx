@@ -79,6 +79,48 @@ a {
 
 <===>
 ================================================================================
+<===> with_css_var/options.yml
+':ignore_for':
+  - libsass
+
+<===> with_css_var/input.scss
+a {b: grayscale(var(--c))}
+
+<===> with_css_var/output.css
+a {
+  b: grayscale(var(--c));
+}
+
+<===>
+================================================================================
+<===> with_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> with_calc/input.scss
+a {b: grayscale(calc(1 + 2))}
+
+<===> with_calc/output.css
+a {
+  b: grayscale(3);
+}
+
+<===>
+================================================================================
+<===> with_unquoted_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> with_unquoted_calc/input.scss
+a {b: grayscale(unquote('calc(1)'))}
+
+<===> with_unquoted_calc/output.css
+a {
+  b: grayscale(calc(1));
+}
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 a {b: grayscale()}
 
@@ -145,3 +187,21 @@ Error: argument `$color` of `grayscale($color)` must be a color
 >> a {b: grayscale(c)}
 
    ------^
+
+<===>
+================================================================================
+<===> error/with_module/type/options.yml
+':ignore_for':
+  - libsass
+
+<===> error/with_module/type/input.scss
+@use 'sass:color';
+a {b: color.grayscale(var(--c))}
+
+<===> error/with_module/type/error
+Error: $color: var(--c) is not a color.
+  ,
+2 | a {b: color.grayscale(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

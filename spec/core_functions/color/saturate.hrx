@@ -25,6 +25,55 @@ a {
 
 <===>
 ================================================================================
+<===> one_arg/with_sass_var/input.scss
+$c: 1;
+a {b: saturate($c)}
+
+<===> one_arg/with_sass_var/output.css
+a {
+  b: saturate(1);
+}
+
+<===>
+================================================================================
+<===> one_arg/with_css_var/input.scss
+a {b: saturate(var(--c))}
+
+<===> one_arg/with_css_var/output.css
+a {
+  b: saturate(var(--c));
+}
+
+<===>
+================================================================================
+<===> one_arg/with_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> one_arg/with_calc/input.scss
+a {b: saturate(calc(1 + 2))}
+
+<===> one_arg/with_calc/output.css
+a {
+  b: saturate(3);
+}
+
+<===>
+================================================================================
+<===> one_arg/with_unquoted_calc/options.yml
+:ignore_for:
+  - libsass
+
+<===> one_arg/with_unquoted_calc/input.scss
+a {b: saturate(unquote('calc(1)'))}
+
+<===> one_arg/with_unquoted_calc/output.css
+a {
+  b: saturate(calc(1));
+}
+
+<===>
+================================================================================
 <===> one_arg/named/options.yml
 ---
 :todo:
@@ -163,6 +212,29 @@ Error: $amount: red is not a number.
   |       ^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/with_module/one_arg/type/options.yml
+':ignore_for':
+  - libsass
+
+<===> error/with_module/one_arg/type/input.scss
+@use 'sass:color';
+a {b: color.saturate(var(--c))}
+
+<===> error/with_module/one_arg/type/error
+Error: Missing argument $amount.
+  ,--> input.scss
+2 | a {b: color.saturate(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function saturate($color, $amount) {
+  |           ========================= declaration
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
