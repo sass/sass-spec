@@ -5,9 +5,10 @@ import * as fs from 'fs-extra';
 import * as jest from 'jest';
 import * as p from 'path';
 import * as tmp from 'tmp';
+import {config, Server} from 'karma';
 import yargs from 'yargs/yargs';
 
-import config from './jest.config';
+import jestConfig from './jest.config';
 
 declare module 'jest' {
   function run(args: string[]): never;
@@ -27,6 +28,10 @@ const args = yargs(process.argv.slice(2))
     type: 'string',
     description: 'The path to the npm package that exports the Sass API.',
     demand: true,
+  })
+  .option('browser', {
+    type: 'boolean',
+    description: 'Run the tests in a ChromeHeadless browser context.',
   })
   .option('help', {
     type: 'boolean',
@@ -54,23 +59,15 @@ del.sync(dir, {force: true});
 const sassPackagePath = p.join(dir, 'node_modules', 'sass');
 fs.mkdirSync(sassPackagePath, {recursive: true});
 
-const configPath = p.join(dir, 'jest.config.json');
-fs.writeFileSync(
-  configPath,
-  JSON.stringify({
-    ...config,
-    rootDir: p.resolve('.'),
-    roots: ['<rootDir>/js-api-spec'],
-  })
-);
-
 // We want to use the type information from --sassSassRepo even if --sassPackage
 // is written in TypeScript, because the specs may test behavior that's not yet
 // implemented in --sassPackage and we don't want that to cause a compile error.
 // We accomplish this by creating a JavaScript package named "sass" that
 // requires and re-exports --sassPackage, and using the type annotations from
 // --sassSassRepo as that package's annotations.
-const packageRequire = JSON.stringify(p.resolve(argv.sassPackage));
+const packageRequire = JSON.stringify(
+  p.resolve(argv.sassPackage, 'sass.default.js')
+);
 fs.writeFileSync(
   `${sassPackagePath}/index.js`,
   `module.exports = require(${packageRequire});`
@@ -106,4 +103,30 @@ process.on('exit', () => {
   tmpObject.removeCallback();
 });
 
-jest.run([`--config=${configPath}`, ...(argv._ as string[])]);
+if (argv.browser) {
+  const karmaConfig = config.parseConfig(
+    p.resolve(__dirname, 'karma.config.js'),
+    {port: 9876},
+    {throwErrors: true}
+  );
+  const server = new Server(karmaConfig, exitCode => {
+    console.log('Karma has exited with ' + exitCode);
+    process.exit(exitCode);
+  });
+  server.start();
+} else {
+  const configPath = p.join(dir, 'jest.config.json');
+  fs.writeFileSync(
+    configPath,
+    JSON.stringify({
+      ...jestConfig,
+      rootDir: p.resolve('.'),
+      roots: ['<rootDir>/js-api-spec'],
+      setupFilesAfterEnv: [
+        ...(jestConfig.setupFilesAfterEnv ?? []),
+        './js-api-spec/setup.ts',
+      ],
+    })
+  );
+  jest.run([`--config=${configPath}`, ...(argv._ as string[])]);
+}

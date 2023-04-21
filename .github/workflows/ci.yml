@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.2
         with: {sdk: stable}
       - run: npm install
       - run: npm test
@@ -30,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint
@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint-spec
@@ -57,11 +57,11 @@ jobs:
         dart_channel: [stable, dev]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.2
         with: {sdk: "${{ matrix.dart_channel }}"}
 
       - name: Install dart-sass
@@ -83,8 +83,8 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
 
@@ -104,7 +104,7 @@ jobs:
         run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
-  # They next need to be rotated October 2021. See
+  # They next need to be rotated April 2023. See
   # https://github.com/nodejs/Release.
   js_api_dart_sass:
     name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
@@ -124,11 +124,11 @@ jobs:
           node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.2
         with: {sdk: stable}
 
       - name: Install Dart Sass
@@ -151,8 +151,47 @@ jobs:
       - name: Run specs
         run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language
 
+  js_api_dart_sass_browser:
+    name: "JS API | Dart Sass | Browser"
+    runs-on: ubuntu-latest
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip browser')"
+
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+      - run: npm install
+      - uses: dart-lang/setup-dart@v1.2
+        with: {sdk: stable}
+      - uses: browser-actions/setup-chrome@v1
+
+      - name: Install Dart Sass
+        run: |
+          # TODO update this to use https://github.com/sass/dart-sass.git
+          git clone https://github.com/oddbird/dart-sass.git ../dart-sass --depth 1
+          (
+            cd ../dart-sass
+            git checkout browser # TODO remove this
+            dart pub get
+            dart pub run grinder pkg-npm-dev
+            cd build/npm
+            npm install
+          )
+
+      - name: Check out Sass specification
+        uses: sass/clone-linked-repo@v1
+        with:
+          repo: sass/sass
+          path: language
+
+      - name: Run specs
+        run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language --browser
+        env: {CHROME_EXECUTABLE: chrome}
+
   # The versions should be kept up-to-date with the latest LTS Node releases.
-  # They next need to be rotated October 2021. See
+  # They next need to be rotated April 2023. See
   # https://github.com/nodejs/Release.
   js_api_sass_embedded:
     name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
@@ -172,11 +211,11 @@ jobs:
           node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
+      - uses: dart-lang/setup-dart@v1.2
         with: {sdk: stable}
 
       - name: Install sass-embedded
