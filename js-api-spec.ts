@@ -65,12 +65,12 @@ fs.mkdirSync(sassPackagePath, {recursive: true});
 // We accomplish this by creating a JavaScript package named "sass" that
 // requires and re-exports --sassPackage, and using the type annotations from
 // --sassSassRepo as that package's annotations.
-const packageRequire = JSON.stringify(
-  p.resolve(argv.sassPackage, 'sass.default.js')
-);
+const packageRequire = argv.browser
+  ? p.resolve(argv.sassPackage, 'sass.default.js')
+  : p.resolve(argv.sassPackage);
 fs.writeFileSync(
   `${sassPackagePath}/index.js`,
-  `module.exports = require(${packageRequire});`
+  `module.exports = require(${JSON.stringify(packageRequire)});`
 );
 
 const specPath = p.join(argv.sassSassRepo, 'spec/js-api');
