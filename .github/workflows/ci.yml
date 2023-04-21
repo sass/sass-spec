@@ -170,10 +170,9 @@ jobs:
       - name: Install Dart Sass
         run: |
           # TODO update this to use https://github.com/sass/dart-sass.git
-          git clone https://github.com/oddbird/dart-sass.git ../dart-sass --depth 1
+          git clone https://github.com/oddbird/dart-sass.git ../dart-sass --depth 1 --branch browser
           (
             cd ../dart-sass
-            git checkout browser # TODO remove this
             dart pub get
             dart pub run grinder pkg-npm-dev
             cd build/npm
