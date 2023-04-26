@@ -5,7 +5,7 @@
 import {compileString, compileStringAsync} from 'sass';
 import type {OutputStyle} from 'sass';
 
-import {expectA} from './utils';
+import {expectA as expectAsync} from './utils';
 
 describe('compileString', () => {
   describe('success', () => {
@@ -123,17 +123,15 @@ describe('compileStringAsync returns a promise that', () => {
 
   describe('fails when compilation fails', () => {
     it('with a syntax error', async () => {
-      await expectA(() => compileStringAsync('a {b:')).toThrowSassException({
-        line: 0,
-      });
+      await expectAsync(() => compileStringAsync('a {b:')).toThrowSassException(
+        {line: 0}
+      );
     });
 
     it('with a runtime error', async () => {
-      await expectA(() =>
+      await expectAsync(() =>
         compileStringAsync('@error "oh no";')
-      ).toThrowSassException({
-        line: 0,
-      });
+      ).toThrowSassException({line: 0});
     });
   });
 });

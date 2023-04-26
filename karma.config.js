@@ -9,7 +9,7 @@ module.exports = config => {
 
     // frameworks to use
     // available frameworks: https://www.npmjs.com/search?q=keywords:karma-adapter
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine', 'jasmine-matchers'],
 
     // list of files / patterns to load in the browser
     files: ['js-api-spec/setup.ts', 'js-api-spec/browser/**/*.test.ts'],

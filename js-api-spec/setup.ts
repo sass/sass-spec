@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'jest-extended';
-import * as immutable from 'immutable';
+import immutable from 'immutable';
 import * as sass from 'sass';
 import * as util from 'util';
 import type {URL} from 'url';
@@ -263,12 +263,14 @@ const toEqualWithHash = (
 };
 
 if (expect.extend) {
+  // Add custom matchers to Jest
   expect.extend({
     toThrowSassException,
     toThrowLegacyException,
     toEqualWithHash,
   });
 } else if (jasmine?.addMatchers) {
+  // Add custom matchers to Jasmine
   beforeAll(() => {
     jasmine.addMatchers({
       toThrowSassException: () => ({
@@ -308,6 +310,10 @@ if (expect.extend) {
   });
 }
 
+function isSassException(thrown: unknown): thrown is sass.Exception {
+  return thrown instanceof sass.Exception;
+}
+
 /**
  * Verifies that `thrown` matches the expectation of a `toThrowSassException`
  * call.
@@ -316,7 +322,7 @@ function verifyThrown(
   thrown: unknown,
   {line, url, noUrl, includes}: ToThrowSassExceptionOptions
 ): SyncExpectationResult {
-  if (!(thrown instanceof sass.Exception)) {
+  if (!isSassException(thrown)) {
     return {
       message: () => `expected ${thrown} to be a sass.Exception`,
       pass: false,
