@@ -6,7 +6,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {sassImpl, skipForImpl} from '../utils_node';
+import {sassImpl, skipForImpl} from '../utils';
 
 it('imports cascade through importers', () =>
   expect(

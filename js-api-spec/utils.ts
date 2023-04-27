@@ -2,8 +2,27 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import * as sass from 'sass';
+
 /* Whether the tests are running in a browser context. */
 export const isBrowser = !global.process;
+
+/** The name of the implementation of Sass being tested. */
+export const sassImpl = sass.info.split('\t')[0] as
+  | 'dart-sass'
+  | 'sass-embedded';
+
+/** Skips the `block` of tests when running against the given `impl`. */
+export function skipForImpl(
+  impl: 'dart-sass' | 'sass-embedded' | 'browser',
+  block: () => void
+): void {
+  if (sassImpl === impl || (impl === 'browser' && isBrowser)) {
+    xdescribe(`[skipped for ${impl}]`, block);
+  } else {
+    block();
+  }
+}
 
 /* When running in the browser, Jasmine is used as the test runner, not Jest.
  * The API is similar, but Jasmine requires explicit use of `expectAsync`.

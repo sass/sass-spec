@@ -2,28 +2,10 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import * as sass from 'sass';
 import interceptStdout from 'intercept-stdout';
 import {Console} from 'console';
 
 export {sandbox} from './sandbox';
-
-/** The name of the implementation of Sass being tested. */
-export const sassImpl = sass.info.split('\t')[0] as
-  | 'dart-sass'
-  | 'sass-embedded';
-
-/** Skips the `block` of tests when running against the given `impl`. */
-export function skipForImpl(
-  impl: 'dart-sass' | 'sass-embedded',
-  block: () => void
-): void {
-  if (sassImpl === impl) {
-    describe.skip(`[skipped for ${impl}]`, block);
-  } else {
-    block();
-  }
-}
 
 /** Runs `block` and captures any stdout or stderr it emits. */
 export function captureStdio(block: () => void): {out: string; err: string} {

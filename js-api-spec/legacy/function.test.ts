@@ -6,7 +6,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {skipForImpl} from '../utils_node';
+import {skipForImpl} from '../utils';
 
 describe('rejects a signature', () => {
   it('with an invalid argument list', () => {
