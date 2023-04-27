@@ -5,7 +5,7 @@
 import {URL} from 'url';
 import {compile, compileString, compileStringAsync, Importer} from 'sass';
 
-import {sandbox} from './utils';
+import {sandbox} from './utils_node';
 
 it('uses an importer to resolve an @import', () => {
   const result = compileString('@import "orange";', {

@@ -7,7 +7,7 @@ import {URL} from 'url';
 
 import {compile, compileAsync, compileString} from 'sass';
 
-import {sandbox} from './utils';
+import {sandbox} from './utils_node';
 
 describe('compileString', () => {
   describe('success', () => {

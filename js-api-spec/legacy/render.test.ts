@@ -6,7 +6,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {skipForImpl, captureStdio, captureStdioAsync} from '../utils';
+import {skipForImpl, captureStdio, captureStdioAsync} from '../utils_node';
 
 describe('renderSync()', () => {
   it('one of data and file must be set', () => {

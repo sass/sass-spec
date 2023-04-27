@@ -4,7 +4,6 @@
 
 import * as sass from 'sass';
 
-import '../../utils';
 import {parseValue} from './utils';
 
 describe('an argument list', () => {

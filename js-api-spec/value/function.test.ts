@@ -4,8 +4,6 @@
 
 import {SassFunction, SassNumber, compileString, sassNull} from 'sass';
 
-import '../utils';
-
 it('can round-trip a function reference from Sass', () => {
   const fn = jest.fn(args => {
     expect(args).toHaveLength(1);

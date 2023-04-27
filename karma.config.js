@@ -12,7 +12,7 @@ module.exports = config => {
     frameworks: ['jasmine', 'jasmine-matchers'],
 
     // list of files / patterns to load in the browser
-    files: ['js-api-spec/setup.ts', 'js-api-spec/browser/**/*.test.ts'],
+    files: ['js-api-spec/setup.ts', 'js-api-spec/**/*.browser.test.ts'],
 
     // list of files / patterns to exclude
     exclude: [],

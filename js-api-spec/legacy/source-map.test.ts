@@ -8,7 +8,6 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import '../utils';
 
 describe('a basic invocation', () => {
   let css: string;

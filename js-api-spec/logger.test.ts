@@ -10,7 +10,7 @@ import {
   Logger,
 } from 'sass';
 
-import {sandbox, captureStdio, captureStdioAsync} from './utils';
+import {sandbox, captureStdio, captureStdioAsync} from './utils_node';
 
 it('emits debug to stderr by default', () => {
   const stdio = captureStdio(() => {

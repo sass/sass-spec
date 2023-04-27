@@ -13,8 +13,6 @@ import {
 import {List, OrderedMap} from 'immutable';
 import {URL} from 'url';
 
-import '../utils';
-
 it('passes an argument list', () => {
   const fn = jest.fn(args => {
     expect(args).toHaveLength(1);
