@@ -73,7 +73,10 @@ fs.writeFileSync(
   `module.exports = require(${JSON.stringify(packageRequire)});`
 );
 
-const specPath = p.join(argv.sassSassRepo, 'spec/js-api');
+// Load the APIs from the doc folder, since it uses plain .d.ts files instead of
+// literate .d.ts.md files. The language repo's CI ensures the two remain in
+// sync.
+const specPath = p.join(argv.sassSassRepo, 'js-api-doc');
 const specIndex = p.join(specPath, 'index.d.ts');
 if (!fs.existsSync(specIndex)) {
   console.error(`${specIndex} doesn't exist!`);
