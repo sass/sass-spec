@@ -26,6 +26,7 @@ module.exports = config => {
     esbuild: {
       logLevel: 'error',
       plugins: [NodeModulesPolyfillPlugin()],
+      keepNames: true,
     },
 
     // test results reporter to use

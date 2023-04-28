@@ -39,38 +39,35 @@ describe('compileString', () => {
       );
     });
 
-    // Skip in browser context: https://github.com/dart-lang/sdk/issues/52200
-    skipForImpl('browser', () => {
-      describe('sourceMap', () => {
-        it("doesn't include one by default", () => {
-          expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
+    describe('sourceMap', () => {
+      it("doesn't include one by default", () => {
+        expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
+      });
+
+      it('includes one if sourceMap is true', () => {
+        const result = compileString('a {b: c}', {sourceMap: true});
+        expect(result).toHaveProperty('sourceMap');
+
+        // Explicitly don't test the details of the source map, because
+        // individual implementations are allowed to generate a custom map.
+        const sourceMap = result.sourceMap!;
+        expect(typeof sourceMap.version).toBeString();
+        expect(sourceMap.sources).toBeArray();
+        expect(sourceMap.names).toBeArray();
+        expect(sourceMap.mappings).toBeString();
+      });
+
+      it('includes one with source content if sourceMapIncludeSources is true', () => {
+        const result = compileString('a {b: c}', {
+          sourceMap: true,
+          sourceMapIncludeSources: true,
         });
+        expect(result).toHaveProperty('sourceMap');
 
-        it('includes one if sourceMap is true', () => {
-          const result = compileString('a {b: c}', {sourceMap: true});
-          expect(result).toHaveProperty('sourceMap');
-
-          // Explicitly don't test the details of the source map, because
-          // individual implementations are allowed to generate a custom map.
-          const sourceMap = result.sourceMap!;
-          expect(typeof sourceMap.version).toBeString();
-          expect(sourceMap.sources).toBeArray();
-          expect(sourceMap.names).toBeArray();
-          expect(sourceMap.mappings).toBeString();
-        });
-
-        it('includes one with source content if sourceMapIncludeSources is true', () => {
-          const result = compileString('a {b: c}', {
-            sourceMap: true,
-            sourceMapIncludeSources: true,
-          });
-          expect(result).toHaveProperty('sourceMap');
-
-          const sourceMap = result.sourceMap!;
-          expect(sourceMap).toHaveProperty('sourcesContent');
-          expect(sourceMap.sourcesContent!).toBeArray();
-          expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
-        });
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveProperty('sourcesContent');
+        expect(sourceMap.sourcesContent!).toBeArray();
+        expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
       });
     });
 
