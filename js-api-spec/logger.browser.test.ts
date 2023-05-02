@@ -4,16 +4,14 @@
 
 import {compileString, compileStringAsync, Logger} from 'sass';
 
-import {captureStdio, captureStdioAsync, skipForImpl} from './utils';
+import {captureStdio, captureStdioAsync} from './utils';
 
-skipForImpl('browser', () => {
-  it('emits debug to stderr by default', () => {
-    const stdio = captureStdio(() => {
-      compileString('@debug heck');
-    });
-    expect(stdio.out).toBe('');
-    expect(stdio.err).not.toBe('');
+it('emits debug to stderr by default', () => {
+  const stdio = captureStdio(() => {
+    compileString('@debug heck');
   });
+  expect(stdio.out).toBe('');
+  expect(stdio.err).not.toBe('');
 });
 
 describe('deprecation warning', () => {
@@ -77,14 +75,12 @@ describe('with @warn', () => {
     });
   });
 
-  skipForImpl('browser', () => {
-    it('emits to stderr by default', () => {
-      const stdio = captureStdio(() => {
-        compileString('@warn heck');
-      });
-      expect(stdio.out).toBe('');
-      expect(stdio.err).not.toBe('');
+  it('emits to stderr by default', () => {
+    const stdio = captureStdio(() => {
+      compileString('@warn heck');
     });
+    expect(stdio.out).toBe('');
+    expect(stdio.err).not.toBe('');
   });
 
   it("doesn't emit warnings with a warn callback", () => {
@@ -97,16 +93,14 @@ describe('with @warn', () => {
     expect(stdio.err).toBe('');
   });
 
-  skipForImpl('browser', () => {
-    it('still emits warning with only a debug callback', () => {
-      const stdio = captureStdio(() => {
-        compileString('@warn heck', {
-          logger: {debug() {}},
-        });
+  it('still emits warning with only a debug callback', () => {
+    const stdio = captureStdio(() => {
+      compileString('@warn heck', {
+        logger: {debug() {}},
       });
-      expect(stdio.out).toBe('');
-      expect(stdio.err).not.toBe('');
     });
+    expect(stdio.out).toBe('');
+    expect(stdio.err).not.toBe('');
   });
 
   it("doesn't emit warnings with Logger.silent", () => {
@@ -156,14 +150,12 @@ describe('with @debug', () => {
     });
   });
 
-  skipForImpl('browser', () => {
-    it('emits to stderr by default', () => {
-      const stdio = captureStdio(() => {
-        compileString('@debug heck');
-      });
-      expect(stdio.out).toBe('');
-      expect(stdio.err).not.toBe('');
+  it('emits to stderr by default', () => {
+    const stdio = captureStdio(() => {
+      compileString('@debug heck');
     });
+    expect(stdio.out).toBe('');
+    expect(stdio.err).not.toBe('');
   });
 
   it("doesn't emit debugs with a debug callback", () => {
@@ -176,16 +168,14 @@ describe('with @debug', () => {
     expect(stdio.err).toBe('');
   });
 
-  skipForImpl('browser', () => {
-    it('still emits debugs with only a warn callback', () => {
-      const stdio = captureStdio(() => {
-        compileString('@debug heck', {
-          logger: {warn() {}},
-        });
+  it('still emits debugs with only a warn callback', () => {
+    const stdio = captureStdio(() => {
+      compileString('@debug heck', {
+        logger: {warn() {}},
       });
-      expect(stdio.out).toBe('');
-      expect(stdio.err).not.toBe('');
     });
+    expect(stdio.out).toBe('');
+    expect(stdio.err).not.toBe('');
   });
 
   it("doesn't emit debugs with Logger.silent", () => {
@@ -198,14 +188,12 @@ describe('with @debug', () => {
 });
 
 describe('compileStringAsync', () => {
-  skipForImpl('browser', () => {
-    it('emits to stderr by default', async () => {
-      const stdio = await captureStdioAsync(async () => {
-        await compileStringAsync('@warn heck; @debug heck');
-      });
-      expect(stdio.out).toBe('');
-      expect(stdio.err).not.toBe('');
+  it('emits to stderr by default', async () => {
+    const stdio = await captureStdioAsync(async () => {
+      await compileStringAsync('@warn heck; @debug heck');
     });
+    expect(stdio.out).toBe('');
+    expect(stdio.err).not.toBe('');
   });
 
   it("doesn't emit to stderr with callbacks", async () => {
