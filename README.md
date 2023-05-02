@@ -360,6 +360,15 @@ npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_P
 Whenever you modify Dart Sass, make sure to re-run `dart run grinder
 pkg-npm-dev` to rebuild the JavaScript output.
 
+##### Browser Build
+
+To run specs against [Dart Sass] compiled for a browser context, add the
+`--browser` flag to the above command:
+
+```sh
+npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_PATH/build/npm --browser
+```
+
 #### Embedded Host
 
 To run specs against [the Node Embedded Host], which embeds Dart Sass as a
