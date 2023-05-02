@@ -2,6 +2,8 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as sass from 'sass';
 
 /* Whether the tests are running in a browser context. */
@@ -23,6 +25,10 @@ export function skipForImpl(
     block();
   }
 }
+
+export const URL = isBrowser
+  ? (global as unknown as any).URL
+  : require('url').URL;
 
 /* When running in the browser, Jasmine is used as the test runner, not Jest.
  * The API is similar, but Jasmine requires explicit use of `expectAsync`.

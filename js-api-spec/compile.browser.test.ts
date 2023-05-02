@@ -5,7 +5,7 @@
 import {compileString, compileStringAsync} from 'sass';
 import type {OutputStyle} from 'sass';
 
-import {expectA as expectAsync, skipForImpl} from './utils';
+import {expectA as expectAsync} from './utils';
 
 describe('compileString', () => {
   describe('success', () => {
