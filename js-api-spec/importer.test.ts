@@ -5,7 +5,7 @@
 import {URL} from 'url';
 import {compile, compileString, compileStringAsync, Importer} from 'sass';
 
-import {sandbox} from './utils_node';
+import {sandbox} from './sandbox';
 
 it('avoids importer when canonicalize() returns null', () =>
   sandbox(dir => {

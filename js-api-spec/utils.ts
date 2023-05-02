@@ -4,15 +4,13 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import * as sass from 'sass';
+import {info} from 'sass';
 
 /* Whether the tests are running in a browser context. */
 export const isBrowser = !global.process;
 
 /** The name of the implementation of Sass being tested. */
-export const sassImpl = sass.info.split('\t')[0] as
-  | 'dart-sass'
-  | 'sass-embedded';
+export const sassImpl = info.split('\t')[0] as 'dart-sass' | 'sass-embedded';
 
 /** Skips the `block` of tests when running against the given `impl`. */
 export function skipForImpl(
@@ -40,3 +38,93 @@ export const expectA = isBrowser
 export const spy = isBrowser
   ? (fn: (...args: any[]) => any) => jasmine.createSpy().and.callFake(fn)
   : jest.fn;
+
+/** Runs `block` and captures any stdout or stderr it emits. */
+export function captureStdio(block: () => void): {out: string; err: string} {
+  let out = '';
+  let err = '';
+
+  if (isBrowser) {
+    spyOn(console, 'log').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'error').and.callFake((msg: string) => (err += msg));
+    block();
+  } else {
+    const interceptStdout = require('intercept-stdout');
+    const {Console} = require('console');
+    // Jest overrides the console to pipe output to test reporter, so while we
+    // execute `block` we have to replace Jest's console with a normal one that
+    // can be intercepted by `interceptStdout`.
+    const nativeConsole = new Console({
+      stdout: process.stdout,
+      stderr: process.stderr,
+    });
+    const jestConsole = global.console;
+    global.console = nativeConsole;
+
+    const unhook = interceptStdout(
+      (chunk: string) => {
+        out += chunk;
+        return '';
+      },
+      (chunk: string) => {
+        err += chunk;
+        return '';
+      }
+    );
+
+    try {
+      block();
+    } finally {
+      unhook();
+      global.console = jestConsole;
+    }
+  }
+
+  return {out, err};
+}
+
+/** Like `captureStdio` but asynchronous. */
+export async function captureStdioAsync(
+  block: () => Promise<void>
+): Promise<{out: string; err: string}> {
+  let out = '';
+  let err = '';
+
+  if (isBrowser) {
+    spyOn(console, 'log').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'error').and.callFake((msg: string) => (err += msg));
+    await block();
+  } else {
+    const interceptStdout = require('intercept-stdout');
+    const {Console} = require('console');
+    // Jest overrides the console to pipe output to test reporter, so while we
+    // execute `block` we have to replace Jest's console with a normal one that
+    // can be intercepted by `interceptStdout`.
+    const nativeConsole = new Console({
+      stdout: process.stdout,
+      stderr: process.stderr,
+    });
+    const jestConsole = global.console;
+    global.console = nativeConsole;
+
+    const unhook = interceptStdout(
+      (chunk: string) => {
+        out += chunk;
+        return '';
+      },
+      (chunk: string) => {
+        err += chunk;
+        return '';
+      }
+    );
+
+    try {
+      await block();
+    } finally {
+      unhook();
+      global.console = jestConsole;
+    }
+  }
+
+  return {out, err};
+}

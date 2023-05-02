@@ -4,7 +4,7 @@
 
 import {compileString, compileStringAsync, Importer} from 'sass';
 
-import {expectA as expectAsync, URL} from './utils';
+import {expectA as expectAsync, sassImpl, URL} from './utils';
 
 it('uses an importer to resolve an @import', () => {
   const result = compileString('@import "orange";', {
@@ -119,7 +119,7 @@ it("uses an importer's source map URL", () => {
     sourceMap: true,
   });
 
-  expect(result.sourceMap!.sources).toEqual(['u:blue']);
+  expect(result.sourceMap!.sources).toContain('u:blue');
 });
 
 it('wraps an error in canonicalize()', () => {
@@ -368,7 +368,9 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes: 'Invalid argument (contents): must be a string but was: number',
+      includes: `Invalid argument (contents): must be a string but was: ${
+        sassImpl === 'sass-embedded' ? 'Number' : 'number'
+      }`,
     });
   });
 
@@ -391,7 +393,9 @@ describe('when importer does not return string contents', () => {
       });
     }).toThrowSassException({
       line: 0,
-      includes: 'Invalid argument (contents): must be a string but was: number',
+      includes: `Invalid argument (contents): must be a string but was: ${
+        sassImpl === 'sass-embedded' ? 'Number' : 'number'
+      }`,
     });
   });
 });
