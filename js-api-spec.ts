@@ -101,18 +101,23 @@ fs.symlinkSync(
   p.join('js-api-spec', 'node_modules')
 );
 
-process.on('exit', () => {
-  del.sync(p.join('js-api-spec', 'node_modules'));
-  del.sync(p.resolve(argv.sassPackage, 'node_modules'));
-  tmpObject.removeCallback();
-});
-
 if (argv.browser) {
   fs.mkdirSync(p.resolve(argv.sassPackage, 'node_modules'));
   fs.symlinkSync(
     p.resolve(__dirname, 'node_modules', 'immutable'),
     p.resolve(argv.sassPackage, 'node_modules', 'immutable')
   );
+}
+
+process.on('exit', () => {
+  del.sync(p.join('js-api-spec', 'node_modules'));
+  if (argv.browser) {
+    del.sync(p.resolve(argv.sassPackage, 'node_modules'), {force: true});
+  }
+  tmpObject.removeCallback();
+});
+
+if (argv.browser) {
   const karmaConfig = config.parseConfig(
     p.resolve(__dirname, 'karma.config.js'),
     {port: 9876},
