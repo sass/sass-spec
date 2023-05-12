@@ -1,14 +1,16 @@
 name: CI
 
 defaults:
-  run: {shell: bash}
+  run:
+    shell: bash
 
 env:
   # TODO(jathak): Update this to Node 18 once unit tests are fixed.
   NODE_VERSION: 14
 
 on:
-  push: {branches: [main, feature.*]}
+  push:
+    branches: [main, feature.*]
   pull_request:
 
 jobs:
@@ -19,9 +21,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
       - uses: dart-lang/setup-dart@v1.2
-        with: {sdk: stable}
+        with:
+          sdk: stable
       - run: npm install
       - run: npm test
 
@@ -32,7 +36,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
       - run: npm install
       - run: npm run lint
 
@@ -43,7 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
       - run: npm install
       - run: npm run lint-spec
 
@@ -59,10 +65,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
       - run: npm install
       - uses: dart-lang/setup-dart@v1.2
-        with: {sdk: "${{ matrix.dart_channel }}"}
+        with:
+          sdk: "${{ matrix.dart_channel }}"
 
       - name: Install dart-sass
         run: |
@@ -85,7 +93,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
       - run: npm install
 
       - name: Install sassc
@@ -126,10 +135,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ matrix.node_version }}"}
+        with:
+          node-version: "${{ matrix.node_version }}"
       - run: npm install
       - uses: dart-lang/setup-dart@v1.2
-        with: {sdk: stable}
+        with:
+          sdk: stable
 
       - name: Install Dart Sass
         run: |
@@ -164,7 +175,8 @@ jobs:
       - uses: browser-actions/setup-chrome@v1
       - run: npm install
       - uses: dart-lang/setup-dart@v1.2
-        with: {sdk: stable}
+        with:
+          sdk: stable
 
       - name: Install Dart Sass
         run: |
@@ -186,7 +198,8 @@ jobs:
 
       - name: Run specs
         run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language --browser
-        env: {CHROME_EXECUTABLE: chrome}
+        env:
+          CHROME_EXECUTABLE: chrome
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated April 2023. See
@@ -211,10 +224,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ matrix.node_version }}"}
+        with:
+          node-version: "${{ matrix.node_version }}"
       - run: npm install
       - uses: dart-lang/setup-dart@v1.2
-        with: {sdk: stable}
+        with:
+          sdk: stable
 
       - name: Install sass-embedded
         run: |
