@@ -46,6 +46,8 @@ export function captureStdio(block: () => void): {out: string; err: string} {
 
   if (isBrowser) {
     spyOn(console, 'log').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'info').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'warn').and.callFake((msg: string) => (err += msg));
     spyOn(console, 'error').and.callFake((msg: string) => (err += msg));
     block();
   } else {
@@ -92,6 +94,8 @@ export async function captureStdioAsync(
 
   if (isBrowser) {
     spyOn(console, 'log').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'info').and.callFake((msg: string) => (out += msg));
+    spyOn(console, 'warn').and.callFake((msg: string) => (err += msg));
     spyOn(console, 'error').and.callFake((msg: string) => (err += msg));
     await block();
   } else {
