@@ -173,6 +173,8 @@ jobs:
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with: {github_token: "${{ github.token }}"}
 
       - name: Install Dart Sass
         run: |
@@ -181,7 +183,7 @@ jobs:
           (
             cd ../dart-sass
             dart pub get
-            dart pub run grinder pkg-npm-dev
+            dart pub run grinder protobuf pkg-npm-dev
             cd build/npm
             npm install
           )
