@@ -354,7 +354,7 @@ git clone https://github.com/sass/dart-sass
 )
 export DART_SASS_PATH=`pwd`/dart-sass
 
-npm run js-api-spec -- --sassSass $SASS_SASS_PATH --sassPackage $DART_SASS_PATH/build/npm
+npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_PATH/build/npm
 ```
 
 Whenever you modify Dart Sass, make sure to re-run `dart run grinder
@@ -385,7 +385,7 @@ git clone https://github.com/sass/embedded-host-node
 )
 export SASS_EMBEDDED_PATH=`pwd`/embedded-host-node
 
-npm run js-api-spec -- --sassSass $SASS_SASS_PATH --sassPackage $SASS_EMBEDDED_PATH
+npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $SASS_EMBEDDED_PATH
 ```
 
 Whenever you modify the Sass embedded host, make sure to re-run `npm run
