@@ -63,13 +63,19 @@ jobs:
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: "${{ matrix.dart_channel }}"}
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with: {github_token: "${{ github.token }}"}
 
       - name: Install dart-sass
         run: |
           GITHUB_REF=${PR_REF:-$CURRENT_REF}
           if [[ "$GITHUB_REF" == refs/heads/feature.* ]]; then branch="${GITHUB_REF:11}"; else branch=main; fi
           git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1 --branch "$branch"
-          (cd ../dart-sass; dart pub get)
+          (
+            cd ../dart-sass
+            dart pub get
+            dart run grinder protobuf
+          )
         env:
           PR_REF: "${{ github.base_ref }}"
           CURRENT_REF: "${{ github.ref }}"
@@ -130,6 +136,8 @@ jobs:
       - run: npm install
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with: {github_token: "${{ github.token }}"}
 
       - name: Install Dart Sass
         run: |
@@ -137,7 +145,7 @@ jobs:
           (
             cd ../dart-sass
             dart pub get
-            dart pub run grinder pkg-npm-dev
+            dart pub run grinder protobuf pkg-npm-dev
             cd build/npm
             npm install
           )
