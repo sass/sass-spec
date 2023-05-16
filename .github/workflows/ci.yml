@@ -164,9 +164,6 @@ jobs:
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip browser')"
 
-    strategy:
-      fail-fast: false
-
     steps:
       - uses: actions/checkout@v3
       - uses: browser-actions/setup-chrome@v1
@@ -178,8 +175,7 @@ jobs:
 
       - name: Install Dart Sass
         run: |
-          # TODO update this to use https://github.com/sass/dart-sass.git
-          git clone https://github.com/oddbird/dart-sass.git ../dart-sass --depth 1 --branch browser
+          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
           (
             cd ../dart-sass
             dart pub get
