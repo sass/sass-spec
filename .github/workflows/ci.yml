@@ -116,7 +116,7 @@ jobs:
   # They next need to be rotated April 2023. See
   # https://github.com/nodejs/Release.
   js_api_dart_sass:
-    name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    name: "JS API | Pure JS | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
@@ -205,7 +205,7 @@ jobs:
   # They next need to be rotated April 2023. See
   # https://github.com/nodejs/Release.
   js_api_sass_embedded:
-    name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    name: "JS API | Embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')"
 
