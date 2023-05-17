@@ -6,6 +6,7 @@ import immutable from 'immutable';
 import * as sass from 'sass';
 import * as util from 'util';
 import type {URL} from 'url';
+import 'jasmine-expect';
 
 declare global {
   /* eslint-disable-next-line @typescript-eslint/no-namespace */

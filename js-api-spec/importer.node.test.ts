@@ -174,7 +174,6 @@ describe('FileImporter', () => {
                 return dir.url('upstream');
               } else {
                 fail('findFileUrl() should only be called once');
-                return;
               }
             },
           },

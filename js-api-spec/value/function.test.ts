@@ -8,7 +8,7 @@ import {spy} from '../utils';
 
 it('can round-trip a function reference from Sass', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassFunction);
     return args[0];
   });
@@ -32,9 +32,9 @@ it('can round-trip a function reference from Sass', () => {
 
 it('can call a function reference from JS', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(0);
+    expect(args).toBeArrayOfSize(0);
     return new SassFunction('plusOne($n)', (args: Value[]) => {
-      expect(args.length).toBe(1);
+      expect(args).toBeArrayOfSize(1);
       expect(args[0].assertNumber().value).toBe(2);
       return new SassNumber(args[0].assertNumber().value + 1);
     });

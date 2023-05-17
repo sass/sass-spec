@@ -14,7 +14,7 @@ import {spy} from './utils';
 
 it('passes an argument to a custom function and uses its return value', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0].assertString().text).toBe('bar');
     return new SassString('result');
   });
@@ -30,7 +30,7 @@ it('passes an argument to a custom function and uses its return value', () => {
 
 it('passes no arguments to a custom function', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(0);
+    expect(args).toBeArrayOfSize(0);
     return sassNull;
   });
 
@@ -45,7 +45,7 @@ it('passes no arguments to a custom function', () => {
 
 it('passes multiple arguments to a custom function', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(3);
+    expect(args).toBeArrayOfSize(3);
     expect(args[0].assertString().text).toBe('x');
     expect(args[1].assertString().text).toBe('y');
     expect(args[2].assertString().text).toBe('z');
@@ -63,7 +63,7 @@ it('passes multiple arguments to a custom function', () => {
 
 it('passes a default argument value', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0].assertString().text).toBe('default');
     return sassNull;
   });
@@ -138,7 +138,7 @@ describe('dash-normalizes function calls', () => {
 describe('asynchronously', () => {
   it('passes an argument to a custom function and uses its return value', async () => {
     const fn = spy(args => {
-      expect(args.length).toBe(1);
+      expect(args).toBeArrayOfSize(1);
       expect(args[0].assertString().text).toBe('bar');
       return Promise.resolve(new SassString('result'));
     });

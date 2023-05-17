@@ -16,7 +16,7 @@ import {spy} from '../utils';
 
 it('passes an argument list', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     const arglist = args[0].asList;
     expect(arglist.size).toBe(3);
@@ -37,7 +37,7 @@ it('passes an argument list', () => {
 
 it('passes keyword arguments', () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     expect(args[0].asList.size).toBe(0);
     const keywords = (args[0] as SassArgumentList).keywords;
@@ -58,7 +58,7 @@ it('passes keyword arguments', () => {
 
 it("throws an error if arglist keywords aren't accessed", () => {
   const fn = spy(args => {
-    expect(args.length).toBe(1);
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     return sassNull;
   });
