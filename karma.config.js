@@ -12,7 +12,7 @@ module.exports = config => {
     frameworks: ['jasmine', 'jasmine-matchers'],
 
     // list of files / patterns to load in the browser
-    files: ['js-api-spec/setup.ts', 'js-api-spec/**/*.browser.test.ts'],
+    files: ['js-api-spec/setup.ts', 'js-api-spec/**/!(*.node).test.ts'],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -25,6 +25,8 @@ module.exports = config => {
 
     esbuild: {
       logLevel: 'error',
+      // This is needed to support `util.inspect()` usage in custom
+      // `toEqualWithHash` matcher (defined in `setup.ts`)
       plugins: [NodeModulesPolyfillPlugin()],
       keepNames: true,
     },
@@ -41,7 +43,7 @@ module.exports = config => {
     colors: true,
 
     // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.(LOG_DEBUG)
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
     // enable / disable watching file and executing tests whenever any file changes
