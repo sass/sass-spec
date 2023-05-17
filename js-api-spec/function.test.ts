@@ -10,7 +10,7 @@ import {
   sassNull,
 } from 'sass';
 
-import {expectA as expectAsync, spy} from './utils';
+import {spy} from './utils';
 
 it('passes an argument to a custom function and uses its return value', () => {
   const fn = spy(args => {

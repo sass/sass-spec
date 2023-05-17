@@ -354,16 +354,15 @@ describe('compileAsync returns a promise that', () => {
   it('succeeds when compilation succeeds', () =>
     sandbox(async dir => {
       dir.write({'input.scss': 'a {b: c}'});
-      await expect(compileAsync(dir('input.scss'))).resolves.toMatchObject({
-        css: 'a {\n  b: c;\n}',
-      });
+      const result = await compileAsync(dir('input.scss'));
+      expect(result.css).toBe('a {\n  b: c;\n}');
     }));
 
   describe('fails when compilation fails', () => {
     it('with a syntax error', () =>
       sandbox(async dir => {
         dir.write({'input.scss': 'a {b:'});
-        await expect(() =>
+        await expectAsync(() =>
           compileAsync(dir('input.scss'))
         ).toThrowSassException({
           line: 0,
@@ -373,7 +372,7 @@ describe('compileAsync returns a promise that', () => {
     it('with a runtime error', () =>
       sandbox(async dir => {
         dir.write({'input.scss': '@error "oh no";'});
-        await expect(() =>
+        await expectAsync(() =>
           compileAsync(dir('input.scss'))
         ).toThrowSassException({
           line: 0,

@@ -327,11 +327,9 @@ arguments:
 
 [Sass language specification repository]: https://github.com/sass/sass
 
-The JS API specs are run using [Jest], so you can also pass any [Jest command
-line arguments] to `npm run js-api-spec`.
+The JS API specs are run using [Jasmine].
 
-[Jest]: https://jestjs.io/
-[Jest command line arguments]: https://jestjs.io/docs/cli
+[Jasmine]: https://jasmine.github.io/
 
 #### Dart Sass
 

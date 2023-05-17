@@ -18,7 +18,7 @@ it('avoids importer when canonicalize() returns null', () =>
           load() {
             fail('load() should not be called');
           },
-        },
+        } as unknown as Importer<'sync'>,
       ],
       loadPaths: [dir('dir')],
     });
@@ -33,7 +33,7 @@ it('fails to import when load() returns null', () =>
       compileString('@import "other";', {
         importers: [
           {
-            canonicalize: url => new URL(`u:${url}`),
+            canonicalize: (url: string) => new URL(`u:${url}`),
             load: () => null,
           },
         ],
@@ -58,7 +58,7 @@ it('prefers a relative file load to an importer', () =>
           load() {
             fail('load() should not be called');
           },
-        },
+        } as unknown as Importer<'sync'>,
       ],
     });
     expect(result.css).toBe('a {\n  from: relative;\n}');
@@ -74,7 +74,7 @@ it('prefers an importer to a load path', () =>
     const result = compile(dir('input.scss'), {
       importers: [
         {
-          canonicalize: url => new URL(`u:${url}`),
+          canonicalize: (url: string) => new URL(`u:${url}`),
           load: () => ({contents: 'a {from: importer}', syntax: 'scss'}),
         },
       ],
@@ -133,7 +133,7 @@ describe('FileImporter', () => {
       const result = compileString('@import "u:other";', {
         importers: [
           {
-            findFileUrl(url) {
+            findFileUrl(url: string) {
               expect(url).toEqual('u:other');
               return dir.url('dir/other');
             },
@@ -174,6 +174,7 @@ describe('FileImporter', () => {
                 return dir.url('upstream');
               } else {
                 fail('findFileUrl() should only be called once');
+                return;
               }
             },
           },
@@ -253,7 +254,7 @@ describe('FileImporter', () => {
         compileString('@import "other"', {
           importers: [
             {
-              findFileUrl(url, options) {
+              findFileUrl(url: string, options: {fromImport: boolean}) {
                 expect(options.fromImport).toBeTrue();
                 return dir.url('other');
               },
@@ -268,7 +269,7 @@ describe('FileImporter', () => {
         compileString('@use "other"', {
           importers: [
             {
-              findFileUrl(url, {fromImport}) {
+              findFileUrl(url: string, {fromImport}: {fromImport: boolean}) {
                 expect(fromImport).toBeFalse();
                 return dir.url('other');
               },
@@ -293,7 +294,7 @@ describe('FileImporter', () => {
       }));
 
     it('wraps an error', async () => {
-      await expect(() =>
+      await expectAsync(() =>
         compileStringAsync('@import "other";', {
           importers: [
             {

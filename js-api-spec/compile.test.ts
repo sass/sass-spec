@@ -5,8 +5,6 @@
 import {compileString, compileStringAsync} from 'sass';
 import type {OutputStyle} from 'sass';
 
-import {expectA as expectAsync} from './utils';
-
 describe('compileString', () => {
   describe('success', () => {
     describe('input', () => {
@@ -41,12 +39,12 @@ describe('compileString', () => {
 
     describe('sourceMap', () => {
       it("doesn't include one by default", () => {
-        expect(compileString('a {b: c}')).not.toHaveProperty('sourceMap');
+        expect(compileString('a {b: c}')).not.toHaveMember('sourceMap');
       });
 
       it('includes one if sourceMap is true', () => {
         const result = compileString('a {b: c}', {sourceMap: true});
-        expect(result).toHaveProperty('sourceMap');
+        expect(result).toHaveMember('sourceMap');
 
         // Explicitly don't test the details of the source map, because
         // individual implementations are allowed to generate a custom map.
@@ -62,10 +60,10 @@ describe('compileString', () => {
           sourceMap: true,
           sourceMapIncludeSources: true,
         });
-        expect(result).toHaveProperty('sourceMap');
+        expect(result).toHaveMember('sourceMap');
 
         const sourceMap = result.sourceMap!;
-        expect(sourceMap).toHaveProperty('sourcesContent');
+        expect(sourceMap).toHaveMember('sourcesContent');
         expect(sourceMap.sourcesContent!).toBeArray();
         expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
       });

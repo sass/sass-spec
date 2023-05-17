@@ -18,7 +18,7 @@ describe('from a parameter', () => {
   });
 
   it('a unitless number returns the empty string', () =>
-    expect(parseValue('1', sass.types.Number).getUnit()).toBeEmpty());
+    expect(parseValue('1', sass.types.Number).getUnit()).toBeEmptyString());
 
   it('a complex unit number returns its full units', () =>
     expect(
@@ -40,13 +40,12 @@ describe('from a parameter', () => {
               }
             `,
           functions: {
-            'foo($number)': arg => {
-              const number = arg as sass.types.Number;
+            'foo($number)': (number: sass.types.Number) => {
               number.setValue(42);
               expect(number.getValue()).toBe(42);
               return number;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 42px; c: 1px; }'));
@@ -63,13 +62,12 @@ describe('from a parameter', () => {
               }
             `,
           functions: {
-            'foo($number)': arg => {
-              const number = arg as sass.types.Number;
+            'foo($number)': (number: sass.types.Number) => {
               number.setUnit('em');
               expect(number.getUnit()).toBe('em');
               return number;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 1em; c: 1px; }'));
@@ -80,13 +78,12 @@ describe('from a parameter', () => {
         .renderSync({
           data: 'a {b: calc(foo(1)*1ms*1dpi/1rad)}',
           functions: {
-            'foo($number)': arg => {
-              const number = arg as sass.types.Number;
+            'foo($number)': (number: sass.types.Number) => {
               number.setUnit('px*rad/ms*dpi');
               expect(number.getUnit()).toBe('px*rad/ms*dpi');
               return number;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 1px; }'));
@@ -97,13 +94,12 @@ describe('from a parameter', () => {
         .renderSync({
           data: 'a {b: foo(1)*1em}',
           functions: {
-            'foo($number)': arg => {
-              const number = arg as sass.types.Number;
+            'foo($number)': (number: sass.types.Number) => {
               number.setUnit('/em');
               expect(number.getUnit()).toBe('/em');
               return number;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: 1; }'));
@@ -114,13 +110,12 @@ describe('from a parameter', () => {
         .renderSync({
           data: 'a {b: unitless(foo(1px))}',
           functions: {
-            'foo($number)': arg => {
-              const number = arg as sass.types.Number;
+            'foo($number)': (number: sass.types.Number) => {
               number.setUnit('');
-              expect(number.getUnit()).toBeEmpty();
+              expect(number.getUnit()).toBeEmptyString();
               return number;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: true; }'));
@@ -147,7 +142,7 @@ describe('from a constructor', () => {
   });
 
   it('defaults to no unit', () =>
-    expect(new sass.types.Number(123).getUnit()).toBeEmpty());
+    expect(new sass.types.Number(123).getUnit()).toBeEmptyString());
 
   it('allows complex units', () =>
     expect(

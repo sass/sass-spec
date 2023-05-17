@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {SassFunction, SassNumber, compileString, sassNull} from 'sass';
+import {SassFunction, SassNumber, compileString, sassNull, Value} from 'sass';
 
 import {spy} from '../utils';
 
@@ -33,7 +33,7 @@ it('can round-trip a function reference from Sass', () => {
 it('can call a function reference from JS', () => {
   const fn = spy(args => {
     expect(args.length).toBe(0);
-    return new SassFunction('plusOne($n)', args => {
+    return new SassFunction('plusOne($n)', (args: Value[]) => {
       expect(args.length).toBe(1);
       expect(args[0].assertNumber().value).toBe(2);
       return new SassNumber(args[0].assertNumber().value + 1);

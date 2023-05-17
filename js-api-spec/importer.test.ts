@@ -4,14 +4,14 @@
 
 import {compileString, compileStringAsync, Importer} from 'sass';
 
-import {expectA as expectAsync, sassImpl, URL} from './utils';
+import {sassImpl, URL} from './utils';
 
 it('uses an importer to resolve an @import', () => {
   const result = compileString('@import "orange";', {
     importers: [
       {
-        canonicalize: url => new URL(`u:${url}`),
-        load(url) {
+        canonicalize: (url: string) => new URL(`u:${url}`),
+        load(url: typeof URL) {
           const color = url.pathname;
           return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
         },
@@ -27,7 +27,7 @@ it('passes the canonicalized URL to the importer', () => {
     importers: [
       {
         canonicalize: () => new URL('u:blue'),
-        load(url) {
+        load(url: typeof URL) {
           const color = url.pathname;
           return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
         },
@@ -48,7 +48,7 @@ it('only invokes the importer once for a given canonicalization', () => {
       importers: [
         {
           canonicalize: () => new URL('u:blue'),
-          load(url) {
+          load(url: typeof URL) {
             const color = url.pathname;
             return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
           },
@@ -72,7 +72,7 @@ describe('the imported URL', () => {
     const result = compileString('@import "/orange";', {
       importers: [
         {
-          canonicalize(url) {
+          canonicalize(url: string) {
             expect(url).toEqual('/orange');
             return new URL(`u:${url}`);
           },
@@ -88,7 +88,7 @@ describe('the imported URL', () => {
     const result = compileString('@import "C:/orange";', {
       importers: [
         {
-          canonicalize(url) {
+          canonicalize(url: string) {
             expect(url).toEqual('file:///C:/orange');
             return new URL(`u:${url}`);
           },
@@ -105,8 +105,8 @@ it("uses an importer's source map URL", () => {
   const result = compileString('@import "orange";', {
     importers: [
       {
-        canonicalize: url => new URL(`u:${url}`),
-        load(url) {
+        canonicalize: (url: string) => new URL(`u:${url}`),
+        load(url: typeof URL) {
           const color = url.pathname;
           return {
             contents: `.${color} {color: ${color}}`,
@@ -133,7 +133,7 @@ it('wraps an error in canonicalize()', () => {
           load() {
             fail('load() should not be called');
           },
-        },
+        } as unknown as Importer<'sync'>,
       ],
     });
   }).toThrowSassException({line: 0});
@@ -144,7 +144,7 @@ it('wraps an error in load()', () => {
     compileString('@import "orange";', {
       importers: [
         {
-          canonicalize: url => new URL(`u:${url}`),
+          canonicalize: (url: string) => new URL(`u:${url}`),
           load() {
             throw 'this import is bad actually';
           },
@@ -159,7 +159,7 @@ it('fails to import when load() returns null', () =>
     compileString('@import "other";', {
       importers: [
         {
-          canonicalize: url => new URL(`u:${url}`),
+          canonicalize: (url: string) => new URL(`u:${url}`),
           load: () => null,
         },
       ],
@@ -180,7 +180,7 @@ it('prefers a relative importer load to an importer', () => {
     ],
     url: new URL('o:style.scss'),
     importer: {
-      canonicalize: url => new URL(url),
+      canonicalize: (url: string) => new URL(url),
       load: () => ({contents: 'a {from: relative}', syntax: 'scss'}),
     },
   });
@@ -252,8 +252,8 @@ describe('async', () => {
     const result = await compileStringAsync('@import "orange";', {
       importers: [
         {
-          canonicalize: url => Promise.resolve(new URL(`u:${url}`)),
-          load(url) {
+          canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
+          load(url: typeof URL) {
             const color = url.pathname;
             return Promise.resolve({
               contents: `.${color} {color: ${color}}`,
@@ -276,7 +276,7 @@ describe('async', () => {
             load() {
               fail('load() should not be called');
             },
-          },
+          } as unknown as Importer<'async'>,
         ],
       })
     ).toThrowSassException({line: 0});
@@ -293,7 +293,7 @@ describe('async', () => {
             load() {
               fail('load() should not be called');
             },
-          },
+          } as unknown as Importer<'async'>,
         ],
       })
     ).toThrowSassException({line: 0});
@@ -304,7 +304,7 @@ describe('async', () => {
       compileStringAsync('@import "orange";', {
         importers: [
           {
-            canonicalize: url => new URL(`u:${url}`),
+            canonicalize: (url: string) => new URL(`u:${url}`),
             load: () => Promise.reject('this import is bad actually'),
           },
         ],
@@ -317,7 +317,7 @@ describe('async', () => {
       compileStringAsync('@import "orange";', {
         importers: [
           {
-            canonicalize: url => new URL(`u:${url}`),
+            canonicalize: (url: string) => new URL(`u:${url}`),
             load() {
               throw 'this import is bad actually';
             },
@@ -354,7 +354,7 @@ describe('when importer does not return string contents', () => {
       compileString('@import "other";', {
         importers: [
           {
-            canonicalize: url => new URL(`u:${url}`),
+            canonicalize: (url: string) => new URL(`u:${url}`),
             load() {
               return {
                 // Need to force an invalid type to test bad-type handling.
@@ -379,7 +379,7 @@ describe('when importer does not return string contents', () => {
       await compileStringAsync('@import "other";', {
         importers: [
           {
-            canonicalize: url => new URL(`u:${url}`),
+            canonicalize: (url: string) => new URL(`u:${url}`),
             load() {
               return {
                 // Need to force an invalid type to test bad-type handling.
@@ -405,7 +405,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
     compileString('@import "other";', {
       importers: [
         {
-          canonicalize: url => new URL(`u:${url}`),
+          canonicalize: (url: string) => new URL(`u:${url}`),
           load() {
             return {
               contents: '',
@@ -428,7 +428,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
  */
 function expectFromImport(expected: boolean): Importer<'sync'> {
   return {
-    canonicalize(url, {fromImport}) {
+    canonicalize(url: string, {fromImport}: {fromImport: boolean}) {
       expect(fromImport).toBe(expected);
       return new URL(`u:${url}`);
     },

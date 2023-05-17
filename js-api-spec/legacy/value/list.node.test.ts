@@ -12,10 +12,10 @@ describe('an argument list', () => {
     sass.renderSync({
       data: "a {b: foo(1, 'a', blue)}",
       functions: {
-        'foo($args...)': args_ => {
-          args = args_ as sass.types.List;
+        'foo($args...)': ((args_: sass.types.List) => {
+          args = args_;
           return sass.types.Null.NULL;
-        },
+        }) as sass.LegacySyncFunction,
       },
     })
   );
@@ -69,12 +69,11 @@ describe('a list', () => {
                 }
               `,
             functions: {
-              'foo($list)': arg => {
-                const list = arg as sass.types.List;
+              'foo($list)': ((list: sass.types.List) => {
                 list.setValue(1, sass.types.Null.NULL);
                 expect(list.getValue(1)).toBe(sass.types.Null.NULL);
                 return list;
-              },
+              }) as sass.LegacySyncFunction,
             },
           })
           .css.toString()
@@ -92,12 +91,11 @@ describe('a list', () => {
                 }
               `,
             functions: {
-              'foo($list)': arg => {
-                const list = arg as sass.types.List;
+              'foo($list)': ((list: sass.types.List) => {
                 list.setSeparator(true);
                 expect(list.getSeparator()).toBeTrue();
                 return list;
-              },
+              }) as sass.LegacySyncFunction,
             },
           })
           .css.toString()

@@ -1,18 +1,13 @@
 /* eslint-disable no-process-exit */
 
+import * as p from 'path';
+
 import * as del from 'del';
 import * as fs from 'fs-extra';
-import * as jest from 'jest';
-import * as p from 'path';
-import * as tmp from 'tmp';
+import Jasmine from 'jasmine';
 import {config, Server} from 'karma';
+import * as tmp from 'tmp';
 import yargs from 'yargs/yargs';
-
-import jestConfig from './jest.config';
-
-declare module 'jest' {
-  function run(args: string[]): never;
-}
 
 const args = yargs(process.argv.slice(2))
   .parserConfiguration({'unknown-options-as-args': true})
@@ -44,11 +39,10 @@ const argv = args.parseSync();
 if (argv.help) {
   args.showHelp();
   console.error('');
-  jest.run(['--help']);
 }
 
-// Set up a temp directory that overrides the default Jest configuration and
-// adds node_modules that depend on the given sassSassRepo and sassPackage.
+// Set up a temp directory that adds node_modules that depend on the given
+// sassSassRepo and sassPackage.
 const tmpObject = tmp.dirSync({
   template: 'js-api-spec.XXXXXX',
   unsafeCleanup: true,
@@ -118,18 +112,13 @@ if (argv.browser) {
   });
   server.start();
 } else {
-  const configPath = p.join(dir, 'jest.config.json');
-  fs.writeFileSync(
-    configPath,
-    JSON.stringify({
-      ...jestConfig,
-      rootDir: p.resolve('.'),
-      roots: ['<rootDir>/js-api-spec'],
-      setupFilesAfterEnv: [
-        ...(jestConfig.setupFilesAfterEnv ?? []),
-        './js-api-spec/setup.ts',
-      ],
-    })
-  );
-  jest.run([`--config=${configPath}`, ...(argv._ as string[])]);
+  const jasmine = new Jasmine({
+    projectBaseDir: p.resolve('.'),
+  });
+  jasmine.loadConfig({
+    spec_dir: 'js-api-spec',
+    spec_files: ['**/*.test.ts'],
+    helpers: ['../node_modules/jasmine-expect/index.js', 'setup.ts'],
+  });
+  jasmine.execute();
 }

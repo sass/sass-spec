@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {compileString, compileStringAsync, Logger} from 'sass';
+import {compileString, compileStringAsync, Logger, SourceSpan} from 'sass';
 
 import {captureStdio, captureStdioAsync} from './utils';
 
@@ -19,7 +19,7 @@ describe('deprecation warning', () => {
   it('passes the message and span to the logger', done => {
     compileString('* > { --foo: bar }', {
       logger: {
-        warn(message, {span}) {
+        warn(message: string, {span}: {span?: SourceSpan}) {
           expect(message).toContain('only valid for nesting');
           expect(span?.start.line).toBe(0);
           expect(span?.start.column).toBe(0);
@@ -41,7 +41,14 @@ describe('with @warn', () => {
       `,
       {
         logger: {
-          warn(message, {deprecation, span, stack}) {
+          warn(
+            message: string,
+            {
+              deprecation,
+              span,
+              stack,
+            }: {deprecation: boolean; span?: SourceSpan; stack?: string}
+          ) {
             expect(message).toBe('heck');
             expect(span).toBeUndefined();
             expect(stack).toBeString();
@@ -56,7 +63,7 @@ describe('with @warn', () => {
   it('stringifies the argument', done => {
     compileString('@warn #abc', {
       logger: {
-        warn(message) {
+        warn(message: string) {
           expect(message).toBe('#abc');
           done();
         },
@@ -67,7 +74,7 @@ describe('with @warn', () => {
   it("doesn't inspect the argument", done => {
     compileString('@warn null', {
       logger: {
-        warn(message) {
+        warn(message: string) {
           expect(message).toBe('');
           done();
         },
@@ -116,12 +123,12 @@ describe('with @debug', () => {
   it('passes the message and span to the logger', done => {
     compileString('@debug heck', {
       logger: {
-        debug(message, {span}) {
+        debug(message: string, {span}: {span?: SourceSpan}) {
           expect(message).toBe('heck');
-          expect(span.start.line).toBe(0);
-          expect(span.start.column).toBe(0);
-          expect(span.end.line).toBe(0);
-          expect(span.end.column).toBe(11);
+          expect(span?.start.line).toBe(0);
+          expect(span?.start.column).toBe(0);
+          expect(span?.end.line).toBe(0);
+          expect(span?.end.column).toBe(11);
           done();
         },
       },
@@ -131,7 +138,7 @@ describe('with @debug', () => {
   it('stringifies the argument', done => {
     compileString('@debug #abc', {
       logger: {
-        debug(message) {
+        debug(message: string) {
           expect(message).toBe('#abc');
           done();
         },
@@ -142,7 +149,7 @@ describe('with @debug', () => {
   it('inspects the argument', done => {
     compileString('@debug null', {
       logger: {
-        debug(message) {
+        debug(message: string) {
           expect(message).toBe('null');
           done();
         },
@@ -200,10 +207,10 @@ describe('compileStringAsync', () => {
     const stdio = await captureStdioAsync(async () => {
       await compileStringAsync('@warn heck warn; @debug heck debug', {
         logger: {
-          warn(message) {
+          warn(message: string) {
             expect(message).toBe('heck warn');
           },
-          debug(message) {
+          debug(message: string) {
             expect(message).toBe('heck debug');
           },
         },

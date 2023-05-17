@@ -15,8 +15,8 @@ describe('compile', () => {
       const stdio = captureStdio(() => {
         compile(dir('style.scss'));
       });
-      expect(stdio.out).toBeEmpty();
-      expect(stdio.err).not.toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).not.toBeEmptyString();
     }));
 
   it("doesn't emit to stderr with callbacks", () =>
@@ -26,17 +26,17 @@ describe('compile', () => {
       const stdio = captureStdio(() => {
         compile(dir('style.scss'), {
           logger: {
-            warn(message) {
+            warn(message: string) {
               expect(message).toBe('heck warn');
             },
-            debug(message) {
+            debug(message: string) {
               expect(message).toBe('heck debug');
             },
           },
         });
       });
-      expect(stdio.out).toBeEmpty();
-      expect(stdio.err).toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).toBeEmptyString();
     }));
 });
 
@@ -48,8 +48,8 @@ describe('compileAsync', () => {
       const stdio = await captureStdioAsync(async () => {
         await compileAsync(dir('style.scss'));
       });
-      expect(stdio.out).toBeEmpty();
-      expect(stdio.err).not.toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).not.toBeEmptyString();
     }));
 
   it("doesn't emit to stderr with callbacks", () =>
@@ -59,16 +59,16 @@ describe('compileAsync', () => {
       const stdio = await captureStdioAsync(async () => {
         await compileAsync(dir('style.scss'), {
           logger: {
-            warn(message) {
+            warn(message: string) {
               expect(message).toBe('heck warn');
             },
-            debug(message) {
+            debug(message: string) {
               expect(message).toBe('heck debug');
             },
           },
         });
       });
-      expect(stdio.out).toBeEmpty();
-      expect(stdio.err).toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).toBeEmptyString();
     }));
 });

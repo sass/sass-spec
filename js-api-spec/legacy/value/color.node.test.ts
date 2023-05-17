@@ -31,8 +31,7 @@ describe('from a parameter', () => {
               }
             `,
           functions: {
-            'foo($color)': arg => {
-              const color = arg as sass.types.Color;
+            'foo($color)': ((color: sass.types.Color) => {
               color.setR(11);
               expect(color.getR()).toBe(11);
               color.setG(22);
@@ -42,7 +41,7 @@ describe('from a parameter', () => {
               color.setA(0.5);
               expect(color.getA()).toBe(0.5);
               return color;
-            },
+            }) as sass.LegacySyncFunction,
           },
         })
         .css.toString()
