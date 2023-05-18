@@ -47,13 +47,14 @@ From there, it depends which implementation you're testing:
 
 #### Dart Sass
 
-To run specs against [Dart Sass][], the reference implementation of Sass that's
-used for [the `sass` package][] on npm, you'll first need to install [Dart][].
+To run specs against [Dart Sass], the reference implementation of Sass that's
+used for [the `sass` package] on npm, you'll first need to install [Dart] and [`buf`].
 Then run:
 
 [Dart Sass]: https://sass-lang.com/dart-sass
 [the `sass` package]: https://npmjs.com/package/sass
 [Dart]: https://www.dartlang.org/
+[`buf`]: https://buf.build/docs/installation
 
 ```sh
 # If you already have a clone of the Dart Sass repo, you can use that instead.
@@ -61,8 +62,14 @@ git clone https://github.com/sass/dart-sass
 (cd dart-sass; dart pub get)
 export DART_SASS_PATH=`pwd`/dart-sass
 
+# Build dart-sass.
+dart run grinder synchronize before-test
+
 npm run sass-spec -- --dart $DART_SASS_PATH
 ```
+
+Whenever you modify [Dart Sass], make sure to run `dart run ginder before-test`
+to rebuild it before testing.
 
 #### LibSass
 
