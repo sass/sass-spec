@@ -59,11 +59,12 @@ Then run:
 ```sh
 # If you already have a clone of the Dart Sass repo, you can use that instead.
 git clone https://github.com/sass/dart-sass
-(cd dart-sass; dart pub get)
+(
+  cd dart-sass
+  dart pub get
+  dart run grinder synchronize before-test
+)
 export DART_SASS_PATH=`pwd`/dart-sass
-
-# Build dart-sass.
-dart run grinder synchronize before-test
 
 npm run sass-spec -- --dart $DART_SASS_PATH
 ```
