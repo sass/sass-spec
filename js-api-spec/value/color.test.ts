@@ -4,8 +4,6 @@
 
 import {Value, SassColor} from 'sass';
 
-import '../utils';
-
 /** A utility function for creating an RGB color. */
 function rgb(
   red: number,

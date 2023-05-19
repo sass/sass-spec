@@ -5,8 +5,6 @@
 import {Value, SassList, SassMap, SassNumber, SassString} from 'sass';
 import {List} from 'immutable';
 
-import '../utils';
-
 describe('SassList', () => {
   describe('construction', () => {
     let list: SassList;

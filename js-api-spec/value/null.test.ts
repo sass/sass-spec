@@ -3,7 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassNull} from 'sass';
-import '../utils';
 
 describe('Sass null', () => {
   const value: Value = sassNull;

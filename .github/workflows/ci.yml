@@ -159,6 +159,42 @@ jobs:
       - name: Run specs
         run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language
 
+  js_api_dart_sass_browser:
+    name: "JS API | Pure JS | Browser"
+    runs-on: ubuntu-latest
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+      - run: npm install
+      - uses: dart-lang/setup-dart@v1
+        with: {sdk: stable}
+      - uses: bufbuild/buf-setup-action@v1.13.1
+        with: {github_token: "${{ github.token }}"}
+
+      - name: Install Dart Sass
+        run: |
+          git clone https://github.com/sass/dart-sass.git ../dart-sass --depth 1
+          (
+            cd ../dart-sass
+            dart pub get
+            dart pub run grinder protobuf pkg-npm-dev
+            cd build/npm
+            npm install
+          )
+
+      - name: Check out Sass specification
+        uses: sass/clone-linked-repo@v1
+        with:
+          repo: sass/sass
+          path: language
+
+      - name: Run specs
+        run: npm run js-api-spec -- --sassPackage ../dart-sass/build/npm --sassSassRepo language --browser
+        env:
+          CHROME_EXECUTABLE: chrome
+
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.

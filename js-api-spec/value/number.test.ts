@@ -5,7 +5,6 @@
 import {List} from 'immutable';
 
 import {Value, SassNumber} from 'sass';
-import '../utils';
 
 const precision = 10;
 

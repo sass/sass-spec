@@ -327,11 +327,9 @@ arguments:
 
 [Sass language specification repository]: https://github.com/sass/sass
 
-The JS API specs are run using [Jest], so you can also pass any [Jest command
-line arguments] to `npm run js-api-spec`.
+The JS API specs are run using [Jasmine].
 
-[Jest]: https://jestjs.io/
-[Jest command line arguments]: https://jestjs.io/docs/cli
+[Jasmine]: https://jasmine.github.io/
 
 #### Dart Sass
 
@@ -359,6 +357,15 @@ npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_P
 
 Whenever you modify Dart Sass, make sure to re-run `dart run grinder
 pkg-npm-dev` to rebuild the JavaScript output.
+
+##### Browser Build
+
+To run specs against [Dart Sass] compiled for a browser context, add the
+`--browser` flag to the above command:
+
+```sh
+npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_PATH/build/npm --browser
+```
 
 #### Embedded Host
 

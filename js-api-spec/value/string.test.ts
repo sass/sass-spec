@@ -3,7 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassNumber, SassString} from 'sass';
-import '../utils';
 
 describe('Sass string', () => {
   describe('construction', () => {

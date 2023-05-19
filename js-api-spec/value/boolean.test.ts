@@ -3,7 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassTrue, sassFalse} from 'sass';
-import '../utils';
 
 describe('Sass boolean', () => {
   describe('sassTrue', () => {

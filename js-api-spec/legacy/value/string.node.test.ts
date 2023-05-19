@@ -29,13 +29,12 @@ describe('from a parameter', () => {
               }
             `,
           functions: {
-            'foo($string)': arg => {
-              const string = arg as sass.types.String;
+            'foo($string)': (string: sass.types.String) => {
               string.setValue('bar');
               expect(string.getValue()).toBe('bar');
               return string;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: bar; c: foo; }'));
@@ -46,13 +45,12 @@ describe('from a parameter', () => {
         .renderSync({
           data: 'a {b: foo("foo")}',
           functions: {
-            'foo($string)': arg => {
-              const string = arg as sass.types.String;
+            'foo($string)': (string: sass.types.String) => {
               string.setValue('bar');
               expect(string.getValue()).toBe('bar');
               return string;
             },
-          },
+          } as Record<string, sass.LegacySyncFunction>,
         })
         .css.toString()
     ).toEqualIgnoringWhitespace('a { b: bar; }'));

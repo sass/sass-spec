@@ -11,13 +11,12 @@ import {
   Value,
 } from 'sass';
 import {List, OrderedMap} from 'immutable';
-import {URL} from 'url';
 
-import '../utils';
+import {spy} from '../utils';
 
 it('passes an argument list', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     const arglist = args[0].asList;
     expect(arglist.size).toBe(3);
@@ -33,12 +32,12 @@ it('passes an argument list', () => {
     }).css
   ).toBe('');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it('passes keyword arguments', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     expect(args[0].asList.size).toBe(0);
     const keywords = (args[0] as SassArgumentList).keywords;
@@ -54,12 +53,12 @@ it('passes keyword arguments', () => {
     }).css
   ).toBe('');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it("throws an error if arglist keywords aren't accessed", () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassArgumentList);
     return sassNull;
   });
@@ -67,14 +66,11 @@ it("throws an error if arglist keywords aren't accessed", () => {
   expect(
     () =>
       compileString('a {b: foo($bar: baz)}', {
-        // Necessary until we get a compiler release with
-        // dart-lang/source_span#78.
-        url: new URL('file:///input.scss'),
         functions: {'foo($args...)': fn},
       }).css
   ).toThrowSassException({line: 0});
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 describe('SassArgumentList', () => {
