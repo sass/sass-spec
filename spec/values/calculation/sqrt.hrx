@@ -1,0 +1,164 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `sqrt()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> error/syntax/no_arg/input.scss
+a {b: calc(sqrt())}
+
+<===> error/syntax/no_arg/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(sqrt())}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/no_units/input.scss
+a {b: calc(sqrt(16px))}
+
+<===> error/syntax/no_units/error
+Error: Expected 16px to have no units.
+  ,
+1 | a {b: calc(sqrt(16px))}
+  |            ^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/operation_no_units/input.scss
+a {b: calc(sqrt(1 + 16px))}
+
+<===> error/syntax/operation_no_units/error
+Error: 1 and 16px are incompatible.
+  ,
+1 | a {b: calc(sqrt(1 + 16px))}
+  |                 ^^^^^^^^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/min_no_units/input.scss
+a {b: calc(sqrt(min(16, 9px)))}
+
+<===> error/syntax/min_no_units/error
+Error: Expected 9px to have no units.
+  ,
+1 | a {b: calc(sqrt(min(16, 9px)))}
+  |            ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: calc(sqrt($))}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: calc(sqrt($))}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> error/complex_unit/input.scss
+a {b: sqrt(1px*1px)}
+
+<===> error/complex_unit/error
+Error: Number 1px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: sqrt(1px*1px)}
+  |            ^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/percentage/input.scss
+a {b: calc(sqrt(5%))}
+
+<===> error/percentage/error
+Error: Expected 5% to have no units.
+  ,
+1 | a {b: calc(sqrt(5%))}
+  |            ^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> preserved/operation/unitless/result_is_integer/input.scss
+a {b: sqrt(16)}
+
+<===> preserved/operation/unitless/result_is_integer/output.css
+a {
+  b: 4;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless/result_is_float/input.scss
+a {b: sqrt(2)}
+
+<===> preserved/operation/unitless/result_is_float/output.css
+a {
+  b: 1.4142135624;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless/negative/input.scss
+a {b: sqrt(-9)}
+
+<===> preserved/operation/unitless/negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/math_nested/minus/input.scss
+a {b: calc(sqrt(10 - 1))}
+
+<===> preserved/operation/math_nested/minus/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/math/plus/input.scss
+a {b: sqrt(10 + 6)}
+
+<===> preserved/operation/math/plus/output.css
+a {
+  b: 4;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/math/max/input.scss
+a {b: sqrt(max(2, 9))}
+
+<===> preserved/operation/math/max/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/math/min/input.scss
+a {b: sqrt(min(16, 9))}
+
+<===> preserved/operation/math/min/output.css
+a {
+  b: 3;
+}
