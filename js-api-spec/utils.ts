@@ -28,16 +28,8 @@ export const URL = isBrowser
   ? (global as unknown as any).URL
   : require('url').URL;
 
-/* When running in the browser, Jasmine is used as the test runner, not Jest.
- * The API is similar, but Jasmine requires explicit use of `expectAsync`.
- */
-export const expectA = isBrowser
-  ? (expectAsync as unknown as jest.Expect)
-  : expect;
-
-export const spy = isBrowser
-  ? (fn: (...args: any[]) => any) => jasmine.createSpy().and.callFake(fn)
-  : jest.fn;
+export const spy = (fn: (...args: any[]) => any) =>
+  jasmine.createSpy().and.callFake(fn);
 
 /** Runs `block` and captures any stdout or stderr it emits. */
 export function captureStdio(block: () => void): {out: string; err: string} {
@@ -52,16 +44,6 @@ export function captureStdio(block: () => void): {out: string; err: string} {
     block();
   } else {
     const interceptStdout = require('intercept-stdout');
-    const {Console} = require('console');
-    // Jest overrides the console to pipe output to test reporter, so while we
-    // execute `block` we have to replace Jest's console with a normal one that
-    // can be intercepted by `interceptStdout`.
-    const nativeConsole = new Console({
-      stdout: process.stdout,
-      stderr: process.stderr,
-    });
-    const jestConsole = global.console;
-    global.console = nativeConsole;
 
     const unhook = interceptStdout(
       (chunk: string) => {
@@ -78,7 +60,6 @@ export function captureStdio(block: () => void): {out: string; err: string} {
       block();
     } finally {
       unhook();
-      global.console = jestConsole;
     }
   }
 
@@ -100,16 +81,6 @@ export async function captureStdioAsync(
     await block();
   } else {
     const interceptStdout = require('intercept-stdout');
-    const {Console} = require('console');
-    // Jest overrides the console to pipe output to test reporter, so while we
-    // execute `block` we have to replace Jest's console with a normal one that
-    // can be intercepted by `interceptStdout`.
-    const nativeConsole = new Console({
-      stdout: process.stdout,
-      stderr: process.stderr,
-    });
-    const jestConsole = global.console;
-    global.console = nativeConsole;
 
     const unhook = interceptStdout(
       (chunk: string) => {
@@ -126,7 +97,6 @@ export async function captureStdioAsync(
       await block();
     } finally {
       unhook();
-      global.console = jestConsole;
     }
   }
 

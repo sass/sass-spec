@@ -6,7 +6,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {sassImpl, skipForImpl} from '../utils';
+import {sassImpl, skipForImpl, spy} from '../utils';
 
 it('imports cascade through importers', () =>
   expect(
@@ -14,9 +14,9 @@ it('imports cascade through importers', () =>
       .renderSync({
         data: "@import 'foo'",
         importer: [
-          url => (url === 'foo' ? {contents: '@import "bar"'} : null),
-          url => (url === 'bar' ? {contents: '@import "baz"'} : null),
-          url => (url === 'baz' ? {contents: 'a {b: c}'} : null),
+          (url: string) => (url === 'foo' ? {contents: '@import "bar"'} : null),
+          (url: string) => (url === 'bar' ? {contents: '@import "baz"'} : null),
+          (url: string) => (url === 'baz' ? {contents: 'a {b: c}'} : null),
         ],
       })
       .css.toString()
@@ -416,7 +416,7 @@ describe('with a file redirect', () => {
 
 describe('the imported URL', () => {
   it('is the exact imported text', () => {
-    const importer = jest.fn(url => {
+    const importer = spy((url: string) => {
       expect(url).toBe('foo');
       return {contents: ''};
     });
@@ -428,7 +428,7 @@ describe('the imported URL', () => {
   // Regression test for sass/dart-sass#246.
   skipForImpl('sass-embedded', () => {
     it("doesn't remove ./", () => {
-      const importer = jest.fn(url => {
+      const importer = spy((url: string) => {
         expect(url).toBe('./foo');
         return {contents: ''};
       });
@@ -439,7 +439,7 @@ describe('the imported URL', () => {
   });
 
   it("isn't resolved relative to the current file", () => {
-    const importer = jest.fn(url => {
+    const importer = spy((url: string) => {
       if (url === 'foo/bar') return {contents: '@import "baz"'};
       expect(url).toBe('baz');
       return {contents: ''};
@@ -459,7 +459,7 @@ describe('the imported URL', () => {
 
   // Regression test for sass/dart-sass#1137.
   it("isn't changed if it's root-relative with no nesting", () => {
-    const importer = jest.fn(url => {
+    const importer = spy((url: string) => {
       expect(url).toBe('/foo');
       return {contents: ''};
     });
@@ -470,7 +470,7 @@ describe('the imported URL', () => {
 
   // Regression test for sass/embedded-host-node#1137.
   it("isn't changed if it's root-relative with nesting", () => {
-    const importer = jest.fn(url => {
+    const importer = spy((url: string) => {
       expect(url).toBe('/foo/bar/baz');
       return {contents: ''};
     });
@@ -480,7 +480,7 @@ describe('the imported URL', () => {
   });
 
   it("is converted to a file: URL if it's an absolute Windows path", () => {
-    const importer = jest.fn(url => {
+    const importer = spy((url: string) => {
       expect(url).toBe('file:///C:/foo');
       return {contents: ''};
     });
@@ -495,7 +495,7 @@ describe('the previous URL', () => {
     sandbox(dir => {
       dir.write({'test.scss': '@import "foo"'});
 
-      const importer = jest.fn((url, prev) => {
+      const importer = spy((url, prev) => {
         expect(prev).toBe(p.resolve(dir('test.scss')));
         return {contents: ''};
       });
@@ -511,7 +511,7 @@ describe('the previous URL', () => {
         '_other.scss': '@import "baz"',
       });
 
-      const importer = jest.fn((url, prev) => {
+      const importer = spy((url, prev) => {
         if (url === 'foo') return {file: '_other.scss'};
         expect(url).toBe('baz');
         expect(prev).toBe(dir('_other.scss'));
@@ -523,7 +523,7 @@ describe('the previous URL', () => {
     }));
 
   it('is "stdin" for string stylesheets', () => {
-    const importer = jest.fn((url, prev) => {
+    const importer = spy((url, prev) => {
       expect(prev).toBe('stdin');
       return {contents: ''};
     });
@@ -533,11 +533,11 @@ describe('the previous URL', () => {
   });
 
   it('is the imported string for imports from importers', () => {
-    const importer1 = jest.fn(url =>
+    const importer1 = spy((url: string) =>
       url === 'foo' ? {contents: '@import "bar"'} : null
     );
 
-    const importer2 = jest.fn((url, prev) => {
+    const importer2 = spy((url, prev) => {
       expect(url).toBe('bar');
       expect(prev).toBe('foo');
       return {contents: ''};
@@ -562,7 +562,7 @@ describe('the previous URL', () => {
         '_relative.scss': 'a {b: relative}',
       });
 
-      const importer = jest.fn((url, prev) => {
+      const importer = spy((url, prev) => {
         expect(url).toBe('importer');
         expect(prev).toBe(dir('test.scss'));
         return {contents: 'a {b: importer}'};
@@ -577,7 +577,7 @@ describe('the previous URL', () => {
 
 describe('this', () => {
   it('includes default option values', () => {
-    const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+    const importer = spy(function (this: sass.LegacyImporterThis) {
       const options = this.options;
       expect(options.includePaths).toBe(process.cwd());
       expect(options.precision).toEqual(10);
@@ -593,7 +593,7 @@ describe('this', () => {
   });
 
   it('includes the data when rendering via data', () => {
-    const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+    const importer = spy(function (this: sass.LegacyImporterThis) {
       const options = this.options;
       expect(options.data).toBe('@import "foo"');
       expect(options.file).toBeUndefined();
@@ -608,7 +608,7 @@ describe('this', () => {
     sandbox(dir => {
       dir.write({'test.scss': '@import "foo"'});
 
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         const options = this.options;
 
         // Because of the way it wraps legacy importers, the embedded host
@@ -627,7 +627,7 @@ describe('this', () => {
 
   it('includes other include paths', () =>
     sandbox(dir => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.options.includePaths).toContain(
           `${process.cwd()}${p.delimiter}${dir.root}`
         );
@@ -645,7 +645,7 @@ describe('this', () => {
   skipForImpl('sass-embedded', () => {
     describe('can override', () => {
       it('indentWidth', () => {
-        const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+        const importer = spy(function (this: sass.LegacyImporterThis) {
           expect(this.options.indentWidth).toBe(5);
           return {contents: ''};
         });
@@ -655,7 +655,7 @@ describe('this', () => {
       });
 
       it('indentType', () => {
-        const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+        const importer = spy(function (this: sass.LegacyImporterThis) {
           expect(this.options.indentType).toBe(1);
           return {contents: ''};
         });
@@ -665,7 +665,7 @@ describe('this', () => {
       });
 
       it('linefeed', () => {
-        const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+        const importer = spy(function (this: sass.LegacyImporterThis) {
           expect(this.options.linefeed).toBe('\r');
           return {contents: ''};
         });
@@ -677,7 +677,7 @@ describe('this', () => {
   });
 
   it('has a circular reference', () => {
-    const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+    const importer = spy(function (this: sass.LegacyImporterThis) {
       expect(this.options.context).toBe(this);
       return {contents: ''};
     });
@@ -689,7 +689,7 @@ describe('this', () => {
   describe('includes render stats with', () => {
     it('a start time', () => {
       const start = new Date();
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.options.result.stats.start).toBeGreaterThanOrEqual(
           start.getTime()
         );
@@ -701,7 +701,7 @@ describe('this', () => {
     });
 
     it('a data entry', () => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.options.result.stats.entry).toBe('data');
         return {contents: ''};
       });
@@ -714,7 +714,7 @@ describe('this', () => {
       sandbox(dir => {
         dir.write({'test.scss': '@import "foo"'});
 
-        const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+        const importer = spy(function (this: sass.LegacyImporterThis) {
           expect(this.options.result.stats.entry).toBe(dir('test.scss'));
           return {contents: ''};
         });
@@ -726,7 +726,7 @@ describe('this', () => {
 
   describe("includes a fromImport field that's", () => {
     it('true for an @import', () => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.fromImport).toBeTrue();
         return {contents: ''};
       });
@@ -736,7 +736,7 @@ describe('this', () => {
     });
 
     it('false for a @use', () => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.fromImport).toBeFalse();
         return {contents: ''};
       });
@@ -746,7 +746,7 @@ describe('this', () => {
     });
 
     it('false for a @forward', () => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.fromImport).toBeFalse();
         return {contents: ''};
       });
@@ -756,7 +756,7 @@ describe('this', () => {
     });
 
     it('false for meta.load-css()', () => {
-      const importer = jest.fn(function (this: sass.LegacyImporterThis) {
+      const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.fromImport).toBeFalse();
         return {contents: ''};
       });
@@ -836,11 +836,15 @@ describe('render()', () => {
     sass.render(
       {
         data: '@import "foo"',
-        importer: (_, __, done) => {
+        importer: ((
+          _: string,
+          __: string,
+          done: (...args: unknown[]) => void
+        ) => {
           setTimeout(() => done({contents: 'a {b: c}'}));
-        },
+        }) as sass.LegacySyncImporter,
       },
-      (err, result) => {
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: c; }');
         done();
       }
@@ -850,12 +854,16 @@ describe('render()', () => {
     sass.render(
       {
         data: '@import "foo"',
-        importer: (_, __, done) => {
+        importer: ((
+          _: string,
+          __: string,
+          done: (...args: unknown[]) => void
+        ) => {
           setTimeout(() => done(new Error('oh no')));
-        },
+        }) as sass.LegacySyncImporter,
       },
-      err => {
-        expect(err).toBeObject();
+      (err?: sass.LegacyException) => {
+        expect(typeof err).toBe('object');
         done();
       }
     ));
@@ -866,17 +874,20 @@ describe('render()', () => {
         data: '@import "foo"',
         importer: () => ({contents: 'a {b: c}'}),
       },
-      (err, result) => {
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: c; }');
         done();
       }
     ));
 
   it('supports synchronous null returns', done =>
-    sass.render({data: '@import "foo"', importer: () => null}, err => {
-      expect(err).toBeObject();
-      done();
-    }));
+    sass.render(
+      {data: '@import "foo"', importer: () => null},
+      (err?: sass.LegacyException) => {
+        expect(typeof err).toBe('object');
+        done();
+      }
+    ));
 });
 
 describe('when importer returns non-string contents', () => {
@@ -912,7 +923,7 @@ describe('when importer returns non-string contents', () => {
           };
         },
       },
-      err => {
+      (err?: sass.LegacyException) => {
         expect(() => {
           throw err;
         }).toThrowLegacyException({

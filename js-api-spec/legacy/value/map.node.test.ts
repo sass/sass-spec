@@ -48,12 +48,11 @@ describe('from a parameter', () => {
             }
           `,
           functions: {
-            'foo($map)': arg => {
-              const map = arg as sass.types.Map;
+            'foo($map)': ((map: sass.types.Map) => {
               map.setValue(1, new sass.types.Number(1));
               expect((map.getValue(1) as sass.types.Number).getValue()).toBe(1);
               return map;
-            },
+            }) as sass.LegacySyncFunction,
           },
         })
         .css.toString()
@@ -71,12 +70,11 @@ describe('from a parameter', () => {
             }
           `,
           functions: {
-            'foo($map)': arg => {
-              const map = arg as sass.types.Map;
+            'foo($map)': ((map: sass.types.Map) => {
               map.setKey(1, new sass.types.Number(1));
               expect((map.getKey(1) as sass.types.Number).getValue()).toBe(1);
               return map;
-            },
+            }) as sass.LegacySyncFunction,
           },
         })
         .css.toString()

@@ -6,7 +6,7 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {skipForImpl} from '../utils';
+import {skipForImpl, spy} from '../utils';
 
 describe('rejects a signature', () => {
   it('with an invalid argument list', () => {
@@ -164,7 +164,8 @@ describe('passes arguments', () => {
         .renderSync({
           data: 'a {b: last(1px, 2em)}',
           functions: {
-            'last($value1, $value2)': (value1, value2) => value2,
+            'last($value1, $value2)': (value1: unknown, value2: unknown) =>
+              value2 as sass.LegacySyncFunction,
           },
         })
         .css.toString()
@@ -177,7 +178,8 @@ describe('passes arguments', () => {
         .renderSync({
           data: 'a {b: last($value2: 1px, $value1: 2em)}',
           functions: {
-            'last($value1, $value2)': (value1, value2) => value2,
+            'last($value1, $value2)': (value1: unknown, value2: unknown) =>
+              value2 as sass.LegacySyncFunction,
           },
         })
         .css.toString()
@@ -190,7 +192,8 @@ describe('passes arguments', () => {
         .renderSync({
           data: 'a {b: last((1px 2em)...)}',
           functions: {
-            'last($value1, $value2)': (value1, value2) => value2,
+            'last($value1, $value2)': (value1: unknown, value2: unknown) =>
+              value2 as sass.LegacySyncFunction,
           },
         })
         .css.toString()
@@ -203,10 +206,9 @@ describe('passes arguments', () => {
         .renderSync({
           data: 'a {b: last(1px, 2em)}',
           functions: {
-            'last($args...)': args => {
-              const argList = args as sass.types.List;
+            'last($args...)': ((argList: sass.types.List) => {
               return argList.getValue(argList.getLength() - 1)!;
-            },
+            }) as sass.LegacySyncFunction,
           },
         })
         .css.toString()
@@ -236,7 +238,7 @@ describe('rejects a return value that', () => {
 
 describe('this', () => {
   it('includes default option values', () => {
-    const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+    const fn = spy(function (this: sass.LegacyPluginThis) {
       const options = this.options;
       expect(options.includePaths).toEqual(process.cwd());
       expect(options.precision).toEqual(10);
@@ -252,7 +254,7 @@ describe('this', () => {
   });
 
   it('includes the data when rendering via data', () => {
-    const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+    const fn = spy(function (this: sass.LegacyPluginThis) {
       const options = this.options;
       expect(options.data).toEqual('a {b: foo()}');
       expect(options.file).toBeUndefined();
@@ -267,7 +269,7 @@ describe('this', () => {
     sandbox(dir => {
       dir.write({'test.scss': 'a {b: foo()}'});
 
-      const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+      const fn = spy(function (this: sass.LegacyPluginThis) {
         const options = this.options;
         expect(options.data).toBeUndefined();
         expect(options.file).toEqual(dir('test.scss'));
@@ -281,7 +283,7 @@ describe('this', () => {
 
   it('includes other include paths', () => {
     sandbox(dir => {
-      const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+      const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.includePaths).toBe(
           `${process.cwd()}${p.delimiter}${dir.root}`
         );
@@ -301,7 +303,7 @@ describe('this', () => {
   skipForImpl('sass-embedded', () => {
     describe('can override', () => {
       it('indentWidth', () => {
-        const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+        const fn = spy(function (this: sass.LegacyPluginThis) {
           expect(this.options.indentWidth).toBe(5);
           return sass.types.Null.NULL;
         });
@@ -316,7 +318,7 @@ describe('this', () => {
       });
 
       it('indentType', () => {
-        const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+        const fn = spy(function (this: sass.LegacyPluginThis) {
           expect(this.options.indentType).toBe(1);
           return sass.types.Null.NULL;
         });
@@ -331,7 +333,7 @@ describe('this', () => {
       });
 
       it('linefeed', () => {
-        const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+        const fn = spy(function (this: sass.LegacyPluginThis) {
           expect(this.options.linefeed).toBe('\r');
           return sass.types.Null.NULL;
         });
@@ -348,7 +350,7 @@ describe('this', () => {
   });
 
   it('has a circular reference', () => {
-    const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+    const fn = spy(function (this: sass.LegacyPluginThis) {
       expect(this.options.context).toBe(this);
       return sass.types.Null.NULL;
     });
@@ -361,7 +363,7 @@ describe('this', () => {
     it('a start time', () => {
       const start = new Date();
 
-      const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+      const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.result.stats.start).toBeGreaterThanOrEqual(
           start.getTime()
         );
@@ -373,7 +375,7 @@ describe('this', () => {
     });
 
     it('a data entry', () => {
-      const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+      const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.result.stats.entry).toBe('data');
         return sass.types.Null.NULL;
       });
@@ -386,7 +388,7 @@ describe('this', () => {
       sandbox(dir => {
         dir.write({'test.scss': 'a {b: foo()}'});
 
-        const fn = jest.fn(function (this: sass.LegacyPluginThis) {
+        const fn = spy(function (this: sass.LegacyPluginThis) {
           expect(this.options.result.stats.entry).toBe(dir('test.scss'));
           return sass.types.Null.NULL;
         });
@@ -420,7 +422,7 @@ describe('render()', () => {
           foo: () => new sass.types.Number(1),
         },
       },
-      (err, result) => {
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(err).toBeNil();
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: 1; }');
         done();
@@ -438,7 +440,7 @@ describe('render()', () => {
           },
         },
       },
-      (err, result) => {
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(err).toBeNil();
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: 1; }');
         done();
@@ -456,7 +458,7 @@ describe('render()', () => {
           },
         },
       },
-      err => {
+      (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
       }
@@ -473,7 +475,7 @@ describe('render()', () => {
           },
         },
       },
-      err => {
+      (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
       }
@@ -490,7 +492,7 @@ describe('render()', () => {
           },
         },
       },
-      err => {
+      (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
       }
@@ -507,8 +509,8 @@ describe('render()', () => {
           },
         },
       },
-      err => {
-        expect(err).toBeObject();
+      (err?: sass.LegacyException) => {
+        expect(typeof err).toBe('object');
         done();
       }
     );
@@ -524,8 +526,8 @@ describe('render()', () => {
           },
         },
       },
-      err => {
-        expect(err).toBeObject();
+      (err?: sass.LegacyException) => {
+        expect(typeof err).toBe('object');
         done();
       }
     );
@@ -539,7 +541,9 @@ it('a function is passed through as-is', () => {
     sass
       .renderSync({
         data: "a {b: call(id(get-function('str-length')), 'foo')}",
-        functions: {'id($value)': value => value},
+        functions: {
+          'id($value)': (value: unknown) => value as sass.LegacySyncFunction,
+        },
       })
       .css.toString()
   ).toEqualIgnoringWhitespace('a { b: 3; }');
