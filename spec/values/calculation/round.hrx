@@ -1,0 +1,251 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> error/syntax/no_arg/input.scss
+a {b: round()}
+
+<===> error/syntax/no_arg/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: round()}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/two_args/compatibility/input.scss
+a {b: round(3.4px + 1px, 1 + 4)}
+
+<===> error/syntax/two_args/compatibility/error
+Error: 4.4px and 5 are incompatible.
+  ,
+1 | a {b: round(3.4px + 1px, 1 + 4)}
+  |             ^^^^^^^^^^^ 4.4px
+  |                          ===== 5
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/two_args/wrong_arg/input.scss
+a {b: round(nearest, 5)}
+
+<===> error/syntax/two_args/wrong_arg/error
+Error: If strategy is not null, step is required.
+  ,
+1 | a {b: round(nearest, 5)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/strategy/number/input.scss
+a {b: round(3px, 3px, 2px)}
+
+<===> error/syntax/strategy/number/error
+Error: 3px must be either nearest, up, down or to-zero.
+  ,
+1 | a {b: round(3px, 3px, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> preserved/step/zero/input.scss
+a {b: round(5px, 0px)}
+
+<===> preserved/step/zero/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/step/infinity/input.scss
+@use "sass:math" as math;
+a {b: round(-0, infinity)}
+
+<===> preserved/step/infinity/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> preserved/number/infinity/input.scss
+@use "sass:math" as math;
+a {b: round(infinity, 5)}
+
+<===> preserved/number/infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/positive/input.scss
+@use "sass:math" as math;
+a {b: round(up, 10, infinity)}
+
+<===> preserved/operation/positive/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/negative/input.scss
+@use "sass:math" as math;
+a {b: round(down, -10, infinity)}
+
+<===> preserved/operation/negative/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/one_arg/simplify/input.scss
+a {b: round(3.8px + 4px)}
+
+<===> preserved/operation/one_arg/simplify/output.css
+a {
+  b: 8px;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/two_args/simplify/input.scss
+$c: 10px;
+a {b: round(3.8px + 4px, $c)}
+
+<===> preserved/operation/two_args/simplify/output.css
+a {
+  b: 10;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/two_args/math/input.scss
+a {b: round(3.4px + 10%, 1px + 4px)}
+
+<===> preserved/operation/two_args/math/output.css
+a {
+  b: round(3.4px + 10%, 5px);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/nearest/math/input.scss
+a {b: round(nearest, 3.8px + 10%, 1.1px + 4px)}
+
+<===> preserved/operation/nearest/math/output.css
+a {
+  b: round(nearest, 3.8px + 10%, 5.1px);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/nearest/simplify/input.scss
+a {b: round(nearest, 115px + 2px, 21px + 4px)}
+
+<===> preserved/operation/nearest/simplify/output.css
+a {
+  b: 125;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/up/input.scss
+a {b: round(up, 101px, 25px)}
+
+<===> preserved/operation/up/output.css
+a {
+  b: 125;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/down/input.scss
+a {b: round(down, 122px, 25px)}
+
+<===> preserved/operation/down/output.css
+a {
+  b: 100;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/to-zero/positive/input.scss
+a {b: round(to-zero, 120px, 25px)}
+
+<===> preserved/operation/to-zero/positive/output.css
+a {
+  b: 100;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/to-zero/negative/input.scss
+a {b: round(to-zero, -120px, 25px)}
+
+<===> preserved/operation/to-zero/negative/output.css
+a {
+  b: -100;
+}
+
+<===>
+================================================================================
+<===> preserved/infinity/input.scss
+@use "sass:math" as math;
+a {b: round(up, infinity, infinity)}
+
+<===> preserved/infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/variable/one_arg/input.scss
+$a: 12.1;
+c {d: round($a)}
+
+<===> preserved/variable/one_arg/output.css
+c {
+  d: 12;
+}
+
+<===>
+================================================================================
+<===> preserved/variable/two_args/input.scss
+b {
+--example: 4px, 6px;   
+a: round(var(--example));
+}
+
+<===> preserved/variable/two_args/output.css
+b {
+  --example: 4px, 6px;
+  a: round(var(--example));
+}
+
+<===>
+================================================================================
+<===> preserved/variable/three_args/input.scss
+b {
+--example: 4px, 6px;   
+a: round(up, var(--example));
+}
+
+<===> preserved/variable/three_args/output.css
+b {
+  --example: 4px, 6px;
+  a: round(up, var(--example));
+}
