@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
@@ -30,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint
@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint-spec
@@ -57,8 +57,8 @@ jobs:
         dart_channel: [stable, dev]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
@@ -89,8 +89,8 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
 
@@ -130,8 +130,8 @@ jobs:
           node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
@@ -216,8 +216,8 @@ jobs:
           node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
       - uses: dart-lang/setup-dart@v1
