@@ -1,0 +1,200 @@
+<===> README.md
+Most of the same behavior tested for `abs()` applies to `tan()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> negative_infinity/input.scss
+@use "sass:math" as math;
+a {b: tan(math.div(-1, 0))}
+
+<===> negative_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+@use "sass:math" as math;
+a {b: tan(math.div(1, 0))}
+
+<===> infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> negative_asymptote/radian/input.scss
+@use "sass:math" as math;
+a {b: tan(-0.5rad * math.$pi)}
+
+<===> negative_asymptote/radian/output.css
+a {
+  b: -16331239353195370;
+}
+
+<===>
+================================================================================
+<===> asymptote/radian/input.scss
+@use "sass:math" as math;
+a {b: tan(0.5rad * math.$pi)}
+
+<===> asymptote/radian/output.css
+a {
+  b: 16331239353195370;
+}
+
+<===>
+================================================================================
+<===> negative_zero/input.scss
+a {b: tan(-0.0)}
+
+<===> negative_zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> negative_zero_fuzzy/input.scss
+a {b: tan(-0.000000000001)}
+
+<===> negative_zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: tan(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+a {b: tan(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> deg/input.scss
+a {b: tan(1deg)}
+
+<===> deg/output.css
+a {
+  b: 0.0174550649;
+}
+
+<===>
+================================================================================
+<===> grad/input.scss
+a {b: tan(1grad)}
+
+<===> grad/output.css
+a {
+  b: 0.0157092553;
+}
+
+<===>
+================================================================================
+<===> rad/input.scss
+a {b: tan(1rad)}
+
+<===> rad/output.css
+a {
+  b: 1.5574077247;
+}
+
+<===>
+================================================================================
+<===> turn/input.scss
+a {b: tan(1turn)}
+
+<===> turn/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> unitless/input.scss
+a {b: tan(1)}
+
+<===> unitless/output.css
+a {
+  b: 1.5574077247;
+}
+
+<===>
+================================================================================
+<===> named_arg/input.scss
+$number: 1;
+a {b: tan($number)}
+
+<===> named_arg/output.css
+a {
+  b: 1.5574077247;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: tan("0")}
+
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: tan("0")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/input.scss
+a {b: tan(1px)}
+
+<===> error/unit/error
+Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: tan(1px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+a {b: tan()}
+
+<===> error/zero_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: tan()}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: tan(0, 0)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: tan(0, 0)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet

@@ -1,0 +1,223 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `log()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: log(-1)}
+
+<===> negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: log(0)}
+
+<===> zero/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+a {b: log(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: -27.6310211159;
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: log(2)}
+
+<===> positive/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+@use "sass:math" as math;
+a {b: log(math.div(1, 0))}
+
+<===> infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> base/null/input.scss
+a {b: log(2, null)}
+
+<===> base/null/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> base/negative/input.scss
+a {b: log(2, -1)}
+
+<===> base/negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> base/zero/input.scss
+a {b: log(2, 0)}
+
+<===> base/zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> base/zero_fuzzy/input.scss
+a {b: log(2, 0.000000000001)}
+
+<===> base/zero_fuzzy/output.css
+a {
+  b: -0.025085833;
+}
+
+<===>
+================================================================================
+<===> base/between_zero_and_one/input.scss
+a {b: log(2, 0.5)}
+
+<===> base/between_zero_and_one/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> base/one/input.scss
+a {b: log(2, 1)}
+
+<===> base/one/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> base/one_fuzzy/input.scss
+a {b: log(2, 1.000000000001)}
+
+<===> base/one_fuzzy/output.css
+a {
+  b: 693085564849.9645;
+}
+
+<===>
+================================================================================
+<===> base/positive/input.scss
+a {b: log(2, 10)}
+
+<===> base/positive/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> named_arg/number/input.scss
+$number: 2;
+a {b: log($number)}
+
+<===> named_arg/number/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> named_args/number_with_base/input.scss
+$number: 2;
+$base: 10;
+a {b: log($number, $base)}
+
+<===> named_args/number_with_base/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: log("0")}
+
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: log("0")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/number_has_units/input.scss
+a {b: log(1px)}
+
+<===> error/number_has_units/error
+Error: Expected 1px to have no units.
+  ,
+1 | a {b: log(1px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/base_has_units/input.scss
+a {b: log(1, 1px)}
+
+<===> error/base_has_units/error
+Error: 1 and 1px are incompatible.
+  ,
+1 | a {b: log(1, 1px)}
+  |           ^ 1
+  |              === 1px
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+a {b: log()}
+
+<===> error/zero_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: log()}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: log(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: log(0, 0, 0)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
