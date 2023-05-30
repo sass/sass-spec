@@ -17,19 +17,6 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/syntax/no_units/input.scss
-a {b: calc(sqrt(16px))}
-
-<===> error/syntax/no_units/error
-Error: Expected 16px to have no units.
-  ,
-1 | a {b: calc(sqrt(16px))}
-  |            ^^^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
 <===> error/syntax/operation_no_units/input.scss
 a {b: calc(sqrt(1 + 16px))}
 
@@ -43,19 +30,6 @@ Error: 1 and 16px are incompatible.
 
 <===>
 ================================================================================
-<===> error/syntax/min_no_units/input.scss
-a {b: calc(sqrt(min(16, 9px)))}
-
-<===> error/syntax/min_no_units/error
-Error: Expected 9px to have no units.
-  ,
-1 | a {b: calc(sqrt(min(16, 9px)))}
-  |            ^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
 <===> error/syntax/invalid_arg/input.scss
 a {b: calc(sqrt($))}
 
@@ -66,32 +40,6 @@ Error: Expected identifier.
   |                  ^
   '
   input.scss 1:18  root stylesheet
-
-<===>
-================================================================================
-<===> error/complex_unit/input.scss
-a {b: sqrt(1px*1px)}
-
-<===> error/complex_unit/error
-Error: Number 1px*px isn't compatible with CSS calculations.
-  ,
-1 | a {b: sqrt(1px*1px)}
-  |            ^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/percentage/input.scss
-a {b: calc(sqrt(5%))}
-
-<===> error/percentage/error
-Error: Expected 5% to have no units.
-  ,
-1 | a {b: calc(sqrt(5%))}
-  |            ^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -162,3 +110,52 @@ a {b: sqrt(min(16, 9))}
 a {
   b: 3;
 }
+
+<===>
+================================================================================
+<===> percentage/input.scss
+a {b: calc(sqrt(5%))}
+
+<===> percentage/output.css
+a {
+  b: sqrt(5%);
+}
+
+<===>
+================================================================================
+<===> syntax/units/input.scss
+a {b: calc(sqrt(16px))}
+
+<===> syntax/units/error
+Error: Expected 16px to have no units.
+  ,
+1 | a {b: calc(sqrt(16px))}
+  |            ^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/min_units/input.scss
+a {b: calc(sqrt(min(16, 9px)))}
+
+<===> syntax/min_units/error
+Error: Expected 9px to have no units.
+  ,
+1 | a {b: calc(sqrt(min(16, 9px)))}
+  |            ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> complex_unit/input.scss
+a {b: sqrt(1px*1px)}
+
+<===> complex_unit/error
+Error: Number 1px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: sqrt(1px*1px)}
+  |            ^^^^^^^
+  '
+  input.scss 1:12  root stylesheet

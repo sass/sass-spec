@@ -1,16 +1,16 @@
 <===> README.md
-Most of the same behavior tested for `calc()` applies to `pow()`, but for
+Most of the same behavior tested for `calc()` applies to `mod()`, but for
 terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
 <===> error/syntax/no_arg/input.scss
-a {b: calc(pow())}
+a {b: calc(mod())}
 
 <===> error/syntax/no_arg/error
 Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: calc(pow())}
+1 | a {b: calc(mod())}
   |                ^
   '
   input.scss 1:16  root stylesheet
@@ -18,12 +18,12 @@ Error: Expected number, variable, function, or calculation.
 <===>
 ================================================================================
 <===> error/syntax/missing_arg/input.scss
-a {b: calc(pow(3))}
+a {b: calc(mod(3))}
 
 <===> error/syntax/missing_arg/error
 Error: 2 arguments required, but only 1 was passed.
   ,
-1 | a {b: calc(pow(3))}
+1 | a {b: calc(mod(3))}
   |            ^^^^^^
   '
   input.scss 1:12  root stylesheet
@@ -31,12 +31,12 @@ Error: 2 arguments required, but only 1 was passed.
 <===>
 ================================================================================
 <===> error/syntax/many_args/input.scss
-a {b: calc(pow(3, 2, 1))}
+a {b: calc(mod(3, 2, 1))}
 
 <===> error/syntax/many_args/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: calc(pow(3, 2, 1))}
+1 | a {b: calc(mod(3, 2, 1))}
   |                    ^
   '
   input.scss 1:20  root stylesheet
@@ -44,12 +44,12 @@ Error: expected "+", "-", "*", "/", or ")".
 <===>
 ================================================================================
 <===> error/syntax/incompatible/input.scss
-a {b: calc(pow(16px, 5))}
+a {b: calc(mod(16px, 5))}
 
 <===> error/syntax/incompatible/error
 Error: 16px and 5 are incompatible.
   ,
-1 | a {b: calc(pow(16px, 5))}
+1 | a {b: calc(mod(16px, 5))}
   |                ^^^^ 16px
   |                      = 5
   '
@@ -58,12 +58,12 @@ Error: 16px and 5 are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/operation_incompatible/input.scss
-a {b: pow(1 + 16px, 2)}
+a {b: mod(1 + 16px, 2)}
 
 <===> error/syntax/operation_incompatible/error
 Error: 1 and 16px are incompatible.
   ,
-1 | a {b: pow(1 + 16px, 2)}
+1 | a {b: mod(1 + 16px, 2)}
   |           ^^^^^^^^
   '
   input.scss 1:11  root stylesheet
@@ -71,12 +71,12 @@ Error: 1 and 16px are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/min_incompatible/input.scss
-a {b: calc(pow(min(16, 9px), 6))}
+a {b: calc(mod(min(16, 9px), 6))}
 
 <===> error/syntax/min_incompatible/error
 Error: 9px and 6 are incompatible.
   ,
-1 | a {b: calc(pow(min(16, 9px), 6))}
+1 | a {b: calc(mod(min(16, 9px), 6))}
   |                ^^^^^^^^^^^^ 9px
   |                              = 6
   '
@@ -85,12 +85,12 @@ Error: 9px and 6 are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: calc(pow($))}
+a {b: calc(mod($))}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: calc(pow($))}
+1 | a {b: calc(mod($))}
   |                 ^
   '
   input.scss 1:17  root stylesheet
@@ -98,12 +98,12 @@ Error: Expected identifier.
 <===>
 ================================================================================
 <===> error/complex_unit/input.scss
-a {b: pow(1px*1px, 2)}
+a {b: mod(1px*1px, 2)}
 
 <===> error/complex_unit/error
 Error: Number 1px*px isn't compatible with CSS calculations.
   ,
-1 | a {b: pow(1px*1px, 2)}
+1 | a {b: mod(1px*1px, 2)}
   |           ^^^^^^^
   '
   input.scss 1:11  root stylesheet
@@ -111,71 +111,114 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 <===>
 ================================================================================
 <===> error/unit/input.scss
-a {b: calc(pow(5%, 3%))}
+a {b: calc(mod(5%, 3%))}
 
 <===> error/unit/output.css
 a {
-  b: pow(5%, 3%);
+  b: mod(5%, 3%);
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/result_is_integer/input.scss
-a {b: pow(2, 3)}
+<===> preserved/operation/unitless/positive_args/input.scss
+a {b: mod(7, 3)}
 
-<===> preserved/operation/unitless/result_is_integer/output.css
-a {
-  b: 8;
-}
-
-<===>
-================================================================================
-<===> preserved/operation/unitless/result_is_long/input.scss
-a {b: pow(10, 10)}
-
-<===> preserved/operation/unitless/result_is_long/output.css
-a {
-  b: 10000000000;
-}
-
-<===>
-================================================================================
-<===> preserved/operation/math_nested/minus/input.scss
-a {b: calc(pow(3 - 1, 2))}
-
-<===> preserved/operation/math_nested/minus/output.css
-a {
-  b: 4;
-}
-
-<===>
-================================================================================
-<===> preserved/operation/math/plus/input.scss
-a {b: pow(10 + 6, 0)}
-
-<===> preserved/operation/math/plus/output.css
+<===> preserved/operation/unitless/positive_args/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math/max/input.scss
-a {b: pow(max(2, 9), 2)}
+<===> preserved/operation/unitless/y_negative/input.scss
+a {b: mod(7, -3)}
 
-<===> preserved/operation/math/max/output.css
+<===> preserved/operation/unitless/y_negative/output.css
 a {
-  b: 81;
+  b: -2;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math/min/input.scss
-a {b: pow(min(2, 9), 5)}
+<===> preserved/operation/unitless/x_negative/input.scss
+a {b: mod(-7, 3)}
 
-<===> preserved/operation/math/min/output.css
+<===> preserved/operation/unitless/x_negative/output.css
 a {
-  b: 32;
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless/negative_args/input.scss
+a {b: mod(-7, -3)}
+
+<===> preserved/operation/unitless/negative_args/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/y_zero/plus/input.scss
+a {b: mod(6, 0)}
+
+<===> preserved/operation/y_zero/plus/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/x_zero/plus/input.scss
+a {b: mod(0, 6)}
+
+<===> preserved/operation/x_zero/plus/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/zeros/plus/input.scss
+a {b: mod(0, 0)}
+
+<===> preserved/operation/zeros/plus/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/y_infinity/plus/input.scss
+@use "sass:math" as math;
+a {b: mod(math.div(1, 0), 10)}
+
+<===> preserved/operation/y_infinity/plus/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/x_infinity/plus/input.scss
+@use "sass:math" as math;
+a {b: mod(10, math.div(1, 0))}
+
+<===> preserved/operation/x_infinity/plus/output.css
+a {
+  b: 10;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/x_infinity/negative/input.scss
+@use "sass:math" as math;
+a {b: mod(10, -infinity)}
+
+<===> preserved/operation/x_infinity/negative/output.css
+a {
+  b: calc(NaN);
 }
 
 <===>
@@ -183,11 +226,11 @@ a {
 <===> preserved/variable/input.scss
 a {
   --two-args: 2, 3;
-  b: pow(var(--two-args));
+  b: mod(var(--two-args));
 }
 
 <===> preserved/variable/output.css
 a {
   --two-args: 2, 3;
-  b: pow(var(--two-args));
+  b: mod(var(--two-args));
 }

@@ -1,0 +1,170 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `atan2()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> named_args/input.scss
+$y: 1;
+$x: -1;
+a {b: atan2($y, $x)}
+
+<===> named_args/output.css
+a {
+  b: 135deg;
+}
+
+<===>
+================================================================================
+<===> compatible_units/input.scss
+a {b: atan2(1cm, -10mm)}
+
+<===> compatible_units/output.css
+a {
+  b: 135deg;
+}
+
+<===>
+================================================================================
+<===> percent/input.scss
+a {b: atan2(1%, 1cm)}
+
+<===> percent/output.css
+a {
+  b: atan2(1%, 1cm);
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --two-args: 2, 3;
+  b: atan2(var(--two-args));
+}
+
+<===> preserved/variable/output.css
+a {
+  --two-args: 2, 3;
+  b: atan2(var(--two-args));
+}
+
+
+<===>
+================================================================================
+<===> error/y_type/input.scss
+a {b: atan2("0", 0)}
+
+<===> error/y_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: atan2("0", 0)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/variables/input.scss
+a {b: atan2($y: 1, $x: -1)}
+
+<===> error/variables/error
+Error: expected "+", "-", "*", "/", ",", or ")".
+  ,
+1 | a {b: atan2($y: 1, $x: -1)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> error/x_type/input.scss
+a {b: atan2(0, "0")}
+
+<===> error/x_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: atan2(0, "0")}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/input.scss
+a {b: atan2(1px, 1deg)}
+
+<===> error/incompatible_units/error
+Error: 1px and 1deg are incompatible.
+  ,
+1 | a {b: atan2(1px, 1deg)}
+  |             ^^^ 1px
+  |                  ==== 1deg
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_y/input.scss
+a {b: atan2(1, 1px)}
+
+<===> error/unitless_y/error
+Error: 1 and 1px are incompatible.
+  ,
+1 | a {b: atan2(1, 1px)}
+  |             ^ 1
+  |                === 1px
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/unitless_x/input.scss
+a {b: atan2(1px, 1)}
+
+<===> error/unitless_x/error
+Error: 1px and 1 are incompatible.
+  ,
+1 | a {b: atan2(1px, 1)}
+  |             ^^^ 1px
+  |                  = 1
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/zero_args/input.scss
+a {b: atan2()}
+
+<===> error/zero_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: atan2()}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/input.scss
+a {b: atan2(0)}
+
+<===> error/one_arg/error
+Error: 2 arguments required, but only 1 was passed.
+  ,
+1 | a {b: atan2(0)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: atan2(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: atan2(0, 0, 0)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet

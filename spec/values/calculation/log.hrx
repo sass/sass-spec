@@ -135,6 +135,16 @@ a {
 
 <===>
 ================================================================================
+<===> base/percent/input.scss
+a {b: log(2%, 10)}
+
+<===> base/percent/output.css
+a {
+  b: log(2%, 10);
+}
+
+<===>
+================================================================================
 <===> named_arg/number/input.scss
 $number: 2;
 a {b: log($number)}
@@ -158,6 +168,31 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/variable/input.scss
+a {
+  --two-args: 2, 3;
+  b: log(var(--two-args));
+}
+
+<===> preserved/variable/output.css
+a {
+  --two-args: 2, 3;
+  b: log(var(--two-args));
+}
+
+
+<===>
+================================================================================
+<===> number_has_units/input.scss
+a {b: log(3px)}
+
+<===> number_has_units/output.css
+a {
+  b: 1.0986122887;
+}
+
+<===>
+================================================================================
 <===> error/type/input.scss
 a {b: log("0")}
 
@@ -168,19 +203,6 @@ Error: Expected number, variable, function, or calculation.
   |           ^
   '
   input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/number_has_units/input.scss
-a {b: log(1px)}
-
-<===> error/number_has_units/error
-Error: Expected 1px to have no units.
-  ,
-1 | a {b: log(1px)}
-  |       ^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

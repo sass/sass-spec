@@ -10,7 +10,7 @@ a {b: atan(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
 a {
-  b: -90;
+  b: -90deg;
 }
 
 <===>
@@ -20,7 +20,7 @@ a {b: atan(-1)}
 
 <===> negative/output.css
 a {
-  b: -45;
+  b: -45deg;
 }
 
 <===>
@@ -30,7 +30,7 @@ a {b: atan(-0.0)}
 
 <===> negative_zero/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
@@ -40,7 +40,7 @@ a {b: atan(-0.000000000001)}
 
 <===> negative_zero_fuzzy/output.css
 a {
-  b: -0.0000000001;
+  b: -0.0000000001deg;
 }
 
 <===>
@@ -50,7 +50,7 @@ a {b: atan(0)}
 
 <===> zero/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
@@ -60,7 +60,7 @@ a {b: atan(0.000000000001)}
 
 <===> zero_fuzzy/output.css
 a {
-  b: 0.0000000001;
+  b: 0.0000000001deg;
 }
 
 <===>
@@ -70,7 +70,7 @@ a {b: atan(1)}
 
 <===> positive/output.css
 a {
-  b: 45;
+  b: 45deg;
 }
 
 <===>
@@ -81,7 +81,17 @@ a {b: atan(math.div(1, 0))}
 
 <===> infinity/output.css
 a {
-  b: 90;
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> units/input.scss
+a {b: atan(1px)}
+
+<===> units/output.css
+a {
+  b: 45deg;
 }
 
 <===>
@@ -96,19 +106,6 @@ Error: Expected number, variable, function, or calculation.
   |            ^
   '
   input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/units/input.scss
-a {b: atan(1px)}
-
-<===> error/units/error
-Error: Expected 1px to have no units.
-  ,
-1 | a {b: atan(1px)}
-  |       ^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -135,3 +132,13 @@ Error: expected "+", "-", "*", "/", or ")".
   |             ^
   '
   input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> percent/input.scss
+a {b: atan(1%)}
+
+<===> percent/output.css
+a {
+  b: atan(1%);
+}

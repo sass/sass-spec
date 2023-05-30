@@ -57,6 +57,19 @@ Error: 3px must be either nearest, up, down or to-zero.
 
 <===>
 ================================================================================
+<===> error/number/input.scss
+a {b: round(test)}
+
+<===> error/number/error
+Error: $number: test is not a number.
+  ,
+1 | a {b: round(test)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> preserved/step/zero/input.scss
 a {b: round(5px, 0px)}
 
@@ -78,6 +91,16 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/step/number/input.scss
+a {b: round(5px, 5px)}
+
+<===> preserved/step/number/output.css
+a {
+  b: 5px;
+}
+
+<===>
+================================================================================
 <===> preserved/number/infinity/input.scss
 @use "sass:math" as math;
 a {b: round(infinity, 5)}
@@ -85,6 +108,39 @@ a {b: round(infinity, 5)}
 <===> preserved/number/infinity/output.css
 a {
   b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/up/negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.div(1, round(up, -10, infinity))}
+
+<===> preserved/up/negative_zero/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/nearest/negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.div(1, round(nearest, -10, infinity))}
+
+<===> preserved/nearest/negative_zero/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/down/negative_zero/input.scss
+@use "sass:math" as math;
+a {b: math.div(1, round(down, -0, infinity))}
+
+<===> preserved/down/negative_zero/output.css
+a {
+  b: calc(-infinity);
 }
 
 <===>
@@ -127,7 +183,7 @@ a {b: round(3.8px + 4px, $c)}
 
 <===> preserved/operation/two_args/simplify/output.css
 a {
-  b: 10;
+  b: 10px;
 }
 
 <===>
@@ -157,7 +213,7 @@ a {b: round(nearest, 115px + 2px, 21px + 4px)}
 
 <===> preserved/operation/nearest/simplify/output.css
 a {
-  b: 125;
+  b: 125px;
 }
 
 <===>
@@ -167,7 +223,7 @@ a {b: round(up, 101px, 25px)}
 
 <===> preserved/operation/up/output.css
 a {
-  b: 125;
+  b: 125px;
 }
 
 <===>
@@ -177,7 +233,7 @@ a {b: round(down, 122px, 25px)}
 
 <===> preserved/operation/down/output.css
 a {
-  b: 100;
+  b: 100px;
 }
 
 <===>
@@ -187,7 +243,7 @@ a {b: round(to-zero, 120px, 25px)}
 
 <===> preserved/operation/to-zero/positive/output.css
 a {
-  b: 100;
+  b: 100px;
 }
 
 <===>
@@ -197,7 +253,7 @@ a {b: round(to-zero, -120px, 25px)}
 
 <===> preserved/operation/to-zero/negative/output.css
 a {
-  b: -100;
+  b: -100px;
 }
 
 <===>

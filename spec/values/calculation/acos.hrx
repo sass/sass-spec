@@ -9,7 +9,7 @@ a {b: acos(-2)}
 
 <===> less_than_negative_one/output.css
 a {
-  b: calc(NaN);
+  b: calc(NaN * 1deg);
 }
 
 <===>
@@ -19,7 +19,7 @@ a {b: acos(-0.5)}
 
 <===> negative_decimal/output.css
 a {
-  b: 120;
+  b: 120deg;
 }
 
 <===>
@@ -29,7 +29,7 @@ a {b: acos(0.5)}
 
 <===> decimal/output.css
 a {
-  b: 60;
+  b: 60deg;
 }
 
 <===>
@@ -39,7 +39,7 @@ a {b: acos(1)}
 
 <===> one/output.css
 a {
-  b: 0;
+  b: 0deg;
 }
 
 <===>
@@ -49,7 +49,7 @@ a {b: acos(1.000000000001)}
 
 <===> one_fuzzy/output.css
 a {
-  b: calc(NaN);
+  b: calc(NaN * 1deg);
 }
 
 <===>
@@ -59,7 +59,27 @@ a {b: acos(2)}
 
 <===> greater_than_one/output.css
 a {
-  b: calc(NaN);
+  b: calc(NaN * 1deg);
+}
+
+<===>
+================================================================================
+<===> percent/input.scss
+a {b: acos(1%)}
+
+<===> percent/output.css
+a {
+  b: acos(1%);
+}
+
+<===>
+================================================================================
+<===> units/input.scss
+a {b: acos(1px)}
+
+<===> units/output.css
+a {
+  b: 0deg;
 }
 
 <===>
@@ -74,19 +94,6 @@ Error: Expected number, variable, function, or calculation.
   |            ^
   '
   input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/units/input.scss
-a {b: acos(1px)}
-
-<===> error/units/error
-Error: Expected 1px to have no units.
-  ,
-1 | a {b: acos(1px)}
-  |       ^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

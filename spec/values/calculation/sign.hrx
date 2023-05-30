@@ -1,0 +1,139 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `sign()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> error/syntax/no_arg/input.scss
+a {b: calc(sign())}
+
+<===> error/syntax/no_arg/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: calc(sign())}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/many_args/input.scss
+a {b: calc(sign(3, 2))}
+
+<===> error/syntax/many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: calc(sign(3, 2))}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/operation_incompatible/input.scss
+a {b: sign(1 + 16px)}
+
+<===> error/syntax/operation_incompatible/error
+Error: 1 and 16px are incompatible.
+  ,
+1 | a {b: sign(1 + 16px)}
+  |            ^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: calc(sign($))}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: calc(sign($))}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> error/complex_unit/input.scss
+a {b: sign(1px*1px)}
+
+<===> error/complex_unit/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/unit/input.scss
+a {b: calc(sign(5%))}
+
+<===> error/unit/output.css
+a {
+  b: sign(5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unit/positive/input.scss
+a {b: sign(5px)}
+
+<===> preserved/operation/unit/positive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/unitless/negative/input.scss
+a {b: sign(-1000.65)}
+
+<===> preserved/operation/unitless/negative/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/zero/positive/input.scss
+a {b: sign(0)}
+
+<===> preserved/operation/zero/positive/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/zero/negative/input.scss
+a {b: sign(-0)}
+
+<===> preserved/operation/zero/negative/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> preserved/operation/nan/input.scss
+a {b: sign(NaN)}
+
+<===> preserved/operation/nan/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --one-arg: 2;
+  b: sign(var(--one-arg));
+}
+
+<===> preserved/variable/output.css
+a {
+  --one-arg: 2;
+  b: sign(var(--one-arg));
+}
