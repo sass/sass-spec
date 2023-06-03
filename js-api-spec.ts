@@ -101,11 +101,12 @@ process.on('exit', () => {
   tmpObject.removeCallback();
 });
 
-const specsToRun = argv._.length > 0
-  ? argv._.map(arg => arg.toString()).map(path =>
-      path.endsWith('.test.ts') ? path : '$path/**/*.test.ts'
-    )
-  : ['js-api-spec/**/*.test.ts'];
+const specsToRun =
+  argv._.length > 0
+    ? argv._.map(arg => arg.toString()).map(path =>
+        path.endsWith('.test.ts') ? path : '$path/**/*.test.ts'
+      )
+    : ['js-api-spec/**/*.test.ts'];
 
 if (argv.browser) {
   const karmaConfig = config.parseConfig(
