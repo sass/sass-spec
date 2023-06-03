@@ -101,10 +101,24 @@ process.on('exit', () => {
   tmpObject.removeCallback();
 });
 
+const specsToRun = argv._.length > 0
+  ? argv._.map(arg => arg.toString()).map(path =>
+      path.endsWith('.test.ts') ? path : '$path/**/*.test.ts'
+    )
+  : ['js-api-spec/**/*.test.ts'];
+
 if (argv.browser) {
   const karmaConfig = config.parseConfig(
     p.resolve(__dirname, 'karma.config.js'),
-    {port: 9876},
+    {
+      port: 9876,
+      files: [
+        'js-api-spec/setup.ts',
+        ...specsToRun.map(path =>
+          path.replace('*.test.ts', '!(*.node).test.ts')
+        ),
+      ],
+    },
     {throwErrors: true}
   );
   const server = new Server(karmaConfig, exitCode => {
@@ -120,7 +134,7 @@ if (argv.browser) {
   jasmine.env.addReporter(new SpecReporter());
   jasmine.loadConfig({
     spec_dir: 'js-api-spec',
-    spec_files: ['**/*.test.ts'],
+    spec_files: specsToRun.map(path => p.relative('js-api-spec', path)),
     helpers: ['../node_modules/jasmine-expect/index.js', 'setup.ts'],
   });
   jasmine.execute();
