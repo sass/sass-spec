@@ -8,6 +8,7 @@ import Jasmine from 'jasmine';
 import {config, Server} from 'karma';
 import * as tmp from 'tmp';
 import yargs from 'yargs/yargs';
+import {SpecReporter} from 'jasmine-spec-reporter';
 
 const args = yargs(process.argv.slice(2))
   .parserConfiguration({'unknown-options-as-args': true})
@@ -115,6 +116,8 @@ if (argv.browser) {
   const jasmine = new Jasmine({
     projectBaseDir: p.resolve('.'),
   });
+  jasmine.env.clearReporters();
+  jasmine.env.addReporter(new SpecReporter());
   jasmine.loadConfig({
     spec_dir: 'js-api-spec',
     spec_files: ['**/*.test.ts'],
