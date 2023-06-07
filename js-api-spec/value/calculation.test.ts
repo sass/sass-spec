@@ -6,13 +6,12 @@ import {Value, SassCalculation, SassNumber} from 'sass';
 
 import '../utils';
 
-
 describe('SassCalculation', () => {
   describe('construction', () => {
     describe('calc', () => {
       let calculation: SassCalculation;
       beforeEach(() => {
-        calculation =  SassCalculation.calc(new SassNumber(1));
+        calculation = SassCalculation.calc(new SassNumber(1));
       });
 
       it('is a value', () => {
