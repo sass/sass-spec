@@ -937,8 +937,8 @@ describe('when importer returns non-string contents', () => {
   });
 });
 
-it('compiles multiple nested relative imports and incorrect load path with renderSync', () => {
-  sandbox(dir => {
+it('compiles multiple nested relative imports and incorrect load path with renderSync', async () => {
+  await sandbox(dir => {
     dir.write({
       'src/index.scss': `
         @import "./foo/_a.scss";
