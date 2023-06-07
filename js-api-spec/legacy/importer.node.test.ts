@@ -937,7 +937,8 @@ describe('when importer returns non-string contents', () => {
   });
 });
 
-it('compiles multiple nested relative imports and incorrect load path with renderSync', async () => {
+// Regression test for sass/dart-sass#1962
+it('compiles multiple nested relative imports loaded multiple times across different files', async () => {
   await sandbox(dir => {
     dir.write({
       'src/index.scss': `
