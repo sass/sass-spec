@@ -941,14 +941,14 @@ it('compiles multiple nested relative imports and incorrect load path with rende
   await sandbox(dir => {
     dir.write({
       'src/index.scss': `
-        @import "./foo/_a.scss";
+        @import "./_a.scss";
         @import "./_includes.scss";
       `,
-      'include/foo/_a.scss': '/* A */',
-      'include/foo/_b.scss': '/* B */',
+      'include/_a.scss': '/* A */',
+      'include/_b.scss': '/* B */',
       'src/_includes.scss': `
-        @import "./foo/_a.scss";
-        @import "./foo/_b.scss";
+        @import "./_a.scss";
+        @import "./_b.scss";
       `,
     });
 
