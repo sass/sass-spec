@@ -25,6 +25,7 @@ describe('Sass boolean', () => {
     });
 
     it("isn't any other type", () => {
+      expect(value.assertCalculation).toThrow();
       expect(value.assertColor).toThrow();
       expect(value.assertFunction).toThrow();
       expect(value.assertMap).toThrow();
@@ -54,6 +55,7 @@ describe('Sass boolean', () => {
     });
 
     it("isn't any other type", () => {
+      expect(value.assertCalculation).toThrow();
       expect(value.assertColor).toThrow();
       expect(value.assertFunction).toThrow();
       expect(value.assertMap).toThrow();

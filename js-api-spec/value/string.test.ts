@@ -54,6 +54,7 @@ describe('Sass string', () => {
     it("isn't any other type", () => {
       const value: Value = new SassString('nb');
       expect(value.assertBoolean).toThrow();
+      expect(value.assertCalculation).toThrow();
       expect(value.assertColor).toThrow();
       expect(value.assertFunction).toThrow();
       expect(value.assertMap).toThrow();

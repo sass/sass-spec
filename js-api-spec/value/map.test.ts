@@ -29,6 +29,7 @@ describe('SassMap', () => {
 
     it("isn't any other type", () => {
       expect(() => map.assertBoolean()).toThrow();
+      expect(() => map.assertCalculation()).toThrow();
       expect(() => map.assertColor()).toThrow();
       expect(() => map.assertFunction()).toThrow();
       expect(() => map.assertNumber()).toThrow();

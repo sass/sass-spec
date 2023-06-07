@@ -37,6 +37,7 @@ describe('Sass number', () => {
 
         it("isn't any other type", () => {
           expect(() => number.assertBoolean()).toThrow();
+          expect(() => number.assertCalculation()).toThrow();
           expect(() => number.assertColor()).toThrow();
           expect(() => number.assertFunction()).toThrow();
           expect(() => number.assertMap()).toThrow();
