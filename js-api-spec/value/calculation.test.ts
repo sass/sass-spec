@@ -10,6 +10,7 @@ import {
   CalculationOperation,
   CalculationInterpolation,
 } from 'sass';
+import {List} from 'immutable';
 
 import '../utils';
 
@@ -54,7 +55,7 @@ describe('SassCalculation', () => {
     it('correctly stores name and arguments', () => {
       const result = SassCalculation.calc(new SassNumber(1));
       expect(result.name).toBe('calc');
-      expect(result.arguments).toEqual([new SassNumber(1)]);
+      expect(result.arguments).toEqualWithHash(List([new SassNumber(1)]));
     });
 
     it('rejects invalid arguments', () => {
@@ -77,7 +78,9 @@ describe('SassCalculation', () => {
         new SassNumber(2),
       ]);
       expect(result.name).toBe('min');
-      expect(result.arguments).toEqual([new SassNumber(1), new SassNumber(2)]);
+      expect(result.arguments).toEqualWithHash(
+        List([new SassNumber(1), new SassNumber(2)])
+      );
     });
 
     it('rejects invalid arguments', () => {
@@ -106,7 +109,9 @@ describe('SassCalculation', () => {
         new SassNumber(2),
       ]);
       expect(result.name).toBe('max');
-      expect(result.arguments).toEqual([new SassNumber(1), new SassNumber(2)]);
+      expect(result.arguments).toEqualWithHash(
+        List([new SassNumber(1), new SassNumber(2)])
+      );
     });
 
     it('rejects invalid arguments', () => {
@@ -136,11 +141,9 @@ describe('SassCalculation', () => {
         new SassNumber(3)
       );
       expect(result.name).toBe('clamp');
-      expect(result.arguments).toEqual([
-        new SassNumber(1),
-        new SassNumber(2),
-        new SassNumber(3),
-      ]);
+      expect(result.arguments).toEqualWithHash(
+        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
+      );
     });
 
     it('rejects invalid arguments', () => {
