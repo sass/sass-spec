@@ -8,12 +8,16 @@ terseness' sake isn't tested explicitly.
 a {b: round()}
 
 <===> error/syntax/no_arg/error
-Error: Expected number, variable, function, or calculation.
-  ,
+Error: Missing argument $number.
+  ,--> input.scss
 1 | a {b: round()}
-  |             ^
+  |       ^^^^^^^ invocation
   '
-  input.scss 1:13  root stylesheet
+  ,--> sass:math
+1 | @function round($number) {
+  |           ============== declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -57,16 +61,56 @@ Error: 3px must be either nearest, up, down or to-zero.
 
 <===>
 ================================================================================
-<===> error/number/input.scss
+<===> perserved/unknown_variable/number/input.scss
 a {b: round(test)}
 
-<===> error/number/error
-Error: $number: test is not a number.
+<===> perserved/unknown_variable/number/output.css
+a {
+  b: round(test);
+}
+
+<===>
+================================================================================
+<===> error/variable/number_and_step/input.scss
+a {b: round(4px, test, nearest)}
+
+<===> error/variable/number_and_step/error
+Error: 4px must be either nearest, up, down or to-zero.
   ,
-1 | a {b: round(test)}
-  |       ^^^^^^^^^^^
+1 | a {b: round(4px, test, nearest)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> perserved/unknown_variable/two_args/input.scss
+a {b: round(test, nearest)}
+
+<===> perserved/unknown_variable/two_args/output.css
+a {
+  b: round(test, nearest);
+}
+
+<===>
+================================================================================
+<===> perserved/unknown_variable/one_arg/input.scss
+a {b: round(test, 5)}
+
+<===> perserved/unknown_variable/one_arg/output.css
+a {
+  b: round(test, 5);
+}
+
+<===>
+================================================================================
+<===> perserved/unknown_variable/step/input.scss
+a {b: round(4px, nearest)}
+
+<===> perserved/unknown_variable/step/output.css
+a {
+  b: round(4px, nearest);
+}
 
 <===>
 ================================================================================
@@ -75,7 +119,7 @@ a {b: round(5px, 0px)}
 
 <===> preserved/step/zero/output.css
 a {
-  b: calc(NaN);
+  b: calc(NaN * 1px);
 }
 
 <===>
@@ -280,28 +324,37 @@ c {
 
 <===>
 ================================================================================
-<===> preserved/variable/two_args/input.scss
-b {
---example: 4px, 6px;   
-a: round(var(--example));
+<===> variables/input.scss
+a {
+  b: round(var(--example));
+  c: round(up, var(--example));
+  d: round(up, 8px, var(--example));
 }
-
-<===> preserved/variable/two_args/output.css
-b {
-  --example: 4px, 6px;
-  a: round(var(--example));
+<===> variables/output.css
+a {
+  b: round(var(--example));
+  c: round(up, var(--example));
+  d: round(up, 8px, var(--example));
 }
 
 <===>
 ================================================================================
-<===> preserved/variable/three_args/input.scss
-b {
---example: 4px, 6px;   
-a: round(up, var(--example));
+<===> math/slash_as_division/input.scss
+b { 
+  a: 2px / round(1.5);
 }
 
-<===> preserved/variable/three_args/output.css
+<===> math/slash_as_division/output.css
 b {
-  --example: 4px, 6px;
-  a: round(up, var(--example));
+  a: 1px;
 }
+
+<===> math/slash_as_division/warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+Recommendation: math.div(2px, round(1.5)) or calc(2px / round(1.5))
+More info and automated migrator: https://sass-lang.com/d/slash-div
+  ,
+2 |   a: 2px / round(1.5);
+  |      ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:6  root stylesheet
