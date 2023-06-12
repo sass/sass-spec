@@ -5,7 +5,7 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: tan(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
@@ -16,7 +16,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: tan(math.div(1, 0))}
 
 <===> infinity/output.css
@@ -27,7 +27,7 @@ a {
 <===>
 ================================================================================
 <===> negative_asymptote/radian/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: tan(-0.5rad * math.$pi)}
 
 <===> negative_asymptote/radian/output.css
@@ -38,7 +38,7 @@ a {
 <===>
 ================================================================================
 <===> asymptote/radian/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: tan(0.5rad * math.$pi)}
 
 <===> asymptote/radian/output.css
@@ -155,6 +155,56 @@ a {b: tan($number)}
 <===> named_arg/output.css
 a {
   b: 1.5574077247;
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: tan(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: tan(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: tan(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: tan(2px + var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --test: 5;
+  b: tan(var(--test));
+}
+
+<===> preserved/variable/output.css
+a {
+  --test: 5;
+  b: tan(var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: tan(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: tan(test);
 }
 
 <===>

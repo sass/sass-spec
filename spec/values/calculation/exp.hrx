@@ -79,44 +79,80 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/result_is_integer/input.scss
+<===> operation/unitless/result_is_integer/input.scss
 a {b: exp(5)}
 
-<===> preserved/operation/unitless/result_is_integer/output.css
+<===> operation/unitless/result_is_integer/output.css
 a {
   b: 148.4131591026;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/result_is_long/input.scss
+<===> operation/unitless/result_is_long/input.scss
 a {b: exp(1000.65)}
 
-<===> preserved/operation/unitless/result_is_long/output.css
+<===> operation/unitless/result_is_long/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math_nested/negative/input.scss
+<===> operation/math_nested/negative/input.scss
 a {b: calc(exp(5 * 8 - 100))}
 
-<===> preserved/operation/math_nested/negative/output.css
+<===> operation/math_nested/negative/output.css
 a {
   b: 0;
 }
 
 <===>
 ================================================================================
+<===> preserved/percent/input.scss
+a {b: exp(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: exp(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: exp(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: exp(2px + var(--test));
+}
+
+<===>
+================================================================================
 <===> preserved/variable/input.scss
 a {
-  --one-arg: 2;
-  b: exp(var(--one-arg));
+  --test: 5;
+  b: exp(var(--test));
 }
 
 <===> preserved/variable/output.css
 a {
-  --one-arg: 2;
-  b: exp(var(--one-arg));
+  --test: 5;
+  b: exp(var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: exp(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: exp(test);
 }

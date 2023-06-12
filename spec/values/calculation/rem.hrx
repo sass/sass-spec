@@ -5,55 +5,55 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> error/syntax/no_arg/input.scss
-a {b: calc(rem())}
+a {b: rem()}
 
 <===> error/syntax/no_arg/error
 Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: calc(rem())}
-  |                ^
+1 | a {b: rem()}
+  |           ^
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/missing_arg/input.scss
-a {b: calc(rem(3))}
+a {b: rem(3)}
 
 <===> error/syntax/missing_arg/error
 Error: 2 arguments required, but only 1 was passed.
   ,
-1 | a {b: calc(rem(3))}
-  |            ^^^^^^
+1 | a {b: rem(3)}
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/many_args/input.scss
-a {b: calc(rem(3, 2, 1))}
+a {b: rem(3, 2, 1)}
 
 <===> error/syntax/many_args/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: calc(rem(3, 2, 1))}
-  |                    ^
+1 | a {b: rem(3, 2, 1)}
+  |               ^
   '
-  input.scss 1:20  root stylesheet
+  input.scss 1:15  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/incompatible/input.scss
-a {b: calc(rem(16px, 5))}
+a {b: rem(16px, 5)}
 
 <===> error/syntax/incompatible/error
 Error: 16px and 5 are incompatible.
   ,
-1 | a {b: calc(rem(16px, 5))}
-  |                ^^^^ 16px
-  |                      = 5
+1 | a {b: rem(16px, 5)}
+  |           ^^^^ 16px
+  |                 = 5
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
@@ -71,29 +71,42 @@ Error: 1 and 16px are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/min_incompatible/input.scss
-a {b: calc(rem(min(16, 9px), 6))}
+a {b: rem(min(16, 9px), 6)}
 
 <===> error/syntax/min_incompatible/error
 Error: 9px and 6 are incompatible.
   ,
-1 | a {b: calc(rem(min(16, 9px), 6))}
-  |                ^^^^^^^^^^^^ 9px
-  |                              = 6
+1 | a {b: rem(min(16, 9px), 6)}
+  |           ^^^^^^^^^^^^ 9px
+  |                         = 6
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: calc(rem($))}
+a {b: rem($)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: calc(rem($))}
-  |                 ^
+1 | a {b: rem($)}
+  |            ^
   '
-  input.scss 1:17  root stylesheet
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/quoted_string/input.scss
+a {b: rem("test")}
+
+<===> error/syntax/quoted_string/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: rem("test")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
@@ -110,123 +123,123 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 
 <===>
 ================================================================================
-<===> error/unit/input.scss
-a {b: calc(rem(5%, 3%))}
+<===> percentage/unit/input.scss
+a {b: rem(5%, 3%)}
 
-<===> error/unit/output.css
+<===> percentage/unit/output.css
 a {
-  b: rem(5%, 3%);
+  b: 2%;
 }
 
 <===>
 ================================================================================
-<===> preserved/unitless/positive_args/input.scss
+<===> unitless/positive_args/input.scss
 a {b: rem(7, 3)}
 
-<===> preserved/unitless/positive_args/output.css
+<===> unitless/positive_args/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> preserved/unitless/y_negative/input.scss
+<===> unitless/y_negative/input.scss
 a {b: rem(7, -3)}
 
-<===> preserved/unitless/y_negative/output.css
+<===> unitless/y_negative/output.css
 a {
   b: -9;
 }
 
 <===>
 ================================================================================
-<===> preserved/unitless/x_negative/input.scss
+<===> unitless/x_negative/input.scss
 a {b: rem(-7, 3)}
 
-<===> preserved/unitless/x_negative/output.css
+<===> unitless/x_negative/output.css
 a {
   b: 9;
 }
 
 <===>
 ================================================================================
-<===> preserved/unitless/negative_args/input.scss
+<===> unitless/negative_args/input.scss
 a {b: rem(-7, -3)}
 
-<===> preserved/unitless/negative_args/output.css
+<===> unitless/negative_args/output.css
 a {
   b: -1;
 }
 
 <===>
 ================================================================================
-<===> preserved/negative_zero/input.scss
-@use "sass:math" as math;
+<===> negative_zero/input.scss
+@use "sass:math";
 a {b: math.div(1, rem(-7, 7))}
 
-<===> preserved/negative_zero/output.css
+<===> negative_zero/output.css
 a {
   b: calc(-infinity);
 }
 
 <===>
 ================================================================================
-<===> preserved/positive_zero/input.scss
-@use "sass:math" as math;
+<===> positive_zero/input.scss
+@use "sass:math";
 a {b: math.div(1, rem(7, 7))}
 
-<===> preserved/positive_zero/output.css
+<===> positive_zero/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> preserved/y_zero/plus/input.scss
+<===> y_zero/plus/input.scss
 a {b: rem(6, 0)}
 
-<===> preserved/y_zero/plus/output.css
+<===> y_zero/plus/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> preserved/x_zero/plus/input.scss
+<===> x_zero/plus/input.scss
 a {b: rem(0, 6)}
 
-<===> preserved/x_zero/plus/output.css
+<===> x_zero/plus/output.css
 a {
   b: 0;
 }
 
 <===>
 ================================================================================
-<===> preserved/zeros/plus/input.scss
+<===> zeros/plus/input.scss
 a {b: rem(0, 0)}
 
-<===> preserved/zeros/plus/output.css
+<===> zeros/plus/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> preserved/y_infinity/plus/input.scss
-@use "sass:math" as math;
+<===> y_infinity/plus/input.scss
+@use "sass:math";
 a {b: rem(math.div(1, 0), 10)}
 
-<===> preserved/y_infinity/plus/output.css
+<===> y_infinity/plus/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> preserved/x_infinity/plus/input.scss
+<===> x_infinity/plus/input.scss
 a {b: rem(10, infinity)}
 
-<===> preserved/x_infinity/plus/output.css
+<===> x_infinity/plus/output.css
 a {
   b: 10;
 }
@@ -243,4 +256,40 @@ a {
 a {
   --two-args: 2, 3;
   b: rem(var(--two-args));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: rem(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: rem(test);
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: rem(4px, 3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: rem(4px, 1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: rem(3px - 1px + var(--test), 4px);
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: rem(2px + var(--test), 4px);
 }

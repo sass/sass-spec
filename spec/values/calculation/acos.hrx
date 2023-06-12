@@ -74,13 +74,66 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/percent/input.scss
+a {b: acos(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: acos(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: acos(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: acos(2px + var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --test: 5;
+  b: acos(var(--test));
+}
+
+<===> preserved/variable/output.css
+a {
+  --test: 5;
+  b: acos(var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: acos(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: acos(test);
+}
+
+<===>
+================================================================================
 <===> units/input.scss
 a {b: acos(1px)}
 
-<===> units/output.css
-a {
-  b: 0deg;
-}
+<===> units/error
+Error: $number: Expected 1px to have no units.
+  ,
+1 | a {b: acos(1px)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

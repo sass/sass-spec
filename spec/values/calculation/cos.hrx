@@ -5,7 +5,7 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: cos(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
@@ -16,7 +16,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: cos(math.div(1, 0))}
 
 <===> infinity/output.css
@@ -93,6 +93,56 @@ a {b: cos($number)}
 <===> named_arg/output.css
 a {
   b: 0.5403023059;
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: cos(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: cos(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: cos(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: cos(2px + var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --test: 5;
+  b: cos(var(--test));
+}
+
+<===> preserved/variable/output.css
+a {
+  --test: 5;
+  b: cos(var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: cos(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: cos(test);
 }
 
 <===>

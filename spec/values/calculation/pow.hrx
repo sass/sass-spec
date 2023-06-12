@@ -5,55 +5,68 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> error/syntax/no_arg/input.scss
-a {b: calc(pow())}
+a {b: pow()}
 
 <===> error/syntax/no_arg/error
 Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: calc(pow())}
-  |                ^
+1 | a {b: pow()}
+  |           ^
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/missing_arg/input.scss
-a {b: calc(pow(3))}
+a {b: pow(3)}
 
 <===> error/syntax/missing_arg/error
 Error: 2 arguments required, but only 1 was passed.
   ,
-1 | a {b: calc(pow(3))}
-  |            ^^^^^^
+1 | a {b: pow(3)}
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/quoted_string/input.scss
+a {b: pow("test")}
+
+<===> error/syntax/quoted_string/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: pow("test")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/many_args/input.scss
-a {b: calc(pow(3, 2, 1))}
+a {b: pow(3, 2, 1)}
 
 <===> error/syntax/many_args/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: calc(pow(3, 2, 1))}
-  |                    ^
+1 | a {b: pow(3, 2, 1)}
+  |               ^
   '
-  input.scss 1:20  root stylesheet
+  input.scss 1:15  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/incompatible/input.scss
-a {b: calc(pow(16px, 5))}
+a {b: pow(16px, 5)}
 
 <===> error/syntax/incompatible/error
 Error: 16px and 5 are incompatible.
   ,
-1 | a {b: calc(pow(16px, 5))}
-  |                ^^^^ 16px
-  |                      = 5
+1 | a {b: pow(16px, 5)}
+  |           ^^^^ 16px
+  |                 = 5
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
@@ -71,29 +84,29 @@ Error: 1 and 16px are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/min_incompatible/input.scss
-a {b: calc(pow(min(16, 9px), 6))}
+a {b: pow(min(16, 9px), 6)}
 
 <===> error/syntax/min_incompatible/error
 Error: 9px and 6 are incompatible.
   ,
-1 | a {b: calc(pow(min(16, 9px), 6))}
-  |                ^^^^^^^^^^^^ 9px
-  |                              = 6
+1 | a {b: pow(min(16, 9px), 6)}
+  |           ^^^^^^^^^^^^ 9px
+  |                         = 6
   '
-  input.scss 1:16  root stylesheet
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: calc(pow($))}
+a {b: pow($)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: calc(pow($))}
-  |                 ^
+1 | a {b: pow($)}
+  |            ^
   '
-  input.scss 1:17  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -111,7 +124,7 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 <===>
 ================================================================================
 <===> error/unit/input.scss
-a {b: calc(pow(5%, 3%))}
+a {b: pow(5%, 3%)}
 
 <===> error/unit/output.css
 a {
@@ -120,60 +133,60 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/result_is_integer/input.scss
+<===> operation/unitless/result_is_integer/input.scss
 a {b: pow(2, 3)}
 
-<===> preserved/operation/unitless/result_is_integer/output.css
+<===> operation/unitless/result_is_integer/output.css
 a {
   b: 8;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/result_is_long/input.scss
+<===> operation/unitless/result_is_long/input.scss
 a {b: pow(10, 10)}
 
-<===> preserved/operation/unitless/result_is_long/output.css
+<===> operation/unitless/result_is_long/output.css
 a {
   b: 10000000000;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math_nested/minus/input.scss
-a {b: calc(pow(3 - 1, 2))}
+<===> operation/math_nested/minus/input.scss
+a {b: pow(3 - 1, 2)}
 
-<===> preserved/operation/math_nested/minus/output.css
+<===> operation/math_nested/minus/output.css
 a {
   b: 4;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math/plus/input.scss
+<===> operation/math/plus/input.scss
 a {b: pow(10 + 6, 0)}
 
-<===> preserved/operation/math/plus/output.css
+<===> operation/math/plus/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math/max/input.scss
+<===> operation/math/max/input.scss
 a {b: pow(max(2, 9), 2)}
 
-<===> preserved/operation/math/max/output.css
+<===> operation/math/max/output.css
 a {
   b: 81;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/math/min/input.scss
+<===> operation/math/min/input.scss
 a {b: pow(min(2, 9), 5)}
 
-<===> preserved/operation/math/min/output.css
+<===> operation/math/min/output.css
 a {
   b: 32;
 }
@@ -190,4 +203,40 @@ a {
 a {
   --two-args: 2, 3;
   b: pow(var(--two-args));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: pow(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: pow(test);
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: pow(4px, 3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: pow(4px, 1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: pow(3px - 1px + var(--test), 4px);
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: pow(2px + var(--test), 4px);
 }

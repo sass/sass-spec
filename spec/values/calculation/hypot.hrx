@@ -15,7 +15,7 @@ a {
 <===>
 ================================================================================
 <===> compatible_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(3cm, 4mm * 10, 5q * 40, math.div(6in, 2.54), 7px * math.div(96, 2.54))}
 
 <===> compatible_units/output.css
@@ -26,7 +26,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/first/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(math.div(1, 0), 1, 1)}
 
 <===> infinity/first/output.css
@@ -37,7 +37,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(1, math.div(1, 0), 1)}
 
 <===> infinity/second/output.css
@@ -48,7 +48,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(1, 1, math.div(1, 0))}
 
 <===> infinity/third/output.css
@@ -59,7 +59,7 @@ a {
 <===>
 ================================================================================
 <===> math/plus/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(10*3, 15, 70/2)}
 
 <===> math/plus/output.css
@@ -70,7 +70,7 @@ a {
 <===>
 ================================================================================
 <===> percentage/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: hypot(10%, 5%)}
 
 <===> percentage/output.css
@@ -106,6 +106,42 @@ a: hypot(var(--example));
 b {
   --example: 4px, 6px;
   a: hypot(var(--example));
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: hypot(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: hypot(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: hypot(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: hypot(2px + var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: hypot(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: hypot(test);
 }
 
 <===>

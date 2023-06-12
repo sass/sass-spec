@@ -1,5 +1,12 @@
+<===> options.yml
+---
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
 <===> zero/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(0)}
 
 <===> zero/output.css
@@ -10,7 +17,7 @@ a {
 <===>
 ================================================================================
 <===> positive/integer/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(1)}
 
 <===> positive/integer/output.css
@@ -21,7 +28,7 @@ a {
 <===>
 ================================================================================
 <===> positive/decimal/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(5.6)}
 
 <===> positive/decimal/output.css
@@ -32,7 +39,7 @@ a {
 <===>
 ================================================================================
 <===> negative/integer/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(-17)}
 
 <===> negative/integer/output.css
@@ -43,7 +50,7 @@ a {
 <===>
 ================================================================================
 <===> negative/decimal/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(-123.456)}
 
 <===> negative/decimal/output.css
@@ -58,7 +65,7 @@ a {
   - sass/libsass#2887
 
 <===> preserves_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(-7px / 4em) * 1em}
 
 <===> preserves_units/output.css
@@ -82,9 +89,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> named/input.scss
-@use "sass:math" as math;
-$number: -3;
-a {b: math.abs($number)}
+@use "sass:math";
+a { b: math.abs($number: 3)}
 
 <===> named/output.css
 a {
@@ -94,7 +100,7 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(c)}
 
 <===> error/type/error
@@ -116,7 +122,7 @@ Error: argument `$number` of `math.abs($number)` must be a number
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs()}
 
 <===> error/too_few_args/error
@@ -141,7 +147,7 @@ Error: Function abs is missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.abs(1, 2)}
 
 <===> error/too_many_args/error

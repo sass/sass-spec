@@ -36,18 +36,53 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/percent/input.scss
+a {b: atan2(4px, 3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: atan2(4px, 1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: atan2(3px - 1px + var(--test), 4px);
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: atan2(2px + var(--test), 4px);
+}
+
+<===>
+================================================================================
 <===> preserved/variable/input.scss
 a {
-  --two-args: 2, 3;
-  b: atan2(var(--two-args));
+  --test: 5;
+  b: atan2(var(--test));
 }
 
 <===> preserved/variable/output.css
 a {
-  --two-args: 2, 3;
-  b: atan2(var(--two-args));
+  --test: 5;
+  b: atan2(var(--test));
 }
 
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: atan2(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: atan2(test);
+}
 
 <===>
 ================================================================================
@@ -168,3 +203,16 @@ Error: expected "+", "-", "*", "/", or ")".
   |                 ^
   '
   input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/quoted_string/input.scss
+a {b: atan2("test")}
+
+<===> error/syntax/quoted_string/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: atan2("test")}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

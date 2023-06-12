@@ -5,28 +5,28 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> error/syntax/no_arg/input.scss
-a {b: calc(sign())}
+a {b: sign()}
 
 <===> error/syntax/no_arg/error
 Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: calc(sign())}
-  |                 ^
+1 | a {b: sign()}
+  |            ^
   '
-  input.scss 1:17  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/many_args/input.scss
-a {b: calc(sign(3, 2))}
+a {b: sign(3, 2)}
 
 <===> error/syntax/many_args/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: calc(sign(3, 2))}
-  |                  ^
+1 | a {b: sign(3, 2)}
+  |             ^
   '
-  input.scss 1:18  root stylesheet
+  input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
@@ -44,15 +44,15 @@ Error: 1 and 16px are incompatible.
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: calc(sign($))}
+a {b: sign($)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: calc(sign($))}
-  |                  ^
+1 | a {b: sign($)}
+  |             ^
   '
-  input.scss 1:18  root stylesheet
+  input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
@@ -67,7 +67,7 @@ a {
 <===>
 ================================================================================
 <===> error/unit/input.scss
-a {b: calc(sign(5%))}
+a {b: sign(5%)}
 
 <===> error/unit/output.css
 a {
@@ -76,50 +76,50 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/operation/unit/positive/input.scss
+<===> operation/unit/positive/input.scss
 a {b: sign(5px)}
 
-<===> preserved/operation/unit/positive/output.css
+<===> operation/unit/positive/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/unitless/negative/input.scss
+<===> operation/unitless/negative/input.scss
 a {b: sign(-1000.65)}
 
-<===> preserved/operation/unitless/negative/output.css
+<===> operation/unitless/negative/output.css
 a {
   b: -1;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/zero/positive/input.scss
-a {b: sign(0)}
+<===> operation/zero/positive/input.scss
+a {b: sign(0px)}
 
-<===> preserved/operation/zero/positive/output.css
+<===> operation/zero/positive/output.css
 a {
   b: 0;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/zero/negative/input.scss
+<===> operation/zero/negative/input.scss
 a {b: sign(-0)}
 
-<===> preserved/operation/zero/negative/output.css
+<===> operation/zero/negative/output.css
 a {
   b: 0;
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/nan/input.scss
+<===> operation/nan/input.scss
 a {b: sign(NaN)}
 
-<===> preserved/operation/nan/output.css
+<===> operation/nan/output.css
 a {
   b: calc(NaN);
 }
@@ -136,4 +136,40 @@ a {
 a {
   --one-arg: 2;
   b: sign(var(--one-arg));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: sign(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: sign(test);
+}
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: sign(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: sign(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: sign(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: sign(2px + var(--test));
 }

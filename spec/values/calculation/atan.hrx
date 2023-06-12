@@ -5,7 +5,7 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: atan(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
@@ -76,7 +76,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: atan(math.div(1, 0))}
 
 <===> infinity/output.css
@@ -89,9 +89,62 @@ a {
 <===> units/input.scss
 a {b: atan(1px)}
 
-<===> units/output.css
+<===> units/error
+Error: $number: Expected 1px to have no units.
+  ,
+1 | a {b: atan(1px)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: atan(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
 a {
-  b: 45deg;
+  b: atan(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: atan(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: atan(2px + var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  --test: 5;
+  b: atan(var(--test));
+}
+
+<===> preserved/variable/output.css
+a {
+  --test: 5;
+  b: atan(var(--test));
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {
+  b: atan(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: atan(test);
 }
 
 <===>

@@ -45,7 +45,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: log(math.div(1, 0))}
 
 <===> infinity/output.css
@@ -180,6 +180,29 @@ a {
   b: log(var(--two-args));
 }
 
+<===>
+================================================================================
+<===> preserved/percent/input.scss
+a {b: log(3px - 1.5px + 5%)}
+
+<===> preserved/percent/output.css
+a {
+  b: log(1.5px + 5%);
+}
+
+<===>
+================================================================================
+<===> preserved/operation/variable/input.scss
+a {
+  --test: 5;
+  b: log(3px - 1px + var(--test));
+}
+
+<===> preserved/operation/variable/output.css
+a {
+  --test: 5;
+  b: log(2px + var(--test));
+}
 
 <===>
 ================================================================================
@@ -243,3 +266,16 @@ Error: expected "+", "-", "*", "/", or ")".
   |               ^
   '
   input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/quoted_string/input.scss
+a {b: log("test")}
+
+<===> error/syntax/quoted_string/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: log("test")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
