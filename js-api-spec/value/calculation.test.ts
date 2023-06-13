@@ -8,9 +8,10 @@ import {
   SassNumber,
   SassString,
   CalculationOperation,
+  CalculationOperator,
   CalculationInterpolation,
 } from 'sass';
-import {List} from 'immutable';
+import {List, ValueObject} from 'immutable';
 
 import '../utils';
 
@@ -21,8 +22,10 @@ const validCalculationValues = [
   new CalculationOperation('+', new SassNumber(1), new SassNumber(1)),
   new CalculationInterpolation(''),
 ];
-
 const invalidCalculationValues = [new SassString('1', {quotes: true})];
+
+const validOperators = ['+', '-', '*', '/'];
+const invalidOperators = ['||', '&&', 'plus', 'minus', ''];
 
 describe('SassCalculation', () => {
   describe('construction', () => {
@@ -172,6 +175,59 @@ describe('SassCalculation', () => {
           SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
         ).not.toThrow();
       }
+    });
+  });
+});
+
+describe('CalculationOperation', () => {
+  describe('construction', () => {
+    it('rejects invalid operators', () => {
+      for (const operator of invalidOperators) {
+        expect(
+          () =>
+            new CalculationOperation(
+              operator as CalculationOperator,
+              new SassNumber(1),
+              new SassNumber(2)
+            )
+        ).toThrow();
+      }
+    });
+
+    it('accepts valid operators', () => {
+      for (const operator of validOperators) {
+        expect(
+          () =>
+            new CalculationOperation(
+              operator as CalculationOperator,
+              new SassNumber(1),
+              new SassNumber(2)
+            )
+        ).not.toThrow();
+      }
+    });
+  });
+
+  describe('stores', () => {
+    let operation: CalculationOperation;
+    beforeEach(() => {
+      operation = new CalculationOperation(
+        '+',
+        new SassNumber(1),
+        new SassNumber(2)
+      );
+    });
+
+    it('operator', () => {
+      expect(operation.operator).toBe('+');
+    });
+
+    it('left', () => {
+      expect(operation.left).toEqual(new SassNumber(1));
+    });
+
+    it('right', () => {
+      expect(operation.right).toEqual(new SassNumber(2));
     });
   });
 });
