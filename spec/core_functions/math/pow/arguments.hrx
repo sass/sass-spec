@@ -1,5 +1,5 @@
 <===> named_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow($base: 2, $exponent: 3)}
 
 <===> named_args/output.css
@@ -10,7 +10,7 @@ a {
 <===>
 ================================================================================
 <===> error/base_type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow("0", 0)}
 
 <===> error/base_type/error
@@ -24,7 +24,7 @@ Error: $base: "0" is not a number.
 <===>
 ================================================================================
 <===> error/exponent_type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow(0, "0")}
 
 <===> error/exponent_type/error
@@ -38,7 +38,7 @@ Error: $exponent: "0" is not a number.
 <===>
 ================================================================================
 <===> error/base_has_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow(1px, 0)}
 
 <===> error/base_has_units/error
@@ -52,7 +52,7 @@ Error: $base: Expected 1px to have no units.
 <===>
 ================================================================================
 <===> error/exponent_has_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow(0, 1px)}
 
 <===> error/exponent_has_units/error
@@ -66,7 +66,7 @@ Error: $exponent: Expected 1px to have no units.
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow()}
 
 <===> error/zero_args/error
@@ -85,7 +85,7 @@ Error: Missing argument $base.
 <===>
 ================================================================================
 <===> error/one_arg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow(0)}
 
 <===> error/one_arg/error
@@ -103,7 +103,7 @@ Error: Missing argument $exponent.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.pow(0, 0, 0)}
 
 <===> error/too_many_args/error

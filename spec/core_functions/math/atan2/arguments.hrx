@@ -1,5 +1,5 @@
 <===> named_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2($y: 1, $x: -1)}
 
 <===> named_args/output.css
@@ -10,7 +10,7 @@ a {
 <===>
 ================================================================================
 <===> compatible_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(1cm, -10mm)}
 
 <===> compatible_units/output.css
@@ -21,7 +21,7 @@ a {
 <===>
 ================================================================================
 <===> error/y_type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2("0", 0)}
 
 <===> error/y_type/error
@@ -35,7 +35,7 @@ Error: $y: "0" is not a number.
 <===>
 ================================================================================
 <===> error/x_type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(0, "0")}
 
 <===> error/x_type/error
@@ -49,7 +49,7 @@ Error: $x: "0" is not a number.
 <===>
 ================================================================================
 <===> error/incompatible_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(1px, 1deg)}
 
 <===> error/incompatible_units/error
@@ -63,7 +63,7 @@ Error: $x: 1deg and $y: 1px have incompatible units.
 <===>
 ================================================================================
 <===> error/unitless_y/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(1, 1px)}
 
 <===> error/unitless_y/error
@@ -77,7 +77,7 @@ Error: $x: 1px and $y: 1 have incompatible units (one has units and the other do
 <===>
 ================================================================================
 <===> error/unitless_x/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(1px, 1)}
 
 <===> error/unitless_x/error
@@ -91,7 +91,7 @@ Error: $x: 1 and $y: 1px have incompatible units (one has units and the other do
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2()}
 
 <===> error/zero_args/error
@@ -109,7 +109,7 @@ Error: Missing argument $y.
 <===>
 ================================================================================
 <===> error/one_arg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(0)}
 
 <===> error/one_arg/error
@@ -127,7 +127,7 @@ Error: Missing argument $x.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.atan2(0, 0, 0)}
 
 <===> error/too_many_args/error
