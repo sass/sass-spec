@@ -8,6 +8,11 @@ import {
   compileString,
   compileStringAsync,
   sassNull,
+  sassTrue,
+  sassFalse,
+  SassNumber,
+  SassCalculation,
+  CalculationOperation,
 } from 'sass';
 
 import {spy} from './utils';
@@ -75,6 +80,129 @@ it('passes a default argument value', () => {
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
+});
+
+describe('simplifies', () => {
+  it('operations', () => {
+    const fn = spy(
+      () =>
+        new CalculationOperation(
+          '+',
+          new CalculationOperation('-', new SassNumber(10), new SassNumber(8)),
+          new CalculationOperation('*', new SassNumber(2), new SassNumber(3))
+        )
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 8;\n}');
+  });
+
+  it('calc()', () => {
+    const fn = spy(() =>
+      SassCalculation.calc(
+        new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+      )
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 3;\n}');
+  });
+
+  it('clamp()', () => {
+    const fn = spy(() =>
+      SassCalculation.clamp(
+        new SassNumber(1),
+        new SassNumber(2),
+        new SassNumber(3)
+      )
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 2;\n}');
+  });
+
+  it('min()', () => {
+    const fn = spy(() =>
+      SassCalculation.min([new SassNumber(1), new SassNumber(2)])
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 1;\n}');
+  });
+
+  it('max()', () => {
+    const fn = spy(() =>
+      SassCalculation.max([new SassNumber(1), new SassNumber(2)])
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 2;\n}');
+  });
+
+  it('complex calculations', () => {
+    const fn = spy(() =>
+      SassCalculation.calc(
+        new CalculationOperation(
+          '+',
+          SassCalculation.min([new SassNumber(3), new SassNumber(4)]),
+          new CalculationOperation(
+            '*',
+            SassCalculation.max([new SassNumber(5), new SassNumber(6)]),
+            new CalculationOperation(
+              '-',
+              new SassNumber(3),
+              new CalculationOperation(
+                '/',
+                new SassNumber(4),
+                new SassNumber(5)
+              )
+            )
+          )
+        )
+      )
+    );
+
+    expect(
+      compileString('a {b: foo()}', {
+        functions: {'foo()': fn},
+      }).css
+    ).toBe('a {\n  b: 16.2;\n}');
+  });
+});
+
+const primitiveValues = [
+  new SassString('quoted', {quotes: true}),
+  new SassString('unquoted', {quotes: false}),
+  new SassNumber(1),
+  sassTrue,
+  sassFalse,
+];
+describe('does not simplify', () => {
+  for (const value of primitiveValues) {
+    it(value.toString(), () => {
+      const fn = spy(() => value);
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe(`a {\n  b: ${value.toString()};\n}`);
+    });
+  }
 });
 
 describe('gracefully handles a custom function', () => {
@@ -157,6 +285,19 @@ describe('asynchronously', () => {
         functions: {'foo($arg)': () => Promise.reject('heck')},
       })
     ).toThrowSassException({line: 0});
+  });
+
+  it('simplifies', async () => {
+    const fn = spy(async () =>
+      SassCalculation.calc(
+        new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+      )
+    );
+
+    const result = await compileStringAsync('a {b: foo()}', {
+      functions: {'foo()': fn},
+    });
+    expect(result.css).toBe('a {\n  b: 3;\n}');
   });
 });
 
