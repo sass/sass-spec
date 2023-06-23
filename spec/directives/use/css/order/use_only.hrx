@@ -1,0 +1,339 @@
+<===> once/input.scss
+@use "other" as o1;
+@use "other" as o2;
+@use "other" as o3;
+
+<===> once/_other.scss
+a {b: c}
+
+<===> once/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> use_into_use/input.scss
+@use "midstream";
+
+a {file: input}
+
+<===> use_into_use/midstream.scss
+@use "upstream";
+
+a {file: midstream}
+
+<===> use_into_use/upstream.scss
+a {file: upstream}
+
+<===> use_into_use/output.css
+a {
+  file: upstream;
+}
+
+a {
+  file: midstream;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> use_order/input.scss
+@use "other1";
+@use "other2";
+@use "other3";
+
+a {file: input}
+
+<===> use_order/other1.scss
+a {file: other1}
+
+<===> use_order/other2.scss
+a {file: other2}
+
+<===> use_order/other3.scss
+a {file: other3}
+
+<===> use_order/output.css
+a {
+  file: other1;
+}
+
+a {
+  file: other2;
+}
+
+a {
+  file: other3;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> diamond/input.scss
+@use "left";
+@use "right";
+
+a {file: input}
+
+<===> diamond/left.scss
+@use "shared";
+
+a {file: left}
+
+<===> diamond/right.scss
+@use "shared";
+
+a {file: right}
+
+<===> diamond/shared.scss
+a {file: shared}
+
+<===> diamond/output.css
+a {
+  file: shared;
+}
+
+a {
+  file: left;
+}
+
+a {
+  file: right;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> triangle/input.scss
+@use "midstream";
+@use "upstream";
+
+a {file: input}
+
+<===> triangle/midstream.scss
+@use "upstream";
+
+a {file: midstream}
+
+<===> triangle/upstream.scss
+a {file: upstream}
+
+<===> triangle/output.css
+a {
+  file: upstream;
+}
+
+a {
+  file: midstream;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> unrelated_branches/input.scss
+@use "left_midstream";
+@use "right_midstream";
+
+a {file: input}
+
+<===> unrelated_branches/left_midstream.scss
+@use "left_upstream";
+
+a {file: left midstream}
+
+<===> unrelated_branches/left_upstream.scss
+a {file: left upstream}
+
+<===> unrelated_branches/right_midstream.scss
+@use "right_upstream";
+
+a {file: right midstream}
+
+<===> unrelated_branches/right_upstream.scss
+a {file: right upstream}
+
+<===> unrelated_branches/output.css
+a {
+  file: left upstream;
+}
+
+a {
+  file: left midstream;
+}
+
+a {
+  file: right upstream;
+}
+
+a {
+  file: right midstream;
+}
+
+a {
+  file: input;
+}
+
+<===>
+================================================================================
+<===> comment_order/sequence/comment_only/input.scss
+/* before use in input */
+@use "midstream";
+/* after use in input */
+
+<===> comment_order/sequence/comment_only/_midstream.scss
+/* before use in midstream */
+@use "upstream";
+/* after use in midstream */
+
+<===> comment_order/sequence/comment_only/_upstream.scss
+/* in upstream */
+
+<===> comment_order/sequence/comment_only/output.css
+/* before use in input */
+/* before use in midstream */
+/* in upstream */
+/* after use in midstream */
+/* after use in input */
+
+<===>
+================================================================================
+<===> comment_order/sequence/comment_and_css/input.scss
+/* before use in input */
+@use "midstream";
+/* after use in input */
+a {in: input}
+/* after css in input */
+
+<===> comment_order/sequence/comment_and_css/_midstream.scss
+/* before use in midstream */
+@use "upstream";
+/* after use in midstream */
+a {in: midstream}
+/* after css in midstream */
+
+<===> comment_order/sequence/comment_and_css/_upstream.scss
+/* before css in upstream */
+a {in: upstream}
+/* after css in upstream */
+
+<===> comment_order/sequence/comment_and_css/output.css
+/* before use in input */
+/* before use in midstream */
+/* before css in upstream */
+a {
+  in: upstream;
+}
+
+/* after css in upstream */
+/* after use in midstream */
+a {
+  in: midstream;
+}
+
+/* after css in midstream */
+/* after use in input */
+a {
+  in: input;
+}
+
+/* after css in input */
+
+<===>
+================================================================================
+<===> comment_order/sequence/comment_css_and_plain_import/input.scss
+/* before use in input */
+@use "midstream";
+/* after use in input */
+@import "input.css";
+/* after import in input */
+a {in: input}
+/* after css in input */
+
+<===> comment_order/sequence/comment_css_and_plain_import/_midstream.scss
+/* before use in midstream */
+@use "upstream";
+/* after use in midstream */
+@import "midstream.css";
+/* after import in input */
+a {in: midstream}
+/* after css in midstream */
+
+<===> comment_order/sequence/comment_css_and_plain_import/_upstream.scss
+/* before css in upstream */
+@import "upstream.css";
+/* after import in upstream */
+a {in: upstream}
+/* after css in upstream */
+
+<===> comment_order/sequence/comment_css_and_plain_import/output.css
+/* before use in input */
+/* before use in midstream */
+/* before css in upstream */
+@import "upstream.css";
+/* after use in midstream */
+@import "midstream.css";
+/* after use in input */
+@import "input.css";
+/* after import in upstream */
+a {
+  in: upstream;
+}
+
+/* after css in upstream */
+/* after import in input */
+a {
+  in: midstream;
+}
+
+/* after css in midstream */
+/* after import in input */
+a {
+  in: input;
+}
+
+/* after css in input */
+
+<===>
+================================================================================
+<===> comment_order/diamond/comment_only/input.scss
+/* before use in input */
+@use "left";
+/* between use in input */
+@use "right";
+/* after use in input */
+
+<===> comment_order/diamond/comment_only/_left.scss
+/* before use in left */
+@use "shared";
+/* after use in left */
+
+<===> comment_order/diamond/comment_only/_right.scss
+/* before use in right */
+@use "shared";
+/* after use in right */
+
+<===> comment_order/diamond/comment_only/_shared.scss
+/* in shared */
+
+<===> comment_order/diamond/comment_only/output.css
+/* before use in input */
+/* before use in left */
+/* in shared */
+/* after use in left */
+/* between use in input */
+/* before use in right */
+/* after use in right */
+/* after use in input */
