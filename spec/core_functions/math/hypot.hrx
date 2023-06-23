@@ -6,7 +6,7 @@
 <===>
 ================================================================================
 <===> unitless/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(3, 4, 5, 6, 7)}
 
 <===> unitless/output.css
@@ -17,7 +17,7 @@ a {
 <===>
 ================================================================================
 <===> compatible_units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(3cm, 4mm * 10, 5q * 40, math.div(6in, 2.54), 7px * math.div(96, 2.54))}
 
 <===> compatible_units/output.css
@@ -28,7 +28,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/first/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(math.div(1, 0), 1, 1)}
 
 <===> infinity/first/output.css
@@ -39,7 +39,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1, math.div(1, 0), 1)}
 
 <===> infinity/second/output.css
@@ -50,7 +50,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1, 1, math.div(1, 0))}
 
 <===> infinity/third/output.css
@@ -61,7 +61,7 @@ a {
 <===>
 ================================================================================
 <===> error/type/first/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot("0", 1px, 1px)}
 
 <===> error/type/first/error
@@ -75,7 +75,7 @@ Error: "0" is not a number.
 <===>
 ================================================================================
 <===> error/type/second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1px, "0", 1px)}
 
 <===> error/type/second/error
@@ -89,7 +89,7 @@ Error: "0" is not a number.
 <===>
 ================================================================================
 <===> error/type/third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1px, 1px, "0")}
 
 <===> error/type/third/error
@@ -103,7 +103,7 @@ Error: "0" is not a number.
 <===>
 ================================================================================
 <===> error/incompatible_units/first_and_second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1deg, 1px, 1turn)}
 
 <===> error/incompatible_units/first_and_second/error
@@ -117,7 +117,7 @@ Error: $numbers[2]: 1px and $numbers[1]: 1deg have incompatible units.
 <===>
 ================================================================================
 <===> error/incompatible_units/first_and_third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1deg, 1turn, 1px)}
 
 <===> error/incompatible_units/first_and_third/error
@@ -131,7 +131,7 @@ Error: $numbers[3]: 1px and $numbers[1]: 1deg have incompatible units.
 <===>
 ================================================================================
 <===> error/incompatible_units/second_and_third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1turn, 1deg, 1px)}
 
 <===> error/incompatible_units/second_and_third/error
@@ -145,7 +145,7 @@ Error: $numbers[3]: 1px and $numbers[1]: 1turn have incompatible units.
 <===>
 ================================================================================
 <===> error/incompatible_units/all/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(1turn, 1px, 1s)}
 
 <===> error/incompatible_units/all/error
@@ -159,7 +159,7 @@ Error: $numbers[2]: 1px and $numbers[1]: 1turn have incompatible units.
 <===>
 ================================================================================
 <===> error/some_unitless/first/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0, 1px, 2px)}
 
 <===> error/some_unitless/first/error
@@ -173,7 +173,7 @@ Error: $numbers[2]: 1px and $numbers[1]: 0 have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/some_unitless/second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0px, 1, 2px)}
 
 <===> error/some_unitless/second/error
@@ -187,7 +187,7 @@ Error: $numbers[2]: 1 and $numbers[1]: 0px have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/some_unitless/third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0px, 1px, 2)}
 
 <===> error/some_unitless/third/error
@@ -201,7 +201,7 @@ Error: $numbers[3]: 2 and $numbers[1]: 0px have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/some_unitless/first_and_second/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0, 1, 2px)}
 
 <===> error/some_unitless/first_and_second/error
@@ -215,7 +215,7 @@ Error: $numbers[3]: 2px and $numbers[1]: 0 have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/some_unitless/first_and_third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0, 1px, 2)}
 
 <===> error/some_unitless/first_and_third/error
@@ -229,7 +229,7 @@ Error: $numbers[2]: 1px and $numbers[1]: 0 have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/some_unitless/second_and_third/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot(0px, 1, 2)}
 
 <===> error/some_unitless/second_and_third/error
@@ -243,7 +243,7 @@ Error: $numbers[2]: 1 and $numbers[1]: 0px have incompatible units (one has unit
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.hypot()}
 
 <===> error/zero_args/error
