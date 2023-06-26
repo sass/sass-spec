@@ -965,6 +965,6 @@ it('compiles multiple nested relative imports loaded multiple times across diffe
         return null;
       },
     });
-    expect(result.css.toString()).toBe('/* A */\n/* A */ /* B */');
+    expect(result.css.toString()).toBe('/* A */\n/* A */\n/* B */');
   });
 });
