@@ -14,6 +14,17 @@ a {
 
 <===>
 ================================================================================
+<===> variable/input.scss
+$number: 3;
+a {b: hypot(3 + 10, 4, 5, 6, 7)}
+
+<===> variable/output.css
+a {
+  b: 17.1755640373;
+}
+
+<===>
+================================================================================
 <===> compatible_units/input.scss
 @use "sass:math";
 a {b: hypot(3cm, 4mm * 10, 5q * 40, math.div(6in, 2.54), 7px * math.div(96, 2.54))}
@@ -83,7 +94,7 @@ a {
 <===> preserved/variable/two_args/input.scss
 b {
 --x: 4px
---y: 6px;   
+--y: 6px;
 a: hypot(var(--x), var(--y));
 }
 
@@ -98,7 +109,7 @@ b {
 ================================================================================
 <===> preserved/variable/one_arg/input.scss
 b {
---example: 4px, 6px;   
+--example: 4px, 6px;
 a: hypot(var(--example));
 }
 
@@ -142,6 +153,18 @@ a {
 <===> preserved/unquoted_string/output.css
 a {
   b: hypot(test);
+}
+
+<===>
+================================================================================
+<===> preserved/unknown_units/input.scss
+a {
+  b: hypot(1foo, 2bar);
+}
+
+<===> preserved/unknown_units/output.css
+a {
+  b: hypot(1foo, 2bar);
 }
 
 <===>

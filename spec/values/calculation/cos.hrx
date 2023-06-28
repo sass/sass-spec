@@ -46,16 +46,6 @@ a {
 
 <===>
 ================================================================================
-<===> percent/input.scss
-a {b: cos(1%)}
-
-<===> percent/output.css
-a {
-  b: cos(1%);
-}
-
-<===>
-================================================================================
 <===> rad/input.scss
 a {b: cos(1rad)}
 
@@ -76,6 +66,36 @@ a {
 
 <===>
 ================================================================================
+<===> less_than_negative_one/input.scss
+a {b: cos(-2)}
+
+<===> less_than_negative_one/output.css
+a {
+  b: -0.4161468365;
+}
+
+<===>
+================================================================================
+<===> negative_decimal/input.scss
+a {b: cos(-0.5)}
+
+<===> negative_decimal/output.css
+a {
+  b: 0.8775825619;
+}
+
+<===>
+================================================================================
+<===> decimal/input.scss
+a {b: cos(0.5)}
+
+<===> decimal/output.css
+a {
+  b: 0.8775825619;
+}
+
+<===>
+================================================================================
 <===> unitless/input.scss
 a {b: cos(1)}
 
@@ -86,13 +106,22 @@ a {
 
 <===>
 ================================================================================
-<===> named_arg/input.scss
-$number: 1;
-a {b: cos($number)}
+<===> one_fuzzy/input.scss
+a {b: cos(1.000000000001)}
 
-<===> named_arg/output.css
+<===> one_fuzzy/output.css
 a {
   b: 0.5403023059;
+}
+
+<===>
+================================================================================
+<===> greater_than_one/input.scss
+a {b: cos(2)}
+
+<===> greater_than_one/output.css
+a {
+  b: -0.4161468365;
 }
 
 <===>
@@ -147,19 +176,6 @@ a {
 
 <===>
 ================================================================================
-<===> error/type/input.scss
-a {b: cos("0")}
-
-<===> error/type/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: cos("0")}
-  |           ^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
 <===> error/unit/input.scss
 a {b: cos(1px)}
 
@@ -170,6 +186,19 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
   |       ^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: cos("0")}
+
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: cos("0")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
@@ -196,3 +225,29 @@ Error: expected "+", "-", "*", "/", or ")".
   |            ^
   '
   input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: cos($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: cos($)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> percent/input.scss
+a {b: cos(1%)}
+
+<===> percent/error
+Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: cos(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

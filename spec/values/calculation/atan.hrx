@@ -86,19 +86,6 @@ a {
 
 <===>
 ================================================================================
-<===> units/input.scss
-a {b: atan(1px)}
-
-<===> units/error
-Error: $number: Expected 1px to have no units.
-  ,
-1 | a {b: atan(1px)}
-  |       ^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
 <===> preserved/percent/input.scss
 a {b: atan(3px - 1.5px + 5%)}
 
@@ -149,6 +136,32 @@ a {
 
 <===>
 ================================================================================
+<===> error/units/input.scss
+a {b: atan(1px)}
+
+<===> error/units/error
+Error: Expected 1px to have no units.
+  ,
+1 | a {b: atan(1px)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/percent/input.scss
+a {b: atan(1%)}
+
+<===> error/percent/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: atan(1%)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/input.scss
 a {b: atan("0")}
 
@@ -186,12 +199,3 @@ Error: expected "+", "-", "*", "/", or ")".
   '
   input.scss 1:13  root stylesheet
 
-<===>
-================================================================================
-<===> percent/input.scss
-a {b: atan(1%)}
-
-<===> percent/output.css
-a {
-  b: atan(1%);
-}

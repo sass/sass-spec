@@ -110,6 +110,19 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
+<===> error/syntax/one_arg/input.scss
+a {b: pow(4)}
+
+<===> error/syntax/one_arg/error
+Error: 2 arguments required, but only 1 was passed.
+  ,
+1 | a {b: pow(4)}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/complex_unit/input.scss
 a {b: pow(1px*1px, 2)}
 
@@ -123,13 +136,43 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 
 <===>
 ================================================================================
-<===> error/unit/input.scss
+<===> error/with_units/input.scss
+a {b: pow(4deg, 10em)}
+
+<===> error/with_units/error
+Error: 4deg and 10em are incompatible.
+  ,
+1 | a {b: pow(4deg, 10em)}
+  |           ^^^^ 4deg
+  |                 ==== 10em
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> percentage/unit/input.scss
 a {b: pow(5%, 3%)}
 
-<===> error/unit/output.css
-a {
-  b: pow(5%, 3%);
-}
+<===> percentage/unit/error
+Error: Expected 5% to have no units.
+  ,
+1 | a {b: pow(5%, 3%)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> operation/compatible_units/input.scss
+a {b: pow(10px, 10px)}
+
+<===> operation/compatible_units/error
+Error: Expected 10px to have no units.
+  ,
+1 | a {b: pow(10px, 10px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -190,6 +233,21 @@ a {b: pow(min(2, 9), 5)}
 a {
   b: 32;
 }
+
+<===>
+================================================================================
+<===> preserved/unknown_units/input.scss
+a {
+  b: pow(1foo, 2bar);
+}
+
+<===> preserved/unknown_units/error
+Error: Expected 1foo to have no units.
+  ,
+2 |   b: pow(1foo, 2bar);
+  |      ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
 
 <===>
 ================================================================================

@@ -56,7 +56,7 @@ a {
 <===>
 ================================================================================
 <===> base/null/input.scss
-a {b: log(2, null)}
+a {b: log(2)}
 
 <===> base/null/output.css
 a {
@@ -135,36 +135,26 @@ a {
 
 <===>
 ================================================================================
-<===> base/percent/input.scss
-a {b: log(2%, 10)}
+<===> base/unknown_variable/input.scss
+a {b: log(2, test)}
 
-<===> base/percent/output.css
+<===> base/unknown_variable/output.css
 a {
-  b: log(2%, 10);
+  b: log(2, test);
 }
 
 <===>
 ================================================================================
-<===> named_arg/number/input.scss
-$number: 2;
-a {b: log($number)}
+<===> base/calculation/input.scss
+a {b: log(2px, 3px + 10px)}
 
-<===> named_arg/number/output.css
-a {
-  b: 0.6931471806;
-}
-
-<===>
-================================================================================
-<===> named_args/number_with_base/input.scss
-$number: 2;
-$base: 10;
-a {b: log($number, $base)}
-
-<===> named_args/number_with_base/output.css
-a {
-  b: 0.3010299957;
-}
+<===> base/calculation/error
+Error: Expected 2px to have no units.
+  ,
+1 | a {b: log(2px, 3px + 10px)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -206,12 +196,25 @@ a {
 
 <===>
 ================================================================================
-<===> number_has_units/input.scss
-a {b: log(3px)}
+<===> named_arg/number/input.scss
+$number: 2;
+a {b: log($number)}
 
-<===> number_has_units/output.css
+<===> named_arg/number/output.css
 a {
-  b: 1.0986122887;
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> named_args/number_with_base/input.scss
+$number: 2;
+$base: 10;
+a {b: log($number, $base)}
+
+<===> named_args/number_with_base/output.css
+a {
+  b: 0.3010299957;
 }
 
 <===>
@@ -279,3 +282,71 @@ Error: Expected number, variable, function, or calculation.
   |           ^
   '
   input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/percentage/input.scss
+a {b: log(5%, 3%)}
+
+<===> error/unit/percentage/error
+Error: Expected 5% to have no units.
+  ,
+1 | a {b: log(5%, 3%)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/compatible_units/input.scss
+a {b: log(10px, 10px)}
+
+<===> error/compatible_units/error
+Error: Expected 10px to have no units.
+  ,
+1 | a {b: log(10px, 10px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unknown_units/input.scss
+a {
+  b: log(1foo, 2bar);
+}
+
+<===> error/unknown_units/error
+Error: Expected 1foo to have no units.
+  ,
+2 |   b: log(1foo, 2bar);
+  |      ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/input.scss
+a {b: log(7em, -3deg)}
+
+<===> error/incompatible_units/error
+Error: 7em and -3deg are incompatible.
+  ,
+1 | a {b: log(7em, -3deg)}
+  |           ^^^ 7em
+  |                ===== -3deg
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> single_number/units/input.scss
+a {b: log(3px)}
+
+<===> single_number/units/error
+Error: Expected 3px to have no units.
+  ,
+1 | a {b: log(3px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

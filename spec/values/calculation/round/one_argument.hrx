@@ -1,0 +1,168 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to single-argument
+`round()`, but for terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/input.scss
+a {b: round(test)}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: round(test);
+}
+
+<===>
+================================================================================
+<===> operation/math_simplify/input.scss
+a {b: round(3.8px + 4px)}
+
+<===> operation/math_simplify/output.css
+a {
+  b: 8px;
+}
+
+<===>
+================================================================================
+<===> unitless/input.scss
+a {b: round(5.5)}
+
+<===> unitless/output.css
+a {
+  b: 6;
+}
+
+<===>
+================================================================================
+<===> variable/named_arg/input.scss
+c {d: round($number: 12.1)}
+
+<===> variable/named_arg/output.css
+c {
+  d: 12;
+}
+
+<===>
+================================================================================
+<===> unknown_variable/input.scss
+a {
+  --example: 5;
+  b: round(var(--example));
+}
+<===> unknown_variable/output.css
+a {
+  --example: 5;
+  b: round(var(--example));
+}
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+a {
+  e: round(3px + #{"3"});
+}
+
+<===> interpolation/output.css
+a {
+  e: round(3px + 3);
+}
+
+<===>
+================================================================================
+<===> math/slash_as_division/input.scss
+b {
+  a: 2px / round(1.5);
+}
+
+<===> math/slash_as_division/output.css
+b {
+  a: 1px;
+}
+
+<===> math/slash_as_division/warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+Recommendation: math.div(2px, round(1.5)) or calc(2px / round(1.5))
+More info and automated migrator: https://sass-lang.com/d/slash-div
+  ,
+2 |   a: 2px / round(1.5);
+  |      ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> math/max/input.scss
+a {
+  e: round(max(1px, 1%));
+}
+
+<===> math/max/error
+Error: Single argument max(1px, 1%) expected to be simplifiable.
+  ,
+2 |   e: round(max(1px, 1%));
+  |      ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/no_arg/input.scss
+a {b: round()}
+
+<===> error/syntax/no_arg/error
+Error: Missing argument $number.
+  ,--> input.scss
+1 | a {b: round()}
+  |       ^^^^^^^ invocation
+  '
+  ,--> sass:math
+1 | @function round($number) {
+  |           ============== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/missing_args/input.scss
+a {
+  c: round(up);
+}
+
+<===> error/one_arg/missing_args/error
+Error: Number to round and step arguments are required.
+  ,
+2 |   c: round(up);
+  |      ^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/unsimplified/input.scss
+a {
+  c: round(1px + 10%);
+}
+
+<===> error/one_arg/unsimplified/error
+Error: Single argument 1px + 10% expected to be simplifiable.
+  ,
+2 |   c: round(1px + 10%);
+  |      ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/math/variable/input.scss
+a {
+  --example: 5;
+  b: round(3.8px + var(--example));
+}
+
+<===> error/math/variable/error
+Error: Single argument 3.8px + var(--example) expected to be simplifiable.
+  ,
+3 |   b: round(3.8px + var(--example));
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:6  root stylesheet

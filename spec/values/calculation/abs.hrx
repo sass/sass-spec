@@ -24,38 +24,13 @@ a {
 
 <===>
 ================================================================================
-<===> positive/decimal/input.scss
+<===> negative/decimal/input.scss
 a {b: abs(-5.6px)}
 
-<===> positive/decimal/output.css
+<===> negative/decimal/output.css
 a {
   b: 5.6px;
 }
-
-<===>
-================================================================================
-<===> operation/integer/input.scss
-a {b: abs(17 * 5%)}
-
-<===> operation/integer/output.css
-a {
-  b: 85%;
-}
-
-<===> operation/integer/warning
-DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
-In the future, this will emit a CSS abs() function to be resolved by the browser.
-
-To preserve current behavior:
-math.abs(85%)
-To emit a CSS abs() now:
-abs(#{85%})
-More info: https://sass-lang.com/documentation/values/calculations#abs
-  ,
-1 | a {b: abs(17 * 5%)}
-  | ^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -73,6 +48,16 @@ a {
 
 <===>
 ================================================================================
+<===> operation/preserves_units/input.scss
+a {b: abs(-7px / 4em) * 1em}
+
+<===> operation/preserves_units/output.css
+a {
+  b: 1.75px;
+}
+
+<===>
+================================================================================
 <===> operation/incompatible_units/input.scss
 a {b: abs(17px * 5%)}
 
@@ -86,10 +71,32 @@ Error: 85px*% isn't a valid CSS value.
 
 <===>
 ================================================================================
-<===> preserved/operation/incompatible_units/input.scss
+<===> operation/integer/input.scss
+a {b: abs(17 * 5%)}
+
+<===> operation/integer/output.css
+a {
+  b: 85%;
+}
+
+<===> operation/integer/warning
+DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
+In the future, this will emit a CSS abs() function to be resolved by the browser.
+To preserve current behavior: math.abs(85%)
+To emit a CSS abs() now: abs(#{85%})
+More info: https://sass-lang.com/d/abs-percent
+  ,
+1 | a {b: abs(17 * 5%)}
+  | ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> preserved/operation/percentage/input.scss
 a {b: abs(17px + 5%)}
 
-<===> preserved/operation/incompatible_units/output.css
+<===> preserved/operation/percentage/output.css
 a {
   b: abs(17px + 5%);
 }
@@ -106,16 +113,6 @@ a {
 a {
   --test: 5;
   b: abs(var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/unknown_variable/input.scss
-a {b: abs(test)}
-
-<===> preserved/unknown_variable/output.css
-a {
-  b: abs(test);
 }
 
 <===>
@@ -142,13 +139,73 @@ a {
 
 <===>
 ================================================================================
-<===> preserves_units/input.scss
-a {b: abs(-7px / 4em) * 1em}
+<===> abs_percentage_warning/input.scss
+a {b: abs(-7.5%)}
 
-<===> preserves_units/output.css
+<===> abs_percentage_warning/output.css
 a {
-  b: 1.75px;
+  b: 7.5%;
 }
+
+<===> abs_percentage_warning/warning
+DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
+In the future, this will emit a CSS abs() function to be resolved by the browser.
+To preserve current behavior: math.abs(-7.5%)
+To emit a CSS abs() now: abs(#{-7.5%})
+More info: https://sass-lang.com/d/abs-percent
+  ,
+1 | a {b: abs(-7.5%)}
+  | ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> math/slash_as_division/input.scss
+b {
+  a: 2px / abs(1.5);
+}
+
+<===> math/slash_as_division/output.css
+b {
+  a: 1.3333333333px;
+}
+
+<===> math/slash_as_division/warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+Recommendation: math.div(2px, abs(1.5)) or calc(2px / abs(1.5))
+More info and automated migrator: https://sass-lang.com/d/slash-div
+  ,
+2 |   a: 2px / abs(1.5);
+  |      ^^^^^^^^^^^^^^
+  '
+    input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible_units/input.scss
+a {b: abs(17px + 4deg)}
+
+<===> error/incompatible_units/error
+Error: 17px and 4deg are incompatible.
+  ,
+1 | a {b: abs(17px + 4deg)}
+  |           ^^^^^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: abs("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+1 | a {b: abs("0")}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -186,47 +243,13 @@ Error: Only 1 argument allowed, but 2 were passed.
 
 <===>
 ================================================================================
-<===> abs_percentage_warning/input.scss
-a {b: abs(-7.5%)}
+<===> error/syntax/invalid_arg/input.scss
+a {b: abs($)}
 
-<===> abs_percentage_warning/output.css
-a {
-  b: 7.5%;
-}
-
-<===> abs_percentage_warning/warning
-DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
-In the future, this will emit a CSS abs() function to be resolved by the browser.
-
-To preserve current behavior:
-math.abs(-7.5%)
-To emit a CSS abs() now:
-abs(#{-7.5%})
-More info: https://sass-lang.com/documentation/values/calculations#abs
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
   ,
-1 | a {b: abs(-7.5%)}
-  | ^^^^^^^^^^^^^^^^^
+1 | a {b: abs($)}
+  |            ^
   '
-    input.scss 1:1  root stylesheet
-
-<===>
-================================================================================
-<===> math/slash_as_division/input.scss
-b { 
-  a: 2px / abs(1.5);
-}
-
-<===> math/slash_as_division/output.css
-b {
-  a: 1.3333333333px;
-}
-
-<===> math/slash_as_division/warning
-DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-Recommendation: math.div(2px, abs(1.5)) or calc(2px / abs(1.5))
-More info and automated migrator: https://sass-lang.com/d/slash-div
-  ,
-2 |   a: 2px / abs(1.5);
-  |      ^^^^^^^^^^^^^^
-  '
-    input.scss 2:6  root stylesheet
+  input.scss 1:12  root stylesheet

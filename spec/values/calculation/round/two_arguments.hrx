@@ -1,0 +1,207 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> preserved/math/input.scss
+a {b: round(3.4px + 10%, 1px + 4px)}
+
+<===> preserved/math/output.css
+a {
+  b: round(3.4px + 10%, 5px);
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/number/input.scss
+a {b: round(foo, 5)}
+
+<===> preserved/unquoted_string/number/output.css
+a {
+  b: round(foo, 5);
+}
+
+<===>
+================================================================================
+<===> preserved/unquoted_string/step/input.scss
+a {b: round(4px, nearest)}
+
+<===> preserved/unquoted_string/step/output.css
+a {
+  b: round(4px, nearest);
+}
+
+<===>
+================================================================================
+<===> step/zero/input.scss
+a {b: round(5px, 0px)}
+
+<===> step/zero/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> step/infinity/input.scss
+@use "sass:math";
+a {b: round(-0, infinity)}
+
+<===> step/infinity/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> step/number/input.scss
+a {b: round(5px, 5px)}
+
+<===> step/number/output.css
+a {
+  b: 5px;
+}
+
+<===>
+================================================================================
+<===> step/unitless/input.scss
+a {b: round(5, 5)}
+
+<===> step/unitless/output.css
+a {
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> step/compatible_units/input.scss
+a {b: round(100px, 2cm)}
+
+<===> step/compatible_units/output.css
+a {
+  b: 75.5905511811px;
+}
+
+<===>
+================================================================================
+<===> number/infinity/input.scss
+@use "sass:math";
+a {b: round(infinity, 5)}
+
+<===> number/infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> operation/simplify/input.scss
+$c: 10px;
+a {b: round(3.8px + 4px, $c)}
+
+<===> operation/simplify/output.css
+a {
+  b: 10px;
+}
+
+<===>
+================================================================================
+<===> nan/simplify/input.scss
+a {b: round(calc(NaN), calc(NaN))}
+
+<===> nan/simplify/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> unquoted_string/both_numbers/input.scss
+a {
+  e: round(down, number);
+}
+
+<===> unquoted_string/both_numbers/output.css
+a {
+  e: round(down, number);
+}
+
+<===>
+================================================================================
+<===> error/unknown_variable/number/input.scss
+a {
+  c: round(up, var(--example));
+}
+
+<===> error/unknown_variable/number/output.css
+a {
+  c: round(up, var(--example));
+}
+
+<===>
+================================================================================
+<===> error/incompatible/number/input.scss
+a {b: round(10px, 5)}
+
+<===> error/incompatible/number/error
+Error: 10px and 5 are incompatible.
+  ,
+1 | a {b: round(10px, 5)}
+  |             ^^^^ 10px
+  |                   = 5
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible/step/input.scss
+a {b: round(10, 5px)}
+
+<===> error/incompatible/step/error
+Error: 10 and 5px are incompatible.
+  ,
+1 | a {b: round(10, 5px)}
+  |             ^^ 10
+  |                 === 5px
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/incompatible/math/input.scss
+a {b: round(3.4px + 1px, 1 + 4)}
+
+<===> error/incompatible/math/error
+Error: 4.4px and 5 are incompatible.
+  ,
+1 | a {b: round(3.4px + 1px, 1 + 4)}
+  |             ^^^^^^^^^^^ 4.4px
+  |                          ===== 5
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/missing_step/input.scss
+a {b: round(nearest, 5)}
+
+<===> error/missing_step/error
+Error: If strategy is not null, step is required.
+  ,
+1 | a {b: round(nearest, 5)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+a {
+  e: round(5, 3px + #{"3"});
+}
+
+<===> interpolation/output.css
+a {
+  e: round(5, 3px + 3);
+}

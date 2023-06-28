@@ -4,45 +4,6 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> error/syntax/no_arg/input.scss
-a {b: sqrt()}
-
-<===> error/syntax/no_arg/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: sqrt()}
-  |            ^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/operation_no_units/input.scss
-a {b: sqrt(1 + 16px)}
-
-<===> error/syntax/operation_no_units/error
-Error: 1 and 16px are incompatible.
-  ,
-1 | a {b: sqrt(1 + 16px)}
-  |            ^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/invalid_arg/input.scss
-a {b: sqrt($)}
-
-<===> error/syntax/invalid_arg/error
-Error: Expected identifier.
-  ,
-1 | a {b: sqrt($)}
-  |             ^
-  '
-  input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
 <===> operation/unitless/result_is_integer/input.scss
 a {b: sqrt(16)}
 
@@ -73,16 +34,6 @@ a {
 
 <===>
 ================================================================================
-<===> operation/math_nested/minus/input.scss
-a {b: calc(sqrt(10 - 1))}
-
-<===> operation/math_nested/minus/output.css
-a {
-  b: 3;
-}
-
-<===>
-================================================================================
 <===> operation/math/plus/input.scss
 a {b: sqrt(10 + 6)}
 
@@ -93,40 +44,20 @@ a {
 
 <===>
 ================================================================================
-<===> operation/math/max/input.scss
+<===> operation/nested_function/input.scss
 a {b: sqrt(max(2, 9))}
 
-<===> operation/math/max/output.css
+<===> operation/nested_function/output.css
 a {
   b: 3;
 }
 
 <===>
 ================================================================================
-<===> operation/math/min/input.scss
-a {b: sqrt(min(16, 9))}
-
-<===> operation/math/min/output.css
-a {
-  b: 3;
-}
-
-<===>
-================================================================================
-<===> percentage/input.scss
-a {b: calc(sqrt(5%))}
-
-<===> percentage/output.css
-a {
-  b: sqrt(5%);
-}
-
-<===>
-================================================================================
-<===> preserved/percent/input.scss
+<===> operation/percent/input.scss
 a {b: sqrt(3px - 1.5px + 5%)}
 
-<===> preserved/percent/output.css
+<===> operation/percent/output.css
 a {
   b: sqrt(1.5px + 5%);
 }
@@ -161,11 +92,49 @@ a {
 
 <===>
 ================================================================================
-<===> syntax/units/input.scss
+<===> preserved/unquoted_string/input.scss
+a {
+  b: sqrt(test);
+}
+
+<===> preserved/unquoted_string/output.css
+a {
+  b: sqrt(test);
+}
+
+<===>
+================================================================================
+<===> error/variables/input.scss
+a {b: sqrt($base: 1, $exponent: -1)}
+
+<===> error/variables/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: sqrt($base: 1, $exponent: -1)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/percentage/input.scss
+a {b: calc(sqrt(5%))}
+
+<===> error/percentage/error
+Error: Expected 5% to have no units.
+  ,
+1 | a {b: calc(sqrt(5%))}
+  |            ^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/input.scss
 a {b: calc(sqrt(16px))}
 
-<===> syntax/units/error
-Error: $number: Expected 16px to have no units.
+<===> error/units/error
+Error: Expected 16px to have no units.
   ,
 1 | a {b: calc(sqrt(16px))}
   |            ^^^^^^^^^^
@@ -174,11 +143,11 @@ Error: $number: Expected 16px to have no units.
 
 <===>
 ================================================================================
-<===> syntax/min_units/input.scss
+<===> error/nested_function/units/input.scss
 a {b: calc(sqrt(min(16, 9px)))}
 
-<===> syntax/min_units/error
-Error: $number: Expected 9px to have no units.
+<===> error/nested_function/units/error
+Error: Expected 9px to have no units.
   ,
 1 | a {b: calc(sqrt(min(16, 9px)))}
   |            ^^^^^^^^^^^^^^^^^^
@@ -187,13 +156,53 @@ Error: $number: Expected 9px to have no units.
 
 <===>
 ================================================================================
-<===> complex_unit/input.scss
-a {b: sqrt(1px*1px)}
+<===> error/operation/incompatible_units/input.scss
+a {b: sqrt(1 + 16px)}
 
-<===> complex_unit/error
-Error: Number 1px*px isn't compatible with CSS calculations.
+<===> error/operation/incompatible_units/error
+Error: 1 and 16px are incompatible.
   ,
-1 | a {b: sqrt(1px*1px)}
-  |            ^^^^^^^
+1 | a {b: sqrt(1 + 16px)}
+  |            ^^^^^^^^
   '
   input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/no_arg/input.scss
+a {b: sqrt()}
+
+<===> error/syntax/no_arg/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: sqrt()}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/many_args/input.scss
+a {b: sqrt(3, 4)}
+
+<===> error/syntax/many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: sqrt(3, 4)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: sqrt($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: sqrt($)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+

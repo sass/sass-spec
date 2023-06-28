@@ -69,13 +69,30 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 
 <===>
 ================================================================================
-<===> error/unit/input.scss
-a {b: calc(exp(5%))}
+<===> error/percentage/input.scss
+a {b: exp(5%)}
 
-<===> error/unit/output.css
-a {
-  b: exp(5%);
-}
+<===> error/percentage/error
+Error: Expected 5% to have no units.
+  ,
+1 | a {b: exp(5%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/input.scss
+a {b: exp(5px)}
+
+<===> error/unit/error
+Error: Expected 5px to have no units.
+  ,
+1 | a {b: exp(5px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
 
 <===>
 ================================================================================

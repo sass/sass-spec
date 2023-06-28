@@ -64,16 +64,6 @@ a {
 
 <===>
 ================================================================================
-<===> percent/input.scss
-a {b: acos(1%)}
-
-<===> percent/output.css
-a {
-  b: acos(1%);
-}
-
-<===>
-================================================================================
 <===> preserved/percent/input.scss
 a {b: acos(3px - 1.5px + 5%)}
 
@@ -124,14 +114,27 @@ a {
 
 <===>
 ================================================================================
-<===> units/input.scss
+<===> error/units/input.scss
 a {b: acos(1px)}
 
-<===> units/error
-Error: $number: Expected 1px to have no units.
+<===> error/units/error
+Error: Expected 1px to have no units.
   ,
 1 | a {b: acos(1px)}
   |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/percent/input.scss
+a {b: acos(1%)}
+
+<===> error/percent/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: acos(1%)}
+  |       ^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -170,6 +173,19 @@ a {b: acos(0, 0)}
 Error: expected "+", "-", "*", "/", or ")".
   ,
 1 | a {b: acos(0, 0)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: acos($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: acos($)}
   |             ^
   '
   input.scss 1:13  root stylesheet
