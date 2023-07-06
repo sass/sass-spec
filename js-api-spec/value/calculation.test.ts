@@ -11,7 +11,7 @@ import {
   CalculationOperator,
   CalculationInterpolation,
 } from 'sass';
-import {List, ValueObject} from 'immutable';
+import {List} from 'immutable';
 
 import '../utils';
 
@@ -23,6 +23,27 @@ const validCalculationValues = [
   new CalculationInterpolation(''),
 ];
 const invalidCalculationValues = [new SassString('1', {quotes: true})];
+
+const validMinValues = [
+  new SassString('1, 2'),
+  new SassString('1, 2, 3'),
+  new SassString('1, 2', {quotes: false}),
+  new SassString('1, 2, 3', {quotes: false}),
+  new CalculationInterpolation('1, 2'),
+  new CalculationInterpolation('1, 2, 3'),
+];
+const invalidMinValues = [
+  new SassString(''),
+  new SassString('abc'),
+  new SassString('1'),
+  new SassString('1 2'),
+  new SassString('1,2,3,4'),
+  new CalculationInterpolation(''),
+  new CalculationInterpolation('abc'),
+  new CalculationInterpolation('1'),
+  new CalculationInterpolation('1 2'),
+  new CalculationInterpolation('1,2,3,4'),
+];
 
 const validOperators = ['+', '-', '*', '/'];
 const invalidOperators = ['||', '&&', 'plus', 'minus', ''];
@@ -140,12 +161,11 @@ describe('SassCalculation', () => {
     it('correctly stores name and arguments', () => {
       const result = SassCalculation.clamp(
         new SassNumber(1),
-        new SassNumber(2),
-        new SassNumber(3)
+        new SassNumber(2)
       );
       expect(result.name).toBe('clamp');
       expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
+        List([new SassNumber(1), new SassNumber(2)])
       );
     });
 
@@ -174,6 +194,43 @@ describe('SassCalculation', () => {
         expect(() =>
           SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
         ).not.toThrow();
+      }
+    });
+
+    it('parses `value` and `max` from `min`', () => {
+      const result = SassCalculation.clamp(new SassString('1, 2, 3'));
+      expect(result.arguments).toEqualWithHash(
+        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
+      );
+    });
+
+    it('parses `max` from `min`', () => {
+      const result = SassCalculation.clamp(new SassString('1, 2'));
+      expect(result.arguments).toEqualWithHash(
+        List([new SassNumber(1), new SassNumber(2)])
+      );
+    });
+
+    it('parses units from `min`', () => {
+      const result = SassCalculation.clamp(new SassString('1px, 2ch, 3rem'));
+      expect(result.arguments).toEqualWithHash(
+        List([
+          new SassNumber(1, 'px'),
+          new SassNumber(2, 'ch'),
+          new SassNumber(3, 'rem'),
+        ])
+      );
+    });
+
+    it('rejects invalid values for `min`', () => {
+      for (const value of invalidMinValues) {
+        expect(() => SassCalculation.clamp(value)).toThrow();
+      }
+    });
+
+    it('accepts valid values for `min`', () => {
+      for (const value of validMinValues) {
+        expect(() => SassCalculation.clamp(value)).not.toThrow();
       }
     });
   });
