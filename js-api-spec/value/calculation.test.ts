@@ -288,3 +288,9 @@ describe('CalculationOperation', () => {
     });
   });
 });
+
+describe('CalculationInterpolation', () => {
+  it('stores value', () => {
+    expect(new CalculationInterpolation('1').value).toEqual('1');
+  });
+});
