@@ -2,6 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import * as fs from 'fs';
 import * as p from 'path';
 import * as sass from 'sass';
 
@@ -933,5 +934,37 @@ describe('when importer returns non-string contents', () => {
         done();
       }
     );
+  });
+});
+
+// Regression test for sass/dart-sass#1962
+it('compiles multiple nested relative imports loaded multiple times across different files', async () => {
+  await sandbox(dir => {
+    dir.write({
+      'src/index.scss': `
+        @import "./_a.scss";
+        @import "./_includes.scss";
+      `,
+      'include/_a.scss': '/* A */',
+      'include/_b.scss': '/* B */',
+      'src/_includes.scss': `
+        @import "./_a.scss";
+        @import "./_b.scss";
+      `,
+    });
+
+    const result = sass.renderSync({
+      file: dir('src/index.scss'),
+      importer: function (url) {
+        const path = dir('./include', url);
+        if (fs.existsSync(path)) {
+          return {
+            contents: fs.readFileSync(path, 'utf8'),
+          };
+        }
+        return null;
+      },
+    });
+    expect(result.css.toString()).toBe('/* A */\n/* A */\n/* B */');
   });
 });
