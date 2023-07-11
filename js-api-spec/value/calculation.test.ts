@@ -22,28 +22,22 @@ const validCalculationValues = [
   new CalculationOperation('+', new SassNumber(1), new SassNumber(1)),
   new CalculationInterpolation(''),
 ];
-const invalidCalculationValues = [new SassString('1', {quotes: true})];
+const invalidCalculationValues = [
+  new SassString('1', {quotes: true}),
+  new CalculationOperation(
+    '+',
+    new SassString('1', {quotes: true}),
+    new SassString('1', {quotes: true})
+  ),
+];
 
-const validMinValues = [
-  new SassString('1, 2'),
-  new SassString('1, 2, 3'),
-  new SassString('1, 2', {quotes: false}),
-  new SassString('1, 2, 3', {quotes: false}),
-  new CalculationInterpolation('1, 2'),
-  new CalculationInterpolation('1, 2, 3'),
-];
-const invalidMinValues = [
-  new SassString(''),
-  new SassString('abc'),
-  new SassString('1'),
-  new SassString('1 2'),
-  new SassString('1,2,3,4'),
-  new CalculationInterpolation(''),
-  new CalculationInterpolation('abc'),
+/* When `clamp()` is called with less than three arguments, the list of accepted
+values is much narrower */
+const validClampValues = [
+  new SassString('1', {quotes: false}),
   new CalculationInterpolation('1'),
-  new CalculationInterpolation('1 2'),
-  new CalculationInterpolation('1,2,3,4'),
 ];
+const invalidClampValues = [new SassNumber(1), new SassString('1')];
 
 const validOperators = ['+', '-', '*', '/'];
 const invalidOperators = ['||', '&&', 'plus', 'minus', ''];
@@ -161,11 +155,12 @@ describe('SassCalculation', () => {
     it('correctly stores name and arguments', () => {
       const result = SassCalculation.clamp(
         new SassNumber(1),
-        new SassNumber(2)
+        new SassNumber(2),
+        new SassNumber(3)
       );
       expect(result.name).toBe('clamp');
       expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2)])
+        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
       );
     });
 
@@ -197,40 +192,37 @@ describe('SassCalculation', () => {
       }
     });
 
-    it('parses `value` and `max` from `min`', () => {
-      const result = SassCalculation.clamp(new SassString('1, 2, 3'));
-      expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
-      );
-    });
-
-    it('parses `max` from `min`', () => {
-      const result = SassCalculation.clamp(new SassString('1, 2'));
-      expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2)])
-      );
-    });
-
-    it('parses units from `min`', () => {
-      const result = SassCalculation.clamp(new SassString('1px, 2ch, 3rem'));
-      expect(result.arguments).toEqualWithHash(
-        List([
-          new SassNumber(1, 'px'),
-          new SassNumber(2, 'ch'),
-          new SassNumber(3, 'rem'),
-        ])
-      );
-    });
-
-    it('rejects invalid values for `min`', () => {
-      for (const value of invalidMinValues) {
+    it('rejects invalid values for one argument', () => {
+      for (const value of invalidClampValues) {
         expect(() => SassCalculation.clamp(value)).toThrow();
       }
     });
 
-    it('accepts valid values for `min`', () => {
-      for (const value of validMinValues) {
+    it('accepts valid values for one argument', () => {
+      for (const value of validClampValues) {
         expect(() => SassCalculation.clamp(value)).not.toThrow();
+      }
+    });
+
+    it('rejects invalid values for two arguments', () => {
+      for (const value of invalidClampValues) {
+        expect(() =>
+          SassCalculation.clamp(value, new SassString('1', {quotes: false}))
+        ).toThrow();
+        expect(() =>
+          SassCalculation.clamp(new SassString('1', {quotes: false}), value)
+        ).toThrow();
+      }
+    });
+
+    it('accepts valid values for two arguments', () => {
+      for (const value of validClampValues) {
+        expect(() =>
+          SassCalculation.clamp(value, new SassString('1', {quotes: false}))
+        ).not.toThrow();
+        expect(() =>
+          SassCalculation.clamp(new SassString('1', {quotes: false}), value)
+        ).not.toThrow();
       }
     });
   });
