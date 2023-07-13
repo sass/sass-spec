@@ -83,29 +83,11 @@ it('passes a default argument value', () => {
 });
 
 describe('simplifies', () => {
-  it('operations', () => {
-    const fn = spy(
-      () =>
-        new CalculationOperation(
-          '+',
-          new CalculationOperation('-', new SassNumber(10), new SassNumber(8)),
-          new CalculationOperation('*', new SassNumber(2), new SassNumber(3))
-        )
-    );
-
-    expect(
-      compileString('a {b: foo()}', {
-        functions: {'foo()': fn},
-      }).css
-    ).toBe('a {\n  b: 8;\n}');
-  });
-
   it('calc()', () => {
-    const fn = spy(() =>
+    const fn = () =>
       SassCalculation.calc(
         new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
-      )
-    );
+      );
 
     expect(
       compileString('a {b: foo()}', {
@@ -115,13 +97,12 @@ describe('simplifies', () => {
   });
 
   it('clamp()', () => {
-    const fn = spy(() =>
+    const fn = () =>
       SassCalculation.clamp(
         new SassNumber(1),
         new SassNumber(2),
         new SassNumber(3)
-      )
-    );
+      );
 
     expect(
       compileString('a {b: foo()}', {
@@ -131,9 +112,8 @@ describe('simplifies', () => {
   });
 
   it('min()', () => {
-    const fn = spy(() =>
-      SassCalculation.min([new SassNumber(1), new SassNumber(2)])
-    );
+    const fn = () =>
+      SassCalculation.min([new SassNumber(1), new SassNumber(2)]);
 
     expect(
       compileString('a {b: foo()}', {
@@ -143,9 +123,8 @@ describe('simplifies', () => {
   });
 
   it('max()', () => {
-    const fn = spy(() =>
-      SassCalculation.max([new SassNumber(1), new SassNumber(2)])
-    );
+    const fn = () =>
+      SassCalculation.max([new SassNumber(1), new SassNumber(2)]);
 
     expect(
       compileString('a {b: foo()}', {
@@ -154,8 +133,8 @@ describe('simplifies', () => {
     ).toBe('a {\n  b: 2;\n}');
   });
 
-  it('complex calculations', () => {
-    const fn = spy(() =>
+  it('operations', () => {
+    const fn = () =>
       SassCalculation.calc(
         new CalculationOperation(
           '+',
@@ -174,8 +153,7 @@ describe('simplifies', () => {
             )
           )
         )
-      )
-    );
+      );
 
     expect(
       compileString('a {b: foo()}', {
@@ -226,14 +204,29 @@ describe('gracefully handles a custom function', () => {
     ).toThrowSassException({line: 0});
   });
 
-  it('returning a non-Value', () => {
-    expect(() =>
-      compileString('a {b: foo()}', {
-        functions: {
-          'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
-        },
-      })
-    ).toThrowSassException({line: 0});
+  describe('returning a non-Value', () => {
+    it('before simplification', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    it('after simplification', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            // The wrapping SassCalculation is a Value, but contains a non-Value
+            // that appears after simplification.
+            'foo()': () =>
+              SassCalculation.calc('wrong' as unknown as SassString),
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
   });
 });
 
@@ -279,20 +272,46 @@ describe('asynchronously', () => {
     expect(fn).toHaveBeenCalled();
   });
 
-  it('gracefully handles promise rejections', async () => {
-    await expectAsync(() =>
-      compileStringAsync('a {b: foo(bar)}', {
-        functions: {'foo($arg)': () => Promise.reject('heck')},
-      })
-    ).toThrowSassException({line: 0});
+  describe('gracefully handles', () => {
+    it('promise rejections', async () => {
+      await expectAsync(() =>
+        compileStringAsync('a {b: foo(bar)}', {
+          functions: {'foo($arg)': () => Promise.reject('heck')},
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    describe('returning a non-Value', () => {
+      it('before simplification', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              'foo()': (() => 'wrong') as unknown as CustomFunction<'async'>,
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+
+      it('after simplification', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              // The wrapping SassCalculation is a Value, but contains a non-Value
+              // that appears after simplification.
+              'foo()': () =>
+                SassCalculation.calc('wrong' as unknown as SassString),
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+    });
   });
 
   it('simplifies', async () => {
-    const fn = spy(async () =>
+    const fn = async () =>
       SassCalculation.calc(
         new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
-      )
-    );
+      );
 
     const result = await compileStringAsync('a {b: foo()}', {
       functions: {'foo()': fn},
