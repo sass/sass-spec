@@ -294,21 +294,21 @@ describe('SassCalculation', () => {
     });
   });
 
-  const primitiveValues = [
-    new SassString('quoted', {quotes: true}),
-    new SassString('unquoted', {quotes: false}),
-    new SassNumber(1),
-    sassTrue,
-    sassFalse,
+  const primitiveValues: [any, string][] = [
+    [new SassString('quoted', {quotes: true}), '"quoted"'],
+    [new SassString('unquoted', {quotes: false}), 'unquoted'],
+    [new SassNumber(1), '1'],
+    [sassTrue, 'true'],
+    [sassFalse, 'false'],
   ];
   describe('does not simplify', () => {
-    for (const value of primitiveValues) {
+    for (const [value, output] of primitiveValues) {
       it(value.toString(), () => {
         expect(
           compileString('a {b: foo()}', {
             functions: {'foo()': () => value},
           }).css
-        ).toBe(`a {\n  b: ${value.toString()};\n}`);
+        ).toBe(`a {\n  b: ${output};\n}`);
       });
     }
   });
