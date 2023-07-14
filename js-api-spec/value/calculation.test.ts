@@ -25,7 +25,7 @@ const validCalculationValues = [
   new CalculationOperation('+', new SassNumber(1), new SassNumber(1)),
   new CalculationInterpolation(''),
 ];
-const invalidCalculationValues = [1, '1', new SassString('1', {quotes: true})];
+const invalidCalculationValues = [new SassString('1', {quotes: true})];
 
 describe('SassCalculation', () => {
   describe('construction', () => {
@@ -63,7 +63,6 @@ describe('SassCalculation', () => {
 
     it('rejects invalid arguments', () => {
       for (const value of invalidCalculationValues) {
-        // @ts-expect-error
         expect(() => SassCalculation.calc(value)).toThrow();
       }
     });
@@ -153,15 +152,12 @@ describe('SassCalculation', () => {
     it('rejects invalid arguments', () => {
       for (const value of invalidCalculationValues) {
         expect(() =>
-          // @ts-expect-error
           SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3))
         ).toThrow();
         expect(() =>
-          // @ts-expect-error
           SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3))
         ).toThrow();
         expect(() =>
-          // @ts-expect-error
           SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
         ).toThrow();
       }
@@ -384,11 +380,9 @@ describe('CalculationOperation', () => {
     it('rejects invalid operands', () => {
       for (const operand of invalidCalculationValues) {
         expect(
-          // @ts-expect-error
           () => new CalculationOperation('+', operand, new SassNumber(1))
         ).toThrow();
         expect(
-          // @ts-expect-error
           () => new CalculationOperation('+', new SassNumber(1), operand)
         ).toThrow();
       }
