@@ -316,6 +316,38 @@ describe('SassCalculation', () => {
       });
     }
   });
+
+  describe('throws when simplifying', () => {
+    it('calc() with more than one argument', () => {
+      const fn = () =>
+        // @ts-expect-error: Call `calc` with the wrong number of arguments
+        SassCalculation.calc(new SassNumber(1), new SassNumber(2));
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        })
+      ).toThrow();
+    });
+
+    it('clamp() with the wrong number of arguments', () => {
+      const fn = () => SassCalculation.clamp(new SassNumber(1));
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        })
+      ).toThrow();
+    });
+
+    it('an unknown calculation function', () => {
+      // @ts-expect-error: Use of private constructor
+      const fn = () => new SassCalculation('foo', []);
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        })
+      ).toThrow();
+    });
+  });
 });
 
 describe('CalculationOperation', () => {
