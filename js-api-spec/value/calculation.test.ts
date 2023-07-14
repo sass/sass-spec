@@ -10,6 +10,9 @@ import {
   CalculationOperation,
   CalculationOperator,
   CalculationInterpolation,
+  compileString,
+  sassTrue,
+  sassFalse,
 } from 'sass';
 import {List} from 'immutable';
 
@@ -23,20 +26,6 @@ const validCalculationValues = [
   new CalculationInterpolation(''),
 ];
 const invalidCalculationValues = [1, '1', new SassString('1', {quotes: true})];
-
-/* When `clamp()` is called with less than three arguments, the list of accepted
-values is much narrower */
-const validClampValues = [
-  new SassString('1', {quotes: false}),
-  new CalculationInterpolation('1'),
-];
-const invalidClampValues = [
-  new SassNumber(1),
-  new SassString('1', {quotes: true}),
-];
-
-const validOperators = ['+', '-', '*', '/'];
-const invalidOperators = ['||', '&&', 'plus', 'minus', ''];
 
 describe('SassCalculation', () => {
   describe('construction', () => {
@@ -164,15 +153,15 @@ describe('SassCalculation', () => {
     it('rejects invalid arguments', () => {
       for (const value of invalidCalculationValues) {
         expect(() =>
-        // @ts-expect-error
+          // @ts-expect-error
           SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3))
         ).toThrow();
         expect(() =>
-        // @ts-expect-error
+          // @ts-expect-error
           SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3))
         ).toThrow();
         expect(() =>
-        // @ts-expect-error
+          // @ts-expect-error
           SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
         ).toThrow();
       }
@@ -191,6 +180,17 @@ describe('SassCalculation', () => {
         ).not.toThrow();
       }
     });
+
+    /* When `clamp()` is called with less than three arguments, the list of
+       accepted values is much narrower */
+    const validClampValues = [
+      new SassString('1', {quotes: false}),
+      new CalculationInterpolation('1'),
+    ];
+    const invalidClampValues = [
+      new SassNumber(1),
+      new SassString('1', {quotes: true}),
+    ];
 
     it('rejects invalid values for one argument', () => {
       for (const value of invalidClampValues) {
@@ -216,9 +216,112 @@ describe('SassCalculation', () => {
       }
     });
   });
+
+  describe('simplifies', () => {
+    it('calc()', () => {
+      const fn = () =>
+        SassCalculation.calc(
+          new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+        );
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: 3;\n}');
+    });
+
+    it('clamp()', () => {
+      const fn = () =>
+        SassCalculation.clamp(
+          new SassNumber(1),
+          new SassNumber(2),
+          new SassNumber(3)
+        );
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: 2;\n}');
+    });
+
+    it('min()', () => {
+      const fn = () =>
+        SassCalculation.min([new SassNumber(1), new SassNumber(2)]);
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: 1;\n}');
+    });
+
+    it('max()', () => {
+      const fn = () =>
+        SassCalculation.max([new SassNumber(1), new SassNumber(2)]);
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: 2;\n}');
+    });
+
+    it('operations', () => {
+      const fn = () =>
+        SassCalculation.calc(
+          new CalculationOperation(
+            '+',
+            SassCalculation.min([new SassNumber(3), new SassNumber(4)]),
+            new CalculationOperation(
+              '*',
+              SassCalculation.max([new SassNumber(5), new SassNumber(6)]),
+              new CalculationOperation(
+                '-',
+                new SassNumber(3),
+                new CalculationOperation(
+                  '/',
+                  new SassNumber(4),
+                  new SassNumber(5)
+                )
+              )
+            )
+          )
+        );
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: 16.2;\n}');
+    });
+  });
+
+  const primitiveValues = [
+    new SassString('quoted', {quotes: true}),
+    new SassString('unquoted', {quotes: false}),
+    new SassNumber(1),
+    sassTrue,
+    sassFalse,
+  ];
+  describe('does not simplify', () => {
+    for (const value of primitiveValues) {
+      it(value.toString(), () => {
+        expect(
+          compileString('a {b: foo()}', {
+            functions: {'foo()': () => value},
+          }).css
+        ).toBe(`a {\n  b: ${value.toString()};\n}`);
+      });
+    }
+  });
 });
 
 describe('CalculationOperation', () => {
+  const validOperators = ['+', '-', '*', '/'];
+  const invalidOperators = ['||', '&&', 'plus', 'minus', ''];
+
   describe('construction', () => {
     it('rejects invalid operators', () => {
       for (const operator of invalidOperators) {
@@ -249,11 +352,11 @@ describe('CalculationOperation', () => {
     it('rejects invalid operands', () => {
       for (const operand of invalidCalculationValues) {
         expect(
-        // @ts-expect-error
+          // @ts-expect-error
           () => new CalculationOperation('+', operand, new SassNumber(1))
         ).toThrow();
         expect(
-        // @ts-expect-error
+          // @ts-expect-error
           () => new CalculationOperation('+', new SassNumber(1), operand)
         ).toThrow();
       }
