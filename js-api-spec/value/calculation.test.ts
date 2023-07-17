@@ -317,7 +317,7 @@ describe('SassCalculation', () => {
     it('calc() with more than one argument', () => {
       const fn = () =>
         // @ts-expect-error: Call `calc` with the wrong number of arguments
-        SassCalculation.calc(new SassNumber(1), new SassNumber(2));
+        new SassCalculation('calc', new SassNumber(1), new SassNumber(2));
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
@@ -326,12 +326,14 @@ describe('SassCalculation', () => {
     });
 
     it('clamp() with the wrong number of arguments', () => {
-      const fn = () => SassCalculation.clamp(new SassNumber(1));
+      const fn = () => SassCalculation.clamp(new CalculationInterpolation('1'));
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
         })
-      ).toThrow();
+      ).toThrowSassException({
+        includes: 'clamp() requires exactly 3 arguments.',
+      });
     });
 
     it('an unknown calculation function', () => {
@@ -341,7 +343,7 @@ describe('SassCalculation', () => {
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
         })
-      ).toThrow();
+      ).toThrowSassException({includes: 'Unknown calculation function: foo.'});
     });
   });
 });
