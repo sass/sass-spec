@@ -8,9 +8,7 @@ import {
   compileString,
   compileStringAsync,
   sassNull,
-  SassNumber,
   SassCalculation,
-  CalculationOperation,
 } from 'sass';
 
 import {spy} from './utils';
