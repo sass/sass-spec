@@ -331,19 +331,18 @@ describe('SassCalculation', () => {
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
         })
-      ).toThrowSassException({
-        includes: 'clamp() requires exactly 3 arguments.',
-      });
+      ).toThrowError(/exactly 3 arguments/);
     });
 
     it('an unknown calculation function', () => {
-      // @ts-expect-error: Use of private constructor
-      const fn = () => new SassCalculation('foo', []);
+      const foo = SassCalculation.calc(new SassNumber(1));
+      // @ts-expect-error: Assign to read-only property
+      foo.name = 'foo';
       expect(() =>
         compileString('a {b: foo()}', {
-          functions: {'foo()': fn},
+          functions: {'foo()': () => foo},
         })
-      ).toThrowSassException({includes: 'Unknown calculation function: foo.'});
+      ).toThrowError(/"foo" is not a recognized calculation type/);
     });
   });
 });
