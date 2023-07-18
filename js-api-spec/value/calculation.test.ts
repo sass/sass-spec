@@ -11,8 +11,7 @@ import {
   CalculationOperator,
   CalculationInterpolation,
   compileString,
-  sassTrue,
-  sassFalse,
+  compileStringAsync,
 } from 'sass';
 import {List} from 'immutable';
 
@@ -177,8 +176,8 @@ describe('SassCalculation', () => {
       }
     });
 
-    /* When `clamp()` is called with less than three arguments, the list of
-       accepted values is much narrower */
+    // When `clamp()` is called with less than three arguments, the list of
+    // accepted values is much narrower
     const validClampValues = [
       new SassString('1', {quotes: false}),
       new CalculationInterpolation('1'),
@@ -292,25 +291,18 @@ describe('SassCalculation', () => {
         }).css
       ).toBe('a {\n  b: 16.2;\n}');
     });
-  });
 
-  const primitiveValues: [any, string][] = [
-    [new SassString('quoted', {quotes: true}), '"quoted"'],
-    [new SassString('unquoted', {quotes: false}), 'unquoted'],
-    [new SassNumber(1), '1'],
-    [sassTrue, 'true'],
-    [sassFalse, 'false'],
-  ];
-  describe('does not simplify', () => {
-    for (const [value, output] of primitiveValues) {
-      it(value.toString(), () => {
-        expect(
-          compileString('a {b: foo()}', {
-            functions: {'foo()': () => value},
-          }).css
-        ).toBe(`a {\n  b: ${output};\n}`);
+    it('asynchronously', async () => {
+      const fn = async () =>
+        SassCalculation.calc(
+          new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+        );
+
+      const result = await compileStringAsync('a {b: foo()}', {
+        functions: {'foo()': fn},
       });
-    }
+      expect(result.css).toBe('a {\n  b: 3;\n}');
+    });
   });
 
   describe('throws when simplifying', () => {

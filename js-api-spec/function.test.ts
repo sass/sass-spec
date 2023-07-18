@@ -102,7 +102,7 @@ describe('gracefully handles a custom function', () => {
   });
 
   describe('returning a non-Value', () => {
-    it('before simplification', () => {
+    it('directly', () => {
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {
@@ -112,12 +112,10 @@ describe('gracefully handles a custom function', () => {
       ).toThrowSassException({line: 0});
     });
 
-    it('after simplification', () => {
+    it('in a calculation', () => {
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {
-            // The wrapping SassCalculation is a Value, but contains a non-Value
-            // that appears after simplification.
             'foo()': () =>
               SassCalculation.calc('wrong' as unknown as SassString),
           },
@@ -179,7 +177,7 @@ describe('asynchronously', () => {
     });
 
     describe('returning a non-Value', () => {
-      it('before simplification', async () => {
+      it('directly', async () => {
         await expectAsync(() =>
           compileStringAsync('a {b: foo()}', {
             functions: {
@@ -189,12 +187,10 @@ describe('asynchronously', () => {
         ).toThrowSassException({line: 0});
       });
 
-      it('after simplification', async () => {
+      it('in a calculation', async () => {
         await expectAsync(() =>
           compileStringAsync('a {b: foo()}', {
             functions: {
-              // The wrapping SassCalculation is a Value, but contains a non-Value
-              // that appears after simplification.
               'foo()': () =>
                 SassCalculation.calc('wrong' as unknown as SassString),
             },
@@ -202,18 +198,6 @@ describe('asynchronously', () => {
         ).toThrowSassException({line: 0});
       });
     });
-  });
-
-  it('simplifies', async () => {
-    const fn = async () =>
-      SassCalculation.calc(
-        new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
-      );
-
-    const result = await compileStringAsync('a {b: foo()}', {
-      functions: {'foo()': fn},
-    });
-    expect(result.css).toBe('a {\n  b: 3;\n}');
   });
 });
 
