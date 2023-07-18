@@ -14,32 +14,12 @@ a {
 
 <===>
 ================================================================================
-<===> negative_decimal/input.scss
-a {b: asin(-0.5)}
+<===> negative_one/input.scss
+a {b: asin(-1)}
 
-<===> negative_decimal/output.css
+<===> negative_one/output.css
 a {
-  b: -30deg;
-}
-
-<===>
-================================================================================
-<===> negative_zero/input.scss
-a {b: asin(-0.0)}
-
-<===> negative_zero/output.css
-a {
-  b: 0deg;
-}
-
-<===>
-================================================================================
-<===> negative_zero_fuzzy/input.scss
-a {b: asin(-0.000000000001)}
-
-<===> negative_zero_fuzzy/output.css
-a {
-  b: -0.0000000001deg;
+  b: -90deg;
 }
 
 <===>
@@ -54,42 +34,12 @@ a {
 
 <===>
 ================================================================================
-<===> zero_fuzzy/input.scss
-a {b: asin(0.000000000001)}
-
-<===> zero_fuzzy/output.css
-a {
-  b: 0.0000000001deg;
-}
-
-<===>
-================================================================================
-<===> decimal/input.scss
-a {b: asin(0.5)}
-
-<===> decimal/output.css
-a {
-  b: 30deg;
-}
-
-<===>
-================================================================================
 <===> one/input.scss
 a {b: asin(1)}
 
 <===> one/output.css
 a {
   b: 90deg;
-}
-
-<===>
-================================================================================
-<===> one_fuzzy/input.scss
-a {b: asin(1.000000000001)}
-
-<===> one_fuzzy/output.css
-a {
-  b: calc(NaN * 1deg);
 }
 
 <===>
@@ -104,60 +54,35 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/percent/input.scss
-a {b: asin(3px - 1.5px + 5%)}
-
-<===> preserved/percent/output.css
+<===> operation/simplification/input.scss
 a {
-  b: asin(1.5px + 5%);
+  b: asin(3px - 1px + var(--c));
+}
+
+<===> operation/simplification/output.css
+a {
+  b: asin(2px + var(--c));
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: asin(3px - 1px + var(--test));
-}
+<===> error/unit/unknown/input.scss
+a {b: asin(1%)}
 
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: asin(2px + var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: asin(var(--test));
-}
-
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: asin(var(--test));
-}
+<===> error/unit/unknown/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: asin(1%)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: asin(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: asin(test);
-}
-
-<===>
-================================================================================
-<===> error/units/input.scss
+<===> error/unit/known/input.scss
 a {b: asin(1px)}
 
-<===> error/units/error
+<===> error/unit/known/error
 Error: Expected 1px to have no units.
   ,
 1 | a {b: asin(1px)}
@@ -167,16 +92,16 @@ Error: Expected 1px to have no units.
 
 <===>
 ================================================================================
-<===> error/percent/input.scss
-a {b: asin(1%)}
+<===> error/unit/complex/input.scss
+a {b: asin(-7px / 4em)}
 
-<===> error/percent/error
-Error: Expected 1% to have no units.
+<===> error/unit/complex/error
+Error: Number -1.75px/em isn't compatible with CSS calculations.
   ,
-1 | a {b: asin(1%)}
-  |       ^^^^^^^^
+1 | a {b: asin(-7px / 4em)}
+  |            ^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -193,10 +118,10 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/zero_args/input.scss
+<===> error/too_few_args/input.scss
 a {b: asin()}
 
-<===> error/zero_args/error
+<===> error/too_few_args/error
 Error: Expected number, variable, function, or calculation.
   ,
 1 | a {b: asin()}
@@ -229,3 +154,16 @@ Error: Expected identifier.
   |             ^
   '
   input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: asin(7 % 3)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: asin(7 % 3)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet

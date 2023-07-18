@@ -6,12 +6,10 @@ terseness' sake isn't tested explicitly.
 ================================================================================
 <===> preserved/operation/nearest/math/input.scss
 a {
-  --test: 3;
   b: round(nearest, 3.8px - 1px + var(--test), 1.1px + 4px)}
 
 <===> preserved/operation/nearest/math/output.css
 a {
-  --test: 3;
   b: round(nearest, 2.8px + var(--test), 5.1px);
 }
 
@@ -147,22 +145,22 @@ a {
 ================================================================================
 <===> unknown_variable/first_arg/input.scss
 a {
-  e: round(var(--example), 8px, 9px);
+  e: round(var(--c), 8px, 9px);
 }
 <===> unknown_variable/first_arg/output.css
 a {
-  e: round(var(--example), 8px, 9px);
+  e: round(var(--c), 8px, 9px);
 }
 
 <===>
 ================================================================================
 <===> unknown_variable/third_arg/input.scss
 a {
-  d: round(up, 8px, var(--example));
+  d: round(up, 8px, var(--c));
 }
 <===> unknown_variable/third_arg/output.css
 a {
-  d: round(up, 8px, var(--example));
+  d: round(up, 8px, var(--c));
 }
 
 <===>

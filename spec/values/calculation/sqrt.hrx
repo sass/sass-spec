@@ -4,129 +4,68 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> operation/unitless/result_is_integer/input.scss
+<===> zero/input.scss
+a {b: sqrt(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> result_is_integer/input.scss
 a {b: sqrt(16)}
 
-<===> operation/unitless/result_is_integer/output.css
+<===> result_is_integer/output.css
 a {
   b: 4;
 }
 
 <===>
 ================================================================================
-<===> operation/unitless/result_is_float/input.scss
+<===> result_is_float/input.scss
 a {b: sqrt(2)}
 
-<===> operation/unitless/result_is_float/output.css
+<===> result_is_float/output.css
 a {
   b: 1.4142135624;
 }
 
 <===>
 ================================================================================
-<===> operation/unitless/negative/input.scss
+<===> negative/input.scss
 a {b: sqrt(-9)}
 
-<===> operation/unitless/negative/output.css
+<===> negative/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> operation/math/plus/input.scss
-a {b: sqrt(10 + 6)}
-
-<===> operation/math/plus/output.css
+<===> operation/simplification/input.scss
 a {
-  b: 4;
+  b: sqrt(1px + 2px - var(--c))
 }
 
-<===>
-================================================================================
-<===> operation/nested_function/input.scss
-a {b: sqrt(max(2, 9))}
-
-<===> operation/nested_function/output.css
+<===> operation/simplification/output.css
 a {
-  b: 3;
+  b: sqrt(3px - var(--c));
 }
-
-<===>
-================================================================================
-<===> operation/percent/input.scss
-a {b: sqrt(3px - 1.5px + 5%)}
-
-<===> operation/percent/output.css
-a {
-  b: sqrt(1.5px + 5%);
-}
-
-<===>
-================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: sqrt(3px - 1px + var(--test));
-}
-
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: sqrt(2px + var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: sqrt(var(--test));
-}
-
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: sqrt(var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: sqrt(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: sqrt(test);
-}
-
-<===>
-================================================================================
-<===> error/variables/input.scss
-a {b: sqrt($base: 1, $exponent: -1)}
-
-<===> error/variables/error
-Error: expected "+", "-", "*", "/", or ")".
-  ,
-1 | a {b: sqrt($base: 1, $exponent: -1)}
-  |                 ^
-  '
-  input.scss 1:17  root stylesheet
 
 <===>
 ================================================================================
 <===> error/percentage/input.scss
-a {b: calc(sqrt(5%))}
+a {b: sqrt(1%)}
 
 <===> error/percentage/error
-Error: Expected 5% to have no units.
+Error: Expected 1% to have no units.
   ,
-1 | a {b: calc(sqrt(5%))}
-  |            ^^^^^^^^
+1 | a {b: sqrt(1%)}
+  |       ^^^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -143,55 +82,29 @@ Error: Expected 16px to have no units.
 
 <===>
 ================================================================================
-<===> error/nested_function/units/input.scss
-a {b: calc(sqrt(min(16, 9px)))}
+<===> error/type/input.scss
+a {b: sqrt("0")}
 
-<===> error/nested_function/units/error
-Error: Expected 9px to have no units.
-  ,
-1 | a {b: calc(sqrt(min(16, 9px)))}
-  |            ^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/operation/incompatible_units/input.scss
-a {b: sqrt(1 + 16px)}
-
-<===> error/operation/incompatible_units/error
-Error: 1 and 16px are incompatible.
-  ,
-1 | a {b: sqrt(1 + 16px)}
-  |            ^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/no_arg/input.scss
-a {b: sqrt()}
-
-<===> error/syntax/no_arg/error
+<===> error/type/error
 Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: sqrt()}
+1 | a {b: sqrt("0")}
   |            ^
   '
   input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
-<===> error/syntax/many_args/input.scss
-a {b: sqrt(3, 4)}
+<===> error/syntax/too_few_args/input.scss
+a {b: sqrt()}
 
-<===> error/syntax/many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+<===> error/syntax/too_few_args/error
+Error: Expected number, variable, function, or calculation.
   ,
-1 | a {b: sqrt(3, 4)}
-  |             ^
+1 | a {b: sqrt()}
+  |            ^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -206,3 +119,28 @@ Error: Expected identifier.
   '
   input.scss 1:13  root stylesheet
 
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: sqrt(3, 4)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: sqrt(3, 4)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: sqrt(7 % 3)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: sqrt(7 % 3)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet

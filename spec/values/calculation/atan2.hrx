@@ -4,32 +4,68 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> unitless/input.scss
+<===> units/none/input.scss
 a {b: atan2(1, -10)}
 
-<===> unitless/output.css
+<===> units/none/output.css
 a {
   b: 174.2894068625deg;
 }
 
 <===>
 ================================================================================
-<===> compatible_units/input.scss
+<===> units/compatible/input.scss
 a {b: atan2(1cm, -10mm)}
 
-<===> compatible_units/output.css
+<===> units/compatible/output.css
 a {
   b: 135deg;
 }
 
 <===>
 ================================================================================
-<===> operation/math/input.scss
-a {b: atan2(10 + 6, 8 - 1)}
+<===> units/real_and_unknown/input.scss
+a {b: atan2(1px, 10%)}
 
-<===> operation/math/output.css
+<===> units/real_and_unknown/output.css
 a {
-  b: 66.3706222693deg;
+  b: atan2(1px, 10%);
+}
+
+<===>
+================================================================================
+<===> units/unknown/input.scss
+a {
+  b: atan2(1%, 2%);
+}
+
+<===> units/unknown/output.css
+a {
+  b: atan2(1%, 2%);
+}
+
+<===>
+================================================================================
+<===> units/fake/input.scss
+a {
+  b: atan2(1foo, 2bar);
+}
+
+<===> units/fake/output.css
+a {
+  b: atan2(1foo, 2bar);
+}
+
+<===>
+================================================================================
+<===> units/real_and_fake/input.scss
+a {
+  b: atan2(1px, 2bar);
+}
+
+<===> units/real_and_fake/output.css
+a {
+  b: atan2(1px, 2bar);
 }
 
 <===>
@@ -44,109 +80,22 @@ a {
 
 <===>
 ================================================================================
-<===> operation/percent/input.scss
-a {b: atan2(4px, 3px - 1.5px + 5%)}
-
-<===> operation/percent/output.css
+<===> operation/simplification/input.scss
 a {
-  b: atan2(4px, 1.5px + 5%);
+  b: atan2(3px - 1px + var(--c), -7px / 4em * 1em);
+}
+
+<===> operation/simplification/output.css
+a {
+  b: atan2(2px + var(--c), -1.75px);
 }
 
 <===>
 ================================================================================
-<===> percent/input.scss
-a {b: atan2(1%, 1cm)}
-
-<===> percent/output.css
-a {
-  b: atan2(1%, 1cm);
-}
-
-<===>
-================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: atan2(3px - 1px + var(--test), 4px);
-}
-
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: atan2(2px + var(--test), 4px);
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: atan2(var(--test));
-}
-
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: atan2(var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: atan2(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: atan2(test);
-}
-
-<===>
-================================================================================
-<===> preserved/unknown_units/input.scss
-a {
-  b: atan2(1foo, 2bar);
-}
-
-<===> preserved/unknown_units/output.css
-a {
-  b: atan2(1foo, 2bar);
-}
-
-<===>
-================================================================================
-<===> error/variables/input.scss
-a {b: atan2($y: 1, $x: -1)}
-
-<===> error/variables/error
-Error: expected "+", "-", "*", "/", ",", or ")".
-  ,
-1 | a {b: atan2($y: 1, $x: -1)}
-  |               ^
-  '
-  input.scss 1:15  root stylesheet
-
-<===>
-================================================================================
-<===> error/incompatible_units/input.scss
-a {b: atan2(1px, 1deg)}
-
-<===> error/incompatible_units/error
-Error: 1px and 1deg are incompatible.
-  ,
-1 | a {b: atan2(1px, 1deg)}
-  |             ^^^ 1px
-  |                  ==== 1deg
-  '
-  input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
-<===> error/unitless_y/input.scss
+<===> error/units/unitless_and_unit/input.scss
 a {b: atan2(1, 1px)}
 
-<===> error/unitless_y/error
+<===> error/units/unitless_and_unit/error
 Error: 1 and 1px are incompatible.
   ,
 1 | a {b: atan2(1, 1px)}
@@ -157,56 +106,43 @@ Error: 1 and 1px are incompatible.
 
 <===>
 ================================================================================
-<===> error/operation/incompatible_units/input.scss
-a {b: atan2(10 + 6, 8px - 1cm)}
+<===> error/units/known_incompatible/input.scss
+a {b: atan2(1deg, 1px)}
 
-<===> error/operation/incompatible_units/error
-Error: 16 and -29.7952755906px are incompatible.
+<===> error/units/known_incompatible/error
+Error: 1deg and 1px are incompatible.
   ,
-1 | a {b: atan2(10 + 6, 8px - 1cm)}
-  |             ^^^^^^ 16
-  |                     ========= -29.7952755906px
+1 | a {b: atan2(1deg, 1px)}
+  |             ^^^^ 1deg
+  |                   === 1px
   '
   input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
-<===> error/one_arg/input.scss
-a {b: atan2(0)}
+<===> error/units/complex_and_unknown/input.scss
+a {b: atan2(1px*2px, 10%)}
 
-<===> error/one_arg/error
-Error: 2 arguments required, but only 1 was passed.
+<===> error/units/complex_and_unknown/error
+Error: Number 2px*px isn't compatible with CSS calculations.
   ,
-1 | a {b: atan2(0)}
-  |       ^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/quoted_string/input.scss
-a {b: atan2("0")}
-
-<===> error/syntax/quoted_string/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: atan2("0")}
-  |             ^
+1 | a {b: atan2(1px*2px, 10%)}
+  |             ^^^^^^^
   '
   input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: atan2($)}
+a {b: atan2($c, $)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: atan2($)}
-  |              ^
+1 | a {b: atan2($c, $)}
+  |                  ^
   '
-  input.scss 1:14  root stylesheet
+  input.scss 1:18  root stylesheet
 
 <===>
 ================================================================================
@@ -236,16 +172,16 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/zero_args/input.scss
-a {b: atan2()}
+<===> error/too_few_args/input.scss
+a {b: atan2(0)}
 
-<===> error/zero_args/error
-Error: Expected number, variable, function, or calculation.
+<===> error/too_few_args/error
+Error: 2 arguments required, but only 1 was passed.
   ,
-1 | a {b: atan2()}
-  |             ^
+1 | a {b: atan2(0)}
+  |       ^^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -259,3 +195,16 @@ Error: expected "+", "-", "*", "/", or ")".
   |                 ^
   '
   input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: atan2(7 % 3, $x)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", ",", or ")".
+  ,
+1 | a {b: atan2(7 % 3, $x)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet

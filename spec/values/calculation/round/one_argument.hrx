@@ -1,58 +1,67 @@
 <===> README.md
-Most of the same behavior tested for `calc()` applies to single-argument
-`round()`, but for terseness' sake isn't tested explicitly.
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> preserved/unquoted_string/input.scss
-a {b: round(test)}
+<===> zero/input.scss
+a {b: round(0)}
 
-<===> preserved/unquoted_string/output.css
+<===> zero/output.css
 a {
-  b: round(test);
+  b: 0;
 }
 
 <===>
 ================================================================================
-<===> operation/math_simplify/input.scss
-a {b: round(3.8px + 4px)}
+<===> positive/input.scss
+a {b: round(1)}
 
-<===> operation/math_simplify/output.css
+<===> positive/output.css
 a {
-  b: 8px;
+  b: 1;
 }
 
 <===>
 ================================================================================
-<===> unitless/input.scss
-a {b: round(5.5)}
+<===> negative/input.scss
+a {b: round(-5.6)}
 
-<===> unitless/output.css
+<===> negative/output.css
 a {
-  b: 6;
+  b: -6;
 }
 
 <===>
 ================================================================================
-<===> variable/named_arg/input.scss
-c {d: round($number: 12.1)}
+<===> operation/preserves_units/input.scss
+a {b: round(-7px / 4em) * 1em}
 
-<===> variable/named_arg/output.css
-c {
-  d: 12;
+<===> operation/preserves_units/output.css
+a {
+  b: -2px;
 }
 
 <===>
 ================================================================================
-<===> unknown_variable/input.scss
+<===> preserved/variable/input.scss
 a {
-  --example: 5;
-  b: round(var(--example));
+  b: round(var(--c))
 }
-<===> unknown_variable/output.css
+
+<===> preserved/variable/output.css
 a {
-  --example: 5;
-  b: round(var(--example));
+  b: round(var(--c));
+}
+
+<===>
+================================================================================
+<===> named_argument/input.scss
+a {b: round($number: -3)}
+
+<===> named_argument/output.css
+a {
+  b: -3;
 }
 
 <===>
@@ -91,25 +100,64 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
-<===> math/max/input.scss
+<===> error/named_argument/variable/input.scss
+a {b: round($number: var(--c))}
+
+<===> error/named_argument/variable/error
+Error: $number: var(--c) is not a number.
+  ,
+1 | a {b: round($number: var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unsimplifiable/input.scss
+a {b: round(17px + 5%)}
+
+<===> error/unsimplifiable/error
+Error: Single argument 17px + 5% expected to be simplifiable.
+  ,
+1 | a {b: round(17px + 5%)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/variables/input.scss
 a {
-  e: round(max(1px, 1%));
+  b: round(1px + 2px - var(--c))
 }
 
-<===> math/max/error
-Error: Single argument max(1px, 1%) expected to be simplifiable.
+<===> error/variables/error
+Error: Single argument 3px - var(--c) expected to be simplifiable.
   ,
-2 |   e: round(max(1px, 1%));
-  |      ^^^^^^^^^^^^^^^^^^^
+2 |   b: round(1px + 2px - var(--c))
+  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
 
 <===>
 ================================================================================
-<===> error/syntax/no_arg/input.scss
+<===> error/type/input.scss
+a {b: round("0")}
+
+<===> error/type/error
+Error: $number: "0" is not a number.
+  ,
+1 | a {b: round("0")}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/no_args/input.scss
 a {b: round()}
 
-<===> error/syntax/no_arg/error
+<===> error/no_args/error
 Error: Missing argument $number.
   ,--> input.scss
 1 | a {b: round()}
@@ -123,46 +171,30 @@ Error: Missing argument $number.
 
 <===>
 ================================================================================
-<===> error/one_arg/missing_args/input.scss
-a {
-  c: round(up);
-}
+<===> error/too_many_args/input.scss
+a {b: round(1, 2, 3, 4)}
 
-<===> error/one_arg/missing_args/error
-Error: Number to round and step arguments are required.
-  ,
-2 |   c: round(up);
-  |      ^^^^^^^^^
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: round(1, 2, 3, 4)}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
-  input.scss 2:6  root stylesheet
+  ,--> sass:math
+1 | @function round($number) {
+  |           ============== declaration
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> error/one_arg/unsimplified/input.scss
-a {
-  c: round(1px + 10%);
-}
+<===> error/syntax/invalid_arg/input.scss
+a {b: round($)}
 
-<===> error/one_arg/unsimplified/error
-Error: Single argument 1px + 10% expected to be simplifiable.
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
   ,
-2 |   c: round(1px + 10%);
-  |      ^^^^^^^^^^^^^^^^
+1 | a {b: round($)}
+  |              ^
   '
-  input.scss 2:6  root stylesheet
-
-<===>
-================================================================================
-<===> error/math/variable/input.scss
-a {
-  --example: 5;
-  b: round(3.8px + var(--example));
-}
-
-<===> error/math/variable/error
-Error: Single argument 3.8px + var(--example) expected to be simplifiable.
-  ,
-3 |   b: round(3.8px + var(--example));
-  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 3:6  root stylesheet
+  input.scss 1:14  root stylesheet

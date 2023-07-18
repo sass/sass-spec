@@ -4,271 +4,140 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> error/syntax/no_arg/input.scss
-a {b: rem()}
-
-<===> error/syntax/no_arg/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: rem()}
-  |           ^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/missing_arg/input.scss
-a {b: rem(3)}
-
-<===> error/syntax/missing_arg/error
-Error: 2 arguments required, but only 1 was passed.
-  ,
-1 | a {b: rem(3)}
-  |       ^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/many_args/input.scss
-a {b: rem(3, 2, 1)}
-
-<===> error/syntax/many_args/error
-Error: expected "+", "-", "*", "/", or ")".
-  ,
-1 | a {b: rem(3, 2, 1)}
-  |               ^
-  '
-  input.scss 1:15  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/incompatible/input.scss
-a {b: rem(16px, 5)}
-
-<===> error/syntax/incompatible/error
-Error: 16px and 5 are incompatible.
-  ,
-1 | a {b: rem(16px, 5)}
-  |           ^^^^ 16px
-  |                 = 5
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/operation_incompatible/input.scss
-a {b: rem(1 + 16px, 2)}
-
-<===> error/syntax/operation_incompatible/error
-Error: 1 and 16px are incompatible.
-  ,
-1 | a {b: rem(1 + 16px, 2)}
-  |           ^^^^^^^^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/min_incompatible/input.scss
-a {b: rem(min(16, 9px), 6)}
-
-<===> error/syntax/min_incompatible/error
-Error: 9px and 6 are incompatible.
-  ,
-1 | a {b: rem(min(16, 9px), 6)}
-  |           ^^^^^^^^^^^^ 9px
-  |                         = 6
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/invalid_arg/input.scss
-a {b: rem($)}
-
-<===> error/syntax/invalid_arg/error
-Error: Expected identifier.
-  ,
-1 | a {b: rem($)}
-  |            ^
-  '
-  input.scss 1:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/quoted_string/input.scss
-a {b: rem("test")}
-
-<===> error/syntax/quoted_string/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: rem("test")}
-  |           ^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/one_arg/input.scss
-a {b: rem(4)}
-
-<===> error/syntax/one_arg/error
-Error: 2 arguments required, but only 1 was passed.
-  ,
-1 | a {b: rem(4)}
-  |       ^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/complex_unit/input.scss
-a {b: rem(1px*1px, 2)}
-
-<===> error/complex_unit/error
-Error: Number 1px*px isn't compatible with CSS calculations.
-  ,
-1 | a {b: rem(1px*1px, 2)}
-  |           ^^^^^^^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/incompatible_units/input.scss
-a {b: rem(7em, -3deg)}
-
-<===> error/incompatible_units/error
-Error: 7em and -3deg are incompatible.
-  ,
-1 | a {b: rem(7em, -3deg)}
-  |           ^^^ 7em
-  |                ===== -3deg
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> percentage/unit/input.scss
-a {b: rem(5%, 3%)}
-
-<===> percentage/unit/output.css
-a {
-  b: 2%;
-}
-
-<===>
-================================================================================
-<===> unitless/positive_args/input.scss
+<===> units/none/input.scss
 a {b: rem(7, 3)}
 
-<===> unitless/positive_args/output.css
+<===> units/none/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> unitless/y_negative/input.scss
-a {b: rem(7px, -3px)}
+<===> units/compatible/input.scss
+a {b: rem(5px, 3px)}
 
-<===> unitless/y_negative/output.css
+<===> units/compatible/output.css
 a {
-  b: -9px;
+  b: 2px;
 }
 
 <===>
 ================================================================================
-<===> unitless/x_negative/input.scss
-a {b: rem(-7, 3)}
+<===> units/real_and_unknown/input.scss
+a {b: rem(5px, 3%)}
 
-<===> unitless/x_negative/output.css
+<===> units/real_and_unknown/output.css
 a {
-  b: 9;
+  b: rem(5px, 3%);
 }
 
 <===>
 ================================================================================
-<===> unitless/negative_args/input.scss
-a {b: rem(-7, -3)}
-
-<===> unitless/negative_args/output.css
+<===> units/unknown/input.scss
 a {
-  b: -1;
+  b: rem(1%, 2%);
+}
+
+<===> units/unknown/output.css
+a {
+  b: 1%;
 }
 
 <===>
 ================================================================================
-<===> negative_zero/input.scss
-@use "sass:math";
-a {b: math.div(1, rem(-7, 7))}
-
-<===> negative_zero/output.css
-a {
-  b: calc(-infinity);
-}
-
-<===>
-================================================================================
-<===> preserved/unknown_units/input.scss
+<===> units/fake/input.scss
 a {
   b: rem(1foo, 2bar);
 }
 
-<===> preserved/unknown_units/output.css
+<===> units/fake/output.css
 a {
   b: rem(1foo, 2bar);
 }
 
 <===>
 ================================================================================
-<===> preserved/variable/input.scss
+<===> units/real_and_fake/input.scss
 a {
-  --two-args: 2, 3;
-  b: rem(var(--two-args));
+  b: rem(1px, 2bar);
 }
 
-<===> preserved/variable/output.css
+<===> units/real_and_fake/output.css
 a {
-  --two-args: 2, 3;
-  b: rem(var(--two-args));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: rem(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: rem(test);
+  b: rem(1px, 2bar);
 }
 
 <===>
 ================================================================================
-<===> preserved/percent/input.scss
-a {b: rem(4px, 3px - 1.5px + 5%)}
+<===> y_zero/input.scss
+a {b: rem(6, 0)}
 
-<===> preserved/percent/output.css
+<===> y_zero/output.css
 a {
-  b: rem(4px, 1.5px + 5%);
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/variable/input.scss
+<===> x_zero/input.scss
+a {b: rem(0, 6)}
+
+<===> x_zero/output.css
 a {
-  --test: 5;
-  b: rem(3px - 1px + var(--test), 4px);
+  b: 0;
 }
 
-<===> preserved/operation/variable/output.css
+<===>
+================================================================================
+<===> zeros/input.scss
+a {b: rem(0, 0)}
+
+<===> zeros/output.css
 a {
-  --test: 5;
-  b: rem(2px + var(--test), 4px);
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> operation/y_infinity/positive/input.scss
+a {b: rem(infinity, 10)}
+
+<===> operation/y_infinity/positive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> operation/x_infinity/positive/input.scss
+a {b: rem(-10, infinity)}
+
+<===> operation/x_infinity/positive/output.css
+a {
+  b: -10;
+}
+
+<===>
+================================================================================
+<===> operation/x_infinity/negative/input.scss
+a {b: rem(10, -infinity)}
+
+<===> operation/x_infinity/negative/output.css
+a {
+  b: 10;
+}
+
+<===>
+================================================================================
+<===> operation/simplification/input.scss
+a {
+  b: rem(3px - 1px + var(--c), -7px / 4em * 1em);
+}
+
+<===> operation/simplification/output.css
+a {
+  b: rem(2px + var(--c), -1.75px);
 }
 
 <===>
@@ -284,51 +153,117 @@ a {
 
 <===>
 ================================================================================
-<===> y_zero/plus/input.scss
-a {b: rem(6, 0)}
-
-<===> y_zero/plus/output.css
-a {
-  b: calc(NaN);
-}
-
-<===>
-================================================================================
-<===> x_zero/plus/input.scss
-a {b: rem(0, 6)}
-
-<===> x_zero/plus/output.css
-a {
-  b: 0;
-}
-
-<===>
-================================================================================
-<===> zeros/plus/input.scss
-a {b: rem(0, 0)}
-
-<===> zeros/plus/output.css
-a {
-  b: calc(NaN);
-}
-
-<===>
-================================================================================
-<===> y_infinity/plus/input.scss
+<===> negative_zero/input.scss
 @use "sass:math";
-a {b: rem(math.div(1, 0), 10)}
+a {b: math.div(1, rem(-7, 7))}
 
-<===> y_infinity/plus/output.css
+<===> negative_zero/output.css
 a {
-  b: calc(NaN);
+  b: calc(-infinity);
 }
 
 <===>
 ================================================================================
-<===> x_infinity/plus/input.scss
-a {b: rem(10, infinity)}
+<===> error/units/unit_and_unitless/input.scss
+a {b: rem(16px, 5)}
 
-<===> x_infinity/plus/output.css
-a {
-  b: 10;
-}
+<===> error/units/unit_and_unitless/error
+Error: 16px and 5 are incompatible.
+  ,
+1 | a {b: rem(16px, 5)}
+  |           ^^^^ 16px
+  |                 = 5
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/incompatible/input.scss
+a {b: rem(16px, 5deg)}
+
+<===> error/units/incompatible/error
+Error: 16px and 5deg are incompatible.
+  ,
+1 | a {b: rem(16px, 5deg)}
+  |           ^^^^ 16px
+  |                 ==== 5deg
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: rem(3)}
+
+<===> error/too_few_args/error
+Error: 2 arguments required, but only 1 was passed.
+  ,
+1 | a {b: rem(3)}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: rem($c, $)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: rem($c, $)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/modulus_type/input.scss
+a {b: rem(0, "0")}
+
+<===> error/modulus_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: rem(0, "0")}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/dividend_type/input.scss
+a {b: rem("0", 0)}
+
+<===> error/dividend_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: rem("0", 0)}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: rem(3, 2, 1)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: rem(3, 2, 1)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: rem(7 % 3, $x)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", ",", or ")".
+  ,
+1 | a {b: rem(7 % 3, $x)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

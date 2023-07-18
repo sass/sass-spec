@@ -4,10 +4,85 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> error/syntax/no_arg/input.scss
+<===> positive/input.scss
+a {b: sign(3)}
+
+<===> positive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: sign(-5.6)}
+
+<===> negative/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: sign(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zero_fuzzy/input.scss
+a {b: sign(0.000000000001)}
+
+<===> zero_fuzzy/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> operation/preserves_units/input.scss
+a {b: sign(-7px / 4em) * 1em}
+
+<===> operation/preserves_units/output.css
+a {
+  b: -1em;
+}
+
+<===>
+================================================================================
+<===> operation/simplification/input.scss
+a {
+  b: sign(1px + 2px - var(--c))
+}
+
+<===> operation/simplification/output.css
+a {
+  b: sign(3px - var(--c));
+}
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: sign("0")}
+
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: sign("0")}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
 a {b: sign()}
 
-<===> error/syntax/no_arg/error
+<===> error/too_few_args/error
 Error: Expected number, variable, function, or calculation.
   ,
 1 | a {b: sign()}
@@ -17,29 +92,16 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/syntax/many_args/input.scss
-a {b: sign(3, 2)}
+<===> error/too_many_args/input.scss
+a {b: sign(0, 0)}
 
-<===> error/syntax/many_args/error
+<===> error/too_many_args/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: sign(3, 2)}
+1 | a {b: sign(0, 0)}
   |             ^
   '
   input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/operation_incompatible/input.scss
-a {b: sign(1 + 16px)}
-
-<===> error/syntax/operation_incompatible/error
-Error: 1 and 16px are incompatible.
-  ,
-1 | a {b: sign(1 + 16px)}
-  |            ^^^^^^^^
-  '
-  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -56,120 +118,13 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> error/complex_unit/input.scss
-a {b: sign(1px*1px)}
+<===> error/mod/input.scss
+a {b: sign(7 % 3)}
 
-<===> error/complex_unit/output.css
-a {
-  b: 1;
-}
-
-<===>
-================================================================================
-<===> error/unit/input.scss
-a {b: sign(5%)}
-
-<===> error/unit/output.css
-a {
-  b: sign(5%);
-}
-
-<===>
-================================================================================
-<===> operation/unit/positive/input.scss
-a {b: sign(5px)}
-
-<===> operation/unit/positive/output.css
-a {
-  b: 1;
-}
-
-<===>
-================================================================================
-<===> operation/unitless/negative/input.scss
-a {b: sign(-1000.65)}
-
-<===> operation/unitless/negative/output.css
-a {
-  b: -1;
-}
-
-<===>
-================================================================================
-<===> operation/zero/positive/input.scss
-a {b: sign(0px)}
-
-<===> operation/zero/positive/output.css
-a {
-  b: 0;
-}
-
-<===>
-================================================================================
-<===> operation/zero/negative/input.scss
-a {b: sign(-0)}
-
-<===> operation/zero/negative/output.css
-a {
-  b: 0;
-}
-
-<===>
-================================================================================
-<===> operation/nan/input.scss
-a {b: sign(NaN)}
-
-<===> operation/nan/output.css
-a {
-  b: calc(NaN);
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --one-arg: 2;
-  b: sign(var(--one-arg));
-}
-
-<===> preserved/variable/output.css
-a {
-  --one-arg: 2;
-  b: sign(var(--one-arg));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: sign(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: sign(test);
-}
-
-<===>
-================================================================================
-<===> preserved/percent/input.scss
-a {b: sign(3px - 1.5px + 5%)}
-
-<===> preserved/percent/output.css
-a {
-  b: sign(1.5px + 5%);
-}
-
-<===>
-================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: sign(3px - 1px + var(--test));
-}
-
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: sign(2px + var(--test));
-}
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: sign(7 % 3)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet

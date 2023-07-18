@@ -5,42 +5,11 @@ terseness' sake isn't tested explicitly.
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math";
-a {b: atan(math.div(-1, 0))}
+a {b: atan(-infinity)}
 
 <===> negative_infinity/output.css
 a {
   b: -90deg;
-}
-
-<===>
-================================================================================
-<===> negative/input.scss
-a {b: atan(-1)}
-
-<===> negative/output.css
-a {
-  b: -45deg;
-}
-
-<===>
-================================================================================
-<===> negative_zero/input.scss
-a {b: atan(-0.0)}
-
-<===> negative_zero/output.css
-a {
-  b: 0deg;
-}
-
-<===>
-================================================================================
-<===> negative_zero_fuzzy/input.scss
-a {b: atan(-0.000000000001)}
-
-<===> negative_zero_fuzzy/output.css
-a {
-  b: -0.0000000001deg;
 }
 
 <===>
@@ -55,20 +24,10 @@ a {
 
 <===>
 ================================================================================
-<===> zero_fuzzy/input.scss
-a {b: atan(0.000000000001)}
-
-<===> zero_fuzzy/output.css
-a {
-  b: 0.0000000001deg;
-}
-
-<===>
-================================================================================
-<===> positive/input.scss
+<===> one/input.scss
 a {b: atan(1)}
 
-<===> positive/output.css
+<===> one/output.css
 a {
   b: 45deg;
 }
@@ -76,8 +35,7 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math";
-a {b: atan(math.div(1, 0))}
+a {b: atan(infinity)}
 
 <===> infinity/output.css
 a {
@@ -86,60 +44,35 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/percent/input.scss
-a {b: atan(3px - 1.5px + 5%)}
-
-<===> preserved/percent/output.css
+<===> operation/simplification/input.scss
 a {
-  b: atan(1.5px + 5%);
+  b: atan(3px - 1px + var(--c));
+}
+
+<===> operation/simplification/output.css
+a {
+  b: atan(2px + var(--c));
 }
 
 <===>
 ================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: atan(3px - 1px + var(--test));
-}
+<===> error/unit/unknown/input.scss
+a {b: atan(1%)}
 
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: atan(2px + var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: atan(var(--test));
-}
-
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: atan(var(--test));
-}
+<===> error/unit/unknown/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: atan(1%)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: atan(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: atan(test);
-}
-
-<===>
-================================================================================
-<===> error/units/input.scss
+<===> error/unit/known/input.scss
 a {b: atan(1px)}
 
-<===> error/units/error
+<===> error/unit/known/error
 Error: Expected 1px to have no units.
   ,
 1 | a {b: atan(1px)}
@@ -149,16 +82,16 @@ Error: Expected 1px to have no units.
 
 <===>
 ================================================================================
-<===> error/percent/input.scss
-a {b: atan(1%)}
+<===> error/unit/complex/input.scss
+a {b: atan(-7px / 4em)}
 
-<===> error/percent/error
-Error: Expected 1% to have no units.
+<===> error/unit/complex/error
+Error: Number -1.75px/em isn't compatible with CSS calculations.
   ,
-1 | a {b: atan(1%)}
-  |       ^^^^^^^^
+1 | a {b: atan(-7px / 4em)}
+  |            ^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -175,10 +108,10 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/zero_args/input.scss
+<===> error/too_few_args/input.scss
 a {b: atan()}
 
-<===> error/zero_args/error
+<===> error/too_few_args/error
 Error: Expected number, variable, function, or calculation.
   ,
 1 | a {b: atan()}
@@ -199,3 +132,15 @@ Error: expected "+", "-", "*", "/", or ")".
   '
   input.scss 1:13  root stylesheet
 
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: atan(7 % 3)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: atan(7 % 3)}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet

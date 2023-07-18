@@ -4,172 +4,144 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> error/syntax/no_arg/input.scss
-a {b: calc(exp())}
+<===> zero/input.scss
+a {b: exp(0)}
 
-<===> error/syntax/no_arg/error
-Error: Expected number, variable, function, or calculation.
-  ,
-1 | a {b: calc(exp())}
-  |                ^
-  '
-  input.scss 1:16  root stylesheet
+<===> zero/output.css
+a {
+  b: 1;
+}
 
 <===>
 ================================================================================
-<===> error/syntax/many_args/input.scss
-a {b: calc(exp(3, 2))}
-
-<===> error/syntax/many_args/error
-Error: expected "+", "-", "*", "/", or ")".
-  ,
-1 | a {b: calc(exp(3, 2))}
-  |                 ^
-  '
-  input.scss 1:17  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/operation_incompatible/input.scss
-a {b: exp(1 + 16px)}
-
-<===> error/syntax/operation_incompatible/error
-Error: 1 and 16px are incompatible.
-  ,
-1 | a {b: exp(1 + 16px)}
-  |           ^^^^^^^^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/syntax/invalid_arg/input.scss
-a {b: calc(exp($))}
-
-<===> error/syntax/invalid_arg/error
-Error: Expected identifier.
-  ,
-1 | a {b: calc(exp($))}
-  |                 ^
-  '
-  input.scss 1:17  root stylesheet
-
-<===>
-================================================================================
-<===> error/complex_unit/input.scss
-a {b: exp(1px*1px)}
-
-<===> error/complex_unit/error
-Error: Number 1px*px isn't compatible with CSS calculations.
-  ,
-1 | a {b: exp(1px*1px)}
-  |           ^^^^^^^
-  '
-  input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/percentage/input.scss
-a {b: exp(5%)}
-
-<===> error/percentage/error
-Error: Expected 5% to have no units.
-  ,
-1 | a {b: exp(5%)}
-  |       ^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/unit/input.scss
-a {b: exp(5px)}
-
-<===> error/unit/error
-Error: Expected 5px to have no units.
-  ,
-1 | a {b: exp(5px)}
-  |       ^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-
-<===>
-================================================================================
-<===> operation/unitless/result_is_integer/input.scss
+<===> positive/input.scss
 a {b: exp(5)}
 
-<===> operation/unitless/result_is_integer/output.css
+<===> positive/output.css
 a {
   b: 148.4131591026;
 }
 
 <===>
 ================================================================================
-<===> operation/unitless/result_is_long/input.scss
+<===> negative/input.scss
+a {b: exp(-10.5)}
+
+<===> negative/output.css
+a {
+  b: 0.0000275364;
+}
+
+<===>
+================================================================================
+<===> result_is_infinity/input.scss
 a {b: exp(1000.65)}
 
-<===> operation/unitless/result_is_long/output.css
+<===> result_is_infinity/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> operation/math_nested/negative/input.scss
-a {b: calc(exp(5 * 8 - 100))}
-
-<===> operation/math_nested/negative/output.css
+<===> operation/simplification/input.scss
 a {
-  b: 0;
+  b: exp(1px + 2px - var(--c))
+}
+
+<===> operation/simplification/output.css
+a {
+  b: exp(3px - var(--c));
 }
 
 <===>
 ================================================================================
-<===> preserved/percent/input.scss
-a {b: exp(3px - 1.5px + 5%)}
+<===> error/percentage/input.scss
+a {b: exp(1%)}
 
-<===> preserved/percent/output.css
-a {
-  b: exp(1.5px + 5%);
-}
-
-<===>
-================================================================================
-<===> preserved/operation/variable/input.scss
-a {
-  --test: 5;
-  b: exp(3px - 1px + var(--test));
-}
-
-<===> preserved/operation/variable/output.css
-a {
-  --test: 5;
-  b: exp(2px + var(--test));
-}
+<===> error/percentage/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: exp(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: exp(var(--test));
-}
+<===> error/units/input.scss
+a {b: exp(1px)}
 
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: exp(var(--test));
-}
+<===> error/units/error
+Error: Expected 1px to have no units.
+  ,
+1 | a {b: exp(1px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: exp(test);
-}
+<===> error/type/input.scss
+a {b: exp("0")}
 
-<===> preserved/unquoted_string/output.css
-a {
-  b: exp(test);
-}
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: exp("0")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: exp()}
+
+<===> error/too_few_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: exp()}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: exp(0, 0)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: exp(0, 0)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: exp($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: exp($)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/mod/input.scss
+a {b: exp(7 % 3)}
+
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: exp(7 % 3)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+

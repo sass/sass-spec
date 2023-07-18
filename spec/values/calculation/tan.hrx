@@ -4,28 +4,6 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> negative_infinity/input.scss
-@use "sass:math";
-a {b: tan(math.div(-1, 0))}
-
-<===> negative_infinity/output.css
-a {
-  b: calc(NaN);
-}
-
-<===>
-================================================================================
-<===> infinity/input.scss
-@use "sass:math";
-a {b: tan(math.div(1, 0))}
-
-<===> infinity/output.css
-a {
-  b: calc(NaN);
-}
-
-<===>
-================================================================================
 <===> deg/input.scss
 a {b: tan(1deg)}
 
@@ -66,126 +44,94 @@ a {
 
 <===>
 ================================================================================
-<===> less_than_negative_one/input.scss
-a {b: tan(-2)}
+<===> negative_infinity/input.scss
+a {b: tan(-infinity)}
 
-<===> less_than_negative_one/output.css
+<===> negative_infinity/output.css
 a {
-  b: 2.1850398633;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> negative_decimal/input.scss
-a {b: tan(-0.5)}
+<===> negative_one/input.scss
+a {b: tan(-1)}
 
-<===> negative_decimal/output.css
+<===> negative_one/output.css
 a {
-  b: -0.5463024898;
+  b: -1.5574077247;
 }
 
 <===>
 ================================================================================
-<===> decimal/input.scss
-a {b: tan(0.5)}
+<===> zero/input.scss
+a {b: tan(0)}
 
-<===> decimal/output.css
+<===> zero/output.css
 a {
-  b: 0.5463024898;
+  b: 0;
 }
 
 <===>
 ================================================================================
-<===> unitless/input.scss
-a {b: tan(1)}
+<===> infinity/input.scss
+a {b: tan(infinity)}
 
-<===> unitless/output.css
+<===> infinity/output.css
 a {
-  b: 1.5574077247;
-}
-
-<===>
-================================================================================
-<===> one_fuzzy/input.scss
-a {b: tan(1.000000000001)}
-
-<===> one_fuzzy/output.css
-a {
-  b: 1.5574077247;
-}
-
-<===>
-================================================================================
-<===> greater_than_one/input.scss
-a {b: tan(2)}
-
-<===> greater_than_one/output.css
-a {
-  b: -2.1850398633;
-}
-
-<===>
-================================================================================
-<===> preserved/percent/input.scss
-a {b: tan(3px - 1.5px + 5%)}
-
-<===> preserved/percent/output.css
-a {
-  b: tan(1.5px + 5%);
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> preserved/operation/variable/input.scss
 a {
-  --test: 5;
-  b: tan(3px - 1px + var(--test));
+  b: tan(3px - 1px + var(--c));
 }
 
 <===> preserved/operation/variable/output.css
 a {
-  --test: 5;
-  b: tan(2px + var(--test));
+  b: tan(2px + var(--c));
 }
 
 <===>
 ================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: tan(var(--test));
-}
+<===> error/unit/unknown/input.scss
+a {b: tan(1%)}
 
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: tan(var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: tan(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: tan(test);
-}
+<===> error/unit/unknown/error
+Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: tan(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
-<===> error/unit/input.scss
+<===> error/unit/known/input.scss
 a {b: tan(1px)}
 
-<===> error/unit/error
+<===> error/unit/known/error
 Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
   ,
 1 | a {b: tan(1px)}
   |       ^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/complex/input.scss
+a {b: tan(-7px / 4em)}
+
+<===> error/unit/complex/error
+Error: Number -1.75px/em isn't compatible with CSS calculations.
+  ,
+1 | a {b: tan(-7px / 4em)}
+  |           ^^^^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
@@ -202,10 +148,10 @@ Error: Expected number, variable, function, or calculation.
 
 <===>
 ================================================================================
-<===> error/zero_args/input.scss
+<===> error/too_few_args/input.scss
 a {b: tan()}
 
-<===> error/zero_args/error
+<===> error/too_few_args/error
 Error: Expected number, variable, function, or calculation.
   ,
 1 | a {b: tan()}
@@ -241,13 +187,13 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> percent/input.scss
-a {b: tan(1%)}
+<===> error/mod/input.scss
+a {b: tan(7 % 3)}
 
-<===> percent/error
-Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
+<===> error/mod/error
+Error: expected "+", "-", "*", "/", or ")".
   ,
-1 | a {b: tan(1%)}
-  |       ^^^^^^^
+1 | a {b: tan(7 % 3)}
+  |             ^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 1:13  root stylesheet

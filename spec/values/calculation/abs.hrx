@@ -14,36 +14,34 @@ a {
 
 <===>
 ================================================================================
-<===> positive/integer/input.scss
+<===> positive/input.scss
 a {b: abs(1)}
 
-<===> positive/integer/output.css
+<===> positive/output.css
 a {
   b: 1;
 }
 
 <===>
 ================================================================================
-<===> negative/decimal/input.scss
-a {b: abs(-5.6px)}
+<===> negative/input.scss
+a {b: abs(-5.6)}
 
-<===> negative/decimal/output.css
+<===> negative/output.css
 a {
-  b: 5.6px;
+  b: 5.6;
 }
 
 <===>
 ================================================================================
-<===> operation/variable/input.scss
+<===> operation/simplification/input.scss
 a {
-  --test: 5;
-  b: abs(1px + 2px - var(--test))
+  b: abs(1px + 2px - var(--c))
 }
 
-<===> operation/variable/output.css
+<===> operation/simplification/output.css
 a {
-  --test: 5;
-  b: abs(3px - var(--test));
+  b: abs(3px - var(--c));
 }
 
 <===>
@@ -54,77 +52,6 @@ a {b: abs(-7px / 4em) * 1em}
 <===> operation/preserves_units/output.css
 a {
   b: 1.75px;
-}
-
-<===>
-================================================================================
-<===> operation/incompatible_units/input.scss
-a {b: abs(17px * 5%)}
-
-<===> operation/incompatible_units/error
-Error: 85px*% isn't a valid CSS value.
-  ,
-1 | a {b: abs(17px * 5%)}
-  |       ^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> operation/integer/input.scss
-a {b: abs(17 * 5%)}
-
-<===> operation/integer/output.css
-a {
-  b: 85%;
-}
-
-<===> operation/integer/warning
-DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
-In the future, this will emit a CSS abs() function to be resolved by the browser.
-To preserve current behavior: math.abs(85%)
-To emit a CSS abs() now: abs(#{85%})
-More info: https://sass-lang.com/d/abs-percent
-  ,
-1 | a {b: abs(17 * 5%)}
-  | ^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:1  root stylesheet
-
-<===>
-================================================================================
-<===> preserved/operation/percentage/input.scss
-a {b: abs(17px + 5%)}
-
-<===> preserved/operation/percentage/output.css
-a {
-  b: abs(17px + 5%);
-}
-
-<===>
-================================================================================
-<===> preserved/variable/input.scss
-a {
-  --test: 5;
-  b: abs(var(--test))
-}
-
-<===> preserved/variable/output.css
-a {
-  --test: 5;
-  b: abs(var(--test));
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/input.scss
-a {
-  b: abs(test);
-}
-
-<===> preserved/unquoted_string/output.css
-a {
-  b: abs(test);
 }
 
 <===>
@@ -183,16 +110,16 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
-<===> error/incompatible_units/input.scss
-a {b: abs(17px + 4deg)}
+<===> error/named_argument/variable/input.scss
+a {b: abs($number: var(--c))}
 
-<===> error/incompatible_units/error
-Error: 17px and 4deg are incompatible.
+<===> error/named_argument/variable/error
+Error: $number: var(--c) is not a number.
   ,
-1 | a {b: abs(17px + 4deg)}
-  |           ^^^^^^^^^^^
+1 | a {b: abs($number: var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:11  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
