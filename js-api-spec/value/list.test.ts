@@ -25,6 +25,7 @@ describe('SassList', () => {
 
     it("isn't any other type", () => {
       expect(() => list.assertBoolean()).toThrow();
+      expect(() => list.assertCalculation()).toThrow();
       expect(() => list.assertColor()).toThrow();
       expect(() => list.assertFunction()).toThrow();
       expect(() => list.assertMap()).toThrow();
@@ -354,6 +355,7 @@ describe('SassList', () => {
 
     it("isn't any other type", () => {
       expect(() => list.assertBoolean()).toThrow();
+      expect(() => list.assertCalculation()).toThrow();
       expect(() => list.assertColor()).toThrow();
       expect(() => list.assertFunction()).toThrow();
       expect(() => list.assertNumber()).toThrow();

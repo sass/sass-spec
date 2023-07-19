@@ -25,6 +25,7 @@ describe('Sass null', () => {
 
   it("isn't any type", () => {
     expect(value.assertBoolean).toThrow();
+    expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
     expect(value.assertMap).toThrow();

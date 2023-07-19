@@ -8,6 +8,7 @@ import {
   compileString,
   compileStringAsync,
   sassNull,
+  SassCalculation,
 } from 'sass';
 
 import {spy} from './utils';
@@ -98,14 +99,27 @@ describe('gracefully handles a custom function', () => {
     ).toThrowSassException({line: 0});
   });
 
-  it('returning a non-Value', () => {
-    expect(() =>
-      compileString('a {b: foo()}', {
-        functions: {
-          'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
-        },
-      })
-    ).toThrowSassException({line: 0});
+  describe('returning a non-Value', () => {
+    it('directly', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    it('in a calculation', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            'foo()': () =>
+              SassCalculation.calc('wrong' as unknown as SassString),
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
   });
 });
 
@@ -151,12 +165,37 @@ describe('asynchronously', () => {
     expect(fn).toHaveBeenCalled();
   });
 
-  it('gracefully handles promise rejections', async () => {
-    await expectAsync(() =>
-      compileStringAsync('a {b: foo(bar)}', {
-        functions: {'foo($arg)': () => Promise.reject('heck')},
-      })
-    ).toThrowSassException({line: 0});
+  describe('gracefully handles', () => {
+    it('promise rejections', async () => {
+      await expectAsync(() =>
+        compileStringAsync('a {b: foo(bar)}', {
+          functions: {'foo($arg)': () => Promise.reject('heck')},
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    describe('returning a non-Value', () => {
+      it('directly', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              'foo()': (() => 'wrong') as unknown as CustomFunction<'async'>,
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+
+      it('in a calculation', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              'foo()': () =>
+                SassCalculation.calc('wrong' as unknown as SassString),
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+    });
   });
 });
 
