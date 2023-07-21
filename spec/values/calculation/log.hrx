@@ -94,32 +94,22 @@ a {
 
 <===>
 ================================================================================
-<===> base/variable/input.scss
-a {b: log(2, var(--c))}
-
-<===> base/variable/output.css
+<===> simplification/input.scss
 a {
-  b: log(2, var(--c));
+  b: log(3px - 1px + var(--c), var(--e));
+}
+
+<===> simplification/output.css
+a {
+  b: log(2px + var(--c), var(--e));
 }
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
-a {
-  b: log(3px - 1px + var(--c));
-}
-
-<===> operation/simplification/output.css
-a {
-  b: log(2px + var(--c));
-}
-
-<===>
-================================================================================
-<===> error/percentage/input.scss
+<===> error/units/unknown/input.scss
 a {b: log(1%)}
 
-<===> error/percentage/error
+<===> error/units/unknown/error
 Error: Expected 1% to have no units.
   ,
 1 | a {b: log(1%)}
@@ -129,23 +119,10 @@ Error: Expected 1% to have no units.
 
 <===>
 ================================================================================
-<===> error/number_has_units/input.scss
-a {b: log(3px)}
-
-<===> error/number_has_units/error
-Error: Expected 3px to have no units.
-  ,
-1 | a {b: log(3px)}
-  |       ^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/base_has_units/input.scss
+<===> error/units/unitless_and_real/input.scss
 a {b: log(1, 1px)}
 
-<===> error/base_has_units/error
+<===> error/units/unitless_and_real/error
 Error: 1 and 1px are incompatible.
   ,
 1 | a {b: log(1, 1px)}
@@ -180,6 +157,19 @@ Error: Number 2px*px isn't compatible with CSS calculations.
   |           ^^^^^^^
   '
   input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/known/input.scss
+a {b: log(3px)}
+
+<===> error/units/known/error
+Error: Expected 3px to have no units.
+  ,
+1 | a {b: log(3px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -236,22 +226,22 @@ Error: expected "+", "-", "*", "/", or ")".
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: log($, $c)}
+a {b: log($, 10)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: log($, $c)}
+1 | a {b: log($, 10)}
   |            ^
   '
   input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
+<===> error/sass_script/input.scss
 a {b: log(7 % 3)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", ",", or ")".
   ,
 1 | a {b: log(7 % 3)}

@@ -44,22 +44,22 @@ a {
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {
   b: exp(1px + 2px - var(--c))
 }
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: exp(3px - var(--c));
 }
 
 <===>
 ================================================================================
-<===> error/percentage/input.scss
+<===> error/units/unknown/input.scss
 a {b: exp(1%)}
 
-<===> error/percentage/error
+<===> error/units/unknown/error
 Error: Expected 1% to have no units.
   ,
 1 | a {b: exp(1%)}
@@ -69,10 +69,10 @@ Error: Expected 1% to have no units.
 
 <===>
 ================================================================================
-<===> error/units/input.scss
+<===> error/unit/known/input.scss
 a {b: exp(1px)}
 
-<===> error/units/error
+<===> error/unit/known/error
 Error: Expected 1px to have no units.
   ,
 1 | a {b: exp(1px)}
@@ -134,10 +134,10 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
+<===> error/sass_script/input.scss
 a {b: exp(7 % 3)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
 1 | a {b: exp(7 % 3)}

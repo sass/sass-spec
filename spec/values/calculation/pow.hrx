@@ -44,33 +44,46 @@ a {
 
 <===>
 ================================================================================
-<===> operation/y_infinity/positive/input.scss
+<===> y_infinity/positive/input.scss
 a {b: pow(infinity, 10)}
 
-<===> operation/y_infinity/positive/output.css
+<===> y_infinity/positive/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> operation/x_infinity/positive/input.scss
+<===> x_infinity/positive/input.scss
 a {b: pow(10, infinity)}
 
-<===> operation/x_infinity/positive/output.css
+<===> x_infinity/positive/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {b: pow(3px - 1px + var(--c), 4px + 10px)}
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: pow(2px + var(--c), 14px);
 }
+
+<===>
+================================================================================
+<===> error/units/compatible/input.scss
+a {b: pow(10px, 10px)}
+
+<===> error/units/compatible/error
+Error: Expected 10px to have no units.
+  ,
+1 | a {b: pow(10px, 10px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -88,10 +101,10 @@ Error: 10% and 10 are incompatible.
 
 <===>
 ================================================================================
-<===> error/units/unit_and_unitless/input.scss
+<===> error/units/real_and_unitless/input.scss
 a {b: pow(10px, 10)}
 
-<===> error/units/unit_and_unitless/error
+<===> error/units/real_and_unitless/error
 Error: 10px and 10 are incompatible.
   ,
 1 | a {b: pow(10px, 10)}
@@ -102,26 +115,13 @@ Error: 10px and 10 are incompatible.
 
 <===>
 ================================================================================
-<===> error/units/compatible/input.scss
-a {b: pow(10px, 10px)}
-
-<===> error/units/compatible/error
-Error: Expected 10px to have no units.
-  ,
-1 | a {b: pow(10px, 10px)}
-  |       ^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: pow($c, $)}
+a {b: pow(10, $)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: pow($c, $)}
+1 | a {b: pow(10, $)}
   |                ^
   '
   input.scss 1:16  root stylesheet
@@ -180,13 +180,13 @@ Error: expected "+", "-", "*", "/", or ")".
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
-a {b: pow(7 % 3, $x)}
+<===> error/sass_script/input.scss
+a {b: pow(7 % 3, 1)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", ",", or ")".
   ,
-1 | a {b: pow(7 % 3, $x)}
+1 | a {b: pow(7 % 3, 1)}
   |             ^
   '
   input.scss 1:13  root stylesheet

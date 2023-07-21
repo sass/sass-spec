@@ -84,22 +84,22 @@ a {
 
 <===>
 ================================================================================
-<===> preserved/operation/variable/input.scss
+<===> simplification/input.scss
 a {
   b: tan(3px - 1px + var(--c));
 }
 
-<===> preserved/operation/variable/output.css
+<===> simplification/output.css
 a {
   b: tan(2px + var(--c));
 }
 
 <===>
 ================================================================================
-<===> error/unit/unknown/input.scss
+<===> error/units/unknown/input.scss
 a {b: tan(1%)}
 
-<===> error/unit/unknown/error
+<===> error/units/unknown/error
 Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
   ,
 1 | a {b: tan(1%)}
@@ -109,10 +109,10 @@ Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
 
 <===>
 ================================================================================
-<===> error/unit/known/input.scss
+<===> error/units/known/input.scss
 a {b: tan(1px)}
 
-<===> error/unit/known/error
+<===> error/units/known/error
 Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
   ,
 1 | a {b: tan(1px)}
@@ -122,10 +122,10 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
 
 <===>
 ================================================================================
-<===> error/unit/complex/input.scss
+<===> error/units/complex/input.scss
 a {b: tan(-7px / 4em)}
 
-<===> error/unit/complex/error
+<===> error/units/complex/error
 Error: Number -1.75px/em isn't compatible with CSS calculations.
   ,
 1 | a {b: tan(-7px / 4em)}
@@ -187,10 +187,10 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
+<===> error/sass_script/input.scss
 a {b: tan(7 % 3)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
 1 | a {b: tan(7 % 3)}

@@ -14,20 +14,10 @@ a {
 
 <===>
 ================================================================================
-<===> result_is_integer/input.scss
-a {b: sqrt(16)}
-
-<===> result_is_integer/output.css
-a {
-  b: 4;
-}
-
-<===>
-================================================================================
-<===> result_is_float/input.scss
+<===> units/unitless/input.scss
 a {b: sqrt(2)}
 
-<===> result_is_float/output.css
+<===> units/unitless/output.css
 a {
   b: 1.4142135624;
 }
@@ -44,22 +34,22 @@ a {
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {
   b: sqrt(1px + 2px - var(--c))
 }
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: sqrt(3px - var(--c));
 }
 
 <===>
 ================================================================================
-<===> error/percentage/input.scss
+<===> error/units/unknown/input.scss
 a {b: sqrt(1%)}
 
-<===> error/percentage/error
+<===> error/units/unknown/error
 Error: Expected 1% to have no units.
   ,
 1 | a {b: sqrt(1%)}
@@ -69,16 +59,16 @@ Error: Expected 1% to have no units.
 
 <===>
 ================================================================================
-<===> error/units/input.scss
-a {b: calc(sqrt(16px))}
+<===> error/units/real/input.scss
+a {b: sqrt(16px)}
 
-<===> error/units/error
+<===> error/units/real/error
 Error: Expected 16px to have no units.
   ,
-1 | a {b: calc(sqrt(16px))}
-  |            ^^^^^^^^^^
+1 | a {b: sqrt(16px)}
+  |       ^^^^^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -134,10 +124,10 @@ Error: expected "+", "-", "*", "/", or ")".
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
+<===> error/sass_script/input.scss
 a {b: sqrt(7 % 3)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
 1 | a {b: sqrt(7 % 3)}

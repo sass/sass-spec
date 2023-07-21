@@ -25,11 +25,33 @@ a {
 <===>
 ================================================================================
 <===> zero/input.scss
-a {b: sign(0)}
+@use "sass:math";
+a {b: math.div(1, sign(0))}
 
 <===> zero/output.css
 a {
-  b: 0;
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> NaN/input.scss
+a {b: sign(NaN)}
+
+<===> NaN/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> negative_zero/input.scss
+@use "sass:math";
+a {b: math.div(1, sign(-0.0))}
+
+<===> negative_zero/output.css
+a {
+  b: calc(-infinity);
 }
 
 <===>
@@ -44,22 +66,22 @@ a {
 
 <===>
 ================================================================================
-<===> operation/preserves_units/input.scss
+<===> preserves_units/input.scss
 a {b: sign(-7px / 4em) * 1em}
 
-<===> operation/preserves_units/output.css
+<===> preserves_units/output.css
 a {
-  b: -1em;
+  b: -1px;
 }
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {
   b: sign(1px + 2px - var(--c))
 }
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: sign(3px - var(--c));
 }
@@ -118,10 +140,10 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
+<===> error/sass_script/input.scss
 a {b: sign(7 % 3)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", or ")".
   ,
 1 | a {b: sign(7 % 3)}

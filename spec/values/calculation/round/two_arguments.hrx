@@ -4,32 +4,90 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> preserved/math/input.scss
+<===> units/none/input.scss
+a {b: round(117, 25)}
+
+<===> units/none/output.css
+a {
+  b: 125;
+}
+
+<===>
+================================================================================
+<===> units/compatible/input.scss
+a {b: round(117cm, 25mm)}
+
+<===> units/compatible/output.css
+a {
+  b: 117.5cm;
+}
+
+<===>
+================================================================================
+<===> units/real_and_unknown/input.scss
+a {b: round(1px, 10%)}
+
+<===> units/real_and_unknown/output.css
+a {
+  b: round(1px, 10%);
+}
+
+<===>
+================================================================================
+<===> units/unknown/input.scss
+a {
+  b: round(1%, 2%);
+}
+
+<===> units/unknown/output.css
+a {
+  b: 2%;
+}
+
+<===>
+================================================================================
+<===> units/fake/input.scss
+a {
+  b: round(1foo, 2bar);
+}
+
+<===> units/fake/output.css
+a {
+  b: round(1foo, 2bar);
+}
+
+<===>
+================================================================================
+<===> units/same_fake/input.scss
+a {
+  b: round(1foo, 2foo);
+}
+
+<===> units/same_fake/output.css
+a {
+  b: 2foo;
+}
+
+<===>
+================================================================================
+<===> units/real_and_fake/input.scss
+a {
+  b: round(1px, 2bar);
+}
+
+<===> units/real_and_fake/output.css
+a {
+  b: round(1px, 2bar);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
 a {b: round(3.4px + 10%, 1px + 4px)}
 
-<===> preserved/math/output.css
+<===> simplification/output.css
 a {
   b: round(3.4px + 10%, 5px);
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/number/input.scss
-a {b: round(foo, 5)}
-
-<===> preserved/unquoted_string/number/output.css
-a {
-  b: round(foo, 5);
-}
-
-<===>
-================================================================================
-<===> preserved/unquoted_string/step/input.scss
-a {b: round(4px, nearest)}
-
-<===> preserved/unquoted_string/step/output.css
-a {
-  b: round(4px, nearest);
 }
 
 <===>
@@ -44,164 +102,76 @@ a {
 
 <===>
 ================================================================================
-<===> step/infinity/input.scss
+<===> step/negative_and_infinity/input.scss
 @use "sass:math";
-a {b: round(-0, infinity)}
+a {b: math.div(1, round(-0, infinity))}
 
-<===> step/infinity/output.css
+<===> step/negative_and_infinity/output.css
 a {
-  b: 0;
+  b: calc(-infinity);
 }
 
 <===>
 ================================================================================
-<===> step/number/input.scss
-a {b: round(5px, 5px)}
-
-<===> step/number/output.css
-a {
-  b: 5px;
-}
-
-<===>
-================================================================================
-<===> step/unitless/input.scss
-a {b: round(5, 5)}
-
-<===> step/unitless/output.css
-a {
-  b: 5;
-}
-
-<===>
-================================================================================
-<===> step/compatible_units/input.scss
-a {b: round(100px, 2cm)}
-
-<===> step/compatible_units/output.css
-a {
-  b: 75.5905511811px;
-}
-
-<===>
-================================================================================
-<===> number/infinity/input.scss
+<===> step/positive_and_infinity/input.scss
 @use "sass:math";
-a {b: round(infinity, 5)}
+a {b: math.div(1, round(0, infinity))}
 
-<===> number/infinity/output.css
+<===> step/positive_and_infinity/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> operation/simplify/input.scss
-$c: 10px;
-a {b: round(3.8px + 4px, $c)}
+<===> infinity_and_negative/input.scss
+a {b: round(infinity, -5)}
 
-<===> operation/simplify/output.css
+<===> infinity_and_negative/output.css
 a {
-  b: 10px;
+  b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> nan/simplify/input.scss
-a {b: round(calc(NaN), calc(NaN))}
+<===> infinity/input.scss
+a {b: round(infinity, infinity)}
 
-<===> nan/simplify/output.css
+<===> infinity/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> unquoted_string/both_numbers/input.scss
-a {
-  e: round(down, number);
-}
+<===> nan/input.scss
+a {b: round(NaN, NaN)}
 
-<===> unquoted_string/both_numbers/output.css
+<===> nan/output.css
 a {
-  e: round(down, number);
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> error/unknown_variable/number/input.scss
+<===> unknown_variable/input.scss
 a {
   c: round(up, var(--c));
 }
 
-<===> error/unknown_variable/number/output.css
+<===> unknown_variable/output.css
 a {
   c: round(up, var(--c));
 }
 
 <===>
 ================================================================================
-<===> error/incompatible/number/input.scss
-a {b: round(10px, 5)}
-
-<===> error/incompatible/number/error
-Error: 10px and 5 are incompatible.
-  ,
-1 | a {b: round(10px, 5)}
-  |             ^^^^ 10px
-  |                   = 5
-  '
-  input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
-<===> error/incompatible/step/input.scss
-a {b: round(10, 5px)}
-
-<===> error/incompatible/step/error
-Error: 10 and 5px are incompatible.
-  ,
-1 | a {b: round(10, 5px)}
-  |             ^^ 10
-  |                 === 5px
-  '
-  input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
-<===> error/incompatible/math/input.scss
-a {b: round(3.4px + 1px, 1 + 4)}
-
-<===> error/incompatible/math/error
-Error: 4.4px and 5 are incompatible.
-  ,
-1 | a {b: round(3.4px + 1px, 1 + 4)}
-  |             ^^^^^^^^^^^ 4.4px
-  |                          ===== 5
-  '
-  input.scss 1:13  root stylesheet
-
-<===>
-================================================================================
-<===> error/missing_step/input.scss
-a {b: round(nearest, 5)}
-
-<===> error/missing_step/error
-Error: If strategy is not null, step is required.
-  ,
-1 | a {b: round(nearest, 5)}
-  |       ^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> interpolation/input.scss
+<===> preserved/interpolation/input.scss
 a {
-  e: round(5, 3px + #{"3"});
+  e: round(#{"5.5px, 1px"});
 }
 
-<===> interpolation/output.css
+<===> preserved/interpolation/output.css
 a {
-  e: round(5, 3px + 3);
+  e: round(5.5px, 1px);
 }

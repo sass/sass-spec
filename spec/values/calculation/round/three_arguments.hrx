@@ -4,238 +4,201 @@ terseness' sake isn't tested explicitly.
 
 <===>
 ================================================================================
-<===> preserved/operation/nearest/math/input.scss
+<===> strategy/nearest/simplification/input.scss
 a {
   b: round(nearest, 3.8px - 1px + var(--test), 1.1px + 4px)}
 
-<===> preserved/operation/nearest/math/output.css
+<===> strategy/nearest/simplification/output.css
 a {
   b: round(nearest, 2.8px + var(--test), 5.1px);
 }
 
 <===>
 ================================================================================
-<===> up/negative_zero/input.scss
-@use "sass:math";
-a {b: math.div(1, round(up, -10, infinity))}
+<===> strategy/nearest/positive/input.scss
+a {b: round(nearest, 117px, 25px)}
 
-<===> up/negative_zero/output.css
+<===> strategy/nearest/positive/output.css
 a {
-  b: calc(-infinity);
+  b: 125px;
 }
 
 <===>
 ================================================================================
-<===> nearest/negative_zero/input.scss
-@use "sass:math";
-a {b: math.div(1, round(nearest, -10, infinity))}
+<===> strategy/up/positive/input.scss
+a {b: round(up, 101px, 25px)}
 
-<===> nearest/negative_zero/output.css
+<===> strategy/up/positive/output.css
 a {
-  b: calc(-infinity);
+  b: 125px;
 }
 
 <===>
 ================================================================================
-<===> down/negative_zero/input.scss
-@use "sass:math";
-a {b: math.div(1, round(down, -0, infinity))}
+<===> strategy/up/negative/input.scss
+a {b: round(up, -10, -100)}
 
-<===> down/negative_zero/output.css
+<===> strategy/up/negative/output.css
 a {
-  b: calc(-infinity);
+  b: -100;
 }
 
 <===>
 ================================================================================
-<===> operation/positive/input.scss
+<===> strategy/up/positive_and_infinity/input.scss
 a {b: round(up, 10, infinity)}
 
-<===> operation/positive/output.css
+<===> strategy/up/positive_and_infinity/output.css
 a {
   b: calc(infinity);
 }
 
 <===>
 ================================================================================
-<===> operation/negative/input.scss
+<===> strategy/up/negative_and_infinity/input.scss
 @use "sass:math";
-a {b: round(down, -10, infinity)}
+a {b: math.div(1, round(up, -10, infinity))}
 
-<===> operation/negative/output.css
+<===> strategy/up/negative_and_infinity/output.css
 a {
   b: calc(-infinity);
 }
 
-
 <===>
 ================================================================================
-<===> operation/two_args/simplify/input.scss
-$c: 10px;
-a {b: round(3.8px + 4px, $c)}
+<===> strategy/up/infinity/input.scss
+@use "sass:math";
+a {b: round(up, infinity, infinity)}
 
-<===> operation/two_args/simplify/output.css
+<===> strategy/up/infinity/output.css
 a {
-  b: 10px;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> operation/nearest/simplify/input.scss
-a {b: round(nearest, 115px + 2px, 21px + 4px)}
-
-<===> operation/nearest/simplify/output.css
-a {
-  b: 125px;
-}
-
-<===>
-================================================================================
-<===> operation/up/input.scss
-a {b: round(up, 101px, 25px)}
-
-<===> operation/up/output.css
-a {
-  b: 125px;
-}
-
-<===>
-================================================================================
-<===> operation/down/input.scss
+<===> strategy/down/positive/input.scss
 a {b: round(down, 122px, 25px)}
 
-<===> operation/down/output.css
+<===> strategy/down/positive/output.css
 a {
   b: 100px;
 }
 
 <===>
 ================================================================================
-<===> operation/to-zero/positive/input.scss
+<===> strategy/down/negative/input.scss
+a {b: round(down, -10, -100)}
+
+<===> strategy/down/negative/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> strategy/down/infinity/input.scss
+a {b: round(down, infinity, infinity)}
+
+<===> strategy/down/infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> strategy/down/positive_and_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(down, 10, infinity))}
+
+<===> strategy/down/positive_and_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> strategy/down/negative_and_infinity/input.scss
+@use "sass:math";
+a {b: round(down, -10, infinity)}
+
+<===> strategy/down/negative_and_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> strategy/to-zero/positive/input.scss
 a {b: round(to-zero, 120px, 25px)}
 
-<===> operation/to-zero/positive/output.css
+<===> strategy/to-zero/positive/output.css
 a {
   b: 100px;
 }
 
 <===>
 ================================================================================
-<===> operation/to-zero/negative/input.scss
+<===> strategy/to-zero/negative/input.scss
 a {b: round(to-zero, -120px, 25px)}
 
-<===> operation/to-zero/negative/output.css
+<===> strategy/to-zero/negative/output.css
 a {
   b: -100px;
 }
 
 <===>
 ================================================================================
-<===> infinity/input.scss
-@use "sass:math";
-a {b: round(up, infinity, infinity)}
-
-<===> infinity/output.css
-a {
-  b: calc(NaN);
-}
-
-
-<===>
-================================================================================
-<===> unknown_variable/first_arg/input.scss
+<===> strategy/unknown_variable/input.scss
 a {
   e: round(var(--c), 8px, 9px);
 }
-<===> unknown_variable/first_arg/output.css
+<===> strategy/unknown_variable/output.css
 a {
   e: round(var(--c), 8px, 9px);
 }
 
 <===>
 ================================================================================
-<===> unknown_variable/third_arg/input.scss
+<===> step/unknown_variable/input.scss
 a {
   d: round(up, 8px, var(--c));
 }
-<===> unknown_variable/third_arg/output.css
+<===> step/unknown_variable/output.css
 a {
   d: round(up, 8px, var(--c));
 }
 
 <===>
 ================================================================================
-<===> unknown_number/input.scss
+<===> preserved/interpolation/input.scss
 a {
-  e: round(up, number, 9px);
+  e: round(#{"up"}, 3px, 9px);
 }
 
-<===> unknown_number/output.css
+<===> preserved/interpolation/output.css
 a {
-  e: round(up, number, 9px);
-}
-
-<===>
-================================================================================
-<===> interpolation/input.scss
-a {
-  e: round(#{"up"}, number, 9px);
-}
-
-<===> interpolation/output.css
-a {
-  e: round(up, number, 9px);
+  e: round(up, 3px, 9px);
 }
 
 <===>
 ================================================================================
-<===> math/input.scss
+<===> units/real_and_unknown/input.scss
+a {b: round(nearest, 1px, 10%)}
+
+<===> units/real_and_unknown/output.css
 a {
-  e: round(10px + 2px, 8px, 9px);
+  b: round(nearest, 1px, 10%);
 }
-<===> math/error
-Error: 12px must be either nearest, up, down or to-zero.
-  ,
-2 |   e: round(10px + 2px, 8px, 9px);
-  |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:6  root stylesheet
 
 <===>
 ================================================================================
-<===> error/syntax/strategy/number/input.scss
-a {b: round(3px, 3px, 2px)}
+<===> units/unknown/input.scss
+a {
+  b: round(nearest, 1%, 2%);
+}
 
-<===> error/syntax/strategy/number/error
-Error: 3px must be either nearest, up, down or to-zero.
-  ,
-1 | a {b: round(3px, 3px, 2px)}
-  |       ^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/variable/number_and_step/input.scss
-a {b: round(4px, test, nearest)}
-
-<===> error/variable/number_and_step/error
-Error: 4px must be either nearest, up, down or to-zero.
-  ,
-1 | a {b: round(4px, test, nearest)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/variable/strategy/input.scss
-a {b: round(test, 4px, 5px)}
-
-<===> error/variable/strategy/error
-Error: test must be either nearest, up, down or to-zero.
-  ,
-1 | a {b: round(test, 4px, 5px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
+<===> units/unknown/output.css
+a {
+  b: 2%;
+}

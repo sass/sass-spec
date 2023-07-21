@@ -34,47 +34,47 @@ a {
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {
   b: abs(1px + 2px - var(--c))
 }
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: abs(3px - var(--c));
 }
 
 <===>
 ================================================================================
-<===> operation/preserves_units/input.scss
+<===> preserves_units/input.scss
 a {b: abs(-7px / 4em) * 1em}
 
-<===> operation/preserves_units/output.css
+<===> preserves_units/output.css
 a {
   b: 1.75px;
 }
 
 <===>
 ================================================================================
-<===> named_argument/input.scss
+<===> sass_script/input.scss
 a {b: abs($number: -3)}
 
-<===> named_argument/output.css
+<===> sass_script/output.css
 a {
   b: 3;
 }
 
 <===>
 ================================================================================
-<===> abs_percentage_warning/input.scss
+<===> percentage_warning/input.scss
 a {b: abs(-7.5%)}
 
-<===> abs_percentage_warning/output.css
+<===> percentage_warning/output.css
 a {
   b: 7.5%;
 }
 
-<===> abs_percentage_warning/warning
+<===> percentage_warning/warning
 DEPRECATION WARNING: Passing percentage units to the global abs() function is deprecated.
 In the future, this will emit a CSS abs() function to be resolved by the browser.
 To preserve current behavior: math.abs(-7.5%)
@@ -110,10 +110,10 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
-<===> error/named_argument/variable/input.scss
+<===> error/sass_script_and_variable/input.scss
 a {b: abs($number: var(--c))}
 
-<===> error/named_argument/variable/error
+<===> error/sass_script_and_variable/error
 Error: $number: var(--c) is not a number.
   ,
 1 | a {b: abs($number: var(--c))}

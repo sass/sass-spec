@@ -58,6 +58,18 @@ a {
 
 <===>
 ================================================================================
+<===> units/same_fake/input.scss
+a {
+  b: rem(1foo, 2foo);
+}
+
+<===> units/same_fake/output.css
+a {
+  b: 1foo;
+}
+
+<===>
+================================================================================
 <===> units/real_and_fake/input.scss
 a {
   b: rem(1px, 2bar);
@@ -66,6 +78,36 @@ a {
 <===> units/real_and_fake/output.css
 a {
   b: rem(1px, 2bar);
+}
+
+<===>
+================================================================================
+<===> positive_and_negative/input.scss
+a {b: rem(2, -5)}
+
+<===> positive_and_negative/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> negative_and_positive/input.scss
+a {b: rem(-2, 5)}
+
+<===> negative_and_positive/output.css
+a {
+  b: -2;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: rem(-2, -5)}
+
+<===> negative/output.css
+a {
+  b: -2;
 }
 
 <===>
@@ -100,42 +142,42 @@ a {
 
 <===>
 ================================================================================
-<===> operation/y_infinity/positive/input.scss
+<===> y_infinity/positive/input.scss
 a {b: rem(infinity, 10)}
 
-<===> operation/y_infinity/positive/output.css
+<===> y_infinity/positive/output.css
 a {
   b: calc(NaN);
 }
 
 <===>
 ================================================================================
-<===> operation/x_infinity/positive/input.scss
+<===> x_infinity/positive/input.scss
 a {b: rem(-10, infinity)}
 
-<===> operation/x_infinity/positive/output.css
+<===> x_infinity/positive/output.css
 a {
   b: -10;
 }
 
 <===>
 ================================================================================
-<===> operation/x_infinity/negative/input.scss
+<===> x_infinity/negative/input.scss
 a {b: rem(10, -infinity)}
 
-<===> operation/x_infinity/negative/output.css
+<===> x_infinity/negative/output.css
 a {
   b: 10;
 }
 
 <===>
 ================================================================================
-<===> operation/simplification/input.scss
+<===> simplification/input.scss
 a {
   b: rem(3px - 1px + var(--c), -7px / 4em * 1em);
 }
 
-<===> operation/simplification/output.css
+<===> simplification/output.css
 a {
   b: rem(2px + var(--c), -1.75px);
 }
@@ -164,10 +206,10 @@ a {
 
 <===>
 ================================================================================
-<===> error/units/unit_and_unitless/input.scss
+<===> error/units/real_and_unitless/input.scss
 a {b: rem(16px, 5)}
 
-<===> error/units/unit_and_unitless/error
+<===> error/units/real_and_unitless/error
 Error: 16px and 5 are incompatible.
   ,
 1 | a {b: rem(16px, 5)}
@@ -192,6 +234,19 @@ Error: 16px and 5deg are incompatible.
 
 <===>
 ================================================================================
+<===> error/units/complex_and_unknown/input.scss
+a {b: rem(1px*2px, 10%)}
+
+<===> error/units/complex_and_unknown/error
+Error: Number 2px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: rem(1px*2px, 10%)}
+  |           ^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 a {b: rem(3)}
 
@@ -206,12 +261,12 @@ Error: 2 arguments required, but only 1 was passed.
 <===>
 ================================================================================
 <===> error/syntax/invalid_arg/input.scss
-a {b: rem($c, $)}
+a {b: rem(10, $)}
 
 <===> error/syntax/invalid_arg/error
 Error: Expected identifier.
   ,
-1 | a {b: rem($c, $)}
+1 | a {b: rem(10, $)}
   |                ^
   '
   input.scss 1:16  root stylesheet
@@ -257,13 +312,13 @@ Error: expected "+", "-", "*", "/", or ")".
 
 <===>
 ================================================================================
-<===> error/mod/input.scss
-a {b: rem(7 % 3, $x)}
+<===> error/sass_script/input.scss
+a {b: rem(7 % 3, 1)}
 
-<===> error/mod/error
+<===> error/sass_script/error
 Error: expected "+", "-", "*", "/", ",", or ")".
   ,
-1 | a {b: rem(7 % 3, $x)}
+1 | a {b: rem(7 % 3, 1)}
   |             ^
   '
   input.scss 1:13  root stylesheet
