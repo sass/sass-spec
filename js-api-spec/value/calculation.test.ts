@@ -317,13 +317,13 @@ describe('SassCalculation', () => {
       ).toThrow();
     });
 
-    it('clamp() with the wrong number of arguments', () => {
-      const fn = () => SassCalculation.clamp(new CalculationInterpolation('1'));
+    it('clamp() with the wrong argument', () => {
+      const fn = () => SassCalculation.clamp(new SassNumber(1));
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
         })
-      ).toThrowError(/exactly 3 arguments/);
+      ).toThrowError(/SassString or CalculationInterpolation/);
     });
 
     it('an unknown calculation function', () => {
