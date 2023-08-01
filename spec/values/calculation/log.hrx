@@ -123,13 +123,12 @@ Error: Expected 1% to have no units.
 a {b: log(1, 1px)}
 
 <===> error/units/unitless_and_real/error
-Error: 1 and 1px are incompatible.
+Error: Expected 1px to have no units.
   ,
 1 | a {b: log(1, 1px)}
-  |           ^ 1
-  |              === 1px
+  |       ^^^^^^^^^^^
   '
-  input.scss 1:11  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -137,13 +136,12 @@ Error: 1 and 1px are incompatible.
 a {b: log(1deg, 1px)}
 
 <===> error/units/known_incompatible/error
-Error: 1deg and 1px are incompatible.
+Error: Expected 1deg to have no units.
   ,
 1 | a {b: log(1deg, 1px)}
-  |           ^^^^ 1deg
-  |                 === 1px
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:11  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -151,12 +149,12 @@ Error: 1deg and 1px are incompatible.
 a {b: log(1px*2px, 10%)}
 
 <===> error/units/complex_and_unknown/error
-Error: Number 2px*px isn't compatible with CSS calculations.
+Error: Expected 2px*px to have no units.
   ,
 1 | a {b: log(1px*2px, 10%)}
-  |           ^^^^^^^
+  |       ^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:11  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
