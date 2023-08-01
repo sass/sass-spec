@@ -25,6 +25,99 @@ a {
 
 <===>
 ================================================================================
+<===> strategy/nearest/negative/input.scss
+a {b: round(nearest, -101, -25)}
+
+<===> strategy/nearest/negative/output.css
+a {
+  b: -100;
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/negative_and_positive/input.scss
+a {b: round(nearest, -10, 5)}
+
+<===> strategy/nearest/negative_and_positive/output.css
+a {
+  b: -10;
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/positive_and_negative/input.scss
+a {b: round(nearest, 12px, -7px)}
+
+<===> strategy/nearest/positive_and_negative/output.css
+a {
+  b: 14px;
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/step_is_zero/input.scss
+a {b: round(nearest, 10px, 0px)}
+
+<===> strategy/nearest/step_is_zero/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/positive_and_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(nearest, 10, infinity))}
+
+<===> strategy/nearest/positive_and_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/negative_and_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(nearest, -10, infinity))}
+
+<===> strategy/nearest/negative_and_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/infinity/input.scss
+@use "sass:math";
+a {b: round(nearest, infinity, infinity)}
+
+<===> strategy/nearest/infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/step_is_multiple_of_number/input.scss
+a {b: round(nearest, 5px, 25px)}
+
+<===> strategy/nearest/step_is_multiple_of_number/output.css
+a {
+  b: 0px;
+}
+
+<===>
+================================================================================
+<===> strategy/nearest/number_is_multiple_of_step/input.scss
+a {b: round(nearest, 25px, 5px)}
+
+<===> strategy/nearest/number_is_multiple_of_step/output.css
+a {
+  b: 25px;
+}
+
+<===>
+================================================================================
 <===> strategy/up/positive/input.scss
 a {b: round(up, 101px, 25px)}
 
@@ -35,12 +128,62 @@ a {
 
 <===>
 ================================================================================
+<===> strategy/up/step_is_multiple_of_number/input.scss
+a {b: round(up, 5px, 25px)}
+
+<===> strategy/up/step_is_multiple_of_number/output.css
+a {
+  b: 25px;
+}
+
+<===>
+================================================================================
+<===> strategy/up/number_is_multiple_of_step/input.scss
+a {b: round(up, 25px, 5px)}
+
+<===> strategy/up/number_is_multiple_of_step/output.css
+a {
+  b: 25px;
+}
+
+<===>
+================================================================================
 <===> strategy/up/negative/input.scss
-a {b: round(up, -10, -100)}
+a {b: round(up, -101, -25)}
 
 <===> strategy/up/negative/output.css
 a {
   b: -100;
+}
+
+<===>
+================================================================================
+<===> strategy/up/negative_and_positive/input.scss
+a {b: round(up, -10, 3)}
+
+<===> strategy/up/negative_and_positive/output.css
+a {
+  b: -9;
+}
+
+<===>
+================================================================================
+<===> strategy/up/positive_and_negative/input.scss
+a {b: round(up, 12px, -7px)}
+
+<===> strategy/up/positive_and_negative/output.css
+a {
+  b: 14px;
+}
+
+<===>
+================================================================================
+<===> strategy/up/step_is_zero/input.scss
+a {b: round(up, 10px, 0px)}
+
+<===> strategy/up/step_is_zero/output.css
+a {
+  b: calc(NaN * 1px);
 }
 
 <===>
@@ -77,6 +220,26 @@ a {
 
 <===>
 ================================================================================
+<===> strategy/down/step_is_multiple_of_number/input.scss
+a {b: round(down, 5px, 25px)}
+
+<===> strategy/down/step_is_multiple_of_number/output.css
+a {
+  b: 0px;
+}
+
+<===>
+================================================================================
+<===> strategy/down/number_is_multiple_of_step/input.scss
+a {b: round(down, 25px, 5px)}
+
+<===> strategy/down/number_is_multiple_of_step/output.css
+a {
+  b: 25px;
+}
+
+<===>
+================================================================================
 <===> strategy/down/positive/input.scss
 a {b: round(down, 122px, 25px)}
 
@@ -88,11 +251,31 @@ a {
 <===>
 ================================================================================
 <===> strategy/down/negative/input.scss
-a {b: round(down, -10, -100)}
+a {b: round(down, -101, -25)}
 
 <===> strategy/down/negative/output.css
 a {
-  b: 0;
+  b: -125;
+}
+
+<===>
+================================================================================
+<===> strategy/down/negative_and_positive/input.scss
+a {b: round(down, -2, 7)}
+
+<===> strategy/down/negative_and_positive/output.css
+a {
+  b: -7;
+}
+
+<===>
+================================================================================
+<===> strategy/down/positive_and_negative/input.scss
+a {b: round(down, 12, -7)}
+
+<===> strategy/down/positive_and_negative/output.css
+a {
+  b: 7;
 }
 
 <===>
@@ -103,6 +286,16 @@ a {b: round(down, infinity, infinity)}
 <===> strategy/down/infinity/output.css
 a {
   b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> strategy/down/step_is_zero/input.scss
+a {b: round(down, 10px, 0px)}
+
+<===> strategy/down/step_is_zero/output.css
+a {
+  b: calc(NaN * 1px);
 }
 
 <===>
