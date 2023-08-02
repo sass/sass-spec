@@ -194,7 +194,12 @@ jobs:
 
       - name: Node.js Embedded Host | Checkout
         uses: sass/clone-linked-repo@v1
-        with: {repo: sass/embedded-host-node, path: ../embedded-host-node}
+        with: {repo: sass/embedded-host-node, path: embedded-host-node}
+
+      # Work around actions/checkout#197. We need this outside the main checkout
+      # because otherwise its `node_modules` conflict with sass-spec's.
+      - run: mv embedded-host-node ..
+
       - name: Node.js Embedded Host | Install
         run: |
           npm install
