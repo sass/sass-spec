@@ -126,6 +126,10 @@ jobs:
         with:
           github-token: ${{ github.token }}
 
+      - name: Dart Sass | Build
+        run: dart run grinder pkg-npm-dev
+        working-directory: dart-sass
+
       - name: Run specs
         run: |
           npm run js-api-spec -- \
@@ -145,6 +149,10 @@ jobs:
       - uses: ./.github/util/dart-sass
         with:
           github-token: ${{ github.token }}
+
+      - name: Dart Sass | Build
+        run: dart run grinder pkg-npm-dev
+        working-directory: dart-sass
 
       - name: Run specs
         run: |
