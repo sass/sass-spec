@@ -8,7 +8,6 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import '../utils';
 
 describe('a basic invocation', () => {
   let css: string;
@@ -24,15 +23,15 @@ describe('a basic invocation', () => {
   });
 
   it('includes reasonable-looking mappings', () => {
-    expect(map).toContainKey('mappings');
+    expect(map).toHaveMember('mappings');
     expect(map['mappings']).toMatch(/^([A-Za-z\d+/=]*[,;]?)*$/);
   });
 
   it('includes the name of the output file', () =>
-    expect(map).toContainEntry(['file', 'out.css']));
+    expect(map.file).toEqual('out.css'));
 
   it('includes stdin as a source', () =>
-    expect(map).toContainEntry(['sources', ['stdin']]));
+    expect(map.sources).toEqual(['stdin']));
 
   it('includes a source map comment', () =>
     expect(css).toEndWith('\n\n/*# sourceMappingURL=out.css.map */'));
@@ -48,7 +47,7 @@ describe('the sources list', () => {
         sourceMap: true,
         outFile: dir('out.css'),
       });
-      expect(map).toContainEntry(['sources', ['test.scss']]);
+      expect(map.sources).toEqual(['test.scss']);
     }));
 
   it('makes the path relative to outFile', () =>
@@ -60,9 +59,8 @@ describe('the sources list', () => {
         sourceMap: true,
         outFile: dir('dir/out.css'),
       });
-      expect(map).toContainEntry([
-        'sources',
-        [p.relative(dir('dir'), dir('test.scss')).replace(/\\/g, '/')],
+      expect(map.sources).toEqual([
+        p.relative(dir('dir'), dir('test.scss')).replace(/\\/g, '/'),
       ]);
     }));
 
@@ -81,7 +79,7 @@ describe('the sources list', () => {
         sourceMap: true,
         outFile: dir('out.css'),
       });
-      expect(map).toContainEntry(['sources', ['_other.scss', 'test.scss']]);
+      expect(map.sources).toEqual(['_other.scss', 'test.scss']);
     }));
 
   it('contains the resolved path of a file imported via includePaths', () =>
@@ -100,10 +98,7 @@ describe('the sources list', () => {
         includePaths: [dir('subdir')],
         outFile: dir('out.css'),
       });
-      expect(map).toContainEntry([
-        'sources',
-        ['subdir/_other.scss', 'test.scss'],
-      ]);
+      expect(map.sources).toEqual(['subdir/_other.scss', 'test.scss']);
     }));
 
   it('contains a URL handled by an importer', () => {
@@ -116,7 +111,7 @@ describe('the sources list', () => {
       importer: () => ({contents: 'x {y: z}'}),
       outFile: 'out.css',
     });
-    expect(map).toContainEntry(['sources', ['other', 'stdin']]);
+    expect(map.sources).toEqual(['other', 'stdin']);
   });
 
   // Regression test for the embedded host.
@@ -137,10 +132,7 @@ describe('the sources list', () => {
         outFile: dir('out.css'),
         importer: () => null,
       });
-      expect(map).toContainEntry([
-        'sources',
-        ['subdir/_other.scss', 'test.scss'],
-      ]);
+      expect(map.sources).toEqual(['subdir/_other.scss', 'test.scss']);
     }));
 });
 
@@ -171,8 +163,8 @@ describe("doesn't emit the source map", () => {
 describe('with a string sourceMap and no outFile', () => {
   it('emits a source map', () =>
     expect(
-      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
-    ).toContainEntry(['sources', ['stdin']]));
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).sources
+    ).toEqual(['stdin']));
 
   it('derives the target URL from the input file', () =>
     sandbox(dir => {
@@ -182,8 +174,8 @@ describe('with a string sourceMap and no outFile', () => {
         renderSourceMap({
           file: dir('test.scss'),
           sourceMap: 'out.css.map',
-        })
-      ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
+        }).file
+      ).toEqual(pathToFileURL(dir('test.css')).toString());
     }));
 
   it('derives the target URL from the input file without an extension', () =>
@@ -194,14 +186,14 @@ describe('with a string sourceMap and no outFile', () => {
         renderSourceMap({
           file: dir('test'),
           sourceMap: 'out.css.map',
-        })
-      ).toContainEntry(['file', pathToFileURL(dir('test.css')).toString()]);
+        }).file
+      ).toEqual(pathToFileURL(dir('test.css')).toString());
     }));
 
   it('derives the target URL from stdin', () =>
     expect(
-      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'})
-    ).toContainEntry(['file', 'stdin.css']));
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).file
+    ).toEqual('stdin.css'));
 
   // Regression test for sass/dart-sass#922
   it('contains a URL handled by an importer when sourceMap is absolute', () =>
@@ -214,8 +206,8 @@ describe('with a string sourceMap and no outFile', () => {
         importer: () => ({contents: 'x {y: z}'}),
         sourceMap: p.resolve('out.css.map'),
         outFile: 'out.css',
-      })
-    ).toContainEntry(['sources', ['other', 'stdin']]));
+      }).sources
+    ).toEqual(['other', 'stdin']));
 });
 
 it("with omitSourceMapUrl, doesn't include a source map comment", () => {
@@ -258,8 +250,8 @@ describe('with a string sourceMap', () => {
         data: 'a {b: c}',
         sourceMap: 'dir/map',
         outFile: 'out.css',
-      })
-    ).toContainEntry(['file', '../out.css']));
+      }).file
+    ).toEqual('../out.css'));
 
   it('makes the source map comment relative even if the path is absolute', () => {
     const result = sass.renderSync({
@@ -280,8 +272,8 @@ describe('with a string sourceMap', () => {
           file: dir('test.scss'),
           sourceMap: dir('map'),
           outFile: 'out.css',
-        })
-      ).toContainEntry(['sources', ['test.scss']]);
+        }).sources
+      ).toEqual(['test.scss']);
     }));
 });
 
@@ -293,8 +285,8 @@ describe('with sourceMapContents', () => {
         sourceMap: true,
         outFile: 'out.css',
         sourceMapContents: true,
-      })
-    ).toContainEntry(['sourcesContent', ['a {b: c}']]));
+      }).sourcesContent
+    ).toEqual(['a {b: c}']));
 
   it("includes an imported file's contents in the source map", () =>
     sandbox(dir => {
@@ -310,8 +302,8 @@ describe('with sourceMapContents', () => {
           sourceMap: true,
           outFile: 'out.css',
           sourceMapContents: true,
-        })
-      ).toContainEntry(['sourcesContent', ['x {y: z}', scss]]);
+        }).sourcesContent
+      ).toEqual(['x {y: z}', scss]);
     }));
 });
 
@@ -335,8 +327,8 @@ describe('with sourceMapRoot', () => {
         sourceMap: true,
         outFile: 'out.css',
         sourceMapRoot: 'some random string',
-      })
-    ).toContainEntry(['sourceRoot', 'some random string']));
+      }).sourceRoot
+    ).toEqual('some random string'));
 
   it("doesn't modify the source URLs", () =>
     sandbox(dir => {
@@ -349,8 +341,8 @@ describe('with sourceMapRoot', () => {
         outFile: dir('out.css'),
         sourceMapRoot: root,
       });
-      expect(map).toContainEntry(['sourceRoot', root]);
-      expect(map).toContainEntry(['sources', ['test.scss']]);
+      expect(map.sourceRoot).toEqual(root);
+      expect(map.sources).toEqual(['test.scss']);
     }));
 });
 

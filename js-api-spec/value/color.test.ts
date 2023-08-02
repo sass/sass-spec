@@ -55,6 +55,7 @@ describe('SassColor', () => {
 
       it("isn't any other type", () => {
         expect(() => color.assertBoolean()).toThrow();
+        expect(() => color.assertCalculation()).toThrow();
         expect(() => color.assertFunction()).toThrow();
         expect(() => color.assertMap()).toThrow();
         expect(color.tryMap()).toBe(null);

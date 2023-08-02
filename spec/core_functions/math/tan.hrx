@@ -6,29 +6,29 @@
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(math.div(1, 0))}
 
 <===> infinity/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> negative_asymptote/radian/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(-0.5rad * math.$pi)}
 
 <===> negative_asymptote/radian/output.css
@@ -39,7 +39,7 @@ a {
 <===>
 ================================================================================
 <===> asymptote/radian/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(0.5rad * math.$pi)}
 
 <===> asymptote/radian/output.css
@@ -50,7 +50,7 @@ a {
 <===>
 ================================================================================
 <===> negative_zero/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(-0.0)}
 
 <===> negative_zero/output.css
@@ -61,7 +61,7 @@ a {
 <===>
 ================================================================================
 <===> negative_zero_fuzzy/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(-0.000000000001)}
 
 <===> negative_zero_fuzzy/output.css
@@ -72,7 +72,7 @@ a {
 <===>
 ================================================================================
 <===> zero/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(0)}
 
 <===> zero/output.css
@@ -83,7 +83,7 @@ a {
 <===>
 ================================================================================
 <===> zero_fuzzy/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(0.000000000001)}
 
 <===> zero_fuzzy/output.css
@@ -94,7 +94,7 @@ a {
 <===>
 ================================================================================
 <===> deg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1deg)}
 
 <===> deg/output.css
@@ -105,7 +105,7 @@ a {
 <===>
 ================================================================================
 <===> grad/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1grad)}
 
 <===> grad/output.css
@@ -116,7 +116,7 @@ a {
 <===>
 ================================================================================
 <===> rad/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1rad)}
 
 <===> rad/output.css
@@ -127,7 +127,7 @@ a {
 <===>
 ================================================================================
 <===> turn/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1turn)}
 
 <===> turn/output.css
@@ -138,7 +138,7 @@ a {
 <===>
 ================================================================================
 <===> unitless/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1)}
 
 <===> unitless/output.css
@@ -149,7 +149,7 @@ a {
 <===>
 ================================================================================
 <===> named_arg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan($number: 1)}
 
 <===> named_arg/output.css
@@ -160,7 +160,7 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan("0")}
 
 <===> error/type/error
@@ -174,7 +174,7 @@ Error: $number: "0" is not a number.
 <===>
 ================================================================================
 <===> error/unit/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(1px)}
 
 <===> error/unit/error
@@ -188,7 +188,7 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan()}
 
 <===> error/zero_args/error
@@ -206,7 +206,7 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.tan(0, 0)}
 
 <===> error/too_many_args/error

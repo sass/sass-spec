@@ -3,6 +3,11 @@ a {b: selector-unify(".c > .d + .e", ".f .g ~ .h")}
 
 <===> isolated/output.css
 a {
+  b: .f .c > .g ~ .d + .e.h, .f .c > .d.g + .e.h;
+}
+
+<===> isolated/output-libsass.css
+a {
   b: .f .c > .g ~ .d + .e.h, .f .c > .g.d + .e.h;
 }
 

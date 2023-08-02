@@ -8,13 +8,14 @@ import {
   compileString,
   compileStringAsync,
   sassNull,
+  SassCalculation,
 } from 'sass';
 
-import './utils';
+import {spy} from './utils';
 
 it('passes an argument to a custom function and uses its return value', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0].assertString().text).toBe('bar');
     return new SassString('result');
   });
@@ -25,12 +26,12 @@ it('passes an argument to a custom function and uses its return value', () => {
     }).css
   ).toBe('a {\n  b: "result";\n}');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it('passes no arguments to a custom function', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(0);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(0);
     return sassNull;
   });
 
@@ -40,12 +41,12 @@ it('passes no arguments to a custom function', () => {
     }).css
   ).toBe('');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it('passes multiple arguments to a custom function', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(3);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(3);
     expect(args[0].assertString().text).toBe('x');
     expect(args[1].assertString().text).toBe('y');
     expect(args[2].assertString().text).toBe('z');
@@ -58,12 +59,12 @@ it('passes multiple arguments to a custom function', () => {
     }).css
   ).toBe('');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it('passes a default argument value', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0].assertString().text).toBe('default');
     return sassNull;
   });
@@ -74,7 +75,7 @@ it('passes a default argument value', () => {
     }).css
   ).toBe('');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 describe('gracefully handles a custom function', () => {
@@ -98,20 +99,33 @@ describe('gracefully handles a custom function', () => {
     ).toThrowSassException({line: 0});
   });
 
-  it('returning a non-Value', () => {
-    expect(() =>
-      compileString('a {b: foo()}', {
-        functions: {
-          'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
-        },
-      })
-    ).toThrowSassException({line: 0});
+  describe('returning a non-Value', () => {
+    it('directly', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    it('in a calculation', () => {
+      expect(() =>
+        compileString('a {b: foo()}', {
+          functions: {
+            'foo()': () =>
+              SassCalculation.calc('wrong' as unknown as SassString),
+          },
+        })
+      ).toThrowSassException({line: 0});
+    });
   });
 });
 
 describe('dash-normalizes function calls', () => {
   it('when defined with dashes', () => {
-    const fn = jest.fn(() => sassNull);
+    const fn = spy(() => sassNull);
 
     expect(
       compileString('a {b: foo_bar()}', {
@@ -119,11 +133,11 @@ describe('dash-normalizes function calls', () => {
       }).css
     ).toBe('');
 
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
   });
 
   it('when defined with underscores', () => {
-    const fn = jest.fn(() => sassNull);
+    const fn = spy(() => sassNull);
 
     expect(
       compileString('a {b: foo-bar()}', {
@@ -131,33 +145,57 @@ describe('dash-normalizes function calls', () => {
       }).css
     ).toBe('');
 
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
   });
 });
 
 describe('asynchronously', () => {
   it('passes an argument to a custom function and uses its return value', async () => {
-    const fn = jest.fn(args => {
-      expect(args).toHaveLength(1);
+    const fn = spy(args => {
+      expect(args).toBeArrayOfSize(1);
       expect(args[0].assertString().text).toBe('bar');
       return Promise.resolve(new SassString('result'));
     });
 
-    await expect(
-      compileStringAsync('a {b: foo(bar)}', {
-        functions: {'foo($arg)': fn},
-      })
-    ).resolves.toMatchObject({css: 'a {\n  b: "result";\n}'});
+    const result = await compileStringAsync('a {b: foo(bar)}', {
+      functions: {'foo($arg)': fn},
+    });
 
-    expect(fn).toBeCalled();
+    expect(result.css).toBe('a {\n  b: "result";\n}');
+    expect(fn).toHaveBeenCalled();
   });
 
-  it('gracefully handles promise rejections', async () => {
-    await expect(() =>
-      compileStringAsync('a {b: foo(bar)}', {
-        functions: {'foo($arg)': () => Promise.reject('heck')},
-      })
-    ).toThrowSassException({line: 0});
+  describe('gracefully handles', () => {
+    it('promise rejections', async () => {
+      await expectAsync(() =>
+        compileStringAsync('a {b: foo(bar)}', {
+          functions: {'foo($arg)': () => Promise.reject('heck')},
+        })
+      ).toThrowSassException({line: 0});
+    });
+
+    describe('returning a non-Value', () => {
+      it('directly', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              'foo()': (() => 'wrong') as unknown as CustomFunction<'async'>,
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+
+      it('in a calculation', async () => {
+        await expectAsync(() =>
+          compileStringAsync('a {b: foo()}', {
+            functions: {
+              'foo()': () =>
+                SassCalculation.calc('wrong' as unknown as SassString),
+            },
+          })
+        ).toThrowSassException({line: 0});
+      });
+    });
   });
 });
 

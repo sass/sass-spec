@@ -2,13 +2,13 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {SassFunction, SassNumber, compileString, sassNull} from 'sass';
+import {SassFunction, SassNumber, compileString, sassNull, Value} from 'sass';
 
-import '../utils';
+import {spy} from '../utils';
 
 it('can round-trip a function reference from Sass', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(1);
     expect(args[0]).toBeInstanceOf(SassFunction);
     return args[0];
   });
@@ -27,14 +27,14 @@ it('can round-trip a function reference from Sass', () => {
     ).css
   ).toBe('a {\n  b: 3;\n}');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 it('can call a function reference from JS', () => {
-  const fn = jest.fn(args => {
-    expect(args).toHaveLength(0);
-    return new SassFunction('plusOne($n)', args => {
-      expect(args).toHaveLength(1);
+  const fn = spy(args => {
+    expect(args).toBeArrayOfSize(0);
+    return new SassFunction('plusOne($n)', (args: Value[]) => {
+      expect(args).toBeArrayOfSize(1);
       expect(args[0].assertNumber().value).toBe(2);
       return new SassNumber(args[0].assertNumber().value + 1);
     });
@@ -53,7 +53,7 @@ it('can call a function reference from JS', () => {
     ).css
   ).toBe('a {\n  b: 3;\n}');
 
-  expect(fn).toBeCalled();
+  expect(fn).toHaveBeenCalled();
 });
 
 describe('rejects a function signature that', () => {
@@ -61,7 +61,7 @@ describe('rejects a function signature that', () => {
   // function is instantiated *or* when it's returned from the custom function
   // callback. This test works in either case.
   function rejectsSignature(signature: string): void {
-    const fn = jest.fn(() => new SassFunction(signature, () => sassNull));
+    const fn = spy(() => new SassFunction(signature, () => sassNull));
 
     expect(() =>
       compileString('a {b: inspect(foo())}', {
@@ -69,7 +69,7 @@ describe('rejects a function signature that', () => {
       })
     ).toThrowSassException({line: 0});
 
-    expect(fn).toBeCalled();
+    expect(fn).toHaveBeenCalled();
   }
 
   it('is empty', () => rejectsSignature(''));

@@ -4,6 +4,8 @@
 
 import * as sass from 'sass';
 
+import {spy} from '../../utils';
+
 /**
  * Parses `source` as a Sass expression, asserts that it's an instance of
  * `constructor`, and returns it.
@@ -15,8 +17,8 @@ export function parseValue<T extends new (...args: any[]) => any>(
 ): InstanceType<T> {
   let value: InstanceType<T> | undefined;
 
-  const fn = jest.fn(value_ => {
-    value = value_ as InstanceType<T>;
+  const fn = spy((value_: InstanceType<T>) => {
+    value = value_;
     return sass.types.Null.NULL;
   });
 

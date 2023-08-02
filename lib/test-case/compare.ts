@@ -58,7 +58,7 @@ function getDiff(
   return createPatch(filename, expected, actual, 'expected', 'actual');
 }
 
-interface CompareOptions {
+export interface CompareOptions {
   /**
    * if true, errors and warnings will be trimmed
    * so only the messages are compared and not line information
@@ -66,6 +66,10 @@ interface CompareOptions {
   trimErrors?: boolean;
   /** If true, skip warning checks */
   skipWarning?: boolean;
+  /**
+   * If true, error messages and line information won't be compared
+   */
+  ignoreErrorDiffs?: boolean;
 }
 
 /**
@@ -77,7 +81,7 @@ interface CompareOptions {
 export function compareResults(
   expected: ExpectedSassResult,
   actual: SassResult,
-  {skipWarning, trimErrors}: CompareOptions
+  {skipWarning, trimErrors, ignoreErrorDiffs}: CompareOptions
 ): TestResult {
   if (expected.isSuccess === null) {
     return failures.MissingOutput();
@@ -107,10 +111,12 @@ export function compareResults(
     if (actual.isSuccess) {
       return failures.UnexpectedSuccess();
     }
-    const normalizer = trimErrors ? extractErrorMessage : normalizeOutput;
-    const diff = getDiff('error', expected.error, actual.error, normalizer);
-    if (diff) {
-      return failures.ErrorDifference(diff);
+    if (!ignoreErrorDiffs) {
+      const normalizer = trimErrors ? extractErrorMessage : normalizeOutput;
+      const diff = getDiff('error', expected.error, actual.error, normalizer);
+      if (diff) {
+        return failures.ErrorDifference(diff);
+      }
     }
   }
 

@@ -23,3 +23,31 @@
     }
   }
 }
+
+<===>
+================================================================================
+<===> preserve_merge_after_bubble/input.scss
+// Regression test for sass/dart-sass#777
+@media (a: b) {
+  @media (c: d) {
+    e {f: g}
+  }
+
+  h {i: j}
+  k {l: m}
+}
+
+<===> preserve_merge_after_bubble/output.css
+@media (a: b) and (c: d) {
+  e {
+    f: g;
+  }
+}
+@media (a: b) {
+  h {
+    i: j;
+  }
+  k {
+    l: m;
+  }
+}

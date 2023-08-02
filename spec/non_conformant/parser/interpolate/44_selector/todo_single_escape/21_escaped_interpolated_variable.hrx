@@ -5,11 +5,15 @@ $suffix1: '\@#{$key}';
 
 <===> error
 Error: expected selector.
-  ,
-3 | .test21@bar{ content: '2.1'; }
-  |        ^
+  ,--> input.scss
+3 | .test21#{$suffix1} { content: '2.1'; }
+  |          ^^^^^^^^ 
   '
-  input.scss 3:8  root stylesheet
+  ,
+1 | .test21@bar 
+  |        = error in interpolated output
+  '
+  input.scss 3:10  root stylesheet
 
 <===> error-libsass
 Error: Invalid CSS after ".test21": expected selector, was "@bar"

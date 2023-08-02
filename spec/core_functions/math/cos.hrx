@@ -6,29 +6,29 @@
 <===>
 ================================================================================
 <===> negative_infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(math.div(-1, 0))}
 
 <===> negative_infinity/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(math.div(1, 0))}
 
 <===> infinity/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> deg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1deg)}
 
 <===> deg/output.css
@@ -39,7 +39,7 @@ a {
 <===>
 ================================================================================
 <===> grad/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1grad)}
 
 <===> grad/output.css
@@ -50,7 +50,7 @@ a {
 <===>
 ================================================================================
 <===> rad/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1rad)}
 
 <===> rad/output.css
@@ -61,7 +61,7 @@ a {
 <===>
 ================================================================================
 <===> turn/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1turn)}
 
 <===> turn/output.css
@@ -72,7 +72,7 @@ a {
 <===>
 ================================================================================
 <===> unitless/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1)}
 
 <===> unitless/output.css
@@ -83,7 +83,7 @@ a {
 <===>
 ================================================================================
 <===> named_arg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos($number: 1)}
 
 <===> named_arg/output.css
@@ -94,7 +94,7 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos("0")}
 
 <===> error/type/error
@@ -108,7 +108,7 @@ Error: $number: "0" is not a number.
 <===>
 ================================================================================
 <===> error/unit/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(1px)}
 
 <===> error/unit/error
@@ -122,7 +122,7 @@ Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos()}
 
 <===> error/zero_args/error
@@ -140,7 +140,7 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.cos(0, 0)}
 
 <===> error/too_many_args/error
