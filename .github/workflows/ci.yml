@@ -194,18 +194,18 @@ jobs:
 
       - name: Node.js Embedded Host | Checkout
         uses: sass/clone-linked-repo@v1
-        with: {repo: sass/embedded-host-node, path: embedded-host-node}
+        with: {repo: sass/embedded-host-node, path: ../embedded-host-node}
       - name: Node.js Embedded Host | Install
         run: |
           npm install
           npm run init -- \
-            --compiler-path=../dart-sass \
-            --language-path=../dart-sass/build/language
+            --compiler-path=../sass-spec/dart-sass \
+            --language-path=../sass-spec/dart-sass/build/language
           npm run compile
-        working-directory: embedded-host-node
+        working-directory: ../embedded-host-node
 
       - name: Run specs
         run: |
           npm run js-api-spec -- \
-            --sassPackage embedded-host-node \
+            --sassPackage ../embedded-host-node \
             --sassSassRepo dart-sass/build/language
