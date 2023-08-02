@@ -82,6 +82,16 @@ a {
 
 <===>
 ================================================================================
+<===> equals/input.scss
+a {b: mod(1, 1)}
+
+<===> equals/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
 <===> positive_and_negative/input.scss
 a {b: mod(2, -5)}
 
@@ -322,3 +332,43 @@ Error: expected "+", "-", "*", "/", ",", or ")".
   |             ^
   '
   input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> nan/negative_zero_and_positive_infinity/input.scss
+a {b: mod(-0, infinity)}
+
+<===> nan/negative_zero_and_positive_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/zero_and_negative_infinity/input.scss
+a {b: mod(0, -infinity)}
+
+<===> nan/zero_and_negative_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/negative_and_positive_infinity/input.scss
+a {b: mod(-5, infinity)}
+
+<===> nan/negative_and_positive_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/positive_and_negative_infinity/input.scss
+a {b: mod(5, -infinity)}
+
+<===> nan/positive_and_negative_infinity/output.css
+a {
+  b: calc(NaN);
+}

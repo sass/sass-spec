@@ -82,6 +82,16 @@ a {
 
 <===>
 ================================================================================
+<===> equals/input.scss
+a {b: rem(1, 1)}
+
+<===> equals/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
 <===> positive_and_negative/input.scss
 a {b: rem(2, -5)}
 
@@ -322,3 +332,45 @@ Error: expected "+", "-", "*", "/", ",", or ")".
   |             ^
   '
   input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> negative_zero_and_positive_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, rem(-0, infinity))}
+
+<===> negative_zero_and_positive_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> zero_and_negative_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, rem(0, -infinity))}
+
+<===> zero_and_negative_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> negative_and_positive_infinity/input.scss
+a {b: rem(-5, infinity)}
+
+<===> negative_and_positive_infinity/output.css
+a {
+  b: -5;
+}
+
+<===>
+================================================================================
+<===> positive_and_negative_infinity/input.scss
+a {b: rem(5, -infinity)}
+
+<===> positive_and_negative_infinity/output.css
+a {
+  b: 5;
+}

@@ -210,50 +210,41 @@ Error: 12px must be either nearest, up, down or to-zero.
 <===>
 ================================================================================
 <===> three_argument/strategy_type/input.scss
-a {b: round("nearest", 0, 0)}
+$wrong_input: "nearest";
+a {b: round($wrong_input, 0, 0)}
 
 <===> three_argument/strategy_type/error
-Error: Only 1 argument allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: round("nearest", 0, 0)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+Error: Value "nearest" can't be used in a calculation.
+  ,
+2 | a {b: round($wrong_input, 0, 0)}
+  |             ^^^^^^^^^^^^
   '
-  ,--> sass:math
-1 | @function round($number) {
-  |           ============== declaration
-  '
-  input.scss 1:7  root stylesheet
+  input.scss 2:13  root stylesheet
 
 <===>
 ================================================================================
 <===> three_argument/number_type/input.scss
-a {b: round(nearest, "0", 0)}
+$wrong_input: "0";
+a {b: round(nearest, $wrong_input, 0)}
 
 <===> three_argument/number_type/error
-Error: Only 1 argument allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: round(nearest, "0", 0)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+Error: Value "0" can't be used in a calculation.
+  ,
+2 | a {b: round(nearest, $wrong_input, 0)}
+  |                      ^^^^^^^^^^^^
   '
-  ,--> sass:math
-1 | @function round($number) {
-  |           ============== declaration
-  '
-  input.scss 1:7  root stylesheet
+  input.scss 2:22  root stylesheet
 
 <===>
 ================================================================================
 <===> three_argument/step_type/input.scss
-a {b: round(nearest, 0, "0")}
+$wrong_input: "0";
+a {b: round(nearest, 0, $wrong_input)}
 
 <===> three_argument/step_type/error
-Error: Only 1 argument allowed, but 3 were passed.
-  ,--> input.scss
-1 | a {b: round(nearest, 0, "0")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+Error: Value "0" can't be used in a calculation.
+  ,
+2 | a {b: round(nearest, 0, $wrong_input)}
+  |                         ^^^^^^^^^^^^
   '
-  ,--> sass:math
-1 | @function round($number) {
-  |           ============== declaration
-  '
-  input.scss 1:7  root stylesheet
+  input.scss 2:25  root stylesheet
