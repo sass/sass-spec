@@ -1,0 +1,189 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `cos()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> deg/input.scss
+a {b: cos(1deg)}
+
+<===> deg/output.css
+a {
+  b: 0.9998476952;
+}
+
+<===>
+================================================================================
+<===> grad/input.scss
+a {b: cos(1grad)}
+
+<===> grad/output.css
+a {
+  b: 0.9998766325;
+}
+
+<===>
+================================================================================
+<===> rad/input.scss
+a {b: cos(1rad)}
+
+<===> rad/output.css
+a {
+  b: 0.5403023059;
+}
+
+<===>
+================================================================================
+<===> turn/input.scss
+a {b: cos(1turn)}
+
+<===> turn/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> negative_infinity/input.scss
+a {b: cos(-infinity)}
+
+<===> negative_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: cos(0)}
+
+<===> zero/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+a {b: cos(infinity)}
+
+<===> infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {
+  b: cos(3px - 1px + var(--c));
+}
+
+<===> simplification/output.css
+a {
+  b: cos(2px + var(--c));
+}
+
+<===>
+================================================================================
+<===> error/unit/unknown/input.scss
+a {b: cos(1%)}
+
+<===> error/unit/unknown/error
+Error: $number: Expected 1% to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: cos(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/known/input.scss
+a {b: cos(1px)}
+
+<===> error/unit/known/error
+Error: $number: Expected 1px to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: cos(1px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/complex/input.scss
+a {b: cos(-7px / 4em)}
+
+<===> error/unit/complex/error
+Error: $number: Expected -1.75px/em to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: cos(-7px / 4em)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: cos("0")}
+
+<===> error/type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: cos("0")}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: cos()}
+
+<===> error/too_few_args/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: cos()}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: cos(0, 0)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: cos(0, 0)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: cos($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: cos($)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: cos(7 % 3)}
+
+<===> error/sass_script/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: cos(7 % 3)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

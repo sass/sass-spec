@@ -1,0 +1,190 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `pow()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: pow(10, 10)}
+
+<===> positive/output.css
+a {
+  b: 10000000000;
+}
+
+<===>
+================================================================================
+<===> base/negative/input.scss
+a {b: pow(-10, 10)}
+
+<===> base/negative/output.css
+a {
+  b: 10000000000;
+}
+
+<===>
+================================================================================
+<===> exponent/negative/input.scss
+a {b: pow(10, -10)}
+
+<===> exponent/negative/output.css
+a {
+  b: 0.0000000001;
+}
+
+<===>
+================================================================================
+<===> zeros/input.scss
+a {b: pow(0, 0)}
+
+<===> zeros/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> y_infinity/positive/input.scss
+a {b: pow(infinity, 10)}
+
+<===> y_infinity/positive/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> x_infinity/positive/input.scss
+a {b: pow(10, infinity)}
+
+<===> x_infinity/positive/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {b: pow(3px - 1px + var(--c), 4px + 10px)}
+
+<===> simplification/output.css
+a {
+  b: pow(2px + var(--c), 14px);
+}
+
+<===>
+================================================================================
+<===> error/units/compatible/input.scss
+a {b: pow(10px, 10px)}
+
+<===> error/units/compatible/error
+Error: Expected 10px to have no units.
+  ,
+1 | a {b: pow(10px, 10px)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/unknown_and_unitless/input.scss
+a {b: pow(10%, 10)}
+
+<===> error/units/unknown_and_unitless/error
+Error: Expected 10% to have no units.
+  ,
+1 | a {b: pow(10%, 10)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/real_and_unitless/input.scss
+a {b: pow(10px, 10)}
+
+<===> error/units/real_and_unitless/error
+Error: Expected 10px to have no units.
+  ,
+1 | a {b: pow(10px, 10)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: pow(10, $)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: pow(10, $)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/base_type/input.scss
+a {b: pow(0, "0")}
+
+<===> error/base_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: pow(0, "0")}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/exponent_type/input.scss
+a {b: pow("0", 0)}
+
+<===> error/exponent_type/error
+Error: Expected number, variable, function, or calculation.
+  ,
+1 | a {b: pow("0", 0)}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: pow(3)}
+
+<===> error/too_few_args/error
+Error: 2 arguments required, but only 1 was passed.
+  ,
+1 | a {b: pow(3)}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: pow(3, 2, 1)}
+
+<===> error/too_many_args/error
+Error: expected "+", "-", "*", "/", or ")".
+  ,
+1 | a {b: pow(3, 2, 1)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: pow(7 % 3, 1)}
+
+<===> error/sass_script/error
+Error: expected "+", "-", "*", "/", ",", or ")".
+  ,
+1 | a {b: pow(7 % 3, 1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

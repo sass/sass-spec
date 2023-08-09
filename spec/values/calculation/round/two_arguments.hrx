@@ -1,0 +1,321 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> units/none/input.scss
+a {b: round(117, 25)}
+
+<===> units/none/output.css
+a {
+  b: 125;
+}
+
+<===>
+================================================================================
+<===> units/compatible/input.scss
+a {b: round(117cm, 25mm)}
+
+<===> units/compatible/output.css
+a {
+  b: 117.5cm;
+}
+
+<===>
+================================================================================
+<===> units/real_and_unknown/input.scss
+a {b: round(1px, 10%)}
+
+<===> units/real_and_unknown/output.css
+a {
+  b: round(1px, 10%);
+}
+
+<===>
+================================================================================
+<===> units/unknown/input.scss
+a {
+  b: round(1%, 2%);
+}
+
+<===> units/unknown/output.css
+a {
+  b: 2%;
+}
+
+<===>
+================================================================================
+<===> units/fake/input.scss
+a {
+  b: round(1foo, 2bar);
+}
+
+<===> units/fake/output.css
+a {
+  b: round(1foo, 2bar);
+}
+
+<===>
+================================================================================
+<===> units/same_fake/input.scss
+a {
+  b: round(1foo, 2foo);
+}
+
+<===> units/same_fake/output.css
+a {
+  b: 2foo;
+}
+
+<===>
+================================================================================
+<===> units/real_and_fake/input.scss
+a {
+  b: round(1px, 2bar);
+}
+
+<===> units/real_and_fake/output.css
+a {
+  b: round(1px, 2bar);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {b: round(3.4px + 10%, 1px + 4px)}
+
+<===> simplification/output.css
+a {
+  b: round(3.4px + 10%, 5px);
+}
+
+<===>
+================================================================================
+<===> step_is_zero/input.scss
+a {b: round(5px, 0px)}
+
+<===> step_is_zero/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> equals/input.scss
+a {b: round(10px, 10px)}
+
+<===> equals/output.css
+a {
+  b: 10px;
+}
+
+<===>
+================================================================================
+<===> nan/input.scss
+a {b: round(NaN, NaN)}
+
+<===> nan/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> unknown_variable/input.scss
+a {
+  c: round(up, var(--c));
+}
+
+<===> unknown_variable/output.css
+a {
+  c: round(up, var(--c));
+}
+
+<===>
+================================================================================
+<===> preserved/interpolation/input.scss
+a {
+  e: round(#{"5.5px, 1px"});
+}
+
+<===> preserved/interpolation/output.css
+a {
+  e: round(5.5px, 1px);
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_bigger/input.scss
+a {b: round(23px, 10px)}
+
+<===> upper_multiple/number_is_bigger/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_smaller/input.scss
+a {b: round(18px, 10px)}
+
+<===> upper_multiple/number_is_smaller/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_half/input.scss
+a {b: round(15px, 10px)}
+
+<===> upper_multiple/number_is_half/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_negative/input.scss
+a {b: round(-13px, 10px)}
+
+<===> upper_multiple/number_is_negative/output.css
+a {
+  b: -10px;
+}
+
+<===>
+================================================================================
+<===> lower_multiple/number_is_bigger/input.scss
+a {b: round(13px, 10px)}
+
+<===> lower_multiple/number_is_bigger/output.css
+a {
+  b: 10px;
+}
+
+<===>
+================================================================================
+<===> lower_multiple/number_is_negative/input.scss
+a {b: round(-18px, 10px)}
+
+<===> lower_multiple/number_is_negative/output.css
+a {
+  b: -20px;
+}
+
+<===>
+================================================================================
+<===> negative_zero/positive_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(-5, infinity))}
+
+<===> negative_zero/positive_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> negative_zero/negative_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(-5, -infinity))}
+
+<===> negative_zero/negative_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> positive_zero/positive_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(5, infinity))}
+
+<===> positive_zero/positive_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> positive_zero/negative_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(5, -infinity))}
+
+<===> positive_zero/negative_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> negative_step/upper_multiple/number_is_bigger/input.scss
+a {b: round(23px, -10px)}
+
+<===> negative_step/upper_multiple/number_is_bigger/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> negative_step/upper_multiple/number_is_smaller/input.scss
+a {b: round(18px, -10px)}
+
+<===> negative_step/upper_multiple/number_is_smaller/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> negative_step/upper_multiple/number_is_half/input.scss
+a {b: round(15px, -10px)}
+
+<===> negative_step/upper_multiple/number_is_half/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> negative_step/upper_multiple/number_is_negative/input.scss
+a {b: round(-13px, -10px)}
+
+<===> negative_step/upper_multiple/number_is_negative/output.css
+a {
+  b: -10px;
+}
+
+<===>
+================================================================================
+<===> negative_step/lower_multiple/number_is_bigger/input.scss
+a {b: round(13px, -10px)}
+
+<===> negative_step/lower_multiple/number_is_bigger/output.css
+a {
+  b: 10px;
+}
+
+<===>
+================================================================================
+<===> negative_step/lower_multiple/number_is_negative/input.scss
+a {b: round(-18px, -10px)}
+
+<===> negative_step/lower_multiple/number_is_negative/output.css
+a {
+  b: -20px;
+}
+
+<===>
+================================================================================
+<===> math/unknown_units/input.scss
+a {
+  b: round(1px + 0%, 1px + 0%);
+}
+
+<===> math/unknown_units/output.css
+a {
+  b: round(1px + 0%, 1px + 0%);
+}
