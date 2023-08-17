@@ -1,13 +1,5 @@
-<===> options.yml
----
-:ignore_for:
-- libsass
-
-<===>
-================================================================================
 <===> integer/input.scss
-@use "sass:math";
-a {b: math.round(1)}
+a {b: round(1)}
 
 <===> integer/output.css
 a {
@@ -17,8 +9,7 @@ a {
 <===>
 ================================================================================
 <===> up/high/input.scss
-@use "sass:math";
-a {b: math.round(2.9)}
+a {b: round(2.9)}
 
 <===> up/high/output.css
 a {
@@ -28,8 +19,7 @@ a {
 <===>
 ================================================================================
 <===> up/point_five/input.scss
-@use "sass:math";
-a {b: math.round(16.5)}
+a {b: round(16.5)}
 
 <===> up/point_five/output.css
 a {
@@ -39,8 +29,7 @@ a {
 <===>
 ================================================================================
 <===> up/negative/input.scss
-@use "sass:math";
-a {b: math.round(-5.4)}
+a {b: round(-5.4)}
 
 <===> up/negative/output.css
 a {
@@ -50,8 +39,7 @@ a {
 <===>
 ================================================================================
 <===> up/to_zero/input.scss
-@use "sass:math";
-a {b: math.round(-0.2)}
+a {b: round(-0.2)}
 
 <===> up/to_zero/output.css
 a {
@@ -61,8 +49,7 @@ a {
 <===>
 ================================================================================
 <===> down/low/input.scss
-@use "sass:math";
-a {b: math.round(2.2)}
+a {b: round(2.2)}
 
 <===> down/low/output.css
 a {
@@ -72,8 +59,7 @@ a {
 <===>
 ================================================================================
 <===> down/negative/input.scss
-@use "sass:math";
-a {b: math.round(-5.6)}
+a {b: round(-5.6)}
 
 <===> down/negative/output.css
 a {
@@ -83,8 +69,7 @@ a {
 <===>
 ================================================================================
 <===> down/to_zero/input.scss
-@use "sass:math";
-a {b: math.round(0.2)}
+a {b: round(0.2)}
 
 <===> down/to_zero/output.css
 a {
@@ -100,8 +85,7 @@ a {
 <===> down/within_precision/input.scss
 // This is the largest number that's representable as a float and outside the
 // precision range to be considered equal to 1.5.
-@use "sass:math";
-a {b: math.round(1.4999999999949998)}
+a {b: round(1.4999999999949998)}
 
 <===> down/within_precision/output.css
 a {
@@ -115,8 +99,7 @@ a {
   - sass/libsass#2887
 
 <===> preserves_units/input.scss
-@use "sass:math";
-a {b: math.round(7px / 4em) * 1em}
+a {b: round(7px / 4em) * 1em}
 
 <===> preserves_units/output.css
 a {
@@ -131,16 +114,15 @@ Recommendation: math.div(7px, 4em)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 | a {b: math.round(7px / 4em) * 1em}
-  |                  ^^^^^^^^^
+1 | a {b: round(7px / 4em) * 1em}
+  |             ^^^^^^^^^
   '
-    input.scss 2:18  root stylesheet
+    input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-@use "sass:math";
-a {b: math.round($number: 1.6)}
+a {b: round($number: 1.6)}
 
 <===> named/output.css
 a {
@@ -150,16 +132,15 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math";
-a {b: math.round(c)}
+a {b: round(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
   ,
-2 | a {b: math.round(c)}
-  |       ^^^^^^^^^^^^^
+1 | a {b: round(c)}
+  |       ^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error/type/error-libsass
 Error: argument `$number` of `round($number)` must be a number
@@ -172,20 +153,19 @@ Error: argument `$number` of `round($number)` must be a number
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-@use "sass:math";
-a {b: math.round()}
+a {b: round()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
   ,--> input.scss
-2 | a {b: math.round()}
-  |       ^^^^^^^^^^^^ invocation
+1 | a {b: round()}
+  |       ^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function round($number) {
   |           ============== declaration
   '
-  input.scss 2:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error/too_few_args/error-libsass
 Error: Function round is missing argument $number.
@@ -197,21 +177,20 @@ Error: Function round is missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math";
-a {b: math.round(1, 2)}
+a {b: round(1, 2)}
 
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-2 | a {b: math.round(1, 2)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+1 | a {b: round(1, 2)}
+  |       ^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function round($number) {
   |           ============== declaration
   '
-  input.scss 2:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===> error/too_many_args/error-libsass
 Error: wrong number of arguments (2 for 1) for `round'
