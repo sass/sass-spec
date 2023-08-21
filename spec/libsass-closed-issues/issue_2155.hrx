@@ -18,11 +18,15 @@ If you really want to use the color value here, use '"" + #ff0'.
     input.scss 2:7  root stylesheet
 
 Error: Expected identifier.
-  ,
-2 |   &.#ff0{
-  |     ^
+  ,--> input.scss
+2 |   &.#{#ff0} {
+  |       ^^^^ 
   '
-  input.scss 2:5  root stylesheet
+  ,
+1 | &.#ff0 
+  |   = error in interpolated output
+  '
+  input.scss 2:7  root stylesheet
 
 <===> error-libsass
 Error: Invalid CSS after "&": expected selector, was ".#ff0"

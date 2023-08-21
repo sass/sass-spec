@@ -37,6 +37,30 @@ a {
 
 <===>
 ================================================================================
+<===> bubble/in-mixin/input.scss
+@mixin a {
+  @keyframes b {
+    to { c: d }
+  }
+}
+e {
+  f: g;
+  @include a;
+}
+
+
+<===> bubble/in-mixin/output.css
+e {
+  f: g;
+}
+@keyframes b {
+  to {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
 <===> name/variable_like/input.scss
 $a: b;
 @keyframes $a {

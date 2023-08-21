@@ -6,7 +6,8 @@ import * as p from 'path';
 import * as sass from 'sass';
 
 import {sandbox} from '../sandbox';
-import {skipForImpl, captureStdio, captureStdioAsync} from '../utils';
+import {skipForImpl} from '../utils';
+import {captureStdio, captureStdioAsync} from '../utils';
 
 describe('renderSync()', () => {
   it('one of data and file must be set', () => {
@@ -196,13 +197,13 @@ describe('renderSync()', () => {
       }));
 
     it("doesn't require the file path to exist", () =>
-      sandbox(dir =>
+      sandbox(dir => {
         expect(
           sass
             .renderSync({file: dir('non-existent.scss'), data: 'a {b: c}'})
             .css.toString()
-        ).toEqualIgnoringWhitespace('a { b: c; }')
-      ));
+        ).toEqualIgnoringWhitespace('a { b: c; }');
+      }));
 
     it('resolves loads relative to the file path to exist', () =>
       sandbox(dir => {
@@ -241,38 +242,44 @@ describe('renderSync()', () => {
 
 describe('render()', () => {
   it('renders a string', done => {
-    sass.render({data: 'a {b: c}'}, (err, result) => {
-      expect(err).toBeFalsy();
-      expect(result!.css.toString()).toBe('a {\n  b: c;\n}');
-      done();
-    });
+    sass.render(
+      {data: 'a {b: c}'},
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
+        expect(err).toBeFalsy();
+        expect(result!.css.toString()).toBe('a {\n  b: c;\n}');
+        done();
+      }
+    );
   });
 
   it('throws a LegacyException', done => {
-    sass.render({data: 'a {b: }'}, (err, result) => {
-      expect(result).toBeFalsy();
-      const error = err as sass.LegacyException;
-      expect(error.formatted).toBeString();
-      expect(error.line).toBe(1);
-      expect(error.column).toBeNumber();
-      expect(error.status).toBeNumber();
-      expect(error.file).toBe('stdin');
-      done();
-    });
+    sass.render(
+      {data: 'a {b: }'},
+      (err?: sass.LegacyException, result?: sass.LegacyResult) => {
+        expect(result).toBeFalsy();
+        const error = err as sass.LegacyException;
+        expect(error.formatted).toBeString();
+        expect(error.line).toBe(1);
+        expect(error.column).toBeNumber();
+        expect(error.status).toBeNumber();
+        expect(error.file).toBe('stdin');
+        done();
+      }
+    );
   });
 });
 
 describe('messages', () => {
   it('emits warnings on stderr by default', () => {
     const stdio = captureStdio(() => sass.renderSync({data: '@warn heck'}));
-    expect(stdio.out).toBeEmpty();
-    expect(stdio.err).not.toBeEmpty();
+    expect(stdio.out).toBeEmptyString();
+    expect(stdio.err).not.toBeEmptyString();
   });
 
   it('emits debug messages on stderr by default', () => {
     const stdio = captureStdio(() => sass.renderSync({data: '@debug heck'}));
-    expect(stdio.out).toBeEmpty();
-    expect(stdio.err).not.toBeEmpty();
+    expect(stdio.out).toBeEmptyString();
+    expect(stdio.err).not.toBeEmptyString();
   });
 });
 
@@ -402,7 +409,7 @@ describe('options', () => {
           const stdio = captureStdio(() =>
             sass.renderSync({file: dir('test.scss'), quietDeps: true})
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
         }));
 
@@ -416,7 +423,7 @@ describe('options', () => {
           const stdio = captureStdio(() =>
             sass.renderSync({file: dir('test.scss'), quietDeps: true})
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
         }));
 
@@ -430,7 +437,7 @@ describe('options', () => {
           const stdio = captureStdio(() =>
             sass.renderSync({file: dir('test.scss'), quietDeps: true})
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('&&');
         }));
 
@@ -444,7 +451,7 @@ describe('options', () => {
           const stdio = captureStdio(() =>
             sass.renderSync({file: dir('test.scss'), quietDeps: true})
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('blue');
         }));
     });
@@ -464,7 +471,7 @@ describe('options', () => {
               includePaths: [dir('dir')],
             })
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
         }));
 
@@ -482,7 +489,7 @@ describe('options', () => {
               includePaths: [dir('dir')],
             })
           );
-          expect(stdio.out).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
         }));
 
@@ -500,8 +507,8 @@ describe('options', () => {
               includePaths: [dir('dir')],
             })
           );
-          expect(stdio.out).toBeEmpty();
-          expect(stdio.err).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
+          expect(stdio.err).toBeEmptyString();
         }));
 
       it("doesn't emit evaluation warnings", () =>
@@ -518,8 +525,8 @@ describe('options', () => {
               includePaths: [dir('dir')],
             })
           );
-          expect(stdio.out).toBeEmpty();
-          expect(stdio.err).toBeEmpty();
+          expect(stdio.out).toBeEmptyString();
+          expect(stdio.err).toBeEmptyString();
         }));
     });
   });
@@ -547,7 +554,7 @@ describe('options', () => {
           verbose: true,
         })
       );
-      expect(stdio.out).toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
       expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(6);
       expect(stdio.err.match(/math\.div/g)).toBeArrayOfSize(6);
     });
@@ -558,7 +565,7 @@ describe('options', () => {
           data,
         })
       );
-      expect(stdio.out).toBeEmpty();
+      expect(stdio.out).toBeEmptyString();
       expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(5);
       expect(stdio.err.match(/math\.div/g)).toBeArrayOfSize(5);
     });
@@ -569,36 +576,9 @@ describe('options', () => {
       it('emits to stderr by default', async () => {
         const stdio = await captureStdioAsync(async () => {
           await new Promise((resolve, reject) => {
-            sass.render({data: '@warn heck; @debug heck'}, (err, result) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(result);
-              }
-            });
-          });
-        });
-
-        expect(stdio.out).toBeEmpty();
-        expect(stdio.err).not.toBeEmpty();
-      });
-
-      it("doesn't emit to stderr with callbacks", async () => {
-        const stdio = await captureStdioAsync(async () => {
-          await new Promise((resolve, reject) => {
             sass.render(
-              {
-                data: '@warn heck warn; @debug heck debug',
-                logger: {
-                  warn(message) {
-                    expect(message).toBe('heck warn');
-                  },
-                  debug(message) {
-                    expect(message).toBe('heck debug');
-                  },
-                },
-              },
-              (err, result) => {
+              {data: '@warn heck; @debug heck'},
+              (err?: sass.LegacyException, result?: sass.LegacyResult) => {
                 if (err) {
                   reject(err);
                 } else {
@@ -609,8 +589,38 @@ describe('options', () => {
           });
         });
 
-        expect(stdio.out).toBeEmpty();
-        expect(stdio.err).toBeEmpty();
+        expect(stdio.out).toBeEmptyString();
+        expect(stdio.err).not.toBeEmptyString();
+      });
+
+      it("doesn't emit to stderr with callbacks", async () => {
+        const stdio = await captureStdioAsync(async () => {
+          await new Promise((resolve, reject) => {
+            sass.render(
+              {
+                data: '@warn heck warn; @debug heck debug',
+                logger: {
+                  warn(message: string) {
+                    expect(message).toBe('heck warn');
+                  },
+                  debug(message: string) {
+                    expect(message).toBe('heck debug');
+                  },
+                },
+              },
+              (err?: sass.LegacyException, result?: sass.LegacyResult) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(result);
+                }
+              }
+            );
+          });
+        });
+
+        expect(stdio.out).toBeEmptyString();
+        expect(stdio.err).toBeEmptyString();
       });
     });
   });
@@ -648,7 +658,7 @@ describe('the result object', () => {
     it("doesn't contain the root path with a data: parameter", () =>
       expect(
         sass.renderSync({data: 'a {b: c}'}).stats.includedFiles
-      ).toBeEmpty());
+      ).toBeEmptyArray());
 
     it('contains imported paths', () =>
       sandbox(dir => {
@@ -671,7 +681,7 @@ describe('the result object', () => {
           sass
             .renderSync({file: dir('test.scss')})
             .stats.includedFiles.filter(
-              path => path === p.resolve(dir('_other.scss'))
+              (path: string) => path === p.resolve(dir('_other.scss'))
             )
         ).toBeArrayOfSize(1);
       }));

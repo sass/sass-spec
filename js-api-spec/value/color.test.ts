@@ -55,6 +55,7 @@ describe('SassColor', () => {
 
       it("isn't any other type", () => {
         expect(() => color.assertBoolean()).toThrow();
+        expect(() => color.assertCalculation()).toThrow();
         expect(() => color.assertFunction()).toThrow();
         expect(() => color.assertMap()).toThrow();
         expect(color.tryMap()).toBe(null);
@@ -70,7 +71,7 @@ describe('SassColor', () => {
       });
 
       // TODO(#1828): Update these expectations
-      it.skip('disallows invalid values', () => {
+      xit('disallows invalid values', () => {
         expect(() => rgb(-1, 0, 0, 0)).toThrow();
         expect(() => rgb(0, -1, 0, 0)).toThrow();
         expect(() => rgb(0, 0, -1, 0)).toThrow();
@@ -82,7 +83,7 @@ describe('SassColor', () => {
       });
 
       // TODO(#1828): Update these expectations
-      it.skip('rounds channels to the nearest integer', () => {
+      xit('rounds channels to the nearest integer', () => {
         expect(rgb(0.1, 50.4, 90.3)).toEqualWithHash(rgb(0, 50, 90));
         expect(rgb(-0.1, 50.5, 90.7)).toEqualWithHash(rgb(0, 51, 91));
       });
@@ -192,7 +193,7 @@ describe('SassColor', () => {
     });
 
     // TODO(#1828): Update these expectations
-    it.skip('equals the same color', () => {
+    xit('equals the same color', () => {
       expect(color).toEqualWithHash(rgb(62, 152, 62));
       expect(color).toEqualWithHash(hsl(120, 42, 42));
       expect(color).toEqualWithHash(
@@ -241,7 +242,7 @@ describe('SassColor', () => {
     });
 
     // TODO(#1828): Update these expectations
-    it.skip('equals the same color', () => {
+    xit('equals the same color', () => {
       expect(color).toEqualWithHash(rgb(107, 148, 107));
       expect(color).toEqualWithHash(hsl(120, 16.078431372549026, 50));
       expect(color).toEqualWithHash(
@@ -286,7 +287,7 @@ describe('SassColor', () => {
       });
 
       // TODO(#1828): Update these expectations
-      it.skip('disallows invalid values', () => {
+      xit('disallows invalid values', () => {
         expect(() => color.change({red: -1})).toThrow();
         expect(() => color.change({red: 256})).toThrow();
         expect(() => color.change({green: -1})).toThrow();
@@ -298,7 +299,7 @@ describe('SassColor', () => {
       });
 
       // TODO(#1828): Update these expectations
-      it.skip('rounds channels to the nearest integer', () => {
+      xit('rounds channels to the nearest integer', () => {
         expect(
           color.change({red: 0.1, green: 50.4, blue: 90.3})
         ).toEqualWithHash(rgb(0, 50, 90));

@@ -4,7 +4,7 @@ defaults:
   run: {shell: bash}
 
 env:
-  PROTOC_VERSION: 3.x
+  # TODO(jathak): Update this to Node 18 once unit tests are fixed.
   NODE_VERSION: 14
 
 on:
@@ -17,8 +17,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
@@ -30,8 +30,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint
@@ -41,8 +41,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
       - run: npm run lint-spec
@@ -57,19 +57,15 @@ jobs:
         dart_channel: [stable, dev]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
-        with: {sdk: "${{ matrix.dart_channel }}"}
 
-      - name: Dart Sass | Checkout
-        uses: sass/clone-linked-repo@v1
-        with: {repo: sass/dart-sass, path: dart-sass}
-      - name: Dart Sass | dart pub get
-        run: dart pub get
-        working-directory: dart-sass
+      - uses: ./.github/util/dart-sass
+        with:
+          github-token: ${{ github.token }}
+          dart-sdk: ${{ matrix.dart_channel }}
 
       - name: Run specs
         run: npm run sass-spec -- --dart dart-sass
@@ -80,8 +76,8 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ env.NODE_VERSION }}"}
       - run: npm install
 
@@ -104,7 +100,7 @@ jobs:
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
   js_api_dart_sass:
-    name: "JS API | Dart Sass | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    name: "JS API | Pure JS | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
@@ -112,47 +108,65 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: [16]
+        node_version: [18]
         # Only test LTS versions on Ubuntu
         include:
         - os: ubuntu-latest
-          node_version: 12
-        - os: ubuntu-latest
           node_version: 14
+        - os: ubuntu-latest
+          node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
-        with: {sdk: stable}
 
-      - name: Dart Sass | Checkout
-        uses: sass/clone-linked-repo@v1
-        with: {repo: sass/dart-sass, path: dart-sass}
-      - name: Dart Sass | Install
-        run: |
-          dart pub get
-          dart pub run grinder pkg-npm-dev
-          cd build/npm
-          npm install
+      - uses: ./.github/util/dart-sass
+        with:
+          github-token: ${{ github.token }}
+
+      - name: Dart Sass | Build
+        run: dart run grinder pkg-npm-dev
         working-directory: dart-sass
 
-      - name: Check out Sass specification
-        uses: sass/clone-linked-repo@v1
+      - name: Run specs
+        run: |
+          npm run js-api-spec -- \
+            --sassPackage dart-sass/build/npm \
+            --sassSassRepo dart-sass/build/language
+
+  js_api_dart_sass_browser:
+    name: "JS API | Pure JS | Browser"
+    runs-on: ubuntu-latest
+    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: browser-actions/setup-chrome@v1
+      - run: npm install
+
+      - uses: ./.github/util/dart-sass
         with:
-          repo: sass/sass
-          path: language
+          github-token: ${{ github.token }}
+
+      - name: Dart Sass | Build
+        run: dart run grinder pkg-npm-dev
+        working-directory: dart-sass
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage dart-sass/build/npm --sassSassRepo language
+        run: |
+          npm run js-api-spec -- \
+            --browser \
+            --sassPackage dart-sass/build/npm \
+            --sassSassRepo dart-sass/build/language
+        env: {CHROME_EXECUTABLE: chrome}
 
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.
   js_api_sass_embedded:
-    name: "JS API | sass-embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
+    name: "JS API | Embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
     if: github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip sass-embedded')
 
@@ -160,52 +174,43 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: [16]
+        node_version: [18]
         # Only test LTS versions on Ubuntu
         include:
         - os: ubuntu-latest
-          node_version: 12
-        - os: ubuntu-latest
           node_version: 14
+        - os: ubuntu-latest
+          node_version: 16
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
-      - uses: dart-lang/setup-dart@v1
-        with: {sdk: stable}
-      - uses: arduino/setup-protoc@v1
-        with:
-          version: ${{ env.PROTOC_VERSION }}
-          repo-token: '${{ github.token }}'
 
-      # Clone linked versions of Dart Sass Embedded and the Embedded Protocol so
-      # that they match the current feature branch.
-      - name: Dart Sass Embedded | Checkout
-        uses: sass/clone-linked-repo@v1
-        with: {repo: sass/dart-sass-embedded, path: dart-sass-embedded}
-      - name: Embedded Protocol | Checkout
-        uses: sass/clone-linked-repo@v1
-        with: {repo: sass/embedded-protocol, path: embedded-protocol}
+      - uses: ./.github/util/dart-sass
+        with:
+          github-token: ${{ github.token }}
 
       - name: Node.js Embedded Host | Checkout
         uses: sass/clone-linked-repo@v1
         with: {repo: sass/embedded-host-node, path: embedded-host-node}
+
+      # Work around actions/checkout#197. We need this outside the main checkout
+      # because otherwise its `node_modules` conflict with sass-spec's.
+      - run: mv embedded-host-node ..
+
       - name: Node.js Embedded Host | Install
         run: |
           npm install
           npm run init -- \
-            --compiler-path=../dart-sass-embedded \
-            --protocol-path=../embedded-protocol
+            --compiler-path=../sass-spec/dart-sass \
+            --language-path=../sass-spec/dart-sass/build/language
           npm run compile
-        working-directory: embedded-host-node
-
-      - name: Check out Sass specification
-        uses: sass/clone-linked-repo@v1
-        with:
-          repo: sass/sass
-          path: language
+        working-directory: ../embedded-host-node
 
       - name: Run specs
-        run: npm run js-api-spec -- --sassPackage embedded-host-node --sassSassRepo language
+        run: |
+          npm run js-api-spec -- \
+            --sassPackage ../embedded-host-node \
+            --sassSassRepo dart-sass/build/language

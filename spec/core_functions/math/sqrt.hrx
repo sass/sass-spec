@@ -6,18 +6,18 @@
 <===>
 ================================================================================
 <===> negative/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(-1)}
 
 <===> negative/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> negative_zero/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(-0.0)}
 
 <===> negative_zero/output.css
@@ -28,18 +28,18 @@ a {
 <===>
 ================================================================================
 <===> negative_zero_fuzzy/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(-0.000000000001)}
 
 <===> negative_zero_fuzzy/output.css
 a {
-  b: NaN;
+  b: calc(NaN);
 }
 
 <===>
 ================================================================================
 <===> zero/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(0)}
 
 <===> zero/output.css
@@ -50,7 +50,7 @@ a {
 <===>
 ================================================================================
 <===> zero_fuzzy/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(0.000000000001)}
 
 <===> zero_fuzzy/output.css
@@ -61,7 +61,7 @@ a {
 <===>
 ================================================================================
 <===> positive/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(2)}
 
 <===> positive/output.css
@@ -72,18 +72,18 @@ a {
 <===>
 ================================================================================
 <===> infinity/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(math.div(1, 0))}
 
 <===> infinity/output.css
 a {
-  b: Infinity;
+  b: calc(infinity);
 }
 
 <===>
 ================================================================================
 <===> named_arg/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt($number: 2)}
 
 <===> named_arg/output.css
@@ -94,7 +94,7 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt("0")}
 
 <===> error/type/error
@@ -108,7 +108,7 @@ Error: $number: "0" is not a number.
 <===>
 ================================================================================
 <===> error/units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(1px)}
 
 <===> error/units/error
@@ -122,7 +122,7 @@ Error: $number: Expected 1px to have no units.
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt()}
 
 <===> error/zero_args/error
@@ -140,7 +140,7 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.sqrt(0, 0)}
 
 <===> error/too_many_args/error

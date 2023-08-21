@@ -1,0 +1,107 @@
+<===> options.yml
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> simple/input.scss
+a { b: { c: d } }
+
+<===> simple/output.css
+a {
+  b-c: d;
+}
+
+<===>
+================================================================================
+<===> complex/input.scss
+a { b: c { d: e } }
+
+<===> complex/output.css
+a {
+  b: c;
+  b-d: e;
+}
+
+<===>
+================================================================================
+<===> with_dash_prefix/input.scss
+a { b: { -c: d } }
+
+<===> with_dash_prefix/output.css
+a {
+  b--c: d;
+}
+
+<===>
+================================================================================
+<===> nested/input.scss
+a { b: { c: { d: e }; f: g } }
+
+<===> nested/output.css
+a {
+  b-c-d: e;
+  b-f: g;
+}
+
+<===>
+================================================================================
+<===> custom_property_value/input.scss
+a { b: { c: --d } }
+
+<===> custom_property_value/output.css
+a {
+  b-c: --d;
+}
+
+<===>
+================================================================================
+<===> error/value_after_propset/input.scss
+a { b: { d: e } f }
+
+<===> error/value_after_propset/error
+Error: expected "{".
+  ,
+1 | a { b: { d: e } f }
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> error/custom_property/simple/input.scss
+a { b: { --d: e } }
+
+<===> error/custom_property/simple/error
+Error: Declarations whose names begin with "--" may not be nested.
+  ,
+1 | a { b: { --d: e } }
+  |          ^^^^^^^
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> error/custom_property/nested/simple/input.scss
+a { b: { --d: {e: f} } }
+
+<===> error/custom_property/nested/simple/error
+Error: Declarations whose names begin with "--" may not be nested.
+  ,
+1 | a { b: { --d: {e: f} } }
+  |          ^^^^^^^^^^^
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> error/custom_property/nested/complex/input.scss
+a { b: { --d: e {--f: g} } }
+
+<===> error/custom_property/nested/complex/error
+Error: Declarations whose names begin with "--" may not be nested.
+  ,
+1 | a { b: { --d: e {--f: g} } }
+  |          ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:10  root stylesheet

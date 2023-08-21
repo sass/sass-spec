@@ -5,8 +5,6 @@
 import {Value, SassList, SassMap, SassNumber, SassString} from 'sass';
 import {List, OrderedMap} from 'immutable';
 
-import '../utils';
-
 describe('SassMap', () => {
   let map: SassMap;
   beforeEach(() => {
@@ -31,6 +29,7 @@ describe('SassMap', () => {
 
     it("isn't any other type", () => {
       expect(() => map.assertBoolean()).toThrow();
+      expect(() => map.assertCalculation()).toThrow();
       expect(() => map.assertColor()).toThrow();
       expect(() => map.assertFunction()).toThrow();
       expect(() => map.assertNumber()).toThrow();

@@ -1,0 +1,65 @@
+<===> options.yml
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> new-line/escaped/input.scss
+a {
+  b: 'line1 \
+      line2';
+}
+
+<===> new-line/escaped/output.css
+a {
+  b: "line1       line2";
+}
+
+<===>
+================================================================================
+<===> new-line/raw/input.scss
+@mixin a($b) { b: $b }
+a {
+  b: 'line1
+      line2';
+}
+
+<===> new-line/raw/error
+Error: Expected '.
+  ,
+3 |   b: 'line1
+  |            ^
+  '
+  input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> new-line/cr/input.scss
+@mixin a($b) { b: $b }
+a {
+  b: 'line1      line2';
+}
+
+<===> new-line/cr/error
+Error: Expected '.
+  ,
+3 |   b: 'line1
+  |            ^
+  '
+  input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> new-line/ff/input.scss
+@mixin a($b) { b: $b }
+a {
+  b: 'line1line2';
+
+
+<===> new-line/ff/error
+Error: Expected '.
+  ,
+3 |   b: 'line1line2';
+  |            ^
+  '
+  input.scss 3:12  root stylesheet

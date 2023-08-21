@@ -3,7 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassTrue, sassFalse} from 'sass';
-import '../utils';
 
 describe('Sass boolean', () => {
   describe('sassTrue', () => {
@@ -26,6 +25,7 @@ describe('Sass boolean', () => {
     });
 
     it("isn't any other type", () => {
+      expect(value.assertCalculation).toThrow();
       expect(value.assertColor).toThrow();
       expect(value.assertFunction).toThrow();
       expect(value.assertMap).toThrow();
@@ -55,6 +55,7 @@ describe('Sass boolean', () => {
     });
 
     it("isn't any other type", () => {
+      expect(value.assertCalculation).toThrow();
       expect(value.assertColor).toThrow();
       expect(value.assertFunction).toThrow();
       expect(value.assertMap).toThrow();

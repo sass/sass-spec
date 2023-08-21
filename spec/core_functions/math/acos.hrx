@@ -6,18 +6,18 @@
 <===>
 ================================================================================
 <===> less_than_negative_one/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(-2)}
 
 <===> less_than_negative_one/output.css
 a {
-  b: NaNdeg;
+  b: calc(NaN * 1deg);
 }
 
 <===>
 ================================================================================
 <===> negative_decimal/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(-0.5)}
 
 <===> negative_decimal/output.css
@@ -28,7 +28,7 @@ a {
 <===>
 ================================================================================
 <===> decimal/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(0.5)}
 
 <===> decimal/output.css
@@ -39,7 +39,7 @@ a {
 <===>
 ================================================================================
 <===> one/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(1)}
 
 <===> one/output.css
@@ -50,29 +50,29 @@ a {
 <===>
 ================================================================================
 <===> one_fuzzy/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(1.000000000001)}
 
 <===> one_fuzzy/output.css
 a {
-  b: NaNdeg;
+  b: calc(NaN * 1deg);
 }
 
 <===>
 ================================================================================
 <===> greater_than_one/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(2)}
 
 <===> greater_than_one/output.css
 a {
-  b: NaNdeg;
+  b: calc(NaN * 1deg);
 }
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos("0")}
 
 <===> error/type/error
@@ -86,7 +86,7 @@ Error: $number: "0" is not a number.
 <===>
 ================================================================================
 <===> error/units/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(1px)}
 
 <===> error/units/error
@@ -100,7 +100,7 @@ Error: $number: Expected 1px to have no units.
 <===>
 ================================================================================
 <===> error/zero_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos()}
 
 <===> error/zero_args/error
@@ -118,7 +118,7 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use "sass:math" as math;
+@use "sass:math";
 a {b: math.acos(0, 0)}
 
 <===> error/too_many_args/error

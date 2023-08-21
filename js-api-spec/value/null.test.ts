@@ -3,7 +3,6 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, sassNull} from 'sass';
-import '../utils';
 
 describe('Sass null', () => {
   const value: Value = sassNull;
@@ -26,6 +25,7 @@ describe('Sass null', () => {
 
   it("isn't any type", () => {
     expect(value.assertBoolean).toThrow();
+    expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
     expect(value.assertMap).toThrow();
