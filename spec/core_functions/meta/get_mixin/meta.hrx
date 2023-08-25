@@ -1,0 +1,21 @@
+<===> inspect/input.scss
+@use "sass:meta";
+@mixin foo() {}
+a {b: inspect(meta.get-mixin(foo))};
+
+<===> inspect/output.css
+a {
+  b: get-mixin("foo");
+}
+
+<===>
+================================================================================
+<===> type_of/input.scss
+@use "sass:meta";
+@mixin foo() {}
+a {b: type-of(meta.get-mixin(foo))};
+
+<===> type_of/output.css
+a {
+  b: mixin;
+}

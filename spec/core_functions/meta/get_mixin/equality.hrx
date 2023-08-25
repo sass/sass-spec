@@ -1,0 +1,74 @@
+<===> same_value/input.scss
+@use "sass:meta";
+@mixin foo() {}
+$a: meta.get-mixin(foo);
+a {b: $a == $a}
+
+<===> same_value/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> built_in/same/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin(load-css, meta) == meta.get-mixin(load-css, meta)}
+
+<===> built_in/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> built_in/different/input.scss
+@use "sass:meta";
+@mixin foo() {}
+a {b: meta.get-mixin(load-css, meta) == meta.get-mixin(foo)}
+
+<===> built_in/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> user_defined/same/input.scss
+@use "sass:meta";
+@mixin user-defined() {}
+a {b: meta.get-mixin(user-defined) == meta.get-mixin(user-defined)}
+
+<===> user_defined/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> user_defined/different/input.scss
+@use "sass:meta";
+@mixin user-defined-1() {}
+@mixin user-defined-2() {}
+a {b: meta.get-mixin(user-defined-1) == meta.get-mixin(user-defined-2)}
+
+<===> user_defined/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> user_defined/redefined/input.scss
+@use "sass:meta";
+@mixin user-defined() {}
+$first-reference: meta.get-mixin(user-defined);
+
+@mixin user-defined() {}
+$second-reference: meta.get-mixin(user-defined);
+a {b: $first-reference == $second-reference}
+
+<===> user_defined/redefined/output.css
+a {
+  b: false;
+}

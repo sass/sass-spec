@@ -1,0 +1,40 @@
+<===> accepts/direct-child/input.scss
+@use "sass:meta";
+
+@mixin foo() {
+    @content;
+}
+
+a {b: meta.accepts-content(meta.get-mixin("foo"))}
+
+<===> accepts/direct-child/output.css
+a {
+  b: true;
+}
+
+<===> accepts/nested-child/input.scss
+@use "sass:meta";
+
+@mixin foo() {
+    @if false {
+        @content;
+    }
+}
+
+a {b: meta.accepts-content(meta.get-mixin("foo"))}
+
+<===> accepts/nested-child/output.css
+a {
+  b: true;
+}
+
+<===> doesnt-accept/empty/input.scss
+@use "sass:meta";
+@mixin foo() {}
+
+a {b: meta.accepts-content(meta.get-mixin("foo"))}
+
+<===> doesnt-accept/empty/output.css
+a {
+  b: false;
+}
