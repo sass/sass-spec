@@ -333,3 +333,24 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |      ^^^^^^^^^^^^^^
   '
     input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: mAx(1px)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function max($arg1, $arg2) {@return $arg1}
+a {b: max(1, 2)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}

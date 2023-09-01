@@ -1,0 +1,43 @@
+<===> options.yml
+:ignore_for:
+- libsass
+
+<===>
+================================================================================
+<===> degenerate/modulus/infinity/positive_and_positive/input.scss
+a {b: 1px % calc(infinity * 1px)}
+
+<===> degenerate/modulus/infinity/positive_and_positive/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> degenerate/modulus/infinity/positive_and_negative/input.scss
+a {b: 1px % calc(-infinity * 1px)}
+
+<===> degenerate/modulus/infinity/positive_and_negative/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> degenerate/modulus/infinity/negative_and_negative/input.scss
+a {b: -1px % calc(-infinity * 1px)}
+
+<===> degenerate/modulus/infinity/negative_and_negative/output.css
+a {
+  b: -1px;
+}
+
+<===>
+================================================================================
+<===> degenerate/modulus/infinity/negative_and_positive/input.scss
+a {b: -1px % calc(infinity * 1px)}
+
+<===> degenerate/modulus/infinity/negative_and_positive/output.css
+a {
+  b: calc(NaN * 1px);
+}

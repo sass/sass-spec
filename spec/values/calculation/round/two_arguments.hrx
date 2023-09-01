@@ -319,3 +319,24 @@ a {
 a {
   b: round(1px + 0%, 1px + 0%);
 }
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: RoUnD(117, 25)}
+
+<===> case_insensitive/output.css
+a {
+  b: 125;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function round($arg1, $arg2) {@return $arg1}
+a {b: round(1, 2)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}

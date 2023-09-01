@@ -56,6 +56,27 @@ a {
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: AtAn(1)}
+
+<===> case_insensitive/output.css
+a {
+  b: 45deg;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function atan($arg) {@return $arg}
+a {b: atan(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> error/unit/unknown/input.scss
 a {b: atan(1%)}
 

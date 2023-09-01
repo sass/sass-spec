@@ -66,6 +66,27 @@ a {
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: aSiN(1)}
+
+<===> case_insensitive/output.css
+a {
+  b: 90deg;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function asin($arg) {@return $arg}
+a {b: asin(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> error/unit/unknown/input.scss
 a {b: asin(1%)}
 

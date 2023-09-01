@@ -94,6 +94,27 @@ a {
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: aTaN2(1, -10)}
+
+<===> case_insensitive/output.css
+a {
+  b: 174.2894068625deg;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function atan2($arg) {@return $arg}
+a {b: atan2(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> error/units/unitless_and_real/input.scss
 a {b: atan2(1, 1px)}
 

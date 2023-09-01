@@ -114,6 +114,27 @@ a {
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: hYpOt(1, 2)}
+
+<===> case_insensitive/output.css
+a {
+  b: 2.2360679775;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function hypot($arg1, $arg2) {@return $arg1}
+a {b: hypot(1, 2)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> error/unsimplifiable/input.scss
 a {b: hypot(-7px / 4em)}
 

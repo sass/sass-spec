@@ -216,6 +216,27 @@ a {
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: ReM(7, 3)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function rem($arg) {@return $arg}
+a {b: rem(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> error/units/real_and_unitless/input.scss
 a {b: rem(16px, 5)}
 

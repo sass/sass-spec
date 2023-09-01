@@ -123,6 +123,27 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
+<===> case_insensitive/input.scss
+a {b: AbS(-2)}
+
+<===> case_insensitive/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function abs($arg) {@return $arg}
+a {b: abs(-2)}
+
+<===> overridden/output.css
+a {
+  b: -2;
+}
+
+<===>
+================================================================================
 <===> error/sass_script_and_variable/input.scss
 a {b: abs($number: var(--c))}
 

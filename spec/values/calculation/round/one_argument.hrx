@@ -95,3 +95,24 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |      ^^^^^^^^^^^^^^^^
   '
     input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: rOuNd(1)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function round($arg) {@return $arg}
+a {b: round(1.1)}
+
+<===> overridden/output.css
+a {
+  b: 1.1;
+}
