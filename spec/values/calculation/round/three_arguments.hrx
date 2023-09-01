@@ -15,6 +15,18 @@ a {
 
 <===>
 ================================================================================
+<===> strategy/interpolation/input.scss
+a {
+  e: round(#{"up"}, 3px, 9px);
+}
+
+<===> strategy/interpolation/output.css
+a {
+  e: 9px;
+}
+
+<===>
+================================================================================
 <===> step/unknown_variable/input.scss
 a {
   d: round(up, 8px, var(--c));
@@ -22,18 +34,6 @@ a {
 <===> step/unknown_variable/output.css
 a {
   d: round(up, 8px, var(--c));
-}
-
-<===>
-================================================================================
-<===> preserved/interpolation/input.scss
-a {
-  e: round(#{"up"}, 3px, 9px);
-}
-
-<===> preserved/interpolation/output.css
-a {
-  e: round(up, 3px, 9px);
 }
 
 <===>

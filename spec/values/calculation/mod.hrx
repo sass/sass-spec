@@ -287,10 +287,10 @@ Error: Expected identifier.
 a {b: mod(0, "0")}
 
 <===> error/modulus_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: mod(0, "0")}
-  |              ^
+  |              ^^^
   '
   input.scss 1:14  root stylesheet
 
@@ -300,10 +300,10 @@ Error: Expected number, variable, function, or calculation.
 a {b: mod("0", 0)}
 
 <===> error/dividend_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: mod("0", 0)}
-  |           ^
+  |           ^^^
   '
   input.scss 1:11  root stylesheet
 
@@ -313,12 +313,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: mod(3, 2, 1)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 2 arguments allowed, but 3 were passed.
   ,
 1 | a {b: mod(3, 2, 1)}
-  |               ^
+  |       ^^^^^^^^^^^^
   '
-  input.scss 1:15  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -326,7 +326,7 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: mod(7 % 3, 1)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", ",", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: mod(7 % 3, 1)}
   |             ^

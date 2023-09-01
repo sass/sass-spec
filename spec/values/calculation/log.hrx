@@ -175,10 +175,10 @@ Error: Expected 3px to have no units.
 a {b: log("0")}
 
 <===> error/number_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: log("0")}
-  |           ^
+  |           ^^^
   '
   input.scss 1:11  root stylesheet
 
@@ -188,10 +188,10 @@ Error: Expected number, variable, function, or calculation.
 a {b: log(0, "0")}
 
 <===> error/base_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: log(0, "0")}
-  |              ^
+  |              ^^^
   '
   input.scss 1:14  root stylesheet
 
@@ -201,12 +201,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: log()}
 
 <===> error/too_few_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: log()}
-  |           ^
+  |       ^^^^^
   '
-  input.scss 1:11  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -214,12 +214,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: log(0, 0, 0)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 2 arguments allowed, but 3 were passed.
   ,
 1 | a {b: log(0, 0, 0)}
-  |               ^
+  |       ^^^^^^^^^^^^
   '
-  input.scss 1:15  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -240,7 +240,7 @@ Error: Expected identifier.
 a {b: log(7 % 3)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", ",", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: log(7 % 3)}
   |             ^

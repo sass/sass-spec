@@ -187,10 +187,10 @@ Error: 1px and 1 are incompatible.
 a {b: hypot("0", 1px, 1px)}
 
 <===> error/first_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: hypot("0", 1px, 1px)}
-  |             ^
+  |             ^^^
   '
   input.scss 1:13  root stylesheet
 
@@ -200,10 +200,10 @@ Error: Expected number, variable, function, or calculation.
 a {b: hypot(1px, "0", 1px)}
 
 <===> error/second_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: hypot(1px, "0", 1px)}
-  |                  ^
+  |                  ^^^
   '
   input.scss 1:18  root stylesheet
 
@@ -213,12 +213,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: hypot()}
 
 <===> error/too_few_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: hypot()}
-  |             ^
+  |       ^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -239,7 +239,7 @@ Error: Expected identifier.
 a {b: hypot(7 % 3, 1)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", ",", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: hypot(7 % 3, 1)}
   |               ^

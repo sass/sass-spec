@@ -110,8 +110,11 @@ b {
 
 <===> math/slash_as_division/warning
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
 Recommendation: math.div(2px, abs(1.5)) or calc(2px / abs(1.5))
+
 More info and automated migrator: https://sass-lang.com/d/slash-div
+
   ,
 2 |   a: 2px / abs(1.5);
   |      ^^^^^^^^^^^^^^
@@ -150,14 +153,10 @@ Error: $number: "0" is not a number.
 a {b: abs()}
 
 <===> error/too_few_args/error
-Error: Missing argument $number.
-  ,--> input.scss
+Error: Missing argument.
+  ,
 1 | a {b: abs()}
-  |       ^^^^^ invocation
-  '
-  ,--> sass:math
-1 | @function abs($number) {
-  |           ============ declaration
+  |       ^^^^^
   '
   input.scss 1:7  root stylesheet
 
@@ -168,13 +167,9 @@ a {b: abs(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
-  ,--> input.scss
+  ,
 1 | a {b: abs(1, 2)}
-  |       ^^^^^^^^^ invocation
-  '
-  ,--> sass:math
-1 | @function abs($number) {
-  |           ============ declaration
+  |       ^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
 

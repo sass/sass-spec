@@ -152,10 +152,10 @@ Error: Expected identifier.
 a {b: atan2(0, "0")}
 
 <===> error/x_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: atan2(0, "0")}
-  |                ^
+  |                ^^^
   '
   input.scss 1:16  root stylesheet
 
@@ -165,10 +165,10 @@ Error: Expected number, variable, function, or calculation.
 a {b: atan2("0", 0)}
 
 <===> error/y_type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: atan2("0", 0)}
-  |             ^
+  |             ^^^
   '
   input.scss 1:13  root stylesheet
 
@@ -191,12 +191,12 @@ Error: 2 arguments required, but only 1 was passed.
 a {b: atan2(0, 0, 0)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 2 arguments allowed, but 3 were passed.
   ,
 1 | a {b: atan2(0, 0, 0)}
-  |                 ^
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:17  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -204,7 +204,7 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: atan2(7 % 3, 1)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", ",", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: atan2(7 % 3, 1)}
   |               ^

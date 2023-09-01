@@ -109,10 +109,10 @@ Error: Expected -1.75px/em to have no units.
 a {b: asin("0")}
 
 <===> error/type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: asin("0")}
-  |            ^
+  |            ^^^
   '
   input.scss 1:12  root stylesheet
 
@@ -122,12 +122,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: asin()}
 
 <===> error/too_few_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: asin()}
-  |            ^
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -135,12 +135,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: asin(0, 0)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 1 argument allowed, but 2 were passed.
   ,
 1 | a {b: asin(0, 0)}
-  |             ^
+  |       ^^^^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -161,7 +161,7 @@ Error: Expected identifier.
 a {b: asin(7 % 3)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: asin(7 % 3)}
   |              ^

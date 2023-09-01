@@ -76,10 +76,10 @@ Error: Expected 16px to have no units.
 a {b: sqrt("0")}
 
 <===> error/type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: sqrt("0")}
-  |            ^
+  |            ^^^
   '
   input.scss 1:12  root stylesheet
 
@@ -89,12 +89,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: sqrt()}
 
 <===> error/syntax/too_few_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: sqrt()}
-  |            ^
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -115,12 +115,12 @@ Error: Expected identifier.
 a {b: sqrt(3, 4)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 1 argument allowed, but 2 were passed.
   ,
 1 | a {b: sqrt(3, 4)}
-  |             ^
+  |       ^^^^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -128,7 +128,7 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: sqrt(7 % 3)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: sqrt(7 % 3)}
   |              ^

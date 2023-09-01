@@ -2,12 +2,12 @@
 a {b: calc()}
 
 <===> empty/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: calc()}
-  |            ^
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -15,12 +15,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: calc(+ 1px)}
 
 <===> leading_operator/error
-Error: Expected digit.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: calc(+ 1px)}
-  |             ^
+  |            ^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -28,7 +28,7 @@ Error: Expected digit.
 a {b: calc(1px *)}
 
 <===> trailing_operator/error
-Error: Expected number, variable, function, or calculation.
+Error: Expected expression.
   ,
 1 | a {b: calc(1px *)}
   |                 ^
@@ -41,7 +41,7 @@ Error: Expected number, variable, function, or calculation.
 a {b: calc(1px ** 2px)}
 
 <===> double_operator/error
-Error: Expected number, variable, function, or calculation.
+Error: Expected expression.
   ,
 1 | a {b: calc(1px ** 2px)}
   |                 ^
@@ -54,12 +54,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: calc(1px, 2px)}
 
 <===> multiple_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 1 argument allowed, but 2 were passed.
   ,
 1 | a {b: calc(1px, 2px)}
-  |               ^
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:15  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -67,7 +67,7 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: calc(1px % 2px)}
 
 <===> unknown_operator/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: calc(1px % 2px)}
   |                ^
@@ -80,12 +80,12 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: calc(#)}
 
 <===> hash/error
-Error: Expected number, variable, function, or calculation.
+Error: Expected identifier.
   ,
 1 | a {b: calc(#)}
-  |            ^
+  |             ^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:13  root stylesheet
 
 <===>
 ================================================================================
@@ -106,12 +106,12 @@ Error: Expected identifier.
 a {b: calc(1 (#{c}))}
 
 <===> interpolation/in_parens/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: calc(1 (#{c}))}
-  |              ^
+  |            ^^^^^^^^
   '
-  input.scss 1:14  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -119,12 +119,12 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: calc(1 c(#{d}))}
 
 <===> interpolation/in_floating_function/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: calc(1 c(#{d}))}
-  |              ^
+  |            ^^^^^^^^^
   '
-  input.scss 1:14  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -138,6 +138,21 @@ Error: expected ")".
   |              ^
   '
   input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/line_noise/input.scss
+// Interpolation no longer shifts the parser into a special mode where it allows
+// any interpolated declaration value.
+a {b: calc(!{@}#$%^&*#{c}_-[+]=)}
+
+<===> interpolation/line_noise/error
+Error: expected ")".
+  ,
+3 | a {b: calc(!{@}#$%^&*#{c}_-[+]=)}
+  |            ^
+  '
+  input.scss 3:12  root stylesheet
 
 <===>
 ================================================================================
@@ -158,6 +173,25 @@ Error: "+" and "-" must be surrounded by whitespace in calculations.
 a {b: calc(1 +1)}
 
 <===> no_whitespace/plus/after/error
+DEPRECATION WARNING on line 1, column 12 of input.scss: 
+This operation is parsed as:
+
+    1 + 1
+
+but you may have intended it to mean:
+
+    1 (+1)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 | a {b: calc(1 +1)}
+  |            ^^^^
+  '
+
 Error: "+" and "-" must be surrounded by whitespace in calculations.
   ,
 1 | a {b: calc(1 +1)}

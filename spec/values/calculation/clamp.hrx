@@ -8,12 +8,12 @@ terseness' sake isn't tested explicitly.
 a {b: clamp()}
 
 <===> error/syntax/no_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: clamp()}
-  |             ^
+  |       ^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -47,12 +47,12 @@ Error: 3 arguments required, but only 2 were passed.
 a {b: clamp(1px, 2px, 3px, 4px)}
 
 <===> error/syntax/four_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 3 arguments allowed, but 4 were passed.
   ,
 1 | a {b: clamp(1px, 2px, 3px, 4px)}
-  |                          ^
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:26  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -60,12 +60,12 @@ Error: expected "+", "-", "*", "/", or ")".
 a {b: clamp(1px 2px 3px...)}
 
 <===> error/syntax/rest/error
-Error: expected "+", "-", "*", "/", ",", or ")".
+Error: Rest arguments can't be used with calculations.
   ,
 1 | a {b: clamp(1px 2px 3px...)}
-  |                 ^
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:17  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

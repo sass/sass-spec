@@ -92,10 +92,10 @@ a {
 a {b: sign("0")}
 
 <===> error/type/error
-Error: Expected number, variable, function, or calculation.
+Error: This expression can't be used in a calculation.
   ,
 1 | a {b: sign("0")}
-  |            ^
+  |            ^^^
   '
   input.scss 1:12  root stylesheet
 
@@ -105,12 +105,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: sign()}
 
 <===> error/too_few_args/error
-Error: Expected number, variable, function, or calculation.
+Error: Missing argument.
   ,
 1 | a {b: sign()}
-  |            ^
+  |       ^^^^^^
   '
-  input.scss 1:12  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -118,12 +118,12 @@ Error: Expected number, variable, function, or calculation.
 a {b: sign(0, 0)}
 
 <===> error/too_many_args/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: Only 1 argument allowed, but 2 were passed.
   ,
 1 | a {b: sign(0, 0)}
-  |             ^
+  |       ^^^^^^^^^^
   '
-  input.scss 1:13  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -144,7 +144,7 @@ Error: Expected identifier.
 a {b: sign(7 % 3)}
 
 <===> error/sass_script/error
-Error: expected "+", "-", "*", "/", or ")".
+Error: This operation can't be used in a calculation.
   ,
 1 | a {b: sign(7 % 3)}
   |              ^
