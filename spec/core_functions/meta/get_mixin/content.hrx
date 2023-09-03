@@ -1,1 +1,103 @@
+<===>
+================================================================================
+<===> passes-content/input.scss
+@use "sass:meta";
+
+@mixin foo {
+    @content;
+}
+
+a {
+    @include meta.apply(meta.get-mixin("foo")) {
+        b: red;
+    }
+}
+
+<===> passes-content/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> passes-content/empty/input.scss
+@use "sass:meta";
+
+@mixin foo {
+    @content;
+}
+
+a {
+    @include meta.apply(meta.get-mixin("foo")) {}
+}
+
+<===> passes-content/empty/output.css
+<===>
+================================================================================
+<===> denies-content/input.scss
+@use "sass:meta";
+@mixin foo {}
+
+a {
+    @include meta.apply(meta.get-mixin("foo")) {}
+}
+
+<===> denies-content/error
 // todo
+<===>
+================================================================================
+<===> scope/redeclare/input.scss
+@use "sass:meta";
+@mixin foo($a: a) {
+    $b: b;
+    @content;
+    a: $a;
+    b: $b;
+}
+
+$c: c;
+
+a {
+    $d: d;
+    @include meta.apply(meta.get-mixin("foo")) {
+        $a: x;
+        $b: x;
+        $c: x;
+        $d: x;
+    }
+    c: $c;
+    d: $d;
+}
+
+<===> scope/redeclare/output.css
+a {
+  a: a;
+  b: b;
+  c: c;
+  d: x;
+}
+
+<===>
+================================================================================
+<===> scope/redeclare/using/input.scss
+@use "sass:meta";
+@mixin foo($a: x) {
+    @content(a);
+}
+
+$a: y;
+
+a {
+    $a: z;
+    @include meta.apply(meta.get-mixin("foo")) using ($a) {
+        a: $a;
+        $a: a;
+    }
+    b: $a;
+}
+
+<===> scope/redeclare/using/output.css
+a {
+  a: a;
+  b: z;
+}

@@ -45,3 +45,50 @@ a {
 .scope1 .scope2 .scope3 {
   a: 12;
 }
+
+<===>
+================================================================================
+<===> scope/doesnt-capture-global/input.scss
+@use "sass:meta";
+$a: x;
+
+@mixin foo {
+    a: $a;
+}
+
+$ref: meta.get-mixin("foo");
+
+$a: y;
+
+a {
+    @include meta.apply($ref);
+}
+
+<===> scope/doesnt-capture-global/output.css
+a {
+  a: y;
+}
+
+<===>
+================================================================================
+<===> scope/doesnt-capture-local/input.scss
+@use "sass:meta";
+
+a {
+    $a: x;
+
+    @mixin foo {
+        a: $a;
+    }
+
+    $ref: meta.get-mixin("foo");
+
+    $a: y;
+    @include meta.apply($ref);
+}
+
+<===> scope/doesnt-capture-local/output.css
+a {
+  a: y;
+}
+
