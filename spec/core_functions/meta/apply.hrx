@@ -94,7 +94,7 @@ Error: Missing argument $a.
 
 <===>
 ================================================================================
-<===> too-many-args/mixin-accepts-args/input.scss
+<===> too-many-args-mixin-accepts-args/input.scss
 @use "sass:meta";
 
 @mixin foo($a) {}
@@ -102,5 +102,14 @@ $foo: meta.get-mixin("foo");
 
 a {@include meta.apply($foo, 2px, 3px)}
 
-<===> too-many-args/mixin-accepts-args/error
-// todo
+<===> too-many-args-mixin-accepts-args/error
+Error: Only 1 argument allowed, but 2 were passed.
+    ,
+3   | @mixin foo($a) {}
+    |        ======= declaration
+... |
+6   | a {@include meta.apply($foo, 2px, 3px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  foo()
+  input.scss 6:4  root stylesheet
