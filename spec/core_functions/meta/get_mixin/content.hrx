@@ -101,3 +101,41 @@ a {
   a: a;
   b: z;
 }
+
+<===>
+================================================================================
+<===> scope/fall-through/input.scss
+@use "sass:meta";
+$b: x;
+
+@mixin foo {
+    @content(x);
+    b: $b;
+}
+
+@mixin bar {
+    $b: a;
+    @include meta.apply(meta.get-mixin(foo)) using ($a) {
+        @content($a);
+    }
+}
+
+@mixin baz {
+    $b: b;
+    @include meta.apply(meta.get-mixin(bar)) using ($a) {
+        @content($a);
+    }
+}
+
+a {
+    $b: c;
+    @include meta.apply(meta.get-mixin(baz)) using ($a) {
+        a: $a;
+    }
+}
+
+<===> scope/redeclare/using/output.css
+a {
+  a: x;
+  b: x;
+}
