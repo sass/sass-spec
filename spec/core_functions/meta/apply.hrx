@@ -7,7 +7,12 @@ $foo: meta.get-mixin("foo");
 a {b: meta.apply($foo)}
 
 <===> use-as-function/error
-// todo
+Error: Undefined function.
+  ,
+6 | a {b: meta.apply($foo)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 6:7  root stylesheet
 
 <===>
 ================================================================================
@@ -17,7 +22,17 @@ a {b: meta.apply($foo)}
 a {@include meta.apply()}
 
 <===> no-args/error
-// todo
+Error: Missing argument $mixin.
+  ,--> input.scss
+3 | a {@include meta.apply()}
+  |    ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin apply($mixin, $args...) {
+  |        ======================= declaration
+  '
+  input.scss 3:4  root stylesheet
+
 <===>
 ================================================================================
 <===> wrong-arg-type/input.scss
@@ -26,7 +41,12 @@ a {@include meta.apply()}
 a {@include meta.apply(2px)}
 
 <===> wrong-arg-type/error
-// todo
+Error: $mixin: 2px is not a mixin reference.
+  ,
+3 | a {@include meta.apply(2px)}
+  |    ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:4  root stylesheet
 
 <===>
 ================================================================================
@@ -39,7 +59,16 @@ $foo: meta.get-mixin("foo");
 a {@include meta.apply($foo, 2px)}
 
 <===> too-many-args/error
-// todo
+Error: Only 0 arguments allowed, but 1 was passed.
+    ,
+3   | @mixin foo {}
+    |        === declaration
+... |
+6   | a {@include meta.apply($foo, 2px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  foo()
+  input.scss 6:4  root stylesheet
 
 <===>
 ================================================================================
@@ -52,7 +81,16 @@ $foo: meta.get-mixin("foo");
 a {@include meta.apply($foo)}
 
 <===> missing-mixin-args/error
-// todo
+Error: Missing argument $a.
+    ,
+3   | @mixin foo($a) {}
+    |        ======= declaration
+... |
+6   | a {@include meta.apply($foo)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  foo()
+  input.scss 6:4  root stylesheet
 
 <===>
 ================================================================================

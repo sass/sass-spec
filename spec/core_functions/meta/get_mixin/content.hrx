@@ -34,7 +34,7 @@ a {
 <===> passes-content/empty/output.css
 <===>
 ================================================================================
-<===> denies-content/input.scss
+<===> denies-content/user-defined/input.scss
 @use "sass:meta";
 @mixin foo {}
 
@@ -42,11 +42,39 @@ a {
     @include meta.apply(meta.get-mixin("foo")) {}
 }
 
-<===> denies-content/error
-// todo
+<===> denies-content/user-defined/error
+Error: Mixin doesn't accept a content block.
+    ,
+2   | @mixin foo {}
+    |        === declaration
+... |
+5   |     @include meta.apply(meta.get-mixin("foo")) {}
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 5:5  root stylesheet
+
 <===>
 ================================================================================
-<===> scope/redeclare/input.scss
+<===> denies-content/builtin/input.scss
+@use "sass:meta";
+
+a {
+    @include meta.apply(meta.get-mixin(load-css, meta), "foo") {
+        a: b;
+    }
+}
+
+<===> denies-content/builtin/error
+Error: Mixin doesn't accept a content block.
+  ,
+4 |     @include meta.apply(meta.get-mixin(load-css, meta), "foo") {
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:5  root stylesheet
+
+<===>
+================================================================================
+<===> scope/redeclare-vars/input.scss
 @use "sass:meta";
 @mixin foo($a: a) {
     $b: b;
@@ -69,7 +97,7 @@ a {
     d: $d;
 }
 
-<===> scope/redeclare/output.css
+<===> scope/redeclare-vars/output.css
 a {
   a: a;
   b: b;
@@ -134,7 +162,7 @@ a {
     }
 }
 
-<===> scope/redeclare/using/output.css
+<===> scope/fall-through/output.css
 a {
   a: x;
   b: x;

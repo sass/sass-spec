@@ -3,9 +3,9 @@
 <===> defined/input.scss
 @use "sass:meta";
 @use "foo";
-a {@include meta.apply(meta.get-mixin("foo", $module: "color"), #abcdef)}
+a {@include meta.apply(meta.get-mixin("foo", $module: "foo"), #abcdef)}
 
-<===> chosen_prefix/foo.scss
+<===> defined/foo.scss
 @mixin foo($color) {
   b: red($color)
 }
@@ -124,7 +124,7 @@ a {
 <===> named/input.scss
 @use "sass:meta";
 @use "foo";
-a {@include meta.apply(meta.get-mixin($name: "foo", $module: "color"), #abcdef)}
+a {@include meta.apply(meta.get-mixin($name: "foo", $module: "foo"), #abcdef)}
 
 <===> named/foo.scss
 @mixin foo($color) {
