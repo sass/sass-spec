@@ -1,0 +1,269 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `log()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: log(-1)}
+
+<===> negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: log(0)}
+
+<===> zero/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: log(2)}
+
+<===> positive/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> infinity/input.scss
+a {b: log(infinity)}
+
+<===> infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> base/negative/input.scss
+a {b: log(2, -1)}
+
+<===> base/negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> base/zero/input.scss
+a {b: log(2, 0)}
+
+<===> base/zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> base/between_zero_and_one/input.scss
+a {b: log(2, 0.5)}
+
+<===> base/between_zero_and_one/output.css
+a {
+  b: -1;
+}
+
+<===>
+================================================================================
+<===> base/one/input.scss
+a {b: log(2, 1)}
+
+<===> base/one/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> base/positive/input.scss
+a {b: log(2, 10)}
+
+<===> base/positive/output.css
+a {
+  b: 0.3010299957;
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {
+  b: log(3px - 1px + var(--c), var(--e));
+}
+
+<===> simplification/output.css
+a {
+  b: log(2px + var(--c), var(--e));
+}
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: LoG(2)}
+
+<===> case_insensitive/output.css
+a {
+  b: 0.6931471806;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function log($arg) {@return $arg}
+a {b: log(2)}
+
+<===> overridden/output.css
+a {
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> error/units/unknown/input.scss
+a {b: log(1%)}
+
+<===> error/units/unknown/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: log(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/unitless_and_real/input.scss
+a {b: log(1, 1px)}
+
+<===> error/units/unitless_and_real/error
+Error: Expected 1px to have no units.
+  ,
+1 | a {b: log(1, 1px)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/known_incompatible/input.scss
+a {b: log(1deg, 1px)}
+
+<===> error/units/known_incompatible/error
+Error: Expected 1deg to have no units.
+  ,
+1 | a {b: log(1deg, 1px)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/complex_and_unknown/input.scss
+a {b: log(1px*2px, 10%)}
+
+<===> error/units/complex_and_unknown/error
+Error: Expected 2px*px to have no units.
+  ,
+1 | a {b: log(1px*2px, 10%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/known/input.scss
+a {b: log(3px)}
+
+<===> error/units/known/error
+Error: Expected 3px to have no units.
+  ,
+1 | a {b: log(3px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/number_type/input.scss
+a {b: log("0")}
+
+<===> error/number_type/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: log("0")}
+  |           ^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/base_type/input.scss
+a {b: log(0, "0")}
+
+<===> error/base_type/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: log(0, "0")}
+  |              ^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: log()}
+
+<===> error/too_few_args/error
+Error: Missing argument.
+  ,
+1 | a {b: log()}
+  |       ^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: log(0, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: log(0, 0, 0)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: log($, 10)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: log($, 10)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: log(7 % 3)}
+
+<===> error/sass_script/error
+Error: This operation can't be used in a calculation.
+  ,
+1 | a {b: log(7 % 3)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
