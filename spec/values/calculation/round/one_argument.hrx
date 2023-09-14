@@ -1,0 +1,118 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: round(0)}
+
+<===> zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: round(1)}
+
+<===> positive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: round(-5.6)}
+
+<===> negative/output.css
+a {
+  b: -6;
+}
+
+<===>
+================================================================================
+<===> preserves_units/input.scss
+a {b: round(-7px / 4em) * 1em}
+
+<===> preserves_units/output.css
+a {
+  b: -2px;
+}
+
+<===>
+================================================================================
+<===> preserves_single_unit/input.scss
+a {b: round(1 + 1px)}
+
+<===> preserves_single_unit/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> preserved/variable/input.scss
+a {
+  b: round(var(--c))
+}
+
+<===> preserved/variable/output.css
+a {
+  b: round(var(--c));
+}
+
+<===>
+================================================================================
+<===> sass_script/input.scss
+a {b: round($number: -3)}
+
+<===> sass_script/output.css
+a {
+  b: -3;
+}
+
+<===>
+================================================================================
+<===> math/slash_as_division/input.scss
+b {
+  a: 2px / round(1.5);
+}
+
+<===> math/slash_as_division/output.css
+b {
+  a: 1px;
+}
+
+<===> math/slash_as_division/warning
+DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+Recommendation: math.div(2px, round(1.5)) or calc(2px / round(1.5))
+More info and automated migrator: https://sass-lang.com/d/slash-div
+  ,
+2 |   a: 2px / round(1.5);
+  |      ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: rOuNd(1)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function round($arg) {@return $arg}
+a {b: round(1.1)}
+
+<===> overridden/output.css
+a {
+  b: 1.1;
+}

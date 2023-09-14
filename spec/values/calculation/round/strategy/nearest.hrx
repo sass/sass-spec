@@ -1,0 +1,227 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `round()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {
+  b: round(nearest, 3.8px - 1px + var(--test), 1.1px + 4px)}
+
+<===> simplification/output.css
+a {
+  b: round(nearest, 2.8px + var(--test), 5.1px);
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: round(nearest, 117px, 25px)}
+
+<===> positive/output.css
+a {
+  b: 125px;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: round(nearest, -101, -25)}
+
+<===> negative/output.css
+a {
+  b: -100;
+}
+
+<===>
+================================================================================
+<===> step_is_zero/input.scss
+a {b: round(nearest, 10px, 0px)}
+
+<===> step_is_zero/output.css
+a {
+  b: calc(NaN * 1px);
+}
+
+<===>
+================================================================================
+<===> positive_and_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(nearest, 10, infinity))}
+
+<===> positive_and_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> negative_and_infinity/input.scss
+@use "sass:math";
+a {b: math.div(1, round(nearest, -10, infinity))}
+
+<===> negative_and_infinity/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> infinity_and_negative/input.scss
+a {b: round(nearest, infinity, -5)}
+
+<===> infinity_and_negative/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> infinity_and_positive/input.scss
+a {b: round(nearest, infinity, 5)}
+
+<===> infinity_and_positive/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> negative_infinity_and_negative/input.scss
+a {b: round(nearest, -infinity, -5)}
+
+<===> negative_infinity_and_negative/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> negative_infinity_and_positive/input.scss
+a {b: round(nearest, -infinity, 5)}
+
+<===> negative_infinity_and_positive/output.css
+a {
+  b: calc(-infinity);
+}
+
+<===>
+================================================================================
+<===> infinity/negative/input.scss
+a {b: round(nearest, -infinity, -infinity)}
+
+<===> infinity/negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> infinity/negative_and_positive/input.scss
+a {b: round(nearest, -infinity, infinity)}
+
+<===> infinity/negative_and_positive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> infinity/positive_and_negative/input.scss
+a {b: round(nearest, infinity, -infinity)}
+
+<===> infinity/positive_and_negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> infinity/positive_and_positive/input.scss
+@use "sass:math";
+a {b: round(nearest, infinity, infinity)}
+
+<===> infinity/positive_and_positive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> step_is_multiple_of_number/input.scss
+a {b: round(nearest, 5px, 25px)}
+
+<===> step_is_multiple_of_number/output.css
+a {
+  b: 0px;
+}
+
+<===>
+================================================================================
+<===> number_is_multiple_of_step/input.scss
+a {b: round(nearest, 25px, 5px)}
+
+<===> number_is_multiple_of_step/output.css
+a {
+  b: 25px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_bigger/input.scss
+a {b: round(nearest, 23px, 10px)}
+
+<===> upper_multiple/number_is_bigger/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_smaller/input.scss
+a {b: round(nearest, 18px, 10px)}
+
+<===> upper_multiple/number_is_smaller/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_half/input.scss
+a {b: round(nearest, 15px, 10px)}
+
+<===> upper_multiple/number_is_half/output.css
+a {
+  b: 20px;
+}
+
+<===>
+================================================================================
+<===> upper_multiple/number_is_negative/input.scss
+a {b: round(nearest, -13px, 10px)}
+
+<===> upper_multiple/number_is_negative/output.css
+a {
+  b: -10px;
+}
+
+<===>
+================================================================================
+<===> lower_multiple/number_is_bigger/input.scss
+a {b: round(nearest, 13px, 10px)}
+
+<===> lower_multiple/number_is_bigger/output.css
+a {
+  b: 10px;
+}
+
+<===>
+================================================================================
+<===> lower_multiple/number_is_negative/input.scss
+a {b: round(nearest, -18px, 10px)}
+
+<===> lower_multiple/number_is_negative/output.css
+a {
+  b: -20px;
+}

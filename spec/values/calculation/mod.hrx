@@ -1,0 +1,395 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `mod()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> units/none/input.scss
+a {b: mod(7, 3)}
+
+<===> units/none/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> units/compatible/input.scss
+a {b: mod(5px, 3px)}
+
+<===> units/compatible/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> units/real_and_unknown/input.scss
+a {b: mod(5px, 3%)}
+
+<===> units/real_and_unknown/output.css
+a {
+  b: mod(5px, 3%);
+}
+
+<===>
+================================================================================
+<===> units/unknown/input.scss
+a {
+  b: mod(1%, 2%);
+}
+
+<===> units/unknown/output.css
+a {
+  b: 1%;
+}
+
+<===>
+================================================================================
+<===> units/fake/input.scss
+a {
+  b: mod(1foo, 2bar);
+}
+
+<===> units/fake/output.css
+a {
+  b: mod(1foo, 2bar);
+}
+
+<===>
+================================================================================
+<===> units/same_fake/input.scss
+a {
+  b: mod(1foo, 2foo);
+}
+
+<===> units/same_fake/output.css
+a {
+  b: 1foo;
+}
+
+<===>
+================================================================================
+<===> units/real_and_fake/input.scss
+a {
+  b: mod(1px, 2bar);
+}
+
+<===> units/real_and_fake/output.css
+a {
+  b: mod(1px, 2bar);
+}
+
+<===>
+================================================================================
+<===> equals/input.scss
+a {b: mod(1, 1)}
+
+<===> equals/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> positive_and_negative/input.scss
+a {b: mod(2, -5)}
+
+<===> positive_and_negative/output.css
+a {
+  b: -3;
+}
+
+<===>
+================================================================================
+<===> negative_and_positive/input.scss
+a {b: mod(-2, 5)}
+
+<===> negative_and_positive/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: mod(-2, -5)}
+
+<===> negative/output.css
+a {
+  b: -2;
+}
+
+<===>
+================================================================================
+<===> y_zero/input.scss
+a {b: mod(6, 0)}
+
+<===> y_zero/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> x_zero/input.scss
+a {b: mod(0, 6)}
+
+<===> x_zero/output.css
+a {
+  b: 0;
+}
+
+<===>
+================================================================================
+<===> zeros/input.scss
+a {b: mod(0, 0)}
+
+<===> zeros/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> y_infinity/positive/input.scss
+a {b: mod(infinity, 10)}
+
+<===> y_infinity/positive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> x_infinity/positive/input.scss
+a {b: mod(-10, infinity)}
+
+<===> x_infinity/positive/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> x_infinity/negative/input.scss
+a {b: mod(10, -infinity)}
+
+<===> x_infinity/negative/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {
+  b: mod(3px - 1px + var(--c), -7px / 4em * 1em);
+}
+
+<===> simplification/output.css
+a {
+  b: mod(2px + var(--c), -1.75px);
+}
+
+<===>
+================================================================================
+<===> positive_zero/input.scss
+@use "sass:math";
+a {b: math.div(1, mod(7, 7))}
+
+<===> positive_zero/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> negative_zero/input.scss
+@use "sass:math";
+a {b: math.div(1, mod(-7, 7))}
+
+<===> negative_zero/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: MoD(7, 3)}
+
+<===> case_insensitive/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function mod($arg) {@return $arg}
+a {b: mod(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/units/real_and_unitless/input.scss
+a {b: mod(16px, 5)}
+
+<===> error/units/real_and_unitless/error
+Error: 16px and 5 are incompatible.
+  ,
+1 | a {b: mod(16px, 5)}
+  |           ^^^^ 16px
+  |                 = 5
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/incompatible/input.scss
+a {b: mod(16px, 5deg)}
+
+<===> error/units/incompatible/error
+Error: 16px and 5deg are incompatible.
+  ,
+1 | a {b: mod(16px, 5deg)}
+  |           ^^^^ 16px
+  |                 ==== 5deg
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/complex_and_unknown/input.scss
+a {b: mod(1px*2px, 10%)}
+
+<===> error/units/complex_and_unknown/error
+Error: Number 2px*px isn't compatible with CSS calculations.
+  ,
+1 | a {b: mod(1px*2px, 10%)}
+  |           ^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: mod(3)}
+
+<===> error/too_few_args/error
+Error: 2 arguments required, but only 1 was passed.
+  ,
+1 | a {b: mod(3)}
+  |       ^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: mod(10, $)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: mod(10, $)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/modulus_type/input.scss
+a {b: mod(0, "0")}
+
+<===> error/modulus_type/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: mod(0, "0")}
+  |              ^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/dividend_type/input.scss
+a {b: mod("0", 0)}
+
+<===> error/dividend_type/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: mod("0", 0)}
+  |           ^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: mod(3, 2, 1)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: mod(3, 2, 1)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: mod(7 % 3, 1)}
+
+<===> error/sass_script/error
+Error: This operation can't be used in a calculation.
+  ,
+1 | a {b: mod(7 % 3, 1)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> nan/negative_zero_and_positive_infinity/input.scss
+a {b: mod(-0, infinity)}
+
+<===> nan/negative_zero_and_positive_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/zero_and_negative_infinity/input.scss
+a {b: mod(0, -infinity)}
+
+<===> nan/zero_and_negative_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/negative_and_positive_infinity/input.scss
+a {b: mod(-5, infinity)}
+
+<===> nan/negative_and_positive_infinity/output.css
+a {
+  b: calc(NaN);
+}
+
+<===>
+================================================================================
+<===> nan/positive_and_negative_infinity/input.scss
+a {b: mod(5, -infinity)}
+
+<===> nan/positive_and_negative_infinity/output.css
+a {
+  b: calc(NaN);
+}

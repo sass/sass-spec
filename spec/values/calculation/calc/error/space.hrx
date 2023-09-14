@@ -1,0 +1,103 @@
+<===> number_number/input.scss
+a {b: calc(1 2)}
+
+<===> number_number/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 2)}
+  |            ^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> number_operation/input.scss
+a {b: calc(1 3 + 4)}
+
+<===> number_operation/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 3 + 4)}
+  |            ^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> number_paren/input.scss
+a {b: calc(1 (3))}
+
+<===> number_paren/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 (3))}
+  |            ^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> number_calc/input.scss
+a {b: calc(1 calc(1px + 1%))}
+
+<===> number_calc/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 calc(1px + 1%))}
+  |            ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> operation_operation/input.scss
+a {b: calc(1 + 2 3 + 4)}
+
+<===> operation_operation/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 + 2 3 + 4)}
+  |            ^^^^^^^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> string_number_number/input.scss
+a {b: calc(c 1 2)}
+
+<===> string_number_number/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(c 1 2)}
+  |              ^^^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> number_number_string/input.scss
+a {b: calc(1 2 c)}
+
+<===> number_number_string/error
+Error: Missing math operator.
+  ,
+1 | a {b: calc(1 2 c)}
+  |            ^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> through_variable/input.scss
+$c: 1;
+$d: 2;
+a {b: calc($c $d)}
+
+<===> through_variable/error
+Error: Missing math operator.
+  ,
+3 | a {b: calc($c $d)}
+  |            ^^^^^
+  '
+  input.scss 3:12  root stylesheet
