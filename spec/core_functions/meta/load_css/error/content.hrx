@@ -6,8 +6,12 @@
 
 <===> error
 Error: Mixin doesn't accept a content block.
-  ,
+  ,--> input.scss
 2 | @include meta.load-css("foo") {};
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin load-css($url, $with: null) {
+  |        =========================== declaration
   '
   input.scss 2:1  root stylesheet

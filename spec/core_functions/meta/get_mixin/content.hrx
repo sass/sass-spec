@@ -65,9 +65,13 @@ a {
 
 <===> denies-content/builtin/error
 Error: Mixin doesn't accept a content block.
-  ,
+  ,--> input.scss
 4 |     @include meta.apply(meta.get-mixin(load-css, meta), "foo") {
-  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin load-css($url, $with: null) {
+  |        =========================== declaration
   '
   input.scss 4:5  root stylesheet
 
