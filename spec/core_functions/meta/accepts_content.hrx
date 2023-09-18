@@ -39,6 +39,19 @@ a {
 
 <===>
 ================================================================================
+<===> accepts/builtin/input.scss
+@use "sass:meta";
+@mixin foo() {}
+
+a {b: meta.accepts-content(meta.get-mixin(apply, meta))}
+
+<===> accepts/builtin/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> doesnt-accept/empty/input.scss
 @use "sass:meta";
 @mixin foo() {}
@@ -61,17 +74,4 @@ a {b: meta.accepts-content(meta.get-mixin(load-css, meta))}
 <===> doesnt-accept/builtin/output.css
 a {
   b: false;
-}
-
-<===>
-================================================================================
-<===> accepts/builtin/input.scss
-@use "sass:meta";
-@mixin foo() {}
-
-a {b: meta.accepts-content(meta.get-mixin(apply, meta))}
-
-<===> accepts/builtin/output.css
-a {
-  b: true;
 }
