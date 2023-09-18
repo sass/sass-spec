@@ -2,7 +2,12 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {compileString, compileStringAsync, Importer} from 'sass';
+import {
+  compileString,
+  compileStringAsync,
+  CanonicalizeContext,
+  Importer,
+} from 'sass';
 
 import {sassImpl, URL} from './utils';
 
@@ -99,6 +104,216 @@ describe('the imported URL', () => {
 
     expect(result.css).toBe('a {\n  b: c;\n}');
   });
+});
+
+describe('the containing URL', () => {
+  it('is null for a potentially canonical scheme', () => {
+    const result = compileString('@import "u:orange"', {
+      importers: [
+        {
+          canonicalize: (url: string, context: CanonicalizeContext) => {
+            expect(context.containingUrl).toBeNull();
+            return new URL(url);
+          },
+          load: () => ({contents: '@a', syntax: 'scss'}),
+        },
+      ],
+    });
+
+    expect(result.css).toBe('@a;');
+  });
+
+  describe('for a non-canonical scheme', () => {
+    describe('in a list', () => {
+      it('is set to the original URL', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+
+      it('is null if the original URL is null', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toBeNull();
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+    });
+
+    describe('as a string', () => {
+      it('is set to the original URL', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+
+      it('is null if the original URL is null', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toBeNull();
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+    });
+  });
+
+  describe('for a schemeless load', () => {
+    it('is set to the original URL', () => {
+      const result = compileString('@import "orange"', {
+        importers: [
+          {
+            canonicalize: (url: string, context: CanonicalizeContext) => {
+              expect(context.containingUrl).toEqual(new URL('x:original.scss'));
+              return new URL(`u:${url}`);
+            },
+            load: () => ({contents: '@a', syntax: 'scss'}),
+          },
+        ],
+        url: new URL('x:original.scss'),
+      });
+
+      expect(result.css).toBe('@a;');
+    });
+
+    it('is null if the original URL is null', () => {
+      const result = compileString('@import "orange"', {
+        importers: [
+          {
+            canonicalize: (url: string, context: CanonicalizeContext) => {
+              expect(context.containingUrl).toBeNull();
+              return new URL(`u:${url}`);
+            },
+            load: () => ({contents: '@a', syntax: 'scss'}),
+          },
+        ],
+      });
+
+      expect(result.css).toBe('@a;');
+    });
+  });
+});
+
+describe(
+  'throws an error if the importer returns a canonical URL with a ' +
+    'non-canonical scheme',
+  () => {
+    it('set as a list', () =>
+      expect(() =>
+        compileString('@import "orange"', {
+          importers: [
+            {
+              canonicalize: (url: string) => {
+                return new URL(`u:${url}`);
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+        })
+      ).toThrowSassException({line: 0}));
+
+    it('set as a string', () =>
+      expect(() =>
+        compileString('@import "orange"', {
+          importers: [
+            {
+              canonicalize: (url: string) => {
+                return new URL(`u:${url}`);
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+        })
+      ).toThrowSassException({line: 0}));
+  }
+);
+
+describe('throws an error for an invalid scheme:', () => {
+  it('empty', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: '',
+          },
+        ],
+      })
+    ).toThrow());
+
+  it('uppercase', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: 'U',
+          },
+        ],
+      })
+    ).toThrow());
+
+  it('colon', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: 'u:',
+          },
+        ],
+      })
+    ).toThrow());
 });
 
 it("uses an importer's source map URL", () => {
