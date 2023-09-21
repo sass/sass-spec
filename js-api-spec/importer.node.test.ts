@@ -3,7 +3,13 @@
 // https://opensource.org/licenses/MIT.
 
 import {URL} from 'url';
-import {compile, compileString, compileStringAsync, Importer} from 'sass';
+import {
+  compile,
+  compileString,
+  compileStringAsync,
+  CanonicalizeContext,
+  Importer,
+} from 'sass';
 
 import {sandbox} from './sandbox';
 
@@ -275,6 +281,62 @@ describe('FileImporter', () => {
             },
           ],
         });
+      }));
+  });
+
+  describe('containingUrl is', () => {
+    it('set for a relative URL', () =>
+      sandbox(dir => {
+        dir.write({'_other.css': 'a {b: c}'});
+        const result = compileString('@import "other";', {
+          importers: [
+            {
+              findFileUrl: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return dir.url('other');
+              },
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+        expect(result.css).toBe('a {\n  b: c;\n}');
+      }));
+
+    it('set for an absolute URL', () =>
+      sandbox(dir => {
+        dir.write({'_other.css': 'a {b: c}'});
+        const result = compileString('@import "u:other";', {
+          importers: [
+            {
+              findFileUrl: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return dir.url('other');
+              },
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+        expect(result.css).toBe('a {\n  b: c;\n}');
+      }));
+
+    it('unset when the URL is unavailable', () =>
+      sandbox(dir => {
+        dir.write({'_other.css': 'a {b: c}'});
+        const result = compileString('@import "u:other";', {
+          importers: [
+            {
+              findFileUrl: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toBeNull();
+                return dir.url('other');
+              },
+            },
+          ],
+        });
+        expect(result.css).toBe('a {\n  b: c;\n}');
       }));
   });
 
