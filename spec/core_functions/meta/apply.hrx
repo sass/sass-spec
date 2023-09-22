@@ -5,6 +5,77 @@
 
 <===>
 ================================================================================
+<===> args/named/input.scss
+@use "sass:meta";
+
+@mixin a {
+  b: c;
+}
+
+a {@include meta.apply($mixin: meta.get-mixin("a"))}
+
+<===> args/named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes_positional/input.scss
+@use "sass:meta";
+
+@mixin a($a) {
+  b: $a;
+}
+
+a {@include meta.apply(meta.get-mixin("a"), c)}
+
+<===> args/passes_positional/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes_named/input.scss
+@use "sass:meta";
+
+@mixin a($a) {
+  b: $a;
+}
+
+a {@include meta.apply(meta.get-mixin("a"), $a: c)}
+
+<===> args/passes_named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> error/wrong_named_arg/input.scss
+@use "sass:meta";
+
+@mixin a($a) {
+  b: $a;
+}
+
+a {@include meta.apply(meta.get-mixin("a"), $b: c)}
+
+<===> error/wrong_named_arg/error
+Error: Missing argument $a.
+    ,
+3   | @mixin a($a) {
+    |        ===== declaration
+... |
+7   | a {@include meta.apply(meta.get-mixin("a"), $b: c)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 7:4  a()
+  input.scss 7:4  root stylesheet
+
+<===>
+================================================================================
 <===> error/use_as_function/input.scss
 @use "sass:meta";
 
