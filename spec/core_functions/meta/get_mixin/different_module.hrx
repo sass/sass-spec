@@ -1,10 +1,10 @@
 <===> defined/input.scss
 @use "sass:meta";
-@use "foo";
-a {@include meta.apply(meta.get-mixin("foo", $module: "foo"), #abcdef)}
+@use "other";
+a {@include meta.apply(meta.get-mixin("a", $module: "other"), #abcdef)}
 
-<===> defined/foo.scss
-@mixin foo($color) {
+<===> defined/_other.scss
+@mixin a($color) {
   b: red($color)
 }
 
@@ -17,11 +17,11 @@ a {
 ================================================================================
 <===> chosen_prefix/input.scss
 @use "sass:meta";
-@use "foo" as a;
-b {@include meta.apply(meta.get-mixin("foo", $module: "a"), #abcdef)}
+@use "other" as a;
+b {@include meta.apply(meta.get-mixin("a", $module: "a"), #abcdef)}
 
-<===> chosen_prefix/foo.scss
-@mixin foo($color) {
+<===> chosen_prefix/_other.scss
+@mixin a($color) {
   c: red($color)
 }
 
@@ -121,11 +121,11 @@ a {
 ================================================================================
 <===> named/input.scss
 @use "sass:meta";
-@use "foo";
-a {@include meta.apply(meta.get-mixin($name: "foo", $module: "foo"), #abcdef)}
+@use "other";
+a {@include meta.apply(meta.get-mixin($name: "a", $module: "other"), #abcdef)}
 
-<===> named/foo.scss
-@mixin foo($color) {
+<===> named/_other.scss
+@mixin a($color) {
   b: red($color)
 }
 

@@ -5,30 +5,30 @@
 
 <===>
 ================================================================================
-<===> use-as-function/input.scss
+<===> use_as_function/input.scss
 @use "sass:meta";
 
-@mixin foo {}
-$foo: meta.get-mixin("foo");
+@mixin a {}
+$a: meta.get-mixin("a");
 
-a {b: meta.apply($foo)}
+a {b: meta.apply($a)}
 
-<===> use-as-function/error
+<===> use_as_function/error
 Error: Undefined function.
   ,
-6 | a {b: meta.apply($foo)}
-  |       ^^^^^^^^^^^^^^^^
+6 | a {b: meta.apply($a)}
+  |       ^^^^^^^^^^^^^^
   '
   input.scss 6:7  root stylesheet
 
 <===>
 ================================================================================
-<===> no-args/input.scss
+<===> no_args/input.scss
 @use "sass:meta";
 
 a {@include meta.apply()}
 
-<===> no-args/error
+<===> no_args/error
 Error: Missing argument $mixin.
   ,--> input.scss
 3 | a {@include meta.apply()}
@@ -42,12 +42,12 @@ Error: Missing argument $mixin.
 
 <===>
 ================================================================================
-<===> wrong-arg-type/input.scss
+<===> wrong_arg_type/input.scss
 @use "sass:meta";
 
 a {@include meta.apply(2px)}
 
-<===> wrong-arg-type/error
+<===> wrong_arg_type/error
 Error: $mixin: 2px is not a mixin reference.
   ,
 3 | a {@include meta.apply(2px)}
@@ -57,66 +57,66 @@ Error: $mixin: 2px is not a mixin reference.
 
 <===>
 ================================================================================
-<===> too-many-args/input.scss
+<===> too_many_args/input.scss
 @use "sass:meta";
 
-@mixin foo {}
-$foo: meta.get-mixin("foo");
+@mixin a {}
+$a: meta.get-mixin("a");
 
-a {@include meta.apply($foo, 2px)}
+a {@include meta.apply($a, 2px)}
 
-<===> too-many-args/error
+<===> too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.
     ,
-3   | @mixin foo {}
-    |        === declaration
+3   | @mixin a {}
+    |        = declaration
 ... |
-6   | a {@include meta.apply($foo, 2px)}
-    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+6   | a {@include meta.apply($a, 2px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
     '
-  input.scss 6:4  foo()
+  input.scss 6:4  a()
   input.scss 6:4  root stylesheet
 
 <===>
 ================================================================================
-<===> missing-mixin-args/input.scss
+<===> missing_mixin_args/input.scss
 @use "sass:meta";
 
-@mixin foo($a) {}
-$foo: meta.get-mixin("foo");
+@mixin a($a) {}
+$a: meta.get-mixin("a");
 
-a {@include meta.apply($foo)}
+a {@include meta.apply($a)}
 
-<===> missing-mixin-args/error
+<===> missing_mixin_args/error
 Error: Missing argument $a.
     ,
-3   | @mixin foo($a) {}
-    |        ======= declaration
+3   | @mixin a($a) {}
+    |        ===== declaration
 ... |
-6   | a {@include meta.apply($foo)}
-    |    ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+6   | a {@include meta.apply($a)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^ invocation
     '
-  input.scss 6:4  foo()
+  input.scss 6:4  a()
   input.scss 6:4  root stylesheet
 
 <===>
 ================================================================================
-<===> too-many-args-mixin-accepts-args/input.scss
+<===> too_many_args_mixin_accepts_args/input.scss
 @use "sass:meta";
 
-@mixin foo($a) {}
-$foo: meta.get-mixin("foo");
+@mixin a($a) {}
+$a: meta.get-mixin("a");
 
-a {@include meta.apply($foo, 2px, 3px)}
+a {@include meta.apply($a, 2px, 3px)}
 
-<===> too-many-args-mixin-accepts-args/error
+<===> too_many_args_mixin_accepts_args/error
 Error: Only 1 argument allowed, but 2 were passed.
     ,
-3   | @mixin foo($a) {}
-    |        ======= declaration
+3   | @mixin a($a) {}
+    |        ===== declaration
 ... |
-6   | a {@include meta.apply($foo, 2px, 3px)}
-    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+6   | a {@include meta.apply($a, 2px, 3px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
     '
-  input.scss 6:4  foo()
+  input.scss 6:4  a()
   input.scss 6:4  root stylesheet

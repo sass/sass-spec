@@ -28,16 +28,16 @@ Error: $module: 1 is not a string.
 ================================================================================
 <===> argument/mixin_ref/input.scss
 @use "sass:meta";
-@mixin foo() {}
+@mixin a() {}
 
-$foo-ref: meta.get-mixin(foo);
-a {b: meta.get-mixin($foo-ref)}
+$a-ref: meta.get-mixin(a);
+a {b: meta.get-mixin($a-ref)}
 
 <===> argument/mixin_ref/error
-Error: $name: get-mixin("foo") is not a string.
+Error: $name: get-mixin("a") is not a string.
   ,
-5 | a {b: meta.get-mixin($foo-ref)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+5 | a {b: meta.get-mixin($a-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 5:7  root stylesheet
 
@@ -141,15 +141,15 @@ Error: Mixin not found: c
 ================================================================================
 <===> division/input.scss
 @use "sass:meta";
-@mixin foo() {}
-@mixin bar() {}
-a {b: meta.get-mixin(foo) / meta.get-mixin(bar)}
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) / meta.get-mixin(b)}
 
 <===> division/error
-Error: get-mixin("foo") isn't a valid CSS value.
+Error: get-mixin("a") isn't a valid CSS value.
   ,
-4 | a {b: meta.get-mixin(foo) / meta.get-mixin(bar)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4 | a {b: meta.get-mixin(a) / meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 4:7  root stylesheet
 

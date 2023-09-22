@@ -1,7 +1,7 @@
 <===> same_value/input.scss
 @use "sass:meta";
-@mixin foo() {}
-$a: meta.get-mixin(foo);
+@mixin a() {}
+$a: meta.get-mixin(a);
 a {b: $a == $a}
 
 <===> same_value/output.css
@@ -24,8 +24,7 @@ a {
 ================================================================================
 <===> built_in/different/input.scss
 @use "sass:meta";
-@mixin foo() {}
-a {b: meta.get-mixin(load-css, meta) == meta.get-mixin(foo)}
+a {b: meta.get-mixin(load-css, meta) == meta.get-mixin(apply, meta)}
 
 <===> built_in/different/output.css
 a {

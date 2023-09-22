@@ -3,7 +3,7 @@
 :todo:
 - sass/libsass#2807
 
-<===> _util.scss
+<===> _utils.scss
 @use "sass:meta";
 
 @mixin print-mixin-map($mixins) {
@@ -32,12 +32,40 @@ a {
 
 <===>
 ================================================================================
-<===> multiple/input.scss
+<===> return_type/user_defined/input.scss
 @use "sass:meta";
-@use "../util";
 @use "other";
 
-@include util.print-mixin-map(meta.module-mixins("other"));
+a {b: meta.type-of(meta.module-mixins("other"))}
+
+<===> return_type/user_defined/_other.scss
+// This module defines no mixins.
+
+<===> return_type/user_defined/output.css
+a {
+  b: map;
+}
+
+<===>
+================================================================================
+<===> return_type/builtin/input.scss
+@use "sass:meta";
+
+a {b: meta.type-of(meta.module-mixins("meta"))}
+
+<===> return_type/builtin/output.css
+a {
+  b: map;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+@use "sass:meta";
+@use "core_functions/meta/module_mixins/utils";
+@use "other";
+
+@include utils.print-mixin-map(meta.module-mixins("other"));
 
 <===> multiple/_other.scss
 @mixin b() {b: value}
@@ -55,10 +83,10 @@ a {
 ================================================================================
 <===> dash_sensitive/input.scss
 @use "sass:meta";
-@use "../util";
+@use "core_functions/meta/module_mixins/utils";
 @use "other";
 
-@include util.print-mixin-map(meta.module-mixins("other"));
+@include utils.print-mixin-map(meta.module-mixins("other"));
 
 <===> dash_sensitive/_other.scss
 @mixin b-c() {b-c: value}
@@ -74,10 +102,10 @@ a {
 ================================================================================
 <===> as/input.scss
 @use "sass:meta";
-@use "../util";
+@use "core_functions/meta/module_mixins/utils";
 @use "other" as b;
 
-@include util.print-mixin-map(meta.module-mixins("b"))
+@include utils.print-mixin-map(meta.module-mixins("b"))
 
 <===> as/_other.scss
 @mixin c() {c: value}
@@ -95,10 +123,10 @@ a {
 ================================================================================
 <===> through_import/input.scss
 @use "sass:meta";
-@use "../util";
+@use "core_functions/meta/module_mixins/utils";
 @use "used";
 
-@include util.print-mixin-map(meta.module-mixins("used"));
+@include utils.print-mixin-map(meta.module-mixins("used"));
 
 <===> through_import/_used.scss
 @import "imported";
@@ -139,10 +167,10 @@ a {
 ================================================================================
 <===> through_forward/bare/input.scss
 @use "sass:meta";
-@use "../../util";
+@use "../../utils";
 @use "used";
 
-@include util.print-mixin-map(meta.module-mixins("used"));
+@include utils.print-mixin-map(meta.module-mixins("used"));
 
 <===> through_forward/bare/_used.scss
 @forward "forwarded";
@@ -163,10 +191,10 @@ a {
 ================================================================================
 <===> through_forward/as/input.scss
 @use "sass:meta";
-@use "../../util";
+@use "../../utils";
 @use "used";
 
-@include util.print-mixin-map(meta.module-mixins("used"));
+@include utils.print-mixin-map(meta.module-mixins("used"));
 
 <===> through_forward/as/_used.scss
 @forward "forwarded" as b-*;
@@ -187,10 +215,10 @@ a {
 ================================================================================
 <===> through_forward/show/input.scss
 @use "sass:meta";
-@use "../../util";
+@use "../../utils";
 @use "used";
 
-@include util.print-mixin-map(meta.module-mixins("used"));
+@include utils.print-mixin-map(meta.module-mixins("used"));
 
 <===> through_forward/show/_used.scss
 @forward "forwarded" show b, c;
@@ -210,10 +238,10 @@ a {
 ================================================================================
 <===> through_forward/hide/input.scss
 @use "sass:meta";
-@use "../../util";
+@use "../../utils";
 @use "used";
 
-@include util.print-mixin-map(meta.module-mixins("used"));
+@include utils.print-mixin-map(meta.module-mixins("used"));
 
 <===> through_forward/hide/_used.scss
 @forward "forwarded" hide b, c;
@@ -232,10 +260,10 @@ a {
 ================================================================================
 <===> named/input.scss
 @use "sass:meta";
-@use "../util";
+@use "core_functions/meta/module_mixins/utils";
 @use "other";
 
-@include util.print-mixin-map(meta.module-mixins($module: "other"));
+@include utils.print-mixin-map(meta.module-mixins($module: "other"));
 
 <===> named/_other.scss
 @mixin b() {b: value}

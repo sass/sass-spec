@@ -5,34 +5,34 @@
 
 <===>
 ================================================================================
-<===> accepts/direct-child/input.scss
+<===> accepts/direct_child/input.scss
 @use "sass:meta";
 
-@mixin foo() {
-    @content;
+@mixin a() {
+  @content;
 }
 
-a {b: meta.accepts-content(meta.get-mixin("foo"))}
+a {b: meta.accepts-content(meta.get-mixin("a"))}
 
-<===> accepts/direct-child/output.css
+<===> accepts/direct_child/output.css
 a {
   b: true;
 }
 
 <===>
 ================================================================================
-<===> accepts/nested-child/input.scss
+<===> accepts/nested_child/input.scss
 @use "sass:meta";
 
-@mixin foo() {
-    @if false {
-        @content;
-    }
+@mixin a() {
+  @if false {
+    @content;
+  }
 }
 
-a {b: meta.accepts-content(meta.get-mixin("foo"))}
+a {b: meta.accepts-content(meta.get-mixin("a"))}
 
-<===> accepts/nested-child/output.css
+<===> accepts/nested_child/output.css
 a {
   b: true;
 }
@@ -41,7 +41,6 @@ a {
 ================================================================================
 <===> accepts/builtin/input.scss
 @use "sass:meta";
-@mixin foo() {}
 
 a {b: meta.accepts-content(meta.get-mixin(apply, meta))}
 
@@ -52,26 +51,26 @@ a {
 
 <===>
 ================================================================================
-<===> doesnt-accept/empty/input.scss
+<===> doesnt_accept/empty/input.scss
 @use "sass:meta";
-@mixin foo() {}
+@mixin a() {}
 
-a {b: meta.accepts-content(meta.get-mixin("foo"))}
+a {b: meta.accepts-content(meta.get-mixin("a"))}
 
-<===> doesnt-accept/empty/output.css
+<===> doesnt_accept/empty/output.css
 a {
   b: false;
 }
 
 <===>
 ================================================================================
-<===> doesnt-accept/builtin/input.scss
+<===> doesnt_accept/builtin/input.scss
 @use "sass:meta";
-@mixin foo() {}
+@mixin a() {}
 
 a {b: meta.accepts-content(meta.get-mixin(load-css, meta))}
 
-<===> doesnt-accept/builtin/output.css
+<===> doesnt_accept/builtin/output.css
 a {
   b: false;
 }

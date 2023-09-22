@@ -1,14 +1,14 @@
 <===> input.scss
 @use "sass:meta";
-@include meta.load-css("foo") {};
+@include meta.load-css("other") {};
 
-<===> foo.scss
+<===> _other.scss
 
 <===> error
 Error: Mixin doesn't accept a content block.
   ,--> input.scss
-2 | @include meta.load-css("foo") {};
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | @include meta.load-css("other") {};
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @mixin load-css($url, $with: null) {

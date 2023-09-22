@@ -48,15 +48,15 @@ a {
 
 <===>
 ================================================================================
-<===> scope/doesnt-capture-global/input.scss
+<===> scope/doesnt_capture_global/input.scss
 @use "sass:meta";
 $a: x;
 
-@mixin foo {
+@mixin a {
     a: $a;
 }
 
-$ref: meta.get-mixin("foo");
+$ref: meta.get-mixin("a");
 
 $a: y;
 
@@ -64,30 +64,30 @@ a {
     @include meta.apply($ref);
 }
 
-<===> scope/doesnt-capture-global/output.css
+<===> scope/doesnt_capture_global/output.css
 a {
   a: y;
 }
 
 <===>
 ================================================================================
-<===> scope/doesnt-capture-local/input.scss
+<===> scope/doesnt_capture_local/input.scss
 @use "sass:meta";
 
 a {
     $a: x;
 
-    @mixin foo {
+    @mixin a {
         a: $a;
     }
 
-    $ref: meta.get-mixin("foo");
+    $ref: meta.get-mixin("a");
 
     $a: y;
     @include meta.apply($ref);
 }
 
-<===> scope/doesnt-capture-local/output.css
+<===> scope/doesnt_capture_local/output.css
 a {
   a: y;
 }
