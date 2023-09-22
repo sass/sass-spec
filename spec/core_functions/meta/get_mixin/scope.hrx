@@ -52,17 +52,13 @@ a {
 @use "sass:meta";
 $a: x;
 
-@mixin a {
-  a: $a;
-}
+@mixin a {a: $a}
 
 $ref: meta.get-mixin("a");
 
 $a: y;
 
-a {
-  @include meta.apply($ref);
-}
+a {@include meta.apply($ref);}
 
 <===> scope/mutated_global/output.css
 a {

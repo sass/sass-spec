@@ -24,9 +24,7 @@ a {
 <===> args/passes_positional/input.scss
 @use "sass:meta";
 
-@mixin a($a) {
-  b: $a;
-}
+@mixin a($a) {b: $a}
 
 a {@include meta.apply(meta.get-mixin("a"), c)}
 
@@ -40,9 +38,7 @@ a {
 <===> args/passes_named/input.scss
 @use "sass:meta";
 
-@mixin a($a) {
-  b: $a;
-}
+@mixin a($a) {b: $a}
 
 a {@include meta.apply(meta.get-mixin("a"), $a: c)}
 
@@ -56,9 +52,7 @@ a {
 <===> error/wrong_named_arg/input.scss
 @use "sass:meta";
 
-@mixin a($a) {
-  b: $a;
-}
+@mixin a($a) {b: $a}
 
 a {@include meta.apply(meta.get-mixin("a"), $b: c)}
 
