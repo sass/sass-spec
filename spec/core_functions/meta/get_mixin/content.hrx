@@ -23,9 +23,7 @@ a b {
 <===> passes_empty_content/input.scss
 @use "sass:meta";
 
-@mixin a {
-  @content;
-}
+@mixin a {@content;}
 
 a {
   @include meta.apply(meta.get-mixin("a")) {}
@@ -81,33 +79,33 @@ Error: Mixin doesn't accept a content block.
 ================================================================================
 <===> scope/redeclare/vars/input.scss
 @use "sass:meta";
-@mixin a($a: a) {
-  $b: b;
+@mixin a($param: param) {
+  $in-mixin: in-mixin;
   @content;
-  a: $a;
-  b: $b;
+  param: $param;
+  in-mixin: $in-mixin;
 }
 
-$c: c;
+$global: global;
 
 a {
-  $d: d;
+  $in-style-rule: in-style-rule;
   @include meta.apply(meta.get-mixin("a")) {
-    $a: x;
-    $b: x;
-    $c: x;
-    $d: x;
+    $param: x;
+    $in-mixin: x;
+    $global: x;
+    $in-style-rule: x;
   }
-  c: $c;
-  d: $d;
+  global: $global;
+  in-style-rule: $in-style-rule;
 }
 
 <===> scope/redeclare/vars/output.css
 a {
-  a: a;
-  b: b;
-  c: c;
-  d: x;
+  param: param;
+  in-mixin: in-mixin;
+  global: global;
+  in-style-rule: x;
 }
 
 <===>

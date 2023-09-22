@@ -63,19 +63,19 @@ Error: Missing argument $name.
 ================================================================================
 <===> argument/too_many/input.scss
 @use "sass:meta";
-a {b: meta.get-mixin(c, true, d, e)}
+a {b: meta.inspect(meta.get-mixin(c, true, d, e))}
 
 <===> argument/too_many/error
 Error: Only 2 arguments allowed, but 4 were passed.
   ,--> input.scss
-2 | a {b: meta.get-mixin(c, true, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.inspect(meta.get-mixin(c, true, d, e))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function get-mixin($name, $module: null) {
   |           =============================== declaration
   '
-  input.scss 2:7  root stylesheet
+  input.scss 2:20  root stylesheet
 
 <===>
 ================================================================================
@@ -136,44 +136,6 @@ Error: Mixin not found: c
   |                       ^^^^^^^^^^^^^^^^^
   '
   input.scss 4:23  root stylesheet
-
-<===>
-================================================================================
-<===> division/input.scss
-@use "sass:meta";
-@mixin a() {}
-@mixin b() {}
-a {b: meta.get-mixin(a) / meta.get-mixin(b)}
-
-<===> division/error
-Error: get-mixin("a") isn't a valid CSS value.
-  ,
-4 | a {b: meta.get-mixin(a) / meta.get-mixin(b)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 4:7  root stylesheet
-
-<===>
-================================================================================
-<===> mixin_exists/input.scss
-@use "sass:meta";
-@mixin add-two($v) {
-  a: $v + 2;
-}
-
-$add-two-mixin: meta.get-mixin(add-two);
-
-.error {
-  error: meta.get-mixin($add-two-mixin);
-}
-
-<===> mixin_exists/error
-Error: $name: get-mixin("add-two") is not a string.
-  ,
-9 |   error: meta.get-mixin($add-two-mixin);
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 9:10  root stylesheet
 
 <===>
 ================================================================================

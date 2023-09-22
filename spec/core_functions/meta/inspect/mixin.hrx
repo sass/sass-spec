@@ -1,0 +1,18 @@
+<===> user_defined/input.scss
+@use "sass:meta";
+@mixin a() {}
+a {b: inspect(meta.get-mixin(a))};
+
+<===> user_defined/output.css
+a {
+  b: get-mixin("a");
+}
+
+<===> builtin/input.scss
+@use "sass:meta";
+a {b: inspect(meta.get-mixin(load-css, meta))};
+
+<===> builtin/output.css
+a {
+  b: get-mixin("load-css");
+}

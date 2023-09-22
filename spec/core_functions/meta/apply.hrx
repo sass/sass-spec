@@ -5,7 +5,7 @@
 
 <===>
 ================================================================================
-<===> use_as_function/input.scss
+<===> error/use_as_function/input.scss
 @use "sass:meta";
 
 @mixin a {}
@@ -13,7 +13,7 @@ $a: meta.get-mixin("a");
 
 a {b: meta.apply($a)}
 
-<===> use_as_function/error
+<===> error/use_as_function/error
 Error: Undefined function.
   ,
 6 | a {b: meta.apply($a)}
@@ -23,12 +23,12 @@ Error: Undefined function.
 
 <===>
 ================================================================================
-<===> no_args/input.scss
+<===> error/no_args/input.scss
 @use "sass:meta";
 
 a {@include meta.apply()}
 
-<===> no_args/error
+<===> error/no_args/error
 Error: Missing argument $mixin.
   ,--> input.scss
 3 | a {@include meta.apply()}
@@ -42,12 +42,12 @@ Error: Missing argument $mixin.
 
 <===>
 ================================================================================
-<===> wrong_arg_type/input.scss
+<===> error/wrong_arg_type/input.scss
 @use "sass:meta";
 
 a {@include meta.apply(2px)}
 
-<===> wrong_arg_type/error
+<===> error/wrong_arg_type/error
 Error: $mixin: 2px is not a mixin reference.
   ,
 3 | a {@include meta.apply(2px)}
@@ -57,7 +57,7 @@ Error: $mixin: 2px is not a mixin reference.
 
 <===>
 ================================================================================
-<===> too_many_args/input.scss
+<===> error/too_many_args/input.scss
 @use "sass:meta";
 
 @mixin a {}
@@ -65,7 +65,7 @@ $a: meta.get-mixin("a");
 
 a {@include meta.apply($a, 2px)}
 
-<===> too_many_args/error
+<===> error/too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.
     ,
 3   | @mixin a {}
@@ -79,7 +79,7 @@ Error: Only 0 arguments allowed, but 1 was passed.
 
 <===>
 ================================================================================
-<===> missing_mixin_args/input.scss
+<===> error/missing_mixin_args/input.scss
 @use "sass:meta";
 
 @mixin a($a) {}
@@ -87,7 +87,7 @@ $a: meta.get-mixin("a");
 
 a {@include meta.apply($a)}
 
-<===> missing_mixin_args/error
+<===> error/missing_mixin_args/error
 Error: Missing argument $a.
     ,
 3   | @mixin a($a) {}
@@ -101,7 +101,7 @@ Error: Missing argument $a.
 
 <===>
 ================================================================================
-<===> too_many_args_mixin_accepts_args/input.scss
+<===> error/too_many_args_mixin_accepts_args/input.scss
 @use "sass:meta";
 
 @mixin a($a) {}
@@ -109,7 +109,7 @@ $a: meta.get-mixin("a");
 
 a {@include meta.apply($a, 2px, 3px)}
 
-<===> too_many_args_mixin_accepts_args/error
+<===> error/too_many_args_mixin_accepts_args/error
 Error: Only 1 argument allowed, but 2 were passed.
     ,
 3   | @mixin a($a) {}

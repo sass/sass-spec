@@ -184,12 +184,21 @@ a {
 :todo:
 - sass/libsass#2807
 
-<===> mixin/input.scss
+<===> mixin/user_defined/input.scss
 @use "sass:meta";
 @mixin a() {}
 a {b: type-of(meta.get-mixin(a))}
 
-<===> mixin/output.css
+<===> mixin/user_defined/output.css
+a {
+  b: mixin;
+}
+
+<===> mixin/builtin/input.scss
+@use "sass:meta";
+a {b: type-of(meta.get-mixin(load-css, meta))}
+
+<===> mixin/builtin/output.css
 a {
   b: mixin;
 }

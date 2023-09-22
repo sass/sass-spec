@@ -1,0 +1,77 @@
+<===> addition/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) + meta.get-mixin(b)}
+
+<===> addition/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) + meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> subtraction/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) - meta.get-mixin(b)}
+
+<===> subtraction/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) - meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> multiplication/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) * meta.get-mixin(b)}
+
+<===> multiplication/error
+Error: Undefined operation "get-mixin("a") * get-mixin("b")".
+  ,
+4 | a {b: meta.get-mixin(a) * meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> division/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) / meta.get-mixin(b)}
+
+<===> division/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) / meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> modulo/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) % meta.get-mixin(b)}
+
+<===> modulo/error
+Error: Undefined operation "get-mixin("a") % get-mixin("b")".
+  ,
+4 | a {b: meta.get-mixin(a) % meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet

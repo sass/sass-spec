@@ -8,9 +8,7 @@
 <===> accepts/direct_child/input.scss
 @use "sass:meta";
 
-@mixin a() {
-  @content;
-}
+@mixin a() {@content;}
 
 a {b: meta.accepts-content(meta.get-mixin("a"))}
 
@@ -74,3 +72,69 @@ a {b: meta.accepts-content(meta.get-mixin(load-css, meta))}
 a {
   b: false;
 }
+
+<===>
+================================================================================
+<===> args/keyword/input.scss
+@use "sass:meta";
+
+a {b: meta.accepts-content($mixin: meta.get-mixin(apply, meta))}
+
+<===> args/keyword/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/args/too_few/input.scss
+@use "sass:meta";
+
+a {b: meta.accepts-content()}
+
+<===> error/args/too_few/error
+Error: Missing argument $mixin.
+  ,--> input.scss
+3 | a {b: meta.accepts-content()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function accepts-content($mixin) {
+  |           ======================= declaration
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/args/too_many/input.scss
+@use "sass:meta";
+@mixin a() {}
+
+a {b: meta.accepts-content(a, a)}
+
+<===> error/args/too_many/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+4 | a {b: meta.accepts-content(a, a)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function accepts-content($mixin) {
+  |           ======================= declaration
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/args/wrong_type/input.scss
+@use "sass:meta";
+
+a {b: meta.accepts-content(meta.get-function("red"))}
+
+<===> error/args/wrong_type/error
+Error: $mixin: get-function("red") is not a mixin reference.
+  ,
+3 | a {b: meta.accepts-content(meta.get-function("red"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
