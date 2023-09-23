@@ -2,9 +2,7 @@
 @use "sass:meta";
 
 @mixin a {
-  b {
-    @content;
-  }
+  b {@content}
 }
 
 a {
@@ -33,7 +31,7 @@ a {
 
 <===>
 ================================================================================
-<===> denies_content/user_defined/input.scss
+<===> error/denies_content/user_defined/input.scss
 @use "sass:meta";
 @mixin a {}
 
@@ -41,7 +39,7 @@ a {
   @include meta.apply(meta.get-mixin("a")) {}
 }
 
-<===> denies_content/user_defined/error
+<===> error/denies_content/user_defined/error
 Error: Mixin doesn't accept a content block.
     ,
 2   | @mixin a {}
@@ -54,7 +52,7 @@ Error: Mixin doesn't accept a content block.
 
 <===>
 ================================================================================
-<===> denies_content/builtin/input.scss
+<===> error/denies_content/builtin/input.scss
 @use "sass:meta";
 
 a {
@@ -63,7 +61,7 @@ a {
   }
 }
 
-<===> denies_content/builtin/error
+<===> error/denies_content/builtin/error
 Error: Mixin doesn't accept a content block.
   ,--> input.scss
 4 |   @include meta.apply(meta.get-mixin(load-css, meta), "a") {
@@ -91,10 +89,10 @@ $global: global;
 a {
   $in-style-rule: in-style-rule;
   @include meta.apply(meta.get-mixin("a")) {
-    $param: x;
-    $in-mixin: x;
-    $global: x;
-    $in-style-rule: x;
+    $param: in-include;
+    $in-mixin: in-include;
+    $global: in-include;
+    $in-style-rule: in-include;
   }
   global: $global;
   in-style-rule: $in-style-rule;
@@ -105,7 +103,7 @@ a {
   param: param;
   in-mixin: in-mixin;
   global: global;
-  in-style-rule: x;
+  in-style-rule: in-include;
 }
 
 <===>

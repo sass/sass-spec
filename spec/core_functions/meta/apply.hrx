@@ -59,14 +59,14 @@ a {@include meta.apply(meta.get-mixin("a"), $b: c)}
 <===> error/wrong_named_arg/error
 Error: Missing argument $a.
     ,
-3   | @mixin a($a) {
+3   | @mixin a($a) {b: $a}
     |        ===== declaration
 ... |
-7   | a {@include meta.apply(meta.get-mixin("a"), $b: c)}
+5   | a {@include meta.apply(meta.get-mixin("a"), $b: c)}
     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
     '
-  input.scss 7:4  a()
-  input.scss 7:4  root stylesheet
+  input.scss 5:4  a()
+  input.scss 5:4  root stylesheet
 
 <===>
 ================================================================================
