@@ -87,7 +87,7 @@ Error: $channels: The hwb color space has 3 channels but (0 30% 40% 0.4) has 4.
 a {b: color.hwb("foo" 30% 40%)}
 
 <===> hue/type/error
-Error: $channels: Expected hue "foo" to be a number.
+Error: $channels: Expected hue channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb("foo" 30% 40%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -120,7 +120,7 @@ Error: $hue: var(--c) is not a number.
 a {b: color.hwb(0 "foo" 40%)}
 
 <===> whiteness/type/error
-Error: $channels: Expected whiteness "foo" to be a number.
+Error: $channels: Expected whiteness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0 "foo" 40%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -219,7 +219,7 @@ Error: $whiteness: var(--c) is not a number.
 a {b: color.hwb(0 30% "foo")}
 
 <===> blackness/type/error
-Error: $channels: Expected blackness "foo" to be a number.
+Error: $channels: Expected blackness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0 30% "foo")}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -367,7 +367,7 @@ Error: Expected numeric channels, got "hwb(0 0 0/var(--c))".
 a {b: color.hwb(0 30% "var(--foo) / 0.4")}
 
 <===> quoted_var_slash/error
-Error: $channels: Expected blackness "var(--foo) / 0.4" to be a number.
+Error: $channels: Expected blackness channel to be a number, was "var(--foo) / 0.4".
   ,
 2 | a {b: color.hwb(0 30% "var(--foo) / 0.4")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
