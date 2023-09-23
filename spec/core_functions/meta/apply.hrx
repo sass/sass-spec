@@ -21,30 +21,58 @@ a {
 
 <===>
 ================================================================================
-<===> args/passes_positional/input.scss
+<===> args/passes/positional/input.scss
 @use "sass:meta";
 
 @mixin a($a) {b: $a}
 
 a {@include meta.apply(meta.get-mixin("a"), c)}
 
-<===> args/passes_positional/output.css
+<===> args/passes/positional/output.css
 a {
   b: c;
 }
 
 <===>
 ================================================================================
-<===> args/passes_named/input.scss
+<===> args/passes/named/input.scss
 @use "sass:meta";
 
 @mixin a($a) {b: $a}
 
 a {@include meta.apply(meta.get-mixin("a"), $a: c)}
 
-<===> args/passes_named/output.css
+<===> args/passes/named/output.css
 a {
   b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes/rest/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a...) {b: $a}
+
+a {@include meta.apply(meta.get-mixin("a"), a, b, c)}
+
+<===> args/passes/rest/positional/output.css
+a {
+  b: a, b, c;
+}
+
+<===>
+================================================================================
+<===> args/passes/rest/named/input.scss
+@use "sass:meta";
+
+@mixin a($a...) {b: meta.inspect(meta.keywords($a))}
+
+a {@include meta.apply(meta.get-mixin("a"), $a: a, $b: b, $c: c)}
+
+<===> args/passes/rest/named/output.css
+a {
+  b: (a: a, b: b, c: c);
 }
 
 <===>
