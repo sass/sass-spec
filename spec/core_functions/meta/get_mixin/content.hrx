@@ -133,36 +133,36 @@ a {
 ================================================================================
 <===> scope/fall_through/input.scss
 @use "sass:meta";
-$b: x;
+$global: global;
 
 @mixin a {
-  @content(x);
-  b: $b;
+  @content(content-rule-a);
+  global: $global;
 }
 
 @mixin b {
-  $b: a;
-  @include meta.apply(meta.get-mixin(a)) using ($a) {
-    @content($a);
+  $global: in-mixin-b;
+  @include meta.apply(meta.get-mixin(a)) using ($content-arg) {
+    @content($content-arg);
   }
 }
 
-@mixin baz {
-  $b: b;
-  @include meta.apply(meta.get-mixin(b)) using ($a) {
-    @content($a);
+@mixin c {
+  $global: in-mixin-c;
+  @include meta.apply(meta.get-mixin(b)) using ($content-arg) {
+    @content($content-arg);
   }
 }
 
 a {
-  $b: c;
-  @include meta.apply(meta.get-mixin(baz)) using ($a) {
-    a: $a;
+  $global: in-style-rule;
+  @include meta.apply(meta.get-mixin(c)) using ($content-arg) {
+    in-content-body: $content-arg;
   }
 }
 
 <===> scope/fall_through/output.css
 a {
-  a: x;
-  b: x;
+  in-content-body: content-rule-a;
+  global: global;
 }
