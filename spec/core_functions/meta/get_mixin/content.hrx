@@ -110,23 +110,23 @@ a {
 ================================================================================
 <===> scope/redeclare/using/input.scss
 @use "sass:meta";
-@mixin a($a: x) {@content(a);}
+@mixin a($a: param) {@content(content-arg);}
 
-$a: y;
+$a: global;
 
 a {
-  $a: z;
+  $a: in-style-rule;
   @include meta.apply(meta.get-mixin("a")) using ($a) {
-    a: $a;
-    $a: a;
+    in-content-body: $a;
+    $a: in-content-body;
   }
-  b: $a;
+  in-style-rule: $a;
 }
 
 <===> scope/redeclare/using/output.css
 a {
-  a: a;
-  b: z;
+  in-content-body: content-arg;
+  in-style-rule: in-style-rule;
 }
 
 <===>
