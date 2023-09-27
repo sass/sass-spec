@@ -77,6 +77,66 @@ a {
 
 <===>
 ================================================================================
+<===> rest/mixin-separate/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: 1 2;
+a {@include meta.apply(meta.get-mixin("a"), $rest...)}
+
+<===> rest/mixin-separate/positional/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/mixin-separate/named/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: (a: 1, b: 2);
+a {@include meta.apply(meta.get-mixin("a"), $rest...)}
+
+<===> rest/mixin-separate/named/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/includes-mixin/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: meta.get-mixin("a") 1 2;
+a {@include meta.apply($rest...)}
+
+<===> rest/includes-mixin/positional/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/includes-mixin/named/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: (mixin: meta.get-mixin("a"), a: 1, b: 2);
+a {@include meta.apply($rest...)}
+
+<===> rest/includes-mixin/named/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
 <===> error/wrong_named_arg/input.scss
 @use "sass:meta";
 
