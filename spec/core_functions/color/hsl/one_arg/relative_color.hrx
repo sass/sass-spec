@@ -1,0 +1,140 @@
+<===> static/alpha/input.scss
+a {b: hsl(from #aaa h s l / 25%)}
+
+<===> static/alpha/output.css
+a {
+  b: hsl(from #aaa h s l/25%);
+}
+
+<===>
+================================================================================
+<===> static/no_alpha/input.scss
+a {b: hsl(from #aaa h s l)}
+
+<===> static/no_alpha/output.css
+a {
+  b: hsl(from #aaa h s l);
+}
+
+<===>
+================================================================================
+<===> calc/alpha/input.scss
+a {b: hsl(from #aaa calc(h + 180deg) s l / 25%)}
+
+<===> calc/alpha/output.css
+a {
+  b: hsl(from #aaa calc(h + 180deg) s l/25%);
+}
+
+<===>
+================================================================================
+<===> calc/no_alpha/input.scss
+a {b: hsl(from #aaa calc(h + 180deg) s l)}
+
+<===> calc/no_alpha/output.css
+a {
+  b: hsl(from #aaa calc(h + 180deg) s l);
+}
+
+<===>
+================================================================================
+<===> var/alpha/input.scss
+a {b: hsl(from var(--c) h s l / 25%)}
+
+<===> var/alpha/output.css
+a {
+  b: hsl(from var(--c) h s l/25%);
+}
+
+<===>
+================================================================================
+<===> var/no_alpha/input.scss
+a {b: hsl(from var(--c) h s l)}
+<===> var/no_alpha/output.css
+a {
+  b: hsl(from var(--c) h s l);
+}
+
+
+<===>
+================================================================================
+<===> different_case/alpha/input.scss
+a {b: hsl(From #aaa h s l / 25%)}
+
+<===> different_case/alpha/output.css
+a {
+  b: hsl(From #aaa h s l/25%);
+}
+
+<===>
+================================================================================
+<===> different_case/no_alpha/input.scss
+a {b: hsl(From #aaa h s l)}
+
+<===> different_case/no_alpha/output.css
+a {
+  b: hsl(From #aaa h s l);
+}
+
+<===>
+================================================================================
+<===> slash_list_alpha/input.scss
+@use "sass:list";
+a {b: hsl(list.slash(from #aaa h s l, 25%))}
+
+<===> slash_list_alpha/output.css
+a {
+  b: hsl(from #aaa h s l / 25%);
+}
+
+<===>
+================================================================================
+<===> error/quoted/alpha/input.scss
+a {b: hsl("from" #aaa h s l / 25%)}
+
+<===> error/quoted/alpha/error
+Error: Only 3 elements allowed, but 5 were passed.
+  ,
+1 | a {b: hsl("from" #aaa h s l / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/quoted/no_alpha/input.scss
+a {b: hsl("from" #aaa h s l)}
+
+<===> error/quoted/no_alpha/error
+Error: Only 3 elements allowed, but 5 were passed.
+  ,
+1 | a {b: hsl("from" #aaa h s l)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/wrong_keyword/alpha/input.scss
+a {b: hsl(c #aaa h s l / 25%)}
+
+<===> error/wrong_keyword/alpha/error
+Error: Only 3 elements allowed, but 5 were passed.
+  ,
+1 | a {b: hsl(c #aaa h s l / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/wrong_keyword/no_alpha/input.scss
+a {b: hsl(c #aaa h s l)}
+
+<===> error/wrong_keyword/no_alpha/error
+Error: Only 3 elements allowed, but 5 were passed.
+  ,
+1 | a {b: hsl(c #aaa h s l)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
