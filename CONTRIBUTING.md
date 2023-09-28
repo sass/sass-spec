@@ -1,4 +1,4 @@
-See [the README](README.md) for details on how to write an run tests in this
+See [the README](README.md) for details on how to write and run tests in this
 repository.
 
 ## Large Language Models
