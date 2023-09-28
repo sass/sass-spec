@@ -1,0 +1,259 @@
+<===> unit/lightness/input.scss
+a {b: lab(1px 2 3)}
+
+<===> unit/lightness/error
+Error: $lightness: Expected 1px to have no units or "%".
+  ,
+1 | a {b: lab(1px 2 3)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/a/input.scss
+a {b: lab(1% 2px 3)}
+
+<===> unit/a/error
+Error: $a: Expected 2px to have no units or "%".
+  ,
+1 | a {b: lab(1% 2px 3)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/b/input.scss
+a {b: lab(1% 2 3px)}
+
+<===> unit/b/error
+Error: $b: Expected 3px to have no units or "%".
+  ,
+1 | a {b: lab(1% 2 3px)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash/input.scss
+a {b: lab(1% 2 3/0.4px)}
+
+<===> unit/alpha/slash/error
+Error: $alpha: Expected 0.4px to have no units or "%".
+  ,
+1 | a {b: lab(1% 2 3/0.4px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: lab(list.slash(1% 2 3, 0.4px))}
+
+<===> unit/alpha/slash_list/error
+Error: $alpha: Expected 0.4px to have no units or "%".
+  ,
+2 | a {b: lab(list.slash(1% 2 3, 0.4px))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/lightness/input.scss
+a {b: lab(c 2 3)}
+
+<===> type/lightness/error
+Error: $channels: Expected lightness c to be a number.
+  ,
+1 | a {b: lab(c 2 3)}
+  |       ^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/a/input.scss
+a {b: lab(1% c 3)}
+
+<===> type/a/error
+Error: $channels: Expected a c to be a number.
+  ,
+1 | a {b: lab(1% c 3)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/b/input.scss
+a {b: lab(1% 2 c)}
+
+<===> type/b/error
+Error: $channels: Expected b c to be a number.
+  ,
+1 | a {b: lab(1% 2 c)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: lab(list.slash(1% 2 3, c))}
+
+<===> type/alpha/slash_list/error
+Error: $channels: c is not a number.
+  ,
+2 | a {b: lab(list.slash(1% 2 3, c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/bracketed/input.scss
+a {b: lab([1% 2 3])}
+
+<===> list/bracketed/error
+Error: $channels: Expected an unbracketed list, was [1% 2 3]
+  ,
+1 | a {b: lab([1% 2 3])}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/comma/input.scss
+a {b: lab((1%, 2, 3))}
+
+<===> list/comma/error
+Error: $channels: Expected a space- or slash-separated list, was (1%, 2, 3)
+  ,
+1 | a {b: lab((1%, 2, 3))}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/three/input.scss
+@use 'sass:list';
+a {b: lab(list.slash(1%, 2, 3))}
+
+<===> list/slash/three/error
+Error: $channels: Only 2 slash-separated elements allowed, but 3 were passed.
+  ,
+2 | a {b: lab(list.slash(1%, 2, 3))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/one/input.scss
+@use 'sass:list';
+$single-arg-slash-separated: list.append((), 1% 2 3, $separator: slash);
+a {b: lab($single-arg-slash-separated)}
+
+<===> list/slash/one/error
+Error: $channels: Only 2 slash-separated elements allowed, but 1 was passed.
+  ,
+3 | a {b: lab($single-arg-slash-separated)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty/input.scss
+a {b: lab(())}
+
+<===> list/empty/error
+Error: $channels: Color component list may not be empty.
+  ,
+1 | a {b: lab(())}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty_space/input.scss
+@use 'sass:list';
+$empty-space: list.join((), (), $separator: space);
+a {b: lab(())}
+
+<===> list/empty_space/error
+Error: $channels: Color component list may not be empty.
+  ,
+3 | a {b: lab(())}
+  |       ^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_few_channels/input.scss
+a {b: lab(1% 2)}
+
+<===> list/too_few_channels/error
+Error: $channels: The lab color space has 3 channels but (1% 2) has 2.
+  ,
+1 | a {b: lab(1% 2)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_many_channels/input.scss
+a {b: lab(1% 2 3 0.4)}
+
+<===> list/too_many_channels/error
+Error: $channels: The lab color space has 3 channels but (1% 2 3 0.4) has 4.
+  ,
+1 | a {b: lab(1% 2 3 0.4)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: lab()}
+
+<===> too_few_args/error
+Error: Missing argument $channels.
+  ,--> input.scss
+1 | a {b: lab()}
+  |       ^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function lab($channels) {
+  |           ============== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: lab(1%, 2, 3, 0.4)}
+
+<===> too_many_args/error
+Error: Only 1 argument allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: lab(1%, 2, 3, 0.4)}
+  |       ^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function lab($channels) {
+  |           ============== declaration
+  '
+  input.scss 1:7  root stylesheet

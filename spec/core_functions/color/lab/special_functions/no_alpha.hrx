@@ -1,0 +1,280 @@
+<===> calc/string/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(unquote("calc(1%)") 2 3));
+
+<===> calc/string/arg_1/output.css
+a {
+  value: lab(calc(1%) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calc/string/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% unquote("calc(2)") 3));
+
+<===> calc/string/arg_2/output.css
+a {
+  value: lab(1% calc(2) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calc/string/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 unquote("calc(3)")));
+
+<===> calc/string/arg_3/output.css
+a {
+  value: lab(1% 2 calc(3));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(calc(1px + 1%) 2 3));
+
+<===> calc/calculation/arg_1/output.css
+a {
+  value: lab(calc(1px + 1%) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% calc(1px + 1%) 3));
+
+<===> calc/calculation/arg_2/output.css
+a {
+  value: lab(1% calc(1px + 1%) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calc/calculation/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 calc(1px + 1%)));
+
+<===> calc/calculation/arg_3/output.css
+a {
+  value: lab(1% 2 calc(1px + 1%));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(var(--foo) 2 3));
+
+<===> var/arg_1/output.css
+a {
+  value: lab(var(--foo) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% var(--foo) 3));
+
+<===> var/arg_2/output.css
+a {
+  value: lab(1% var(--foo) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 var(--foo)));
+
+<===> var/arg_3/output.css
+a {
+  value: lab(1% 2 var(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> env/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(env(--foo) 2 3));
+
+<===> env/arg_1/output.css
+a {
+  value: lab(env(--foo) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> env/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% env(--foo) 3));
+
+<===> env/arg_2/output.css
+a {
+  value: lab(1% env(--foo) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> env/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 env(--foo)));
+
+<===> env/arg_3/output.css
+a {
+  value: lab(1% 2 env(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> min/string/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(unquote("min(1%)") 2 3));
+
+<===> min/string/arg_1/output.css
+a {
+  value: lab(min(1%) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> min/string/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% unquote("min(2)") 3));
+
+<===> min/string/arg_2/output.css
+a {
+  value: lab(1% min(2) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> min/string/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 unquote("min(3)")));
+
+<===> min/string/arg_3/output.css
+a {
+  value: lab(1% 2 min(3));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> max/string/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(unquote("max(1%)") 2 3));
+
+<===> max/string/arg_1/output.css
+a {
+  value: lab(max(1%) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> max/string/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% unquote("max(2)") 3));
+
+<===> max/string/arg_2/output.css
+a {
+  value: lab(1% max(2) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> max/string/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 unquote("max(3)")));
+
+<===> max/string/arg_3/output.css
+a {
+  value: lab(1% 2 max(3));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> clamp/string/arg_1/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(unquote("clamp(1%, 2, 3)") 2 3));
+
+<===> clamp/string/arg_1/output.css
+a {
+  value: lab(clamp(1%, 2, 3) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> clamp/string/arg_2/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% unquote("clamp(2, 3, 4)") 3));
+
+<===> clamp/string/arg_2/output.css
+a {
+  value: lab(1% clamp(2, 3, 4) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> clamp/string/arg_3/input.scss
+@use 'core_functions/color/lab/utils';
+@include utils.inspect(lab(1% 2 unquote("clamp(3, 4, 5)")));
+
+<===> clamp/string/arg_3/output.css
+a {
+  value: lab(1% 2 clamp(3, 4, 5));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/1_of_2/input.scss
+// var() is substituted before parsing, so it may contain multiple arguments.
+a {b: lab(var(--foo) 2)}
+
+<===> multi_argument_var/1_of_2/output.css
+a {
+  b: lab(var(--foo) 2);
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/2_of_2/input.scss
+a {b: lab(1% var(--foo))}
+
+<===> multi_argument_var/2_of_2/output.css
+a {
+  b: lab(1% var(--foo));
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/1_of_1/input.scss
+a {b: lab(var(--foo))}
+
+<===> multi_argument_var/1_of_1/output.css
+a {
+  b: lab(var(--foo));
+}
