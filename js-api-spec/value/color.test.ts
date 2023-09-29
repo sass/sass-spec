@@ -57,9 +57,9 @@ describe('SassColor', () => {
         expect(() => color.assertFunction()).toThrow();
         expect(() => color.assertMap()).toThrow();
         expect(color.tryMap()).toBe(null);
+        expect(() => color.assertMixin()).toThrow();
         expect(() => color.assertNumber()).toThrow();
         expect(() => color.assertString()).toThrow();
-        expect(() => color.assertMixin()).toThrow();
       });
     });
 

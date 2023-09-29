@@ -11,12 +11,12 @@ it('can round-trip a mixin reference from Sass', () => {
     expect(args).toBeArrayOfSize(1);
     const value = args[0];
     expect(value).toBeInstanceOf(SassMixin);
-    value.assertMixin();
     expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
     expect(value.assertMap).toThrow();
     expect(value.tryMap()).toBe(null);
+    value.assertMixin();
     expect(value.assertNumber).toThrow();
     expect(value.assertString).toThrow();
 
