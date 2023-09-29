@@ -19,14 +19,19 @@ it('can round-trip a mixin reference from Sass', () => {
       `
       @use 'sass:meta';
 
-      @mixin a() {}
-      a {b: meta.inspect(foo(meta.get-mixin('a')))}
+      @mixin a() {
+        a {
+          b: c;
+        }
+      }
+
+      @include meta.apply(foo(meta.get-mixin('a')));
     `,
       {
         functions: {'foo($arg)': fn},
       }
     ).css
-  ).toBe('a {\n  b: get-mixin("a");\n}');
+  ).toBe('a {\n  b: c;\n}');
 
   expect(fn).toHaveBeenCalled();
 });
