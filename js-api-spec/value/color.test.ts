@@ -59,6 +59,7 @@ describe('SassColor', () => {
         expect(color.tryMap()).toBe(null);
         expect(() => color.assertNumber()).toThrow();
         expect(() => color.assertString()).toThrow();
+        expect(() => color.assertMixin()).toThrow();
       });
     });
 

@@ -34,6 +34,7 @@ describe('SassMap', () => {
       expect(() => map.assertFunction()).toThrow();
       expect(() => map.assertNumber()).toThrow();
       expect(() => map.assertString()).toThrow();
+      expect(() => map.assertMixin()).toThrow();
     });
 
     it('returns its contents as a map', () => {

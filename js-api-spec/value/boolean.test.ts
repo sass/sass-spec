@@ -32,6 +32,7 @@ describe('Sass boolean', () => {
       expect(value.tryMap()).toBe(null);
       expect(value.assertNumber).toThrow();
       expect(value.assertString).toThrow();
+      expect(value.assertMixin).toThrow();
     });
   });
 
@@ -62,6 +63,7 @@ describe('Sass boolean', () => {
       expect(value.tryMap()).toBe(null);
       expect(value.assertNumber).toThrow();
       expect(value.assertString).toThrow();
+      expect(value.assertMixin).toThrow();
     });
   });
 });

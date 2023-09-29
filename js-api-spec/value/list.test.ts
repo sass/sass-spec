@@ -32,6 +32,7 @@ describe('SassList', () => {
       expect(list.tryMap()).toBe(null);
       expect(() => list.assertNumber()).toThrow();
       expect(() => list.assertString()).toThrow();
+      expect(() => list.assertMixin()).toThrow();
     });
 
     it('returns its contents as a list', () => {
@@ -360,6 +361,7 @@ describe('SassList', () => {
       expect(() => list.assertFunction()).toThrow();
       expect(() => list.assertNumber()).toThrow();
       expect(() => list.assertString()).toThrow();
+      expect(() => list.assertMixin()).toThrow();
     });
 
     it('rejects invalid indices', () => {

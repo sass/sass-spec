@@ -60,6 +60,7 @@ describe('Sass string', () => {
       expect(value.assertMap).toThrow();
       expect(value.tryMap()).toBe(null);
       expect(value.assertNumber).toThrow();
+      expect(value.assertMixin).toThrow();
     });
   });
 

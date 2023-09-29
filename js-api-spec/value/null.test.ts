@@ -32,5 +32,6 @@ describe('Sass null', () => {
     expect(value.tryMap()).toBe(null);
     expect(value.assertNumber).toThrow();
     expect(value.assertString).toThrow();
+    expect(value.assertMixin).toThrow();
   });
 });

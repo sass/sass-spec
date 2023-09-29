@@ -43,6 +43,7 @@ describe('Sass number', () => {
           expect(() => number.assertMap()).toThrow();
           expect(number.tryMap()).toBe(null);
           expect(() => number.assertString()).toThrow();
+          expect(() => number.assertMixin()).toThrow();
         });
       });
 
