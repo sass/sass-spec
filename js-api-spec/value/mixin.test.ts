@@ -10,7 +10,7 @@ it('can round-trip a mixin reference from Sass', () => {
   const fn = spy(args => {
     expect(args).toBeArrayOfSize(1);
     const value = args[0];
-    expect(value).toBeInstanceOf(SassMixin);
+    expect(value instanceof SassMixin).toBe(true);
     expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
