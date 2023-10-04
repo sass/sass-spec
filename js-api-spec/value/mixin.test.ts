@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {compileString} from 'sass';
+import {SassMixin, compileString} from 'sass';
 
 import {spy} from '../utils';
 
@@ -10,6 +10,7 @@ it('can round-trip a mixin reference from Sass', () => {
   const fn = spy(args => {
     expect(args).toBeArrayOfSize(1);
     const value = args[0];
+    expect(value).toBeInstanceOf(SassMixin);
     expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
