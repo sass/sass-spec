@@ -1,0 +1,84 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> error/addition/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) + meta.get-mixin(b)}
+
+<===> error/addition/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) + meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/subtraction/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) - meta.get-mixin(b)}
+
+<===> error/subtraction/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) - meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/multiplication/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) * meta.get-mixin(b)}
+
+<===> error/multiplication/error
+Error: Undefined operation "get-mixin("a") * get-mixin("b")".
+  ,
+4 | a {b: meta.get-mixin(a) * meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/division/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) / meta.get-mixin(b)}
+
+<===> error/division/error
+Error: get-mixin("a") isn't a valid CSS value.
+  ,
+4 | a {b: meta.get-mixin(a) / meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/modulo/input.scss
+@use "sass:meta";
+@mixin a() {}
+@mixin b() {}
+a {b: meta.get-mixin(a) % meta.get-mixin(b)}
+
+<===> error/modulo/error
+Error: Undefined operation "get-mixin("a") % get-mixin("b")".
+  ,
+4 | a {b: meta.get-mixin(a) % meta.get-mixin(b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet

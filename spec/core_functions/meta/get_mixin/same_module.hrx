@@ -1,0 +1,71 @@
+<===> user_defined/input.scss
+@use "sass:meta";
+@mixin add-two($v) {b: $v + 2}
+$add-two-mixin: meta.get-mixin(add-two);
+
+a {@include meta.apply($add-two-mixin, 10)}
+
+<===> user_defined/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> redefined/input.scss
+@use "sass:meta";
+@mixin add-two($v) {b: $v + 2}
+$add-two-mixin: meta.get-mixin(add-two);
+
+// The mixin returned by `meta.get-mixin()` is locked in place when it's
+// called. Redefining the mixin after the fact shouldn't affect the stored
+// value.
+@mixin add-two($v) {@error "Should not be called"}
+
+a {@include meta.apply($add-two-mixin, 10)}
+
+<===> redefined/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@use "sass:meta";
+@import "other";
+a {@include meta.apply(meta.get-mixin(add-two), 10)}
+
+<===> through_import/other.scss
+@mixin add-two($v) {b: $v + 2}
+
+<===> through_import/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/dash_to_underscore/input.scss
+@use "sass:meta";
+@mixin add_two($v) {b: $v + 2}
+
+a {@include meta.apply(meta.get-mixin(add-two), 10)}
+
+<===> dash_insensitive/dash_to_underscore/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> dash_insensitive/underscore_to_dash/input.scss
+@use "sass:meta";
+@mixin add-two($v) {b: $v + 2}
+
+a {@include meta.apply(meta.get-mixin(add_two), 10)}
+
+<===> dash_insensitive/underscore_to_dash/output.css
+a {
+  b: 12;
+}

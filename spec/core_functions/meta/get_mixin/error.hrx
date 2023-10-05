@@ -1,0 +1,224 @@
+<===> argument/type/name/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin(2px)}
+
+<===> argument/type/name/error
+Error: $name: 2px is not a string.
+  ,
+2 | a {b: meta.get-mixin(2px)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/type/module/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin(c, $module: 1)}
+
+<===> argument/type/module/error
+Error: $module: 1 is not a string.
+  ,
+2 | a {b: meta.get-mixin(c, $module: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/mixin_ref/input.scss
+@use "sass:meta";
+@mixin a() {}
+
+$a-ref: meta.get-mixin(a);
+a {b: meta.get-mixin($a-ref)}
+
+<===> argument/mixin_ref/error
+Error: $name: get-mixin("a") is not a string.
+  ,
+5 | a {b: meta.get-mixin($a-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 5:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/too_few/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin()}
+
+<===> argument/too_few/error
+Error: Missing argument $name.
+  ,--> input.scss
+2 | a {b: meta.get-mixin()}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-mixin($name, $module: null) {
+  |           =============================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> argument/too_many/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.get-mixin(c, true, d, e))}
+
+<===> argument/too_many/error
+Error: Only 2 arguments allowed, but 4 were passed.
+  ,--> input.scss
+2 | a {b: meta.inspect(meta.get-mixin(c, true, d, e))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-mixin($name, $module: null) {
+  |           =============================== declaration
+  '
+  input.scss 2:20  root stylesheet
+
+<===>
+================================================================================
+<===> non_existent/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin(does-not-exist)}
+
+<===> non_existent/error
+Error: Mixin not found: does-not-exist
+  ,
+2 | a {b: meta.get-mixin(does-not-exist)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  @include meta.apply(meta.get-mixin(d));
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show c;
+
+<===> through_forward/show/_upstream.scss
+@mixin d() {a: c}
+
+<===> through_forward/show/error
+Error: Mixin not found: d
+  ,
+4 |   @include meta.apply(meta.get-mixin(d));
+  |                       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:23  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  @include meta.apply(meta.get-mixin(c));
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide c;
+
+<===> through_forward/hide/_upstream.scss
+@mixin c() {a: c}
+
+<===> through_forward/hide/error
+Error: Mixin not found: c
+  ,
+4 |   @include meta.apply(meta.get-mixin(c));
+  |                       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:23  root stylesheet
+
+<===>
+================================================================================
+<===> conflict/input.scss
+@use "sass:meta";
+@use "other1" as *;
+@use "other2" as *;
+
+a {b: meta.get-mixin(member)}
+
+<===> conflict/other1.scss
+@mixin member() {a: other1}
+
+<===> conflict/other2.scss
+@mixin member() {a: other2}
+
+<===> conflict/error
+Error: This mixin is available from multiple global modules.
+    ,
+2   | @use "other1" as *;
+    | ================== includes mixin
+3   | @use "other2" as *;
+    | ================== includes mixin
+... |
+5   | a {b: meta.get-mixin(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^ mixin use
+    '
+  input.scss 5:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/undefined/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.get-mixin("c", $module: "color")}
+
+<===> module/undefined/error
+Error: Mixin not found: "c"
+  ,
+3 | a {b: meta.get-mixin("c", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/non_existent/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin("c", $module: "d")}
+
+<===> module/non_existent/error
+Error: There is no module with the namespace "d".
+  ,
+2 | a {b: meta.get-mixin("c", $module: "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/built_in_but_not_loaded/input.scss
+@use "sass:meta";
+a {b: meta.get-mixin("red", $module: "color")}
+
+<===> module/built_in_but_not_loaded/error
+Error: There is no module with the namespace "color".
+  ,
+2 | a {b: meta.get-mixin("red", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/dash_sensitive/input.scss
+@use "sass:meta";
+@use "sass:color" as a-b;
+c {d: meta.get-mixin("c", $module: "a_b")}
+
+<===> module/dash_sensitive/error
+Error: There is no module with the namespace "a_b".
+  ,
+3 | c {d: meta.get-mixin("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
