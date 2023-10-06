@@ -3,7 +3,7 @@
 a {b: color.hwb("foo", 30%, 40%, 0.5)}
 
 <===> hue/type/error
-Error: Expected hue "foo" to be a number.
+Error: Expected hue channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb("foo", 30%, 40%, 0.5)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -36,7 +36,7 @@ Error: $hue: var(--c) is not a number.
 a {b: color.hwb(0, "foo", 40%, 0.5)}
 
 <===> whiteness/type/error
-Error: Expected whiteness "foo" to be a number.
+Error: Expected whiteness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0, "foo", 40%, 0.5)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ Error: $whiteness: var(--c) is not a number.
 a {b: color.hwb(0, 30%, "foo", 0.5)}
 
 <===> blackness/type/error
-Error: Expected blackness "foo" to be a number.
+Error: Expected blackness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0, 30%, "foo", 0.5)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
