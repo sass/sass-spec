@@ -267,36 +267,6 @@ b {
 
 <===>
 ================================================================================
-<===> parentheses/input.scss
-a {b: calc((1px))}
-
-<===> parentheses/output.css
-a {
-  b: 1px;
-}
-
-<===>
-================================================================================
-<===> var/parenthesized/input.scss
-a {b: calc((var(--c)))}
-
-<===> var/parenthesized/output.css
-a {
-  b: calc((var(--c)));
-}
-
-<===>
-================================================================================
-<===> var/double_parenthesized/input.scss
-a {b: calc(((var(--c))))}
-
-<===> var/double_parenthesized/output.css
-a {
-  b: calc((var(--c)));
-}
-
-<===>
-================================================================================
 <===> var/bare/input.scss
 a {b: calc(var(--c))}
 
@@ -387,18 +357,6 @@ a {
 
 <===>
 ================================================================================
-<===> interpolation/line_noise/input.scss
-// Interpolation shifts the parser into a special mode where it allows any
-// interpolated declaration value.
-a {b: calc(!{@}#$%^&*#{c}_-[+]=)}
-
-<===> interpolation/line_noise/output.css
-a {
-  b: calc(!{@}#$%^&*c_-[+]=);
-}
-
-<===>
-================================================================================
 <===> interpolation/number/input.scss
 // Although interpolation may return a value that looks like a valid `calc()`,
 // it's always treated as an unquoted string.
@@ -418,7 +376,7 @@ a {b: calc((#{1px + 2px}))}
 
 <===> interpolation/parens/output.css
 a {
-  b: calc(3px);
+  b: calc((3px));
 }
 
 <===>

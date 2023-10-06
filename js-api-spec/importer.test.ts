@@ -2,7 +2,12 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {compileString, compileStringAsync, Importer} from 'sass';
+import {
+  compileString,
+  compileStringAsync,
+  CanonicalizeContext,
+  Importer,
+} from 'sass';
 
 import {sassImpl, URL} from './utils';
 
@@ -101,6 +106,216 @@ describe('the imported URL', () => {
   });
 });
 
+describe('the containing URL', () => {
+  it('is null for a potentially canonical scheme', () => {
+    const result = compileString('@import "u:orange"', {
+      importers: [
+        {
+          canonicalize: (url: string, context: CanonicalizeContext) => {
+            expect(context.containingUrl).toBeNull();
+            return new URL(url);
+          },
+          load: () => ({contents: '@a', syntax: 'scss'}),
+        },
+      ],
+    });
+
+    expect(result.css).toBe('@a;');
+  });
+
+  describe('for a non-canonical scheme', () => {
+    describe('in a list', () => {
+      it('is set to the original URL', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+
+      it('is null if the original URL is null', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toBeNull();
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+    });
+
+    describe('as a string', () => {
+      it('is set to the original URL', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toEqual(
+                  new URL('x:original.scss')
+                );
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+          url: new URL('x:original.scss'),
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+
+      it('is null if the original URL is null', () => {
+        const result = compileString('@import "u:orange"', {
+          importers: [
+            {
+              canonicalize: (url: string, context: CanonicalizeContext) => {
+                expect(context.containingUrl).toBeNull();
+                return new URL(url.replace(/^u:/, 'x:'));
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+        });
+
+        expect(result.css).toBe('@a;');
+      });
+    });
+  });
+
+  describe('for a schemeless load', () => {
+    it('is set to the original URL', () => {
+      const result = compileString('@import "orange"', {
+        importers: [
+          {
+            canonicalize: (url: string, context: CanonicalizeContext) => {
+              expect(context.containingUrl).toEqual(new URL('x:original.scss'));
+              return new URL(`u:${url}`);
+            },
+            load: () => ({contents: '@a', syntax: 'scss'}),
+          },
+        ],
+        url: new URL('x:original.scss'),
+      });
+
+      expect(result.css).toBe('@a;');
+    });
+
+    it('is null if the original URL is null', () => {
+      const result = compileString('@import "orange"', {
+        importers: [
+          {
+            canonicalize: (url: string, context: CanonicalizeContext) => {
+              expect(context.containingUrl).toBeNull();
+              return new URL(`u:${url}`);
+            },
+            load: () => ({contents: '@a', syntax: 'scss'}),
+          },
+        ],
+      });
+
+      expect(result.css).toBe('@a;');
+    });
+  });
+});
+
+describe(
+  'throws an error if the importer returns a canonical URL with a ' +
+    'non-canonical scheme',
+  () => {
+    it('set as a list', () =>
+      expect(() =>
+        compileString('@import "orange"', {
+          importers: [
+            {
+              canonicalize: (url: string) => {
+                return new URL(`u:${url}`);
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: ['u'],
+            },
+          ],
+        })
+      ).toThrowSassException({line: 0}));
+
+    it('set as a string', () =>
+      expect(() =>
+        compileString('@import "orange"', {
+          importers: [
+            {
+              canonicalize: (url: string) => {
+                return new URL(`u:${url}`);
+              },
+              load: () => ({contents: '@a', syntax: 'scss'}),
+              nonCanonicalScheme: 'u',
+            },
+          ],
+        })
+      ).toThrowSassException({line: 0}));
+  }
+);
+
+describe('throws an error for an invalid scheme:', () => {
+  it('empty', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: '',
+          },
+        ],
+      })
+    ).toThrow());
+
+  it('uppercase', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: 'U',
+          },
+        ],
+      })
+    ).toThrow());
+
+  it('colon', () =>
+    expect(() =>
+      compileString('a {b: c}', {
+        importers: [
+          {
+            canonicalize: () => null,
+            load: () => ({contents: '@a', syntax: 'scss'}),
+            nonCanonicalScheme: 'u:',
+          },
+        ],
+      })
+    ).toThrow());
+});
+
 it("uses an importer's source map URL", () => {
   const result = compileString('@import "orange";', {
     importers: [
@@ -165,27 +380,6 @@ it('fails to import when load() returns null', () =>
       ],
     });
   }).toThrowSassException({line: 0}));
-
-it('prefers a relative importer load to an importer', () => {
-  const result = compileString('@import "other";', {
-    importers: [
-      {
-        canonicalize() {
-          throw 'canonicalize() should not be called';
-        },
-        load() {
-          throw 'load() should not be called';
-        },
-      },
-    ],
-    url: new URL('o:style.scss'),
-    importer: {
-      canonicalize: (url: string) => new URL(url),
-      load: () => ({contents: 'a {from: relative}', syntax: 'scss'}),
-    },
-  });
-  expect(result.css).toBe('a {\n  from: relative;\n}');
-});
 
 describe('with syntax', () => {
   it('scss, parses it as SCSS', () => {
@@ -325,6 +519,153 @@ describe('async', () => {
         ],
       })
     ).toThrowSassException({line: 0});
+  });
+});
+
+describe("compileString()'s importer option", () => {
+  it('loads relative imports from the entrypoint', () => {
+    const result = compileString('@import "orange";', {
+      importer: {
+        canonicalize: (url: string) => {
+          expect(url).toBe('u:orange');
+          return new URL(url);
+        },
+        load: (url: typeof URL) => {
+          const color = url.pathname;
+          return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
+        },
+      },
+      url: new URL('u:entrypoint'),
+    });
+
+    expect(result.css).toBe('.orange {\n  color: orange;\n}');
+  });
+
+  it("loads imports relative to the entrypoint's URL", () => {
+    const result = compileString('@import "baz/qux";', {
+      importer: {
+        canonicalize: (url: string) => {
+          expect(url).toBe('u:foo/baz/qux');
+          return new URL(`${url}/bang`);
+        },
+        load: (url: typeof URL) => ({
+          contents: `a {result: "${url.pathname}"}`,
+          syntax: 'scss',
+        }),
+      },
+      url: new URL('u:foo/bar'),
+    });
+
+    expect(result.css).toBe('a {\n  result: "foo/baz/qux/bang";\n}');
+  });
+
+  it('takes precedence over the importer list for relative URLs', () => {
+    const result = compileString('@import "other";', {
+      importers: [
+        {
+          canonicalize() {
+            throw 'canonicalize() should not be called';
+          },
+          load() {
+            throw 'load() should not be called';
+          },
+        },
+      ],
+      url: new URL('o:style.scss'),
+      importer: {
+        canonicalize: (url: string) => new URL(url),
+        load: () => ({contents: 'a {from: relative}', syntax: 'scss'}),
+      },
+    });
+    expect(result.css).toBe('a {\n  from: relative;\n}');
+  });
+
+  it("doesn't load absolute imports", () => {
+    const result = compileString('@import "u:orange";', {
+      importer: {
+        canonicalize: () => {
+          throw 'Should not be called';
+        },
+        load: () => {
+          throw 'Should not be called';
+        },
+      },
+      importers: [
+        {
+          canonicalize: (url: string) => {
+            expect(url).toBe('u:orange');
+            return new URL(url);
+          },
+          load: (url: typeof URL) => {
+            const color = url.pathname;
+            return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
+          },
+        },
+      ],
+      url: new URL('x:entrypoint'),
+    });
+
+    expect(result.css).toBe('.orange {\n  color: orange;\n}');
+  });
+
+  it("doesn't load from other importers", () => {
+    const result = compileString('@import "u:midstream";', {
+      importer: {
+        canonicalize: () => {
+          throw 'Should not be called';
+        },
+        load: () => {
+          throw 'Should not be called';
+        },
+      },
+      importers: [
+        {
+          canonicalize: (url: string) => new URL(url),
+          load: (url: typeof URL) => {
+            if (url.pathname === 'midstream') {
+              return {contents: "@import 'orange';", syntax: 'scss'};
+            } else {
+              const color = url.pathname;
+              return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
+            }
+          },
+        },
+      ],
+      url: new URL('x:entrypoint'),
+    });
+
+    expect(result.css).toBe('.orange {\n  color: orange;\n}');
+  });
+
+  it('importer order is preserved for absolute imports', () => {
+    // The second importer should only be invoked once, because when the
+    // "first:other" import is resolved it should be passed to the first
+    // importer first despite being in the second importer's file.
+    let secondCalled = false;
+    const result = compileString('@import "second:other";', {
+      importers: [
+        {
+          canonicalize: (url: string) =>
+            url.startsWith('first:') ? new URL(url) : null,
+          load: () => ({
+            contents: 'a {from: first}',
+            syntax: 'scss',
+          }),
+        },
+        {
+          canonicalize: (url: string) => {
+            if (secondCalled) {
+              throw 'Second importer should only be called once.';
+            }
+            secondCalled = true;
+            return url.startsWith('second:') ? new URL(url) : null;
+          },
+          load: () => ({contents: '@import "first:other";', syntax: 'scss'}),
+        },
+      ],
+    });
+
+    expect(result.css).toBe('a {\n  from: first;\n}');
   });
 });
 

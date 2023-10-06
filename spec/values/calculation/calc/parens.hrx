@@ -1,0 +1,89 @@
+<===> number/input.scss
+a {b: calc((1px))}
+
+<===> number/output.css
+a {
+  b: 1px;
+}
+
+<===>
+================================================================================
+<===> operation/input.scss
+a {b: calc((1px + 1%))}
+
+<===> operation/output.css
+a {
+  b: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> calculation/input.scss
+a {b: calc((calc(1px + 1%)))}
+
+<===> calculation/output.css
+a {
+  b: calc(1px + 1%);
+}
+
+<===>
+================================================================================
+<===> var/direct/input.scss
+a {b: calc((var(--c)))}
+
+<===> var/direct/output.css
+a {
+  b: calc((var(--c)));
+}
+
+<===>
+================================================================================
+<===> var/variable/input.scss
+$c: var(--d);
+a {b: calc(($c))}
+
+<===> var/variable/output.css
+a {
+  b: calc((var(--d)));
+}
+
+<===>
+================================================================================
+<===> variable/input.scss
+$c: unquote("1 + 2");
+a {b: calc(($c))}
+
+<===> variable/output.css
+a {
+  b: calc((1 + 2));
+}
+
+<===>
+================================================================================
+<===> interpolation/input.scss
+a {b: calc((#{"1 + 2"}))}
+
+<===> interpolation/output.css
+a {
+  b: calc((1 + 2));
+}
+
+<===>
+================================================================================
+<===> identifier/input.scss
+a {b: calc((d))}
+
+<===> identifier/output.css
+a {
+  b: calc((d));
+}
+
+<===>
+================================================================================
+<===> double_preserved/input.scss
+a {b: calc(((var(--c))))}
+
+<===> double_preserved/output.css
+a {
+  b: calc(((var(--c))));
+}
