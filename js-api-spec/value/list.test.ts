@@ -30,6 +30,7 @@ describe('SassList', () => {
       expect(() => list.assertFunction()).toThrow();
       expect(() => list.assertMap()).toThrow();
       expect(list.tryMap()).toBe(null);
+      expect(() => list.assertMixin()).toThrow();
       expect(() => list.assertNumber()).toThrow();
       expect(() => list.assertString()).toThrow();
     });
@@ -358,6 +359,7 @@ describe('SassList', () => {
       expect(() => list.assertCalculation()).toThrow();
       expect(() => list.assertColor()).toThrow();
       expect(() => list.assertFunction()).toThrow();
+      expect(() => list.assertMixin()).toThrow();
       expect(() => list.assertNumber()).toThrow();
       expect(() => list.assertString()).toThrow();
     });

@@ -1,0 +1,275 @@
+<===> options.yml
+---
+:todo:
+- sass/libsass#2807
+
+<===>
+================================================================================
+<===> args/named/input.scss
+@use "sass:meta";
+
+@mixin a {
+  b: c;
+}
+
+a {@include meta.apply($mixin: meta.get-mixin("a"))}
+
+<===> args/named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a) {b: $a}
+
+a {@include meta.apply(meta.get-mixin("a"), c)}
+
+<===> args/passes/positional/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes/named/input.scss
+@use "sass:meta";
+
+@mixin a($a) {b: $a}
+
+a {@include meta.apply(meta.get-mixin("a"), $a: c)}
+
+<===> args/passes/named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> args/passes/rest/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a...) {b: $a}
+
+a {@include meta.apply(meta.get-mixin("a"), a, b, c)}
+
+<===> args/passes/rest/positional/output.css
+a {
+  b: a, b, c;
+}
+
+<===>
+================================================================================
+<===> args/passes/rest/named/input.scss
+@use "sass:meta";
+
+@mixin a($a...) {b: meta.inspect(meta.keywords($a))}
+
+a {@include meta.apply(meta.get-mixin("a"), $a: a, $b: b, $c: c)}
+
+<===> args/passes/rest/named/output.css
+a {
+  b: (a: a, b: b, c: c);
+}
+
+<===>
+================================================================================
+<===> rest/mixin-separate/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: 1 2;
+a {@include meta.apply(meta.get-mixin("a"), $rest...)}
+
+<===> rest/mixin-separate/positional/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/mixin-separate/named/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: (a: 1, b: 2);
+a {@include meta.apply(meta.get-mixin("a"), $rest...)}
+
+<===> rest/mixin-separate/named/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/includes-mixin/positional/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: meta.get-mixin("a") 1 2;
+a {@include meta.apply($rest...)}
+
+<===> rest/includes-mixin/positional/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> rest/includes-mixin/named/input.scss
+@use "sass:meta";
+
+@mixin a($a, $b) {b: $a, $b}
+
+$rest: (mixin: meta.get-mixin("a"), a: 1, b: 2);
+a {@include meta.apply($rest...)}
+
+<===> rest/includes-mixin/named/output.css
+a {
+  b: 1, 2;
+}
+
+<===>
+================================================================================
+<===> error/wrong_named_arg/input.scss
+@use "sass:meta";
+
+@mixin a($a) {b: $a}
+
+a {@include meta.apply(meta.get-mixin("a"), $b: c)}
+
+<===> error/wrong_named_arg/error
+Error: Missing argument $a.
+    ,
+3   | @mixin a($a) {b: $a}
+    |        ===== declaration
+... |
+5   | a {@include meta.apply(meta.get-mixin("a"), $b: c)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 5:4  a()
+  input.scss 5:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/use_as_function/input.scss
+@use "sass:meta";
+
+@mixin a {}
+$a: meta.get-mixin("a");
+
+a {b: meta.apply($a)}
+
+<===> error/use_as_function/error
+Error: Undefined function.
+  ,
+6 | a {b: meta.apply($a)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 6:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/no_args/input.scss
+@use "sass:meta";
+
+a {@include meta.apply()}
+
+<===> error/no_args/error
+Error: Missing argument $mixin.
+  ,--> input.scss
+3 | a {@include meta.apply()}
+  |    ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin apply($mixin, $args...) {
+  |        ======================= declaration
+  '
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/wrong_arg_type/input.scss
+@use "sass:meta";
+
+a {@include meta.apply(2px)}
+
+<===> error/wrong_arg_type/error
+Error: $mixin: 2px is not a mixin reference.
+  ,
+3 | a {@include meta.apply(2px)}
+  |    ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:meta";
+
+@mixin a {}
+$a: meta.get-mixin("a");
+
+a {@include meta.apply($a, 2px)}
+
+<===> error/too_many_args/error
+Error: Only 0 arguments allowed, but 1 was passed.
+    ,
+3   | @mixin a {}
+    |        = declaration
+... |
+6   | a {@include meta.apply($a, 2px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  a()
+  input.scss 6:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/missing_mixin_args/input.scss
+@use "sass:meta";
+
+@mixin a($a) {}
+$a: meta.get-mixin("a");
+
+a {@include meta.apply($a)}
+
+<===> error/missing_mixin_args/error
+Error: Missing argument $a.
+    ,
+3   | @mixin a($a) {}
+    |        ===== declaration
+... |
+6   | a {@include meta.apply($a)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  a()
+  input.scss 6:4  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args_mixin_accepts_args/input.scss
+@use "sass:meta";
+
+@mixin a($a) {}
+$a: meta.get-mixin("a");
+
+a {@include meta.apply($a, 2px, 3px)}
+
+<===> error/too_many_args_mixin_accepts_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+    ,
+3   | @mixin a($a) {}
+    |        ===== declaration
+... |
+6   | a {@include meta.apply($a, 2px, 3px)}
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 6:4  a()
+  input.scss 6:4  root stylesheet

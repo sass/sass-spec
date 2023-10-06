@@ -1,0 +1,168 @@
+<===> passes_content/input.scss
+@use "sass:meta";
+
+@mixin a {
+  b {@content}
+}
+
+a {
+  @include meta.apply(meta.get-mixin("a")) {
+    b: red;
+  }
+}
+
+<===> passes_content/output.css
+a b {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> passes_empty_content/input.scss
+@use "sass:meta";
+
+@mixin a {@content;}
+
+a {
+  @include meta.apply(meta.get-mixin("a")) {}
+}
+
+<===> passes_empty_content/output.css
+
+<===>
+================================================================================
+<===> scope/redeclare/vars/input.scss
+@use "sass:meta";
+@mixin a($param: param) {
+  $in-mixin: in-mixin;
+  @content;
+  param: $param;
+  in-mixin: $in-mixin;
+}
+
+$global: global;
+
+a {
+  $in-style-rule: in-style-rule;
+  @include meta.apply(meta.get-mixin("a")) {
+    $param: in-include;
+    $in-mixin: in-include;
+    $global: in-include;
+    $in-style-rule: in-include;
+  }
+  global: $global;
+  in-style-rule: $in-style-rule;
+}
+
+<===> scope/redeclare/vars/output.css
+a {
+  param: param;
+  in-mixin: in-mixin;
+  global: global;
+  in-style-rule: in-include;
+}
+
+<===>
+================================================================================
+<===> scope/redeclare/using/input.scss
+@use "sass:meta";
+@mixin a($a: param) {@content(content-arg);}
+
+$a: global;
+
+a {
+  $a: in-style-rule;
+  @include meta.apply(meta.get-mixin("a")) using ($a) {
+    in-content-body: $a;
+    $a: in-content-body;
+  }
+  in-style-rule: $a;
+}
+
+<===> scope/redeclare/using/output.css
+a {
+  in-content-body: content-arg;
+  in-style-rule: in-style-rule;
+}
+
+<===>
+================================================================================
+<===> scope/fall_through/input.scss
+@use "sass:meta";
+$global: global;
+
+@mixin a {
+  @content(content-rule-a);
+  global: $global;
+}
+
+@mixin b {
+  $global: in-mixin-b;
+  @include meta.apply(meta.get-mixin(a)) using ($content-arg) {
+    @content($content-arg);
+  }
+}
+
+@mixin c {
+  $global: in-mixin-c;
+  @include meta.apply(meta.get-mixin(b)) using ($content-arg) {
+    @content($content-arg);
+  }
+}
+
+a {
+  $global: in-style-rule;
+  @include meta.apply(meta.get-mixin(c)) using ($content-arg) {
+    in-content-body: $content-arg;
+  }
+}
+
+<===> scope/fall_through/output.css
+a {
+  in-content-body: content-rule-a;
+  global: global;
+}
+
+<===>
+================================================================================
+<===> error/denies_content/user_defined/input.scss
+@use "sass:meta";
+@mixin a {}
+
+a {
+  @include meta.apply(meta.get-mixin("a")) {}
+}
+
+<===> error/denies_content/user_defined/error
+Error: Mixin doesn't accept a content block.
+    ,
+2   | @mixin a {}
+    |        = declaration
+... |
+5   |   @include meta.apply(meta.get-mixin("a")) {}
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+    '
+  input.scss 5:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/denies_content/builtin/input.scss
+@use "sass:meta";
+
+a {
+  @include meta.apply(meta.get-mixin(load-css, meta), "a") {
+    a: b;
+  }
+}
+
+<===> error/denies_content/builtin/error
+Error: Mixin doesn't accept a content block.
+  ,--> input.scss
+4 |   @include meta.apply(meta.get-mixin(load-css, meta), "a") {
+  |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin load-css($url, $with: null) {
+  |        =========================== declaration
+  '
+  input.scss 4:3  root stylesheet

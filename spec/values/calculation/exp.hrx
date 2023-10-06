@@ -1,0 +1,167 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `exp()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> zero/input.scss
+a {b: exp(0)}
+
+<===> zero/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> positive/input.scss
+a {b: exp(5)}
+
+<===> positive/output.css
+a {
+  b: 148.4131591026;
+}
+
+<===>
+================================================================================
+<===> negative/input.scss
+a {b: exp(-10.5)}
+
+<===> negative/output.css
+a {
+  b: 0.0000275364;
+}
+
+<===>
+================================================================================
+<===> result_is_infinity/input.scss
+a {b: exp(1000.65)}
+
+<===> result_is_infinity/output.css
+a {
+  b: calc(infinity);
+}
+
+<===>
+================================================================================
+<===> simplification/input.scss
+a {
+  b: exp(1px + 2px - var(--c))
+}
+
+<===> simplification/output.css
+a {
+  b: exp(3px - var(--c));
+}
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: ExP(5)}
+
+<===> case_insensitive/output.css
+a {
+  b: 148.4131591026;
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function exp($arg) {@return $arg}
+a {b: exp(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/units/unknown/input.scss
+a {b: exp(1%)}
+
+<===> error/units/unknown/error
+Error: Expected 1% to have no units.
+  ,
+1 | a {b: exp(1%)}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/unit/known/input.scss
+a {b: exp(1px)}
+
+<===> error/unit/known/error
+Error: Expected 1px to have no units.
+  ,
+1 | a {b: exp(1px)}
+  |       ^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/input.scss
+a {b: exp("0")}
+
+<===> error/type/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: exp("0")}
+  |           ^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: exp()}
+
+<===> error/too_few_args/error
+Error: Missing argument.
+  ,
+1 | a {b: exp()}
+  |       ^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: exp(0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,
+1 | a {b: exp(0, 0)}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: exp($)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: exp($)}
+  |            ^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: exp(7 % 3)}
+
+<===> error/sass_script/error
+Error: This operation can't be used in a calculation.
+  ,
+1 | a {b: exp(7 % 3)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet

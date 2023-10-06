@@ -328,42 +328,52 @@ a {
 
 <===>
 ================================================================================
-<===> precedence/interpolation/parens/lhs/input.scss
-a {b: calc((#{c}) + 1)}
+<===> precedence/interpolation/parens/input.scss
+a {b: calc((#{c}))}
 
-<===> precedence/interpolation/parens/lhs/output.css
+<===> precedence/interpolation/parens/output.css
 a {
-  b: calc((c) + 1);
+  b: calc((c));
 }
 
 <===>
 ================================================================================
-<===> precedence/interpolation/parens/rhs/input.scss
-a {b: calc(1 + (#{c}))}
+<===> precedence/interpolation/calculation/plain/input.scss
+a {b: calc(calc(#{c}))}
 
-<===> precedence/interpolation/parens/rhs/output.css
+<===> precedence/interpolation/calculation/plain/output.css
 a {
-  b: calc(1 + (c));
+  b: calc(c);
 }
 
 <===>
 ================================================================================
-<===> precedence/interpolation/calculation/lhs/input.scss
-a {b: calc(calc(#{c}) + 1)}
+<===> precedence/interpolation/calculation/whitespace/input.scss
+a {b: calc(calc(#{"c "}))}
 
-<===> precedence/interpolation/calculation/lhs/output.css
+<===> precedence/interpolation/calculation/whitespace/output.css
 a {
-  b: calc((c) + 1);
+  b: calc((c ));
 }
 
 <===>
 ================================================================================
-<===> precedence/interpolation/calculation/rhs/input.scss
-a {b: calc(1 + calc(#{c}))}
+<===> precedence/interpolation/calculation/slash/input.scss
+a {b: calc(calc(#{"c/"}))}
 
-<===> precedence/interpolation/calculation/rhs/output.css
+<===> precedence/interpolation/calculation/slash/output.css
 a {
-  b: calc(1 + (c));
+  b: calc((c/));
+}
+
+<===>
+================================================================================
+<===> precedence/interpolation/calculation/asterisk/input.scss
+a {b: calc(calc(#{"c*"}))}
+
+<===> precedence/interpolation/calculation/asterisk/output.css
+a {
+  b: calc((c*));
 }
 
 <===>
@@ -455,6 +465,16 @@ a {b: calc((1 + var(--c)))}
 <===> var/indirectly_parenthesized/output.css
 a {
   b: calc(1 + var(--c));
+}
+
+<===>
+================================================================================
+<===> var/calculation/input.scss
+a {b: calc(1 + calc(var(--c)))}
+
+<===> var/calculation/output.css
+a {
+  b: calc(1 + (var(--c)));
 }
 
 <===>

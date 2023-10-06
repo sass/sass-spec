@@ -1,0 +1,90 @@
+<===> var/before/input.scss
+a {b: calc(var(--c) 1)}
+
+<===> var/before/output.css
+a {
+  b: calc(var(--c) 1);
+}
+
+<===>
+================================================================================
+<===> var/after/input.scss
+a {b: calc(1 var(--c))}
+
+<===> var/after/output.css
+a {
+  b: calc(1 var(--c));
+}
+
+<===>
+================================================================================
+<===> var/between/input.scss
+a {b: calc(1 var(--c) 2)}
+
+<===> var/between/output.css
+a {
+  b: calc(1 var(--c) 2);
+}
+
+<===>
+================================================================================
+<===> variable/before/input.scss
+$c: unquote("1 +");
+a {b: calc($c 2)}
+
+<===> variable/before/output.css
+a {
+  b: calc(1 + 2);
+}
+
+<===>
+================================================================================
+<===> variable/after/input.scss
+$c: unquote("+ 2");
+a {b: calc(1 $c)}
+
+<===> variable/after/output.css
+a {
+  b: calc(1 + 2);
+}
+
+<===>
+================================================================================
+<===> variable/between/input.scss
+$c: unquote("+ 2 +");
+a {b: calc(1 $c 3)}
+
+<===> variable/between/output.css
+a {
+  b: calc(1 + 2 + 3);
+}
+
+<===>
+================================================================================
+<===> interpolation/before/input.scss
+a {b: calc(#{"1 +"} 2)}
+
+<===> interpolation/before/output.css
+a {
+  b: calc(1 + 2);
+}
+
+<===>
+================================================================================
+<===> interpolation/after/input.scss
+a {b: calc(1 #{"+ 2"})}
+
+<===> interpolation/after/output.css
+a {
+  b: calc(1 + 2);
+}
+
+<===>
+================================================================================
+<===> interpolation/between/input.scss
+a {b: calc(1 #{"+ 2 +"} 3)}
+
+<===> interpolation/between/output.css
+a {
+  b: calc(1 + 2 + 3);
+}
