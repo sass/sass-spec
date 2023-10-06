@@ -2,7 +2,7 @@
 a {b: lab(1px 2 3)}
 
 <===> unit/lightness/error
-Error: $lightness: Expected 1px to have no units or "%".
+Error: $lightness: Expected 1px to have unit "%" or no units.
   ,
 1 | a {b: lab(1px 2 3)}
   |       ^^^^^^^^^^^^
@@ -15,7 +15,7 @@ Error: $lightness: Expected 1px to have no units or "%".
 a {b: lab(1% 2px 3)}
 
 <===> unit/a/error
-Error: $a: Expected 2px to have no units or "%".
+Error: $a: Expected 2px to have unit "%" or no units.
   ,
 1 | a {b: lab(1% 2px 3)}
   |       ^^^^^^^^^^^^^
@@ -28,7 +28,7 @@ Error: $a: Expected 2px to have no units or "%".
 a {b: lab(1% 2 3px)}
 
 <===> unit/b/error
-Error: $b: Expected 3px to have no units or "%".
+Error: $b: Expected 3px to have unit "%" or no units.
   ,
 1 | a {b: lab(1% 2 3px)}
   |       ^^^^^^^^^^^^^
@@ -41,7 +41,7 @@ Error: $b: Expected 3px to have no units or "%".
 a {b: lab(1% 2 3/0.4px)}
 
 <===> unit/alpha/slash/error
-Error: $alpha: Expected 0.4px to have no units or "%".
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
   ,
 1 | a {b: lab(1% 2 3/0.4px)}
   |       ^^^^^^^^^^^^^^^^^
@@ -55,7 +55,7 @@ Error: $alpha: Expected 0.4px to have no units or "%".
 a {b: lab(list.slash(1% 2 3, 0.4px))}
 
 <===> unit/alpha/slash_list/error
-Error: $alpha: Expected 0.4px to have no units or "%".
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
   ,
 2 | a {b: lab(list.slash(1% 2 3, 0.4px))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

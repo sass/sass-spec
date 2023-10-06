@@ -4,7 +4,8 @@
 a {@include meta.apply(meta.get-mixin("a", $module: "other"), #abcdef)}
 
 <===> defined/_other.scss
-@mixin a($color) {b: red($color)}
+@use "sass:color";
+@mixin a($color) {b: color.channel($color, 'red')}
 
 <===> defined/output.css
 a {
@@ -19,7 +20,8 @@ a {
 b {@include meta.apply(meta.get-mixin("a", $module: "a"), #abcdef)}
 
 <===> chosen_prefix/_other.scss
-@mixin a($color) {c: red($color)}
+@use "sass:color";
+@mixin a($color) {c: color.channel($color, 'red')}
 
 <===> chosen_prefix/output.css
 b {
@@ -121,7 +123,8 @@ a {
 a {@include meta.apply(meta.get-mixin($name: "a", $module: "other"), #abcdef)}
 
 <===> named/_other.scss
-@mixin a($color) {b: red($color)}
+@use "sass:color";
+@mixin a($color) {b: color.channel($color, 'red')}
 
 <===> named/output.css
 a {
