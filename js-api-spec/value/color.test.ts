@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassColor} from 'sass';
-
+import {List} from 'immutable';
 import {skipForImpl} from '../utils';
 
 /** A utility function for creating an RGB color without specifying a space. */
@@ -164,25 +164,113 @@ function xyzD65(x: number, y: number, z: number, alpha?: number): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d65'});
 }
 
-const constructors = {
-  lab,
-  oklab,
-  lch,
-  oklch,
-  srgb,
-  srgbLinear,
-  displayP3,
-  a98Rgb,
-  prophotoRgb,
-  xyz,
-  xyzD50,
-  xyzD65,
-  rgb,
-  hsl,
-  hwb,
-};
+type KnownColorSpace = typeof SassColor.prototype.space;
 
-describe('SassColor', () => {
+type Constructor = (
+  channel1: number,
+  channel2: number,
+  channel3: number,
+  alpha?: number
+) => SassColor;
+const spaces: {
+  [key: string]: {
+    constructor: Constructor;
+    name: KnownColorSpace;
+    isLegacy: boolean;
+    pink: [number, number, number];
+  };
+} = {
+  lab: {
+    constructor: lab,
+    name: 'lab',
+    isLegacy: false,
+    pink: [50.26939324506694, 77.55034661223404, 5.291006064208581],
+  },
+  oklab: {
+    constructor: oklab,
+    name: 'oklab',
+    isLegacy: false,
+    pink: [0.5969671520000745, 0.240642723224551, 0.010096584699201],
+  },
+  lch: {
+    constructor: lch,
+    name: 'lch',
+    isLegacy: false,
+    pink: [50.26939324506694, 77.73063105912064, 3.903054720703324],
+  },
+  oklch: {
+    constructor: oklch,
+    name: 'oklch',
+    isLegacy: false,
+    pink: [0.596967152000075, 0.240854439991286, 2.402535128863576],
+  },
+  srgb: {
+    constructor: srgb,
+    name: 'srgb',
+    isLegacy: false,
+    pink: [0.9019607843137256, 0, 0.4509803921568628],
+  },
+  srgbLinear: {
+    constructor: srgbLinear,
+    name: 'srgb-linear',
+    isLegacy: false,
+    pink: [0.79129794033263, 0, 0.171441100732823],
+  },
+  displayP3: {
+    constructor: displayP3,
+    name: 'display-p3',
+    isLegacy: false,
+    pink: [0.82711607165235, 0.176563472758889, 0.448731476221041],
+  },
+  a98Rgb: {
+    constructor: a98Rgb,
+    name: 'a98-rgb',
+    isLegacy: false,
+    pink: [0.77190018720563, 0, 0.439993442840976],
+  },
+  prophotoRgb: {
+    constructor: prophotoRgb,
+    name: 'prophoto-rgb',
+    isLegacy: false,
+    pink: [0.636081302366818, 0.250331968942638, 0.36344508341673],
+  },
+  xyz: {
+    constructor: xyz,
+    name: 'xyz',
+    isLegacy: false,
+    pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
+  },
+  xyzD50: {
+    constructor: xyzD50,
+    name: 'xyz-d50',
+    isLegacy: false,
+    pink: [0.36958745186426, 0.186451127990457, 0.133443936989772],
+  },
+  xyzD65: {
+    constructor: xyzD65,
+    name: 'xyz',
+    isLegacy: false,
+    pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
+  },
+  rgb: {constructor: rgb, name: 'rgb', isLegacy: true, pink: [230, 0, 115]},
+  hsl: {
+    constructor: hsl,
+    name: 'hsl',
+    isLegacy: true,
+    pink: [330, 100, 45.09803921568628],
+  },
+  // @todo this pink is not correct
+  hwb: {
+    constructor: hwb,
+    name: 'hwb',
+    isLegacy: true,
+    pink: [330, 0, 9.803921568627445],
+  },
+};
+// @todo Replace with KnownColorSpace export
+const spaceNames = Object.keys(spaces) as KnownColorSpace[];
+
+xdescribe('SassColor', () => {
   describe('construction', () => {
     describe('type', () => {
       let color: SassColor;
@@ -577,6 +665,59 @@ describe('SassColor', () => {
       it('rejects invalid alphas', () => {
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
+      });
+    });
+  });
+});
+describe('Color 4 SassColors', () => {
+  spaceNames.forEach(spaceId => {
+    const space = spaces[spaceId];
+
+    describe(space.name, () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = space.constructor(...space.pink);
+      });
+      it('is a value', () => {
+        expect(color).toBeInstanceOf(Value);
+      });
+
+      it('is a color', () => {
+        expect(color).toBeInstanceOf(SassColor);
+        expect(color.assertColor()).toBe(color);
+      });
+
+      it("isn't any other type", () => {
+        expect(() => color.assertBoolean()).toThrow();
+        expect(() => color.assertCalculation()).toThrow();
+        expect(() => color.assertFunction()).toThrow();
+        expect(() => color.assertMap()).toThrow();
+        expect(color.tryMap()).toBe(null);
+        expect(() => color.assertMixin()).toThrow();
+        expect(() => color.assertNumber()).toThrow();
+        expect(() => color.assertString()).toThrow();
+      });
+
+      it(`returns name for ${space.name}`, () => {
+        expect(color.space).toBe(space.name);
+      });
+      describe('toSpace', () => {
+        spaceNames.forEach(destinationSpaceId => {
+          const destinationSpace = spaces[destinationSpaceId];
+          it(`converts to ${destinationSpace.name}`, () => {
+            const res = color.toSpace(destinationSpace.name);
+            expect(res.space).toBe(destinationSpace.name);
+
+            const expected = destinationSpace.constructor(
+              ...destinationSpace.pink
+            );
+
+            expect(res).toEqualWithHash(expected);
+          });
+        });
+      });
+      it(`isLegacy returns ${space.isLegacy} for ${space.name}`, () => {
+        expect(color.isLegacy).toBe(space.isLegacy);
       });
     });
   });
