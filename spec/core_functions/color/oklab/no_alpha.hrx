@@ -178,6 +178,18 @@ a {
 
 <===>
 ================================================================================
+<===> relative_color/input.scss
+@use 'core_functions/color/oklab/utils';
+@include utils.inspect(oklab(from #aaa l a b));
+
+<===> relative_color/output.css
+a {
+  value: oklab(from #aaa l a b);
+  type: string;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use 'core_functions/color/oklab/utils';
 @include utils.inspect(oklab($channels: 1% 2 3));
