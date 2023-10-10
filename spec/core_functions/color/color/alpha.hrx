@@ -1,6 +1,6 @@
 <===> transparent/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 0));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / 0));
 
 <===> transparent/output.css
 a {
@@ -11,8 +11,8 @@ a {
 <===>
 ================================================================================
 <===> opaque/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 1));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / 1));
 
 <===> opaque/output.css
 a {
@@ -23,8 +23,8 @@ a {
 <===>
 ================================================================================
 <===> partial/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 0.4));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / 0.4));
 
 <===> partial/output.css
 a {
@@ -35,8 +35,8 @@ a {
 <===>
 ================================================================================
 <===> percent/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 40%));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / 40%));
 
 <===> percent/output.css
 a {
@@ -47,8 +47,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color($description: srgb 0.1 0.2 0.3 / 0.4));
+@use 'core_functions/color/utils';
+@include utils.inspect(color($description: srgb 0.1 0.2 0.3 / 0.4));
 
 <===> named/output.css
 a {
@@ -60,8 +60,8 @@ a {
 ================================================================================
 <===> slash_list/input.scss
 @use "sass:list";
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, 0.4)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, 0.4)));
 
 <===> slash_list/output.css
 a {
@@ -72,8 +72,8 @@ a {
 <===>
 ================================================================================
 <===> none/slash/blue/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 none / 0.4));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 none / 0.4));
 
 <===> none/slash/blue/output.css
 a {
@@ -84,8 +84,8 @@ a {
 <===>
 ================================================================================
 <===> none/slash/alpha/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / none));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / none));
 
 <===> none/slash/alpha/output.css
 a {
@@ -97,8 +97,8 @@ a {
 ================================================================================
 <===> none/slash_list/blue/input.scss
 @use 'sass:list';
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 none, 0.4)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(list.slash(srgb 0.1 0.2 none, 0.4)));
 
 <===> none/slash_list/blue/output.css
 a {
@@ -110,8 +110,8 @@ a {
 ================================================================================
 <===> none/slash_list/alpha/input.scss
 @use 'sass:list';
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, none)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, none)));
 
 <===> none/slash_list/alpha/output.css
 a {
@@ -122,8 +122,8 @@ a {
 <===>
 ================================================================================
 <===> relative_color/slash/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(from #aaa srgb r g b / 25%));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(from #aaa srgb r g b / 25%));
 
 <===> relative_color/slash/output.css
 a {
@@ -135,8 +135,8 @@ a {
 ================================================================================
 <===> relative_color/slash_list/input.scss
 @use 'sass:list';
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(list.slash(from #aaa srgb r g b, 25%)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(list.slash(from #aaa srgb r g b, 25%)));
 
 <===> relative_color/slash_list/output.css
 a {
