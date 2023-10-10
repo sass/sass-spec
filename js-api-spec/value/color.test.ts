@@ -719,6 +719,20 @@ describe('Color 4 SassColors', () => {
       it(`isLegacy returns ${space.isLegacy} for ${space.name}`, () => {
         expect(color.isLegacy).toBe(space.isLegacy);
       });
+      xit('channelsOrNull');
+      xit('channels');
+      xit('channel');
+      xit('alpha');
+      xit('isChannelMissing');
+      xit('isAlphaMissing');
+      xit('interpolate');
+      xit('change');
+
+      // isInGamut, toGamut and isChannelPowerless are very space-specific and
+      // may need non-parameterized tests.
+      xit('isInGamut');
+      xit('toGamut');
+      xit('isChannelPowerless');
     });
   });
 });
