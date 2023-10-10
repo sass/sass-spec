@@ -1,0 +1,117 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0 0 0), oklab)}
+
+<===> black/output.css
+a {
+  b: oklab(0% 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 1 1 1), oklab)}
+
+<===> white/output.css
+a {
+  b: oklab(99.9999993474% 0.0000000001 0.0000000373);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.5 0.5 0.5), oklab)}
+
+<===> gray/output.css
+a {
+  b: oklab(59.8180726623% 0 0.0000000223);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.2 0.4 0.8), oklab)}
+
+<===> middle/output.css
+a {
+  b: oklab(53.248255955% -0.0225118457 -0.1663491641);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb -1 0.4 2), oklab)}
+
+<===> out_of_range/near/output.css
+a {
+  b: oklab(49.0997083563% -2.0235857478 -0.6049594977);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/options.yml
+:todo:
+  - dart-sass # w3c/csswg-drafts#9484
+
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb -999999 0 0), oklab)}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.1 0.2 0.3 / 0.4), oklab)}
+
+<===> alpha/partial/output.css
+a {
+  b: oklab(31.3834098842% -0.0190902788 -0.0525285242 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.1 0.2 0.3 / 0.0), oklab)}
+
+<===> alpha/transparent/output.css
+a {
+  b: oklab(31.3834098842% -0.0190902788 -0.0525285242 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb none 0.2 0.3), oklab)}
+
+<===> missing/red/output.css
+a {
+  b: oklab(30.4674630654% -0.0359109243 -0.0568929135);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.1 none 0.3), oklab)}
+
+<===> missing/green/output.css
+a {
+  b: oklab(21.1364004026% 0.0335334923 -0.1181436252);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb 0.1 0.2 none), oklab)}
+
+<===> missing/blue/output.css
+a {
+  b: oklab(28.8978411941% -0.0558272225 0.0596397714);
+}

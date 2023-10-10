@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(0% 0 0), rgb)}
+
+<===> black/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(100% 0 0), rgb)}
+
+<===> white/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% 0 0), rgb)}
+
+<===> gray/output.css
+a {
+  b: rgb(118.9132853673, 118.9132853673, 118.9132853673);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% 50 -75), rgb)}
+
+<===> middle/output.css
+a {
+  b: rgb(140.9956907717, 86.2404630336, 249.7700164402);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% -150 150), rgb)}
+
+<===> out_of_range/near/output.css
+a {
+  b: rgb(-129.8074047691, 156.2131989951, -83.846345545);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% -999999 0), rgb)}
+
+<===> out_of_range/far/output.css
+a {
+  b: rgb(-4291.2513341758, 2638.0586176899, -875.6380527968);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 30 / 0.4), rgb)}
+
+<===> alpha/partial/output.css
+a {
+  b: rgba(56.9166412792, 12.8111576391, -26.7480597912, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 30 / 0.0), rgb)}
+
+<===> alpha/transparent/output.css
+a {
+  b: rgba(56.9166412792, 12.8111576391, -26.7480597912, 0);
+}
+
+<===>
+================================================================================
+<===> missing/lightness/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(none 20 30), rgb)}
+
+<===> missing/lightness/output.css
+a {
+  b: rgb(42.1705910473, -16.473596874, -40.7995559656);
+}
+
+<===>
+================================================================================
+<===> missing/a/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% none 30), rgb)}
+
+<===> missing/a/output.css
+a {
+  b: rgb(37.7228402674, 26.6285418045, -27.5202604899);
+}
+
+<===>
+================================================================================
+<===> missing/b/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 none), rgb)}
+
+<===> missing/b/output.css
+a {
+  b: rgb(50.8524583137, 14.2717063113, 28.2183712056);
+}
