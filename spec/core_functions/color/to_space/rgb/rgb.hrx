@@ -1,0 +1,52 @@
+<===> in_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(#28d, rgb)}
+
+<===> in_range/output.css
+a {
+  b: #28d;
+}
+
+<===>
+================================================================================
+<===> out_of_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(-50, 100, 400), rgb)}
+
+<===> out_of_range/output.css
+a {
+  b: hsl(220, 281.25%, 68.6274509804%);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(none 20 30), rgb)}
+
+<===> missing/red/output.css
+a {
+  b: rgb(none 20 30);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 none 30), rgb)}
+
+<===> missing/green/output.css
+a {
+  b: rgb(10 none 30);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 20 none), rgb)}
+
+<===> missing/blue/output.css
+a {
+  b: rgb(10 20 none);
+}

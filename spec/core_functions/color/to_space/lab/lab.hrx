@@ -1,0 +1,52 @@
+<===> in_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% 50 -75), lab)}
+
+<===> in_range/output.css
+a {
+  b: lab(50% 50 -75);
+}
+
+<===>
+================================================================================
+<===> out_of_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% -150 150), lab)}
+
+<===> out_of_range/output.css
+a {
+  b: lab(50% -150 150);
+}
+
+<===>
+================================================================================
+<===> missing/lightness/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(none 20 30), lab)}
+
+<===> missing/lightness/output.css
+a {
+  b: lab(none 20 30);
+}
+
+<===>
+================================================================================
+<===> missing/a/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% none 30), lab)}
+
+<===> missing/a/output.css
+a {
+  b: lab(10% none 30);
+}
+
+<===>
+================================================================================
+<===> missing/b/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 none), lab)}
+
+<===> missing/b/output.css
+a {
+  b: lab(10% 20 none);
+}

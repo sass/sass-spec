@@ -1,0 +1,117 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0 0 0), lab)}
+
+<===> black/output.css
+a {
+  b: lab(0% 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 1 1 1), lab)}
+
+<===> white/output.css
+a {
+  b: lab(100% 0 0);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.5 0.5 0.5), lab)}
+
+<===> gray/output.css
+a {
+  b: lab(76.0692610142% 0 0);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.2 0.4 0.8), lab)}
+
+<===> middle/output.css
+a {
+  b: lab(68.0021326658% -3.4788867492 -36.298343272);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear -1 0.4 2), lab)}
+
+<===> out_of_range/near/output.css
+a {
+  b: lab(50.1566645274% -199.4292910489 -127.4603757066);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/options.yml
+:todo:
+  - dart-sass # w3c/csswg-drafts#9484
+
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear -999999 0 0), lab)}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.1 0.2 0.3 / 0.4), lab)}
+
+<===> alpha/partial/output.css
+a {
+  b: lab(49.9553149355% -7.5157058766 -17.8791167699 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.1 0.2 0.3 / 0.0), lab)}
+
+<===> alpha/transparent/output.css
+a {
+  b: lab(49.9553149355% -7.5157058766 -17.8791167699 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear none 0.2 0.3), lab)}
+
+<===> missing/red/output.css
+a {
+  b: lab(47.1789302985% -22.7267758708 -22.4056108481);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.1 none 0.3), lab)}
+
+<===> missing/green/output.css
+a {
+  b: lab(23.8148183096% 52.2336661374 -59.2206654307);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(srgb-linear 0.1 0.2 none), lab)}
+
+<===> missing/blue/output.css
+a {
+  b: lab(47.7042083773% -24.5180464109 51.183897624);
+}

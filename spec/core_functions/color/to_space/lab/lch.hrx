@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(0% 0 0), lch)}
+
+<===> black/output.css
+a {
+  b: lch(0% 0 none);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(100% 0 0), lch)}
+
+<===> white/output.css
+a {
+  b: lch(100% 0 none);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% 0 0), lch)}
+
+<===> gray/output.css
+a {
+  b: lch(50% 0 none);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% 50 -75), lch)}
+
+<===> middle/output.css
+a {
+  b: lch(50% 90.1387818866 303.690067526deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% -150 150), lch)}
+
+<===> out_of_range/near/output.css
+a {
+  b: lch(50% 212.132034356 135deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(50% -999999 0), lch)}
+
+<===> out_of_range/far/output.css
+a {
+  b: lch(50% 999999 180deg);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 30 / 0.4), lch)}
+
+<===> alpha/partial/output.css
+a {
+  b: lch(10% 36.0555127546 56.309932474deg / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 30 / 0.0), lch)}
+
+<===> alpha/transparent/output.css
+a {
+  b: lch(10% 36.0555127546 56.309932474deg / 0);
+}
+
+<===>
+================================================================================
+<===> missing/lightness/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(none 20 30), lch)}
+
+<===> missing/lightness/output.css
+a {
+  b: lch(none 36.0555127546 56.309932474deg);
+}
+
+<===>
+================================================================================
+<===> missing/a/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% none 30), lch)}
+
+<===> missing/a/output.css
+a {
+  b: lch(10% 30 90deg);
+}
+
+<===>
+================================================================================
+<===> missing/b/input.scss
+@use 'sass:color';
+a {b: color.to-space(lab(10% 20 none), lch)}
+
+<===> missing/b/output.css
+a {
+  b: lch(10% 20 0deg);
+}
