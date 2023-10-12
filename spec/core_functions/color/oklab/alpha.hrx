@@ -118,3 +118,28 @@ a {
   value: oklab(1% 2 3 / none);
   channels: 1% 2 3 / none;
 }
+
+<===>
+================================================================================
+<===> relative_color/slash/input.scss
+@use 'core_functions/color/oklab/utils';
+@include utils.inspect(oklab(from #aaa l a b / 25%));
+
+<===> relative_color/slash/output.css
+a {
+  value: oklab(from #aaa l a b/25%);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> relative_color/slash_list/input.scss
+@use 'sass:list';
+@use 'core_functions/color/oklab/utils';
+@include utils.inspect(oklab(list.slash(from #aaa l a b, 25%)));
+
+<===> relative_color/slash_list/output.css
+a {
+  value: oklab(from #aaa l a b / 25%);
+  type: string;
+}
