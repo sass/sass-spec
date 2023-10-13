@@ -203,7 +203,7 @@ const spaces: {
     constructor: lab,
     name: 'lab',
     isLegacy: false,
-    pink: [50.26939324506694, 77.55034661223404, 5.291006064208581],
+    pink: [78.27047872644108, 35.20288139978972, 1.0168442562642044],
     channels: ['lightness', 'a', 'b'],
     ranges: [
       [0, 100],
@@ -215,7 +215,7 @@ const spaces: {
     constructor: oklab,
     name: 'oklab',
     isLegacy: false,
-    pink: [0.5969671520000745, 0.240642723224551, 0.010096584699201],
+    pink: [0.8241000000000002, 0.10608808442731632, 0.0015900762693974446],
     channels: ['lightness', 'a', 'b'],
     ranges: [
       [0, 1],
@@ -227,7 +227,7 @@ const spaces: {
     constructor: lch,
     name: 'lch',
     isLegacy: false,
-    pink: [50.26939324506694, 77.73063105912064, 3.903054720703324],
+    pink: [78.27047872644108, 35.21756424128674, 1.6545432253797676],
     channels: ['lightness', 'chroma', 'hue'],
     hasPowerless: true,
     ranges: [
@@ -240,7 +240,7 @@ const spaces: {
     constructor: oklch,
     name: 'oklch',
     isLegacy: false,
-    pink: [0.596967152000075, 0.240854439991286, 2.402535128863576],
+    pink: [0.8241, 0.1061, 0.8587],
     channels: ['lightness', 'chroma', 'hue'],
     hasPowerless: true,
     ranges: [
@@ -253,7 +253,7 @@ const spaces: {
     constructor: srgb,
     name: 'srgb',
     isLegacy: false,
-    pink: [0.9019607843137256, 0, 0.4509803921568628],
+    pink: [0.9999785463111585, 0.6599448662991679, 0.758373017125016],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 1],
@@ -265,7 +265,7 @@ const spaces: {
     constructor: srgbLinear,
     name: 'srgb-linear',
     isLegacy: false,
-    pink: [0.79129794033263, 0, 0.171441100732823],
+    pink: [0.999951196094508, 0.3930503811476254, 0.5356603778005655],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 1],
@@ -277,7 +277,7 @@ const spaces: {
     constructor: displayP3,
     name: 'display-p3',
     isLegacy: false,
-    pink: [0.82711607165235, 0.176563472758889, 0.448731476221041],
+    pink: [0.9510333333617188, 0.6749909745845027, 0.7568568353546363],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 1],
@@ -289,7 +289,7 @@ const spaces: {
     constructor: a98Rgb,
     name: 'a98-rgb',
     isLegacy: false,
-    pink: [0.77190018720563, 0, 0.439993442840976],
+    pink: [0.9172837001828321, 0.6540226622083835, 0.7491144397116841],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 1],
@@ -301,7 +301,7 @@ const spaces: {
     constructor: prophotoRgb,
     name: 'prophoto-rgb',
     isLegacy: false,
-    pink: [0.636081302366818, 0.250331968942638, 0.36344508341673],
+    pink: [0.842345736209146, 0.6470539622987257, 0.7003583323790157],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 1],
@@ -313,7 +313,7 @@ const spaces: {
     constructor: xyz,
     name: 'xyz',
     isLegacy: false,
-    pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
+    pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
     channels: ['x', 'y', 'z'],
     ranges: [
       [0, 1],
@@ -325,7 +325,7 @@ const spaces: {
     constructor: xyzD50,
     name: 'xyz-d50',
     isLegacy: false,
-    pink: [0.36958745186426, 0.186451127990457, 0.133443936989772],
+    pink: [0.6640698533004002, 0.5367266625281085, 0.4345958246720296],
     channels: ['x', 'y', 'z'],
     ranges: [
       [0, 1],
@@ -337,7 +337,7 @@ const spaces: {
     constructor: xyzD65,
     name: 'xyz',
     isLegacy: false,
-    pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
+    pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
     channels: ['x', 'y', 'z'],
     ranges: [
       [0, 1],
@@ -349,7 +349,7 @@ const spaces: {
     constructor: rgb,
     name: 'rgb',
     isLegacy: true,
-    pink: [230, 0, 115],
+    pink: [254.9945293093454, 168.28594090628783, 193.38511936687908],
     channels: ['red', 'green', 'blue'],
     ranges: [
       [0, 255],
@@ -361,7 +361,7 @@ const spaces: {
     constructor: hsl,
     name: 'hsl',
     isLegacy: true,
-    pink: [330, 100, 45.09803921568628],
+    pink: [342.63204677447646, 99.98738302509669, 82.99617063051632],
     channels: ['hue', 'saturation', 'lightness'],
     hasPowerless: true,
     ranges: [
@@ -370,12 +370,11 @@ const spaces: {
       [0, 100],
     ],
   },
-  // @todo this pink is not correct
   hwb: {
     constructor: hwb,
     name: 'hwb',
     isLegacy: true,
-    pink: [330, 0, 9.803921568627445],
+    pink: [342.63204677447646, 65.99448662991679, 0.002145368884157506],
     channels: ['hue', 'whiteness', 'blackness'],
     hasPowerless: true,
     ranges: [
@@ -850,8 +849,7 @@ describe('Color 4 SassColors', () => {
             const expected = destinationSpace.constructor(
               ...destinationSpace.pink
             );
-            expect(res.hashCode).toEqual(expected.hashCode);
-            // expect(res).toEqualWithHash(expected);
+            expect(res).toEqualWithHash(expected);
           });
         });
       });
