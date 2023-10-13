@@ -900,8 +900,22 @@ describe('Color 4 SassColors', () => {
           expect(_color.isChannelMissing('alpha')).toBe(expected[3]);
         });
       });
-      xit('channel');
-      xit('alpha');
+      describe('channel', () => {
+        describe('without space specified', () => {
+          xit('throws an error if channel not in space');
+          xit('returns value if no space specified');
+        });
+        describe('with space specified', () => {
+          xit('throws an error if channel not in destination space');
+          xit('returns value in space specified');
+        });
+        xit('returns 0 for missing channels');
+      });
+      describe('alpha', () => {
+        xit('returns value if set');
+        xit('returns 1 if not set');
+        xit('returns 0 if missing');
+      });
       xit('interpolate');
       xit('change');
 
