@@ -976,9 +976,22 @@ describe('Color 4 SassColors', () => {
         });
       });
       describe('alpha', () => {
-        xit('returns value if set');
-        xit('returns 1 if not set');
-        xit('returns 0 if missing');
+        it('returns value if set', () => {
+          function colorWithAlpha(alpha: number | null) {
+            return space.constructor(...space.pink, alpha);
+          }
+          expect(colorWithAlpha(0).alpha).toBe(0);
+          expect(colorWithAlpha(1).alpha).toBe(1);
+          expect(colorWithAlpha(0.5).alpha).toBe(0.5);
+        });
+        it('returns 1 if not set', () => {
+          const noAlphaColor = space.constructor(0, 0, 0);
+          expect(noAlphaColor.alpha).toBe(1);
+        });
+        it('returns 0 if missing', () => {
+          const noAlphaColor = space.constructor(0, 0, 0, null);
+          expect(noAlphaColor.alpha).toBe(0);
+        });
       });
       xit('interpolate');
       xit('change');
