@@ -349,6 +349,8 @@ git clone https://github.com/sass/dart-sass
   cd dart-sass
   dart pub get
   dart run grinder pkg-npm-dev
+  cd build/npm
+  npm install
 )
 export DART_SASS_PATH=`pwd`/dart-sass
 
@@ -356,7 +358,8 @@ npm run js-api-spec -- --sassSassRepo $SASS_SASS_PATH --sassPackage $DART_SASS_P
 ```
 
 Whenever you modify Dart Sass, make sure to re-run `dart run grinder
-pkg-npm-dev` to rebuild the JavaScript output.
+pkg-npm-dev` to rebuild the JavaScript output and `npm install` from the
+`build/npm` directory to install dependencies.
 
 ##### Browser Build
 

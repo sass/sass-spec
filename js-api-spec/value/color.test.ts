@@ -3,7 +3,16 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassColor} from 'sass';
-import {ChannelName} from '../../../dart-sass/build/npm/types/value/color';
+import {
+  ChannelName,
+  ChannelNameHsl,
+  ChannelNameHwb,
+  ChannelNameLab,
+  ChannelNameLch,
+  ChannelNameRgb,
+  ChannelNameXyz,
+  ColorSpaceXyz,
+} from '../../../dart-sass/build/npm/types/value/color';
 import {List} from 'immutable';
 import {skipForImpl} from '../utils';
 
@@ -204,7 +213,7 @@ const spaces: {
     name: 'lab',
     isLegacy: false,
     pink: [78.27047872644108, 35.20288139978972, 1.0168442562642044],
-    channels: ['lightness', 'a', 'b'],
+    channels: ['lightness', 'a', 'b'] as ChannelNameLab[],
     ranges: [
       [0, 100],
       [-125, -125],
@@ -216,7 +225,7 @@ const spaces: {
     name: 'oklab',
     isLegacy: false,
     pink: [0.8241000000000002, 0.10608808442731632, 0.0015900762693974446],
-    channels: ['lightness', 'a', 'b'],
+    channels: ['lightness', 'a', 'b'] as ChannelNameLab[],
     ranges: [
       [0, 1],
       [-0.4, 0.4],
@@ -228,7 +237,7 @@ const spaces: {
     name: 'lch',
     isLegacy: false,
     pink: [78.27047872644108, 35.21756424128674, 1.6545432253797676],
-    channels: ['lightness', 'chroma', 'hue'],
+    channels: ['lightness', 'chroma', 'hue'] as ChannelNameLch[],
     hasPowerless: true,
     ranges: [
       [0, 100],
@@ -241,7 +250,7 @@ const spaces: {
     name: 'oklch',
     isLegacy: false,
     pink: [0.8241, 0.1061, 0.8587],
-    channels: ['lightness', 'chroma', 'hue'],
+    channels: ['lightness', 'chroma', 'hue'] as ChannelNameLch[],
     hasPowerless: true,
     ranges: [
       [0, 1],
@@ -254,7 +263,7 @@ const spaces: {
     name: 'srgb',
     isLegacy: false,
     pink: [0.9999785463111585, 0.6599448662991679, 0.758373017125016],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -266,7 +275,7 @@ const spaces: {
     name: 'srgb-linear',
     isLegacy: false,
     pink: [0.999951196094508, 0.3930503811476254, 0.5356603778005655],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -278,7 +287,7 @@ const spaces: {
     name: 'display-p3',
     isLegacy: false,
     pink: [0.9510333333617188, 0.6749909745845027, 0.7568568353546363],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -290,7 +299,7 @@ const spaces: {
     name: 'a98-rgb',
     isLegacy: false,
     pink: [0.9172837001828321, 0.6540226622083835, 0.7491144397116841],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -302,7 +311,7 @@ const spaces: {
     name: 'prophoto-rgb',
     isLegacy: false,
     pink: [0.842345736209146, 0.6470539622987257, 0.7003583323790157],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -314,7 +323,7 @@ const spaces: {
     name: 'xyz',
     isLegacy: false,
     pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
-    channels: ['x', 'y', 'z'],
+    channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -326,7 +335,7 @@ const spaces: {
     name: 'xyz-d50',
     isLegacy: false,
     pink: [0.6640698533004002, 0.5367266625281085, 0.4345958246720296],
-    channels: ['x', 'y', 'z'],
+    channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -338,7 +347,7 @@ const spaces: {
     name: 'xyz',
     isLegacy: false,
     pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
-    channels: ['x', 'y', 'z'],
+    channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
       [0, 1],
@@ -350,7 +359,7 @@ const spaces: {
     name: 'rgb',
     isLegacy: true,
     pink: [254.9945293093454, 168.28594090628783, 193.38511936687908],
-    channels: ['red', 'green', 'blue'],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 255],
       [0, 255],
@@ -362,7 +371,7 @@ const spaces: {
     name: 'hsl',
     isLegacy: true,
     pink: [342.63204677447646, 99.98738302509669, 82.99617063051632],
-    channels: ['hue', 'saturation', 'lightness'],
+    channels: ['hue', 'saturation', 'lightness'] as ChannelNameHsl[],
     hasPowerless: true,
     ranges: [
       [0, 360],
@@ -375,7 +384,7 @@ const spaces: {
     name: 'hwb',
     isLegacy: true,
     pink: [342.63204677447646, 65.99448662991679, 0.002145368884157506],
-    channels: ['hue', 'whiteness', 'blackness'],
+    channels: ['hue', 'whiteness', 'blackness'] as ChannelNameHwb[],
     hasPowerless: true,
     ranges: [
       [0, 360],
@@ -386,6 +395,23 @@ const spaces: {
 };
 // @todo Replace with KnownColorSpace export
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
+
+const channelNames: ChannelName[] = [
+  'red',
+  'green',
+  'blue',
+  'hue',
+  'saturation',
+  'lightness',
+  'whiteness',
+  'blackness',
+  'a',
+  'b',
+  'x',
+  'y',
+  'z',
+  'chroma',
+];
 
 function channelCases(ch1: number, ch2: number, ch3: number) {
   return [
@@ -900,14 +926,54 @@ describe('Color 4 SassColors', () => {
       });
       describe('channel', () => {
         describe('without space specified', () => {
-          xit('throws an error if channel not in space');
-          xit('returns value if no space specified');
+          it('throws an error if channel not in space', () => {
+            const channelsNotInSpace = new Set(channelNames);
+            space.channels.forEach(channel =>
+              channelsNotInSpace.delete(channel)
+            );
+            channelsNotInSpace.forEach(channel => {
+              expect(() => color.channel(channel)).toThrow();
+            });
+          });
+          it('returns value if no space specified', () => {
+            space.channels.forEach((channel, index) => {
+              expect(color.channel(channel)).toEqual(space.pink[index]);
+            });
+            expect(color.channel('alpha')).toEqual(1);
+          });
+          it('returns 0 for missing channels', () => {
+            const nullColor = space.constructor(null, null, null, null);
+            space.channels.forEach(channel => {
+              expect(nullColor.channel(channel)).toEqual(0);
+            });
+            expect(nullColor.channel('alpha')).toEqual(0);
+          });
         });
         describe('with space specified', () => {
+          // Types disallow channel not in destination space, can't be tested.
           xit('throws an error if channel not in destination space');
-          xit('returns value in space specified');
+          it('returns value in space specified', () => {
+            spaceNames.forEach(destinationSpaceId => {
+              const destinationSpace = spaces[destinationSpaceId];
+              destinationSpace.channels.forEach((channel, index) => {
+                expect(
+                  color.channel(channel as ChannelNameXyz, {
+                    space: destinationSpace.name as ColorSpaceXyz,
+                  })
+                  // @todo is `toBeCloseTo` sufficient or should we cast to a Value?
+                ).toBeCloseTo(destinationSpace.pink[index], 11);
+              });
+              expect(
+                color.channel('alpha' as ChannelNameXyz, {
+                  space: destinationSpace.name as ColorSpaceXyz,
+                })
+              ).toEqual(1);
+            });
+          });
+          // @todo - Can't be parameterized, as missing channels don't always
+          // persist across conversions.
+          xit('returns 0 for missing channels');
         });
-        xit('returns 0 for missing channels');
       });
       describe('alpha', () => {
         xit('returns value if set');
