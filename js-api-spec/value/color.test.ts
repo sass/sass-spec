@@ -404,7 +404,9 @@ function channelCases(ch1: number, ch2: number, ch3: number) {
     [...channels, 0],
     [...channels, 0.5],
     [...channels, null],
-  ]);
+  ]) as [
+    [number | null, number | null, number | null, number | null | undefined]
+  ];
 }
 
 xdescribe('SassColor', () => {
@@ -862,16 +864,9 @@ describe('Color 4 SassColors', () => {
           expect(color.channelsOrNull.size).toBe(space.channels.length);
         });
         it('returns channel value or null, excluding alpha', () => {
-          const pinkCases = channelCases(...space.pink) as [
-            [
-              number | null,
-              number | null,
-              number | null,
-              number | null | undefined
-            ]
-          ];
+          const pinkCases = channelCases(...space.pink);
           pinkCases.forEach(channels => {
-            const _color = space.constructor.apply(null, channels);
+            const _color = space.constructor(...channels);
             expect(_color.channelsOrNull).toEqualWithHash(
               List.of(...channels.slice(0, 3))
             );
@@ -884,24 +879,29 @@ describe('Color 4 SassColors', () => {
           expect(color.channels.size).toBe(space.channels.length);
         });
         it('returns channel value or 0, excluding alpha', () => {
-          const pinkCases = channelCases(...space.pink) as [
-            [
-              number | null,
-              number | null,
-              number | null,
-              number | null | undefined
-            ]
-          ];
+          const pinkCases = channelCases(...space.pink);
           pinkCases.forEach(channels => {
             const expected = channels.slice(0, 3).map(channel => channel || 0);
-            const _color = space.constructor.apply(null, channels);
+            const _color = space.constructor(...channels);
             expect(_color.channels).toEqualWithHash(List.of(...expected));
           });
         });
       });
+      it('isChannelMissing', () => {
+        const pinkCases = channelCases(...space.pink);
+        pinkCases.forEach(channels => {
+          const expected = channels.map(channel => channel === null);
+          // Undefined alpha is not missing
+          if (expected.length === 3) expected.push(false);
+          const _color = space.constructor(...channels);
+          expect(_color.isChannelMissing(space.channels[0])).toBe(expected[0]);
+          expect(_color.isChannelMissing(space.channels[1])).toBe(expected[1]);
+          expect(_color.isChannelMissing(space.channels[2])).toBe(expected[2]);
+          expect(_color.isChannelMissing('alpha')).toBe(expected[3]);
+        });
+      });
       xit('channel');
       xit('alpha');
-      xit('isChannelMissing');
       xit('interpolate');
       xit('change');
 
