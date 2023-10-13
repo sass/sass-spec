@@ -878,7 +878,27 @@ describe('Color 4 SassColors', () => {
           });
         });
       });
-      xit('channels');
+      describe('channels', () => {
+        it('returns a list', () => {
+          expect(color.channels).toEqualWithHash(List(space.pink));
+          expect(color.channels.size).toBe(space.channels.length);
+        });
+        it('returns channel value or 0, excluding alpha', () => {
+          const pinkCases = channelCases(...space.pink) as [
+            [
+              number | null,
+              number | null,
+              number | null,
+              number | null | undefined
+            ]
+          ];
+          pinkCases.forEach(channels => {
+            const expected = channels.slice(0, 3).map(channel => channel || 0);
+            const _color = space.constructor.apply(null, channels);
+            expect(_color.channels).toEqualWithHash(List.of(...expected));
+          });
+        });
+      });
       xit('channel');
       xit('alpha');
       xit('isChannelMissing');
