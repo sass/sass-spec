@@ -180,6 +180,7 @@ const spaces: {
     isLegacy: boolean;
     pink: [number, number, number];
     channels: ChannelName[];
+    ranges: [number, number][];
     hasPowerless?: boolean;
   };
 } = {
@@ -189,6 +190,11 @@ const spaces: {
     isLegacy: false,
     pink: [50.26939324506694, 77.55034661223404, 5.291006064208581],
     channels: ['lightness', 'a', 'b'],
+    ranges: [
+      [0, 100],
+      [-125, -125],
+      [-125, -125],
+    ],
   },
   oklab: {
     constructor: oklab,
@@ -196,6 +202,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.5969671520000745, 0.240642723224551, 0.010096584699201],
     channels: ['lightness', 'a', 'b'],
+    ranges: [
+      [0, 1],
+      [-0.4, 0.4],
+      [-0.4, 0.4],
+    ],
   },
   lch: {
     constructor: lch,
@@ -204,6 +215,11 @@ const spaces: {
     pink: [50.26939324506694, 77.73063105912064, 3.903054720703324],
     channels: ['lightness', 'chroma', 'hue'],
     hasPowerless: true,
+    ranges: [
+      [0, 100],
+      [0, 150],
+      [0, 360],
+    ],
   },
   oklch: {
     constructor: oklch,
@@ -212,6 +228,11 @@ const spaces: {
     pink: [0.596967152000075, 0.240854439991286, 2.402535128863576],
     channels: ['lightness', 'chroma', 'hue'],
     hasPowerless: true,
+    ranges: [
+      [0, 1],
+      [0, 0.4],
+      [0, 360],
+    ],
   },
   srgb: {
     constructor: srgb,
@@ -219,6 +240,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.9019607843137256, 0, 0.4509803921568628],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   srgbLinear: {
     constructor: srgbLinear,
@@ -226,6 +252,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.79129794033263, 0, 0.171441100732823],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   displayP3: {
     constructor: displayP3,
@@ -233,6 +264,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.82711607165235, 0.176563472758889, 0.448731476221041],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   a98Rgb: {
     constructor: a98Rgb,
@@ -240,6 +276,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.77190018720563, 0, 0.439993442840976],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   prophotoRgb: {
     constructor: prophotoRgb,
@@ -247,6 +288,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.636081302366818, 0.250331968942638, 0.36344508341673],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   xyz: {
     constructor: xyz,
@@ -254,6 +300,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
     channels: ['x', 'y', 'z'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   xyzD50: {
     constructor: xyzD50,
@@ -261,6 +312,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.36958745186426, 0.186451127990457, 0.133443936989772],
     channels: ['x', 'y', 'z'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   xyzD65: {
     constructor: xyzD65,
@@ -268,6 +324,11 @@ const spaces: {
     isLegacy: false,
     pink: [0.357265815096019, 0.180637537390399, 0.178256715498212],
     channels: ['x', 'y', 'z'],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
   },
   rgb: {
     constructor: rgb,
@@ -275,6 +336,11 @@ const spaces: {
     isLegacy: true,
     pink: [230, 0, 115],
     channels: ['red', 'green', 'blue'],
+    ranges: [
+      [0, 255],
+      [0, 255],
+      [0, 255],
+    ],
   },
   hsl: {
     constructor: hsl,
@@ -283,6 +349,11 @@ const spaces: {
     pink: [330, 100, 45.09803921568628],
     channels: ['hue', 'saturation', 'lightness'],
     hasPowerless: true,
+    ranges: [
+      [0, 360],
+      [0, 100],
+      [0, 100],
+    ],
   },
   // @todo this pink is not correct
   hwb: {
@@ -292,6 +363,11 @@ const spaces: {
     pink: [330, 0, 9.803921568627445],
     channels: ['hue', 'whiteness', 'blackness'],
     hasPowerless: true,
+    ranges: [
+      [0, 360],
+      [0, 100],
+      [0, 100],
+    ],
   },
 };
 // @todo Replace with KnownColorSpace export
@@ -751,14 +827,9 @@ describe('Color 4 SassColors', () => {
       xit('channel');
       xit('alpha');
       xit('isChannelMissing');
-      xit('isAlphaMissing');
       xit('interpolate');
       xit('change');
 
-      // isInGamut, toGamut and isChannelPowerless are very space-specific and
-      // may need non-parameterized tests.
-      xit('isInGamut');
-      xit('toGamut');
       it('isChannelPowerless', () => {
         function checkPowerless(
           _color: SassColor,
@@ -774,19 +845,105 @@ describe('Color 4 SassColors', () => {
             powerless[2]
           );
         }
+        const [ch1, ch2, ch3] = space.ranges;
         if (space.hasPowerless) {
           // test powerless channels
+          switch (space.name) {
+            case 'hwb':
+              // If the combined `whiteness` and `blackness` values (after
+              // normalization) are equal to `100%`, then the `hue` channel is
+              // powerless.
+              checkPowerless(space.constructor(ch1[0], 0, 100), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[0], 100, 0), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[0], 50, 50), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 0, 100), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 100, 0), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 50, 50), [
+                true,
+                false,
+                false,
+              ]);
+
+              checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[0], ch2[0], ch3[0]));
+              checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[1], ch2[0], ch3[0]));
+
+              break;
+
+            case 'hsl':
+            case 'lch':
+            case 'oklch':
+              // hsl- If the saturation of an HSL color is 0%, then the hue component is powerless.
+              // (ok)lch- If the `chroma` value is 0%, then the `hue` channel is powerless.
+              checkPowerless(space.constructor(ch1[0], 0, ch3[0]), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[0], 0, ch3[1]), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 0, ch3[1]), [
+                true,
+                false,
+                false,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 0, ch3[0]), [
+                true,
+                false,
+                false,
+              ]);
+
+              checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
+              checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
+              break;
+
+            default:
+              throw new Error(
+                `Unimplemented isPowerless check for ${space.name}`
+              );
+          }
         } else {
-          checkPowerless(space.constructor(0, 0, 0));
-          checkPowerless(space.constructor(1, 0, 0));
-          checkPowerless(space.constructor(1, 1, 0));
-          checkPowerless(space.constructor(1, 1, 1));
-          checkPowerless(space.constructor(0, 1, 1));
-          checkPowerless(space.constructor(0, 0, 1));
-          checkPowerless(space.constructor(1, 0, 1));
-          checkPowerless(space.constructor(0, 1, 0));
+          checkPowerless(space.constructor(ch1[0], ch2[0], ch3[0]));
+          checkPowerless(space.constructor(ch1[1], ch2[0], ch3[0]));
+          checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
+          checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
+          checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
+          checkPowerless(space.constructor(ch1[0], ch2[0], ch3[1]));
+          checkPowerless(space.constructor(ch1[1], ch2[0], ch3[1]));
+          checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
         }
       });
+
+      // isInGamut and toGamut are very space-specific and
+      // may need non-parameterized tests.
+      xit('isInGamut');
+      xit('toGamut');
     });
   });
 });
