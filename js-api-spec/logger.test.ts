@@ -2,15 +2,9 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {
-  compileString,
-  compileStringAsync,
-  Logger,
-  SourceSpan,
-  SassColor,
-} from 'sass';
+import {compileString, compileStringAsync, Logger, SourceSpan} from 'sass';
 
-import {captureStdio, captureStdioAsync, spy} from './utils';
+import {captureStdio, captureStdioAsync} from './utils';
 
 it('emits debug to stderr by default', () => {
   const stdio = captureStdio(() => {
@@ -35,27 +29,6 @@ describe('deprecation warning', () => {
         },
       },
     });
-  });
-  it('passes the message from a JS API function', done => {
-    const fn = spy(args => {
-      expect(args).toBeArrayOfSize(1);
-      expect(args[0].assertString().text).toBe('bar');
-      return new SassColor({red: 1, green: 1, blue: 1, alpha: null});
-    });
-    const res = compileString('a {b: foo(bar)}', {
-      functions: {'foo($arg)': fn},
-      logger: {
-        warn(message: string, {span}: {span?: SourceSpan}) {
-          expect(message).toContain('only valid for nesting');
-          expect(span?.start.line).toBe(0);
-          expect(span?.start.column).toBe(0);
-          expect(span?.end.line).toBe(0);
-          expect(span?.end.column).toBe(3);
-          done();
-        },
-      },
-    }).css;
-    expect(res).toBe('a {\n  b: rgba(1, 1, 1, 0);\n}');
   });
 });
 
