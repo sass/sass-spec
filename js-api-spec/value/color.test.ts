@@ -19,10 +19,10 @@ function legacyRGB(
 
 /** A utility function for creating an RGB color. */
 function rgb(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'rgb'});
 }
@@ -39,139 +39,154 @@ function legacyHsl(
 
 /** A utility function for creating an HSL color. */
 function hsl(
-  hue: number,
-  saturation: number,
-  lightness: number,
-  alpha?: number
+  hue: number | null,
+  saturation: number | null,
+  lightness: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({hue, saturation, lightness, alpha, space: 'hsl'});
 }
 
 /** A utility function for creating an HWB color without specifying a space. */
 function legacyHwb(
-  hue: number,
-  whiteness: number,
-  blackness: number,
-  alpha?: number
+  hue: number | null,
+  whiteness: number | null,
+  blackness: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha});
 }
 
 /** A utility function for creating an HWB color. */
 function hwb(
-  hue: number,
-  whiteness: number,
-  blackness: number,
-  alpha?: number
+  hue: number | null,
+  whiteness: number | null,
+  blackness: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha, space: 'hwb'});
 }
 
 /** A utility function for creating a Lab color. */
 function lab(
-  lightness: number,
-  a: number,
-  b: number,
-  alpha?: number
+  lightness: number | null,
+  a: number | null,
+  b: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'lab'});
 }
 /** A utility function for creating a Oklab color. */
 function oklab(
-  lightness: number,
-  a: number,
-  b: number,
-  alpha?: number
+  lightness: number | null,
+  a: number | null,
+  b: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'oklab'});
 }
 /** A utility function for creating an LCH color. */
 function lch(
-  lightness: number,
-  chroma: number,
-  hue: number,
-  alpha?: number
+  lightness: number | null,
+  chroma: number | null,
+  hue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'lch'});
 }
 /** A utility function for creating a Oklab color. */
 function oklch(
-  lightness: number,
-  chroma: number,
-  hue: number,
-  alpha?: number
+  lightness: number | null,
+  chroma: number | null,
+  hue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'oklch'});
 }
 
 /** A utility function for creating an srgb color. */
 function srgb(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb'});
 }
 /** A utility function for creating an srgb-linear color. */
 function srgbLinear(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb-linear'});
 }
 /** A utility function for creating an display-p3 color. */
 function displayP3(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'display-p3'});
 }
 /** A utility function for creating an a98-rgb color. */
 function a98Rgb(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'a98-rgb'});
 }
 /** A utility function for creating a prophoto-rgb color. */
 function prophotoRgb(
-  red: number,
-  green: number,
-  blue: number,
-  alpha?: number
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'prophoto-rgb'});
 }
 
 /** A utility function for creating a xyz color. */
-function xyz(x: number, y: number, z: number, alpha?: number): SassColor {
+function xyz(
+  x: number | null,
+  y: number | null,
+  z: number | null,
+  alpha?: number | null
+): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz'});
 }
 
 /** A utility function for creating a xyz-d50 color. */
-function xyzD50(x: number, y: number, z: number, alpha?: number): SassColor {
+function xyzD50(
+  x: number | null,
+  y: number | null,
+  z: number | null,
+  alpha?: number | null
+): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d50'});
 }
 
 /** A utility function for creating a xyz-d65 color. */
-function xyzD65(x: number, y: number, z: number, alpha?: number): SassColor {
+function xyzD65(
+  x: number | null,
+  y: number | null,
+  z: number | null,
+  alpha?: number | null
+): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d65'});
 }
 
 type KnownColorSpace = typeof SassColor.prototype.space;
 
 type Constructor = (
-  channel1: number,
-  channel2: number,
-  channel3: number,
-  alpha?: number
+  channel1: number | null,
+  channel2: number | null,
+  channel3: number | null,
+  alpha?: number | null
 ) => SassColor;
 const spaces: {
   [key: string]: {
@@ -372,6 +387,25 @@ const spaces: {
 };
 // @todo Replace with KnownColorSpace export
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
+
+function channelCases(ch1: number, ch2: number, ch3: number) {
+  return [
+    [ch1, ch2, ch3],
+    [null, ch2, ch3],
+    [null, null, ch3],
+    [ch1, null, ch3],
+    [ch1, null, null],
+    [ch1, ch2, null],
+    [null, ch2, null],
+    [null, null, null],
+  ].flatMap(channels => [
+    channels,
+    [...channels, 1],
+    [...channels, 0],
+    [...channels, 0.5],
+    [...channels, null],
+  ]);
+}
 
 xdescribe('SassColor', () => {
   describe('construction', () => {
@@ -822,7 +856,28 @@ describe('Color 4 SassColors', () => {
       it(`isLegacy returns ${space.isLegacy} for ${space.name}`, () => {
         expect(color.isLegacy).toBe(space.isLegacy);
       });
-      xit('channelsOrNull');
+      describe('channelsOrNull', () => {
+        it('returns a list', () => {
+          expect(color.channelsOrNull).toEqualWithHash(List(space.pink));
+          expect(color.channelsOrNull.size).toBe(space.channels.length);
+        });
+        it('returns channel value or null, excluding alpha', () => {
+          const pinkCases = channelCases(...space.pink) as [
+            [
+              number | null,
+              number | null,
+              number | null,
+              number | null | undefined
+            ]
+          ];
+          pinkCases.forEach(channels => {
+            const _color = space.constructor.apply(null, channels);
+            expect(_color.channelsOrNull).toEqualWithHash(
+              List.of(...channels.slice(0, 3))
+            );
+          });
+        });
+      });
       xit('channels');
       xit('channel');
       xit('alpha');
