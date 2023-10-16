@@ -1461,7 +1461,51 @@ describe('Color 4 SassColors', () => {
           });
         });
       });
-      xit('change');
+      describe('change', () => {
+        it('changes all channels in own space', () => {
+          space.channels.forEach((channelName, index) => {
+            const expectedChannels = [
+              space.pink[0],
+              space.pink[1],
+              space.pink[2],
+            ] as [number, number, number];
+            expectedChannels[index] = 0;
+            expect(color.change({[channelName]: 0})).toEqualWithHash(
+              space.constructor(...expectedChannels)
+            );
+          });
+          expect(color.change({alpha: 0})).toEqualWithHash(
+            space.constructor(...space.pink, 0)
+          );
+        });
+
+        spaceNames.forEach(destinationSpaceId => {
+          it(`changes all channels in ${destinationSpaceId}`, () => {
+            const destinationSpace = spaces[destinationSpaceId];
+            destinationSpace.channels.forEach((channel, index) => {
+              const destinationChannels = [
+                destinationSpace.pink[0],
+                destinationSpace.pink[1],
+                destinationSpace.pink[2],
+              ] as [number, number, number];
+
+              const channelMax = destinationSpace.ranges[index][1];
+
+              destinationChannels[index] = channelMax;
+              const expected = destinationSpace
+                .constructor(...destinationChannels)
+                .toSpace(space.name);
+
+              expect(
+                color.change({
+                  [channel]: channelMax,
+                  space: destinationSpace.name as ColorSpaceXyz,
+                })
+              ).toEqualWithHash(expected);
+            });
+          });
+        });
+      });
 
       it('isChannelPowerless', () => {
         function checkPowerless(
