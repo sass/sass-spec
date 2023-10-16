@@ -12,6 +12,7 @@ import {
   ChannelNameRgb,
   ChannelNameXyz,
   ColorSpaceXyz,
+  HueInterpolationMethod,
 } from '../../../dart-sass/build/npm/types/value/color';
 import {List} from 'immutable';
 import {skipForImpl} from '../utils';
@@ -202,7 +203,9 @@ const spaces: {
     constructor: Constructor;
     name: KnownColorSpace;
     isLegacy: boolean;
+    isPolar: boolean;
     pink: [number, number, number];
+    blue: [number, number, number];
     channels: ChannelName[];
     ranges: [number, number][];
     hasPowerless?: boolean;
@@ -212,7 +215,9 @@ const spaces: {
     constructor: lab,
     name: 'lab',
     isLegacy: false,
+    isPolar: false,
     pink: [78.27047872644108, 35.20288139978972, 1.0168442562642044],
+    blue: [38.95792456574883, -15.169549415088856, -17.792484605053115],
     channels: ['lightness', 'a', 'b'] as ChannelNameLab[],
     ranges: [
       [0, 100],
@@ -224,7 +229,9 @@ const spaces: {
     constructor: oklab,
     name: 'oklab',
     isLegacy: false,
+    isPolar: false,
     pink: [0.8241000000000002, 0.10608808442731632, 0.0015900762693974446],
+    blue: [0.47120000400818335, -0.05111706453373946, -0.048406651029280656],
     channels: ['lightness', 'a', 'b'] as ChannelNameLab[],
     ranges: [
       [0, 1],
@@ -236,7 +243,9 @@ const spaces: {
     constructor: lch,
     name: 'lch',
     isLegacy: false,
+    isPolar: true,
     pink: [78.27047872644108, 35.21756424128674, 1.6545432253797676],
+    blue: [38.957924566, 23.38135449889311, 229.54969234595737],
     channels: ['lightness', 'chroma', 'hue'] as ChannelNameLch[],
     hasPowerless: true,
     ranges: [
@@ -249,7 +258,9 @@ const spaces: {
     constructor: oklch,
     name: 'oklch',
     isLegacy: false,
+    isPolar: true,
     pink: [0.8241, 0.1061, 0.8587],
+    blue: [0.47120000400818335, 0.07039998686375618, 223.44000118475142],
     channels: ['lightness', 'chroma', 'hue'] as ChannelNameLch[],
     hasPowerless: true,
     ranges: [
@@ -262,7 +273,9 @@ const spaces: {
     constructor: srgb,
     name: 'srgb',
     isLegacy: false,
+    isPolar: false,
     pink: [0.9999785463111585, 0.6599448662991679, 0.758373017125016],
+    blue: [0.14900142239759614, 0.39063941586401707, 0.47119722379126755],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -274,7 +287,9 @@ const spaces: {
     constructor: srgbLinear,
     name: 'srgb-linear',
     isLegacy: false,
+    isPolar: false,
     pink: [0.999951196094508, 0.3930503811476254, 0.5356603778005655],
+    blue: [0.019378214827482948, 0.12640222770203852, 0.18834349393523495],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -286,7 +301,9 @@ const spaces: {
     constructor: displayP3,
     name: 'display-p3',
     isLegacy: false,
+    isPolar: false,
     pink: [0.9510333333617188, 0.6749909745845027, 0.7568568353546363],
+    blue: [0.21620126176161275, 0.38537730537965537, 0.46251697991685353],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -298,7 +315,9 @@ const spaces: {
     constructor: a98Rgb,
     name: 'a98-rgb',
     isLegacy: false,
+    isPolar: false,
     pink: [0.9172837001828321, 0.6540226622083835, 0.7491144397116841],
+    blue: [0.2557909283504703, 0.3904466064332277, 0.4651826475952292],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -310,7 +329,9 @@ const spaces: {
     constructor: prophotoRgb,
     name: 'prophoto-rgb',
     isLegacy: false,
+    isPolar: false,
     pink: [0.842345736209146, 0.6470539622987257, 0.7003583323790157],
+    blue: [0.24317903319635056, 0.3045087255847488, 0.38356879501347535],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -322,7 +343,9 @@ const spaces: {
     constructor: xyz,
     name: 'xyz',
     isLegacy: false,
+    isPolar: false,
     pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
+    blue: [0.08718323686632441, 0.1081164314257634, 0.19446762910683627],
     channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
@@ -334,7 +357,9 @@ const spaces: {
     constructor: xyzD50,
     name: 'xyz-d50',
     isLegacy: false,
+    isPolar: false,
     pink: [0.6640698533004002, 0.5367266625281085, 0.4345958246720296],
+    blue: [0.08408207011375313, 0.10634498228480066, 0.1470370877550857],
     channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
@@ -346,7 +371,9 @@ const spaces: {
     constructor: xyzD65,
     name: 'xyz',
     isLegacy: false,
+    isPolar: false,
     pink: [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
+    blue: [0.08718323686632441, 0.1081164314257634, 0.19446762910683627],
     channels: ['x', 'y', 'z'] as ChannelNameXyz[],
     ranges: [
       [0, 1],
@@ -358,7 +385,9 @@ const spaces: {
     constructor: rgb,
     name: 'rgb',
     isLegacy: true,
+    isPolar: false,
     pink: [254.9945293093454, 168.28594090628783, 193.38511936687908],
+    blue: [38.144364133784602, 100.003690461188378, 120.626489290564506],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 255],
@@ -370,7 +399,9 @@ const spaces: {
     constructor: hsl,
     name: 'hsl',
     isLegacy: true,
+    isPolar: true,
     pink: [342.63204677447646, 99.98738302509669, 82.99617063051632],
+    blue: [195.0016494775154, 51.95041997811069, 31.009932309443183],
     channels: ['hue', 'saturation', 'lightness'] as ChannelNameHsl[],
     hasPowerless: true,
     ranges: [
@@ -383,7 +414,9 @@ const spaces: {
     constructor: hwb,
     name: 'hwb',
     isLegacy: true,
+    isPolar: true,
     pink: [342.63204677447646, 65.99448662991679, 0.002145368884157506],
+    blue: [195.0016494775154, 14.900142239759612, 52.880277620873244],
     channels: ['hue', 'whiteness', 'blackness'] as ChannelNameHwb[],
     hasPowerless: true,
     ranges: [
@@ -392,6 +425,426 @@ const spaces: {
       [0, 100],
     ],
   },
+};
+
+type InterpolationExample = [
+  {weight: number; method?: string},
+  [number, number, number]
+];
+
+const interpolations: {[space: string]: InterpolationExample[]} = {
+  lab: [
+    [
+      {
+        weight: 0.5,
+      },
+      [58.614201646094955, 10.016665992350433, -8.387820174394456],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [78.27047872644108, 35.20288139978972, 1.0168442562642044],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [38.95792456574883, -15.169549415088852, -17.792484605053115],
+    ],
+  ],
+  oklab: [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.6476500020040917, 0.02748550994678843, -0.023408287379941606],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.8241000000000002, 0.10608808442731632, 0.0015900762693974446],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.47120000400818335, -0.05111706453373946, -0.048406651029280656],
+    ],
+  ],
+  lch: [
+    [
+      {
+        weight: 0.5,
+      },
+      [58.61420164622054, 29.299459370089924, 295.6021177856686],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [78.27047872644108, 35.21756424128674, 1.6545432253797685],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [38.957924566, 23.38135449889311, 229.5496923459574],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'shorter',
+      },
+      [58.61420164622054, 29.299459370089924, 295.6021177856686],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'longer',
+      },
+      [58.61420164622054, 29.299459370089924, 115.60211778566858],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'increasing',
+      },
+      [58.61420164622054, 29.299459370089924, 115.60211778566858],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'decreasing',
+      },
+      [58.61420164622054, 29.299459370089924, 295.6021177856686],
+    ],
+  ],
+  oklch: [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.6476500020040917, 0.08824999343187809, 292.1493505923757],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.8241, 0.1061, 0.8586999999999989],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.47120000400818335, 0.07039998686375618, 223.4400011847514],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'shorter',
+      },
+      [0.6476500020040917, 0.08824999343187809, 292.1493505923757],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'longer',
+      },
+      [0.6476500020040917, 0.08824999343187809, 112.1493505923757],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'increasing',
+      },
+      [0.6476500020040917, 0.08824999343187809, 112.1493505923757],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'decreasing',
+      },
+      [0.6476500020040917, 0.08824999343187809, 292.1493505923757],
+    ],
+  ],
+  srgb: [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5744899843543774, 0.5252921410815925, 0.6147851204581418],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.9999785463111585, 0.6599448662991679, 0.758373017125016],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.14900142239759617, 0.39063941586401707, 0.47119722379126755],
+    ],
+  ],
+  'srgb-linear': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5096647054609955, 0.25972630442483197, 0.36200193586790025],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.999951196094508, 0.3930503811476254, 0.5356603778005655],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.01937821482748292, 0.12640222770203852, 0.18834349393523497],
+    ],
+  ],
+  'display-p3': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5836172975616658, 0.530184139982079, 0.609686907635745],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.9510333333617188, 0.6749909745845027, 0.7568568353546363],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.2162012617616128, 0.38537730537965537, 0.46251697991685353],
+    ],
+  ],
+  'a98-rgb': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5865373142666512, 0.5222346343208055, 0.6071485436534567],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.9172837001828321, 0.6540226622083835, 0.7491144397116841],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.25579092835047035, 0.3904466064332277, 0.4651826475952292],
+    ],
+  ],
+  'prophoto-rgb': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5427623847027483, 0.4757813439417372, 0.5419635636962455],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.842345736209146, 0.6470539622987257, 0.7003583323790157],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.2431790331963506, 0.3045087255847488, 0.38356879501347535],
+    ],
+  ],
+  xyz: [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.36838948901950813, 0.3202564721891328, 0.38490473490885063],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.08718323686632445, 0.10811643142576338, 0.19446762910683624],
+    ],
+  ],
+  'xyz-d50': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.3740759617070767, 0.3215358224064546, 0.2908164562135577],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.6640698533004002, 0.5367266625281085, 0.4345958246720296],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.08408207011375313, 0.10634498228480066, 0.14703708775508573],
+    ],
+  ],
+  rgb: [
+    [
+      {
+        weight: 0.5,
+      },
+      [146.56944672156501, 134.1448156837381, 157.00580432872178],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [254.9945293093454, 168.28594090628783, 193.38511936687908],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [38.14436413378462, 100.00369046118837, 120.62648929056449],
+    ],
+  ],
+  hsl: [
+    [
+      {
+        weight: 0.5,
+      },
+      [268.816848125996, 75.96890150160368, 57.00305146997975],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [342.6320467744765, 99.98738302509669, 82.99617063051632],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [195.00164947751546, 51.95041997811069, 31.009932309443187],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'shorter',
+      },
+      [268.816848125996, 75.96890150160368, 57.00305146997975],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'longer',
+      },
+      [448.816848125996, 75.96890150160368, 57.00305146997975],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'increasing',
+      },
+      [448.816848125996, 75.96890150160368, 57.00305146997975],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'decreasing',
+      },
+      [268.816848125996, 75.96890150160368, 57.00305146997975],
+    ],
+  ],
+  hwb: [
+    [
+      {
+        weight: 0.5,
+      },
+      [268.816848125996, 40.447314434838205, 26.4412114948787],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [342.6320467744765, 65.99448662991679, 0.002145368884157506],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [195.00164947751546, 14.90014223975961, 52.880277620873244],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'shorter',
+      },
+      [268.816848125996, 40.447314434838205, 26.4412114948787],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'longer',
+      },
+      [448.816848125996, 40.447314434838205, 26.4412114948787],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'increasing',
+      },
+      [448.816848125996, 40.447314434838205, 26.4412114948787],
+    ],
+    [
+      {
+        weight: 0.5,
+        method: 'decreasing',
+      },
+      [268.816848125996, 40.447314434838205, 26.4412114948787],
+    ],
+  ],
+  'xyz-d65': [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.36838948901950813, 0.3202564721891328, 0.38490473490885063],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.6495957411726918, 0.5323965129525022, 0.575341840710865],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.08718323686632445, 0.10811643142576338, 0.19446762910683624],
+    ],
+  ],
 };
 // @todo Replace with KnownColorSpace export
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
@@ -838,9 +1291,10 @@ describe('Color 4 SassColors', () => {
     const space = spaces[spaceId];
 
     describe(space.name, () => {
-      let color: SassColor;
+      let color: SassColor, blue: SassColor;
       beforeEach(() => {
         color = space.constructor(...space.pink);
+        blue = space.constructor(...space.blue);
       });
       it('is a value', () => {
         expect(color).toBeInstanceOf(Value);
@@ -868,7 +1322,7 @@ describe('Color 4 SassColors', () => {
       describe('toSpace', () => {
         spaceNames.forEach(destinationSpaceId => {
           const destinationSpace = spaces[destinationSpaceId];
-          it(`converts to ${destinationSpace.name}`, () => {
+          it(`converts pink to ${destinationSpace.name}`, () => {
             const res = color.toSpace(destinationSpace.name);
             expect(res.space).toBe(destinationSpace.name);
 
@@ -993,7 +1447,20 @@ describe('Color 4 SassColors', () => {
           expect(noAlphaColor.alpha).toBe(0);
         });
       });
-      xit('interpolate');
+      describe('interpolate', () => {
+        it('interpolates examples', () => {
+          const examples = interpolations[space.name];
+          examples.forEach(([input, output]) => {
+            const res = color.interpolate({
+              color2: blue,
+              weight: input.weight,
+              method: input.method as HueInterpolationMethod,
+            });
+            const outputColor = space.constructor(...output);
+            expect(res).toEqualWithHash(outputColor);
+          });
+        });
+      });
       xit('change');
 
       it('isChannelPowerless', () => {
