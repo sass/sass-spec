@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, SassColor} from 'sass';
+import {Value, SassColor, SassNumber} from 'sass';
 import {
   ChannelName,
   ChannelNameHsl,
@@ -209,6 +209,9 @@ const spaces: {
     channels: ChannelName[];
     ranges: [number, number][];
     hasPowerless?: boolean;
+    hasOutOfGamut: boolean;
+    // input, output in own space, output in p3
+    gamutExamples: [[number, number, number], [number, number, number]][];
   };
 } = {
   lab: {
@@ -221,8 +224,15 @@ const spaces: {
     channels: ['lightness', 'a', 'b'] as ChannelNameLab[],
     ranges: [
       [0, 100],
-      [-125, -125],
-      [-125, -125],
+      [-125, 125],
+      [-125, 125],
+    ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [50, 150, 150],
+        [50, 150, 150],
+      ],
     ],
   },
   oklab: {
@@ -237,6 +247,13 @@ const spaces: {
       [0, 1],
       [-0.4, 0.4],
       [-0.4, 0.4],
+    ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 1, 1],
+        [0.5, 1, 1],
+      ],
     ],
   },
   lch: {
@@ -253,6 +270,13 @@ const spaces: {
       [0, 150],
       [0, 360],
     ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [50, 200, 480],
+        [50, 200, 480],
+      ],
+    ],
   },
   oklch: {
     constructor: oklch,
@@ -268,6 +292,13 @@ const spaces: {
       [0, 0.4],
       [0, 360],
     ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 1, 480],
+        [0.5, 1, 480],
+      ],
+    ],
   },
   srgb: {
     constructor: srgb,
@@ -281,6 +312,13 @@ const spaces: {
       [0, 1],
       [0, 1],
       [0, 1],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
     ],
   },
   srgbLinear: {
@@ -296,6 +334,13 @@ const spaces: {
       [0, 1],
       [0, 1],
     ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
+    ],
   },
   displayP3: {
     constructor: displayP3,
@@ -309,6 +354,13 @@ const spaces: {
       [0, 1],
       [0, 1],
       [0, 1],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
     ],
   },
   a98Rgb: {
@@ -324,6 +376,13 @@ const spaces: {
       [0, 1],
       [0, 1],
     ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
+    ],
   },
   prophotoRgb: {
     constructor: prophotoRgb,
@@ -337,6 +396,13 @@ const spaces: {
       [0, 1],
       [0, 1],
       [0, 1],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
     ],
   },
   xyz: {
@@ -352,6 +418,13 @@ const spaces: {
       [0, 1],
       [0, 1],
     ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [0.5, 2, 2],
+      ],
+    ],
   },
   xyzD50: {
     constructor: xyzD50,
@@ -365,6 +438,13 @@ const spaces: {
       [0, 1],
       [0, 1],
       [0, 1],
+    ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [0.5, 2, 2],
+      ],
     ],
   },
   xyzD65: {
@@ -380,6 +460,13 @@ const spaces: {
       [0, 1],
       [0, 1],
     ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [0.5, 2, 2],
+      ],
+    ],
   },
   rgb: {
     constructor: rgb,
@@ -393,6 +480,13 @@ const spaces: {
       [0, 255],
       [0, 255],
       [0, 255],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [300, 300, 300],
+        [255, 255, 255],
+      ],
     ],
   },
   hsl: {
@@ -409,6 +503,13 @@ const spaces: {
       [0, 100],
       [0, 100],
     ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 100, 50],
+        [0.5, 100, 50],
+      ],
+    ],
   },
   hwb: {
     constructor: hwb,
@@ -423,6 +524,13 @@ const spaces: {
       [0, 360],
       [0, 100],
       [0, 100],
+    ],
+    hasOutOfGamut: false,
+    gamutExamples: [
+      [
+        [0.5, 100, 50],
+        [0.5, 100, 50],
+      ],
     ],
   },
 };
@@ -1617,10 +1725,41 @@ describe('Color 4 SassColors', () => {
         }
       });
 
-      // isInGamut and toGamut are very space-specific and
-      // may need non-parameterized tests.
-      xit('isInGamut');
-      xit('toGamut');
+      describe('isInGamut', () => {
+        // Our `pink` color is in gamut for every space.
+        it('is true for in gamut colors in own space', () => {
+          expect(color.isInGamut()).toBe(true);
+        });
+        it('is true for in gamut colors in specified space', () => {
+          spaceNames.forEach(destinationSpaceId => {
+            const destinationSpace = spaces[destinationSpaceId];
+            expect(color.isInGamut(destinationSpace.name)).toBe(true);
+          });
+        });
+        it(`is ${!space.hasOutOfGamut} for out of range colors in own space`, () => {
+          const outOfGamut = space.constructor(...space.gamutExamples[0][0]);
+          expect(outOfGamut.isInGamut()).toBe(!space.hasOutOfGamut);
+        });
+      });
+      describe('toGamut', () => {
+        it('in own space', () => {
+          space.gamutExamples.forEach(([input, output]) => {
+            const res = space.constructor(...input).toGamut();
+            expect(res).toEqualWithHash(space.constructor(...output));
+          });
+        });
+      });
+    });
+  });
+  describe("tests that can't be parameterized", () => {
+    it('toGamut with space', () => {
+      const cases: [SassColor, KnownColorSpace, SassColor][] = [
+        [oklch(1, 1, 1), 'display-p3', displayP3(1, 1, 1)],
+        [oklch(1, 0, 0.2), 'display-p3', displayP3(1, 1, 1)],
+      ];
+      cases.forEach(([input, space, output]) => {
+        expect(input.toGamut(space)).toEqualWithHash(output);
+      });
     });
   });
 });
