@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import immutable from 'immutable';
+import immutable, {ValueObject} from 'immutable';
 import * as sass from 'sass';
 import * as util from 'util';
 import type {URL} from 'url';
@@ -54,6 +54,18 @@ declare global {
        * `value`.
        */
       toEqualWithHash(value: immutable.ValueObject): T;
+
+      /**
+       * Matches a number that is equal to `value` using `SassNumber.equals()`.
+       */
+      toFuzzyEqual(value: number): T;
+
+      /**
+       * Matches an array against an Immutable List. Non-numeric values are
+       * exactly matched, and numbers are fuzzy matched using
+       * `SassNumber.equals()`.
+       */
+      toFuzzyEqualList(value: unknown[]): T;
 
       /**
        * Matches a value that's `null` or `undefined`.
@@ -312,6 +324,45 @@ const toEqualIgnoringWhitespace = (received: unknown, actual: string) => {
   };
 };
 
+const toFuzzyEqual = (received: unknown, actual: number) => {
+  if (typeof received !== 'number') {
+    throw new Error('Received value must be a number');
+  }
+  return {
+    message: `expected ${received} to fuzzy equal ${actual}`,
+    pass: new sass.SassNumber(received).equals(new sass.SassNumber(actual)),
+  };
+};
+
+const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
+  if (!immutable.List.isList(received)) {
+    throw new Error('Received value must be an Immutuable List');
+  }
+  let pass = true;
+  let message = '';
+  received.forEach((receivedItem, index) => {
+    const actualItem = actual[index];
+    if (!pass) return;
+    if (typeof receivedItem !== typeof actualItem) {
+      pass = false;
+      message = `expected ${receivedItem} to be the same type as ${actual[index]} at index ${index}`;
+    }
+    if (typeof receivedItem === 'number' && typeof actualItem === 'number') {
+      pass = new sass.SassNumber(receivedItem).equals(
+        new sass.SassNumber(actualItem)
+      );
+      message = `expected ${receivedItem} to fuzzy equal ${actual[index]} at index ${index}`;
+    } else {
+      pass = receivedItem === actualItem;
+      message = `expected non-numeric ${receivedItem} to exactly equal ${actual[index]} at index ${index}`;
+    }
+  });
+  return {
+    message,
+    pass,
+  };
+};
+
 // Add custom matchers to Jasmine
 beforeAll(() => {
   jasmine.addMatchers({
@@ -329,6 +380,12 @@ beforeAll(() => {
     }),
     toEqualIgnoringWhitespace: () => ({
       compare: toEqualIgnoringWhitespace,
+    }),
+    toFuzzyEqual: () => ({
+      compare: toFuzzyEqual,
+    }),
+    toFuzzyEqualList: () => ({
+      compare: toFuzzyEqualList,
     }),
   });
   jasmine.addAsyncMatchers({

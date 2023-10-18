@@ -1446,22 +1446,22 @@ describe('Color 4 SassColors', () => {
       });
       describe('channelsOrNull', () => {
         it('returns a list', () => {
-          expect(color.channelsOrNull).toEqualWithHash(List(space.pink));
+          expect(color.channelsOrNull).toFuzzyEqualList(space.pink);
           expect(color.channelsOrNull.size).toBe(space.channels.length);
         });
         it('returns channel value or null, excluding alpha', () => {
           const pinkCases = channelCases(...space.pink);
           pinkCases.forEach(channels => {
             const _color = space.constructor(...channels);
-            expect(_color.channelsOrNull).toEqualWithHash(
-              List.of(...channels.slice(0, 3))
+            expect(_color.channelsOrNull).toFuzzyEqualList(
+              channels.slice(0, 3)
             );
           });
         });
       });
       describe('channels', () => {
         it('returns a list', () => {
-          expect(color.channels).toEqualWithHash(List(space.pink));
+          expect(color.channels).toFuzzyEqualList(space.pink);
           expect(color.channels.size).toBe(space.channels.length);
         });
         it('returns channel value or 0, excluding alpha', () => {
@@ -1469,7 +1469,7 @@ describe('Color 4 SassColors', () => {
           pinkCases.forEach(channels => {
             const expected = channels.slice(0, 3).map(channel => channel || 0);
             const _color = space.constructor(...channels);
-            expect(_color.channels).toEqualWithHash(List.of(...expected));
+            expect(_color.channels).toFuzzyEqualList(expected);
           });
         });
       });
@@ -1499,7 +1499,7 @@ describe('Color 4 SassColors', () => {
           });
           it('returns value if no space specified', () => {
             space.channels.forEach((channel, index) => {
-              expect(color.channel(channel)).toEqual(space.pink[index]);
+              expect(color.channel(channel)).toFuzzyEqual(space.pink[index]);
             });
             expect(color.channel('alpha')).toEqual(1);
           });
