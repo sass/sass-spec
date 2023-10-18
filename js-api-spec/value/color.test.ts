@@ -2,7 +2,8 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {
+import {Value, SassColor} from 'sass';
+import type {
   ChannelName,
   ChannelNameHsl,
   ChannelNameHwb,
@@ -13,8 +14,6 @@ import {
   ColorSpaceXyz,
   HueInterpolationMethod,
   KnownColorSpace,
-  SassColor,
-  Value,
 } from 'sass';
 
 import {skipForImpl} from '../utils';
