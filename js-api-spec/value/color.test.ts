@@ -17,7 +17,7 @@ import {
   Value,
 } from 'sass';
 
-import {skipForImpl} from '../utils';
+import {skipForImpl, captureStdio} from '../utils';
 
 /** A utility function for creating an RGB color without specifying a space. */
 function legacyRGB(
@@ -1101,6 +1101,33 @@ describe('SassColor', () => {
           legacyRGB(0, 51, 91)
         );
       });
+
+      describe('deprecations', () => {
+        it('warns with null alpha and no space', () => {
+          const stdio = captureStdio(() => {
+            new SassColor({red: 1, green: 1, blue: 1, alpha: null});
+          });
+          expect(stdio.err).toMatch('null-alpha');
+        });
+        it("doesn't warn for undefined alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({red: 1, green: 1, blue: 1, alpha: undefined});
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for null alpha with space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              red: 1,
+              green: 1,
+              blue: 1,
+              alpha: null,
+              space: 'rgb',
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+      });
     });
 
     describe('hsl()', () => {
@@ -1116,6 +1143,38 @@ describe('SassColor', () => {
         expect(() => legacyHsl(0, 100.1, 0, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 100.1, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 0, 1.1)).toThrow();
+      });
+
+      describe('deprecations', () => {
+        it('warns with null alpha and no space', () => {
+          const stdio = captureStdio(() => {
+            new SassColor({hue: 1, saturation: 1, lightness: 1, alpha: null});
+          });
+          expect(stdio.err).toMatch('null-alpha');
+        });
+        it("doesn't warn for undefined alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              saturation: 1,
+              lightness: 1,
+              alpha: undefined,
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for null alpha with space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              saturation: 1,
+              lightness: 1,
+              alpha: null,
+              space: 'hsl',
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
       });
     });
 
@@ -1133,6 +1192,37 @@ describe('SassColor', () => {
         expect(() => legacyHwb(0, 0, 100.1, 0)).toThrow();
         expect(() => legacyHwb(0, 0, 0, 1.1)).toThrow();
       });
+      describe('deprecations', () => {
+        it('warns with null alpha and no space', () => {
+          const stdio = captureStdio(() => {
+            new SassColor({hue: 1, whiteness: 1, blackness: 1, alpha: null});
+          });
+          expect(stdio.err).toMatch('null-alpha');
+        });
+        it("doesn't warn for undefined alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              whiteness: 1,
+              blackness: 1,
+              alpha: undefined,
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for null alpha with space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              whiteness: 1,
+              blackness: 1,
+              alpha: null,
+              space: 'hwb',
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+      });
     });
   });
 
@@ -1143,21 +1233,30 @@ describe('SassColor', () => {
     });
 
     it('has RGB channels', () => {
-      expect(color.red).toBe(18);
-      expect(color.green).toBe(52);
-      expect(color.blue).toBe(86);
+      const stdio = captureStdio(() => {
+        expect(color.red).toBe(18);
+        expect(color.green).toBe(52);
+        expect(color.blue).toBe(86);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HSL channels', () => {
-      expect(color.hue).toBe(210);
-      expect(color.saturation).toBe(65.3846153846154);
-      expect(color.lightness).toBe(20.392156862745097);
+      const stdio = captureStdio(() => {
+        expect(color.hue).toBe(210);
+        expect(color.saturation).toBe(65.3846153846154);
+        expect(color.lightness).toBe(20.392156862745097);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HWB channels', () => {
-      expect(color.hue).toBe(210);
-      expect(color.whiteness).toBe(7.0588235294117645);
-      expect(color.blackness).toBe(66.27450980392157);
+      const stdio = captureStdio(() => {
+        expect(color.hue).toBe(210);
+        expect(color.whiteness).toBe(7.0588235294117645);
+        expect(color.blackness).toBe(66.27450980392157);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has an alpha channel', () => {
@@ -1182,23 +1281,32 @@ describe('SassColor', () => {
     });
 
     it('has RGB channels', () => {
-      expect(color.red).toBe(62);
-      expect(color.green).toBe(152);
-      expect(color.blue).toBe(62);
+      const stdio = captureStdio(() => {
+        expect(color.red).toBe(62);
+        expect(color.green).toBe(152);
+        expect(color.blue).toBe(62);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HSL channels', () => {
-      expect(color.hue).toBe(120);
-      expect(color.saturation).toBe(42);
-      expect(color.lightness).toBe(42);
+      const stdio = captureStdio(() => {
+        expect(color.hue).toBe(120);
+        expect(color.saturation).toBe(42);
+        expect(color.lightness).toBe(42);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     // sass/embedded-host-node#170
     skipForImpl('sass-embedded', () => {
       it('has HWB channels', () => {
-        expect(color.hue).toBe(120);
-        expect(color.whiteness).toBe(24.360000000000003);
-        expect(color.blackness).toBe(40.36000000000001);
+        const stdio = captureStdio(() => {
+          expect(color.hue).toBe(120);
+          expect(color.whiteness).toBe(24.360000000000003);
+          expect(color.blackness).toBe(40.36000000000001);
+        });
+        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
       });
     });
 
@@ -1228,26 +1336,35 @@ describe('SassColor', () => {
     });
 
     it('has RGB channels', () => {
-      expect(color.red).toBe(107);
-      expect(color.green).toBe(148);
-      expect(color.blue).toBe(107);
+      const stdio = captureStdio(() => {
+        expect(color.red).toBe(107);
+        expect(color.green).toBe(148);
+        expect(color.blue).toBe(107);
+      });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     // sass/embedded-host-node#170
     skipForImpl('sass-embedded', () => {
       it('has HSL channels', () => {
-        expect(color.hue).toBe(120);
-        expect(color.saturation).toBe(16.000000000000007);
-        expect(color.lightness).toBe(50);
+        const stdio = captureStdio(() => {
+          expect(color.hue).toBe(120);
+          expect(color.saturation).toBe(16.000000000000007);
+          expect(color.lightness).toBe(50);
+        });
+        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
       });
     });
 
     // sass/embedded-host-node#170
     skipForImpl('sass-embedded', () => {
       it('has HWB channels', () => {
-        expect(color.hue).toBe(120);
-        expect(color.whiteness).toBe(42);
-        expect(color.blackness).toBe(42);
+        const stdio = captureStdio(() => {
+          expect(color.hue).toBe(120);
+          expect(color.whiteness).toBe(42);
+          expect(color.blackness).toBe(42);
+        });
+        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
       });
     });
 
@@ -1271,12 +1388,11 @@ describe('SassColor', () => {
   });
 
   describe('changing color values', () => {
-    let color: SassColor;
-    beforeEach(() => {
-      color = legacyRGB(18, 52, 86);
-    });
-
     describe('change() for RGB', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyRGB(18, 52, 86);
+      });
       it('changes RGB values', () => {
         expect(color.change({red: 0})).toEqualWithHash(legacyRGB(0, 52, 86));
         expect(color.change({green: 0})).toEqualWithHash(legacyRGB(18, 0, 86));
@@ -1290,12 +1406,12 @@ describe('SassColor', () => {
       });
 
       it('allows valid values', () => {
-        expect(color.change({red: 0}).red).toBe(0);
-        expect(color.change({red: 255}).red).toBe(255);
-        expect(color.change({green: 0}).green).toBe(0);
-        expect(color.change({green: 255}).green).toBe(255);
-        expect(color.change({blue: 0}).blue).toBe(0);
-        expect(color.change({blue: 255}).blue).toBe(255);
+        expect(color.change({red: 0}).channel('red')).toBe(0);
+        expect(color.change({red: 255}).channel('red')).toBe(255);
+        expect(color.change({green: 0}).channel('green')).toBe(0);
+        expect(color.change({green: 255}).channel('green')).toBe(255);
+        expect(color.change({blue: 0}).channel('blue')).toBe(0);
+        expect(color.change({blue: 255}).channel('blue')).toBe(255);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
       });
@@ -1324,6 +1440,10 @@ describe('SassColor', () => {
     });
 
     describe('change() for HSL', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyHsl(210, 65.3846153846154, 20.392156862745097);
+      });
       it('changes HSL values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           legacyHsl(120, 65.3846153846154, 20.392156862745097)
@@ -1351,10 +1471,10 @@ describe('SassColor', () => {
       });
 
       it('allows valid values', () => {
-        expect(color.change({saturation: 0}).saturation).toBe(0);
-        expect(color.change({saturation: 100}).saturation).toBe(100);
-        expect(color.change({lightness: 0}).lightness).toBe(0);
-        expect(color.change({lightness: 100}).lightness).toBe(100);
+        expect(color.change({saturation: 0}).channel('saturation')).toBe(0);
+        expect(color.change({saturation: 100}).channel('saturation')).toBe(100);
+        expect(color.change({lightness: 0}).channel('lightness')).toBe(0);
+        expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
       });
@@ -1370,6 +1490,10 @@ describe('SassColor', () => {
     });
 
     describe('change() for HWB', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyHwb(210, 7.0588235294117645, 66.27450980392157);
+      });
       it('changes HWB values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           legacyHwb(120, 7.0588235294117645, 66.27450980392157)
@@ -1402,14 +1526,10 @@ describe('SassColor', () => {
       // sass/embedded-host-node#170
       skipForImpl('sass-embedded', () => {
         it('allows valid values', () => {
-          expect(color.change({whiteness: 0}).whiteness).toBe(0);
-          expect(color.change({whiteness: 100}).whiteness).toBe(
-            60.141509433962256
-          );
-          expect(color.change({blackness: 0}).blackness).toBe(0);
-          expect(color.change({blackness: 100}).blackness).toBe(
-            93.4065934065934
-          );
+          expect(color.change({whiteness: 0}).channel('whiteness')).toBe(0);
+          expect(color.change({whiteness: 100}).channel('whiteness')).toBe(100);
+          expect(color.change({blackness: 0}).channel('blackness')).toBe(0);
+          expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
           expect(color.change({alpha: 0}).alpha).toBe(0);
           expect(color.change({alpha: 1}).alpha).toBe(1);
         });
@@ -1426,6 +1546,10 @@ describe('SassColor', () => {
     });
 
     describe('changeAlpha()', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyRGB(18, 52, 86);
+      });
       it('changes the alpha value', () => {
         expect(color.change({alpha: 0.5})).toEqualWithHash(
           legacyRGB(18, 52, 86, 0.5)
