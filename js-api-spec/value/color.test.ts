@@ -132,6 +132,15 @@ function srgbLinear(
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb-linear'});
 }
+/** A utility function for creating an rec2020 color. */
+function rec2020(
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
+): SassColor {
+  return new SassColor({red, green, blue, alpha, space: 'rec2020'});
+}
 /** A utility function for creating an display-p3 color. */
 function displayP3(
   red: number | null,
@@ -391,6 +400,27 @@ const spaces: {
     isPolar: false,
     pink: [0.842345736209146, 0.6470539622987257, 0.7003583323790157],
     blue: [0.24317903319635056, 0.3045087255847488, 0.38356879501347535],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [
+        [0.5, 2, 2],
+        [1, 1, 1],
+      ],
+    ],
+  },
+  rec2020: {
+    constructor: rec2020,
+    name: 'rec2020',
+    isLegacy: false,
+    isPolar: false,
+    pink: [0.8837118321235519, 0.6578067923850563, 0.7273197917658354],
+    blue: [0.2151122740532409, 0.32363973150195124, 0.4090033869684574],
     channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
     ranges: [
       [0, 1],
@@ -775,6 +805,26 @@ const interpolations: {[space: string]: InterpolationExample[]} = {
         weight: 0,
       },
       [0.2431790331963506, 0.3045087255847488, 0.38356879501347535],
+    ],
+  ],
+  rec2020: [
+    [
+      {
+        weight: 0.5,
+      },
+      [0.5494120530883964, 0.4907232619435038, 0.5681615893671463],
+    ],
+    [
+      {
+        weight: 1,
+      },
+      [0.8837118321235519, 0.6578067923850563, 0.7273197917658354],
+    ],
+    [
+      {
+        weight: 0,
+      },
+      [0.21511227405324085, 0.32363973150195124, 0.4090033869684574],
     ],
   ],
   xyz: [
@@ -1559,8 +1609,7 @@ describe('Color 4 SassColors', () => {
         it('interpolates examples', () => {
           const examples = interpolations[space.name];
           examples.forEach(([input, output]) => {
-            const res = color.interpolate({
-              color2: blue,
+            const res = color.interpolate(blue, {
               weight: input.weight,
               method: input.method as HueInterpolationMethod,
             });
