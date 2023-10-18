@@ -338,6 +338,14 @@ const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
   if (!immutable.List.isList(received)) {
     throw new Error('Received value must be an Immutuable List');
   }
+  if (received.count() !== actual.length) {
+    return {
+      pass: false,
+      message: `expected List to have length ${
+        actual.length
+      }, received ${received.count()}`,
+    };
+  }
   let pass = true;
   let message = '';
   received.forEach((receivedItem, index) => {
