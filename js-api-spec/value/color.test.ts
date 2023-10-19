@@ -1115,6 +1115,24 @@ describe('SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+        it("doesn't warn for no alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({red: 1, green: 1, blue: 1});
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for undefined alpha and undefined space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              red: 1,
+              green: 1,
+              blue: 1,
+              alpha: undefined,
+              space: undefined,
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
         it("doesn't warn for null alpha with space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -1163,6 +1181,24 @@ describe('SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+        it("doesn't warn for no alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({hue: 1, saturation: 1, lightness: 1});
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for undefined alpha and undefined space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              saturation: 1,
+              lightness: 1,
+              alpha: undefined,
+              space: undefined,
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
         it("doesn't warn for null alpha with space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -1206,6 +1242,24 @@ describe('SassColor', () => {
               whiteness: 1,
               blackness: 1,
               alpha: undefined,
+            });
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for no alpha and no space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({hue: 1, whiteness: 1, blackness: 1});
+          });
+          expect(stdio.err).toBeEmptyString();
+        });
+        it("doesn't warn for undefined alpha and undefined space", () => {
+          const stdio = captureStdio(() => {
+            new SassColor({
+              hue: 1,
+              whiteness: 1,
+              blackness: 1,
+              alpha: undefined,
+              space: undefined,
             });
           });
           expect(stdio.err).toBeEmptyString();
@@ -1468,6 +1522,8 @@ describe('SassColor', () => {
             alpha: 0.5,
           })
         ).toEqualWithHash(legacyHsl(120, 42, 42, 0.5));
+        expect(color.change({hue: undefined})).toEqualWithHash(color);
+        expect(color.change({hue: null})).toEqualWithHash(color);
       });
 
       it('allows valid values', () => {
@@ -1602,9 +1658,9 @@ describe('Color 4 SassColors', () => {
         expect(color.space).toBe(space.name);
       });
       describe('toSpace', () => {
-        spaceNames.forEach(destinationSpaceId => {
-          const destinationSpace = spaces[destinationSpaceId];
-          it(`converts pink to ${destinationSpace.name}`, () => {
+        it('converts pink to all spaces', () => {
+          spaceNames.forEach(destinationSpaceId => {
+            const destinationSpace = spaces[destinationSpaceId];
             const res = color.toSpace(destinationSpace.name);
             expect(res.space).toBe(destinationSpace.name);
 
@@ -1770,8 +1826,8 @@ describe('Color 4 SassColors', () => {
           );
         });
 
-        spaceNames.forEach(destinationSpaceId => {
-          it(`changes all channels in ${destinationSpaceId}`, () => {
+        it('changes all channels with space set', () => {
+          spaceNames.forEach(destinationSpaceId => {
             const destinationSpace = spaces[destinationSpaceId];
             destinationSpace.channels.forEach((channel, index) => {
               const destinationChannels = [
