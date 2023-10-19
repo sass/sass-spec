@@ -1491,6 +1491,23 @@ describe('SassColor', () => {
           color.change({red: -0.1, green: 50.5, blue: 90.9})
         ).toEqualWithHash(legacyRGB(0, 51, 91));
       });
+      it('emits deprecation for null values', () => {
+        const stdio = captureStdio(() => {
+          color.change({red: null});
+          color.change({green: null});
+          color.change({blue: null});
+          color.change({alpha: null});
+        });
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
+      });
+      it('emits deprecation for channels from unspecified space', () => {
+        const stdio = captureStdio(() => {
+          color.change({hue: 1});
+        });
+        expect(stdio.err).toMatch(
+          "Changing a channel not in this color's space"
+        );
+      });
     });
 
     describe('change() for HSL', () => {
@@ -1621,6 +1638,24 @@ describe('SassColor', () => {
         expect(() => color.change({blackness: 100.1})).toThrow();
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
+      });
+
+      it('emits deprecation for null values', () => {
+        const stdio = captureStdio(() => {
+          color.change({hue: null});
+          color.change({whiteness: null});
+          color.change({blackness: null});
+          color.change({alpha: null});
+        });
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
+      });
+      it('emits deprecation for channels from unspecified space', () => {
+        const stdio = captureStdio(() => {
+          color.change({red: 1});
+        });
+        expect(stdio.err).toMatch(
+          "Changing a channel not in this color's space"
+        );
       });
     });
 
