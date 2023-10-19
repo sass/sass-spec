@@ -1,0 +1,145 @@
+<===> transparent/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 0));
+
+<===> transparent/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / 0);
+  channels: 0.1 0.2 0.3 / 0;
+}
+
+<===>
+================================================================================
+<===> opaque/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 1));
+
+<===> opaque/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3);
+  channels: 0.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> partial/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 0.4));
+
+<===> partial/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / 0.4);
+  channels: 0.1 0.2 0.3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> percent/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / 40%));
+
+<===> percent/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / 0.4);
+  channels: 0.1 0.2 0.3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color($description: srgb 0.1 0.2 0.3 / 0.4));
+
+<===> named/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / 0.4);
+  channels: 0.1 0.2 0.3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> slash_list/input.scss
+@use "sass:list";
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, 0.4)));
+
+<===> slash_list/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / 0.4);
+  channels: 0.1 0.2 0.3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/blue/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 none / 0.4));
+
+<===> none/slash/blue/output.css
+a {
+  value: color(srgb 0.1 0.2 none / 0.4);
+  channels: 0.1 0.2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/alpha/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / none));
+
+<===> none/slash/alpha/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / none);
+  channels: 0.1 0.2 0.3 / none;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/blue/input.scss
+@use 'sass:list';
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 none, 0.4)));
+
+<===> none/slash_list/blue/output.css
+a {
+  value: color(srgb 0.1 0.2 none / 0.4);
+  channels: 0.1 0.2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/alpha/input.scss
+@use 'sass:list';
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, none)));
+
+<===> none/slash_list/alpha/output.css
+a {
+  value: color(srgb 0.1 0.2 0.3 / none);
+  channels: 0.1 0.2 0.3 / none;
+}
+
+<===>
+================================================================================
+<===> relative_color/slash/input.scss
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(from #aaa srgb r g b / 25%));
+
+<===> relative_color/slash/output.css
+a {
+  value: color(from #aaa srgb r g b/25%);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> relative_color/slash_list/input.scss
+@use 'sass:list';
+@use 'core_functions/color/color/rgb-utils';
+@include rgb-utils.inspect(color(list.slash(from #aaa srgb r g b, 25%)));
+
+<===> relative_color/slash_list/output.css
+a {
+  value: color(from #aaa srgb r g b / 25%);
+  type: string;
+}

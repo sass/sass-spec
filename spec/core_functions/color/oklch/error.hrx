@@ -1,0 +1,272 @@
+<===> unit/lightness/input.scss
+a {b: oklch(1px 0.2 3deg)}
+
+<===> unit/lightness/error
+Error: $lightness: Expected 1px to have unit "%" or no units.
+  ,
+1 | a {b: oklch(1px 0.2 3deg)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/chroma/input.scss
+a {b: oklch(1% 2px 3deg)}
+
+<===> unit/chroma/error
+Error: $chroma: Expected 2px to have unit "%" or no units.
+  ,
+1 | a {b: oklch(1% 2px 3deg)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/hue/unrelated/input.scss
+a {b: oklch(1% 0.2 3px)}
+
+<===> unit/hue/unrelated/error
+Error: $hue: Expected 3px to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: oklch(1% 0.2 3px)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/hue/percent/input.scss
+a {b: oklch(1% 0.2 3%)}
+
+<===> unit/hue/percent/error
+Error: $hue: Expected 3% to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: oklch(1% 0.2 3%)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash/input.scss
+a {b: oklch(1% 0.2 3deg/0.4px)}
+
+<===> unit/alpha/slash/error
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
+  ,
+1 | a {b: oklch(1% 0.2 3deg/0.4px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: oklch(list.slash(1% 0.2 3deg, 0.4px))}
+
+<===> unit/alpha/slash_list/error
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
+  ,
+2 | a {b: oklch(list.slash(1% 0.2 3deg, 0.4px))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/lightness/input.scss
+a {b: oklch(c 0.2 3deg)}
+
+<===> type/lightness/error
+Error: $channels: Expected lightness channel to be a number, was c.
+  ,
+1 | a {b: oklch(c 0.2 3deg)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/chroma/input.scss
+a {b: oklch(1% c 3deg)}
+
+<===> type/chroma/error
+Error: $channels: Expected chroma channel to be a number, was c.
+  ,
+1 | a {b: oklch(1% c 3deg)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/hue/input.scss
+a {b: oklch(1% 0.2 c)}
+
+<===> type/hue/error
+Error: $channels: Expected hue channel to be a number, was c.
+  ,
+1 | a {b: oklch(1% 0.2 c)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: oklch(list.slash(1% 0.2 3deg, c))}
+
+<===> type/alpha/slash_list/error
+Error: $channels: c is not a number.
+  ,
+2 | a {b: oklch(list.slash(1% 0.2 3deg, c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/bracketed/input.scss
+a {b: oklch([1% 0.2 3deg])}
+
+<===> list/bracketed/error
+Error: $channels: Expected an unbracketed list, was [1% 0.2 3deg]
+  ,
+1 | a {b: oklch([1% 0.2 3deg])}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/comma/input.scss
+a {b: oklch((1%, 2, 3deg))}
+
+<===> list/comma/error
+Error: $channels: Expected a space- or slash-separated list, was (1%, 2, 3deg)
+  ,
+1 | a {b: oklch((1%, 2, 3deg))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/three/input.scss
+@use 'sass:list';
+a {b: oklch(list.slash(1%, 2, 3deg))}
+
+<===> list/slash/three/error
+Error: $channels: Only 2 slash-separated elements allowed, but 3 were passed.
+  ,
+2 | a {b: oklch(list.slash(1%, 2, 3deg))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/one/input.scss
+@use 'sass:list';
+$single-arg-slash-separated: list.append((), 1% 0.2 3deg, $separator: slash);
+a {b: oklch($single-arg-slash-separated)}
+
+<===> list/slash/one/error
+Error: $channels: Only 2 slash-separated elements allowed, but 1 was passed.
+  ,
+3 | a {b: oklch($single-arg-slash-separated)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty/input.scss
+a {b: oklch(())}
+
+<===> list/empty/error
+Error: $channels: Color component list may not be empty.
+  ,
+1 | a {b: oklch(())}
+  |       ^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/empty_space/input.scss
+@use 'sass:list';
+$empty-space: list.join((), (), $separator: space);
+a {b: oklch(())}
+
+<===> list/empty_space/error
+Error: $channels: Color component list may not be empty.
+  ,
+3 | a {b: oklch(())}
+  |       ^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_few_channels/input.scss
+a {b: oklch(1% 2)}
+
+<===> list/too_few_channels/error
+Error: $channels: The oklch color space has 3 channels but (1% 2) has 2.
+  ,
+1 | a {b: oklch(1% 2)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_many_channels/input.scss
+a {b: oklch(1% 0.2 3deg 0.4)}
+
+<===> list/too_many_channels/error
+Error: $channels: The oklch color space has 3 channels but (1% 0.2 3deg 0.4) has 4.
+  ,
+1 | a {b: oklch(1% 0.2 3deg 0.4)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+a {b: oklch()}
+
+<===> too_few_args/error
+Error: Missing argument $channels.
+  ,--> input.scss
+1 | a {b: oklch()}
+  |       ^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function oklch($channels) {
+  |           ================ declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: oklch(1%, 2, 3deg, 0.4)}
+
+<===> too_many_args/error
+Error: Only 1 argument allowed, but 4 were passed.
+  ,--> input.scss
+1 | a {b: oklch(1%, 2, 3deg, 0.4)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function oklch($channels) {
+  |           ================ declaration
+  '
+  input.scss 1:7  root stylesheet
