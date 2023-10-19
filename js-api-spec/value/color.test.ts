@@ -1549,22 +1549,13 @@ describe('SassColor', () => {
       });
 
       it('emits deprecation for null values', () => {
-        const stdioHue = captureStdio(() => {
+        const stdio = captureStdio(() => {
           color.change({hue: null});
-        });
-        expect(stdioHue.err).toMatch('null-alpha');
-        const stdioS = captureStdio(() => {
           color.change({saturation: null});
-        });
-        expect(stdioS.err).toMatch('null-alpha');
-        const stdioL = captureStdio(() => {
           color.change({lightness: null});
-        });
-        expect(stdioL.err).toMatch('null-alpha');
-        const stdioA = captureStdio(() => {
           color.change({alpha: null});
         });
-        expect(stdioA.err).toMatch('null-alpha');
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
