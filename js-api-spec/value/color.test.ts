@@ -1044,7 +1044,7 @@ function channelCases(ch1: number, ch2: number, ch3: number) {
   ];
 }
 
-fdescribe('SassColor', () => {
+describe('SassColor', () => {
   describe('construction', () => {
     describe('type', () => {
       let color: SassColor;
@@ -1467,6 +1467,7 @@ fdescribe('SassColor', () => {
         expect(color.change({blue: 255}).channel('blue')).toBe(255);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({red: undefined}).channel('red')).toBe(18);
       });
 
       // TODO(#1828): Update these expectations
@@ -1535,6 +1536,7 @@ fdescribe('SassColor', () => {
         expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({hue: undefined}).channel('hue')).toBe(210);
       });
 
       it('disallows invalid values', () => {
@@ -1617,6 +1619,7 @@ fdescribe('SassColor', () => {
           expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
           expect(color.change({alpha: 0}).alpha).toBe(0);
           expect(color.change({alpha: 1}).alpha).toBe(1);
+          expect(color.change({hue: undefined}).channel('hue')).toBe(210);
         });
       });
 
@@ -1853,6 +1856,41 @@ describe('Color 4 SassColors', () => {
           expect(color.change({alpha: 0})).toEqualWithHash(
             space.constructor(...space.pink, 0)
           );
+        });
+
+        it('change with explicit undefined makes no change', () => {
+          space.channels.forEach(channelName => {
+            expect(color.change({[channelName]: undefined})).toEqualWithHash(
+              space.constructor(...space.pink)
+            );
+          });
+          expect(color.change({alpha: undefined})).toEqualWithHash(
+            space.constructor(...space.pink, 1)
+          );
+        });
+
+        it('explicit null sets channel to missing', () => {
+          // Explicitly set space to avoid legacy null-alpha behavior, which is
+          // tested in Legacy suite.
+          space.channels.forEach((channelName, index) => {
+            const expectedChannels = [
+              space.pink[0],
+              space.pink[1],
+              space.pink[2],
+            ] as [number | null, number | null, number | null];
+            expectedChannels[index] = null;
+            const changed = color.change({
+              [channelName]: null,
+              space: space.name as 'xyz',
+            });
+            expect(changed).toEqualWithHash(
+              space.constructor(...expectedChannels)
+            );
+            expect(changed.isChannelMissing(channelName)).toBeTrue();
+          });
+          expect(
+            color.change({alpha: null, space: space.name as 'xyz'})
+          ).toEqualWithHash(space.constructor(...space.pink, null));
         });
 
         it('changes all channels with space set', () => {
