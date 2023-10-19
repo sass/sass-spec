@@ -15,6 +15,7 @@ import type {
   HueInterpolationMethod,
   KnownColorSpace,
 } from 'sass';
+import {List} from 'immutable';
 
 import {skipForImpl, captureStdio} from '../utils';
 
@@ -1712,6 +1713,15 @@ describe('Color 4 SassColors', () => {
         expect(() => color.assertString()).toThrow();
       });
 
+      it('throws on invalid alpha', () => {
+        expect(() => {
+          space.constructor(...space.pink, -1);
+        }).toThrow();
+        expect(() => {
+          space.constructor(...space.pink, 1.1);
+        }).toThrow();
+      });
+
       it(`returns name for ${space.name}`, () => {
         expect(color.space).toBe(space.name);
       });
@@ -1736,6 +1746,7 @@ describe('Color 4 SassColors', () => {
         it('returns a list', () => {
           expect(color.channelsOrNull).toFuzzyEqualList(space.pink);
           expect(color.channelsOrNull.size).toBe(space.channels.length);
+          expect(List.isList(color.channelsOrNull)).toBeTrue();
         });
         it('returns channel value or null, excluding alpha', () => {
           const pinkCases = channelCases(...space.pink);
@@ -1751,6 +1762,7 @@ describe('Color 4 SassColors', () => {
         it('returns a list', () => {
           expect(color.channels).toFuzzyEqualList(space.pink);
           expect(color.channels.size).toBe(space.channels.length);
+          expect(List.isList(color.channels)).toBeTrue();
         });
         it('returns channel value or 0, excluding alpha', () => {
           const pinkCases = channelCases(...space.pink);
