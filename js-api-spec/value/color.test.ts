@@ -1999,20 +1999,22 @@ describe('Color 4 SassColors', () => {
       });
 
       // TODO(sass#3654) Failing pending https://github.com/sass/sass/issues/3654
-      it('isChannelPowerless', () => {
+      describe('isChannelPowerless', () => {
         function checkPowerless(
           _color: SassColor,
           powerless = [false, false, false]
         ) {
-          expect(_color.isChannelPowerless(space.channels[0])).toBe(
-            powerless[0]
-          );
-          expect(_color.isChannelPowerless(space.channels[1])).toBe(
-            powerless[1]
-          );
-          expect(_color.isChannelPowerless(space.channels[2])).toBe(
-            powerless[2]
-          );
+          it(`channels ${_color.channels.toArray()} is ${powerless}`, () => {
+            expect(_color.isChannelPowerless(space.channels[0])).toBe(
+              powerless[0]
+            );
+            expect(_color.isChannelPowerless(space.channels[1])).toBe(
+              powerless[1]
+            );
+            expect(_color.isChannelPowerless(space.channels[2])).toBe(
+              powerless[2]
+            );
+          });
         }
         const [ch1, ch2, ch3] = space.ranges;
         if (space.hasPowerless) {
