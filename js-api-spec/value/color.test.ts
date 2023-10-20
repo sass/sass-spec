@@ -1080,26 +1080,27 @@ describe('SassColor', () => {
         expect(() => legacyRGB(255, 255, 255, 1)).not.toThrow();
       });
 
-      // TODO(#1828): Update these expectations
-      xit('disallows invalid values', () => {
-        expect(() => legacyRGB(-1, 0, 0, 0)).toThrow();
-        expect(() => legacyRGB(0, -1, 0, 0)).toThrow();
-        expect(() => legacyRGB(0, 0, -1, 0)).toThrow();
+      it('disallows invalid alpha values', () => {
         expect(() => legacyRGB(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyRGB(256, 0, 0, 0)).toThrow();
-        expect(() => legacyRGB(0, 256, 0, 0)).toThrow();
-        expect(() => legacyRGB(0, 0, 256, 0)).toThrow();
         expect(() => legacyRGB(0, 0, 0, 1.1)).toThrow();
       });
 
-      // TODO(#1828): Update these expectations
-      xit('rounds channels to the nearest integer', () => {
-        expect(legacyRGB(0.1, 50.4, 90.3)).toEqualWithHash(
-          legacyRGB(0, 50, 90)
-        );
-        expect(legacyRGB(-0.1, 50.5, 90.7)).toEqualWithHash(
-          legacyRGB(0, 51, 91)
-        );
+      it('allows out of range values which were invalid before color 4', () => {
+        expect(() => legacyRGB(-1, 0, 0, 0)).not.toThrow();
+        expect(() => legacyRGB(0, -1, 0, 0)).not.toThrow();
+        expect(() => legacyRGB(0, 0, -1, 0)).not.toThrow();
+        expect(() => legacyRGB(256, 0, 0, 0)).not.toThrow();
+        expect(() => legacyRGB(0, 256, 0, 0)).not.toThrow();
+        expect(() => legacyRGB(0, 0, 256, 0)).not.toThrow();
+      });
+
+      it('does not round channels to the nearest integer', () => {
+        expect(legacyRGB(0.1, 50.4, 90.3).channels).toFuzzyEqualList([
+          0.1, 50.4, 90.3,
+        ]);
+        expect(legacyRGB(-0.1, 50.5, 90.7).channels).toFuzzyEqualList([
+          -0.1, 50.5, 90.7,
+        ]);
       });
 
       describe('deprecations', () => {
@@ -1368,11 +1369,10 @@ describe('SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
-    // TODO(#1828): Update these expectations
-    xit('equals the same color', () => {
-      expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
+    it('only equals the same color in its own space', () => {
+      expect(color).not.toEqualWithHash(legacyRGB(62, 152, 62));
       expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
-      expect(color).toEqualWithHash(
+      expect(color).not.toEqualWithHash(
         legacyHwb(120, 24.313725490196077, 40.3921568627451)
       );
     });
@@ -1426,13 +1426,10 @@ describe('SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
-    // TODO(#1828): Update these expectations
-    xit('equals the same color', () => {
-      expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
-      expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
-      expect(color).toEqualWithHash(
-        legacyHwb(120, 41.96078431372549, 41.96078431372548)
-      );
+    it('only equals the same color in its own color space', () => {
+      expect(color).not.toEqualWithHash(legacyRGB(107, 148, 107));
+      expect(color).not.toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
+      expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
     });
 
     it('allows negative hue', () => {
@@ -1471,26 +1468,26 @@ describe('SassColor', () => {
         expect(color.change({red: undefined}).channel('red')).toBe(18);
       });
 
-      // TODO(#1828): Update these expectations
-      xit('disallows invalid values', () => {
-        expect(() => color.change({red: -1})).toThrow();
-        expect(() => color.change({red: 256})).toThrow();
-        expect(() => color.change({green: -1})).toThrow();
-        expect(() => color.change({green: 256})).toThrow();
-        expect(() => color.change({blue: -1})).toThrow();
-        expect(() => color.change({blue: 256})).toThrow();
+      it('allows out of range values which were invalid before color 4', () => {
+        expect(() => color.change({red: -1})).not.toThrow();
+        expect(() => color.change({red: 256})).not.toThrow();
+        expect(() => color.change({green: -1})).not.toThrow();
+        expect(() => color.change({green: 256})).not.toThrow();
+        expect(() => color.change({blue: -1})).not.toThrow();
+        expect(() => color.change({blue: 256})).not.toThrow();
+      });
+      it('disallows invalid alpha values', () => {
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
       });
 
-      // TODO(#1828): Update these expectations
-      xit('rounds channels to the nearest integer', () => {
+      it('does not round channels to the nearest integer', () => {
         expect(
-          color.change({red: 0.1, green: 50.4, blue: 90.3})
-        ).toEqualWithHash(legacyRGB(0, 50, 90));
+          color.change({red: 0.1, green: 50.4, blue: 90.3}).channels
+        ).toFuzzyEqualList([0.1, 50.4, 90.3]);
         expect(
-          color.change({red: -0.1, green: 50.5, blue: 90.9})
-        ).toEqualWithHash(legacyRGB(0, 51, 91));
+          color.change({red: -0.1, green: 50.5, blue: 90.9}).channels
+        ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
       });
       it('emits deprecation for null values', () => {
         const stdio = captureStdio(() => {
@@ -1729,6 +1726,7 @@ describe('Color 4 SassColors', () => {
             channels[index] = -1;
             expect(() => space.constructor(...channels)).toThrow();
           });
+          // TODO: Failing for oklab and oklch
           it('throws on lightness higher than bounds', () => {
             const index = space.channels.findIndex(
               channel => channel === 'lightness'
@@ -1988,6 +1986,7 @@ describe('Color 4 SassColors', () => {
             it('throws on negative lightness', () => {
               expect(() => color.change({lightness: -1})).toThrow();
             });
+            // TODO: Failing for oklab and oklch
             it('throws on lightness higher than bounds', () => {
               const index = space.channels.findIndex(
                 channel => channel === 'lightness'
@@ -1999,8 +1998,8 @@ describe('Color 4 SassColors', () => {
         }
       });
 
-      // TODO(sass#3654) Skipped pending https://github.com/sass/sass/issues/3654
-      xit('isChannelPowerless', () => {
+      // TODO(sass#3654) Failing pending https://github.com/sass/sass/issues/3654
+      it('isChannelPowerless', () => {
         function checkPowerless(
           _color: SassColor,
           powerless = [false, false, false]
