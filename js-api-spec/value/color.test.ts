@@ -1719,6 +1719,27 @@ describe('Color 4 SassColors', () => {
         }).toThrow();
       });
 
+      if (space.channels.includes('lightness')) {
+        describe('out of range lightness', () => {
+          it('throws on negative lightness', () => {
+            const index = space.channels.findIndex(
+              channel => channel === 'lightness'
+            );
+            const channels = [...space.pink] as [number, number, number];
+            channels[index] = -1;
+            expect(() => space.constructor(...channels)).toThrow();
+          });
+          it('throws on lightness higher than bounds', () => {
+            const index = space.channels.findIndex(
+              channel => channel === 'lightness'
+            );
+            const channels = [...space.pink] as [number, number, number];
+            channels[index] = space.ranges[index][1] + 1;
+            expect(() => space.constructor(...channels)).toThrow();
+          });
+        });
+      }
+
       it(`returns name for ${space.name}`, () => {
         expect(color.space).toBe(space.name);
       });
@@ -1958,6 +1979,24 @@ describe('Color 4 SassColors', () => {
             });
           });
         });
+        it('should throw on invalid alpha', () => {
+          expect(() => color.change({alpha: -1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
+        });
+        if (space.channels.includes('lightness')) {
+          describe('out of range lightness', () => {
+            it('throws on negative lightness', () => {
+              expect(() => color.change({lightness: -1})).toThrow();
+            });
+            it('throws on lightness higher than bounds', () => {
+              const index = space.channels.findIndex(
+                channel => channel === 'lightness'
+              );
+              const lightness = space.ranges[index][1] + 1;
+              expect(() => color.change({lightness})).toThrow();
+            });
+          });
+        }
       });
 
       // TODO(sass#3654) Skipped pending https://github.com/sass/sass/issues/3654
