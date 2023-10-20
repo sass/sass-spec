@@ -1742,8 +1742,8 @@ describe('Color 4 SassColors', () => {
         expect(color.space).toBe(space.name);
       });
       describe('toSpace', () => {
-        it('converts pink to all spaces', () => {
-          spaceNames.forEach(destinationSpaceId => {
+        spaceNames.forEach(destinationSpaceId => {
+          it(`converts pink to ${destinationSpaceId}`, () => {
             const destinationSpace = spaces[destinationSpaceId];
             const res = color.toSpace(destinationSpace.name);
             expect(res.space).toBe(destinationSpace.name);
@@ -1828,8 +1828,8 @@ describe('Color 4 SassColors', () => {
           });
         });
         describe('with space specified', () => {
-          it('throws an error if channel not in destination space', () => {
-            spaceNames.forEach(destinationSpaceId => {
+          spaceNames.forEach(destinationSpaceId => {
+            it(`throws an error if channel not in ${destinationSpaceId}`, () => {
               const destinationSpace = spaces[destinationSpaceId];
               const channelsNotInSpace = new Set(channelNames);
               destinationSpace.channels.forEach(channel =>
@@ -1844,8 +1844,8 @@ describe('Color 4 SassColors', () => {
               });
             });
           });
-          it('returns value in space specified', () => {
-            spaceNames.forEach(destinationSpaceId => {
+          spaceNames.forEach(destinationSpaceId => {
+            it(`returns value when ${destinationSpaceId} is specified`, () => {
               const destinationSpace = spaces[destinationSpaceId];
               destinationSpace.channels.forEach((channel, index) => {
                 expect(
@@ -1947,8 +1947,8 @@ describe('Color 4 SassColors', () => {
           ).toEqualWithHash(space.constructor(...space.pink, null));
         });
 
-        it('changes all channels with space set', () => {
-          spaceNames.forEach(destinationSpaceId => {
+        spaceNames.forEach(destinationSpaceId => {
+          it(`changes all channels with space set to ${destinationSpaceId}`, () => {
             const destinationSpace = spaces[destinationSpaceId];
             destinationSpace.channels.forEach((channel, index) => {
               const destinationChannels = [
@@ -2114,8 +2114,8 @@ describe('Color 4 SassColors', () => {
         it('is true for in gamut colors in own space', () => {
           expect(color.isInGamut()).toBe(true);
         });
-        it('is true for in gamut colors in specified space', () => {
-          spaceNames.forEach(destinationSpaceId => {
+        spaceNames.forEach(destinationSpaceId => {
+          it(`is true for in gamut colors in ${destinationSpaceId}`, () => {
             const destinationSpace = spaces[destinationSpaceId];
             expect(color.isInGamut(destinationSpace.name)).toBe(true);
           });
@@ -2126,8 +2126,8 @@ describe('Color 4 SassColors', () => {
         });
       });
       describe('toGamut', () => {
-        it('in own space', () => {
-          space.gamutExamples.forEach(([input, output]) => {
+        space.gamutExamples.forEach(([input, output]) => {
+          it(`in own space, ${input} -> ${output}`, () => {
             const res = space.constructor(...input).toGamut();
             expect(res).toEqualWithHash(space.constructor(...output));
           });
