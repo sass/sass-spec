@@ -1499,15 +1499,14 @@ describe('SassColor', () => {
           color.change({blue: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({hue: 1});
         });
-        expect(stdio.err).toMatch(
-          "Changing a channel not in this color's space"
-        );
+        expect(stdio.err).toMatch('color-4-api');
       });
     });
 
@@ -1573,15 +1572,14 @@ describe('SassColor', () => {
           color.change({lightness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({red: 1});
         });
-        expect(stdio.err).toMatch(
-          "Changing a channel not in this color's space"
-        );
+        expect(stdio.err).toMatch('color-4-api');
       });
     });
 
@@ -1648,15 +1646,14 @@ describe('SassColor', () => {
           color.change({blackness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(4);
+        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({red: 1});
         });
-        expect(stdio.err).toMatch(
-          "Changing a channel not in this color's space"
-        );
+        expect(stdio.err).toMatch('color-4-api');
       });
     });
 
