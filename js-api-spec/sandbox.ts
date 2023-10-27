@@ -49,13 +49,21 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
-        chdir: (callback: () => unknown) => {
+        chdir: (
+          callback: () => unknown,
+          options?: {changeEntryPoint: string}
+        ) => {
           const oldPath = process.cwd();
           process.chdir(testDir);
+          const oldEntryPoint = require.main?.filename;
+          if (options?.changeEntryPoint)
+            require.main!.filename = `${testDir}/${options.changeEntryPoint}`;
           try {
             return callback();
           } finally {
             process.chdir(oldPath);
+            if (options?.changeEntryPoint && oldEntryPoint)
+              require.main!.filename = oldEntryPoint;
           }
         },
       })
@@ -93,6 +101,10 @@ interface SandboxDirectory {
    */
   write(paths: {[path: string]: string}): void;
 
-  /** Runs `callback` with `root` as the current directory. */
-  chdir<T>(callback: () => T): void;
+  /**
+   * Runs `callback` with `root` as the current directory. If `changeEntryPoint`
+   * is set, moves the value of `require.main.filename` to a file relative to
+   * root.
+   * */
+  chdir<T>(callback: () => T, options?: {changeEntryPoint: string}): void;
 }
