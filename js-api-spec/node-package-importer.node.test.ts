@@ -199,7 +199,7 @@ describe('resolves from packages', () => {
       dir.write({
         'node_modules/bah/index.scss': '@use "pkg:bar";',
         'node_modules/bah/package.json': manifestBuilder(),
-        'node_modules/bar/index.scss': 'e {f: g}',
+        'node_modules/bar/index.scss': 'e {from: root}',
         'node_modules/bar/package.json': manifestBuilder(),
         'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
         'node_modules/bah/node_modules/bar/package.json': manifestBuilder(),
@@ -214,7 +214,25 @@ describe('resolves from packages', () => {
         {changeEntryPoint: 'index.js'}
       );
     }));
-  fit('resolves node_module above cwd', () =>
+  it('resolves sub node_module', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': '@use "pkg:bar";',
+        'node_modules/bah/package.json': manifestBuilder(),
+        'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
+        'node_modules/bah/node_modules/bar/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('resolves node_module above cwd', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/bar/index.scss': 'a {b: c}',
@@ -230,7 +248,7 @@ describe('resolves from packages', () => {
         {changeEntryPoint: 'deeply/nested/file/index.js'}
       );
     }));
-  fit('throws if no match found', () => {
+  it('throws if no match found', () => {
     sandbox(dir => {
       dir.chdir(
         () => {
@@ -238,7 +256,9 @@ describe('resolves from packages', () => {
             compileString('@use "pkg:bah";', {
               importers: [nodePackageImporter],
             })
-          ).toThrow('');
+          ).toThrowSassException({
+            includes: "Node Package 'bah' could not be found",
+          });
         },
         {changeEntryPoint: 'index.js'}
       );
