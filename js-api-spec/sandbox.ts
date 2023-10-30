@@ -76,7 +76,7 @@ export async function sandbox(
 }
 
 /** The directory object passed to `sandbox`'s callback. */
-interface SandboxDirectory {
+export interface SandboxDirectory {
   /** The root of the sandbox. */
   readonly root: string;
 

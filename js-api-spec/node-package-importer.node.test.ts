@@ -8,11 +8,16 @@ import {
   compileStringAsync,
   nodePackageImporter,
   NodePackageImporter,
+  FileImporter,
 } from 'sass';
 
-import {sandbox} from './sandbox';
+import {sandbox, SandboxDirectory} from './sandbox';
 
-function manifestBuilder(overrides?: {[key: string]: string}) {
+const fileImporter = (dir: SandboxDirectory): FileImporter => ({
+  findFileUrl: file => dir.url(file),
+});
+
+function manifestBuilder(overrides?: {[key: string]: string | Object}) {
   return JSON.stringify({
     name: 'foo',
     version: '1.0.0',
@@ -25,8 +30,33 @@ function manifestBuilder(overrides?: {[key: string]: string}) {
     ...overrides,
   });
 }
-xdescribe('resolves conditional exports', () => {
-  xit('sass at root');
+describe('resolves conditional exports', () => {
+  it('sass at root', () => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+        'node_modules/foo/package.json': manifestBuilder({
+          exports: {
+            '.': {
+              sass: './src/sass/_styles.scss',
+              import: './js/index.js',
+              require: './js/index.js',
+            },
+          },
+        }),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:foo";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('aaa {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
+
   xit('sass with subpath');
   xit('style at root');
   xit('style with subpath');
@@ -112,22 +142,109 @@ xdescribe('with subpath', () => {
   xit('resolves relative to package root');
 });
 
-it('resolves from package', () =>
-  sandbox(dir => {
-    dir.write({
-      'node_modules/bah/index.scss': 'a {b: c}',
-      'node_modules/bah/package.json': manifestBuilder(),
+describe('resolves from packages', () => {
+  it('resolves from entry point', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('resolves from secondary @use', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+        '_vendor.scss': '@use "pkg:bah";',
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "vendor";', {
+            importers: [nodePackageImporter, fileImporter(dir)],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('resolves from secondary @use pkg root', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': '@use "pkg:bar";',
+        'node_modules/bah/package.json': manifestBuilder(),
+        'node_modules/bar/index.scss': 'a {b: c}',
+        'node_modules/bar/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('resolves most proximate node_module', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': '@use "pkg:bar";',
+        'node_modules/bah/package.json': manifestBuilder(),
+        'node_modules/bar/index.scss': 'e {f: g}',
+        'node_modules/bar/package.json': manifestBuilder(),
+        'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
+        'node_modules/bah/node_modules/bar/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  fit('resolves node_module above cwd', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bar/index.scss': 'a {b: c}',
+        'node_modules/bar/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bar";', {
+            importers: [nodePackageImporter],
+          });
+          return expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'deeply/nested/file/index.js'}
+      );
+    }));
+  fit('throws if no match found', () => {
+    sandbox(dir => {
+      dir.chdir(
+        () => {
+          expect(() =>
+            compileString('@use "pkg:bah";', {
+              importers: [nodePackageImporter],
+            })
+          ).toThrow('');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
     });
-    dir.chdir(
-      () => {
-        const result = compileString('@use "pkg:bah";', {
-          importers: [nodePackageImporter],
-        });
-        expect(result.css).toBe('a {\n  b: c;\n}');
-      },
-      {changeEntryPoint: 'index.js'}
-    );
-  }));
+  });
+});
 xit('fake Node Package Importer', () =>
   sandbox(dir => {
     dir.write({'foo/index.scss': 'a {from: dir}'});
