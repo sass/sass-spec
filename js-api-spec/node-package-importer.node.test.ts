@@ -4,10 +4,15 @@
 
 import {
   compile,
+  compileAsync,
   compileString,
   compileStringAsync,
+  render,
+  renderSync,
   nodePackageImporter,
   NodePackageImporter,
+  LegacyException,
+  LegacyResult,
   FileImporter,
 } from 'sass';
 
@@ -277,11 +282,119 @@ xit('fake Node Package Importer', () =>
     });
     expect(result.css).toBe('a {\n  from: dir;\n}');
   }));
-xdescribe('compilation methods', () => {
-  xit('compile');
-  xit('compileString');
-  xit('compileAsync');
-  xit('compileStringAsync');
-  xit('render');
-  xit('renderSync');
+fdescribe('compilation methods', () => {
+  it('compile', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+        '_index.scss': '@use "pkg:bah";',
+      });
+      dir.chdir(
+        () => {
+          const result = compile('./_index.scss', {
+            importers: [nodePackageImporter, fileImporter(dir)],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('compileString', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  // TODO(jamesnw) This is a false positive
+  it('compileAsync', () =>
+    sandbox(async dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+        '_index.scss': '@use "pkg:bah";',
+      });
+      dir.chdir(
+        async () => {
+          const result = await compileAsync('./_index.scss', {
+            importers: [nodePackageImporter, fileImporter(dir)],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toBe('a {\n  b: SHOULD_FAIL;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('compileStringAsync', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        async () => {
+          const result = await compileStringAsync('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toBe('a {\n  b: SHOULD_FAIL;\n}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
+  it('render', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        async () => {
+          await render(
+            {
+              data: '@import "pkg:bah"',
+              pkgImporter: 'node',
+            },
+            (err?: LegacyException, result?: LegacyResult) => {
+              expect(err).toBeFalsy();
+              expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                'a { sb: c; }'
+              );
+              done();
+            }
+          );
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
+  it('renderSync', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = renderSync({
+            data: '@import "pkg:bah"',
+            pkgImporter: 'node',
+          }).css.toString();
+          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
+          done();
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
 });
