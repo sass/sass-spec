@@ -69,33 +69,7 @@ jobs:
 
       - name: Run specs
         run: npm run sass-spec -- --dart dart-sass
-
-  libsass:
-    name: "Language | LibSass"
-    runs-on: ubuntu-latest
-    if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip libsass')"
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
-      - run: npm install
-
-      - name: Install SassC
-        run: |
-          export SASS_LIBSASS_PATH=$BUILD_DIR/../libsass
-          export SASS_SASSC_PATH=$BUILD_DIR/../sassc
-          git clone https://github.com/sass/libsass.git $SASS_LIBSASS_PATH
-          (cd $SASS_LIBSASS_PATH; git checkout $GITISH)
-          git clone https://github.com/sass/sassc.git $SASS_SASSC_PATH
-          (cd $SASS_SASSC_PATH; git checkout $GITISH)
-          make -C $SASS_SASSC_PATH
-        env:
-          BUILD_DIR: "${{ github.workspace }}"
-
-      - name: Run specs
-        run: npm run sass-spec -- --impl libsass -c ../sassc/bin/sassc
-
+  
   # The versions should be kept up-to-date with the latest LTS Node releases.
   # They next need to be rotated October 2021. See
   # https://github.com/nodejs/Release.

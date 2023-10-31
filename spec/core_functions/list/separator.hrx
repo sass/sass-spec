@@ -50,10 +50,6 @@ a {
 
 <===>
 ================================================================================
-<===> single/slash/options.yml
-:todo:
-- sass/libsass#2887
-
 <===> single/slash/input.scss
 a {b: list-separator(join(1, (), $separator: slash))}
 
@@ -94,10 +90,6 @@ a {
 
 <===>
 ================================================================================
-<===> multi/slash/options.yml
-:todo:
-- sass/libsass#2887
-
 <===> multi/slash/input.scss
 @use 'sass:list';
 a {b: list-separator(list.slash(1, 2, 3))}
@@ -109,11 +101,6 @@ a {
 
 <===>
 ================================================================================
-<===> multi/map/options.yml
----
-:todo:
-- sass/libsass#2925
-
 <===> multi/map/input.scss
 a {b: list-separator((c: d, e: f, g: h))}
 
@@ -149,13 +136,6 @@ Error: Missing argument $list.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function list-separator is missing argument $list.
-        on line 1 of input.scss
->> a {b: list-separator()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -172,10 +152,3 @@ Error: Only 1 argument allowed, but 2 were passed.
   |           ================ declaration
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `list-separator'
-        on line 1:7 of input.scss
->> a {b: list-separator(c, d)}
-
-   ------^

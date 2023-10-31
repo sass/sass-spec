@@ -7,10 +7,6 @@
 WARNING: w
     input.scss 1:1  root stylesheet
 
-<===> position/top_level/warning-libsass
-WARNING: w
-         on line 1:1 of input.scss
-
 <===>
 ================================================================================
 <===> position/ruleset/input.scss
@@ -28,16 +24,8 @@ a {
 WARNING: w
     input.scss 2:3  root stylesheet
 
-<===> position/ruleset/warning-libsass
-WARNING: w
-         on line 2:3 of input.scss
-
 <===>
 ================================================================================
-<===> position/property/options.yml
-:ignore_for:
-  - libsass
-
 <===> position/property/input.scss
 a {
   b: {
@@ -77,11 +65,6 @@ WARNING: test
     input.scss 2:3  b()
     input.scss 7:3  root stylesheet
 
-<===> position/mixin/warning-libsass
-WARNING: test
-         on line 2:3 of input.scss, in mixin `b`
-         from line 7:12 of input.scss
-
 <===>
 ================================================================================
 <===> position/function/input.scss
@@ -104,17 +87,8 @@ WARNING: test
     input.scss 2:3  c()
     input.scss 7:6  root stylesheet
 
-<===> position/function/warning-libsass
-WARNING: test
-         on line 2:3 of input.scss, in function `c`
-         from line 7:6 of input.scss
-
 <===>
 ================================================================================
-<===> escaped/options.yml
-:ignore_for:
-- libsass
-
 <===> escaped/input.scss
 @w\61rn warning;
 a {b: c}
@@ -154,9 +128,3 @@ WARNING: From function: testing
     input.scss 2:3   issues-warning()
     input.scss 7:11  calls-function-that-warns()
     input.scss 11:3  root stylesheet
-
-<===> functions_in_stack/warning-libsass
-WARNING: From function: testing
-         on line 2:3 of input.scss, in function `issues-warning`
-         from line 7:11 of input.scss, in mixin `calls-function-that-warns`
-         from line 11:12 of input.scss
