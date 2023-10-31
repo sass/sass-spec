@@ -36,11 +36,6 @@ a {
 
 <===>
 ================================================================================
-<===> selector_pseudo/is/options.yml
----
-:todo:
-- sass/libsass#3154
-
 <===> selector_pseudo/is/input.scss
 a {b: selector-replace(":is(c)", "c", "d")}
 
@@ -51,11 +46,6 @@ a {
 
 <===>
 ================================================================================
-<===> selector_pseudo/where/options.yml
----
-:ignore_for:
-- libsass
-
 <===> selector_pseudo/where/input.scss
 a {b: selector-replace(":where(c)", "c", "d")}
 
@@ -124,11 +114,6 @@ a {
 
 <===>
 ================================================================================
-<===> format/input/non_string/extendee/options.yml
----
-:todo:
-- sass/libsass#3068
-
 <===> format/input/non_string/extendee/input.scss
 a {b: selector-replace("c.d", (c, ".d"), ".e")}
 
@@ -220,14 +205,6 @@ Error: $selector: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/selector/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:23 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("&", "c", "d")}
-
-   ----------------------^
-
 <===>
 ================================================================================
 <===> error/selector/invalid/input.scss
@@ -246,21 +223,8 @@ Error: $selector: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/selector/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:24 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("[c", "d", "e")}
-
-   -----------------------^
-
 <===>
 ================================================================================
-<===> error/selector/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> error/selector/type/input.scss
 a {b: selector-replace(1, "c", "d")}
 
@@ -290,21 +254,6 @@ Error: $original: Parent selectors aren't allowed here.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/extendee/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:28 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "&", "d")}
-
-   ---------------------------^
-
-<===>
-================================================================================
-<===> error/extendee/complex/options.yml
----
-:todo:
-- sass/libsass#3066
 
 <===>
 ================================================================================
@@ -350,21 +299,8 @@ Error: $original: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/extendee/invalid/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:29 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "[d", "e")}
-
-   ----------------------------^
-
 <===>
 ================================================================================
-<===> error/extendee/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> error/extendee/type/input.scss
 a {b: selector-replace("c", 1, "d")}
 
@@ -395,14 +331,6 @@ Error: $replacement: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/extender/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:33 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "&")}
-
-   --------------------------------^
-
 <===>
 ================================================================================
 <===> error/extender/invalid/input.scss
@@ -421,21 +349,8 @@ Error: $replacement: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/extender/invalid/error-libsass
-Error: invalid operator in attribute selector for e
-        on line 1:34 of input.scss, in function `selector-replace`
-        from line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "[e")}
-
-   ---------------------------------^
-
 <===>
 ================================================================================
-<===> error/extender/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> error/extender/type/input.scss
 a {b: selector-replace("c", "d", 1)}
 
@@ -465,13 +380,6 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `selector-replace'
-        on line 1:7 of input.scss
->> a {b: selector-replace("c", "d", "e", "f")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -488,10 +396,3 @@ Error: Missing argument $replacement.
   |           =========================================== declaration
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function selector-replace is missing argument $replacement.
-        on line 1 of input.scss
->> a {b: selector-replace("c", "d")}
-
-   ------^

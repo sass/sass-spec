@@ -14,11 +14,6 @@
 
 <===>
 ================================================================================
-<===> modifier/unknown/options.yml
----
-:todo:
-- sass/libsass#2886
-
 <===> modifier/unknown/input.scss
 // At time of writing, only the modifiers "i" and "s" are allowed by the CSS
 // spec. However, for forwards-compatibility with future CSS additions, any
@@ -47,11 +42,6 @@
 
 <===> modifier/after_string/output.css
 [a=b i] {
-  c: d;
-}
-
-<===> modifier/after_string/output-libsass.css
-[a="b" i] {
   c: d;
 }
 
@@ -101,13 +91,6 @@ Error: Expected "]".
   '
   input.scss 1:4  root stylesheet
 
-<===> error/modifier/no_operator/error-libsass
-Error: invalid operator in attribute selector for a
-        on line 1:2 of input.scss
->> [a b] {c: d}
-
-   -^
-
 <===>
 ================================================================================
 <===> error/modifier/too_long/input.scss
@@ -121,13 +104,6 @@ Error: expected "]".
   |       ^
   '
   input.scss 2:7  root stylesheet
-
-<===> error/modifier/too_long/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b cd] {e: f}
-
-   ---^
 
 <===>
 ================================================================================
@@ -143,13 +119,6 @@ Error: expected "]".
   '
   input.scss 2:6  root stylesheet
 
-<===> error/modifier/underscore/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b _] {c: d}
-
-   ---^
-
 <===>
 ================================================================================
 <===> error/modifier/digit/input.scss
@@ -164,13 +133,6 @@ Error: expected "]".
   '
   input.scss 2:6  root stylesheet
 
-<===> error/modifier/digit/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b 1] {c: d}
-
-   ---^
-
 <===>
 ================================================================================
 <===> error/modifier/unicode/input.scss
@@ -184,10 +146,3 @@ Error: expected "]".
   |      ^
   '
   input.scss 2:6  root stylesheet
-
-<===> error/modifier/unicode/error-libsass
-Error: unterminated attribute selector for a
-        on line 2:4 of input.scss
->> [a=b ï] {c: d}
-
-   ---^

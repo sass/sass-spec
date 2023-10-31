@@ -1,10 +1,3 @@
-<===> options.yml
----
-:todo:
-- sass/libsass#3127
-
-<===>
-================================================================================
 <===> empty/both/input.scss
 a {b: inspect(map-merge((), ()))}
 
@@ -176,14 +169,6 @@ Error: $map1: 1 is not a map.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/map1/error-libsass
-Error: argument `$map1` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge(1, (c: d))}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/map2/input.scss
@@ -196,14 +181,6 @@ Error: $map2: 1 is not a map.
   |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/map2/error-libsass
-Error: argument `$map2` of `map-merge($map1, $map2)` must be a map
-        on line 1:7 of input.scss, in function `map-merge`
-        from line 1:7 of input.scss
->> a {b: map-merge((c: d), 1)}
-
-   ------^
 
 <===>
 ================================================================================
