@@ -19,6 +19,13 @@ import {List} from 'immutable';
 
 import {skipForImpl, captureStdio} from '../utils';
 
+type Constructor = (
+  channel1: number | null,
+  channel2: number | null,
+  channel3: number | null,
+  alpha?: number | null
+) => SassColor;
+
 /** A utility function for creating an RGB color without specifying a space. */
 function legacyRGB(
   red: number,
@@ -50,170 +57,167 @@ function legacyHsl(
 }
 
 /** A utility function for creating an HSL color. */
-function hsl(
+const hsl: Constructor = function (
   hue: number | null,
   saturation: number | null,
   lightness: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({hue, saturation, lightness, alpha, space: 'hsl'});
-}
+};
 
 /** A utility function for creating an HWB color without specifying a space. */
-function legacyHwb(
+const legacyHwb: Constructor = function (
   hue: number | null,
   whiteness: number | null,
   blackness: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha});
-}
+};
 
 /** A utility function for creating an HWB color. */
-function hwb(
+const hwb: Constructor = function (
   hue: number | null,
   whiteness: number | null,
   blackness: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha, space: 'hwb'});
-}
+};
 
 /** A utility function for creating a Lab color. */
-function lab(
+const lab: Constructor = function (
   lightness: number | null,
   a: number | null,
   b: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'lab'});
-}
+};
 /** A utility function for creating a Oklab color. */
-function oklab(
+const oklab: Constructor = function (
   lightness: number | null,
   a: number | null,
   b: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'oklab'});
-}
+};
 /** A utility function for creating an LCH color. */
-function lch(
+const lch: Constructor = function (
   lightness: number | null,
   chroma: number | null,
   hue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'lch'});
-}
+};
 /** A utility function for creating a Oklab color. */
-function oklch(
+const oklch: Constructor = function (
   lightness: number | null,
   chroma: number | null,
   hue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'oklch'});
-}
+};
 
 /** A utility function for creating an srgb color. */
-function srgb(
+const srgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb'});
-}
+};
 /** A utility function for creating an srgb-linear color. */
-function srgbLinear(
+const srgbLinear: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb-linear'});
-}
+};
 /** A utility function for creating an rec2020 color. */
-function rec2020(
+const rec2020: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'rec2020'});
-}
+};
 /** A utility function for creating an display-p3 color. */
-function displayP3(
+const displayP3: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'display-p3'});
-}
+};
 /** A utility function for creating an a98-rgb color. */
-function a98Rgb(
+const a98Rgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'a98-rgb'});
-}
+};
 /** A utility function for creating a prophoto-rgb color. */
-function prophotoRgb(
+const prophotoRgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'prophoto-rgb'});
-}
+};
 
 /** A utility function for creating a xyz color. */
-function xyz(
+const xyz: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz'});
-}
+};
 
 /** A utility function for creating a xyz-d50 color. */
-function xyzD50(
+const xyzD50: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d50'});
-}
+};
 
 /** A utility function for creating a xyz-d65 color. */
-function xyzD65(
+const xyzD65: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
   alpha?: number | null
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d65'});
-}
+};
 
-type Constructor = (
-  channel1: number | null,
-  channel2: number | null,
-  channel3: number | null,
-  alpha?: number | null
-) => SassColor;
 const spaces: {
   [key: string]: {
     constructor: Constructor;
     name: KnownColorSpace;
     isLegacy: boolean;
     isPolar: boolean;
+    // `pink` is an arbitrary color, and is a value that can roundtrip between
+    // all spaces.
     pink: [number, number, number];
+    // `blue` is an arbitrary color.
     blue: [number, number, number];
     channels: ChannelName[];
     ranges: [number, number][];
@@ -570,6 +574,10 @@ type InterpolationExample = [
   [number, number, number]
 ];
 
+// These interpolations are the result of mixing `pink` as the primary color
+// with `blue` as the secondary color, with the specified `weight` and for polar
+// spaces, the hue interpolation method `method`. These were calculated using
+// [Color.js](https://colorjs.io/).
 const interpolations: {[space: string]: InterpolationExample[]} = {
   lab: [
     [
