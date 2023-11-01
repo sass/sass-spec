@@ -35,38 +35,155 @@ function manifestBuilder(overrides?: {[key: string]: string | Object}) {
     ...overrides,
   });
 }
-describe('resolves conditional exports', () => {
-  it('sass at root', () => {
+
+function exportsBuilder(key: string) {
+  return {
+    exports: {
+      '.': {
+        [key]: './src/sass/_styles.scss',
+      },
+      './colors/index.scss': {
+        [key]: './src/sass/colors/index.scss',
+      },
+      './_variables.scss': {
+        [key]: './src/sass/_variables.scss',
+      },
+    },
+  };
+}
+
+fdescribe('resolves conditional exports', () => {
+  ['sass', 'style', 'default'].forEach(key => {
+    it(`${key} at root`, done => {
+      sandbox(dir => {
+        dir.write({
+          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+          'node_modules/foo/package.json': manifestBuilder(exportsBuilder(key)),
+        });
+        dir.chdir(
+          () => {
+            const result = compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toBe('a {\n  b: c;\n}');
+            done();
+          },
+          {changeEntryPoint: 'index.js'}
+        );
+      });
+    });
+    it(`${key} at root without non-pathed exports`, done => {
+      sandbox(dir => {
+        dir.write({
+          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+          'node_modules/foo/package.json': manifestBuilder({
+            exports: {
+              [key]: './src/sass/_styles.scss',
+            },
+          }),
+        });
+        dir.chdir(
+          () => {
+            const result = compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toBe('a {\n  b: c;\n}');
+            done();
+          },
+          {changeEntryPoint: 'index.js'}
+        );
+      });
+    });
+
+    xit(`${key} with subpath`, done => {
+      sandbox(dir => {
+        dir.write({
+          'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
+          'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+          'node_modules/foo/package.json': manifestBuilder(exportsBuilder(key)),
+        });
+        dir.chdir(
+          () => {
+            const result = compileString('@use "pkg:foo/variables";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toBe('a {\n  b: c;\n}');
+            done();
+          },
+          {changeEntryPoint: 'index.js'}
+        );
+      });
+    });
+    xit(`${key} with index`, done => {
+      sandbox(dir => {
+        dir.write({
+          'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
+          'node_modules/foo/src/sass/_variables.scss': 'g {h: i}',
+          'node_modules/foo/src/sass/colors/index.scss': 'a {b: c}',
+          'node_modules/foo/package.json': manifestBuilder(exportsBuilder(key)),
+        });
+        dir.chdir(
+          () => {
+            const result = compileString('@use "pkg:foo/colors";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toBe('a {\n  b: c;\n}');
+            done();
+          },
+          {changeEntryPoint: 'index.js'}
+        );
+      });
+    });
+  });
+  it('throws if multiple paths found', done => {
     sandbox(dir => {
       dir.write({
-        'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+        'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
+        'node_modules/foo/src/sass/_variables.scss': 'g {h: i}',
         'node_modules/foo/package.json': manifestBuilder({
           exports: {
             '.': {
-              sass: './src/sass/_styles.scss',
-              import: './js/index.js',
-              require: './js/index.js',
+              sass: './src/sass/_variables.scss',
+              style: './src/sass/_styles.scss',
             },
           },
         }),
       });
       dir.chdir(
         () => {
-          const result = compileString('@use "pkg:foo";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toBe('aaa {\n  b: c;\n}');
+          expect(() =>
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            })
+          ).toThrowSassException({includes: 'Multiple resolutions'});
+          done();
         },
         {changeEntryPoint: 'index.js'}
       );
     });
   });
-
-  xit('sass with subpath');
-  xit('style at root');
-  xit('style with subpath');
-  xit('style at root');
-  xit('style with subpath');
+  it('resolves string export', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
+        'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+        'node_modules/foo/package.json': manifestBuilder({
+          exports: './src/sass/_variables.scss',
+        }),
+      });
+      dir.chdir(
+        () => {
+          expect(
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            }).css
+          ).toEqualIgnoringWhitespace('a {b: c;}');
+          done();
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
 });
 describe('without subpath', () => {
   it('sass key in package.json', () =>
@@ -282,7 +399,7 @@ xit('fake Node Package Importer', () =>
     });
     expect(result.css).toBe('a {\n  from: dir;\n}');
   }));
-fdescribe('compilation methods', () => {
+describe('compilation methods', () => {
   it('compile', () =>
     sandbox(dir => {
       dir.write({
@@ -359,10 +476,10 @@ fdescribe('compilation methods', () => {
         'node_modules/bah/package.json': manifestBuilder(),
       });
       dir.chdir(
-        async () => {
-          await render(
+        () => {
+          render(
             {
-              data: '@import "pkg:bah"',
+              data: '@use "pkg:bah"',
               pkgImporter: 'node',
             },
             (err?: LegacyException, result?: LegacyResult) => {
@@ -387,7 +504,7 @@ fdescribe('compilation methods', () => {
       dir.chdir(
         () => {
           const result = renderSync({
-            data: '@import "pkg:bah"',
+            data: '@use "pkg:bah"',
             pkgImporter: 'node',
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
