@@ -52,7 +52,7 @@ function exportsBuilder(key: string) {
   };
 }
 
-fdescribe('resolves conditional exports', () => {
+describe('resolves conditional exports', () => {
   ['sass', 'style', 'default'].forEach(key => {
     it(`${key} at root`, done => {
       sandbox(dir => {
@@ -95,7 +95,7 @@ fdescribe('resolves conditional exports', () => {
       });
     });
 
-    xit(`${key} with subpath`, done => {
+    it(`${key} with subpath`, done => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -114,7 +114,7 @@ fdescribe('resolves conditional exports', () => {
         );
       });
     });
-    xit(`${key} with index`, done => {
+    it(`${key} with index`, done => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -135,11 +135,11 @@ fdescribe('resolves conditional exports', () => {
       });
     });
   });
-  it('throws if multiple paths found', done => {
+  it('compiles with first conditional match found', done => {
     sandbox(dir => {
       dir.write({
         'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-        'node_modules/foo/src/sass/_variables.scss': 'g {h: i}',
+        'node_modules/foo/src/sass/_variables.scss': 'a {from: sassCondition}',
         'node_modules/foo/package.json': manifestBuilder({
           exports: {
             '.': {
@@ -151,11 +151,36 @@ fdescribe('resolves conditional exports', () => {
       });
       dir.chdir(
         () => {
+          expect(
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            }).css
+          ).toEqualIgnoringWhitespace('a {from: sassCondition;}');
+          done();
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
+  it('throws if multiple exported paths match', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
+        'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+        'node_modules/foo/package.json': manifestBuilder({
+          exports: {
+            './index.scss': {sass: './src/sass/_variables.scss'},
+            './_index.sass': {sass: './src/sass/_styles.scss'},
+          },
+        }),
+      });
+      dir.chdir(
+        () => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [nodePackageImporter],
             })
-          ).toThrowSassException({includes: 'Multiple resolutions'});
+          ).toThrowSassException({includes: 'multiple potential resolutions'});
           done();
         },
         {changeEntryPoint: 'index.js'}
