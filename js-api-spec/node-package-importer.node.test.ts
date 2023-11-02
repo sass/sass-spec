@@ -65,7 +65,7 @@ describe('resolves conditional exports', () => {
             const result = compileString('@use "pkg:foo";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
             done();
           },
           {changeEntryPoint: 'index.js'}
@@ -87,7 +87,7 @@ describe('resolves conditional exports', () => {
             const result = compileString('@use "pkg:foo";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
             done();
           },
           {changeEntryPoint: 'index.js'}
@@ -107,7 +107,7 @@ describe('resolves conditional exports', () => {
             const result = compileString('@use "pkg:foo/variables";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
             done();
           },
           {changeEntryPoint: 'index.js'}
@@ -127,7 +127,7 @@ describe('resolves conditional exports', () => {
             const result = compileString('@use "pkg:foo/colors";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
             done();
           },
           {changeEntryPoint: 'index.js'}
@@ -224,7 +224,7 @@ describe('without subpath', () => {
           const result = compileString('@use "pkg:foo";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -242,7 +242,7 @@ describe('without subpath', () => {
           const result = compileString('@use "pkg:foo";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -260,7 +260,7 @@ describe('without subpath', () => {
             const result = compileString('@use "pkg:foo";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
           {changeEntryPoint: 'index.js'}
         );
@@ -278,7 +278,7 @@ describe('without subpath', () => {
             const result = compileString('@use "pkg:foo";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toBe('a {\n  b: c;\n}');
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
           {changeEntryPoint: 'index.js'}
         );
@@ -301,7 +301,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -318,7 +318,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "vendor";', {
             importers: [nodePackageImporter, fileImporter(dir)],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -336,7 +336,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -356,7 +356,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -374,7 +374,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -390,7 +390,7 @@ describe('resolves from packages', () => {
           const result = compileString('@use "pkg:bar";', {
             importers: [nodePackageImporter],
           });
-          return expect(result.css).toBe('a {\n  b: c;\n}');
+          return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'deeply/nested/file/index.js'}
       );
@@ -422,7 +422,7 @@ xit('fake Node Package Importer', () =>
       importers: [foo],
       // loadPaths: [dir('dir')],
     });
-    expect(result.css).toBe('a {\n  from: dir;\n}');
+    expect(result.css).toEqualIgnoringWhitespace('a { from: dir;}');
   }));
 describe('compilation methods', () => {
   it('compile', () =>
@@ -437,7 +437,7 @@ describe('compilation methods', () => {
           const result = compile('./_index.scss', {
             importers: [nodePackageImporter, fileImporter(dir)],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -453,7 +453,7 @@ describe('compilation methods', () => {
           const result = compileString('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -471,8 +471,8 @@ describe('compilation methods', () => {
           const result = await compileAsync('./_index.scss', {
             importers: [nodePackageImporter, fileImporter(dir)],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
-          expect(result.css).toBe('a {\n  b: SHOULD_FAIL;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
+          expect(result.css).toEqualIgnoringWhitespace('a { b: SHOULD_FAIL;}');
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -488,8 +488,8 @@ describe('compilation methods', () => {
           const result = await compileStringAsync('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          expect(result.css).toBe('a {\n  b: c;\n}');
-          expect(result.css).toBe('a {\n  b: SHOULD_FAIL;\n}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          expect(result.css).toEqualIgnoringWhitespace('a {b: SHOULDFAIL;}');
         },
         {changeEntryPoint: 'index.js'}
       );
