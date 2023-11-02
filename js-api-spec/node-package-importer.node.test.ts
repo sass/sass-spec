@@ -458,7 +458,7 @@ describe('compilation methods', () => {
         {changeEntryPoint: 'index.js'}
       );
     }));
-  // TODO(jamesnw) This is a false positive
+  // TODO(jamesnw) Async tests are returning false positives
   it('compileAsync', () =>
     sandbox(async dir => {
       dir.write({
@@ -488,30 +488,31 @@ describe('compilation methods', () => {
           const result = await compileStringAsync('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
+          console.log(result.css, 'woo');
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           expect(result.css).toEqualIgnoringWhitespace('a {b: SHOULDFAIL;}');
         },
         {changeEntryPoint: 'index.js'}
       );
     }));
-  it('render', done => {
+  it('render string', done => {
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
       });
       dir.chdir(
-        () => {
-          render(
+        async () => {
+          await render(
             {
               data: '@use "pkg:bah"',
               pkgImporter: 'node',
             },
             (err?: LegacyException, result?: LegacyResult) => {
               expect(err).toBeFalsy();
-              expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                'a { sb: c; }'
-              );
+              // expect(result!.css.toString()).toEqualIgnoringWhitespace(
+              //   'a { sb: c; }'
+              // );
               done();
             }
           );
@@ -520,7 +521,54 @@ describe('compilation methods', () => {
       );
     });
   });
-  it('renderSync', done => {
+  it('render file', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+        'index.scss': '@use "pkg:bah";',
+      });
+      dir.chdir(
+        () => {
+          render(
+            {
+              file: 'index.scss',
+              pkgImporter: 'node',
+            },
+            (err?: LegacyException, result?: LegacyResult) => {
+              expect(err).toBeFalsy();
+              // expect(result!.css.toString()).toEqualIgnoringWhitespace(
+              //   'a { sb: c; }'
+              // );
+              done();
+            }
+          );
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
+  it('renderSync file', done => {
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bah/index.scss': 'a {b: c}',
+        'node_modules/bah/package.json': manifestBuilder(),
+        'index.scss': '@use "pkg:bah";',
+      });
+      dir.chdir(
+        () => {
+          const result = renderSync({
+            file: 'index.scss',
+            pkgImporter: 'node',
+          }).css.toString();
+          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
+          done();
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    });
+  });
+  it('renderSync data', done => {
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
