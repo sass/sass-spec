@@ -457,7 +457,6 @@ describe('compilation methods', () => {
             importers: [nodePackageImporter, fileImporter(dir)],
           });
           expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
-          expect(result.css).toEqualIgnoringWhitespace('a { b: SHOULD_FAIL;}');
           return result;
         },
         {changeEntryPoint: 'index.js'}
@@ -475,65 +474,66 @@ describe('compilation methods', () => {
             importers: [nodePackageImporter],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          expect(result.css).toEqualIgnoringWhitespace('a {b: SHOULDFAIL;}');
           return result;
         },
         {changeEntryPoint: 'index.js'}
       );
     }));
-  it('render string', done => {
+  it('render string', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
       });
-      dir.chdir(
+      return dir.chdir(
         async () => {
-          await render(
-            {
-              data: '@use "pkg:bah"',
-              pkgImporter: 'node',
-            },
-            (err?: LegacyException, result?: LegacyResult) => {
-              expect(err).toBeFalsy();
-              expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                'a { sb: c; }'
-              );
-              done();
-            }
-          );
+          return await new Promise(resolve => {
+            render(
+              {
+                data: '@use "pkg:bah"',
+                pkgImporter: 'node',
+              },
+              (err?: LegacyException, result?: LegacyResult) => {
+                expect(err).toBeFalsy();
+                expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                  'a { b: c; }'
+                );
+                resolve(undefined);
+              }
+            );
+          });
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
-  it('render file', done => {
+    }));
+  it('render file', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
         'index.scss': '@use "pkg:bah";',
       });
-      dir.chdir(
+      return dir.chdir(
         async () => {
-          await render(
-            {
-              file: 'index.scss',
-              pkgImporter: 'node',
-            },
-            (err?: LegacyException, result?: LegacyResult) => {
-              expect(err).toBeFalsy();
-              expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                'a { sb: c; }'
-              );
-              done();
-            }
-          );
+          return await new Promise(resolve => {
+            render(
+              {
+                file: 'index.scss',
+                pkgImporter: 'node',
+              },
+              (err?: LegacyException, result?: LegacyResult) => {
+                expect(err).toBeFalsy();
+                expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                  'a { b: c; }'
+                );
+                resolve(undefined);
+              }
+            );
+          });
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
+    }));
   it('renderSync file', () =>
     sandbox(dir => {
       dir.write({
