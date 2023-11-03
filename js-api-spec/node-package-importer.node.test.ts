@@ -54,7 +54,7 @@ function exportsBuilder(key: string) {
 
 describe('resolves conditional exports', () => {
   ['sass', 'style', 'default'].forEach(key => {
-    it(`${key} at root`, done => {
+    it(`${key} at root`, () =>
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
@@ -66,13 +66,11 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            done();
           },
           {changeEntryPoint: 'index.js'}
         );
-      });
-    });
-    it(`${key} at root without non-pathed exports`, done => {
+      }));
+    it(`${key} at root without non-pathed exports`, () =>
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
@@ -88,14 +86,12 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            done();
           },
           {changeEntryPoint: 'index.js'}
         );
-      });
-    });
+      }));
 
-    it(`${key} with subpath`, done => {
+    it(`${key} with subpath`, () =>
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -108,13 +104,11 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            done();
           },
           {changeEntryPoint: 'index.js'}
         );
-      });
-    });
-    it(`${key} with index`, done => {
+      }));
+    it(`${key} with index`, () =>
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -128,14 +122,12 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            done();
           },
           {changeEntryPoint: 'index.js'}
         );
-      });
-    });
+      }));
   });
-  it('compiles with first conditional match found', done => {
+  it('compiles with first conditional match found', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -156,13 +148,11 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             }).css
           ).toEqualIgnoringWhitespace('a {from: sassCondition;}');
-          done();
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
-  it('throws if multiple exported paths match', done => {
+    }));
+  it('throws if multiple exported paths match', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -181,13 +171,11 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             })
           ).toThrowSassException({includes: 'multiple potential resolutions'});
-          done();
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
-  it('resolves string export', done => {
+    }));
+  it('resolves string export', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
@@ -203,12 +191,10 @@ describe('resolves conditional exports', () => {
               importers: [nodePackageImporter],
             }).css
           ).toEqualIgnoringWhitespace('a {b: c;}');
-          done();
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
+    }));
 });
 describe('without subpath', () => {
   it('sass key in package.json', () =>
@@ -458,21 +444,21 @@ describe('compilation methods', () => {
         {changeEntryPoint: 'index.js'}
       );
     }));
-  // TODO(jamesnw) Async tests are returning false positives
   it('compileAsync', () =>
-    sandbox(async dir => {
+    sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
         '_index.scss': '@use "pkg:bah";',
       });
-      dir.chdir(
+      return dir.chdir(
         async () => {
           const result = await compileAsync('./_index.scss', {
             importers: [nodePackageImporter, fileImporter(dir)],
           });
           expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
           expect(result.css).toEqualIgnoringWhitespace('a { b: SHOULD_FAIL;}');
+          return result;
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -483,14 +469,14 @@ describe('compilation methods', () => {
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
       });
-      dir.chdir(
+      return dir.chdir(
         async () => {
           const result = await compileStringAsync('@use "pkg:bah";', {
             importers: [nodePackageImporter],
           });
-          console.log(result.css, 'woo');
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           expect(result.css).toEqualIgnoringWhitespace('a {b: SHOULDFAIL;}');
+          return result;
         },
         {changeEntryPoint: 'index.js'}
       );
@@ -510,9 +496,9 @@ describe('compilation methods', () => {
             },
             (err?: LegacyException, result?: LegacyResult) => {
               expect(err).toBeFalsy();
-              // expect(result!.css.toString()).toEqualIgnoringWhitespace(
-              //   'a { sb: c; }'
-              // );
+              expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                'a { sb: c; }'
+              );
               done();
             }
           );
@@ -529,17 +515,17 @@ describe('compilation methods', () => {
         'index.scss': '@use "pkg:bah";',
       });
       dir.chdir(
-        () => {
-          render(
+        async () => {
+          await render(
             {
               file: 'index.scss',
               pkgImporter: 'node',
             },
             (err?: LegacyException, result?: LegacyResult) => {
               expect(err).toBeFalsy();
-              // expect(result!.css.toString()).toEqualIgnoringWhitespace(
-              //   'a { sb: c; }'
-              // );
+              expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                'a { sb: c; }'
+              );
               done();
             }
           );
@@ -548,43 +534,39 @@ describe('compilation methods', () => {
       );
     });
   });
-  it('renderSync file', done => {
+  it('renderSync file', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
         'index.scss': '@use "pkg:bah";',
       });
-      dir.chdir(
+      return dir.chdir(
         () => {
           const result = renderSync({
             file: 'index.scss',
             pkgImporter: 'node',
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
-          done();
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
-  it('renderSync data', done => {
+    }));
+  it('renderSync data', () =>
     sandbox(dir => {
       dir.write({
         'node_modules/bah/index.scss': 'a {b: c}',
         'node_modules/bah/package.json': manifestBuilder(),
       });
-      dir.chdir(
+      return dir.chdir(
         () => {
           const result = renderSync({
             data: '@use "pkg:bah"',
             pkgImporter: 'node',
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
-          done();
         },
         {changeEntryPoint: 'index.js'}
       );
-    });
-  });
+    }));
 });

@@ -32,7 +32,7 @@ export async function sandbox(
     );
   }
   try {
-    await test(
+    return await test(
       Object.assign((...paths: string[]) => p.join(testDir, ...paths), {
         root: testDir,
         url: (...paths: string[]) => pathToFileURL(p.join(testDir, ...paths)),
