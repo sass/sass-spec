@@ -1746,7 +1746,8 @@ describe('Color 4 SassColors', () => {
       it(`returns name for ${space.name}`, () => {
         expect(color.space).toBe(space.name);
       });
-      // Space conversions in ColorJS are close but not precise enough to match
+      // TODO: Space conversions in ColorJS are close but not precise enough to
+      // match
       skipForImpl('sass-embedded', () => {
         describe('toSpace', () => {
           spaceNames.forEach(destinationSpaceId => {
@@ -1852,7 +1853,8 @@ describe('Color 4 SassColors', () => {
               });
             });
           });
-          // Space conversions in ColorJS are close but not precise enough to match
+          // TODO: Space conversions in ColorJS are close but not precise enough
+          // to match
           skipForImpl('sass-embedded', () => {
             spaceNames.forEach(destinationSpaceId => {
               it(`returns value when ${destinationSpaceId} is specified`, () => {
@@ -1893,7 +1895,7 @@ describe('Color 4 SassColors', () => {
         });
       });
 
-      // Waiting on new ColorJS release to fix `hue` interpolation:
+      // TODO: Waiting on new ColorJS release to fix `hue` interpolation:
       // https://github.com/LeaVerou/color.js/pull/338
       skipForImpl('sass-embedded', () => {
         describe('interpolate', () => {
@@ -2183,7 +2185,8 @@ describe('Color 4 SassColors', () => {
     });
   });
   describe("tests that can't be parameterized", () => {
-    // Waiting on a fix for: https://github.com/LeaVerou/color.js/issues/154
+    // TODO: Waiting on a fix for:
+    // https://github.com/LeaVerou/color.js/issues/154
     skipForImpl('sass-embedded', () => {
       it('toGamut with space', () => {
         const cases: [SassColor, KnownColorSpace, SassColor][] = [
