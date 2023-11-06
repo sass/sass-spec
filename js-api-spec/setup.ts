@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import immutable, {ValueObject} from 'immutable';
+import immutable from 'immutable';
 import * as sass from 'sass';
 import * as util from 'util';
 import type {URL} from 'url';

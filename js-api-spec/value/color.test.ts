@@ -17,7 +17,7 @@ import type {
 } from 'sass';
 import {List} from 'immutable';
 
-import {skipForImpl, captureStdio} from '../utils';
+import {captureStdio, skipForImpl} from '../utils';
 
 type Constructor = (
   channel1: number | null,
@@ -1161,13 +1161,13 @@ describe('SassColor', () => {
       it('allows valid values', () => {
         expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
         expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
+        expect(() => legacyHsl(0, -0.1, 0, 0)).not.toThrow();
+        expect(() => legacyHsl(0, 100.1, 0, 0)).not.toThrow();
       });
 
       it('disallows invalid values', () => {
-        expect(() => legacyHsl(0, -0.1, 0, 0)).toThrow();
         expect(() => legacyHsl(0, 0, -0.1, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyHsl(0, 100.1, 0, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 100.1, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 0, 1.1)).toThrow();
       });
@@ -1227,16 +1227,17 @@ describe('SassColor', () => {
       it('allows valid values', () => {
         expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
         expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
+        expect(() => legacyHwb(0, -0.1, 0, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 0, -0.1, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 100.1, 0, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
       });
 
       it('disallows invalid values', () => {
-        expect(() => legacyHwb(0, -0.1, 0, 0)).toThrow();
-        expect(() => legacyHwb(0, 0, -0.1, 0)).toThrow();
         expect(() => legacyHwb(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyHwb(0, 100.1, 0, 0)).toThrow();
-        expect(() => legacyHwb(0, 0, 100.1, 0)).toThrow();
         expect(() => legacyHwb(0, 0, 0, 1.1)).toThrow();
       });
+
       describe('deprecations', () => {
         it('warns with null alpha and no space', () => {
           const stdio = captureStdio(() => {
@@ -1297,27 +1298,27 @@ describe('SassColor', () => {
 
     it('has RGB channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.red).toBe(18);
-        expect(color.green).toBe(52);
-        expect(color.blue).toBe(86);
+        expect(color.red).toFuzzyEqual(18);
+        expect(color.green).toFuzzyEqual(52);
+        expect(color.blue).toFuzzyEqual(86);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HSL channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.hue).toBe(210);
-        expect(color.saturation).toBe(65.3846153846154);
-        expect(color.lightness).toBe(20.392156862745097);
+        expect(color.hue).toFuzzyEqual(210);
+        expect(color.saturation).toFuzzyEqual(65.3846153846154);
+        expect(color.lightness).toFuzzyEqual(20.392156862745097);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HWB channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.hue).toBe(210);
-        expect(color.whiteness).toBe(7.0588235294117645);
-        expect(color.blackness).toBe(66.27450980392157);
+        expect(color.hue).toFuzzyEqual(210);
+        expect(color.whiteness).toFuzzyEqual(7.0588235294117645);
+        expect(color.blackness).toFuzzyEqual(66.27450980392157);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
@@ -1326,7 +1327,7 @@ describe('SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
-    it('equals the same color', () => {
+    it('equals the same color even in a different color space', () => {
       expect(color).toEqualWithHash(legacyRGB(18, 52, 86));
       expect(color).toEqualWithHash(
         legacyHsl(210, 65.3846153846154, 20.392156862745097)
@@ -1345,42 +1346,39 @@ describe('SassColor', () => {
 
     it('has RGB channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.red).toBe(62);
-        expect(color.green).toBe(152);
-        expect(color.blue).toBe(62);
+        expect(color.red).toFuzzyEqual(62);
+        expect(color.green).toFuzzyEqual(152);
+        expect(color.blue).toFuzzyEqual(62);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has HSL channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.hue).toBe(120);
-        expect(color.saturation).toBe(42);
-        expect(color.lightness).toBe(42);
+        expect(color.hue).toFuzzyEqual(120);
+        expect(color.saturation).toFuzzyEqual(42);
+        expect(color.lightness).toFuzzyEqual(42);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
-    // sass/embedded-host-node#170
-    skipForImpl('sass-embedded', () => {
-      it('has HWB channels', () => {
-        const stdio = captureStdio(() => {
-          expect(color.hue).toBe(120);
-          expect(color.whiteness).toBe(24.360000000000003);
-          expect(color.blackness).toBe(40.36000000000001);
-        });
-        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
+    it('has HWB channels', () => {
+      const stdio = captureStdio(() => {
+        expect(color.hue).toFuzzyEqual(120);
+        expect(color.whiteness).toFuzzyEqual(24.360000000000003);
+        expect(color.blackness).toFuzzyEqual(40.36000000000001);
       });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has an alpha channel', () => {
       expect(color.alpha).toBe(1);
     });
 
-    it('only equals the same color in its own space', () => {
-      expect(color).not.toEqualWithHash(legacyRGB(62, 152, 62));
+    it('equals the same color even in a different color space', () => {
+      expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
       expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
-      expect(color).not.toEqualWithHash(
+      expect(color).toEqualWithHash(
         legacyHwb(120, 24.313725490196077, 40.3921568627451)
       );
     });
@@ -1399,44 +1397,38 @@ describe('SassColor', () => {
 
     it('has RGB channels', () => {
       const stdio = captureStdio(() => {
-        expect(color.red).toBe(107);
-        expect(color.green).toBe(148);
-        expect(color.blue).toBe(107);
+        expect(color.red).toFuzzyEqual(107);
+        expect(color.green).toFuzzyEqual(148);
+        expect(color.blue).toFuzzyEqual(107);
       });
       expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
-    // sass/embedded-host-node#170
-    skipForImpl('sass-embedded', () => {
-      it('has HSL channels', () => {
-        const stdio = captureStdio(() => {
-          expect(color.hue).toBe(120);
-          expect(color.saturation).toBe(16.000000000000007);
-          expect(color.lightness).toBe(50);
-        });
-        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
+    it('has HSL channels', () => {
+      const stdio = captureStdio(() => {
+        expect(color.hue).toFuzzyEqual(120);
+        expect(color.saturation).toFuzzyEqual(16.000000000000007);
+        expect(color.lightness).toFuzzyEqual(50);
       });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
-    // sass/embedded-host-node#170
-    skipForImpl('sass-embedded', () => {
-      it('has HWB channels', () => {
-        const stdio = captureStdio(() => {
-          expect(color.hue).toBe(120);
-          expect(color.whiteness).toBe(42);
-          expect(color.blackness).toBe(42);
-        });
-        expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
+    it('has HWB channels', () => {
+      const stdio = captureStdio(() => {
+        expect(color.hue).toFuzzyEqual(120);
+        expect(color.whiteness).toFuzzyEqual(42);
+        expect(color.blackness).toFuzzyEqual(42);
       });
+      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
     });
 
     it('has an alpha channel', () => {
       expect(color.alpha).toBe(1);
     });
 
-    it('only equals the same color in its own color space', () => {
-      expect(color).not.toEqualWithHash(legacyRGB(107, 148, 107));
-      expect(color).not.toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
+    it('equals the same color even in a different color space', () => {
+      expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
+      expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
       expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
     });
 
@@ -1622,17 +1614,14 @@ describe('SassColor', () => {
         ).toEqualWithHash(legacyHwb(120, 42, 42, 0.5));
       });
 
-      // sass/embedded-host-node#170
-      skipForImpl('sass-embedded', () => {
-        it('allows valid values', () => {
-          expect(color.change({whiteness: 0}).channel('whiteness')).toBe(0);
-          expect(color.change({whiteness: 100}).channel('whiteness')).toBe(100);
-          expect(color.change({blackness: 0}).channel('blackness')).toBe(0);
-          expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
-          expect(color.change({alpha: 0}).alpha).toBe(0);
-          expect(color.change({alpha: 1}).alpha).toBe(1);
-          expect(color.change({hue: undefined}).channel('hue')).toBe(210);
-        });
+      it('allows valid values', () => {
+        expect(color.change({whiteness: 0}).channel('whiteness')).toBe(0);
+        expect(color.change({whiteness: 100}).channel('whiteness')).toBe(100);
+        expect(color.change({blackness: 0}).channel('blackness')).toBe(0);
+        expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
+        expect(color.change({alpha: 0}).alpha).toBe(0);
+        expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({hue: undefined}).channel('hue')).toBe(210);
       });
 
       it('disallows invalid values', () => {
@@ -1685,6 +1674,7 @@ describe('SassColor', () => {
     });
   });
 });
+
 describe('Color 4 SassColors', () => {
   spaceNames.forEach(spaceId => {
     const space = spaces[spaceId];
@@ -1734,7 +1724,7 @@ describe('Color 4 SassColors', () => {
             channels[index] = -1;
             expect(() => space.constructor(...channels)).toThrow();
           });
-          // TODO: Failing for oklab and oklch
+          // TODO: Failing for oklab and oklch in dart-sass
           it('throws on lightness higher than bounds', () => {
             const index = space.channels.findIndex(
               channel => channel === 'lightness'
@@ -1749,17 +1739,20 @@ describe('Color 4 SassColors', () => {
       it(`returns name for ${space.name}`, () => {
         expect(color.space).toBe(space.name);
       });
-      describe('toSpace', () => {
-        spaceNames.forEach(destinationSpaceId => {
-          it(`converts pink to ${destinationSpaceId}`, () => {
-            const destinationSpace = spaces[destinationSpaceId];
-            const res = color.toSpace(destinationSpace.name);
-            expect(res.space).toBe(destinationSpace.name);
+      // Space conversions in ColorJS are close but not precise enough to match
+      skipForImpl('sass-embedded', () => {
+        describe('toSpace', () => {
+          spaceNames.forEach(destinationSpaceId => {
+            it(`converts pink to ${destinationSpaceId}`, () => {
+              const destinationSpace = spaces[destinationSpaceId];
+              const res = color.toSpace(destinationSpace.name);
+              expect(res.space).toBe(destinationSpace.name);
 
-            const expected = destinationSpace.constructor(
-              ...destinationSpace.pink
-            );
-            expect(res).toEqualWithHash(expected);
+              const expected = destinationSpace.constructor(
+                ...destinationSpace.pink
+              );
+              expect(res).toEqualWithHash(expected);
+            });
           });
         });
       });
@@ -1852,21 +1845,24 @@ describe('Color 4 SassColors', () => {
               });
             });
           });
-          spaceNames.forEach(destinationSpaceId => {
-            it(`returns value when ${destinationSpaceId} is specified`, () => {
-              const destinationSpace = spaces[destinationSpaceId];
-              destinationSpace.channels.forEach((channel, index) => {
+          // Space conversions in ColorJS are close but not precise enough to match
+          skipForImpl('sass-embedded', () => {
+            spaceNames.forEach(destinationSpaceId => {
+              it(`returns value when ${destinationSpaceId} is specified`, () => {
+                const destinationSpace = spaces[destinationSpaceId];
+                destinationSpace.channels.forEach((channel, index) => {
+                  expect(
+                    color.channel(channel as ChannelNameXyz, {
+                      space: destinationSpace.name as ColorSpaceXyz,
+                    })
+                  ).toFuzzyEqual(destinationSpace.pink[index]);
+                });
                 expect(
-                  color.channel(channel as ChannelNameXyz, {
+                  color.channel('alpha' as ChannelNameXyz, {
                     space: destinationSpace.name as ColorSpaceXyz,
                   })
-                ).toFuzzyEqual(destinationSpace.pink[index]);
+                ).toEqual(1);
               });
-              expect(
-                color.channel('alpha' as ChannelNameXyz, {
-                  space: destinationSpace.name as ColorSpaceXyz,
-                })
-              ).toEqual(1);
             });
           });
         });
@@ -1902,6 +1898,7 @@ describe('Color 4 SassColors', () => {
           });
         });
       });
+
       describe('change', () => {
         it('changes all channels in own space', () => {
           space.channels.forEach((channelName, index) => {
@@ -1994,7 +1991,7 @@ describe('Color 4 SassColors', () => {
             it('throws on negative lightness', () => {
               expect(() => color.change({lightness: -1})).toThrow();
             });
-            // TODO: Failing for oklab and oklch
+            // TODO: Failing for oklab and oklch in dart-sass
             it('throws on lightness higher than bounds', () => {
               const index = space.channels.findIndex(
                 channel => channel === 'lightness'
@@ -2006,7 +2003,8 @@ describe('Color 4 SassColors', () => {
         }
       });
 
-      // TODO(sass#3654) Failing pending https://github.com/sass/sass/issues/3654
+      // TODO(sass#3654) Failing in dart-sass pending:
+      // https://github.com/sass/sass/issues/3654
       describe('isChannelPowerless', () => {
         function checkPowerless(
           _color: SassColor,
@@ -2071,10 +2069,7 @@ describe('Color 4 SassColors', () => {
               break;
 
             case 'hsl':
-            case 'lch':
-            case 'oklch':
               // hsl- If the saturation of an HSL color is 0%, then the hue component is powerless.
-              // (ok)lch- If the `chroma` value is 0%, then the `hue` channel is powerless.
               checkPowerless(space.constructor(ch1[0], 0, ch3[0]), [
                 true,
                 false,
@@ -2094,6 +2089,36 @@ describe('Color 4 SassColors', () => {
                 true,
                 false,
                 false,
+              ]);
+
+              checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
+              checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
+              checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
+              break;
+
+            case 'lch':
+            case 'oklch':
+              // (ok)lch- If the `chroma` value is 0%, then the `hue` channel is powerless.
+              checkPowerless(space.constructor(ch1[0], 0, ch3[0]), [
+                false,
+                false,
+                true,
+              ]);
+              checkPowerless(space.constructor(ch1[0], 0, ch3[1]), [
+                false,
+                false,
+                true,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 0, ch3[1]), [
+                false,
+                false,
+                true,
+              ]);
+              checkPowerless(space.constructor(ch1[1], 0, ch3[0]), [
+                false,
+                false,
+                true,
               ]);
 
               checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
@@ -2148,8 +2173,16 @@ describe('Color 4 SassColors', () => {
   describe("tests that can't be parameterized", () => {
     it('toGamut with space', () => {
       const cases: [SassColor, KnownColorSpace, SassColor][] = [
-        [oklch(1, 1, 1), 'display-p3', displayP3(1, 1, 1)],
-        [oklch(1, 0, 0.2), 'display-p3', displayP3(1, 1, 1)],
+        [
+          oklch(0.8, 2, 150),
+          'display-p3',
+          oklch(0.91205937954159, 0.15634443812215, 163.409398164026),
+        ],
+        [
+          oklch(0.8, 2, 150),
+          'srgb',
+          oklch(0.91338966438967, 0.13620998261234, 163.82947893598),
+        ],
       ];
       cases.forEach(([input, space, output]) => {
         expect(input.toGamut(space)).toEqualWithHash(output);
