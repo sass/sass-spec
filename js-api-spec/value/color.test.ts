@@ -1158,6 +1158,7 @@ describe('SassColor', () => {
     });
 
     describe('hsl()', () => {
+      // TODO: Failing in dart-sass because saturation should not be clamped
       it('allows valid values', () => {
         expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
         expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
@@ -1224,6 +1225,8 @@ describe('SassColor', () => {
     });
 
     describe('hwb()', () => {
+      // TODO: Failing in dart-sass because whiteness and blackness should not
+      // be clamped
       it('allows valid values', () => {
         expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
         expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
@@ -1375,6 +1378,8 @@ describe('SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
+    // TODO: Failing in dart-sass because legacy colors are equal even if in a
+    // different (legacy) color space
     it('equals the same color even in a different color space', () => {
       expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
       expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
@@ -1426,6 +1431,8 @@ describe('SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
+    // TODO: Failing in dart-sass because legacy colors are equal even if in a
+    // different (legacy) color space
     it('equals the same color even in a different color space', () => {
       expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
       expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
@@ -1885,16 +1892,21 @@ describe('Color 4 SassColors', () => {
           expect(noAlphaColor.alpha).toBe(0);
         });
       });
-      describe('interpolate', () => {
-        it('interpolates examples', () => {
-          const examples = interpolations[space.name];
-          examples.forEach(([input, output]) => {
-            const res = color.interpolate(blue, {
-              weight: input.weight,
-              method: input.method as HueInterpolationMethod,
+
+      // Waiting on new ColorJS release to fix `hue` interpolation:
+      // https://github.com/LeaVerou/color.js/pull/338
+      skipForImpl('sass-embedded', () => {
+        describe('interpolate', () => {
+          it('interpolates examples', () => {
+            const examples = interpolations[space.name];
+            examples.forEach(([input, output]) => {
+              const res = color.interpolate(blue, {
+                weight: input.weight,
+                method: input.method as HueInterpolationMethod,
+              });
+              const outputColor = space.constructor(...output);
+              expect(res).toEqualWithHash(outputColor);
             });
-            const outputColor = space.constructor(...output);
-            expect(res).toEqualWithHash(outputColor);
           });
         });
       });
@@ -2171,21 +2183,24 @@ describe('Color 4 SassColors', () => {
     });
   });
   describe("tests that can't be parameterized", () => {
-    it('toGamut with space', () => {
-      const cases: [SassColor, KnownColorSpace, SassColor][] = [
-        [
-          oklch(0.8, 2, 150),
-          'display-p3',
-          oklch(0.91205937954159, 0.15634443812215, 163.409398164026),
-        ],
-        [
-          oklch(0.8, 2, 150),
-          'srgb',
-          oklch(0.91338966438967, 0.13620998261234, 163.82947893598),
-        ],
-      ];
-      cases.forEach(([input, space, output]) => {
-        expect(input.toGamut(space)).toEqualWithHash(output);
+    // Waiting on a fix for: https://github.com/LeaVerou/color.js/issues/154
+    skipForImpl('sass-embedded', () => {
+      it('toGamut with space', () => {
+        const cases: [SassColor, KnownColorSpace, SassColor][] = [
+          [
+            oklch(0.8, 2, 150),
+            'display-p3',
+            oklch(0.8011972524233195, 0.31025433677129627, 149.69615588210382),
+          ],
+          [
+            oklch(0.8, 2, 150),
+            'srgb',
+            oklch(0.8086628549532134, 0.23694508940439973, 147.5313920153958),
+          ],
+        ];
+        cases.forEach(([input, space, output]) => {
+          expect(input.toGamut(space)).toEqualWithHash(output);
+        });
       });
     });
     it('channel with space specified, missing returns 0', () => {
