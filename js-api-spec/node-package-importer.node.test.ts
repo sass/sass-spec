@@ -205,6 +205,88 @@ describe('Node Package Importer', () => {
           {changeEntryPoint: 'index.js'}
         );
       }));
+    describe('wildcards', () => {
+      it('resolves with partial', () =>
+        sandbox(dir => {
+          dir.write({
+            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+            'node_modules/foo/package.json': manifestBuilder({
+              exports: {'./*.scss': './src/sass/*.scss'},
+            }),
+          });
+          dir.chdir(
+            () => {
+              expect(
+                compileString('@use "pkg:foo/variables";', {
+                  importers: [nodePackageImporter],
+                }).css
+              ).toEqualIgnoringWhitespace('a {b: c;}');
+            },
+            {changeEntryPoint: 'index.js'}
+          );
+        }));
+      it('resolves file extension variant', () =>
+        sandbox(dir => {
+          dir.write({
+            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+            'node_modules/foo/package.json': manifestBuilder({
+              exports: {'./sass/*': './src/sass/*'},
+            }),
+          });
+          dir.chdir(
+            () => {
+              expect(
+                compileString('@use "pkg:foo/sass/variables";', {
+                  importers: [nodePackageImporter],
+                }).css
+              ).toEqualIgnoringWhitespace('a {b: c;}');
+            },
+            {changeEntryPoint: 'index.js'}
+          );
+        }));
+      it('resolves multipart paths', () =>
+        sandbox(dir => {
+          dir.write({
+            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+            'node_modules/foo/package.json': manifestBuilder({
+              exports: {'./*.scss': './src/*.scss'},
+            }),
+          });
+          dir.chdir(
+            () => {
+              expect(
+                compileString('@use "pkg:foo/sass/variables";', {
+                  importers: [nodePackageImporter],
+                }).css
+              ).toEqualIgnoringWhitespace('a {b: c;}');
+            },
+            {changeEntryPoint: 'index.js'}
+          );
+        }));
+      it('throws if multiple wildcard export match', () =>
+        sandbox(dir => {
+          dir.write({
+            'node_modules/foo/src/sass/variables.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
+            'node_modules/foo/package.json': manifestBuilder({
+              exports: {'./*.scss': './src/sass/*.scss'},
+            }),
+          });
+          dir.chdir(
+            () => {
+              expect(
+                () =>
+                  compileString('@use "pkg:foo/variables";', {
+                    importers: [nodePackageImporter],
+                  }).css
+              ).toThrowSassException({
+                includes: 'multiple potential resolutions',
+              });
+            },
+            {changeEntryPoint: 'index.js'}
+          );
+        }));
+    });
   });
   describe('without subpath', () => {
     it('sass key in package.json', () =>
