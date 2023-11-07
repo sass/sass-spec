@@ -356,13 +356,13 @@ const toLooselyEqual = (received: unknown, actual: number) => {
 };
 const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
   function isSassColor(item: unknown): item is sass.SassColor {
-    return !!(received as sass.SassColor).assertColor();
+    return !!(item as sass.SassColor).assertColor();
   }
   if (!isSassColor(received)) {
     throw new Error('Received value must be a SassColor');
   }
   const unequalIndices: number[] = [];
-  received.channelsOrNull.forEach((channel, index) => {
+  received.channelsOrNull.forEach((channel: number | null, index: number) => {
     const actualChannel = actual.channelsOrNull.get(index);
     if (channel === null) {
       if (actualChannel !== null) unequalIndices.push(index);
