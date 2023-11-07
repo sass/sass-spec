@@ -61,6 +61,17 @@ declare global {
       toFuzzyEqual(value: number): T;
 
       /**
+       * Matches a number that is equal to `value` to 5 decimal places.
+       */
+      toLooselyEqual(value: number): T;
+
+      /**
+       * Matches a SassColor where each channel in `value` is equal to 5 decimal
+       * places.
+       */
+      toLooselyEqualColor(value: sass.SassColor): T;
+
+      /**
        * Matches an array against an Immutable List. Non-numeric values are
        * exactly matched, and numbers are fuzzy matched using
        * `SassNumber.equals()`.
@@ -334,6 +345,42 @@ const toFuzzyEqual = (received: unknown, actual: number) => {
   };
 };
 
+const toLooselyEqual = (received: unknown, actual: number) => {
+  if (typeof received !== 'number') {
+    throw new Error('Received value must be a number');
+  }
+  return {
+    message: `expected ${received} to loosely equal ${actual} to 5 decimal places`,
+    pass: Math.round((received * 10) ^ 5) === Math.round((actual * 10) ^ 5),
+  };
+};
+const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
+  function isSassColor(item: unknown): item is sass.SassColor {
+    return !!(received as sass.SassColor).assertColor();
+  }
+  if (!isSassColor(received)) {
+    throw new Error('Received value must be a SassColor');
+  }
+  const unequalIndices: number[] = [];
+  received.channelsOrNull.forEach((channel, index) => {
+    const actualChannel = actual.channelsOrNull.get(index);
+    if (channel === null) {
+      if (actualChannel !== null) unequalIndices.push(index);
+    } else if (
+      !actualChannel ||
+      Math.round((channel * 10) ^ 5) !== Math.round((actualChannel * 10) ^ 5)
+    ) {
+      unequalIndices.push(index);
+    }
+  });
+  return {
+    message: `expected ${received} to loosely equal ${actual} to 5 decimal places, but indices ${unequalIndices.join(
+      ','
+    )} differ`,
+    pass: unequalIndices.length === 0,
+  };
+};
+
 const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
   if (!immutable.List.isList(received)) {
     throw new Error('Received value must be an Immutuable List');
@@ -391,6 +438,12 @@ beforeAll(() => {
     }),
     toFuzzyEqual: () => ({
       compare: toFuzzyEqual,
+    }),
+    toLooselyEqual: () => ({
+      compare: toLooselyEqual,
+    }),
+    toLooselyEqualColor: () => ({
+      compare: toLooselyEqualColor,
     }),
     toFuzzyEqualList: () => ({
       compare: toFuzzyEqualList,

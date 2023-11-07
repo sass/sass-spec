@@ -28,21 +28,17 @@ describe('Color 4 SassColors Conversions', () => {
         blue = space.constructor(...space.blue);
       });
 
-      // TODO: Space conversions in ColorJS are close but not precise enough to
-      // match
-      skipForImpl('sass-embedded', () => {
-        describe('toSpace', () => {
-          spaceNames.forEach(destinationSpaceId => {
-            it(`converts pink to ${destinationSpaceId}`, () => {
-              const destinationSpace = spaces[destinationSpaceId];
-              const res = color.toSpace(destinationSpace.name);
-              expect(res.space).toBe(destinationSpace.name);
+      describe('toSpace', () => {
+        spaceNames.forEach(destinationSpaceId => {
+          it(`converts pink to ${destinationSpaceId}`, () => {
+            const destinationSpace = spaces[destinationSpaceId];
+            const res = color.toSpace(destinationSpace.name);
+            expect(res.space).toBe(destinationSpace.name);
 
-              const expected = destinationSpace.constructor(
-                ...destinationSpace.pink
-              );
-              expect(res).toEqualWithHash(expected);
-            });
+            const expected = destinationSpace.constructor(
+              ...destinationSpace.pink
+            );
+            expect(res).toLooselyEqualColor(expected);
           });
         });
       });
@@ -59,7 +55,7 @@ describe('Color 4 SassColors Conversions', () => {
                 method: input.method as HueInterpolationMethod,
               });
               const outputColor = space.constructor(...output);
-              expect(res).toEqualWithHash(outputColor);
+              expect(res).toLooselyEqualColor(outputColor);
             });
           });
         });
@@ -74,22 +70,22 @@ describe('Color 4 SassColors Conversions', () => {
               space.pink[2],
             ] as [number, number, number];
             expectedChannels[index] = 0;
-            expect(color.change({[channelName]: 0})).toEqualWithHash(
+            expect(color.change({[channelName]: 0})).toLooselyEqualColor(
               space.constructor(...expectedChannels)
             );
           });
-          expect(color.change({alpha: 0})).toEqualWithHash(
+          expect(color.change({alpha: 0})).toLooselyEqualColor(
             space.constructor(...space.pink, 0)
           );
         });
 
         it('change with explicit undefined makes no change', () => {
           space.channels.forEach(channelName => {
-            expect(color.change({[channelName]: undefined})).toEqualWithHash(
-              space.constructor(...space.pink)
-            );
+            expect(
+              color.change({[channelName]: undefined})
+            ).toLooselyEqualColor(space.constructor(...space.pink));
           });
-          expect(color.change({alpha: undefined})).toEqualWithHash(
+          expect(color.change({alpha: undefined})).toLooselyEqualColor(
             space.constructor(...space.pink, 1)
           );
         });
@@ -108,14 +104,14 @@ describe('Color 4 SassColors Conversions', () => {
               [channelName]: null,
               space: space.name as 'xyz',
             });
-            expect(changed).toEqualWithHash(
+            expect(changed).toLooselyEqualColor(
               space.constructor(...expectedChannels)
             );
             expect(changed.isChannelMissing(channelName)).toBeTrue();
           });
           expect(
             color.change({alpha: null, space: space.name as 'xyz'})
-          ).toEqualWithHash(space.constructor(...space.pink, null));
+          ).toLooselyEqualColor(space.constructor(...space.pink, null));
         });
 
         spaceNames.forEach(destinationSpaceId => {
@@ -144,7 +140,7 @@ describe('Color 4 SassColors Conversions', () => {
                   [channel]: channelValue,
                   space: destinationSpace.name as ColorSpaceXyz,
                 })
-              ).toEqualWithHash(expected);
+              ).toLooselyEqualColor(expected);
             });
           });
         });

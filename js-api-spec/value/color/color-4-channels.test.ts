@@ -8,7 +8,6 @@ import {SassColor} from 'sass';
 import type {ChannelNameXyz, ColorSpaceXyz, KnownColorSpace} from 'sass';
 import {List} from 'immutable';
 
-import {skipForImpl} from '../../utils';
 import {spaces} from './spaces';
 import {channelCases, channelNames} from './utils';
 
@@ -110,25 +109,21 @@ describe('Color 4 SassColor Channels', () => {
               });
             });
           });
-          // TODO: Space conversions in ColorJS are close but not precise enough
-          // to match
-          skipForImpl('sass-embedded', () => {
-            spaceNames.forEach(destinationSpaceId => {
-              it(`returns value when ${destinationSpaceId} is specified`, () => {
-                const destinationSpace = spaces[destinationSpaceId];
-                destinationSpace.channels.forEach((channel, index) => {
-                  expect(
-                    color.channel(channel as ChannelNameXyz, {
-                      space: destinationSpace.name as ColorSpaceXyz,
-                    })
-                  ).toFuzzyEqual(destinationSpace.pink[index]);
-                });
+          spaceNames.forEach(destinationSpaceId => {
+            it(`returns value when ${destinationSpaceId} is specified`, () => {
+              const destinationSpace = spaces[destinationSpaceId];
+              destinationSpace.channels.forEach((channel, index) => {
                 expect(
-                  color.channel('alpha' as ChannelNameXyz, {
+                  color.channel(channel as ChannelNameXyz, {
                     space: destinationSpace.name as ColorSpaceXyz,
                   })
-                ).toEqual(1);
+                ).toLooselyEqual(destinationSpace.pink[index]);
               });
+              expect(
+                color.channel('alpha' as ChannelNameXyz, {
+                  space: destinationSpace.name as ColorSpaceXyz,
+                })
+              ).toEqual(1);
             });
           });
         });
