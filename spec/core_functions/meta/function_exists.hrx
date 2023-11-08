@@ -73,13 +73,6 @@ a {
 
 <===>
 ================================================================================
-<===> different_module/options.yml
----
-:todo:
-- sass/libsass#2807
-
-<===>
-================================================================================
 <===> different_module/undefined/input.scss
 @use "sass:color";
 a {b: function-exists("c", "color")}
@@ -209,11 +202,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> named/input.scss
 @use "sass:color";
 
@@ -237,21 +225,8 @@ Error: $name: 12px is not a string.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/type/name/error-libsass
-Error: $name: 12px is not a string for `function-exists'
-        on line 1:7 of input.scss, in function `function-exists`
-        from line 1:7 of input.scss
->> a {b: function-exists(12px)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/argument/type/module/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> error/argument/type/module/input.scss
 a {b: function-exists("red", 1)}
 
@@ -280,13 +255,6 @@ Error: Missing argument $name.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/too_few/error-libsass
-Error: Function function-exists is missing argument $name.
-        on line 1 of input.scss
->> a {b: function-exists()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
@@ -304,20 +272,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/argument/too_many/error-libsass
-Error: wrong number of arguments (3 for 1) for `function-exists'
-        on line 1:7 of input.scss
->> a {b: function-exists(c, d, e)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/conflict/options.yml
----
-:todo:
-- sass/libsass#2807
-
 <===> error/conflict/input.scss
 @use "other1" as *;
 @use "other2" as *;
@@ -342,13 +298,6 @@ Error: This function is available from multiple global modules.
     |       ^^^^^^^^^^^^^^^^^^^^^^^ function use
     '
   input.scss 4:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/module/options.yml
----
-:todo:
-- sass/libsass#2807
 
 <===>
 ================================================================================

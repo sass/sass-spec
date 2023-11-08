@@ -79,10 +79,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_css_var/options.yml
-':ignore_for':
-  - libsass
-
 <===> with_css_var/input.scss
 a {b: grayscale(var(--c))}
 
@@ -93,10 +89,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> with_calc/input.scss
 a {b: grayscale(calc(1 + 2))}
 
@@ -107,10 +99,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_unquoted_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> with_unquoted_calc/input.scss
 a {b: grayscale(unquote('calc(1)'))}
 
@@ -136,13 +124,6 @@ Error: Missing argument $color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function grayscale is missing argument $color.
-        on line 1 of input.scss
->> a {b: grayscale()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -160,13 +141,6 @@ Error: Only 1 argument allowed, but 2 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `grayscale'
-        on line 1:7 of input.scss
->> a {b: grayscale(red, 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/input.scss
@@ -180,20 +154,8 @@ Error: $color: c is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/error-libsass
-Error: argument `$color` of `grayscale($color)` must be a color
-        on line 1:7 of input.scss, in function `grayscale`
-        from line 1:7 of input.scss
->> a {b: grayscale(c)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/with_module/type/options.yml
-':ignore_for':
-  - libsass
-
 <===> error/with_module/type/input.scss
 @use 'sass:color';
 a {b: color.grayscale(var(--c))}
