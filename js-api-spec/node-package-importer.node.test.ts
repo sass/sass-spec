@@ -365,9 +365,23 @@ describe('Node Package Importer', () => {
         }));
     });
   });
-  xdescribe('with subpath', () => {
-    xit('resolves relative to package root');
-  });
+
+  it('with subpath, resolves relative to package root', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/bar/src/styles/sass/index.scss': 'a {b: c}',
+        'node_modules/bar/package.json': manifestBuilder(),
+      });
+      dir.chdir(
+        () => {
+          const result = compileString('@use "pkg:bar/src/styles/sass";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        },
+        {changeEntryPoint: 'index.js'}
+      );
+    }));
 
   describe('resolves from packages', () => {
     it('resolves from entry point', () =>
@@ -492,17 +506,17 @@ describe('Node Package Importer', () => {
       });
     });
   });
-  xit('fake Node Package Importer', () =>
+  it('faked Node Package Importer fails', () =>
     sandbox(dir => {
       dir.write({'foo/index.scss': 'a {from: dir}'});
 
       const foo = {_NodePackageImporterBrand: ''} as NodePackageImporter;
 
-      const result = compileString('@use "pkg:foo";', {
-        importers: [foo],
-        // loadPaths: [dir('dir')],
-      });
-      expect(result.css).toEqualIgnoringWhitespace('a { from: dir;}');
+      expect(() =>
+        compileString('@use "pkg:foo";', {
+          importers: [foo],
+        })
+      ).toThrow();
     }));
   describe('compilation methods', () => {
     it('compile', () =>
