@@ -489,7 +489,7 @@ describe('Node Package Importer', () => {
           {changeEntryPoint: 'deeply/nested/file/index.js'}
         );
       }));
-    it('throws if no match found', () => {
+    it('continues if no match found', () => {
       sandbox(dir => {
         dir.chdir(
           () => {
@@ -498,7 +498,7 @@ describe('Node Package Importer', () => {
                 importers: [nodePackageImporter],
               })
             ).toThrowSassException({
-              includes: "Node Package 'bah' could not be found",
+              includes: "Can't find stylesheet to import",
             });
           },
           {changeEntryPoint: 'index.js'}
