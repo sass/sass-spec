@@ -68,13 +68,6 @@ a {
 
 <===>
 ================================================================================
-<===> nested/options.yml
----
-:todo:
-- sass/libsass#3127
-
-<===>
-================================================================================
 <===> nested/found/partial_path/input.scss
 a {b: map-has-key((c: (d: (e: f))), c, d)}
 
@@ -136,14 +129,6 @@ Error: $map: 1 is not a map.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/map/error-libsass
-Error: argument `$map` of `map-has-key($map, $key)` must be a map
-        on line 1:7 of input.scss, in function `map-has-key`
-        from line 1:7 of input.scss
->> a {b: map-has-key(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -160,10 +145,3 @@ Error: Missing argument $key.
   |           ============================= declaration
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function map-has-key is missing argument $key.
-        on line 1 of input.scss
->> a {b: map-has-key(1)}
-
-   ------^

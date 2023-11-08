@@ -17,11 +17,6 @@ a {
   b: rgb(1, 2, 3);
 }
 
-<===> args/positional/output-libsass.css
-a {
-  b: #010203;
-}
-
 <===>
 ================================================================================
 <===> args/named/input.scss
@@ -30,11 +25,6 @@ a {b: call(get-function("rgb"), $blue: 1, $green: 2, $red: 3)}
 <===> args/named/output.css
 a {
   b: rgb(3, 2, 1);
-}
-
-<===> args/named/output-libsass.css
-a {
-  b: #030201;
 }
 
 <===>
@@ -48,11 +38,6 @@ a {
   b: rgb(1, 2, 3);
 }
 
-<===> args/splat/positional/output-libsass.css
-a {
-  b: #010203;
-}
-
 <===>
 ================================================================================
 <===> args/splat/named/input.scss
@@ -64,18 +49,8 @@ a {
   b: rgb(3, 1, 2);
 }
 
-<===> args/splat/named/output-libsass.css
-a {
-  b: #030102;
-}
-
 <===>
 ================================================================================
-<===> args/splat/combined/options.yml
----
-:todo:
-- sass/libsass#2942
-
 <===> args/splat/combined/input.scss
 $positional: 1 2;
 $named: ("blue": 3);
@@ -108,10 +83,6 @@ Recommendation: call(get-function("a"))
   '
     input.scss 2:7  root stylesheet
 
-<===> string/local/warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Dart Sass 2.0.0. Use call(get-function("a")) instead.
-
 <===>
 ================================================================================
 <===> string/built_in/input.scss
@@ -120,11 +91,6 @@ a {b: call("rgb", 1, 2, 3)}
 <===> string/built_in/output.css
 a {
   b: rgb(1, 2, 3);
-}
-
-<===> string/built_in/output-libsass.css
-a {
-  b: #010203;
 }
 
 <===> string/built_in/warning
@@ -138,10 +104,6 @@ Recommendation: call(get-function("rgb"))
   '
     input.scss 1:7  root stylesheet
 
-<===> string/built_in/warning-libsass
-DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal
-in Sass 4.0. Use call(get-function("rgb")) instead.
-
 <===>
 ================================================================================
 <===> named/input.scss
@@ -152,18 +114,8 @@ a {
   b: rgb(1, 2, 3);
 }
 
-<===> named/output-libsass.css
-a {
-  b: #010203;
-}
-
 <===>
 ================================================================================
-<===> error/type/options.yml
----
-:todo:
-- sass/libsass#2940
-
 <===> error/type/input.scss
 a {b: call(1)}
 
@@ -192,13 +144,6 @@ Error: Missing argument $function.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function call is missing argument $function.
-        on line 1 of input.scss
->> a {b: call()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/invalid_args/input.scss
@@ -211,13 +156,6 @@ Error: Missing element $green.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/invalid_args/error-libsass
-Error: Function rgb is missing argument $green.
-        on line 1:7 of input.scss
->> a {b: call(get-function("rgb"), 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -234,10 +172,3 @@ Error: Undefined variable.
   |                                          ^^^^^^^^^^
   '
   input.scss 4:42  root stylesheet
-
-<===> error/if_args/error-libsass
-Error: Undefined variable: "$undefined".
-        on line 4:42 of input.scss
->> a {b: call(get-function("if"), true, "", $undefined)}
-
-   -----------------------------------------^
