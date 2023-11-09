@@ -10,7 +10,7 @@ import {
   nodePackageImporter,
 } from 'sass';
 
-import {sassImpl, skipForImpl, URL} from './utils';
+import {sassImpl, runOnlyForImpl, URL} from './utils';
 
 it('uses an importer to resolve an @import', () => {
   const result = compileString('@import "orange";', {
@@ -763,7 +763,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
     includes: 'Invalid argument (sourceMapUrl): must be absolute',
   });
 });
-skipForImpl(['dart-sass', 'sass-embedded'], () => {
+runOnlyForImpl('browser', () => {
   it('node package loader throws error in browser', () => {
     expect(() =>
       compileString('@use "pkg:foo";', {
