@@ -65,113 +65,110 @@ describe('Color 4 SassColors Conversions', () => {
         });
       });
 
-      // TODO(jgerigmeyer): implement `change` in sass-embedded
-      skipForImpl('sass-embedded', () => {
-        describe('change', () => {
-          it('changes all channels in own space', () => {
-            space.channels.forEach((channelName, index) => {
-              const expectedChannels = [
-                space.pink[0],
-                space.pink[1],
-                space.pink[2],
-              ] as [number, number, number];
-              expectedChannels[index] = 0;
-              expect(color.change({[channelName]: 0})).toLooselyEqualColor(
-                space.constructor(...expectedChannels)
-              );
-            });
-            expect(color.change({alpha: 0})).toLooselyEqualColor(
-              space.constructor(...space.pink, 0)
+      describe('change', () => {
+        it('changes all channels in own space', () => {
+          space.channels.forEach((channelName, index) => {
+            const expectedChannels = [
+              space.pink[0],
+              space.pink[1],
+              space.pink[2],
+            ] as [number, number, number];
+            expectedChannels[index] = 0;
+            expect(color.change({[channelName]: 0})).toLooselyEqualColor(
+              space.constructor(...expectedChannels)
             );
           });
-
-          it('change with explicit undefined makes no change', () => {
-            space.channels.forEach(channelName => {
-              expect(
-                color.change({[channelName]: undefined})
-              ).toLooselyEqualColor(space.constructor(...space.pink));
-            });
-            expect(color.change({alpha: undefined})).toLooselyEqualColor(
-              space.constructor(...space.pink, 1)
-            );
-          });
-
-          it('explicit null sets channel to missing', () => {
-            // Explicitly set space to avoid legacy null-alpha behavior, which is
-            // tested in Legacy suite.
-            space.channels.forEach((channelName, index) => {
-              const expectedChannels = [
-                space.pink[0],
-                space.pink[1],
-                space.pink[2],
-              ] as [number | null, number | null, number | null];
-              expectedChannels[index] = null;
-              const changed = color.change({
-                [channelName]: null,
-                space: space.name as 'xyz',
-              });
-              expect(changed).toLooselyEqualColor(
-                space.constructor(...expectedChannels)
-              );
-              expect(changed.isChannelMissing(channelName)).toBeTrue();
-            });
-            expect(
-              color.change({alpha: null, space: space.name as 'xyz'})
-            ).toLooselyEqualColor(space.constructor(...space.pink, null));
-          });
-
-          spaceNames.forEach(destinationSpaceId => {
-            it(`changes all channels with space set to ${destinationSpaceId}`, () => {
-              const destinationSpace = spaces[destinationSpaceId];
-              destinationSpace.channels.forEach((channel, index) => {
-                const destinationChannels = [
-                  destinationSpace.pink[0],
-                  destinationSpace.pink[1],
-                  destinationSpace.pink[2],
-                ] as [number, number, number];
-
-                // Certain channel values cause equality issues on 1-3 of 16*16*3
-                // cases. 0.45 is a magic number that works around this until the
-                // root cause is determined.
-                const scale = 0.45;
-                const channelValue = destinationSpace.ranges[index][1] * scale;
-
-                destinationChannels[index] = channelValue;
-                const expected = destinationSpace
-                  .constructor(...destinationChannels)
-                  .toSpace(space.name);
-
-                expect(
-                  color.change({
-                    [channel]: channelValue,
-                    space: destinationSpace.name as ColorSpaceXyz,
-                  })
-                ).toLooselyEqualColor(expected);
-              });
-            });
-          });
-          it('should throw on invalid alpha', () => {
-            expect(() => color.change({alpha: -1})).toThrow();
-            expect(() => color.change({alpha: 1.1})).toThrow();
-          });
-          if (space.channels.includes('lightness')) {
-            describe('out of range lightness', () => {
-              it('throws on negative lightness', () => {
-                expect(() => color.change({lightness: -1})).toThrow();
-              });
-              // TODO: Failing for oklab and oklch in dart-sass
-              skipForImpl('dart-sass', () => {
-                it('throws on lightness higher than bounds', () => {
-                  const index = space.channels.findIndex(
-                    channel => channel === 'lightness'
-                  );
-                  const lightness = space.ranges[index][1] + 1;
-                  expect(() => color.change({lightness})).toThrow();
-                });
-              });
-            });
-          }
+          expect(color.change({alpha: 0})).toLooselyEqualColor(
+            space.constructor(...space.pink, 0)
+          );
         });
+
+        it('change with explicit undefined makes no change', () => {
+          space.channels.forEach(channelName => {
+            expect(
+              color.change({[channelName]: undefined})
+            ).toLooselyEqualColor(space.constructor(...space.pink));
+          });
+          expect(color.change({alpha: undefined})).toLooselyEqualColor(
+            space.constructor(...space.pink, 1)
+          );
+        });
+
+        it('explicit null sets channel to missing', () => {
+          // Explicitly set space to avoid legacy null-alpha behavior, which is
+          // tested in Legacy suite.
+          space.channels.forEach((channelName, index) => {
+            const expectedChannels = [
+              space.pink[0],
+              space.pink[1],
+              space.pink[2],
+            ] as [number | null, number | null, number | null];
+            expectedChannels[index] = null;
+            const changed = color.change({
+              [channelName]: null,
+              space: space.name as 'xyz',
+            });
+            expect(changed).toLooselyEqualColor(
+              space.constructor(...expectedChannels)
+            );
+            expect(changed.isChannelMissing(channelName)).toBeTrue();
+          });
+          expect(
+            color.change({alpha: null, space: space.name as 'xyz'})
+          ).toLooselyEqualColor(space.constructor(...space.pink, null));
+        });
+
+        spaceNames.forEach(destinationSpaceId => {
+          it(`changes all channels with space set to ${destinationSpaceId}`, () => {
+            const destinationSpace = spaces[destinationSpaceId];
+            destinationSpace.channels.forEach((channel, index) => {
+              const destinationChannels = [
+                destinationSpace.pink[0],
+                destinationSpace.pink[1],
+                destinationSpace.pink[2],
+              ] as [number, number, number];
+
+              // Certain channel values cause equality issues on 1-3 of 16*16*3
+              // cases. 0.45 is a magic number that works around this until the
+              // root cause is determined.
+              const scale = 0.45;
+              const channelValue = destinationSpace.ranges[index][1] * scale;
+
+              destinationChannels[index] = channelValue;
+              const expected = destinationSpace
+                .constructor(...destinationChannels)
+                .toSpace(space.name);
+
+              expect(
+                color.change({
+                  [channel]: channelValue,
+                  space: destinationSpace.name as ColorSpaceXyz,
+                })
+              ).toLooselyEqualColor(expected);
+            });
+          });
+        });
+        it('should throw on invalid alpha', () => {
+          expect(() => color.change({alpha: -1})).toThrow();
+          expect(() => color.change({alpha: 1.1})).toThrow();
+        });
+        if (space.channels.includes('lightness')) {
+          describe('out of range lightness', () => {
+            it('throws on negative lightness', () => {
+              expect(() => color.change({lightness: -1})).toThrow();
+            });
+            // TODO: Failing for oklab and oklch in dart-sass
+            skipForImpl('dart-sass', () => {
+              it('throws on lightness higher than bounds', () => {
+                const index = space.channels.findIndex(
+                  channel => channel === 'lightness'
+                );
+                const lightness = space.ranges[index][1] + 1;
+                expect(() => color.change({lightness})).toThrow();
+              });
+            });
+          });
+        }
       });
 
       describe('isInGamut', () => {

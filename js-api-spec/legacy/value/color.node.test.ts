@@ -5,7 +5,6 @@
 import * as sass from 'sass';
 
 import {parseValue} from './utils';
-import {skipForImpl} from '../../utils';
 
 describe('from a parameter', () => {
   let color: sass.types.Color;
@@ -20,74 +19,71 @@ describe('from a parameter', () => {
     expect(color.getA()).toBe(0.42);
   });
 
-  // TODO(jgerigmeyer): implement `change` in sass-embedded
-  skipForImpl('sass-embedded', () => {
-    it('each channel can be set without affecting the original color', () =>
-      expect(
-        sass
-          .renderSync({
-            data: `
+  it('each channel can be set without affecting the original color', () =>
+    expect(
+      sass
+        .renderSync({
+          data: `
               a {
                 $color: #abc;
                 b: foo($color);
                 c: $color;
               }
             `,
-            functions: {
-              'foo($color)': ((color: sass.types.Color) => {
-                color.setR(11);
-                expect(color.getR()).toBe(11);
-                color.setG(22);
-                expect(color.getG()).toBe(22);
-                color.setB(33);
-                expect(color.getB()).toBe(33);
-                color.setA(0.5);
-                expect(color.getA()).toBe(0.5);
-                return color;
-              }) as sass.LegacySyncFunction,
-            },
-          })
-          .css.toString()
-      ).toEqualIgnoringWhitespace('a { b: rgba(11, 22, 33, 0.5); c: #abc; }'));
+          functions: {
+            'foo($color)': ((color: sass.types.Color) => {
+              color.setR(11);
+              expect(color.getR()).toBe(11);
+              color.setG(22);
+              expect(color.getG()).toBe(22);
+              color.setB(33);
+              expect(color.getB()).toBe(33);
+              color.setA(0.5);
+              expect(color.getA()).toBe(0.5);
+              return color;
+            }) as sass.LegacySyncFunction,
+          },
+        })
+        .css.toString()
+    ).toEqualIgnoringWhitespace('a { b: rgba(11, 22, 33, 0.5); c: #abc; }'));
 
-    it('channels are clamped to the valid range', () => {
-      color.setR(256);
-      expect(color.getR()).toBe(255);
-      color.setR(-1);
-      expect(color.getR()).toBe(0);
+  it('channels are clamped to the valid range', () => {
+    color.setR(256);
+    expect(color.getR()).toBe(255);
+    color.setR(-1);
+    expect(color.getR()).toBe(0);
 
-      color.setG(256);
-      expect(color.getG()).toBe(255);
-      color.setG(-1);
-      expect(color.getG()).toBe(0);
+    color.setG(256);
+    expect(color.getG()).toBe(255);
+    color.setG(-1);
+    expect(color.getG()).toBe(0);
 
-      color.setB(256);
-      expect(color.getB()).toBe(255);
-      color.setB(-1);
-      expect(color.getB()).toBe(0);
+    color.setB(256);
+    expect(color.getB()).toBe(255);
+    color.setB(-1);
+    expect(color.getB()).toBe(0);
 
-      color.setA(1.01);
-      expect(color.getA()).toBe(1.0);
-      color.setA(-0.01);
-      expect(color.getA()).toBe(0.0);
-    });
+    color.setA(1.01);
+    expect(color.getA()).toBe(1.0);
+    color.setA(-0.01);
+    expect(color.getA()).toBe(0.0);
+  });
 
-    it('channels are rounded to the nearest int', () => {
-      color.setR(0.4);
-      expect(color.getR()).toBe(0);
-      color.setR(0.5);
-      expect(color.getR()).toBe(1);
+  it('channels are rounded to the nearest int', () => {
+    color.setR(0.4);
+    expect(color.getR()).toBe(0);
+    color.setR(0.5);
+    expect(color.getR()).toBe(1);
 
-      color.setG(0.4);
-      expect(color.getG()).toBe(0);
-      color.setG(0.5);
-      expect(color.getG()).toBe(1);
+    color.setG(0.4);
+    expect(color.getG()).toBe(0);
+    color.setG(0.5);
+    expect(color.getG()).toBe(1);
 
-      color.setB(0.4);
-      expect(color.getB()).toBe(0);
-      color.setB(0.5);
-      expect(color.getB()).toBe(1);
-    });
+    color.setB(0.4);
+    expect(color.getB()).toBe(0);
+    color.setB(0.5);
+    expect(color.getB()).toBe(1);
   });
 
   it('has a useful .constructor.name', () =>

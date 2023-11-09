@@ -406,245 +406,232 @@ describe('Legacy SassColor', () => {
     });
   });
 
-  // TODO(jgerigmeyer): implement `change` in sass-embedded
-  skipForImpl('sass-embedded', () => {
-    describe('changing color values', () => {
-      describe('change() for RGB', () => {
-        let color: SassColor;
-        beforeEach(() => {
-          color = legacyRGB(18, 52, 86);
-        });
-        it('changes RGB values', () => {
-          expect(color.change({red: 0})).toEqualWithHash(legacyRGB(0, 52, 86));
-          expect(color.change({green: 0})).toEqualWithHash(
-            legacyRGB(18, 0, 86)
-          );
-          expect(color.change({blue: 0})).toEqualWithHash(legacyRGB(18, 52, 0));
-          expect(color.change({alpha: 0.5})).toEqualWithHash(
-            legacyRGB(18, 52, 86, 0.5)
-          );
-          expect(
-            color.change({red: 0, green: 0, blue: 0, alpha: 0.5})
-          ).toEqualWithHash(legacyRGB(0, 0, 0, 0.5));
-        });
+  describe('changing color values', () => {
+    describe('change() for RGB', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyRGB(18, 52, 86);
+      });
+      it('changes RGB values', () => {
+        expect(color.change({red: 0})).toEqualWithHash(legacyRGB(0, 52, 86));
+        expect(color.change({green: 0})).toEqualWithHash(legacyRGB(18, 0, 86));
+        expect(color.change({blue: 0})).toEqualWithHash(legacyRGB(18, 52, 0));
+        expect(color.change({alpha: 0.5})).toEqualWithHash(
+          legacyRGB(18, 52, 86, 0.5)
+        );
+        expect(
+          color.change({red: 0, green: 0, blue: 0, alpha: 0.5})
+        ).toEqualWithHash(legacyRGB(0, 0, 0, 0.5));
+      });
 
-        it('allows valid values', () => {
-          expect(color.change({red: 0}).channel('red')).toBe(0);
-          expect(color.change({red: 255}).channel('red')).toBe(255);
-          expect(color.change({green: 0}).channel('green')).toBe(0);
-          expect(color.change({green: 255}).channel('green')).toBe(255);
-          expect(color.change({blue: 0}).channel('blue')).toBe(0);
-          expect(color.change({blue: 255}).channel('blue')).toBe(255);
-          expect(color.change({alpha: 0}).alpha).toBe(0);
-          expect(color.change({alpha: 1}).alpha).toBe(1);
-          expect(color.change({red: undefined}).channel('red')).toBe(18);
-        });
+      it('allows valid values', () => {
+        expect(color.change({red: 0}).channel('red')).toBe(0);
+        expect(color.change({red: 255}).channel('red')).toBe(255);
+        expect(color.change({green: 0}).channel('green')).toBe(0);
+        expect(color.change({green: 255}).channel('green')).toBe(255);
+        expect(color.change({blue: 0}).channel('blue')).toBe(0);
+        expect(color.change({blue: 255}).channel('blue')).toBe(255);
+        expect(color.change({alpha: 0}).alpha).toBe(0);
+        expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({red: undefined}).channel('red')).toBe(18);
+      });
 
-        it('allows out of range values which were invalid before color 4', () => {
-          expect(() => color.change({red: -1})).not.toThrow();
-          expect(() => color.change({red: 256})).not.toThrow();
-          expect(() => color.change({green: -1})).not.toThrow();
-          expect(() => color.change({green: 256})).not.toThrow();
-          expect(() => color.change({blue: -1})).not.toThrow();
-          expect(() => color.change({blue: 256})).not.toThrow();
-        });
-        it('disallows invalid alpha values', () => {
-          expect(() => color.change({alpha: -0.1})).toThrow();
-          expect(() => color.change({alpha: 1.1})).toThrow();
-        });
+      it('allows out of range values which were invalid before color 4', () => {
+        expect(() => color.change({red: -1})).not.toThrow();
+        expect(() => color.change({red: 256})).not.toThrow();
+        expect(() => color.change({green: -1})).not.toThrow();
+        expect(() => color.change({green: 256})).not.toThrow();
+        expect(() => color.change({blue: -1})).not.toThrow();
+        expect(() => color.change({blue: 256})).not.toThrow();
+      });
+      it('disallows invalid alpha values', () => {
+        expect(() => color.change({alpha: -0.1})).toThrow();
+        expect(() => color.change({alpha: 1.1})).toThrow();
+      });
 
-        it('does not round channels to the nearest integer', () => {
-          expect(
-            color.change({red: 0.1, green: 50.4, blue: 90.3}).channels
-          ).toFuzzyEqualList([0.1, 50.4, 90.3]);
-          expect(
-            color.change({red: -0.1, green: 50.5, blue: 90.9}).channels
-          ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
+      it('does not round channels to the nearest integer', () => {
+        expect(
+          color.change({red: 0.1, green: 50.4, blue: 90.3}).channels
+        ).toFuzzyEqualList([0.1, 50.4, 90.3]);
+        expect(
+          color.change({red: -0.1, green: 50.5, blue: 90.9}).channels
+        ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
+      });
+      it('emits deprecation for null values', () => {
+        const stdio = captureStdio(() => {
+          color.change({red: null});
+          color.change({green: null});
+          color.change({blue: null});
+          color.change({alpha: null});
         });
-        it('emits deprecation for null values', () => {
-          const stdio = captureStdio(() => {
-            color.change({red: null});
-            color.change({green: null});
-            color.change({blue: null});
-            color.change({alpha: null});
-          });
-          expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
-          expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+      });
+      it('emits deprecation for channels from unspecified space', () => {
+        const stdio = captureStdio(() => {
+          color.change({hue: 1});
         });
-        it('emits deprecation for channels from unspecified space', () => {
-          const stdio = captureStdio(() => {
-            color.change({hue: 1});
-          });
-          expect(stdio.err).toMatch('color-4-api');
+        expect(stdio.err).toMatch('color-4-api');
+      });
+    });
+
+    describe('change() for HSL', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyHsl(210, 65.3846153846154, 20.392156862745097);
+      });
+      it('changes HSL values', () => {
+        expect(color.change({hue: 120})).toEqualWithHash(
+          legacyHsl(120, 65.3846153846154, 20.392156862745097)
+        );
+        expect(color.change({hue: -120})).toEqualWithHash(
+          legacyHsl(240, 65.3846153846154, 20.392156862745097)
+        );
+        expect(color.change({saturation: 42})).toEqualWithHash(
+          legacyHsl(210, 42, 20.392156862745097)
+        );
+        expect(color.change({lightness: 42})).toEqualWithHash(
+          legacyHsl(210, 65.3846153846154, 42)
+        );
+        expect(color.change({alpha: 0.5})).toEqualWithHash(
+          legacyHsl(210, 65.3846153846154, 20.392156862745097, 0.5)
+        );
+        expect(
+          color.change({
+            hue: 120,
+            saturation: 42,
+            lightness: 42,
+            alpha: 0.5,
+          })
+        ).toEqualWithHash(legacyHsl(120, 42, 42, 0.5));
+        expect(color.change({hue: undefined})).toEqualWithHash(color);
+        // Emits deprecation warning which is tested elsewhere
+        captureStdio(() => {
+          expect(color.change({hue: null})).toEqualWithHash(color);
         });
       });
 
-      describe('change() for HSL', () => {
-        let color: SassColor;
-        beforeEach(() => {
-          color = legacyHsl(210, 65.3846153846154, 20.392156862745097);
-        });
-        it('changes HSL values', () => {
-          expect(color.change({hue: 120})).toEqualWithHash(
-            legacyHsl(120, 65.3846153846154, 20.392156862745097)
-          );
-          expect(color.change({hue: -120})).toEqualWithHash(
-            legacyHsl(240, 65.3846153846154, 20.392156862745097)
-          );
-          expect(color.change({saturation: 42})).toEqualWithHash(
-            legacyHsl(210, 42, 20.392156862745097)
-          );
-          expect(color.change({lightness: 42})).toEqualWithHash(
-            legacyHsl(210, 65.3846153846154, 42)
-          );
-          expect(color.change({alpha: 0.5})).toEqualWithHash(
-            legacyHsl(210, 65.3846153846154, 20.392156862745097, 0.5)
-          );
-          expect(
-            color.change({
-              hue: 120,
-              saturation: 42,
-              lightness: 42,
-              alpha: 0.5,
-            })
-          ).toEqualWithHash(legacyHsl(120, 42, 42, 0.5));
-          expect(color.change({hue: undefined})).toEqualWithHash(color);
-          // Emits deprecation warning which is tested elsewhere
-          captureStdio(() => {
-            expect(color.change({hue: null})).toEqualWithHash(color);
-          });
-        });
-
-        it('allows valid values', () => {
-          expect(color.change({saturation: 0}).channel('saturation')).toBe(0);
-          expect(color.change({saturation: 100}).channel('saturation')).toBe(
-            100
-          );
-          expect(color.change({lightness: 0}).channel('lightness')).toBe(0);
-          expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
-          expect(color.change({alpha: 0}).alpha).toBe(0);
-          expect(color.change({alpha: 1}).alpha).toBe(1);
-          expect(color.change({hue: undefined}).channel('hue')).toBe(210);
-        });
-
-        it('disallows invalid values', () => {
-          expect(() => color.change({saturation: -0.1})).toThrow();
-          expect(() => color.change({saturation: 100.1})).toThrow();
-          expect(() => color.change({lightness: -0.1})).toThrow();
-          expect(() => color.change({lightness: 100.1})).toThrow();
-          expect(() => color.change({alpha: -0.1})).toThrow();
-          expect(() => color.change({alpha: 1.1})).toThrow();
-        });
-
-        it('emits deprecation for null values', () => {
-          const stdio = captureStdio(() => {
-            color.change({hue: null});
-            color.change({saturation: null});
-            color.change({lightness: null});
-            color.change({alpha: null});
-          });
-          expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
-          expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
-        });
-        it('emits deprecation for channels from unspecified space', () => {
-          const stdio = captureStdio(() => {
-            color.change({red: 1});
-          });
-          expect(stdio.err).toMatch('color-4-api');
-        });
+      it('allows valid values', () => {
+        expect(color.change({saturation: 0}).channel('saturation')).toBe(0);
+        expect(color.change({saturation: 100}).channel('saturation')).toBe(100);
+        expect(color.change({lightness: 0}).channel('lightness')).toBe(0);
+        expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
+        expect(color.change({alpha: 0}).alpha).toBe(0);
+        expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({hue: undefined}).channel('hue')).toBe(210);
       });
 
-      describe('change() for HWB', () => {
-        let color: SassColor;
-        beforeEach(() => {
-          color = legacyHwb(210, 7.0588235294117645, 66.27450980392157);
-        });
-        it('changes HWB values', () => {
-          expect(color.change({hue: 120})).toEqualWithHash(
-            legacyHwb(120, 7.0588235294117645, 66.27450980392157)
-          );
-          expect(color.change({hue: -120})).toEqualWithHash(
-            legacyHwb(240, 7.0588235294117645, 66.27450980392157)
-          );
-          expect(color.change({whiteness: 42})).toEqualWithHash(
-            legacyHwb(210, 42, 66.27450980392157)
-          );
-          expect(color.change({whiteness: 50})).toEqualWithHash(
-            legacyHwb(210, 50, 66.27450980392157)
-          );
-          expect(color.change({blackness: 42})).toEqualWithHash(
-            legacyHwb(210, 7.0588235294117645, 42)
-          );
-          expect(color.change({alpha: 0.5})).toEqualWithHash(
-            legacyHwb(210, 7.0588235294117645, 66.27450980392157, 0.5)
-          );
-          expect(
-            color.change({
-              hue: 120,
-              whiteness: 42,
-              blackness: 42,
-              alpha: 0.5,
-            })
-          ).toEqualWithHash(legacyHwb(120, 42, 42, 0.5));
-        });
-
-        it('allows valid values', () => {
-          expect(color.change({whiteness: 0}).channel('whiteness')).toBe(0);
-          expect(color.change({whiteness: 100}).channel('whiteness')).toBe(100);
-          expect(color.change({blackness: 0}).channel('blackness')).toBe(0);
-          expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
-          expect(color.change({alpha: 0}).alpha).toBe(0);
-          expect(color.change({alpha: 1}).alpha).toBe(1);
-          expect(color.change({hue: undefined}).channel('hue')).toBe(210);
-        });
-
-        it('disallows invalid values', () => {
-          expect(() => color.change({whiteness: -0.1})).toThrow();
-          expect(() => color.change({whiteness: 100.1})).toThrow();
-          expect(() => color.change({blackness: -0.1})).toThrow();
-          expect(() => color.change({blackness: 100.1})).toThrow();
-          expect(() => color.change({alpha: -0.1})).toThrow();
-          expect(() => color.change({alpha: 1.1})).toThrow();
-        });
-
-        it('emits deprecation for null values', () => {
-          const stdio = captureStdio(() => {
-            color.change({hue: null});
-            color.change({whiteness: null});
-            color.change({blackness: null});
-            color.change({alpha: null});
-          });
-          expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
-          expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
-        });
-        it('emits deprecation for channels from unspecified space', () => {
-          const stdio = captureStdio(() => {
-            color.change({red: 1});
-          });
-          expect(stdio.err).toMatch('color-4-api');
-        });
+      it('disallows invalid values', () => {
+        expect(() => color.change({lightness: -0.1})).toThrow();
+        expect(() => color.change({lightness: 100.1})).toThrow();
+        expect(() => color.change({alpha: -0.1})).toThrow();
+        expect(() => color.change({alpha: 1.1})).toThrow();
       });
 
-      describe('changeAlpha()', () => {
-        let color: SassColor;
-        beforeEach(() => {
-          color = legacyRGB(18, 52, 86);
+      it('emits deprecation for null values', () => {
+        const stdio = captureStdio(() => {
+          color.change({hue: null});
+          color.change({saturation: null});
+          color.change({lightness: null});
+          color.change({alpha: null});
         });
-        it('changes the alpha value', () => {
-          expect(color.change({alpha: 0.5})).toEqualWithHash(
-            legacyRGB(18, 52, 86, 0.5)
-          );
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+      });
+      it('emits deprecation for channels from unspecified space', () => {
+        const stdio = captureStdio(() => {
+          color.change({red: 1});
         });
+        expect(stdio.err).toMatch('color-4-api');
+      });
+    });
 
-        it('allows valid alphas', () => {
-          expect(color.change({alpha: 0}).alpha).toBe(0);
-          expect(color.change({alpha: 1}).alpha).toBe(1);
-        });
+    describe('change() for HWB', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyHwb(210, 7.0588235294117645, 66.27450980392157);
+      });
+      it('changes HWB values', () => {
+        expect(color.change({hue: 120})).toEqualWithHash(
+          legacyHwb(120, 7.0588235294117645, 66.27450980392157)
+        );
+        expect(color.change({hue: -120})).toEqualWithHash(
+          legacyHwb(240, 7.0588235294117645, 66.27450980392157)
+        );
+        expect(color.change({whiteness: 42})).toEqualWithHash(
+          legacyHwb(210, 42, 66.27450980392157)
+        );
+        expect(color.change({whiteness: 50})).toEqualWithHash(
+          legacyHwb(210, 50, 66.27450980392157)
+        );
+        expect(color.change({blackness: 42})).toEqualWithHash(
+          legacyHwb(210, 7.0588235294117645, 42)
+        );
+        expect(color.change({alpha: 0.5})).toEqualWithHash(
+          legacyHwb(210, 7.0588235294117645, 66.27450980392157, 0.5)
+        );
+        expect(
+          color.change({
+            hue: 120,
+            whiteness: 42,
+            blackness: 42,
+            alpha: 0.5,
+          })
+        ).toEqualWithHash(legacyHwb(120, 42, 42, 0.5));
+      });
 
-        it('rejects invalid alphas', () => {
-          expect(() => color.change({alpha: -0.1})).toThrow();
-          expect(() => color.change({alpha: 1.1})).toThrow();
+      it('allows valid values', () => {
+        expect(color.change({whiteness: 0}).channel('whiteness')).toBe(0);
+        expect(color.change({whiteness: 100}).channel('whiteness')).toBe(100);
+        expect(color.change({blackness: 0}).channel('blackness')).toBe(0);
+        expect(color.change({blackness: 100}).channel('blackness')).toBe(100);
+        expect(color.change({alpha: 0}).alpha).toBe(0);
+        expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({hue: undefined}).channel('hue')).toBe(210);
+      });
+
+      it('disallows invalid values', () => {
+        expect(() => color.change({alpha: -0.1})).toThrow();
+        expect(() => color.change({alpha: 1.1})).toThrow();
+      });
+
+      it('emits deprecation for null values', () => {
+        const stdio = captureStdio(() => {
+          color.change({hue: null});
+          color.change({whiteness: null});
+          color.change({blackness: null});
+          color.change({alpha: null});
         });
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+      });
+      it('emits deprecation for channels from unspecified space', () => {
+        const stdio = captureStdio(() => {
+          color.change({red: 1});
+        });
+        expect(stdio.err).toMatch('color-4-api');
+      });
+    });
+
+    describe('changeAlpha()', () => {
+      let color: SassColor;
+      beforeEach(() => {
+        color = legacyRGB(18, 52, 86);
+      });
+      it('changes the alpha value', () => {
+        expect(color.change({alpha: 0.5})).toEqualWithHash(
+          legacyRGB(18, 52, 86, 0.5)
+        );
+      });
+
+      it('allows valid alphas', () => {
+        expect(color.change({alpha: 0}).alpha).toBe(0);
+        expect(color.change({alpha: 1}).alpha).toBe(1);
+      });
+
+      it('rejects invalid alphas', () => {
+        expect(() => color.change({alpha: -0.1})).toThrow();
+        expect(() => color.change({alpha: 1.1})).toThrow();
       });
     });
   });
