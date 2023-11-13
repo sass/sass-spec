@@ -20,6 +20,7 @@ describe('Color 4 SassColors Spaces', () => {
       beforeEach(() => {
         color = space.constructor(...space.pink);
       });
+
       it('is a value', () => {
         expect(color).toBeInstanceOf(Value);
       });
@@ -60,6 +61,7 @@ describe('Color 4 SassColors Spaces', () => {
               channels[index] = -1;
               expect(() => space.constructor(...channels)).toThrow();
             });
+
             // TODO: Failing for oklab and oklch in dart-sass
             it('throws on lightness higher than bounds', () => {
               const index = space.channels.findIndex(

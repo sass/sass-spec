@@ -19,6 +19,7 @@ describe('Color 4 SassColor Channels', () => {
 
     describe(space.name, () => {
       let color: SassColor;
+
       beforeEach(() => {
         color = space.constructor(...space.pink);
       });
@@ -29,6 +30,7 @@ describe('Color 4 SassColor Channels', () => {
           expect(color.channelsOrNull.size).toBe(space.channels.length);
           expect(List.isList(color.channelsOrNull)).toBeTrue();
         });
+
         it('returns channel value or null, excluding alpha', () => {
           const pinkCases = channelCases(...space.pink);
           pinkCases.forEach(channels => {
@@ -39,12 +41,14 @@ describe('Color 4 SassColor Channels', () => {
           });
         });
       });
+
       describe('channels', () => {
         it('returns a list', () => {
           expect(color.channels).toFuzzyEqualList(space.pink);
           expect(color.channels.size).toBe(space.channels.length);
           expect(List.isList(color.channels)).toBeTrue();
         });
+
         it('returns channel value or 0, excluding alpha', () => {
           const pinkCases = channelCases(...space.pink);
           pinkCases.forEach(channels => {
@@ -54,6 +58,7 @@ describe('Color 4 SassColor Channels', () => {
           });
         });
       });
+
       it('isChannelMissing', () => {
         const pinkCases = channelCases(...space.pink);
         pinkCases.forEach(channels => {
@@ -67,6 +72,7 @@ describe('Color 4 SassColor Channels', () => {
           expect(_color.isChannelMissing('alpha')).toBe(expected[3]);
         });
       });
+
       describe('channel', () => {
         describe('without space specified', () => {
           it('throws an error if channel not in space', () => {
@@ -78,12 +84,14 @@ describe('Color 4 SassColor Channels', () => {
               expect(() => color.channel(channel)).toThrow();
             });
           });
+
           it('returns value if no space specified', () => {
             space.channels.forEach((channel, index) => {
               expect(color.channel(channel)).toFuzzyEqual(space.pink[index]);
             });
             expect(color.channel('alpha')).toEqual(1);
           });
+
           it('returns 0 for missing channels', () => {
             const nullColor = space.constructor(null, null, null, null);
             space.channels.forEach(channel => {
@@ -92,6 +100,7 @@ describe('Color 4 SassColor Channels', () => {
             expect(nullColor.channel('alpha')).toEqual(0);
           });
         });
+
         describe('with space specified', () => {
           spaceNames.forEach(destinationSpaceId => {
             it(`throws an error if channel not in ${destinationSpaceId}`, () => {
@@ -109,6 +118,7 @@ describe('Color 4 SassColor Channels', () => {
               });
             });
           });
+
           spaceNames.forEach(destinationSpaceId => {
             it(`returns value when ${destinationSpaceId} is specified`, () => {
               const destinationSpace = spaces[destinationSpaceId];
@@ -128,6 +138,7 @@ describe('Color 4 SassColor Channels', () => {
           });
         });
       });
+
       describe('alpha', () => {
         it('returns value if set', () => {
           function colorWithAlpha(alpha: number | null) {
@@ -166,6 +177,7 @@ describe('Color 4 SassColor Channels', () => {
             );
           });
         }
+
         const [ch1, ch2, ch3] = space.ranges;
         if (space.hasPowerless) {
           // test powerless channels

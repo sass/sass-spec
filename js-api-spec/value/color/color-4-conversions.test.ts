@@ -144,6 +144,7 @@ describe('Color 4 SassColors Conversions', () => {
             });
           });
         });
+
         it('should throw on invalid alpha', () => {
           expect(() => color.change({alpha: -1})).toThrow();
           expect(() => color.change({alpha: 1.1})).toThrow();
@@ -170,17 +171,20 @@ describe('Color 4 SassColors Conversions', () => {
         it('is true for in gamut colors in own space', () => {
           expect(color.isInGamut()).toBe(true);
         });
+
         spaceNames.forEach(destinationSpaceId => {
           it(`is true for in gamut colors in ${destinationSpaceId}`, () => {
             const destinationSpace = spaces[destinationSpaceId];
             expect(color.isInGamut(destinationSpace.name)).toBe(true);
           });
         });
+
         it(`is ${!space.hasOutOfGamut} for out of range colors in own space`, () => {
           const outOfGamut = space.constructor(...space.gamutExamples[0][0]);
           expect(outOfGamut.isInGamut()).toBe(!space.hasOutOfGamut);
         });
       });
+
       describe('toGamut', () => {
         space.gamutExamples.forEach(([input, output]) => {
           it(`in own space, ${input} -> ${output}`, () => {

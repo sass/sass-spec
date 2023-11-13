@@ -45,6 +45,7 @@ describe('Color 4 SassColors Non-parametizable', () => {
       });
     });
   });
+
   it('channel with space specified, missing returns 0', () => {
     const cases: [SassColor, KnownColorSpace, ChannelName][] = [
       [constructors.oklch(null, null, null), 'lch', 'hue'],
