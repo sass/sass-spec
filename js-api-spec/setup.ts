@@ -354,6 +354,7 @@ const toLooselyEqual = (received: unknown, actual: number) => {
     pass: Math.round((received * 10) ^ 5) === Math.round((actual * 10) ^ 5),
   };
 };
+
 const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
   function isSassColor(item: unknown): item is sass.SassColor {
     return !!(item as sass.SassColor).assertColor();
@@ -367,7 +368,7 @@ const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
     if (channel === null) {
       if (actualChannel !== null) unequalIndices.push(index);
     } else if (
-      !actualChannel ||
+      actualChannel === null ||
       Math.round((channel * 10) ^ 5) !== Math.round((actualChannel * 10) ^ 5)
     ) {
       unequalIndices.push(index);

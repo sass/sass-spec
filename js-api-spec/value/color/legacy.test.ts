@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassColor} from 'sass';
-import {captureStdio} from '../../utils';
+import {captureStdio, skipForImpl} from '../../utils';
 import {legacyRGB, legacyHsl, legacyHwb} from './constructors';
 
 describe('Legacy SassColor', () => {
@@ -112,11 +112,13 @@ describe('Legacy SassColor', () => {
 
     describe('hsl()', () => {
       // TODO: Failing in dart-sass because saturation should not be clamped
-      it('allows valid values', () => {
-        expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
-        expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
-        expect(() => legacyHsl(0, -0.1, 0, 0)).not.toThrow();
-        expect(() => legacyHsl(0, 100.1, 0, 0)).not.toThrow();
+      skipForImpl('dart-sass', () => {
+        it('allows valid values', () => {
+          expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
+          expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
+          expect(() => legacyHsl(0, -0.1, 0, 0)).not.toThrow();
+          expect(() => legacyHsl(0, 100.1, 0, 0)).not.toThrow();
+        });
       });
 
       it('disallows invalid values', () => {
@@ -180,13 +182,15 @@ describe('Legacy SassColor', () => {
     describe('hwb()', () => {
       // TODO: Failing in dart-sass because whiteness and blackness should not
       // be clamped
-      it('allows valid values', () => {
-        expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
-        expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
-        expect(() => legacyHwb(0, -0.1, 0, 0)).not.toThrow();
-        expect(() => legacyHwb(0, 0, -0.1, 0)).not.toThrow();
-        expect(() => legacyHwb(0, 100.1, 0, 0)).not.toThrow();
-        expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
+      skipForImpl('dart-sass', () => {
+        it('allows valid values', () => {
+          expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
+          expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
+          expect(() => legacyHwb(0, -0.1, 0, 0)).not.toThrow();
+          expect(() => legacyHwb(0, 0, -0.1, 0)).not.toThrow();
+          expect(() => legacyHwb(0, 100.1, 0, 0)).not.toThrow();
+          expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
+        });
       });
 
       it('disallows invalid values', () => {
@@ -333,12 +337,14 @@ describe('Legacy SassColor', () => {
 
     // TODO: Failing in dart-sass because legacy colors are equal even if in a
     // different (legacy) color space
-    it('equals the same color even in a different color space', () => {
-      expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
-      expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
-      expect(color).toEqualWithHash(
-        legacyHwb(120, 24.313725490196077, 40.3921568627451)
-      );
+    skipForImpl('dart-sass', () => {
+      it('equals the same color even in a different color space', () => {
+        expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
+        expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
+        expect(color).toEqualWithHash(
+          legacyHwb(120, 24.313725490196077, 40.3921568627451)
+        );
+      });
     });
 
     it('allows negative hue', () => {
@@ -386,10 +392,12 @@ describe('Legacy SassColor', () => {
 
     // TODO: Failing in dart-sass because legacy colors are equal even if in a
     // different (legacy) color space
-    it('equals the same color even in a different color space', () => {
-      expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
-      expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
-      expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
+    skipForImpl('dart-sass', () => {
+      it('equals the same color even in a different color space', () => {
+        expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
+        expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
+        expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
+      });
     });
 
     it('allows negative hue', () => {
@@ -456,7 +464,7 @@ describe('Legacy SassColor', () => {
           color.change({blue: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {
@@ -514,8 +522,6 @@ describe('Legacy SassColor', () => {
       });
 
       it('disallows invalid values', () => {
-        expect(() => color.change({saturation: -0.1})).toThrow();
-        expect(() => color.change({saturation: 100.1})).toThrow();
         expect(() => color.change({lightness: -0.1})).toThrow();
         expect(() => color.change({lightness: 100.1})).toThrow();
         expect(() => color.change({alpha: -0.1})).toThrow();
@@ -529,7 +535,7 @@ describe('Legacy SassColor', () => {
           color.change({lightness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {
@@ -585,10 +591,6 @@ describe('Legacy SassColor', () => {
       });
 
       it('disallows invalid values', () => {
-        expect(() => color.change({whiteness: -0.1})).toThrow();
-        expect(() => color.change({whiteness: 100.1})).toThrow();
-        expect(() => color.change({blackness: -0.1})).toThrow();
-        expect(() => color.change({blackness: 100.1})).toThrow();
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
       });
@@ -600,7 +602,7 @@ describe('Legacy SassColor', () => {
           color.change({blackness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/null-alpha/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
       });
       it('emits deprecation for channels from unspecified space', () => {

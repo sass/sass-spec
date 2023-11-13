@@ -8,6 +8,7 @@ import {Value, SassColor} from 'sass';
 import type {KnownColorSpace} from 'sass';
 
 import {spaces} from './spaces';
+import {skipForImpl} from '../../utils';
 
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
 
@@ -63,13 +64,15 @@ describe('Color 4 SassColors Spaces', () => {
             });
 
             // TODO: Failing for oklab and oklch in dart-sass
-            it('throws on lightness higher than bounds', () => {
-              const index = space.channels.findIndex(
-                channel => channel === 'lightness'
-              );
-              const channels = [...space.pink] as [number, number, number];
-              channels[index] = space.ranges[index][1] + 1;
-              expect(() => space.constructor(...channels)).toThrow();
+            skipForImpl('dart-sass', () => {
+              it('throws on lightness higher than bounds', () => {
+                const index = space.channels.findIndex(
+                  channel => channel === 'lightness'
+                );
+                const channels = [...space.pink] as [number, number, number];
+                channels[index] = space.ranges[index][1] + 1;
+                expect(() => space.constructor(...channels)).toThrow();
+              });
             });
           });
         }
