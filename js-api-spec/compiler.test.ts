@@ -66,6 +66,11 @@ describe('AsyncCompiler', () => {
         compiler.compileStringAsync('$a: b; c {d: $a}')
       ).toThrowSassException({line: 0});
     });
+    it('waits for compilations to finish before disposing', async () => {
+      const compilation = compiler.compileStringAsync('$a: b; c {d: $a}');
+      await compiler.dispose();
+      await expectAsync(compilation).toBeResolved();
+    });
   });
   describe('compileAsync', () => {
     it('performs multiple compilations', async () => {
@@ -86,7 +91,15 @@ describe('AsyncCompiler', () => {
         await compiler.dispose();
         await expectAsync(
           compiler.compileAsync(dir('input.scss'))
-        ).toThrowSassException({line: 0});
+        ).toBeRejected();
+      });
+    });
+    it('waits for compilations to finish before disposing', async () => {
+      await sandbox(async dir => {
+        dir.write({'input.scss': '$a: b; c {d: $a}'});
+        const compilation = compiler.compileAsync(dir('input.scss'));
+        await compiler.dispose();
+        await expectAsync(compilation).toBeResolved();
       });
     });
   });
