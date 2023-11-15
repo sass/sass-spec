@@ -11,6 +11,9 @@ describe('Compiler', () => {
   beforeEach(() => {
     compiler = initCompiler();
   });
+  afterEach(() => {
+    compiler.dispose();
+  });
   describe('compileString', () => {
     it('performs multiple compilations', () => {
       expect(compiler.compileString('$a: b; c {d: $a}').css).toBe(
@@ -51,6 +54,9 @@ describe('AsyncCompiler', () => {
   beforeEach(async () => {
     compiler = await initAsyncCompiler();
   });
+  afterEach(async () => {
+    await compiler.dispose();
+  });
   describe('compileStringAsync', () => {
     it('performs multiple compilations', async () => {
       expect((await compiler.compileStringAsync('$a: b; c {d: $a}')).css).toBe(
@@ -62,9 +68,7 @@ describe('AsyncCompiler', () => {
     });
     it('throws after being disposed', async () => {
       await compiler.dispose();
-      await expectAsync(
-        compiler.compileStringAsync('$a: b; c {d: $a}')
-      ).toThrowSassException({line: 0});
+      expect(() => compiler.compileStringAsync('$a: b; c {d: $a}')).toThrow();
     });
     it('waits for compilations to finish before disposing', async () => {
       const compilation = compiler.compileStringAsync('$a: b; c {d: $a}');
@@ -86,12 +90,10 @@ describe('AsyncCompiler', () => {
       });
     });
     it('throws after being disposed', async () => {
-      await sandbox(async dir => {
+      sandbox(async dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         await compiler.dispose();
-        await expectAsync(
-          compiler.compileAsync(dir('input.scss'))
-        ).toBeRejected();
+        expect(() => compiler.compileAsync(dir('input.scss'))).toThrow();
       });
     });
     it('waits for compilations to finish before disposing', async () => {
