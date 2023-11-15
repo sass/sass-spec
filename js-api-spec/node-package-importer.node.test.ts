@@ -17,12 +17,34 @@ import {
 
 import {sandbox} from './sandbox';
 
+const testPackageImporter = ({
+  input,
+  output,
+  files,
+}: {
+  input: string;
+  output: string;
+  files: {[path: string]: string};
+}) => {
+  sandbox(dir => {
+    dir.write(files);
+    dir.chdir(() => {
+      const result = compileString(input, {
+        importers: [nodePackageImporter],
+      });
+      expect(result.css).toEqualIgnoringWhitespace(output);
+    });
+  });
+};
+
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
     ['sass', 'style', 'default'].forEach(key => {
       it(`${key} for root `, () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
@@ -31,35 +53,28 @@ describe('Node Package Importer', () => {
                 },
               },
             }),
-          });
-          dir.chdir(() => {
-            const result = compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it(`${key} for root without '.'`, () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
                 [key]: './src/sass/_styles.scss',
               },
             }),
-          });
-          dir.chdir(() => {
-            const result = compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
 
       it(`${key} with subpath`, () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/other";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
@@ -68,17 +83,14 @@ describe('Node Package Importer', () => {
                 },
               },
             }),
-          });
-          dir.chdir(() => {
-            const result = compileString('@use "pkg:foo/other";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it(`${key} with index`, () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/subdir";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
             'node_modules/foo/src/sass/_other.scss': 'g {h: i}',
             'node_modules/foo/src/sass/subdir/index.scss': 'a {b: c}',
@@ -89,18 +101,15 @@ describe('Node Package Importer', () => {
                 },
               },
             }),
-          });
-          dir.chdir(() => {
-            const result = compileString('@use "pkg:foo/subdir";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
     });
+
     it('compiles with first conditional match found', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:foo";',
+        output: 'a {from: sassCondition;}',
+        files: {
           'node_modules/foo/src/sass/_styles.scss': 'd {from: styleCondition}',
           'node_modules/foo/src/sass/_other.scss': 'a {from: sassCondition}',
           'node_modules/foo/package.json': JSON.stringify({
@@ -111,15 +120,9 @@ describe('Node Package Importer', () => {
               },
             },
           }),
-        });
-        dir.chdir(() => {
-          expect(
-            compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            }).css
-          ).toEqualIgnoringWhitespace('a {from: sassCondition;}');
-        });
+        },
       }));
+
     it('throws if multiple exported paths match', () =>
       sandbox(dir => {
         dir.write({
@@ -142,88 +145,69 @@ describe('Node Package Importer', () => {
           });
         });
       }));
+
     it('resolves string export', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:foo";',
+        output: 'a {b: c;}',
+        files: {
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
           'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
           'node_modules/foo/package.json': JSON.stringify({
             exports: './src/sass/_other.scss',
           }),
-        });
-        dir.chdir(() => {
-          expect(
-            compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            }).css
-          ).toEqualIgnoringWhitespace('a {b: c;}');
-        });
+        },
       }));
+
     describe('wildcards', () => {
       it('resolves with partial', () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/other";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
-          });
-          dir.chdir(() => {
-            expect(
-              compileString('@use "pkg:foo/other";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it('resolves with full wildcard path', () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/other";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*': {sass: './src/sass/*'}},
             }),
-          });
-          dir.chdir(() => {
-            expect(
-              compileString('@use "pkg:foo/other";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it('resolves file extension variant', () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/sass/other";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./sass/*': './src/sass/*'},
             }),
-          });
-          dir.chdir(() => {
-            expect(
-              compileString('@use "pkg:foo/sass/other";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it('resolves multipart paths', () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo/sass/other";',
+          output: 'a {b: c;}',
+          files: {
             'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/*.scss'},
             }),
-          });
-          dir.chdir(() => {
-            expect(
-              compileString('@use "pkg:foo/sass/other";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
+
       it('throws if multiple wildcard exports match', () =>
         sandbox(dir => {
           dir.write({
@@ -246,84 +230,66 @@ describe('Node Package Importer', () => {
         }));
     });
   });
+
   describe('without subpath', () => {
     it('sass key in package.json', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:foo";',
+        output: 'a {b: c;}',
+        files: {
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
           'node_modules/foo/package.json': JSON.stringify({
             sass: 'src/sass/_styles.scss',
           }),
-        });
-        dir.chdir(() => {
-          const result = compileString('@use "pkg:foo";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-        });
+        },
       }));
+
     it('style key in package.json', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:foo";',
+        output: 'a {b: c;}',
+        files: {
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
           'node_modules/foo/package.json': JSON.stringify({
             style: 'src/sass/_styles.scss',
           }),
-        });
-        dir.chdir(() => {
-          const result = compileString('@use "pkg:foo";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-        });
+        },
       }));
 
     ['index.scss', 'index.css', '_index.scss', '_index.css'].forEach(
       fileName => {
         it(`loads from ${fileName}`, () =>
-          sandbox(dir => {
-            dir.write({
+          testPackageImporter({
+            input: '@use "pkg:foo";',
+            output: 'a {b: c;}',
+            files: {
               [`node_modules/foo/${fileName}`]: 'a {b: c}',
               'node_modules/foo/package.json': JSON.stringify({}),
-            });
-            dir.chdir(() => {
-              const result = compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            });
+            },
           }));
       }
     );
     ['index.sass', '_index.sass'].forEach(fileName => {
       it(`loads from ${fileName}`, () =>
-        sandbox(dir => {
-          dir.write({
+        testPackageImporter({
+          input: '@use "pkg:foo";',
+          output: 'a {b: c;}',
+          files: {
             [`node_modules/foo/${fileName}`]: 'a \n b: c',
             'node_modules/foo/package.json': JSON.stringify({}),
-          });
-          dir.chdir(() => {
-            const result = compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          });
+          },
         }));
     });
   });
 
   it('with subpath, resolves relative to package root', () =>
-    sandbox(dir => {
-      dir.write({
+    testPackageImporter({
+      input: '@use "pkg:bar/src/styles/sass";',
+      output: 'a {b: c;}',
+      files: {
         'node_modules/bar/src/styles/sass/index.scss': 'a {b: c}',
         'node_modules/bar/package.json': JSON.stringify({}),
-      });
-      dir.chdir(() => {
-        const result = compileString('@use "pkg:bar/src/styles/sass";', {
-          importers: [nodePackageImporter],
-        });
-        expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-      });
+      },
     }));
 
   describe('resolves from packages', () => {
@@ -347,23 +313,22 @@ describe('Node Package Importer', () => {
         });
       }));
     it('resolves from secondary @use pkg root', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:bah";',
+        output: 'a {b: c;}',
+        files: {
           'node_modules/bah/index.scss': '@use "pkg:bar";',
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bar/index.scss': 'a {b: c}',
           'node_modules/bar/package.json': JSON.stringify({}),
-        });
-        dir.chdir(() => {
-          const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-        });
+        },
       }));
+
     it('resolves most proximate node_module', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:bah";',
+        output: 'a {from: submodule;}',
+        files: {
           'node_modules/bah/index.scss': '@use "pkg:bar";',
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bar/index.scss': 'e {from: root}',
@@ -371,29 +336,21 @@ describe('Node Package Importer', () => {
           'node_modules/bah/node_modules/bar/index.scss':
             'a {from: submodule;}',
           'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
-        });
-        dir.chdir(() => {
-          const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {from: submodule;}');
-        });
+        },
       }));
+
     it('resolves sub node_module', () =>
-      sandbox(dir => {
-        dir.write({
+      testPackageImporter({
+        input: '@use "pkg:bah";',
+        output: 'a {b: c;}',
+        files: {
           'node_modules/bah/index.scss': '@use "pkg:bar";',
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
           'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
-        });
-        dir.chdir(() => {
-          const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-        });
+        },
       }));
+
     it('resolves node_module above cwd', () =>
       sandbox(dir => {
         dir.write({
