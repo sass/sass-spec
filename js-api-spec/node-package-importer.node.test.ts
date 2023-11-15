@@ -13,55 +13,24 @@ import {
   NodePackageImporter,
   LegacyException,
   LegacyResult,
-  FileImporter,
 } from 'sass';
 
-import {sandbox, SandboxDirectory} from './sandbox';
-
-const fileImporter = (dir: SandboxDirectory): FileImporter => ({
-  findFileUrl: file => dir.url(file),
-});
-
-function manifestBuilder(overrides?: {[key: string]: string | Object}) {
-  return JSON.stringify({
-    name: 'foo',
-    version: '1.0.0',
-    description: 'Verifying proposed pkg: loading algorithm',
-    scripts: {
-      test: 'echo "Error: no test specified" && exit 1',
-    },
-    author: 'Package Author',
-    license: 'ISC',
-    ...overrides,
-  });
-}
-
-function exportsBuilder(key: string) {
-  return {
-    exports: {
-      '.': {
-        [key]: './src/sass/_styles.scss',
-      },
-      './colors/index.scss': {
-        [key]: './src/sass/colors/index.scss',
-      },
-      './_variables.scss': {
-        [key]: './src/sass/_variables.scss',
-      },
-    },
-  };
-}
+import {sandbox} from './sandbox';
 
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
     ['sass', 'style', 'default'].forEach(key => {
-      it(`${key} at root`, () =>
+      it(`${key} for root `, () =>
         sandbox(dir => {
           dir.write({
             'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder(
-              exportsBuilder(key)
-            ),
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                '.': {
+                  [key]: './src/sass/_styles.scss',
+                },
+              },
+            }),
           });
           dir.chdir(
             () => {
@@ -73,11 +42,11 @@ describe('Node Package Importer', () => {
             {changeEntryPoint: 'index.js'}
           );
         }));
-      it(`${key} at root without non-pathed exports`, () =>
+      it(`${key} for root without '.'`, () =>
         sandbox(dir => {
           dir.write({
             'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder({
+            'node_modules/foo/package.json': JSON.stringify({
               exports: {
                 [key]: './src/sass/_styles.scss',
               },
@@ -97,15 +66,18 @@ describe('Node Package Importer', () => {
       it(`${key} with subpath`, () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder(
-              exportsBuilder(key)
-            ),
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                './_other.scss': {
+                  [key]: './src/sass/_other.scss',
+                },
+              },
+            }),
           });
           dir.chdir(
             () => {
-              const result = compileString('@use "pkg:foo/variables";', {
+              const result = compileString('@use "pkg:foo/other";', {
                 importers: [nodePackageImporter],
               });
               expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
@@ -117,15 +89,19 @@ describe('Node Package Importer', () => {
         sandbox(dir => {
           dir.write({
             'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-            'node_modules/foo/src/sass/_variables.scss': 'g {h: i}',
-            'node_modules/foo/src/sass/colors/index.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder(
-              exportsBuilder(key)
-            ),
+            'node_modules/foo/src/sass/_other.scss': 'g {h: i}',
+            'node_modules/foo/src/sass/subdir/index.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                './subdir/index.scss': {
+                  [key]: './src/sass/subdir/index.scss',
+                },
+              },
+            }),
           });
           dir.chdir(
             () => {
-              const result = compileString('@use "pkg:foo/colors";', {
+              const result = compileString('@use "pkg:foo/subdir";', {
                 importers: [nodePackageImporter],
               });
               expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
@@ -137,13 +113,12 @@ describe('Node Package Importer', () => {
     it('compiles with first conditional match found', () =>
       sandbox(dir => {
         dir.write({
-          'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-          'node_modules/foo/src/sass/_variables.scss':
-            'a {from: sassCondition}',
-          'node_modules/foo/package.json': manifestBuilder({
+          'node_modules/foo/src/sass/_styles.scss': 'd {from: styleCondition}',
+          'node_modules/foo/src/sass/_other.scss': 'a {from: sassCondition}',
+          'node_modules/foo/package.json': JSON.stringify({
             exports: {
               '.': {
-                sass: './src/sass/_variables.scss',
+                sass: './src/sass/_other.scss',
                 style: './src/sass/_styles.scss',
               },
             },
@@ -164,10 +139,10 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-          'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-          'node_modules/foo/package.json': manifestBuilder({
+          'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+          'node_modules/foo/package.json': JSON.stringify({
             exports: {
-              './index.scss': {sass: './src/sass/_variables.scss'},
+              './index.scss': {sass: './src/sass/_other.scss'},
               './_index.sass': {sass: './src/sass/_styles.scss'},
             },
           }),
@@ -189,9 +164,9 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-          'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-          'node_modules/foo/package.json': manifestBuilder({
-            exports: './src/sass/_variables.scss',
+          'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+          'node_modules/foo/package.json': JSON.stringify({
+            exports: './src/sass/_other.scss',
           }),
         });
         dir.chdir(
@@ -209,15 +184,15 @@ describe('Node Package Importer', () => {
       it('resolves with partial', () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder({
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           });
           dir.chdir(
             () => {
               expect(
-                compileString('@use "pkg:foo/variables";', {
+                compileString('@use "pkg:foo/other";', {
                   importers: [nodePackageImporter],
                 }).css
               ).toEqualIgnoringWhitespace('a {b: c;}');
@@ -228,15 +203,15 @@ describe('Node Package Importer', () => {
       it('resolves file extension variant', () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder({
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
               exports: {'./sass/*': './src/sass/*'},
             }),
           });
           dir.chdir(
             () => {
               expect(
-                compileString('@use "pkg:foo/sass/variables";', {
+                compileString('@use "pkg:foo/sass/other";', {
                   importers: [nodePackageImporter],
                 }).css
               ).toEqualIgnoringWhitespace('a {b: c;}');
@@ -247,15 +222,15 @@ describe('Node Package Importer', () => {
       it('resolves multipart paths', () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder({
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/*.scss'},
             }),
           });
           dir.chdir(
             () => {
               expect(
-                compileString('@use "pkg:foo/sass/variables";', {
+                compileString('@use "pkg:foo/sass/other";', {
                   importers: [nodePackageImporter],
                 }).css
               ).toEqualIgnoringWhitespace('a {b: c;}');
@@ -263,12 +238,12 @@ describe('Node Package Importer', () => {
             {changeEntryPoint: 'index.js'}
           );
         }));
-      it('throws if multiple wildcard export match', () =>
+      it('throws if multiple wildcard exports match', () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/variables.scss': 'a {b: c}',
-            'node_modules/foo/src/sass/_variables.scss': 'a {b: c}',
-            'node_modules/foo/package.json': manifestBuilder({
+            'node_modules/foo/src/sass/other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           });
@@ -276,7 +251,7 @@ describe('Node Package Importer', () => {
             () => {
               expect(
                 () =>
-                  compileString('@use "pkg:foo/variables";', {
+                  compileString('@use "pkg:foo/other";', {
                     importers: [nodePackageImporter],
                   }).css
               ).toThrowSassException({
@@ -293,7 +268,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-          'node_modules/foo/package.json': manifestBuilder({
+          'node_modules/foo/package.json': JSON.stringify({
             sass: 'src/sass/_styles.scss',
           }),
         });
@@ -311,8 +286,8 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-          'node_modules/foo/package.json': manifestBuilder({
-            sass: 'src/sass/_styles.scss',
+          'node_modules/foo/package.json': JSON.stringify({
+            style: 'src/sass/_styles.scss',
           }),
         });
         dir.chdir(
@@ -332,7 +307,7 @@ describe('Node Package Importer', () => {
           sandbox(dir => {
             dir.write({
               [`node_modules/foo/${fileName}`]: 'a {b: c}',
-              'node_modules/foo/package.json': manifestBuilder(),
+              'node_modules/foo/package.json': JSON.stringify({}),
             });
             dir.chdir(
               () => {
@@ -351,7 +326,7 @@ describe('Node Package Importer', () => {
         sandbox(dir => {
           dir.write({
             [`node_modules/foo/${fileName}`]: 'a \n b: c',
-            'node_modules/foo/package.json': manifestBuilder(),
+            'node_modules/foo/package.json': JSON.stringify({}),
           });
           dir.chdir(
             () => {
@@ -370,7 +345,7 @@ describe('Node Package Importer', () => {
     sandbox(dir => {
       dir.write({
         'node_modules/bar/src/styles/sass/index.scss': 'a {b: c}',
-        'node_modules/bar/package.json': manifestBuilder(),
+        'node_modules/bar/package.json': JSON.stringify({}),
       });
       dir.chdir(
         () => {
@@ -384,33 +359,22 @@ describe('Node Package Importer', () => {
     }));
 
   describe('resolves from packages', () => {
-    it('resolves from entry point', () =>
-      sandbox(dir => {
-        dir.write({
-          'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
-        });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
-      }));
     it('resolves from secondary @use', () =>
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           '_vendor.scss': '@use "pkg:bah";',
         });
         dir.chdir(
           () => {
             const result = compileString('@use "vendor";', {
-              importers: [nodePackageImporter, fileImporter(dir)],
+              importers: [
+                nodePackageImporter,
+                {
+                  findFileUrl: file => dir.url(file),
+                },
+              ],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
@@ -421,9 +385,9 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': '@use "pkg:bar";',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bar/package.json': manifestBuilder(),
+          'node_modules/bar/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
@@ -439,18 +403,21 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': '@use "pkg:bar";',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bar/index.scss': 'e {from: root}',
-          'node_modules/bar/package.json': manifestBuilder(),
-          'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bah/node_modules/bar/package.json': manifestBuilder(),
+          'node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar/index.scss':
+            'a {from: submodule;}',
+          'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
             const result = compileString('@use "pkg:bah";', {
               importers: [nodePackageImporter],
             });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+            expect(result.css).toEqualIgnoringWhitespace(
+              'a {from: submodule;}'
+            );
           },
           {changeEntryPoint: 'index.js'}
         );
@@ -459,9 +426,9 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': '@use "pkg:bar";',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bah/node_modules/bar/package.json': manifestBuilder(),
+          'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
@@ -477,7 +444,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bar/package.json': manifestBuilder(),
+          'node_modules/bar/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
@@ -489,7 +456,7 @@ describe('Node Package Importer', () => {
           {changeEntryPoint: 'deeply/nested/file/index.js'}
         );
       }));
-    it('continues if no match found', () => {
+    it('fails if no match found', () => {
       sandbox(dir => {
         dir.chdir(
           () => {
@@ -523,13 +490,18 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           '_index.scss': '@use "pkg:bah";',
         });
         dir.chdir(
           () => {
             const result = compile('./_index.scss', {
-              importers: [nodePackageImporter, fileImporter(dir)],
+              importers: [
+                nodePackageImporter,
+                {
+                  findFileUrl: file => dir.url(file),
+                },
+              ],
             });
             expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
@@ -540,7 +512,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
@@ -556,13 +528,18 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           '_index.scss': '@use "pkg:bah";',
         });
         return dir.chdir(
           async () => {
             const result = await compileAsync('./_index.scss', {
-              importers: [nodePackageImporter, fileImporter(dir)],
+              importers: [
+                nodePackageImporter,
+                {
+                  findFileUrl: file => dir.url(file),
+                },
+              ],
             });
             expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
             return result;
@@ -574,7 +551,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
         });
         return dir.chdir(
           async () => {
@@ -591,7 +568,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
         });
         return dir.chdir(
           async () => {
@@ -618,7 +595,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           'index.scss': '@use "pkg:bah";',
         });
         return dir.chdir(
@@ -646,7 +623,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
           'index.scss': '@use "pkg:bah";',
         });
         return dir.chdir(
@@ -664,7 +641,7 @@ describe('Node Package Importer', () => {
       sandbox(dir => {
         dir.write({
           'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': manifestBuilder(),
+          'node_modules/bah/package.json': JSON.stringify({}),
         });
         return dir.chdir(
           () => {

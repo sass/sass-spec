@@ -56,8 +56,9 @@ export async function sandbox(
           const oldPath = process.cwd();
           process.chdir(testDir);
           const oldEntryPoint = require.main?.filename;
-          if (options?.changeEntryPoint)
+          if (options?.changeEntryPoint) {
             require.main!.filename = `${testDir}/${options.changeEntryPoint}`;
+          }
           try {
             return callback();
           } finally {

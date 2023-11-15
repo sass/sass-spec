@@ -35,29 +35,7 @@ it('an empty object means an empty file', () =>
 
 describe('import precedence:', () => {
   describe('in sandbox dir', () => {
-    it('packageImporter:node is #1', () =>
-      sandbox(dir => {
-        dir.write({
-          'sub/test.scss': 'a {from: relative}',
-          'sub/node_modules/test/index.scss': 'a {from: pkg}',
-          'sub/node_modules/test/package.json': '{}',
-          'sub/base.scss': '@import "pkg:test"',
-        });
-
-        dir.chdir(() =>
-          expect(
-            sass
-              .renderSync({
-                file: dir('sub/base.scss'),
-                pkgImporter: 'node',
-                importer: () => ({contents: 'a {from: importer}'}),
-              })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: pkg; }')
-        );
-      }));
-
-    it('relative file is #2', () =>
+    it('relative file is #1', () =>
       sandbox(dir => {
         dir.write({
           'sub/test.scss': 'a {from: relative}',
@@ -76,7 +54,7 @@ describe('import precedence:', () => {
         );
       }));
 
-    it('importer is #3', () =>
+    it('importer is #2', () =>
       sandbox(dir => {
         dir.write({'test.scss': 'a {from: cwd}'});
 
@@ -94,7 +72,7 @@ describe('import precedence:', () => {
         );
       }));
 
-    it('CWD is #4', () =>
+    it('CWD is #3', () =>
       sandbox(dir => {
         dir.write({
           'test.scss': 'a {from: cwd}',

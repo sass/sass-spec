@@ -763,6 +763,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
     includes: 'Invalid argument (sourceMapUrl): must be absolute',
   });
 });
+
 runOnlyForImpl('browser', () => {
   it('node package loader throws error in browser', () => {
     expect(() =>
