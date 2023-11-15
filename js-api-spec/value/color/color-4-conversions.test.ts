@@ -47,7 +47,7 @@ describe('Color 4 SassColors Conversions', () => {
       // https://github.com/LeaVerou/color.js/pull/338
       skipForImpl('sass-embedded', () => {
         // TODO: Failing in dart-sass because `hue` should be normalized to the
-        // [0, 360] range
+        // [0, 360) range
         skipForImpl('dart-sass', () => {
           describe('interpolate', () => {
             it('interpolates examples', () => {

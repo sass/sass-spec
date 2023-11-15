@@ -18,6 +18,7 @@ import * as constructors from './constructors';
 describe('Color 4 SassColors Non-parametizable', () => {
   // TODO: Waiting on a fix for:
   // https://github.com/LeaVerou/color.js/issues/154
+  // PR: https://github.com/LeaVerou/color.js/pull/344
   skipForImpl('sass-embedded', () => {
     it('toGamut with space', () => {
       const cases: [SassColor, KnownColorSpace, SassColor][] = [

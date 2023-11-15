@@ -464,8 +464,10 @@ describe('Legacy SassColor', () => {
           color.change({blue: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`red: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`green: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`blue: null`/g)).toBeArrayOfSize(1);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
@@ -535,8 +537,10 @@ describe('Legacy SassColor', () => {
           color.change({lightness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`hue: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`saturation: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`lightness: null`/g)).toBeArrayOfSize(1);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
@@ -602,8 +606,10 @@ describe('Legacy SassColor', () => {
           color.change({blackness: null});
           color.change({alpha: null});
         });
-        expect(stdio.err.match(/\[null-alpha\]/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/color-4-api/g)).toBeArrayOfSize(3);
+        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`hue: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`whiteness: null`/g)).toBeArrayOfSize(1);
+        expect(stdio.err.match(/`blackness: null`/g)).toBeArrayOfSize(1);
       });
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
