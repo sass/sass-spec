@@ -25,7 +25,7 @@ const testPackageImporter = ({
   input: string;
   output: string;
   files: {[path: string]: string};
-}) => {
+}) =>
   sandbox(dir => {
     dir.write(files);
     dir.chdir(() => {
@@ -35,7 +35,6 @@ const testPackageImporter = ({
       expect(result.css).toEqualIgnoringWhitespace(output);
     });
   });
-};
 
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
@@ -151,7 +150,6 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:foo";',
         output: 'a {b: c;}',
         files: {
-          'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
           'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
           'node_modules/foo/package.json': JSON.stringify({
             exports: './src/sass/_other.scss',
@@ -312,6 +310,7 @@ describe('Node Package Importer', () => {
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         });
       }));
+
     it('resolves from secondary @use pkg root', () =>
       testPackageImporter({
         input: '@use "pkg:bah";',
@@ -321,6 +320,19 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bar/index.scss': 'a {b: c}',
           'node_modules/bar/package.json': JSON.stringify({}),
+        },
+      }));
+
+    it('relative import in package', () =>
+      testPackageImporter({
+        input: '@use "pkg:foo";',
+        output: 'a {db: c;}',
+        files: {
+          'node_modules/foo/scss/foo.scss': '@use "mixins/banner";',
+          'node_modules/foo/scss/mixins/_banner.scss': 'a {b: c;}',
+          'node_modules/foo/package.json': JSON.stringify({
+            sass: 'scss/foo.scss',
+          }),
         },
       }));
 
@@ -367,6 +379,32 @@ describe('Node Package Importer', () => {
           {entryPoint: 'deeply/nested/file/index.js'}
         );
       }));
+
+    it('resolves in scoped package', () =>
+      testPackageImporter({
+        input: '@use "pkg:@foo/bar";',
+        output: 'a {b: c;}',
+        files: {
+          'node_modules/@foo/bar/src/sass/_styles.scss': 'd {e: f}',
+          'node_modules/@foo/bar/src/sass/_other.scss': 'a {b: c}',
+          'node_modules/@foo/bar/package.json': JSON.stringify({
+            exports: './src/sass/_other.scss',
+          }),
+        },
+      }));
+
+    it('resolves from secondary @use in scoped packages', () =>
+      testPackageImporter({
+        input: '@use "pkg:@foo/bah";',
+        output: 'a {b: c;}',
+        files: {
+          'node_modules/@foo/bah/index.scss': '@use "pkg:@foo/bar";',
+          'node_modules/@foo/bah/package.json': JSON.stringify({}),
+          'node_modules/@foo/bar/index.scss': 'a {b: c}',
+          'node_modules/@foo/bar/package.json': JSON.stringify({}),
+        },
+      }));
+
     it('fails if no match found', () => {
       sandbox(dir => {
         dir.chdir(() => {
