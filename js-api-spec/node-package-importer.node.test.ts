@@ -32,15 +32,12 @@ describe('Node Package Importer', () => {
               },
             }),
           });
-          dir.chdir(
-            () => {
-              const result = compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            const result = compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it(`${key} for root without '.'`, () =>
         sandbox(dir => {
@@ -52,15 +49,12 @@ describe('Node Package Importer', () => {
               },
             }),
           });
-          dir.chdir(
-            () => {
-              const result = compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            const result = compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
 
       it(`${key} with subpath`, () =>
@@ -75,15 +69,12 @@ describe('Node Package Importer', () => {
               },
             }),
           });
-          dir.chdir(
-            () => {
-              const result = compileString('@use "pkg:foo/other";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            const result = compileString('@use "pkg:foo/other";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it(`${key} with index`, () =>
         sandbox(dir => {
@@ -99,15 +90,12 @@ describe('Node Package Importer', () => {
               },
             }),
           });
-          dir.chdir(
-            () => {
-              const result = compileString('@use "pkg:foo/subdir";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            const result = compileString('@use "pkg:foo/subdir";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
     });
     it('compiles with first conditional match found', () =>
@@ -124,16 +112,13 @@ describe('Node Package Importer', () => {
             },
           }),
         });
-        dir.chdir(
-          () => {
-            expect(
-              compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {from: sassCondition;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          expect(
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            }).css
+          ).toEqualIgnoringWhitespace('a {from: sassCondition;}');
+        });
       }));
     it('throws if multiple exported paths match', () =>
       sandbox(dir => {
@@ -147,18 +132,15 @@ describe('Node Package Importer', () => {
             },
           }),
         });
-        dir.chdir(
-          () => {
-            expect(() =>
-              compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              })
-            ).toThrowSassException({
-              includes: 'multiple potential resolutions',
-            });
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          expect(() =>
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            })
+          ).toThrowSassException({
+            includes: 'multiple potential resolutions',
+          });
+        });
       }));
     it('resolves string export', () =>
       sandbox(dir => {
@@ -169,16 +151,13 @@ describe('Node Package Importer', () => {
             exports: './src/sass/_other.scss',
           }),
         });
-        dir.chdir(
-          () => {
-            expect(
-              compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              }).css
-            ).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          expect(
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            }).css
+          ).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     describe('wildcards', () => {
       it('resolves with partial', () =>
@@ -189,16 +168,13 @@ describe('Node Package Importer', () => {
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           });
-          dir.chdir(
-            () => {
-              expect(
-                compileString('@use "pkg:foo/other";', {
-                  importers: [nodePackageImporter],
-                }).css
-              ).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            expect(
+              compileString('@use "pkg:foo/other";', {
+                importers: [nodePackageImporter],
+              }).css
+            ).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it('resolves with full wildcard path', () =>
         sandbox(dir => {
@@ -208,16 +184,13 @@ describe('Node Package Importer', () => {
               exports: {'./*': {sass: './src/sass/*'}},
             }),
           });
-          dir.chdir(
-            () => {
-              expect(
-                compileString('@use "pkg:foo/other";', {
-                  importers: [nodePackageImporter],
-                }).css
-              ).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            expect(
+              compileString('@use "pkg:foo/other";', {
+                importers: [nodePackageImporter],
+              }).css
+            ).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it('resolves file extension variant', () =>
         sandbox(dir => {
@@ -227,16 +200,13 @@ describe('Node Package Importer', () => {
               exports: {'./sass/*': './src/sass/*'},
             }),
           });
-          dir.chdir(
-            () => {
-              expect(
-                compileString('@use "pkg:foo/sass/other";', {
-                  importers: [nodePackageImporter],
-                }).css
-              ).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            expect(
+              compileString('@use "pkg:foo/sass/other";', {
+                importers: [nodePackageImporter],
+              }).css
+            ).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it('resolves multipart paths', () =>
         sandbox(dir => {
@@ -246,16 +216,13 @@ describe('Node Package Importer', () => {
               exports: {'./*.scss': './src/*.scss'},
             }),
           });
-          dir.chdir(
-            () => {
-              expect(
-                compileString('@use "pkg:foo/sass/other";', {
-                  importers: [nodePackageImporter],
-                }).css
-              ).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            expect(
+              compileString('@use "pkg:foo/sass/other";', {
+                importers: [nodePackageImporter],
+              }).css
+            ).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
       it('throws if multiple wildcard exports match', () =>
         sandbox(dir => {
@@ -266,19 +233,16 @@ describe('Node Package Importer', () => {
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           });
-          dir.chdir(
-            () => {
-              expect(
-                () =>
-                  compileString('@use "pkg:foo/other";', {
-                    importers: [nodePackageImporter],
-                  }).css
-              ).toThrowSassException({
-                includes: 'multiple potential resolutions',
-              });
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            expect(
+              () =>
+                compileString('@use "pkg:foo/other";', {
+                  importers: [nodePackageImporter],
+                }).css
+            ).toThrowSassException({
+              includes: 'multiple potential resolutions',
+            });
+          });
         }));
     });
   });
@@ -291,15 +255,12 @@ describe('Node Package Importer', () => {
             sass: 'src/sass/_styles.scss',
           }),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:foo";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('style key in package.json', () =>
       sandbox(dir => {
@@ -309,15 +270,12 @@ describe('Node Package Importer', () => {
             style: 'src/sass/_styles.scss',
           }),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:foo";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
 
     ['index.scss', 'index.css', '_index.scss', '_index.css'].forEach(
@@ -328,15 +286,12 @@ describe('Node Package Importer', () => {
               [`node_modules/foo/${fileName}`]: 'a {b: c}',
               'node_modules/foo/package.json': JSON.stringify({}),
             });
-            dir.chdir(
-              () => {
-                const result = compileString('@use "pkg:foo";', {
-                  importers: [nodePackageImporter],
-                });
-                expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-              },
-              {changeEntryPoint: 'index.js'}
-            );
+            dir.chdir(() => {
+              const result = compileString('@use "pkg:foo";', {
+                importers: [nodePackageImporter],
+              });
+              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+            });
           }));
       }
     );
@@ -347,15 +302,12 @@ describe('Node Package Importer', () => {
             [`node_modules/foo/${fileName}`]: 'a \n b: c',
             'node_modules/foo/package.json': JSON.stringify({}),
           });
-          dir.chdir(
-            () => {
-              const result = compileString('@use "pkg:foo";', {
-                importers: [nodePackageImporter],
-              });
-              expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            },
-            {changeEntryPoint: 'index.js'}
-          );
+          dir.chdir(() => {
+            const result = compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            });
+            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          });
         }));
     });
   });
@@ -366,15 +318,12 @@ describe('Node Package Importer', () => {
         'node_modules/bar/src/styles/sass/index.scss': 'a {b: c}',
         'node_modules/bar/package.json': JSON.stringify({}),
       });
-      dir.chdir(
-        () => {
-          const result = compileString('@use "pkg:bar/src/styles/sass";', {
-            importers: [nodePackageImporter],
-          });
-          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-        },
-        {changeEntryPoint: 'index.js'}
-      );
+      dir.chdir(() => {
+        const result = compileString('@use "pkg:bar/src/styles/sass";', {
+          importers: [nodePackageImporter],
+        });
+        expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+      });
     }));
 
   describe('resolves from packages', () => {
@@ -385,20 +334,17 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           '_vendor.scss': '@use "pkg:bah";',
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "vendor";', {
-              importers: [
-                nodePackageImporter,
-                {
-                  findFileUrl: file => dir.url(file),
-                },
-              ],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "vendor";', {
+            importers: [
+              nodePackageImporter,
+              {
+                findFileUrl: file => dir.url(file),
+              },
+            ],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('resolves from secondary @use pkg root', () =>
       sandbox(dir => {
@@ -408,15 +354,12 @@ describe('Node Package Importer', () => {
           'node_modules/bar/index.scss': 'a {b: c}',
           'node_modules/bar/package.json': JSON.stringify({}),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('resolves most proximate node_module', () =>
       sandbox(dir => {
@@ -429,17 +372,12 @@ describe('Node Package Importer', () => {
             'a {from: submodule;}',
           'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace(
-              'a {from: submodule;}'
-            );
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {from: submodule;}');
+        });
       }));
     it('resolves sub node_module', () =>
       sandbox(dir => {
@@ -449,15 +387,12 @@ describe('Node Package Importer', () => {
           'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
           'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('resolves node_module above cwd', () =>
       sandbox(dir => {
@@ -472,23 +407,20 @@ describe('Node Package Importer', () => {
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {changeEntryPoint: 'deeply/nested/file/index.js'}
+          {entryPoint: 'deeply/nested/file/index.js'}
         );
       }));
     it('fails if no match found', () => {
       sandbox(dir => {
-        dir.chdir(
-          () => {
-            expect(() =>
-              compileString('@use "pkg:bah";', {
-                importers: [nodePackageImporter],
-              })
-            ).toThrowSassException({
-              includes: "Can't find stylesheet to import",
-            });
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          expect(() =>
+            compileString('@use "pkg:bah";', {
+              importers: [nodePackageImporter],
+            })
+          ).toThrowSassException({
+            includes: "Can't find stylesheet to import",
+          });
+        });
       });
     });
   });
@@ -512,20 +444,17 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           '_index.scss': '@use "pkg:bah";',
         });
-        dir.chdir(
-          () => {
-            const result = compile('./_index.scss', {
-              importers: [
-                nodePackageImporter,
-                {
-                  findFileUrl: file => dir.url(file),
-                },
-              ],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compile('./_index.scss', {
+            importers: [
+              nodePackageImporter,
+              {
+                findFileUrl: file => dir.url(file),
+              },
+            ],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('compileString', () =>
       sandbox(dir => {
@@ -533,15 +462,12 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
     it('compileAsync', () =>
       sandbox(dir => {
@@ -550,21 +476,18 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           '_index.scss': '@use "pkg:bah";',
         });
-        return dir.chdir(
-          async () => {
-            const result = await compileAsync('./_index.scss', {
-              importers: [
-                nodePackageImporter,
-                {
-                  findFileUrl: file => dir.url(file),
-                },
-              ],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
-            return result;
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(async () => {
+          const result = await compileAsync('./_index.scss', {
+            importers: [
+              nodePackageImporter,
+              {
+                findFileUrl: file => dir.url(file),
+              },
+            ],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
+          return result;
+        });
       }));
     it('compileStringAsync', () =>
       sandbox(dir => {
@@ -572,16 +495,13 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        return dir.chdir(
-          async () => {
-            const result = await compileStringAsync('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
-            });
-            expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-            return result;
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(async () => {
+          const result = await compileStringAsync('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          return result;
+        });
       }));
     it('render string', () =>
       sandbox(dir => {
@@ -589,26 +509,23 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        return dir.chdir(
-          async () => {
-            return await new Promise(resolve => {
-              render(
-                {
-                  data: '@use "pkg:bah"',
-                  pkgImporter: 'node',
-                },
-                (err?: LegacyException, result?: LegacyResult) => {
-                  expect(err).toBeFalsy();
-                  expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                    'a { b: c; }'
-                  );
-                  resolve(undefined);
-                }
-              );
-            });
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(async () => {
+          return await new Promise(resolve => {
+            render(
+              {
+                data: '@use "pkg:bah"',
+                pkgImporter: 'node',
+              },
+              (err?: LegacyException, result?: LegacyResult) => {
+                expect(err).toBeFalsy();
+                expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                  'a { b: c; }'
+                );
+                resolve(undefined);
+              }
+            );
+          });
+        });
       }));
     it('render file', () =>
       sandbox(dir => {
@@ -617,26 +534,23 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           'index.scss': '@use "pkg:bah";',
         });
-        return dir.chdir(
-          async () => {
-            return await new Promise(resolve => {
-              render(
-                {
-                  file: 'index.scss',
-                  pkgImporter: 'node',
-                },
-                (err?: LegacyException, result?: LegacyResult) => {
-                  expect(err).toBeFalsy();
-                  expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                    'a { b: c; }'
-                  );
-                  resolve(undefined);
-                }
-              );
-            });
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(async () => {
+          return await new Promise(resolve => {
+            render(
+              {
+                file: 'index.scss',
+                pkgImporter: 'node',
+              },
+              (err?: LegacyException, result?: LegacyResult) => {
+                expect(err).toBeFalsy();
+                expect(result!.css.toString()).toEqualIgnoringWhitespace(
+                  'a { b: c; }'
+                );
+                resolve(undefined);
+              }
+            );
+          });
+        });
       }));
     it('renderSync file', () =>
       sandbox(dir => {
@@ -645,16 +559,13 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           'index.scss': '@use "pkg:bah";',
         });
-        return dir.chdir(
-          () => {
-            const result = renderSync({
-              file: 'index.scss',
-              pkgImporter: 'node',
-            }).css.toString();
-            expect(result).toEqualIgnoringWhitespace('a { b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(() => {
+          const result = renderSync({
+            file: 'index.scss',
+            pkgImporter: 'node',
+          }).css.toString();
+          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
+        });
       }));
     it('renderSync data', () =>
       sandbox(dir => {
@@ -662,16 +573,13 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        return dir.chdir(
-          () => {
-            const result = renderSync({
-              data: '@use "pkg:bah"',
-              pkgImporter: 'node',
-            }).css.toString();
-            expect(result).toEqualIgnoringWhitespace('a { b: c;}');
-          },
-          {changeEntryPoint: 'index.js'}
-        );
+        return dir.chdir(() => {
+          const result = renderSync({
+            data: '@use "pkg:bah"',
+            pkgImporter: 'node',
+          }).css.toString();
+          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
+        });
       }));
   });
 });
