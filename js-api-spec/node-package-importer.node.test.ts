@@ -200,6 +200,25 @@ describe('Node Package Importer', () => {
             {changeEntryPoint: 'index.js'}
           );
         }));
+      it('resolves with full wildcard path', () =>
+        sandbox(dir => {
+          dir.write({
+            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {'./*': {sass: './src/sass/*'}},
+            }),
+          });
+          dir.chdir(
+            () => {
+              expect(
+                compileString('@use "pkg:foo/other";', {
+                  importers: [nodePackageImporter],
+                }).css
+              ).toEqualIgnoringWhitespace('a {b: c;}');
+            },
+            {changeEntryPoint: 'index.js'}
+          );
+        }));
       it('resolves file extension variant', () =>
         sandbox(dir => {
           dir.write({
