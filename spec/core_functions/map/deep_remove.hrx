@@ -1,10 +1,3 @@
-<===> options.yml
----
-:todo:
-- sass/libsass#3127
-
-<===>
-================================================================================
 <===> not_found/empty/input.scss
 @use 'sass:map';
 a {b: inspect(map.deep-remove((), 1))}
@@ -127,14 +120,6 @@ Error: $map: 1 is not a map.
   '
   input.scss 2:7  root stylesheet
 
-<===> error/type/error-libsass
-Error: argument `$map` of `map.deep-remove($map, $key, $keys...)` must be a map
-        on line 1:7 of input.scss, in function `map.deep-remove`
-        from line 1:7 of input.scss
->> a {b: map.deep-remove(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -152,10 +137,3 @@ Error: Missing argument $key.
   |           ================================= declaration
   '
   input.scss 2:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: Function map.deep-remove is missing argument $key.
-        on line 1 of input.scss
->> a {b: map.deep-remove((c: d))}
-
-   ------^

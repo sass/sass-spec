@@ -19,7 +19,6 @@ export interface CliArgs {
 
 const implArgs: Record<string, string[]> = {
   'dart-sass': ['--verbose', '--no-unicode', '--no-color'],
-  libsass: ['--style', 'expanded'],
 };
 
 const usageText = `

@@ -26,11 +26,6 @@ a {
   b: .e ~ .c + .d.f, .c.e + .d.f;
 }
 
-<===> and_sibling/distinct/output-libsass.css
-a {
-  b: .e ~ .c + .d.f, .e.c + .d.f;
-}
-
 <===>
 ================================================================================
 <===> and_sibling/identical/input.scss
@@ -59,11 +54,6 @@ a {b: selector-unify(".c.s1-1 + .s1-2", ".c.s2-1 ~ .s2-2")}
 <===> and_sibling/overlap/output.css
 a {
   b: .c.s2-1 ~ .c.s1-1 + .s1-2.s2-2, .c.s1-1.s2-1 + .s1-2.s2-2;
-}
-
-<===> and_sibling/overlap/output-libsass.css
-a {
-  b: .c.s2-1 ~ .c.s1-1 + .s1-2.s2-2, .c.s2-1.s1-1 + .s1-2.s2-2;
 }
 
 <===>

@@ -16,11 +16,6 @@ a {
   b: .c.e, .c.f, .d.e, .d.f;
 }
 
-<===> classes/double/output-libsass.css
-a {
-  b: .c.e, .d.e, .c.f, .d.f;
-}
-
 <===>
 ================================================================================
 <===> suffix/single/input.scss
@@ -39,11 +34,6 @@ a {b: selector-append(".c, .d", "e, f")}
 <===> suffix/multiple/output.css
 a {
   b: .ce, .cf, .de, .df;
-}
-
-<===> suffix/multiple/output-libsass.css
-a {
-  b: .ce, .de, .cf, .df;
 }
 
 <===>
@@ -171,11 +161,6 @@ a {
 
 <===>
 ================================================================================
-<===> error/universal/options.yml
----
-:todo:
-- sass/libsass#2982
-
 <===> error/universal/input.scss
 a {b: selector-append(".c", "*")}
 
@@ -200,14 +185,6 @@ Error: Can't append > .d to .c.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/combinator/leading/error-libsass
-Error: Can't append "> .d" to ".c" for `selector-append'
-        on line 1:7 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append(".c", "> .d")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/combinator/trailing/input.scss
@@ -225,13 +202,6 @@ Error: Selector ".c ~" can't be used as a parent in a compound selector.
   '
   - 1:1  root stylesheet
 
-<===> error/combinator/trailing/error-libsass
-Error: Invalid parent selector for "&.d": "&.c ~"
-        on line 1:7 of input.scss
->> a {b: selector-append(".c ~", ".d")}
-
-   ----------------------------------^
-
 <===>
 ================================================================================
 <===> error/combinator/only/input.scss
@@ -245,21 +215,8 @@ Error: Can't append > to .c.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/combinator/only/error-libsass
-Error: Can't append ">" to ".c" for `selector-append'
-        on line 1:7 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append(".c", ">", ".d")}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/namespace/options.yml
----
-:todo:
-- sass/libsass#2976
-
 <===> error/namespace/input.scss
 a {b: selector-append("c", "|d")}
 
@@ -273,11 +230,6 @@ Error: Can't append |d to c.
 
 <===>
 ================================================================================
-<===> error/parent/options.yml
----
-:todo:
-- sass/libsass#2983
-
 <===> error/parent/input.scss
 a {b: selector-append(".c", "&")}
 
@@ -312,21 +264,8 @@ Error: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:24 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append("[c", "d")}
-
-   -----------------------^
-
 <===>
 ================================================================================
-<===> error/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> error/type/input.scss
 a {b: selector-append("c", 1)}
 
@@ -351,11 +290,3 @@ Error: $selectors: At least one selector must be passed.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/too_few_args/error-libsass
-Error: $selectors: At least one selector must be passed for `selector-append'
-        on line 1:7 of input.scss, in function `selector-append`
-        from line 1:7 of input.scss
->> a {b: selector-append()}
-
-   ------^
