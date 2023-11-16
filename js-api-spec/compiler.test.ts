@@ -94,8 +94,8 @@ describe('AsyncCompiler', () => {
   });
 
   describe('compileAsync', () => {
-    it('performs multiple compilations', async () => {
-      await sandbox(async dir => {
+    it('performs multiple compilations', () =>
+      sandbox(async dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         dir.write({'input2.scss': '$a: 1; c {d: $a}'});
         expect(
@@ -104,8 +104,7 @@ describe('AsyncCompiler', () => {
         expect(
           (await compiler.compileAsync(dir('input2.scss'))).css
         ).toEqualIgnoringWhitespace('c {d: 1;}');
-      });
-    });
+      }));
 
     it('throws after being disposed', async () => {
       sandbox(async dir => {
@@ -115,13 +114,12 @@ describe('AsyncCompiler', () => {
       });
     });
 
-    it('waits for compilations to finish before disposing', async () => {
-      await sandbox(async dir => {
+    it('waits for compilations to finish before disposing', () =>
+      sandbox(async dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         const compilation = compiler.compileAsync(dir('input.scss'));
         await compiler.dispose();
         await expectAsync(compilation).toBeResolved();
-      });
-    });
+      }));
   });
 });
