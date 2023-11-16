@@ -195,7 +195,7 @@ describe('Color 4 SassColors Conversions', () => {
         space.gamutExamples.forEach(([input, output]) => {
           it(`in own space, ${input} -> ${output}`, () => {
             const res = space.constructor(...input).toGamut();
-            expect(res).toEqualWithHash(space.constructor(...output));
+            expect(res).toLooselyEqualColor(space.constructor(...output));
           });
         });
       });

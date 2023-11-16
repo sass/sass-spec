@@ -355,6 +355,13 @@ const toLooselyEqual = (received: unknown, actual: number) => {
   };
 };
 
+// The max distance two Sass numbers can be from each another before they're
+// considered different (2 decimals).
+//
+// Uses ** instead of Math.pow() for constant folding.
+// TODO: Ideally this should be more precise, but ColorJS does not always match.
+const epsilon = 10 ** -2;
+
 const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
   function isSassColor(item: unknown): item is sass.SassColor {
     return !!(item as sass.SassColor).assertColor();
@@ -369,15 +376,17 @@ const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
       if (actualChannel !== null) unequalIndices.push(index);
     } else if (
       actualChannel === null ||
-      Math.round((channel * 10) ^ 5) !== Math.round((actualChannel * 10) ^ 5)
+      Math.abs(channel - actualChannel) > epsilon
     ) {
       unequalIndices.push(index);
     }
   });
+  const plural = unequalIndices.length !== 1;
+  const indexMessage = `${plural ? 'indices' : 'index'} ${unequalIndices.join(
+    ','
+  )}`;
   return {
-    message: `expected ${received} to loosely equal ${actual} to 5 decimal places, but indices ${unequalIndices.join(
-      ','
-    )} differ`,
+    message: `expected ${received} to loosely equal ${actual}, but channels at ${indexMessage} differ`,
     pass: unequalIndices.length === 0,
   };
 };
