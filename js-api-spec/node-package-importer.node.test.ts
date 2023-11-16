@@ -71,14 +71,14 @@ describe('Node Package Importer', () => {
 
       it(`${key} with subpath`, () =>
         testPackageImporter({
-          input: '@use "pkg:foo/other";',
+          input: '@use "pkg:foo/styles";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
-                './_other.scss': {
-                  [key]: './src/sass/_other.scss',
+                './_styles.scss': {
+                  [key]: './src/sass/_styles.scss',
                 },
               },
             }),
@@ -90,8 +90,6 @@ describe('Node Package Importer', () => {
           input: '@use "pkg:foo/subdir";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_styles.scss': 'd {e: f}',
-            'node_modules/foo/src/sass/_other.scss': 'g {h: i}',
             'node_modules/foo/src/sass/subdir/index.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
@@ -110,11 +108,11 @@ describe('Node Package Importer', () => {
         output: 'a {from: sassCondition;}',
         files: {
           'node_modules/foo/src/sass/_styles.scss': 'd {from: styleCondition}',
-          'node_modules/foo/src/sass/_other.scss': 'a {from: sassCondition}',
+          'node_modules/foo/src/sass/_sass.scss': 'a {from: sassCondition}',
           'node_modules/foo/package.json': JSON.stringify({
             exports: {
               '.': {
-                sass: './src/sass/_other.scss',
+                sass: './src/sass/_sass.scss',
                 style: './src/sass/_styles.scss',
               },
             },
@@ -150,9 +148,9 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:foo";',
         output: 'a {b: c;}',
         files: {
-          'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
           'node_modules/foo/package.json': JSON.stringify({
-            exports: './src/sass/_other.scss',
+            exports: './src/sass/_styles.scss',
           }),
         },
       }));
@@ -160,22 +158,22 @@ describe('Node Package Importer', () => {
     describe('wildcards', () => {
       it('resolves with partial', () =>
         testPackageImporter({
-          input: '@use "pkg:foo/other";',
+          input: '@use "pkg:foo/styles";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           },
         }));
 
-      it('resolves with full wildcard path', () =>
+      it('resolves with full wildcard path and sass conditional export', () =>
         testPackageImporter({
-          input: '@use "pkg:foo/other";',
+          input: '@use "pkg:foo/styles";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*': {sass: './src/sass/*'}},
             }),
@@ -184,10 +182,10 @@ describe('Node Package Importer', () => {
 
       it('resolves file extension variant', () =>
         testPackageImporter({
-          input: '@use "pkg:foo/sass/other";',
+          input: '@use "pkg:foo/sass/styles";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./sass/*': './src/sass/*'},
             }),
@@ -196,10 +194,10 @@ describe('Node Package Importer', () => {
 
       it('resolves multipart paths', () =>
         testPackageImporter({
-          input: '@use "pkg:foo/sass/other";',
+          input: '@use "pkg:foo/sass/styles";',
           output: 'a {b: c;}',
           files: {
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/*.scss'},
             }),
@@ -209,8 +207,8 @@ describe('Node Package Importer', () => {
       it('throws if multiple wildcard exports match', () =>
         sandbox(dir => {
           dir.write({
-            'node_modules/foo/src/sass/other.scss': 'a {b: c}',
-            'node_modules/foo/src/sass/_other.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/styles.scss': 'a {b: c}',
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
@@ -218,7 +216,7 @@ describe('Node Package Importer', () => {
           dir.chdir(() => {
             expect(
               () =>
-                compileString('@use "pkg:foo/other";', {
+                compileString('@use "pkg:foo/styles";', {
                   importers: [nodePackageImporter],
                 }).css
             ).toThrowSassException({
@@ -328,10 +326,10 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:foo";',
         output: 'a {db: c;}',
         files: {
-          'node_modules/foo/scss/foo.scss': '@use "mixins/banner";',
+          'node_modules/foo/scss/styles.scss': '@use "mixins/banner";',
           'node_modules/foo/scss/mixins/_banner.scss': 'a {b: c;}',
           'node_modules/foo/package.json': JSON.stringify({
-            sass: 'scss/foo.scss',
+            sass: 'scss/styles.scss',
           }),
         },
       }));
@@ -385,10 +383,9 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:@foo/bar";',
         output: 'a {b: c;}',
         files: {
-          'node_modules/@foo/bar/src/sass/_styles.scss': 'd {e: f}',
-          'node_modules/@foo/bar/src/sass/_other.scss': 'a {b: c}',
+          'node_modules/@foo/bar/src/sass/_styles.scss': 'a {b: c}',
           'node_modules/@foo/bar/package.json': JSON.stringify({
-            exports: './src/sass/_other.scss',
+            exports: './src/sass/_styles.scss',
           }),
         },
       }));
@@ -419,6 +416,7 @@ describe('Node Package Importer', () => {
       });
     });
   });
+
   it('faked Node Package Importer fails', () =>
     sandbox(dir => {
       dir.write({'foo/index.scss': 'a {from: dir}'});
@@ -431,6 +429,7 @@ describe('Node Package Importer', () => {
         })
       ).toThrow();
     }));
+
   describe('compilation methods', () => {
     it('compile', () =>
       sandbox(dir => {
@@ -451,6 +450,7 @@ describe('Node Package Importer', () => {
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         });
       }));
+
     it('compileString', () =>
       sandbox(dir => {
         dir.write({
@@ -464,6 +464,7 @@ describe('Node Package Importer', () => {
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         });
       }));
+
     it('compileAsync', () =>
       sandbox(dir => {
         dir.write({
@@ -484,6 +485,7 @@ describe('Node Package Importer', () => {
           return result;
         });
       }));
+
     it('compileStringAsync', () =>
       sandbox(dir => {
         dir.write({
@@ -498,6 +500,7 @@ describe('Node Package Importer', () => {
           return result;
         });
       }));
+
     it('render string', () =>
       sandbox(dir => {
         dir.write({
@@ -522,6 +525,7 @@ describe('Node Package Importer', () => {
           });
         });
       }));
+
     it('render file', () =>
       sandbox(dir => {
         dir.write({
@@ -547,6 +551,7 @@ describe('Node Package Importer', () => {
           });
         });
       }));
+
     it('renderSync file', () =>
       sandbox(dir => {
         dir.write({
@@ -562,6 +567,7 @@ describe('Node Package Importer', () => {
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
       }));
+
     it('renderSync data', () =>
       sandbox(dir => {
         dir.write({
