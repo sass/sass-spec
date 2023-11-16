@@ -407,7 +407,15 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:bah";', {
-              importers: [nodePackageImporter],
+              importers: [
+                nodePackageImporter,
+                {
+                  canonicalize(url) {
+                    expect(url).toStartWith('pkg:');
+                  },
+                  load: () => null,
+                },
+              ],
             })
           ).toThrowSassException({
             includes: "Can't find stylesheet to import",
