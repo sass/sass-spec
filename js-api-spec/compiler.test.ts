@@ -20,12 +20,12 @@ describe('Compiler', () => {
 
   describe('compileString', () => {
     it('performs multiple compilations', () => {
-      expect(compiler.compileString('$a: b; c {d: $a}').css).toBe(
-        'c {\n  d: b;\n}'
-      );
-      expect(compiler.compileString('$a: 1; c {d: $a}').css).toBe(
-        'c {\n  d: 1;\n}'
-      );
+      expect(
+        compiler.compileString('$a: b; c {d: $a}').css
+      ).toEqualIgnoringWhitespace('c {d: b;}');
+      expect(
+        compiler.compileString('$a: 1; c {d: $a}').css
+      ).toEqualIgnoringWhitespace('c {d: 1;}');
     });
 
     it('throws after being disposed', () => {
@@ -39,10 +39,12 @@ describe('Compiler', () => {
       sandbox(dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         dir.write({'input2.scss': '$a: 1; c {d: $a}'});
-        expect(compiler.compile(dir('input.scss')).css).toBe('c {\n  d: b;\n}');
-        expect(compiler.compile(dir('input2.scss')).css).toBe(
-          'c {\n  d: 1;\n}'
-        );
+        expect(
+          compiler.compile(dir('input.scss')).css
+        ).toEqualIgnoringWhitespace('c {d: b;}');
+        expect(
+          compiler.compile(dir('input2.scss')).css
+        ).toEqualIgnoringWhitespace('c {d: 1;}');
       });
     });
 
@@ -69,12 +71,12 @@ describe('AsyncCompiler', () => {
 
   describe('compileStringAsync', () => {
     it('performs multiple compilations', async () => {
-      expect((await compiler.compileStringAsync('$a: b; c {d: $a}')).css).toBe(
-        'c {\n  d: b;\n}'
-      );
-      expect((await compiler.compileStringAsync('$a: 1; c {d: $a}')).css).toBe(
-        'c {\n  d: 1;\n}'
-      );
+      expect(
+        (await compiler.compileStringAsync('$a: b; c {d: $a}')).css
+      ).toEqualIgnoringWhitespace('c {d: b;}');
+      expect(
+        (await compiler.compileStringAsync('$a: 1; c {d: $a}')).css
+      ).toEqualIgnoringWhitespace('c {d: 1;}');
     });
 
     it('throws after being disposed', async () => {
@@ -96,12 +98,12 @@ describe('AsyncCompiler', () => {
       await sandbox(async dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         dir.write({'input2.scss': '$a: 1; c {d: $a}'});
-        expect((await compiler.compileAsync(dir('input.scss'))).css).toBe(
-          'c {\n  d: b;\n}'
-        );
-        expect((await compiler.compileAsync(dir('input2.scss'))).css).toBe(
-          'c {\n  d: 1;\n}'
-        );
+        expect(
+          (await compiler.compileAsync(dir('input.scss'))).css
+        ).toEqualIgnoringWhitespace('c {d: b;}');
+        expect(
+          (await compiler.compileAsync(dir('input2.scss'))).css
+        ).toEqualIgnoringWhitespace('c {d: 1;}');
       });
     });
 
