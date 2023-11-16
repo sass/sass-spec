@@ -324,7 +324,7 @@ describe('Node Package Importer', () => {
     it('relative import in package', () =>
       testPackageImporter({
         input: '@use "pkg:foo";',
-        output: 'a {db: c;}',
+        output: 'a {b: c;}',
         files: {
           'node_modules/foo/scss/styles.scss': '@use "mixins/banner";',
           'node_modules/foo/scss/mixins/_banner.scss': 'a {b: c;}',
