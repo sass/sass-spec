@@ -14,14 +14,6 @@ Error: $selector1: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector1/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:22 of input.scss, in function `selector-unify`
-        from line 1:7 of input.scss
->> a {b: selector-unify("&", "c")}
-
-   ---------------------^
-
 <===>
 ================================================================================
 <===> selector1/invalid/input.scss
@@ -40,21 +32,8 @@ Error: $selector1: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector1/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:23 of input.scss, in function `selector-unify`
-        from line 1:7 of input.scss
->> a {b: selector-unify("[c", "d")}
-
-   ----------------------^
-
 <===>
 ================================================================================
-<===> selector1/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> selector1/type/input.scss
 a {b: selector-unify(1, "c")}
 
@@ -85,14 +64,6 @@ Error: $selector2: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector2/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:27 of input.scss, in function `selector-unify`
-        from line 1:7 of input.scss
->> a {b: selector-unify("c", "&")}
-
-   --------------------------^
-
 <===>
 ================================================================================
 <===> selector2/invalid/input.scss
@@ -111,21 +82,8 @@ Error: $selector2: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector2/invalid/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:28 of input.scss, in function `selector-unify`
-        from line 1:7 of input.scss
->> a {b: selector-unify("c", "[d")}
-
-   ---------------------------^
-
 <===>
 ================================================================================
-<===> selector2/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> selector2/type/input.scss
 a {b: selector-unify("c", 1)}
 

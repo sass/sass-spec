@@ -1,7 +1,3 @@
-<===> too_many_args/options.yml
-:ignore_for:
-  - libsass
-
 <===> too_many_args/input.scss
 a {b: mix(red, blue, 30%, lch, 1)}
 
@@ -19,10 +15,6 @@ Error: Only 4 arguments allowed, but 5 were passed.
 
 <===>
 ================================================================================
-<===> too_few_args/options.yml
-:ignore_for:
-  - libsass
-
 <===> too_few_args/input.scss
 a {b: mix(red)}
 
@@ -40,10 +32,6 @@ Error: Missing argument $color2.
 
 <===>
 ================================================================================
-<===> null_method/non_legacy/color1/options.yml
-:ignore_for:
-  - libsass
-
 <===> null_method/non_legacy/color1/input.scss
 a {b: mix(lch(20% -20 0), red)}
 
@@ -57,10 +45,6 @@ Error: $color1: To use color.mix() with non-legacy color lch(20% -20 0deg), you 
 
 <===>
 ================================================================================
-<===> null_method/non_legacy/color2/options.yml
-:ignore_for:
-  - libsass
-
 <===> null_method/non_legacy/color2/input.scss
 a {b: mix(red, lch(20% -20 0))}
 
@@ -74,10 +58,6 @@ Error: $color2: To use color.mix() with non-legacy color lch(20% -20 0deg), you 
 
 <===>
 ================================================================================
-<===> color_interpolation_method/options.yml
-:ignore_for:
-  - libsass
-
 <===> color_interpolation_method/input.scss
 a {b: mix(red, blue, $method: brighter)}
 
@@ -91,10 +71,6 @@ Error: $method: Unknown color space "brighter".
 
 <===>
 ================================================================================
-<===> interpolation/number/options.yml
-:ignore_for:
-  - libsass
-
 <===> interpolation/number/input.scss
 a {b: mix(red, blue, $method: hsl 1)}
 
@@ -108,10 +84,6 @@ Error: $method: 1 is not a string.
 
 <===>
 ================================================================================
-<===> interpolation_list/separator/options.yml
-:ignore_for:
-  - libsass
-
 <===> interpolation_list/separator/input.scss
 a {b: mix(red, blue, $method: hsl, longer hue)}
 
@@ -125,10 +97,6 @@ Error: Positional arguments must come before keyword arguments.
 
 <===>
 ================================================================================
-<===> interpolation_list/slash/options.yml
-:ignore_for:
-  - libsass
-
 <===> interpolation_list/slash/input.scss
 a {b: mix(red, blue, $method: hsl/longer/hue)}
 
@@ -142,10 +110,6 @@ Error: $method: Unknown color space "hsl/longer/hue".
 
 <===>
 ================================================================================
-<===> interpolation_list/quoted/options.yml
-:ignore_for:
-  - libsass
-
 <===> interpolation_list/quoted/input.scss
 a {b: mix(red, blue, $method: "hsl longer hue")}
 
@@ -159,10 +123,6 @@ Error: $method: Expected "hsl longer hue" to be an unquoted string.
 
 <===>
 ================================================================================
-<===> invalid_method/wrong_hue_keyword/options.yml
-:ignore_for:
-  - libsass
-
 <===> invalid_method/wrong_hue_keyword/input.scss
 a {b: mix(red, blue, $method: hsl longer shade)}
 
@@ -176,10 +136,6 @@ Error: $method: Expected unquoted string "hue" at the end of (hsl longer shade),
 
 <===>
 ================================================================================
-<===> invalid_method/unsupported/options.yml
-:ignore_for:
-  - libsass
-
 <===> invalid_method/unsupported/input.scss
 // "specified" was a method in an earlier draft of CSS Colors 4, but it was
 // dropped because it required implementations to lazily normalize hues.
@@ -195,10 +151,6 @@ Error: $method: Unknown hue interpolation method specified.
 
 <===>
 ================================================================================
-<===> extra_character_end/options.yml
-:ignore_for:
-  - libsass
-
 <===> extra_character_end/input.scss
 a {b: mix(red, blue, $method: hsl longer hue.)}
 
@@ -212,10 +164,6 @@ Error: Expected identifier.
 
 <===>
 ================================================================================
-<===> extra_character_start/options.yml
-:ignore_for:
-  - libsass
-
 <===> extra_character_start/input.scss
 a {b: mix(red, blue, $method: ,hsl longer hue)}
 
@@ -229,10 +177,6 @@ Error: Expected expression.
 
 <===>
 ================================================================================
-<===> unknown_interpolation/options.yml
-:ignore_for:
-  - libsass
-
 <===> unknown_interpolation/input.scss
 a {b: mix(red, blue, $method: lch longerhue)}
 
@@ -246,10 +190,6 @@ Error: $method: Unknown hue interpolation method longerhue.
 
 <===>
 ================================================================================
-<===> rectangular_space_with_method/options.yml
-:ignore_for:
-  - libsass
-
 <===> rectangular_space_with_method/input.scss
 a {b: mix(red, blue, $method: srgb longer hue)}
 
@@ -263,10 +203,6 @@ Error: $method: Hue interpolation method "HueInterpolationMethod.longer hue" may
 
 <===>
 ================================================================================
-<===> missing_hue_string/options.yml
-:ignore_for:
-  - libsass
-
 <===> missing_hue_string/input.scss
 a {b: mix(red, blue, $method: lch decreasing)}
 
@@ -280,10 +216,6 @@ Error: $method: Expected unquoted string "hue" after (lch decreasing).
 
 <===>
 ================================================================================
-<===> parentheses/options.yml
-:ignore_for:
-  - libsass
-
 <===> parentheses/input.scss
 a {b: mix(red, blue, $method: lch (decreasing hue))}
 
@@ -308,14 +240,6 @@ Error: $color1: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> type/color1/error-libsass
-Error: argument `$color1` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(1, blue)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> type/color2/input.scss
@@ -328,14 +252,6 @@ Error: $color2: 1 is not a color.
   |       ^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> type/color2/error-libsass
-Error: argument `$color2` of `mix($color1, $color2, $weight: 50%)` must be a color
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, 1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -350,14 +266,6 @@ Error: $weight: green is not a number.
   '
   input.scss 1:7  root stylesheet
 
-<===> type/weight/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be a number
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, green)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> bounds/too_low/input.scss
@@ -371,14 +279,6 @@ Error: $weight: Expected -0.001% to be within 0% and 100%.
   '
   input.scss 1:7  root stylesheet
 
-<===> bounds/too_low/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, -0.001)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> bounds/too_high/input.scss
@@ -391,11 +291,3 @@ Error: $weight: Expected 100.001% to be within 0% and 100%.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> bounds/too_high/error-libsass
-Error: argument `$weight` of `mix($color1, $color2, $weight: 50%)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `mix`
-        from line 1:7 of input.scss
->> a {b: mix(red, blue, 100.001)}
-
-   ------^

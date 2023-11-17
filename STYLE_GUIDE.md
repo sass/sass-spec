@@ -794,7 +794,7 @@ be named "other" (`_other.scss`, `_other.sass`, etc).
 <===> slash_slash_string/options.yml
 ---
 :todo:
-- sass/libsass#2840
+- sass/dart-sass#123456
 
 <===> slash_slash_string/input.scss
 a {b: 1 / 2 / foo()}
@@ -811,7 +811,7 @@ a {
 <===> slash_slash_string/options.yml
 ---
 :todo:
-- libsass
+- dart-sass
 
 <===> slash_slash_string/input.scss
 a {b: 1 / 2 / foo()}
@@ -1036,7 +1036,7 @@ directory. It just serves to visually separate specs from one another.
 <===> top_level/options.yml
 ---
 :warning_todo:
-- sass/libsass#2834
+- sass/dart-sass#123456
 :ignore_for:
 - ruby-sass
 
@@ -1081,7 +1081,7 @@ declare new variables. Consider adding `$var: null` at the top level.
 <===> top_level/options.yml
 ---
 :warning_todo:
-- sass/libsass#2834
+- sass/dart-sasss#123456
 :ignore_for:
 - ruby-sass
 

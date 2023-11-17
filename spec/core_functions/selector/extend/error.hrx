@@ -14,14 +14,6 @@ Error: $selector: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:23 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("&", "c", "d")}
-
-   ----------------------^
-
 <===>
 ================================================================================
 <===> selector/invalid/input.scss
@@ -40,21 +32,8 @@ Error: $selector: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> selector/invalid/error-libsass
-Error: invalid operator in attribute selector for c
-        on line 1:24 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("[c", "d", "e")}
-
-   -----------------------^
-
 <===>
 ================================================================================
-<===> selector/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> selector/type/input.scss
 a {b: selector-extend(1, "c", "d")}
 
@@ -84,21 +63,6 @@ Error: $extendee: Parent selectors aren't allowed here.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> extendee/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:28 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("c", "&", "d")}
-
-   ---------------------------^
-
-<===>
-================================================================================
-<===> extendee/complex/options.yml
----
-:todo:
-- sass/libsass#3066
 
 <===>
 ================================================================================
@@ -144,21 +108,8 @@ Error: $extendee: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> extendee/invalid/error-libsass
-Error: invalid operator in attribute selector for d
-        on line 1:29 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("c", "[d", "e")}
-
-   ----------------------------^
-
 <===>
 ================================================================================
-<===> extendee/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> extendee/type/input.scss
 a {b: selector-extend("c", 1, "d")}
 
@@ -189,14 +140,6 @@ Error: $extender: Parent selectors aren't allowed here.
   '
   input.scss 1:7  root stylesheet
 
-<===> extender/parent/error-libsass
-Error: Parent selectors aren't allowed here.
-        on line 1:33 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("c", "d", "&")}
-
-   --------------------------------^
-
 <===>
 ================================================================================
 <===> extender/invalid/input.scss
@@ -215,21 +158,8 @@ Error: $extender: expected more input.
   '
   input.scss 1:7  root stylesheet
 
-<===> extender/invalid/error-libsass
-Error: invalid operator in attribute selector for e
-        on line 1:34 of input.scss, in function `selector-extend`
-        from line 1:7 of input.scss
->> a {b: selector-extend("c", "d", "[e")}
-
-   ---------------------------------^
-
 <===>
 ================================================================================
-<===> extender/type/options.yml
----
-:todo:
-- sass/libsass#2964
-
 <===> extender/type/input.scss
 a {b: selector-extend("c", "d", 1)}
 
@@ -259,13 +189,6 @@ Error: Only 3 arguments allowed, but 4 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> too_many_args/error-libsass
-Error: wrong number of arguments (4 for 3) for `selector-extend'
-        on line 1:7 of input.scss
->> a {b: selector-extend("c", "d", "e", "f")}
-
-   ------^
-
 <===>
 ================================================================================
 <===> too_few_args/input.scss
@@ -282,10 +205,3 @@ Error: Missing argument $extender.
   |           ======================================= declaration
   '
   input.scss 1:7  root stylesheet
-
-<===> too_few_args/error-libsass
-Error: Function selector-extend is missing argument $extender.
-        on line 1 of input.scss
->> a {b: selector-extend("c", "d")}
-
-   ------^
