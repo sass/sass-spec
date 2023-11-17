@@ -591,4 +591,73 @@ describe('Node Package Importer', () => {
         });
       }));
   });
+  describe('rejects invalid URLs', () => {
+    it('with an absolute path', () => {
+      expect(() =>
+        compileString('@use "pkg:/absolute";', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({includes: 'must not be an absolute path'});
+    });
+
+    it('with a host', () => {
+      expect(() =>
+        compileString('@use "pkg://host/library";', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({
+        includes: 'must not have a host, port, username or password',
+      });
+    });
+
+    it('with username and password', () => {
+      expect(() =>
+        compileString('@use "pkg://user:password@library/path" as library;', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({
+        includes: 'must not have a host, port, username or password',
+      });
+    });
+
+    it('with port', () => {
+      expect(() =>
+        compileString('@use "pkg://host:8080/library";', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({
+        includes: 'must not have a host, port, username or password',
+      });
+    });
+
+    it('with an empty path', () => {
+      expect(() =>
+        // Throws `default namespace "" is not a valid Sass identifier` without
+        // the `as` clause.
+        compileString('@use "pkg:" as pkg;', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({includes: 'must not have an empty path'});
+    });
+
+    it('with a query', () => {
+      expect(() =>
+        // Throws `default namespace "" is not a valid Sass identifier` without
+        // the `as` clause.
+        compileString('@use "pkg:library?query";', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({includes: 'must not have a query or fragment'});
+    });
+
+    it('with a fragment', () => {
+      expect(() =>
+        // Throws `default namespace "" is not a valid Sass identifier` without
+        // the `as` clause.
+        compileString('@use "pkg:library#fragment";', {
+          importers: [nodePackageImporter],
+        })
+      ).toThrowSassException({includes: 'must not have a query or fragment'});
+    });
+  });
 });
