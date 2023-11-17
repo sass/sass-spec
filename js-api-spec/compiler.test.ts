@@ -2,10 +2,30 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {initCompiler, initAsyncCompiler} from 'sass';
-import type {Compiler, AsyncCompiler} from 'sass';
+import type {AsyncCompiler, Compiler, CompileResult} from 'sass';
+import {initAsyncCompiler, initCompiler, SassString} from 'sass';
 
 import {sandbox} from './sandbox';
+import {spy, URL} from './utils';
+
+const functions = {'foo($args)': (args: unknown) => new SassString(`${args}`)};
+const importers = [
+  {
+    canonicalize: (url: string) => new URL(`u:${url}`),
+    load: (url: typeof URL) => ({
+      contents: `.import {value: ${url.pathname}} @debug "imported";`,
+      syntax: 'scss' as const,
+    }),
+  },
+];
+const asyncImporters = [
+  {
+    canonicalize: (url: string) =>
+      Promise.resolve(importers[0].canonicalize(url)),
+    load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
+  },
+];
+const getLogger = () => ({debug: spy(() => {})});
 
 describe('Compiler', () => {
   let compiler: Compiler;
@@ -19,13 +39,16 @@ describe('Compiler', () => {
   });
 
   describe('compileString', () => {
-    it('performs multiple compilations', () => {
-      expect(
-        compiler.compileString('$a: b; c {d: $a}').css
-      ).toEqualIgnoringWhitespace('c {d: b;}');
-      expect(
-        compiler.compileString('$a: 1; c {d: $a}').css
-      ).toEqualIgnoringWhitespace('c {d: 1;}');
+    it('performs complete compilations', () => {
+      const logger = getLogger();
+      const result = compiler.compileString(
+        '@import "bar"; .fn {value: foo(baz)}',
+        {importers, functions, logger}
+      );
+      expect(result.css).toEqualIgnoringWhitespace(
+        '.import {value: bar;} .fn {value: "baz";}'
+      );
+      expect(logger.debug).toHaveBeenCalledTimes(1);
     });
 
     it('throws after being disposed', () => {
@@ -35,26 +58,27 @@ describe('Compiler', () => {
   });
 
   describe('compile', () => {
-    it('performs multiple compilations', () => {
+    it('performs complete compilations', () =>
       sandbox(dir => {
-        dir.write({'input.scss': '$a: b; c {d: $a}'});
-        dir.write({'input2.scss': '$a: 1; c {d: $a}'});
-        expect(
-          compiler.compile(dir('input.scss')).css
-        ).toEqualIgnoringWhitespace('c {d: b;}');
-        expect(
-          compiler.compile(dir('input2.scss')).css
-        ).toEqualIgnoringWhitespace('c {d: 1;}');
-      });
-    });
+        const logger = getLogger();
+        dir.write({'input.scss': '@import "bar"; .fn {value: foo(bar)}'});
+        const result = compiler.compile(dir('input.scss'), {
+          importers,
+          functions,
+          logger,
+        });
+        expect(result.css).toEqualIgnoringWhitespace(
+          '.import {value: bar;} .fn {value: "bar";}'
+        );
+        expect(logger.debug).toHaveBeenCalledTimes(1);
+      }));
 
-    it('throws after being disposed', () => {
+    it('throws after being disposed', () =>
       sandbox(dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         compiler.dispose();
         expect(() => compiler.compile(dir('input.scss'))).toThrowError();
-      });
-    });
+      }));
   });
 });
 
@@ -70,13 +94,25 @@ describe('AsyncCompiler', () => {
   });
 
   describe('compileStringAsync', () => {
-    it('performs multiple compilations', async () => {
-      expect(
-        (await compiler.compileStringAsync('$a: b; c {d: $a}')).css
-      ).toEqualIgnoringWhitespace('c {d: b;}');
-      expect(
-        (await compiler.compileStringAsync('$a: 1; c {d: $a}')).css
-      ).toEqualIgnoringWhitespace('c {d: 1;}');
+    it('handles multiple concurrent compilations', async () => {
+      const logger = getLogger();
+      const compilations = Array(5)
+        .fill(0)
+        .map((_, i) =>
+          compiler.compileStringAsync(
+            `@import "${i}"; .fn {value: foo(${i})}`,
+            {importers: asyncImporters, functions, logger}
+          )
+        );
+      Array.from(await Promise.all(compilations))
+        .map((result: CompileResult) => result.css)
+        .sort()
+        .forEach((result, i) => {
+          expect(result).toEqualIgnoringWhitespace(
+            `.import {value: ${i};} .fn {value: "${i}";}`
+          );
+        });
+      expect(logger.debug).toHaveBeenCalledTimes(compilations.length);
     });
 
     it('throws after being disposed', async () => {
@@ -94,16 +130,31 @@ describe('AsyncCompiler', () => {
   });
 
   describe('compileAsync', () => {
-    it('performs multiple compilations', () =>
+    it('handles multiple concurrent compilations', () =>
       sandbox(async dir => {
-        dir.write({'input.scss': '$a: b; c {d: $a}'});
-        dir.write({'input2.scss': '$a: 1; c {d: $a}'});
-        expect(
-          (await compiler.compileAsync(dir('input.scss'))).css
-        ).toEqualIgnoringWhitespace('c {d: b;}');
-        expect(
-          (await compiler.compileAsync(dir('input2.scss'))).css
-        ).toEqualIgnoringWhitespace('c {d: 1;}');
+        const logger = getLogger();
+        const compilations = Array(5)
+          .fill(0)
+          .map((_, i) => {
+            const filename = `input-${i}.scss`;
+            dir.write({
+              [filename]: `@import "${i}"; .fn {value: foo(${i})}`,
+            });
+            return compiler.compileAsync(dir(filename), {
+              importers: asyncImporters,
+              functions,
+              logger,
+            });
+          });
+        Array.from(await Promise.all(compilations))
+          .map((result: CompileResult) => result.css)
+          .sort()
+          .forEach((result, i) => {
+            expect(result).toEqualIgnoringWhitespace(
+              `.import {value: ${i};} .fn {value: "${i}";}`
+            );
+          });
+        expect(logger.debug).toHaveBeenCalledTimes(compilations.length);
       }));
 
     it('throws after being disposed', async () => {
