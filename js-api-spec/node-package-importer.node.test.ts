@@ -430,11 +430,9 @@ describe('Node Package Importer', () => {
     sandbox(dir => {
       dir.write({'foo/index.scss': 'a {from: dir}'});
 
-      const foo = Symbol() as NodePackageImporter;
-
       expect(() =>
         compileString('@use "pkg:foo";', {
-          importers: [foo],
+          importers: [Symbol() as NodePackageImporter],
         })
       ).toThrow();
     }));
