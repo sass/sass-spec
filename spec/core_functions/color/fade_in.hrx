@@ -1,9 +1,3 @@
-<===> options.yml
-:warning_todo:
-  - libsass
-
-<===>
-================================================================================
 <===> max/input.scss
 a {b: fade-in(rgba(red, 0.5), 1)}
 
@@ -75,10 +69,6 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> middle/options.yml
-:warning_todo:
-  - libsass
-
 <===> middle/input.scss
 a {b: fade-in(rgba(red, 0.5), 0.14)}
 
@@ -103,10 +93,6 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> named/options.yml
-:warning_todo:
-  - libsass
-
 <===> named/input.scss
 a {b: fade-in($color: rgba(red, 0.5), $amount: 0.14)}
 
@@ -131,10 +117,6 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> opacify/options.yml
-:warning_todo:
-  - libsass
-
 <===> opacify/input.scss
 a {b: opacify($color: rgba(red, 0.5), $amount: 0.14)}
 
@@ -174,13 +156,6 @@ Error: Missing argument $amount.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function fade-in is missing argument $amount.
-        on line 1 of input.scss
->> a {b: fade-in(red)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -198,13 +173,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `fade-in'
-        on line 1:7 of input.scss
->> a {b: fade-in(red, 0.1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/color/input.scss
@@ -217,14 +185,6 @@ Error: $color: 1 is not a color.
   |       ^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/color/error-libsass
-Error: argument `$color` of `fade-in($color, $amount)` must be a color
-        on line 1:7 of input.scss, in function `fade-in`
-        from line 1:7 of input.scss
->> a {b: fade-in(1, 0.1)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -239,14 +199,6 @@ Error: $amount: blue is not a number.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/alpha/error-libsass
-Error: argument `$amount` of `fade-in($color, $amount)` must be a number
-        on line 1:7 of input.scss, in function `fade-in`
-        from line 1:7 of input.scss
->> a {b: fade-in(red, blue)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
@@ -260,14 +212,6 @@ Error: $amount: Expected -0.001 to be within 0 and 1.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/bounds/too_low/error-libsass
-Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
-        on line 1:7 of input.scss, in function `fade-in`
-        from line 1:7 of input.scss
->> a {b: fade-in(red, -0.001)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
@@ -280,14 +224,6 @@ Error: $amount: Expected 1.001 to be within 0 and 1.
   |       ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/bounds/too_high/error-libsass
-Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
-        on line 1:7 of input.scss, in function `fade-in`
-        from line 1:7 of input.scss
->> a {b: fade-in(red, 1.001)}
-
-   ------^
 
 <===>
 ================================================================================
@@ -303,11 +239,3 @@ Error: $amount: Expected 50% to be within 0 and 1.
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
-
-<===> error/bounds/unit/error-libsass
-Error: argument `$amount` of `fade-in($color, $amount)` must be between -0 and 1
-        on line 3:7 of input.scss, in function `fade-in`
-        from line 3:7 of input.scss
->> a {b: fade-in(red, 50%)}
-
-   ------^

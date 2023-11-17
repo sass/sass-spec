@@ -1,9 +1,3 @@
-<===> unknown/options.yml
-:ignore_for:
-  - libsass
-
-<===>
-================================================================================
 <===> unknown/function/empty/input.scss
 @import "a" b();
 
@@ -64,21 +58,11 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/declaration/prop/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/declaration/prop/input.scss
 @import "a.css" supports(a: b);
 
 <===> supports/declaration/prop/output.css
 @import "a.css" supports(a: b);
-
-<===>
-================================================================================
-<===> supports/declaration/custom_prop/options.yml
-:ignore_for:
-  - libsass
 
 <===>
 ================================================================================
@@ -106,10 +90,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/declaration/followed_by_import_arg/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/declaration/followed_by_import_arg/input.scss
 @import "a" supports(b: c), "d.css";
 
@@ -119,10 +99,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/condition/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/condition/input.scss
 @import "a.css" supports((a: b));
 
@@ -131,10 +107,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/condition_and/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/condition_and/input.scss
 @import "a.css" supports((a: b) and (c: d));
 
@@ -143,10 +115,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/condition_function/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/condition_function/input.scss
 @import "a.css" supports(a(b));
 
@@ -155,10 +123,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/condition_negation/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/condition_negation/input.scss
 @import "a.css" supports(not (a: b));
 
@@ -167,10 +131,6 @@ $a: "a";
 
 <===>
 ================================================================================
-<===> supports/calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> supports/calc/input.scss
 @import "a.css" supports(calc(1));
 
@@ -216,12 +176,6 @@ $a: "a";
 
 <===> media/list/and_without_space/output.css
 @import "a" b and (c: d), e;
-
-<===>
-================================================================================
-<===> multiple/options.yml
-:ignore_for:
-  - libsass
 
 <===>
 ================================================================================
@@ -340,13 +294,6 @@ Error: expected ";".
   '
   input.scss 1:20  root stylesheet
 
-<===> error/wrong_order/media_before_supports/error-libsass
-Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "supports(d: e);"
-        on line 1:19 of input.scss
->> @import "a" (b: c) supports(d: e);
-
-   ------------------^
-
 <===>
 ================================================================================
 <===> error/wrong_order/media_before_unknown_ident/input.scss
@@ -359,13 +306,6 @@ Error: expected ";".
   |                    ^
   '
   input.scss 1:20  root stylesheet
-
-<===> error/wrong_order/media_before_unknown_ident/error-libsass
-Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "d;"
-        on line 1:19 of input.scss
->> @import "a" (b: c) d;
-
-   ------------------^
 
 <===>
 ================================================================================
@@ -380,13 +320,6 @@ Error: expected ";".
   '
   input.scss 1:20  root stylesheet
 
-<===> error/wrong_order/media_before_unknown_function/error-libsass
-Error: Invalid CSS after '@import "a" (b: c)': expected 1 selector or at-rule, was "d(e);"
-        on line 1:19 of input.scss
->> @import "a" (b: c) d(e);
-
-   ------------------^
-
 <===>
 ================================================================================
 <===> error/wrong_order/supports_after_comma/input.scss
@@ -399,13 +332,6 @@ Error: expected ";".
   |                        ^
   '
   input.scss 1:24  root stylesheet
-
-<===> error/wrong_order/supports_after_comma/error-libsass
-Error: Invalid CSS after '..."a" b, supports': expected 1 selector or at-rule, was "(c: d);"
-        on line 1:16 of input.scss
->> @import "a" b, supports(c: d);
-
-   ---------------^
 
 <===>
 ================================================================================
@@ -420,13 +346,6 @@ Error: expected ";".
   '
   input.scss 1:17  root stylesheet
 
-<===> error/wrong_order/unknown_function_after_comma/error-libsass
-Error: Invalid CSS after '@import "a" b, c': expected 1 selector or at-rule, was "(d);"
-        on line 1:16 of input.scss
->> @import "a" b, c(d);
-
-   ---------------^
-
 <===>
 ================================================================================
 <===> error/wrong_order/url_after_comma/input.scss
@@ -440,19 +359,8 @@ Error: Expected identifier.
   '
   input.scss 1:16  root stylesheet
 
-<===> error/wrong_order/url_after_comma/error-libsass
-Error: media query expression must begin with '('
-        on line 1:16 of input.scss
->> @import "a" b, "c";
-
-   ---------------^
-
 <===>
 ================================================================================
-<===> error/supports/declaration/custom_prop/empty/options.yml
-:ignore_for:
-  - libsass
-
 <===> error/supports/declaration/custom_prop/empty/input.scss
 @import url("a.css") supports(--a:);
 

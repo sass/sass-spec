@@ -1,9 +1,3 @@
-<===> options.yml
-:warning_todo:
-  - libsass
-
-<===>
-================================================================================
 <===> one_arg/README.md
 Sass supports saturate() with one argument for compatibility with [plain CSS][].
 
@@ -52,10 +46,6 @@ a {
 
 <===>
 ================================================================================
-<===> one_arg/with_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> one_arg/with_calc/input.scss
 a {b: saturate(calc(1 + 2))}
 
@@ -66,10 +56,6 @@ a {
 
 <===>
 ================================================================================
-<===> one_arg/with_unquoted_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> one_arg/with_unquoted_calc/input.scss
 a {b: saturate(unquote('calc(1)'))}
 
@@ -80,11 +66,6 @@ a {
 
 <===>
 ================================================================================
-<===> one_arg/named/options.yml
----
-:todo:
-- sass/libsass#2897
-
 <===> one_arg/named/input.scss
 a {b: saturate($amount: 50%)}
 
@@ -174,11 +155,6 @@ a {
   b: rgb(230.03, 150.97, 230.03);
 }
 
-<===> two_args/middle/output-libsass.css
-a {
-  b: #e697e6;
-}
-
 <===> two_args/middle/warning
 DEPRECATION WARNING: saturate() is deprecated. Suggestions:
 
@@ -227,11 +203,6 @@ a {
   b: rgb(230.03, 150.97, 230.03);
 }
 
-<===> two_args/named/output-libsass.css
-a {
-  b: #e697e6;
-}
-
 <===> two_args/named/warning
 DEPRECATION WARNING: saturate() is deprecated. Suggestions:
 
@@ -263,13 +234,6 @@ Error: Missing argument $amount.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function saturate is missing argument $color.
-        on line 1 of input.scss
->> a {b: saturate()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -287,20 +251,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `saturate'
-        on line 1:7 of input.scss
->> a {b: saturate(plum, 1%, 2)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/one_arg/type/options.yml
----
-:todo:
-- sass/libsass#2895
-
 <===> error/one_arg/type/input.scss
 a {b: saturate(red)}
 
@@ -315,10 +267,6 @@ Error: $amount: red is not a number.
 
 <===>
 ================================================================================
-<===> error/with_module/one_arg/type/options.yml
-':ignore_for':
-  - libsass
-
 <===> error/with_module/one_arg/type/input.scss
 @use 'sass:color';
 a {b: color.saturate(var(--c))}
@@ -348,21 +296,8 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/two_args/type/color/error-libsass
-Error: argument `$color` of `saturate($color, $amount: false)` must be a color
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/two_args/type/lightness/options.yml
----
-:todo:
-- sass/libsass#2896
-
 <===> error/two_args/type/lightness/input.scss
 a {b: saturate(plum, blue)}
 
@@ -387,14 +322,6 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/two_args/bounds/too_low/error-libsass
-Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(plum, -0.001)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/two_args/bounds/too_high/input.scss
@@ -407,11 +334,3 @@ Error: $amount: Expected 100.001 to be within 0 and 100.
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/two_args/bounds/too_high/error-libsass
-Error: argument `$amount` of `saturate($color, $amount: false)` must be between -0 and 100
-        on line 1:7 of input.scss, in function `saturate`
-        from line 1:7 of input.scss
->> a {b: saturate(plum, 100.001)}
-
-   ------^
