@@ -412,6 +412,7 @@ describe('Node Package Importer', () => {
                 {
                   canonicalize(url) {
                     expect(url).toStartWith('pkg:');
+                    return null;
                   },
                   load: () => null,
                 },
@@ -429,7 +430,7 @@ describe('Node Package Importer', () => {
     sandbox(dir => {
       dir.write({'foo/index.scss': 'a {from: dir}'});
 
-      const foo = {_NodePackageImporterBrand: ''} as NodePackageImporter;
+      const foo = Symbol() as NodePackageImporter;
 
       expect(() =>
         compileString('@use "pkg:foo";', {
