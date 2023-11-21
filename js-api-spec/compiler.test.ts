@@ -9,6 +9,7 @@ import {sandbox} from './sandbox';
 import {spy, URL} from './utils';
 
 const functions = {'foo($args)': (args: unknown) => new SassString(`${args}`)};
+
 const importers = [
   {
     canonicalize: (url: string) => new URL(`u:${url}`),
@@ -18,6 +19,7 @@ const importers = [
     }),
   },
 ];
+
 const asyncImporters = [
   {
     canonicalize: (url: string) =>
@@ -25,7 +27,20 @@ const asyncImporters = [
     load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
   },
 ];
+
 const getLogger = () => ({debug: spy(() => {})});
+
+/* Sort the output of the example CSS so it can be compared */
+const sortCompiled = (a: string, b: string) => {
+  const aMatch = a.match(/value: (\d+);/);
+  const bMatch = b.match(/value: (\d+);/);
+  if (!aMatch || !bMatch) {
+    throw new Error(
+      `Failed to parse ${a} or ${b} as numbers to determine sort order`
+    );
+  }
+  return Number(aMatch[1]) - Number(bMatch[1]);
+};
 
 describe('Compiler', () => {
   let compiler: Compiler;
@@ -84,6 +99,7 @@ describe('Compiler', () => {
 
 describe('AsyncCompiler', () => {
   let compiler: AsyncCompiler;
+  const runs = 1000; // Number of concurrent compilations to run
 
   beforeEach(async () => {
     compiler = await initAsyncCompiler();
@@ -96,7 +112,7 @@ describe('AsyncCompiler', () => {
   describe('compileStringAsync', () => {
     it('handles multiple concurrent compilations', async () => {
       const logger = getLogger();
-      const compilations = Array(5)
+      const compilations = Array(runs)
         .fill(0)
         .map((_, i) =>
           compiler.compileStringAsync(
@@ -106,13 +122,13 @@ describe('AsyncCompiler', () => {
         );
       Array.from(await Promise.all(compilations))
         .map((result: CompileResult) => result.css)
-        .sort()
+        .sort(sortCompiled)
         .forEach((result, i) => {
           expect(result).toEqualIgnoringWhitespace(
             `.import {value: ${i};} .fn {value: "${i}";}`
           );
         });
-      expect(logger.debug).toHaveBeenCalledTimes(compilations.length);
+      expect(logger.debug).toHaveBeenCalledTimes(runs);
     });
 
     it('throws after being disposed', async () => {
@@ -133,7 +149,7 @@ describe('AsyncCompiler', () => {
     it('handles multiple concurrent compilations', () =>
       sandbox(async dir => {
         const logger = getLogger();
-        const compilations = Array(5)
+        const compilations = Array(runs)
           .fill(0)
           .map((_, i) => {
             const filename = `input-${i}.scss`;
@@ -148,13 +164,13 @@ describe('AsyncCompiler', () => {
           });
         Array.from(await Promise.all(compilations))
           .map((result: CompileResult) => result.css)
-          .sort()
+          .sort(sortCompiled)
           .forEach((result, i) => {
             expect(result).toEqualIgnoringWhitespace(
               `.import {value: ${i};} .fn {value: "${i}";}`
             );
           });
-        expect(logger.debug).toHaveBeenCalledTimes(compilations.length);
+        expect(logger.debug).toHaveBeenCalledTimes(runs);
       }));
 
     it('throws after being disposed', async () => {
