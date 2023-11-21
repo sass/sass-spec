@@ -66,6 +66,20 @@ describe('Compiler', () => {
       expect(logger.debug).toHaveBeenCalledTimes(1);
     });
 
+    it('performs compilations in callbacks', () => {
+      const nestedImporter = {
+        canonicalize: (url: string) => new URL(`u:${url}`),
+        load: (url: typeof URL) => ({
+          contents: compiler.compileString('x {y: z}').css,
+          syntax: 'scss' as const,
+        }),
+      };
+      const result = compiler.compileString('@import "nested"; a {b: c}', {
+        importers: [nestedImporter],
+      });
+      expect(result.css).toEqualIgnoringWhitespace('x {y: z;} a {b: c;}');
+    });
+
     it('throws after being disposed', () => {
       compiler.dispose();
       expect(() => compiler.compileString('$a: b; c {d: $a}')).toThrowError();
@@ -86,6 +100,23 @@ describe('Compiler', () => {
           '.import {value: bar;} .fn {value: "bar";}'
         );
         expect(logger.debug).toHaveBeenCalledTimes(1);
+      }));
+
+    it('performs compilations in callbacks', () =>
+      sandbox(dir => {
+        dir.write({'input-nested.scss': 'x {y: z}'});
+        const nestedImporter = {
+          canonicalize: (url: string) => new URL(`u:${url}`),
+          load: (url: typeof URL) => ({
+            contents: compiler.compile(dir('input-nested.scss')).css,
+            syntax: 'scss' as const,
+          }),
+        };
+        dir.write({'input.scss': '@import "nested"; a {b: c}'});
+        const result = compiler.compile(dir('input.scss'), {
+          importers: [nestedImporter],
+        });
+        expect(result.css).toEqualIgnoringWhitespace('x {y: z;} a {b: c;}');
       }));
 
     it('throws after being disposed', () =>
