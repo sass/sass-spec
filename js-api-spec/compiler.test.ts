@@ -132,6 +132,16 @@ describe('AsyncCompiler', () => {
   let compiler: AsyncCompiler;
   const runs = 1000; // Number of concurrent compilations to run
 
+  // A slow importer that executes a callback after a delay
+  const getSlowImporter = (callback: () => void) => ({
+    canonicalize: async (url: string) => new URL('foo:bar'),
+    load: async (url: typeof URL) => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      callback();
+      return {contents: '', syntax: 'scss' as const};
+    },
+  });
+
   beforeEach(async () => {
     compiler = await initAsyncCompiler();
   });
@@ -170,8 +180,13 @@ describe('AsyncCompiler', () => {
     });
 
     it('waits for compilations to finish before disposing', async () => {
-      const compilation = compiler.compileStringAsync('$a: b; c {d: $a}');
+      let completed = false;
+      const compilation = compiler.compileStringAsync('@import "slow"', {
+        importers: [getSlowImporter(() => (completed = true))],
+      });
+      expect(completed).toBeFalse();
       await compiler.dispose();
+      expect(completed).toBeTrue();
       await expectAsync(compilation).toBeResolved();
     });
   });
@@ -214,9 +229,14 @@ describe('AsyncCompiler', () => {
 
     it('waits for compilations to finish before disposing', () =>
       sandbox(async dir => {
-        dir.write({'input.scss': '$a: b; c {d: $a}'});
-        const compilation = compiler.compileAsync(dir('input.scss'));
+        let completed = false;
+        dir.write({'input.scss': '@import "slow"'});
+        const compilation = compiler.compileAsync(dir('input.scss'), {
+          importers: [getSlowImporter(() => (completed = true))],
+        });
+        expect(completed).toBeFalse();
         await compiler.dispose();
+        expect(completed).toBeTrue();
         await expectAsync(compilation).toBeResolved();
       }));
   });
