@@ -458,9 +458,66 @@ describe('Node Package Importer', () => {
         });
       }));
 
+    it('compile with nested path', () =>
+      sandbox(dir => {
+        dir.write({
+          'deeply/nested/node_modules/bah/index.scss': 'a {b: c}',
+          'deeply/nested/node_modules/bah/package.json': JSON.stringify({}),
+          'deeply/nested/_index.scss': '@use "pkg:bah";',
+          'node_modules/bah/index.scss': 'from {root: notPath}',
+          'node_modules/bah/package.json': JSON.stringify({}),
+        });
+        dir.chdir(() => {
+          const result = compile('./deeply/nested/_index.scss', {
+            importers: [
+              nodePackageImporter,
+              {
+                findFileUrl: file => dir.url(file),
+              },
+            ],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
+      }));
+
     it('compileString', () =>
       sandbox(dir => {
         dir.write({
+          'node_modules/bah/index.scss': 'a {b: c}',
+          'node_modules/bah/package.json': JSON.stringify({}),
+        });
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
+      }));
+
+    it('compileString with url', () =>
+      sandbox(dir => {
+        dir.write({
+          'deeply/nested/node_modules/bah/index.scss': 'a {b: c}',
+          'deeply/nested/node_modules/bah/package.json': JSON.stringify({}),
+          'deeply/nested/_index.scss': '@use "pkg:bah";',
+          'node_modules/bah/index.scss': 'from {root: notPath}',
+          'node_modules/bah/package.json': JSON.stringify({}),
+        });
+        dir.chdir(() => {
+          const result = compileString('@use "pkg:bah";', {
+            importers: [nodePackageImporter],
+            url: dir.url('deeply/nested/_index.scss'),
+          });
+          expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
+      }));
+
+    it('compileString without url uses cwd', () =>
+      sandbox(dir => {
+        dir.write({
+          'deeply/nested/node_modules/bah/index.scss': 'from {nested: path}',
+          'deeply/nested/node_modules/bah/package.json': JSON.stringify({}),
+          'deeply/nested/_index.scss': '@use "pkg:bah";',
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
