@@ -1,5 +1,5 @@
 <===> calc/string/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(unquote("calc(1%)") 2 3));
 
 <===> calc/string/arg_1/output.css
@@ -11,7 +11,7 @@ a {
 <===>
 ================================================================================
 <===> calc/string/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% unquote("calc(2)") 3));
 
 <===> calc/string/arg_2/output.css
@@ -23,7 +23,7 @@ a {
 <===>
 ================================================================================
 <===> calc/string/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 unquote("calc(3)")));
 
 <===> calc/string/arg_3/output.css
@@ -35,7 +35,7 @@ a {
 <===>
 ================================================================================
 <===> calc/calculation/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(calc(1px + 1%) 2 3));
 
 <===> calc/calculation/arg_1/output.css
@@ -47,7 +47,7 @@ a {
 <===>
 ================================================================================
 <===> calc/calculation/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% calc(1px + 1%) 3));
 
 <===> calc/calculation/arg_2/output.css
@@ -59,7 +59,7 @@ a {
 <===>
 ================================================================================
 <===> calc/calculation/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 calc(1px + 1%)));
 
 <===> calc/calculation/arg_3/output.css
@@ -71,7 +71,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(var(--foo) 2 3));
 
 <===> var/arg_1/output.css
@@ -83,7 +83,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% var(--foo) 3));
 
 <===> var/arg_2/output.css
@@ -95,7 +95,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 var(--foo)));
 
 <===> var/arg_3/output.css
@@ -107,7 +107,7 @@ a {
 <===>
 ================================================================================
 <===> env/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(env(--foo) 2 3));
 
 <===> env/arg_1/output.css
@@ -119,7 +119,7 @@ a {
 <===>
 ================================================================================
 <===> env/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% env(--foo) 3));
 
 <===> env/arg_2/output.css
@@ -131,7 +131,7 @@ a {
 <===>
 ================================================================================
 <===> env/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 env(--foo)));
 
 <===> env/arg_3/output.css
@@ -143,7 +143,7 @@ a {
 <===>
 ================================================================================
 <===> min/string/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(unquote("min(1%)") 2 3));
 
 <===> min/string/arg_1/output.css
@@ -155,7 +155,7 @@ a {
 <===>
 ================================================================================
 <===> min/string/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% unquote("min(2)") 3));
 
 <===> min/string/arg_2/output.css
@@ -167,7 +167,7 @@ a {
 <===>
 ================================================================================
 <===> min/string/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 unquote("min(3)")));
 
 <===> min/string/arg_3/output.css
@@ -179,7 +179,7 @@ a {
 <===>
 ================================================================================
 <===> max/string/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(unquote("max(1%)") 2 3));
 
 <===> max/string/arg_1/output.css
@@ -191,7 +191,7 @@ a {
 <===>
 ================================================================================
 <===> max/string/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% unquote("max(2)") 3));
 
 <===> max/string/arg_2/output.css
@@ -203,7 +203,7 @@ a {
 <===>
 ================================================================================
 <===> max/string/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 unquote("max(3)")));
 
 <===> max/string/arg_3/output.css
@@ -215,7 +215,7 @@ a {
 <===>
 ================================================================================
 <===> clamp/string/arg_1/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(unquote("clamp(1%, 2, 3)") 2 3));
 
 <===> clamp/string/arg_1/output.css
@@ -227,7 +227,7 @@ a {
 <===>
 ================================================================================
 <===> clamp/string/arg_2/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% unquote("clamp(2, 3, 4)") 3));
 
 <===> clamp/string/arg_2/output.css
@@ -239,7 +239,7 @@ a {
 <===>
 ================================================================================
 <===> clamp/string/arg_3/input.scss
-@use 'core_functions/color/lab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(lab(1% 2 unquote("clamp(3, 4, 5)")));
 
 <===> clamp/string/arg_3/output.css

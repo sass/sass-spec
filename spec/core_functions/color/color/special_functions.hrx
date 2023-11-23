@@ -1,6 +1,6 @@
 <===> calculation/arg_1/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb calc(1px + 1%) 0.2 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb calc(1px + 1%) 0.2 0.3));
 
 <===> calculation/arg_1/output.css
 a {
@@ -11,8 +11,8 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_2/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 calc(1px + 1%) 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 calc(1px + 1%) 0.3));
 
 <===> calculation/arg_2/output.css
 a {
@@ -23,8 +23,8 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_3/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 calc(1px + 1%)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 calc(1px + 1%)));
 
 <===> calculation/arg_3/output.css
 a {
@@ -35,8 +35,8 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_4/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / calc(1px + 1%)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / calc(1px + 1%)));
 
 <===> calculation/arg_4/output.css
 a {
@@ -47,8 +47,8 @@ a {
 <===>
 ================================================================================
 <===> var/arg_1/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb var(--foo) 0.2 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb var(--foo) 0.2 0.3));
 
 <===> var/arg_1/output.css
 a {
@@ -59,8 +59,8 @@ a {
 <===>
 ================================================================================
 <===> var/arg_2/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 var(--foo) 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 var(--foo) 0.3));
 
 <===> var/arg_2/output.css
 a {
@@ -71,8 +71,8 @@ a {
 <===>
 ================================================================================
 <===> var/arg_3/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 var(--foo)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 var(--foo)));
 
 <===> var/arg_3/output.css
 a {
@@ -83,8 +83,8 @@ a {
 <===>
 ================================================================================
 <===> var/arg_4/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 0.2 0.3 / var(--foo)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 0.2 0.3 / var(--foo)));
 
 <===> var/arg_4/output.css
 a {
@@ -96,8 +96,8 @@ a {
 ================================================================================
 <===> multi_argument_var/1_of_2/input.scss
 // var() is substituted before parsing, so it may contain multiple arguments.
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb var(--foo) 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb var(--foo) 0.3));
 
 <===> multi_argument_var/1_of_2/output.css
 a {
@@ -108,8 +108,8 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/2_of_2/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 var(--foo)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 var(--foo)));
 
 <===> multi_argument_var/2_of_2/output.css
 a {
@@ -120,8 +120,8 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/1_of_1/no_alpha/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb var(--foo)));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb var(--foo)));
 
 <===> multi_argument_var/1_of_1/no_alpha/output.css
 a {
@@ -132,8 +132,8 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/1_of_1/alpha/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb var(--foo) / 0.4));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb var(--foo) / 0.4));
 
 <===> multi_argument_var/1_of_1/alpha/output.css
 a {

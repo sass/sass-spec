@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0 0 0), rgb)}
+
+<===> black/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 1 1 1), rgb)}
+
+<===> white/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.5 0.5 0.5), rgb)}
+
+<===> gray/output.css
+a {
+  b: rgb(145.9382220568, 145.9382220568, 145.9382220568);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.2 0.4 0.8), rgb)}
+
+<===> middle/output.css
+a {
+  b: rgb(-132.5516972837, 129.7058963262, 224.2888913224);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb -1 0.4 2), rgb)}
+
+<===> out_of_range/near/output.css
+a {
+  b: rgb(-425.1643814387, 179.8181385644, 466.5599117407);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb -999999 0 0), rgb)}
+
+<===> out_of_range/far/output.css
+a {
+  b: rgb(-11436818.342496976, 4601696.96311167, 1170288.8953180548);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.4), rgb)}
+
+<===> alpha/partial/output.css
+a {
+  b: rgba(-58.5129380673, 71.5642452483, 98.8741411351, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.0), rgb)}
+
+<===> alpha/transparent/output.css
+a {
+  b: rgba(-58.5129380673, 71.5642452483, 98.8741411351, 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb none 0.2 0.3), rgb)}
+
+<===> missing/red/output.css
+a {
+  b: rgb(0, 73.552095814, 98.9254037219);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 none 0.3), rgb)}
+
+<===> missing/green/output.css
+a {
+  b: rgb(-9.4903543499, 0, 102.0105383947);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 none), rgb)}
+
+<===> missing/blue/output.css
+a {
+  b: rgb(-21.796525215, 71.750013301, 0);
+}

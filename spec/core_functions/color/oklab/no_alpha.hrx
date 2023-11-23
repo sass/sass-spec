@@ -1,185 +1,200 @@
 <===> unitless/ab/in_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 -3));
 
 <===> unitless/ab/in_range/output.css
 a {
   value: oklab(1% 2 -3);
+  space: oklab;
   channels: 1% 2 -3 / 1;
 }
 
 <===>
 ================================================================================
 <===> unitless/ab/above_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 126 300));
 
 <===> unitless/ab/above_range/output.css
 a {
   value: oklab(1% 126 300);
+  space: oklab;
   channels: 1% 126 300 / 1;
 }
 
 <===>
 ================================================================================
 <===> unitless/ab/below_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% -126 -300));
 
 <===> unitless/ab/below_range/output.css
 a {
   value: oklab(1% -126 -300);
+  space: oklab;
   channels: 1% -126 -300 / 1;
 }
 
 <===>
 ================================================================================
 <===> unitless/lightness/in_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(0.1 2 -3));
 
 <===> unitless/lightness/in_range/output.css
 a {
   value: oklab(10% 2 -3);
+  space: oklab;
   channels: 10% 2 -3 / 1;
 }
 
 <===>
 ================================================================================
 <===> unitless/lightness/above_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1.1 2 3));
 
 <===> unitless/lightness/above_range/output.css
 a {
   value: oklab(100% 2 3);
+  space: oklab;
   channels: 100% 2 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> unitless/lightness/below_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(-0.1 2 3));
 
 <===> unitless/lightness/below_range/output.css
 a {
   value: oklab(0% 2 3);
+  space: oklab;
   channels: 0% 2 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/ab/in_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2% -3%));
 
 <===> percent/ab/in_range/output.css
 a {
   value: oklab(1% 0.008 -0.012);
+  space: oklab;
   channels: 1% 0.008 -0.012 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/ab/above_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 101% 150%));
 
 <===> percent/ab/above_range/output.css
 a {
   value: oklab(1% 0.404 0.6);
+  space: oklab;
   channels: 1% 0.404 0.6 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/ab/below_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% -101% -150%));
 
 <===> percent/ab/below_range/output.css
 a {
   value: oklab(1% -0.404 -0.6);
+  space: oklab;
   channels: 1% -0.404 -0.6 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/lightness/in_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2% -3%));
 
 <===> percent/lightness/in_range/output.css
 a {
   value: oklab(1% 0.008 -0.012);
+  space: oklab;
   channels: 1% 0.008 -0.012 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/lightness/above_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(110% 2 3));
 
 <===> percent/lightness/above_range/output.css
 a {
   value: oklab(100% 2 3);
+  space: oklab;
   channels: 100% 2 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> percent/lightness/below_range/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(-1% 2 3));
 
 <===> percent/lightness/below_range/output.css
 a {
   value: oklab(0% 2 3);
+  space: oklab;
   channels: 0% 2 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> none/lightness/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(none 2 3));
 
 <===> none/lightness/output.css
 a {
   value: oklab(none 2 3);
+  space: oklab;
   channels: none 2 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> none/a/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% none 3));
 
 <===> none/a/output.css
 a {
   value: oklab(1% none 3);
+  space: oklab;
   channels: 1% none 3 / 1;
 }
 
 <===>
 ================================================================================
 <===> none/b/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 none));
 
 <===> none/b/output.css
 a {
   value: oklab(1% 2 none);
+  space: oklab;
   channels: 1% 2 none / 1;
 }
 
 <===>
 ================================================================================
 <===> relative_color/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(from #aaa l a b));
 
 <===> relative_color/output.css
@@ -191,11 +206,12 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab($channels: 1% 2 3));
 
 <===> named/output.css
 a {
   value: oklab(1% 2 3);
+  space: oklab;
   channels: 1% 2 3 / 1;
 }
