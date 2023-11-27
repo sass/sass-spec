@@ -46,8 +46,8 @@ describe('Compiler', () => {
       sandbox(dir => {
         dir.write({'input-nested.scss': 'x {y: z}'});
         const nestedImporter = {
-          canonicalize: (url: string) => new URL(`u:${url}`),
-          load: (url: typeof URL) => ({
+          canonicalize: () => new URL('foo:bar'),
+          load: () => ({
             contents: compiler.compile(dir('input-nested.scss')).css,
             syntax: 'scss' as const,
           }),

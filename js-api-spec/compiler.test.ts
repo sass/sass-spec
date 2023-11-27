@@ -33,8 +33,8 @@ export const getLogger = () => ({debug: spy(() => {})});
 
 /* A slow importer that executes a callback after a delay */
 export const getSlowImporter = (callback: () => void) => ({
-  canonicalize: async (url: string) => new URL('foo:bar'),
-  load: async (url: typeof URL) => {
+  canonicalize: async () => new URL('foo:bar'),
+  load: async () => {
     await new Promise(resolve => setTimeout(resolve, 100));
     callback();
     return {contents: '', syntax: 'scss' as const};
@@ -67,8 +67,8 @@ describe('Compiler', () => {
 
     it('performs compilations in callbacks', () => {
       const nestedImporter = {
-        canonicalize: (url: string) => new URL(`u:${url}`),
-        load: (url: typeof URL) => ({
+        canonicalize: () => new URL('foo:bar'),
+        load: () => ({
           contents: compiler.compileString('x {y: z}').css,
           syntax: 'scss' as const,
         }),
