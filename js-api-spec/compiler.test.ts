@@ -41,18 +41,6 @@ export const getSlowImporter = (callback: () => void) => ({
   },
 });
 
-/* Sort the output of the example CSS so it can be compared */
-export const sortCompiled = (a: string, b: string) => {
-  const aMatch = a.match(/value: (\d+);/);
-  const bMatch = b.match(/value: (\d+);/);
-  if (!aMatch || !bMatch) {
-    throw new Error(
-      `Failed to parse ${a} or ${b} as numbers to determine sort order`
-    );
-  }
-  return Number(aMatch[1]) - Number(bMatch[1]);
-};
-
 describe('Compiler', () => {
   let compiler: Compiler;
 
@@ -123,7 +111,6 @@ describe('AsyncCompiler', () => {
         );
       Array.from(await Promise.all(compilations))
         .map((result: CompileResult) => result.css)
-        .sort(sortCompiled)
         .forEach((result, i) => {
           expect(result).toEqualIgnoringWhitespace(
             `.import {value: ${i};} .fn {value: "${i}";}`

@@ -9,8 +9,8 @@ import {
   asyncImporters,
   functions,
   getLogger,
+  getSlowImporter,
   importers,
-  sortCompiled,
 } from './compiler.test';
 import {sandbox} from './sandbox';
 import {URL} from './utils';
@@ -72,16 +72,6 @@ describe('AsyncCompiler', () => {
   let compiler: AsyncCompiler;
   const runs = 1000; // Number of concurrent compilations to run
 
-  // A slow importer that executes a callback after a delay
-  const getSlowImporter = (callback: () => void) => ({
-    canonicalize: async (url: string) => new URL('foo:bar'),
-    load: async (url: typeof URL) => {
-      await new Promise(resolve => setTimeout(resolve, 100));
-      callback();
-      return {contents: '', syntax: 'scss' as const};
-    },
-  });
-
   beforeEach(async () => {
     compiler = await initAsyncCompiler();
   });
@@ -109,7 +99,6 @@ describe('AsyncCompiler', () => {
           });
         Array.from(await Promise.all(compilations))
           .map((result: CompileResult) => result.css)
-          .sort(sortCompiled)
           .forEach((result, i) => {
             expect(result).toEqualIgnoringWhitespace(
               `.import {value: ${i};} .fn {value: "${i}";}`
