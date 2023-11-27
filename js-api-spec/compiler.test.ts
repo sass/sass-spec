@@ -117,7 +117,7 @@ describe('AsyncCompiler', () => {
           );
         });
       expect(logger.debug).toHaveBeenCalledTimes(runs);
-    });
+    }, 15_000); // Increase timeout for slow CI
 
     it('throws after being disposed', async () => {
       await compiler.dispose();

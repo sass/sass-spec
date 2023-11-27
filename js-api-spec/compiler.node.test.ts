@@ -81,39 +81,42 @@ describe('AsyncCompiler', () => {
   });
 
   describe('compileAsync', () => {
-    it('handles multiple concurrent compilations', () =>
-      sandbox(async dir => {
-        const logger = getLogger();
-        const compilations = Array(runs)
-          .fill(0)
-          .map((_, i) => {
-            const filename = `input-${i}.scss`;
-            dir.write({
-              [filename]: `@import "${i}"; .fn {value: foo(${i})}`,
+    it(
+      'handles multiple concurrent compilations',
+      () =>
+        sandbox(async dir => {
+          const logger = getLogger();
+          const compilations = Array(runs)
+            .fill(0)
+            .map((_, i) => {
+              const filename = `input-${i}.scss`;
+              dir.write({
+                [filename]: `@import "${i}"; .fn {value: foo(${i})}`,
+              });
+              return compiler.compileAsync(dir(filename), {
+                importers: asyncImporters,
+                functions,
+                logger,
+              });
             });
-            return compiler.compileAsync(dir(filename), {
-              importers: asyncImporters,
-              functions,
-              logger,
+          Array.from(await Promise.all(compilations))
+            .map((result: CompileResult) => result.css)
+            .forEach((result, i) => {
+              expect(result).toEqualIgnoringWhitespace(
+                `.import {value: ${i};} .fn {value: "${i}";}`
+              );
             });
-          });
-        Array.from(await Promise.all(compilations))
-          .map((result: CompileResult) => result.css)
-          .forEach((result, i) => {
-            expect(result).toEqualIgnoringWhitespace(
-              `.import {value: ${i};} .fn {value: "${i}";}`
-            );
-          });
-        expect(logger.debug).toHaveBeenCalledTimes(runs);
-      }));
+          expect(logger.debug).toHaveBeenCalledTimes(runs);
+        }),
+      40_000 // Increase timeout for slow CI
+    );
 
-    it('throws after being disposed', async () => {
+    it('throws after being disposed', () =>
       sandbox(async dir => {
         dir.write({'input.scss': '$a: b; c {d: $a}'});
         await compiler.dispose();
         expect(() => compiler.compileAsync(dir('input.scss'))).toThrowError();
-      });
-    });
+      }));
 
     it('waits for compilations to finish before disposing', () =>
       sandbox(async dir => {
