@@ -17,6 +17,8 @@ import {
 
 import {sandbox} from './sandbox';
 
+import {spy} from './utils';
+
 const testPackageImporter = ({
   input,
   output,
@@ -403,6 +405,10 @@ describe('Node Package Importer', () => {
       }));
 
     it('fails if no match found', () => {
+      const canonicalize = spy((url: string) => {
+        expect(url).toStartWith('pkg:');
+        return null;
+      });
       sandbox(dir => {
         dir.chdir(() => {
           expect(() =>
@@ -410,10 +416,7 @@ describe('Node Package Importer', () => {
               importers: [
                 nodePackageImporter,
                 {
-                  canonicalize(url) {
-                    expect(url).toStartWith('pkg:');
-                    return null;
-                  },
+                  canonicalize,
                   load: () => null,
                 },
               ],
@@ -421,6 +424,7 @@ describe('Node Package Importer', () => {
           ).toThrowSassException({
             includes: "Can't find stylesheet to import",
           });
+          expect(canonicalize).toHaveBeenCalled();
         });
       });
     });
@@ -647,6 +651,7 @@ describe('Node Package Importer', () => {
         });
       }));
   });
+
   describe('rejects invalid URLs', () => {
     it('with an absolute path', () => {
       expect(() =>
@@ -698,8 +703,6 @@ describe('Node Package Importer', () => {
 
     it('with a query', () => {
       expect(() =>
-        // Throws `default namespace "" is not a valid Sass identifier` without
-        // the `as` clause.
         compileString('@use "pkg:library?query";', {
           importers: [nodePackageImporter],
         })
@@ -708,8 +711,6 @@ describe('Node Package Importer', () => {
 
     it('with a fragment', () => {
       expect(() =>
-        // Throws `default namespace "" is not a valid Sass identifier` without
-        // the `as` clause.
         compileString('@use "pkg:library#fragment";', {
           importers: [nodePackageImporter],
         })

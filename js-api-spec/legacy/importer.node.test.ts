@@ -63,9 +63,7 @@ describe('import precedence:', () => {
             sass
               .renderSync({
                 data: '@import "test"',
-                importer: () => {
-                  return {contents: 'a {from: importer}'};
-                },
+                importer: () => ({contents: 'a {from: importer}'}),
               })
               .css.toString()
           ).toEqualIgnoringWhitespace('a { from: importer; }')
