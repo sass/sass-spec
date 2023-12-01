@@ -144,6 +144,26 @@ describe('Node Package Importer', () => {
           });
         });
       }));
+    it('throws if resolved path does not have a valid extension', () =>
+      sandbox(dir => {
+        dir.write({
+          'node_modules/foo/src/sass/_styles.txt': 'a {b: c}',
+          'node_modules/foo/package.json': JSON.stringify({
+            exports: {
+              './index.scss': {sass: './src/sass/_styles.txt'},
+            },
+          }),
+        });
+        dir.chdir(() => {
+          expect(() =>
+            compileString('@use "pkg:foo";', {
+              importers: [nodePackageImporter],
+            })
+          ).toThrowSassException({
+            includes: "_styles.txt', which is not a '.scss'",
+          });
+        });
+      }));
 
     it('resolves string export', () =>
       testPackageImporter({
