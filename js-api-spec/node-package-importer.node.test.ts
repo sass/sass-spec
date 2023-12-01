@@ -144,6 +144,7 @@ describe('Node Package Importer', () => {
           });
         });
       }));
+
     it('throws if resolved path does not have a valid extension', () =>
       sandbox(dir => {
         dir.write({
@@ -248,6 +249,22 @@ describe('Node Package Importer', () => {
         }));
     });
   });
+
+  it('throws if package.json is not json', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/foo/package.json': 'invalid json',
+      });
+      dir.chdir(() => {
+        expect(() =>
+          compileString('@use "pkg:foo";', {
+            importers: [nodePackageImporter],
+          })
+        ).toThrowSassException({
+          includes: "'package.json' in 'pkg:foo' cannot be parsed",
+        });
+      });
+    }));
 
   describe('without subpath', () => {
     it('sass key in package.json', () =>
