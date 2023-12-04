@@ -478,6 +478,28 @@ describe('Node Package Importer', () => {
       ).toThrow();
     }));
 
+  it('fails with invalid package.json exports', () =>
+    sandbox(dir => {
+      dir.write({
+        'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+        'node_modules/foo/package.json': JSON.stringify({
+          exports: {
+            '.': {
+              sass: './src/sass/_styles.scss',
+            },
+            sass: './src/sass/_styles.scss',
+          },
+        }),
+      });
+      dir.chdir(() => {
+        expect(() =>
+          compileString('@use "pkg:foo";', {
+            importers: [nodePackageImporter],
+          })
+        ).toThrowSassException({includes: 'Invalid Package Configuration'});
+      });
+    }));
+
   describe('compilation methods', () => {
     it('compile', () =>
       sandbox(dir => {
