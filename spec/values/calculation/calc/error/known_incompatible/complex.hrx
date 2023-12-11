@@ -15,7 +15,7 @@ Error: 1 and 1px are incompatible.
 a {b: calc(1 + 1/1px)}
 
 <===> unitless/and_denominator/error
-Error: Number 1px^-1 isn't compatible with CSS calculations.
+Error: Number calc(1 / 1px) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1 + 1/1px)}
   |            ^^^^^^^^^
@@ -28,7 +28,7 @@ Error: Number 1px^-1 isn't compatible with CSS calculations.
 a {b: calc(1px + 1/1px)}
 
 <===> numerator_and_denominator/error
-Error: Number 1px^-1 isn't compatible with CSS calculations.
+Error: Number calc(1 / 1px) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1px + 1/1px)}
   |            ^^^^^^^^^^^
@@ -41,7 +41,7 @@ Error: Number 1px^-1 isn't compatible with CSS calculations.
 a {b: calc(1px + 1px*1px)}
 
 <===> numerator_and_numerators/error
-Error: Number 1px*px isn't compatible with CSS calculations.
+Error: Number calc(1px * 1px) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1px + 1px*1px)}
   |            ^^^^^^^^^^^^^
@@ -54,7 +54,7 @@ Error: Number 1px*px isn't compatible with CSS calculations.
 a {b: calc(1/1px + 1/1px/1px)}
 
 <===> denominator_and_denominators/error
-Error: Number 1px^-1 isn't compatible with CSS calculations.
+Error: Number calc(1 / 1px) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1/1px + 1/1px/1px)}
   |            ^^^^^^^^^^^^^^^^^
@@ -67,7 +67,7 @@ Error: Number 1px^-1 isn't compatible with CSS calculations.
 a {b: calc(1px*1s + 1px*1px)}
 
 <===> mismatched_numerators/error
-Error: Number 1px*s isn't compatible with CSS calculations.
+Error: Number calc(1px * 1s) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1px*1s + 1px*1px)}
   |            ^^^^^^^^^^^^^^^^
@@ -80,7 +80,7 @@ Error: Number 1px*s isn't compatible with CSS calculations.
 a {b: calc(1/1px/1s + 1/1px/1px)}
 
 <===> mismatched_denominators/error
-Error: Number 1(px*s)^-1 isn't compatible with CSS calculations.
+Error: Number calc(1 / 1px / 1s) isn't compatible with CSS calculations.
   ,
 1 | a {b: calc(1/1px/1s + 1/1px/1px)}
   |            ^^^^^^^^^^^^^^^^^^^^
