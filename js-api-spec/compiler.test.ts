@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import type {AsyncCompiler, Compiler, CompileResult} from 'sass';
+import type {AsyncCompiler, Compiler, CompileResult, Importer} from 'sass';
 import {initAsyncCompiler, initCompiler, SassString} from 'sass';
 
 import {spy, URL} from './utils';
@@ -31,15 +31,27 @@ export const asyncImporters = [
 
 export const getLogger = () => ({debug: spy(() => {})});
 
-/* A slow importer that executes a callback after a delay */
-export const getSlowImporter = (callback: () => void) => ({
-  canonicalize: async () => new URL('foo:bar'),
-  load: async () => {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    callback();
-    return {contents: '', syntax: 'scss' as const};
-  },
-});
+/* A trigged importer that executes a callback after a trigger is called */
+export function getTriggeredImporter(callback: () => void): {
+  importer: Importer;
+  triggerComplete: () => void;
+} {
+  let promiseResolve: (value: unknown) => void;
+  const awaitedPromise = new Promise(resolve => {
+    promiseResolve = resolve;
+  });
+  return {
+    importer: {
+      canonicalize: async () => new URL('foo:bar'),
+      load: async () => {
+        await awaitedPromise;
+        callback();
+        return {contents: '', syntax: 'scss' as const};
+      },
+    },
+    triggerComplete: () => promiseResolve(undefined),
+  };
+}
 
 describe('Compiler', () => {
   let compiler: Compiler;
@@ -128,11 +140,18 @@ describe('AsyncCompiler', () => {
 
     it('waits for compilations to finish before disposing', async () => {
       let completed = false;
+      const {importer, triggerComplete} = getTriggeredImporter(
+        () => (completed = true)
+      );
       const compilation = compiler.compileStringAsync('@import "slow"', {
-        importers: [getSlowImporter(() => (completed = true))],
+        importers: [importer],
       });
+
+      const disposalPromise = compiler.dispose();
       expect(completed).toBeFalse();
-      await compiler.dispose();
+      triggerComplete();
+
+      await disposalPromise;
       expect(completed).toBeTrue();
       await expectAsync(compilation).toBeResolved();
     });

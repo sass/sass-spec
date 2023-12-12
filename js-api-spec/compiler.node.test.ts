@@ -9,7 +9,7 @@ import {
   asyncImporters,
   functions,
   getLogger,
-  getSlowImporter,
+  getTriggeredImporter,
   importers,
 } from './compiler.test';
 import {sandbox} from './sandbox';
@@ -122,11 +122,17 @@ describe('AsyncCompiler', () => {
       sandbox(async dir => {
         let completed = false;
         dir.write({'input.scss': '@import "slow"'});
+        const {importer, triggerComplete} = getTriggeredImporter(
+          () => (completed = true)
+        );
         const compilation = compiler.compileAsync(dir('input.scss'), {
-          importers: [getSlowImporter(() => (completed = true))],
+          importers: [importer],
         });
+        const disposalPromise = compiler.dispose();
         expect(completed).toBeFalse();
-        await compiler.dispose();
+        triggerComplete();
+
+        await disposalPromise;
         expect(completed).toBeTrue();
         await expectAsync(compilation).toBeResolved();
       }));
