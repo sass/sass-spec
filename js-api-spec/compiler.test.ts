@@ -11,7 +11,7 @@ export const functions = {
   'foo($args)': (args: unknown) => new SassString(`${args}`),
 };
 
-export const importers = [
+export const importers: Array<Importer> = [
   {
     canonicalize: (url: string) => new URL(`u:${url}`),
     load: (url: typeof URL) => ({
@@ -21,10 +21,9 @@ export const importers = [
   },
 ];
 
-export const asyncImporters = [
+export const asyncImporters: Array<Importer> = [
   {
-    canonicalize: (url: string) =>
-      Promise.resolve(importers[0].canonicalize(url)),
+    canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
     load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
   },
 ];
@@ -78,11 +77,11 @@ describe('Compiler', () => {
     });
 
     it('performs compilations in callbacks', () => {
-      const nestedImporter = {
+      const nestedImporter: Importer = {
         canonicalize: () => new URL('foo:bar'),
         load: () => ({
           contents: compiler.compileString('x {y: z}').css,
-          syntax: 'scss' as const,
+          syntax: 'scss',
         }),
       };
       const result = compiler.compileString('@import "nested"; a {b: c}', {

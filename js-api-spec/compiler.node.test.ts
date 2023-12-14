@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import type {AsyncCompiler, Compiler, CompileResult} from 'sass';
+import type {AsyncCompiler, Compiler, CompileResult, Importer} from 'sass';
 import {initAsyncCompiler, initCompiler} from 'sass';
 
 import {
@@ -45,11 +45,11 @@ describe('Compiler', () => {
     it('performs compilations in callbacks', () =>
       sandbox(dir => {
         dir.write({'input-nested.scss': 'x {y: z}'});
-        const nestedImporter = {
+        const nestedImporter: Importer = {
           canonicalize: () => new URL('foo:bar'),
           load: () => ({
             contents: compiler.compile(dir('input-nested.scss')).css,
-            syntax: 'scss' as const,
+            syntax: 'scss',
           }),
         };
         dir.write({'input.scss': '@import "nested"; a {b: c}'});
@@ -70,7 +70,6 @@ describe('Compiler', () => {
 
 describe('AsyncCompiler', () => {
   let compiler: AsyncCompiler;
-  const runs = 1000; // Number of concurrent compilations to run
 
   beforeEach(async () => {
     compiler = await initAsyncCompiler();
@@ -85,6 +84,7 @@ describe('AsyncCompiler', () => {
       'handles multiple concurrent compilations',
       () =>
         sandbox(async dir => {
+          const runs = 1000; // Number of concurrent compilations to run
           const logger = getLogger();
           const compilations = Array(runs)
             .fill(0)
