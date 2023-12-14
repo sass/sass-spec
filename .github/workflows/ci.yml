@@ -17,8 +17,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      # TODO(jathak): Update this to "${{ env.NODE_VERSION }}" (the default lts version) once unit tests are fixed.
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 14}
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
       - run: npm install
