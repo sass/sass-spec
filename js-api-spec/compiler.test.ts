@@ -2,8 +2,14 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import type {AsyncCompiler, Compiler, CompileResult, Importer} from 'sass';
-import {initAsyncCompiler, initCompiler, SassString} from 'sass';
+import type {CompileResult, Importer} from 'sass';
+import {
+  initAsyncCompiler,
+  initCompiler,
+  SassString,
+  AsyncCompiler,
+  Compiler,
+} from 'sass';
 
 import {spy, URL} from './utils';
 
@@ -95,6 +101,11 @@ describe('Compiler', () => {
       expect(() => compiler.compileString('$a: b; c {d: $a}')).toThrowError();
     });
   });
+  it('errors if constructor invoked directly', () => {
+    expect(() => new Compiler()).toThrowError(
+      /Compiler can not be directly constructed/
+    );
+  });
 });
 
 describe('AsyncCompiler', () => {
@@ -154,5 +165,10 @@ describe('AsyncCompiler', () => {
       expect(completed).toBeTrue();
       await expectAsync(compilation).toBeResolved();
     });
+  });
+  it('errors if constructor invoked directly', () => {
+    expect(() => new AsyncCompiler()).toThrowError(
+      /AsyncCompiler can not be directly constructed/
+    );
   });
 });
