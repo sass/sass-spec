@@ -19,8 +19,8 @@ export const functions = {
 
 export const importers: Array<Importer> = [
   {
-    canonicalize: (url: string) => new URL(`u:${url}`),
-    load: (url: typeof URL) => ({
+    canonicalize: url => new URL(`u:${url}`),
+    load: url => ({
       contents: `.import {value: ${url.pathname}} @debug "imported";`,
       syntax: 'scss' as const,
     }),
@@ -29,8 +29,8 @@ export const importers: Array<Importer> = [
 
 export const asyncImporters: Array<Importer> = [
   {
-    canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
-    load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
+    canonicalize: url => Promise.resolve(new URL(`u:${url}`)),
+    load: url => Promise.resolve(importers[0].load(url)),
   },
 ];
 
@@ -100,6 +100,14 @@ describe('Compiler', () => {
       compiler.dispose();
       expect(() => compiler.compileString('$a: b; c {d: $a}')).toThrowError();
     });
+
+    it('succeeds after a compilation failure', () => {
+      expect(() => compiler.compileString('a')).toThrowSassException({
+        includes: 'expected "{"',
+      });
+      const result2 = compiler.compileString('x {y: z}');
+      expect(result2.css).toEqualIgnoringWhitespace('x {y: z;}');
+    });
   });
 
   it('errors if constructor invoked directly', () => {
@@ -168,6 +176,17 @@ describe('AsyncCompiler', () => {
       await disposalPromise;
       expect(completed).toBeTrue();
       await expectAsync(compilation).toBeResolved();
+    });
+
+    it('succeeds after a compilation failure', async () => {
+      expectAsync(
+        async () => await compiler.compileStringAsync('a')
+      ).toThrowSassException({
+        includes: 'expected "{"',
+      });
+
+      const result2 = await compiler.compileStringAsync('x {y: z}');
+      expect(result2.css).toEqualIgnoringWhitespace('x {y: z;}');
     });
   });
 
