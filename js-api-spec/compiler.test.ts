@@ -101,8 +101,12 @@ describe('Compiler', () => {
       expect(() => compiler.compileString('$a: b; c {d: $a}')).toThrowError();
     });
   });
+
   it('errors if constructor invoked directly', () => {
-    expect(() => new Compiler()).toThrowError(
+    // Strip types to allow calling private constructor.
+    class Untyped {}
+    const UntypedCompiler = Compiler as unknown as typeof Untyped;
+    expect(() => new UntypedCompiler()).toThrowError(
       /Compiler can not be directly constructed/
     );
   });
@@ -166,8 +170,12 @@ describe('AsyncCompiler', () => {
       await expectAsync(compilation).toBeResolved();
     });
   });
+
   it('errors if constructor invoked directly', () => {
-    expect(() => new AsyncCompiler()).toThrowError(
+    // Strip types to allow calling private constructor.
+    class Untyped {}
+    const UntypedAsyncCompiler = AsyncCompiler as unknown as typeof Untyped;
+    expect(() => new UntypedAsyncCompiler()).toThrowError(
       /AsyncCompiler can not be directly constructed/
     );
   });
