@@ -3,9 +3,6 @@ name: CI
 defaults:
   run: {shell: bash}
 
-env:
-  NODE_VERSION: 'lts/*'
-
 on:
   push: {branches: [main, feature.*]}
   pull_request:
@@ -17,7 +14,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      # TODO(jathak): Update this to "${{ env.NODE_VERSION }}" (the default lts version) once unit tests are fixed.
+      # TODO(jathak): Update this to 'lts/*' (the latest lts version) once unit tests are fixed.
       - uses: actions/setup-node@v3
         with: {node-version: 14}
       - uses: dart-lang/setup-dart@v1
@@ -32,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint
 
@@ -43,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint-spec
 
@@ -59,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
 
       - uses: ./.github/util/dart-sass
