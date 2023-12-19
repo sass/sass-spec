@@ -9,7 +9,6 @@ import {
   compileStringAsync,
   render,
   renderSync,
-  nodePackageImporter,
   NodePackageImporter,
   LegacyException,
   LegacyResult,
@@ -23,16 +22,18 @@ const testPackageImporter = ({
   input,
   output,
   files,
+  entryPoint,
 }: {
   input: string;
   output: string;
   files: {[path: string]: string};
+  entryPoint?: string;
 }) =>
   sandbox(dir => {
     dir.write(files);
     dir.chdir(() => {
       const result = compileString(input, {
-        importers: [nodePackageImporter],
+        importers: [new NodePackageImporter(entryPoint)],
       });
       expect(result.css).toEqualIgnoringWhitespace(output);
     });
@@ -137,7 +138,7 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
+              importers: [new NodePackageImporter()],
             })
           ).toThrowSassException({
             includes: 'multiple potential resolutions',
@@ -158,7 +159,7 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:foo";', {
-              importers: [nodePackageImporter],
+              importers: [new NodePackageImporter()],
             })
           ).toThrowSassException({
             includes: "_styles.txt', which is not a '.scss'",
@@ -240,7 +241,7 @@ describe('Node Package Importer', () => {
             expect(
               () =>
                 compileString('@use "pkg:foo/styles";', {
-                  importers: [nodePackageImporter],
+                  importers: [new NodePackageImporter()],
                 }).css
             ).toThrowSassException({
               includes: 'multiple potential resolutions',
@@ -258,7 +259,7 @@ describe('Node Package Importer', () => {
       dir.chdir(() => {
         expect(() =>
           compileString('@use "pkg:foo";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
           })
         ).toThrowSassException({
           includes: "'package.json' in 'pkg:foo' cannot be parsed",
@@ -338,7 +339,7 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           const result = compileString('@use "vendor";', {
             importers: [
-              nodePackageImporter,
+              new NodePackageImporter(),
               {
                 findFileUrl: file => dir.url(file),
               },
@@ -388,6 +389,22 @@ describe('Node Package Importer', () => {
         },
       }));
 
+    it('resolves most proximate node_module to specified entry point', () =>
+      testPackageImporter({
+        input: '@use "pkg:bah";',
+        output: 'a {from: submodule;}',
+        files: {
+          'subdir/node_modules/bah/index.scss': '@use "pkg:bar";',
+          'subdir/node_modules/bah/package.json': JSON.stringify({}),
+          'node_modules/bar/index.scss': 'e {from: root}',
+          'node_modules/bar/package.json': JSON.stringify({}),
+          'subdir/node_modules/bah/node_modules/bar/index.scss':
+            'a {from: submodule;}',
+          'subdir/node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
+        },
+        entryPoint: './subdir/index.js',
+      }));
+
     it('resolves sub node_module', () =>
       testPackageImporter({
         input: '@use "pkg:bah";',
@@ -409,7 +426,7 @@ describe('Node Package Importer', () => {
         dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar";', {
-              importers: [nodePackageImporter],
+              importers: [new NodePackageImporter()],
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
@@ -451,7 +468,7 @@ describe('Node Package Importer', () => {
           expect(() =>
             compileString('@use "pkg:bah";', {
               importers: [
-                nodePackageImporter,
+                new NodePackageImporter(),
                 {
                   canonicalize,
                   load: () => null,
@@ -494,7 +511,7 @@ describe('Node Package Importer', () => {
       dir.chdir(() => {
         expect(() =>
           compileString('@use "pkg:foo";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
           })
         ).toThrowSassException({includes: 'Invalid Package Configuration'});
       });
@@ -511,7 +528,7 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           const result = compile('./_index.scss', {
             importers: [
-              nodePackageImporter,
+              new NodePackageImporter(),
               {
                 findFileUrl: file => dir.url(file),
               },
@@ -533,7 +550,7 @@ describe('Node Package Importer', () => {
         dir.chdir(() => {
           const result = compile('./deeply/nested/_index.scss', {
             importers: [
-              nodePackageImporter,
+              new NodePackageImporter(),
               {
                 findFileUrl: file => dir.url(file),
               },
@@ -551,7 +568,7 @@ describe('Node Package Importer', () => {
         });
         dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         });
@@ -568,7 +585,7 @@ describe('Node Package Importer', () => {
         });
         dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
             url: dir.url('deeply/nested/_index.scss'),
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
@@ -586,7 +603,7 @@ describe('Node Package Importer', () => {
         });
         dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
         });
@@ -602,7 +619,7 @@ describe('Node Package Importer', () => {
         return dir.chdir(async () => {
           const result = await compileAsync('./_index.scss', {
             importers: [
-              nodePackageImporter,
+              new NodePackageImporter(),
               {
                 findFileUrl: file => dir.url(file),
               },
@@ -621,7 +638,7 @@ describe('Node Package Importer', () => {
         });
         return dir.chdir(async () => {
           const result = await compileStringAsync('@use "pkg:bah";', {
-            importers: [nodePackageImporter],
+            importers: [new NodePackageImporter()],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           return result;
@@ -639,7 +656,7 @@ describe('Node Package Importer', () => {
             render(
               {
                 data: '@use "pkg:bah"',
-                pkgImporter: 'node',
+                pkgImporter: {type: 'node'},
               },
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
@@ -665,7 +682,7 @@ describe('Node Package Importer', () => {
             render(
               {
                 file: 'index.scss',
-                pkgImporter: 'node',
+                pkgImporter: {type: 'node'},
               },
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
@@ -689,7 +706,7 @@ describe('Node Package Importer', () => {
         return dir.chdir(() => {
           const result = renderSync({
             file: 'index.scss',
-            pkgImporter: 'node',
+            pkgImporter: {type: 'node'},
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
@@ -704,7 +721,7 @@ describe('Node Package Importer', () => {
         return dir.chdir(() => {
           const result = renderSync({
             data: '@use "pkg:bah"',
-            pkgImporter: 'node',
+            pkgImporter: {type: 'node'},
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
@@ -715,7 +732,7 @@ describe('Node Package Importer', () => {
     it('with an absolute path', () => {
       expect(() =>
         compileString('@use "pkg:/absolute";', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({includes: 'must not be an absolute path'});
     });
@@ -723,7 +740,7 @@ describe('Node Package Importer', () => {
     it('with a host', () => {
       expect(() =>
         compileString('@use "pkg://host/library";', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
@@ -733,7 +750,7 @@ describe('Node Package Importer', () => {
     it('with username and password', () => {
       expect(() =>
         compileString('@use "pkg://user:password@library/path" as library;', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
@@ -743,7 +760,7 @@ describe('Node Package Importer', () => {
     it('with port', () => {
       expect(() =>
         compileString('@use "pkg://host:8080/library";', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
@@ -755,7 +772,7 @@ describe('Node Package Importer', () => {
         // Throws `default namespace "" is not a valid Sass identifier` without
         // the `as` clause.
         compileString('@use "pkg:" as pkg;', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({includes: 'must not have an empty path'});
     });
@@ -763,7 +780,7 @@ describe('Node Package Importer', () => {
     it('with a query', () => {
       expect(() =>
         compileString('@use "pkg:library?query";', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
@@ -771,7 +788,7 @@ describe('Node Package Importer', () => {
     it('with a fragment', () => {
       expect(() =>
         compileString('@use "pkg:library#fragment";', {
-          importers: [nodePackageImporter],
+          importers: [new NodePackageImporter()],
         })
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
