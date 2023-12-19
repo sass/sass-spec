@@ -400,7 +400,8 @@ describe('Node Package Importer', () => {
           'node_modules/bar/package.json': JSON.stringify({}),
           'subdir/node_modules/bah/node_modules/bar/index.scss':
             'a {from: submodule;}',
-          'subdir/node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
+          'subdir/node_modules/bah/node_modules/bar/package.json':
+            JSON.stringify({}),
         },
         entryPoint: './subdir/index.js',
       }));
