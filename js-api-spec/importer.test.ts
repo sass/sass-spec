@@ -7,7 +7,7 @@ import {
   compileStringAsync,
   CanonicalizeContext,
   Importer,
-  nodePackageImporter,
+  NodePackageImporter,
 } from 'sass';
 
 import {sassImpl, runOnlyForImpl, URL} from './utils';
@@ -768,7 +768,7 @@ runOnlyForImpl('browser', () => {
   it('node package loader throws error in browser', () => {
     expect(() =>
       compileString('@use "pkg:foo";', {
-        importers: [nodePackageImporter],
+        importers: [new NodePackageImporter()],
       })
     ).toThrow();
   });
