@@ -32,10 +32,15 @@ const testPackageImporter = ({
   sandbox(dir => {
     dir.write(files);
     dir.chdir(() => {
-      const result = compileString(input, {
-        importers: [new NodePackageImporter(entryPoint)],
-      });
-      expect(result.css).toEqualIgnoringWhitespace(output);
+      try {
+        const result = compileString(input, {
+          importers: [new NodePackageImporter(entryPoint)],
+        });
+        expect(result.css).toEqualIgnoringWhitespace(output);
+      } catch (error) {
+        console.error(error);
+        throw error;
+      }
     });
   });
 
