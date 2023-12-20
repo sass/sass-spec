@@ -38,6 +38,7 @@ const testPackageImporter = ({
         });
         expect(result.css).toEqualIgnoringWhitespace(output);
       } catch (error) {
+        // Log error to include full stack trace
         console.error(error);
         throw error;
       }
