@@ -793,5 +793,35 @@ describe('Node Package Importer', () => {
         })
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
+
+    describe('with package name', () => {
+      it('starting with a .', () => {
+        // Throws `default namespace "" is not a valid Sass identifier` without
+        // the `as` clause.
+        expect(() =>
+          compileString('@use "pkg:.library" as library;', {
+            importers: [new NodePackageImporter()],
+          })
+        ).toThrowSassException({
+          includes: ".library must not start with a '.'",
+        });
+      });
+
+      it('with scope but no segment', () => {
+        expect(() =>
+          compileString('@use "pkg:@library" as library;', {
+            importers: [new NodePackageImporter()],
+          })
+        ).toThrowSassException({includes: 'must have a second segment.'});
+      });
+
+      it('with %', () => {
+        expect(() =>
+          compileString('@use "pkg:library%" as library;', {
+            importers: [new NodePackageImporter()],
+          })
+        ).toThrowSassException({includes: "must not contain a '%'"});
+      });
+    });
   });
 });
