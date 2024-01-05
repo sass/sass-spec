@@ -347,7 +347,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: file => dir.url(file),
+                findFileUrl: (file: string) => dir.url(file),
               },
             ],
           });
@@ -539,7 +539,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: file => dir.url(file),
+                findFileUrl: (file: string) => dir.url(file),
               },
             ],
           });
@@ -561,7 +561,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: file => dir.url(file),
+                findFileUrl: (file: string) => dir.url(file),
               },
             ],
           });
@@ -630,7 +630,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: file => dir.url(file),
+                findFileUrl: (file: string) => dir.url(file),
               },
             ],
           });
@@ -665,7 +665,7 @@ describe('Node Package Importer', () => {
             render(
               {
                 data: '@use "pkg:bah"',
-                pkgImporter: {type: 'node'},
+                pkgImporter: new NodePackageImporter(),
               },
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
@@ -691,7 +691,7 @@ describe('Node Package Importer', () => {
             render(
               {
                 file: 'index.scss',
-                pkgImporter: {type: 'node'},
+                pkgImporter: new NodePackageImporter(),
               },
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
@@ -715,7 +715,7 @@ describe('Node Package Importer', () => {
         return dir.chdir(() => {
           const result = renderSync({
             file: 'index.scss',
-            pkgImporter: {type: 'node'},
+            pkgImporter: new NodePackageImporter(),
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
@@ -730,7 +730,7 @@ describe('Node Package Importer', () => {
         return dir.chdir(() => {
           const result = renderSync({
             data: '@use "pkg:bah"',
-            pkgImporter: {type: 'node'},
+            pkgImporter: new NodePackageImporter(),
           }).css.toString();
           expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
