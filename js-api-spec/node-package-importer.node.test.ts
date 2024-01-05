@@ -15,7 +15,6 @@ import {
 } from 'sass';
 
 import {sandbox} from './sandbox';
-
 import {spy} from './utils';
 
 const testPackageImporter = ({
@@ -311,6 +310,7 @@ describe('Node Package Importer', () => {
           }));
       }
     );
+
     ['index.sass', '_index.sass'].forEach(fileName => {
       it(`loads from ${fileName}`, () =>
         testPackageImporter({
