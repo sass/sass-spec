@@ -268,7 +268,7 @@ describe('Node Package Importer', () => {
             importers: [new NodePackageImporter()],
           })
         ).toThrowSassException({
-          includes: "'package.json' in 'pkg:foo' cannot be parsed",
+          includes: 'Failed to parse',
         });
       });
     }));
@@ -520,7 +520,9 @@ describe('Node Package Importer', () => {
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
           })
-        ).toThrowSassException({includes: 'Invalid Package Configuration'});
+        ).toThrowSassException({
+          includes: 'can not have both conditions and paths',
+        });
       });
     }));
 
