@@ -1,4 +1,4 @@
-// Copyright 2023 Google Inc. Use of this source code is governed by an
+// Copyright 2024 Google Inc. Use of this source code is governed by an
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
@@ -19,8 +19,8 @@ export const functions = {
 
 export const importers: Array<Importer> = [
   {
-    canonicalize: url => new URL(`u:${url}`),
-    load: url => ({
+    canonicalize: (url: string) => new URL(`u:${url}`),
+    load: (url: typeof URL) => ({
       contents: `.import {value: ${url.pathname}} @debug "imported";`,
       syntax: 'scss' as const,
     }),
@@ -29,14 +29,14 @@ export const importers: Array<Importer> = [
 
 export const asyncImporters: Array<Importer> = [
   {
-    canonicalize: url => Promise.resolve(new URL(`u:${url}`)),
-    load: url => Promise.resolve(importers[0].load(url)),
+    canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
+    load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
   },
 ];
 
 export const getLogger = () => ({debug: spy(() => {})});
 
-/* A trigged importer that executes a callback after a trigger is called */
+/* A triggered importer that executes a callback after a trigger is called */
 export function getTriggeredImporter(callback: () => void): {
   importer: Importer;
   triggerComplete: () => void;
