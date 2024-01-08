@@ -3,10 +3,6 @@ name: CI
 defaults:
   run: {shell: bash}
 
-env:
-  # TODO(jathak): Update this to Node 18 once unit tests are fixed.
-  NODE_VERSION: 14
-
 on:
   push: {branches: [main, feature.*]}
   pull_request:
@@ -18,8 +14,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      # TODO(jathak): Update this to 'lts/*' (the latest lts version) once unit tests are fixed.
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 14}
       - uses: dart-lang/setup-dart@v1
         with: {sdk: stable}
       - run: npm install
@@ -32,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint
 
@@ -43,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint-spec
 
@@ -59,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-        with: {node-version: "${{ env.NODE_VERSION }}"}
+        with: {node-version: 'lts/*'}
       - run: npm install
 
       - uses: ./.github/util/dart-sass
@@ -69,10 +66,7 @@ jobs:
 
       - name: Run specs
         run: npm run sass-spec -- --dart dart-sass
-  
-  # The versions should be kept up-to-date with the latest LTS Node releases.
-  # They next need to be rotated October 2021. See
-  # https://github.com/nodejs/Release.
+
   js_api_dart_sass:
     name: "JS API | Pure JS | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
@@ -82,13 +76,15 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: [18]
+        node_version: ['lts/*']
         # Only test LTS versions on Ubuntu
         include:
         - os: ubuntu-latest
-          node_version: 14
+          node_version: lts/-1
         - os: ubuntu-latest
-          node_version: 16
+          node_version: lts/-2
+        - os: ubuntu-latest
+          node_version: lts/-3
 
     steps:
       - uses: actions/checkout@v3
@@ -136,9 +132,6 @@ jobs:
             --sassSassRepo dart-sass/build/language
         env: {CHROME_EXECUTABLE: chrome}
 
-  # The versions should be kept up-to-date with the latest LTS Node releases.
-  # They next need to be rotated October 2021. See
-  # https://github.com/nodejs/Release.
   js_api_sass_embedded:
     name: "JS API | Embedded | Node ${{ matrix.node_version }} | ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
@@ -148,13 +141,15 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node_version: [18]
+        node_version: ['lts/*']
         # Only test LTS versions on Ubuntu
         include:
         - os: ubuntu-latest
-          node_version: 14
+          node_version: lts/-1
         - os: ubuntu-latest
-          node_version: 16
+          node_version: lts/-2
+        - os: ubuntu-latest
+          node_version: lts/-3
 
     steps:
       - uses: actions/checkout@v3
