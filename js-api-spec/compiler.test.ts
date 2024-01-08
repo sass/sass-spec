@@ -19,8 +19,8 @@ export const functions = {
 
 export const importers: Array<Importer> = [
   {
-    canonicalize: (url: string) => new URL(`u:${url}`),
-    load: (url: typeof URL) => ({
+    canonicalize: url => new URL(`u:${url}`),
+    load: url => ({
       contents: `.import {value: ${url.pathname}} @debug "imported";`,
       syntax: 'scss' as const,
     }),
@@ -29,8 +29,8 @@ export const importers: Array<Importer> = [
 
 export const asyncImporters: Array<Importer> = [
   {
-    canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
-    load: (url: typeof URL) => Promise.resolve(importers[0].load(url)),
+    canonicalize: url => Promise.resolve(new URL(`u:${url}`)),
+    load: url => Promise.resolve(importers[0].load(url)),
   },
 ];
 
