@@ -347,7 +347,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: (file: string) => dir.url(file),
+                findFileUrl: file => dir.url(file),
               },
             ],
           });
@@ -539,7 +539,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: (file: string) => dir.url(file),
+                findFileUrl: file => dir.url(file),
               },
             ],
           });
@@ -561,7 +561,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: (file: string) => dir.url(file),
+                findFileUrl: file => dir.url(file),
               },
             ],
           });
@@ -630,7 +630,7 @@ describe('Node Package Importer', () => {
             importers: [
               new NodePackageImporter(),
               {
-                findFileUrl: (file: string) => dir.url(file),
+                findFileUrl: file => dir.url(file),
               },
             ],
           });
