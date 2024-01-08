@@ -801,35 +801,59 @@ describe('Node Package Importer', () => {
         })
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
+  });
 
-    describe('with package name', () => {
-      it('starting with a .', () => {
-        // Throws `default namespace "" is not a valid Sass identifier` without
-        // the `as` clause.
-        expect(() =>
-          compileString('@use "pkg:.library" as library;', {
-            importers: [new NodePackageImporter()],
-          })
-        ).toThrowSassException({
-          includes: ".library must not start with a '.'",
-        });
+  describe('package name rules', () => {
+    it('no match starting with a .', () => {
+      const canonicalize = spy((url: string) => {
+        expect(url).toStartWith('pkg:.');
+        return null;
       });
-
-      it('with scope but no segment', () => {
-        expect(() =>
-          compileString('@use "pkg:@library" as library;', {
-            importers: [new NodePackageImporter()],
-          })
-        ).toThrowSassException({includes: 'must have a second segment.'});
+      // Throws `default namespace "" is not a valid Sass identifier` without
+      // the `as` clause.
+      expect(() =>
+        compileString('@use "pkg:.library" as library;', {
+          importers: [
+            new NodePackageImporter(),
+            {canonicalize, load: () => null},
+          ],
+        })
+      ).toThrowSassException({
+        includes: "Can't find stylesheet to import",
       });
-
-      it('with %', () => {
-        expect(() =>
-          compileString('@use "pkg:library%" as library;', {
-            importers: [new NodePackageImporter()],
-          })
-        ).toThrowSassException({includes: "must not contain a '%'"});
-      });
+      expect(canonicalize).toHaveBeenCalled();
     });
+
+    it('throws with scope but no segment', () => {
+      expect(() =>
+        compileString('@use "pkg:@library" as library;', {
+          importers: [new NodePackageImporter()],
+        })
+      ).toThrowSassException({includes: 'must have a second segment.'});
+    });
+
+    it('throws with escaped %', () => {
+      expect(() =>
+        compileString('@use "pkg:library%" as library;', {
+          importers: [new NodePackageImporter()],
+        })
+      ).toThrowSassException({includes: "must not contain a '%'"});
+    });
+
+    it('passes with parsed %', () =>
+      testPackageImporter({
+        input: '@use "pkg:%66oo";',
+        output: 'a {from: sassCondition;}',
+        files: {
+          'node_modules/foo/src/sass/_sass.scss': 'a {from: sassCondition}',
+          'node_modules/foo/package.json': JSON.stringify({
+            exports: {
+              '.': {
+                sass: './src/sass/_sass.scss',
+              },
+            },
+          }),
+        },
+      }));
   });
 });
