@@ -49,7 +49,10 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
-        chdir: (callback: () => unknown, options?: {entryPoint: string}) => {
+        chdir: async (
+          callback: () => unknown,
+          options?: {entryPoint: string}
+        ) => {
           const oldPath = process.cwd();
           process.chdir(testDir);
           const oldEntryPoint = require.main?.filename;
@@ -58,7 +61,7 @@ export async function sandbox(
             require.main!.filename = `${testDir}/${filename}`;
           }
           try {
-            return callback();
+            return await callback();
           } finally {
             process.chdir(oldPath);
             if (oldEntryPoint) require.main!.filename = oldEntryPoint;
