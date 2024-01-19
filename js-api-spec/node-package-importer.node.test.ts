@@ -743,7 +743,7 @@ describe('Node Package Importer', () => {
         compileString('@use "pkg:/absolute";', {
           importers: [new NodePackageImporter()],
         })
-      ).toThrowSassException({includes: 'must not be an absolute path'});
+      ).toThrowSassException({includes: 'must not begin with /'});
     });
 
     it('with a host', () => {
