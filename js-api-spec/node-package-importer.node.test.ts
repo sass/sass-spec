@@ -824,20 +824,40 @@ describe('Node Package Importer', () => {
       expect(canonicalize).toHaveBeenCalled();
     });
 
-    it('throws with scope but no segment', () => {
+    it('no match with scope but no segment', () => {
+      const canonicalize = spy((url: string) => {
+        expect(url).toStartWith('pkg:@library');
+        return null;
+      });
       expect(() =>
         compileString('@use "pkg:@library" as library;', {
-          importers: [new NodePackageImporter()],
+          importers: [
+            new NodePackageImporter(),
+            {canonicalize, load: () => null},
+          ],
         })
-      ).toThrowSassException({includes: 'must have a second segment.'});
+      ).toThrowSassException({
+        includes: "Can't find stylesheet to import",
+      });
+      expect(canonicalize).toHaveBeenCalled();
     });
 
-    it('throws with escaped %', () => {
+    it('no match with escaped %', () => {
+      const canonicalize = spy((url: string) => {
+        expect(url).toStartWith('pkg:library%');
+        return null;
+      });
       expect(() =>
         compileString('@use "pkg:library%" as library;', {
-          importers: [new NodePackageImporter()],
+          importers: [
+            new NodePackageImporter(),
+            {canonicalize, load: () => null},
+          ],
         })
-      ).toThrowSassException({includes: "must not contain a '%'"});
+      ).toThrowSassException({
+        includes: "Can't find stylesheet to import",
+      });
+      expect(canonicalize).toHaveBeenCalled();
     });
 
     it('passes with parsed %', () =>
