@@ -766,11 +766,7 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
 
 runOnlyForImpl('browser', () => {
   it('node package loader throws error in browser', () => {
-    expect(() =>
-      compileString('@use "pkg:foo";', {
-        importers: [new NodePackageImporter()],
-      })
-    ).toThrow();
+    expect(() => new NodePackageImporter()).toThrow();
   });
 });
 
