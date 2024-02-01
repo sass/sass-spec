@@ -360,10 +360,10 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:bah";',
         output: 'a {b: c;}',
         files: {
-          'node_modules/bah/index.scss': '@use "pkg:bar";',
+          'node_modules/bah/index.scss': '@use "pkg:bar-secondary";',
           'node_modules/bah/package.json': JSON.stringify({}),
-          'node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bar-secondary/index.scss': 'a {b: c}',
+          'node_modules/bar-secondary/package.json': JSON.stringify({}),
         },
       }));
 
@@ -385,13 +385,13 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:bah";',
         output: 'a {from: submodule;}',
         files: {
-          'node_modules/bah/index.scss': '@use "pkg:bar";',
+          'node_modules/bah/index.scss': '@use "pkg:bar-proximate";',
           'node_modules/bah/package.json': JSON.stringify({}),
-          'node_modules/bar/index.scss': 'e {from: root}',
-          'node_modules/bar/package.json': JSON.stringify({}),
-          'node_modules/bah/node_modules/bar/index.scss':
+          'node_modules/bar-proximate/index.scss': 'e {from: root}',
+          'node_modules/bar-proximate/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar-proximate/index.scss':
             'a {from: submodule;}',
-          'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar-proximate/package.json': JSON.stringify({}),
         },
       }));
 
@@ -400,13 +400,13 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:bah";',
         output: 'a {from: submodule;}',
         files: {
-          'subdir/node_modules/bah/index.scss': '@use "pkg:bar";',
+          'subdir/node_modules/bah/index.scss': '@use "pkg:bar-entry";',
           'subdir/node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/index.scss': 'e {from: root}',
           'node_modules/bah/package.json': JSON.stringify({}),
-          'subdir/node_modules/bah/node_modules/bar/index.scss':
+          'subdir/node_modules/bah/node_modules/bar-entry/index.scss':
             'a {from: submodule;}',
-          'subdir/node_modules/bah/node_modules/bar/package.json':
+          'subdir/node_modules/bah/node_modules/bar-entry/package.json':
             JSON.stringify({}),
         },
         entryPoint: './subdir',
@@ -417,22 +417,22 @@ describe('Node Package Importer', () => {
         input: '@use "pkg:bah";',
         output: 'a {b: c;}',
         files: {
-          'node_modules/bah/index.scss': '@use "pkg:bar";',
+          'node_modules/bah/index.scss': '@use "pkg:bar-sub";',
           'node_modules/bah/package.json': JSON.stringify({}),
-          'node_modules/bah/node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bah/node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar-sub/index.scss': 'a {b: c}',
+          'node_modules/bah/node_modules/bar-sub/package.json': JSON.stringify({}),
         },
       }));
 
     it('resolves node_module above cwd', () =>
       sandbox(dir => {
         dir.write({
-          'node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bar-above/index.scss': 'a {b: c}',
+          'node_modules/bar-above/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
-            const result = compileString('@use "pkg:bar";', {
+            const result = compileString('@use "pkg:bar-above";', {
               importers: [new NodePackageImporter()],
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
@@ -444,12 +444,12 @@ describe('Node Package Importer', () => {
     it('resolves with absolute entry point directory', () =>
       sandbox(dir => {
         dir.write({
-          'node_modules/bar/index.scss': 'a {b: c}',
-          'node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bar-abs/index.scss': 'a {b: c}',
+          'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
         dir.chdir(
           () => {
-            const result = compileString('@use "pkg:bar";', {
+            const result = compileString('@use "pkg:bar-abs";', {
               importers: [new NodePackageImporter()],
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
