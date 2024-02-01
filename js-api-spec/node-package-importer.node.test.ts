@@ -450,7 +450,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/index.scss': 'a {b: c}',
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
-        const entryPoint = dir.url().toString();
+        const entryPoint = dir.url().pathname;
         console.log(`pkg:bar-abs entrypoint- ${entryPoint}`);
         return dir.chdir(
           () => {
