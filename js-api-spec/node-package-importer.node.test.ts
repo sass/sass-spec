@@ -30,7 +30,7 @@ const testPackageImporter = ({
 }) =>
   sandbox(dir => {
     dir.write(files);
-    dir.chdir(() => {
+    return dir.chdir(() => {
       try {
         const result = compileString(input, {
           importers: [new NodePackageImporter(entryPoint)],
@@ -402,14 +402,14 @@ describe('Node Package Importer', () => {
         files: {
           'subdir/node_modules/bah/index.scss': '@use "pkg:bar";',
           'subdir/node_modules/bah/package.json': JSON.stringify({}),
-          'node_modules/bar/index.scss': 'e {from: root}',
-          'node_modules/bar/package.json': JSON.stringify({}),
+          'node_modules/bah/index.scss': 'e {from: root}',
+          'node_modules/bah/package.json': JSON.stringify({}),
           'subdir/node_modules/bah/node_modules/bar/index.scss':
             'a {from: submodule;}',
           'subdir/node_modules/bah/node_modules/bar/package.json':
             JSON.stringify({}),
         },
-        entryPoint: './subdir/index.js',
+        entryPoint: './subdir',
       }));
 
     it('resolves sub node_module', () =>
@@ -437,7 +437,24 @@ describe('Node Package Importer', () => {
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint: 'deeply/nested/file/index.js'}
+          {entryPoint: 'deeply/nested/file/'}
+        );
+      }));
+
+    it('resolves with absolute entry point directory', () =>
+      sandbox(dir => {
+        dir.write({
+          'node_modules/bar/index.scss': 'a {b: c}',
+          'node_modules/bar/package.json': JSON.stringify({}),
+        });
+        dir.chdir(
+          () => {
+            const result = compileString('@use "pkg:bar";', {
+              importers: [new NodePackageImporter()],
+            });
+            return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+          },
+          {entryPoint: dir.url().pathname}
         );
       }));
 
