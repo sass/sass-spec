@@ -17,6 +17,8 @@ import {
 import {sandbox} from './sandbox';
 import {spy} from './utils';
 
+import {fileURLToPath} from 'url';
+
 const testPackageImporter = ({
   input,
   output,
@@ -450,7 +452,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/index.scss': 'a {b: c}',
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
-        const entryPoint = dir.url().pathname;
+        const entryPoint = fileURLToPath(dir.url());
         console.log(`pkg:bar-abs entrypoint- ${entryPoint}`);
         return dir.chdir(
           () => {
