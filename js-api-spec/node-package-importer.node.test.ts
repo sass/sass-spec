@@ -450,14 +450,16 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/index.scss': 'a {b: c}',
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
-        dir.chdir(
+        const entryPoint = dir.url().pathname;
+        console.log(`bar-abs entryPoint: ${entryPoint}`);
+        return dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-abs";', {
               importers: [new NodePackageImporter()],
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint: dir.url().pathname}
+          {entryPoint}
         );
       }));
 
