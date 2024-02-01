@@ -140,7 +140,7 @@ describe('Node Package Importer', () => {
             },
           }),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
@@ -161,7 +161,7 @@ describe('Node Package Importer', () => {
             },
           }),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
@@ -242,7 +242,7 @@ describe('Node Package Importer', () => {
               exports: {'./*.scss': './src/sass/*.scss'},
             }),
           });
-          dir.chdir(() => {
+          return dir.chdir(() => {
             expect(
               () =>
                 compileString('@use "pkg:foo/styles";', {
@@ -261,7 +261,7 @@ describe('Node Package Importer', () => {
       dir.write({
         'node_modules/foo/package.json': 'invalid json',
       });
-      dir.chdir(() => {
+      return dir.chdir(() => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
@@ -342,7 +342,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           '_vendor.scss': '@use "pkg:bah";',
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compileString('@use "vendor";', {
             importers: [
               new NodePackageImporter(),
@@ -433,7 +433,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-above/index.scss': 'a {b: c}',
           'node_modules/bar-above/package.json': JSON.stringify({}),
         });
-        dir.chdir(
+        return dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-above";', {
               importers: [new NodePackageImporter()],
@@ -444,14 +444,12 @@ describe('Node Package Importer', () => {
         );
       }));
 
-    it('resolves with absolute entry point directory', () =>
+    fit('resolves with absolute entry point directory', () =>
       sandbox(dir => {
         dir.write({
           'node_modules/bar-abs/index.scss': 'a {b: c}',
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
-        const entryPoint = dir.url().pathname;
-        console.log(`bar-abs entryPoint: ${entryPoint}`);
         return dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-abs";', {
@@ -459,7 +457,7 @@ describe('Node Package Importer', () => {
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint}
+          {entryPoint: dir.url().toString()}
         );
       }));
 
@@ -493,7 +491,7 @@ describe('Node Package Importer', () => {
         return null;
       });
       sandbox(dir => {
-        dir.chdir(() => {
+        return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:bah";', {
               importers: [
@@ -537,7 +535,7 @@ describe('Node Package Importer', () => {
           },
         }),
       });
-      dir.chdir(() => {
+      return dir.chdir(() => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
@@ -556,7 +554,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           '_index.scss': '@use "pkg:bah";',
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compile('./_index.scss', {
             importers: [
               new NodePackageImporter(),
@@ -578,7 +576,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'from {root: notPath}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compile('./deeply/nested/_index.scss', {
             importers: [
               new NodePackageImporter(),
@@ -597,7 +595,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
             importers: [new NodePackageImporter()],
           });
@@ -614,7 +612,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'from {root: notPath}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
             importers: [new NodePackageImporter()],
             url: dir.url('deeply/nested/_index.scss'),
@@ -632,7 +630,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': 'a {b: c}',
           'node_modules/bah/package.json': JSON.stringify({}),
         });
-        dir.chdir(() => {
+        return dir.chdir(() => {
           const result = compileString('@use "pkg:bah";', {
             importers: [new NodePackageImporter()],
           });
