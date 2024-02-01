@@ -391,7 +391,8 @@ describe('Node Package Importer', () => {
           'node_modules/bar-proximate/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar-proximate/index.scss':
             'a {from: submodule;}',
-          'node_modules/bah/node_modules/bar-proximate/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar-proximate/package.json':
+            JSON.stringify({}),
         },
       }));
 
@@ -420,7 +421,9 @@ describe('Node Package Importer', () => {
           'node_modules/bah/index.scss': '@use "pkg:bar-sub";',
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar-sub/index.scss': 'a {b: c}',
-          'node_modules/bah/node_modules/bar-sub/package.json': JSON.stringify({}),
+          'node_modules/bah/node_modules/bar-sub/package.json': JSON.stringify(
+            {}
+          ),
         },
       }));
 
