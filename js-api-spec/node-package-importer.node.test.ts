@@ -444,12 +444,14 @@ describe('Node Package Importer', () => {
         );
       }));
 
-    fit('resolves with absolute entry point directory', () =>
+    it('resolves with absolute entry point directory', () =>
       sandbox(dir => {
         dir.write({
           'node_modules/bar-abs/index.scss': 'a {b: c}',
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
+        const entryPoint = dir.url().toString();
+        console.log(`pkg:bar-abs entrypoint- ${entryPoint}`);
         return dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-abs";', {
@@ -457,7 +459,7 @@ describe('Node Package Importer', () => {
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint: dir.url().toString()}
+          {entryPoint}
         );
       }));
 
