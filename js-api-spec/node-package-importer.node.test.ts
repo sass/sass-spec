@@ -453,16 +453,12 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
         const entryPoint = fileURLToPath(dir.url());
-        console.log(`pkg:bar-abs entrypoint- ${entryPoint}`);
-        return dir.chdir(
-          () => {
-            const result = compileString('@use "pkg:bar-abs";', {
-              importers: [new NodePackageImporter()],
-            });
-            return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          },
-          {entryPoint}
-        );
+        return dir.chdir(() => {
+          const result = compileString('@use "pkg:bar-abs";', {
+            importers: [new NodePackageImporter(entryPoint)],
+          });
+          return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
+        });
       }));
 
     it('resolves in scoped package', () =>
