@@ -517,7 +517,7 @@ describe('Node Package Importer', () => {
 
       expect(() =>
         compileString('@use "pkg:foo";', {
-          importers: [Symbol() as NodePackageImporter],
+          importers: [Symbol() as unknown as NodePackageImporter],
         })
       ).toThrow();
     }));
