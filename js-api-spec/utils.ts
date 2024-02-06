@@ -12,15 +12,29 @@ export const isBrowser = !global.process;
 /** The name of the implementation of Sass being tested. */
 export const sassImpl = info.split('\t')[0] as 'dart-sass' | 'sass-embedded';
 
+type Implementation = 'dart-sass' | 'sass-embedded' | 'browser';
+
 /** Skips the `block` of tests when running against the given `impl`. */
 export function skipForImpl(
-  impl: 'dart-sass' | 'sass-embedded' | 'browser',
+  impl: Implementation | Implementation[],
   block: () => void
 ): void {
-  if (sassImpl === impl || (impl === 'browser' && isBrowser)) {
+  impl = Array.isArray(impl) ? impl : [impl];
+  if (impl.includes(sassImpl) || (impl.includes('browser') && isBrowser)) {
     xdescribe(`[skipped for ${impl}]`, block);
   } else {
     block();
+  }
+}
+
+export function runOnlyForImpl(impl: Implementation, block: () => void): void {
+  if ((impl === 'browser' && isBrowser) || impl === sassImpl) {
+    block();
+  } else {
+    xdescribe(
+      `[skipped for ${sassImpl}${isBrowser ? ' in browser' : ''}]`,
+      block
+    );
   }
 }
 
