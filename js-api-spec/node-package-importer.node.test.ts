@@ -112,6 +112,59 @@ describe('Node Package Importer', () => {
         }));
     });
 
+    [
+      './color',
+      './color.css',
+      './color.scss',
+      './color.sass',
+      './_color',
+      './_color.css',
+      './_color.scss',
+      './_color.sass',
+      './color/index',
+      './color/index.css',
+      './color/index.scss',
+      './color/index.sass',
+      './color/_index',
+      './color/_index.css',
+      './color/_index.scss',
+      './color/_index.sass',
+    ].forEach(key => {
+      it(`resolves subpath key ${key} without _ or extension`, () =>
+        testPackageImporter({
+          input: '@use "pkg:foo/color";',
+          output: 'a {b: c;}',
+          files: {
+            'node_modules/foo/src/sass/_color.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                [key]: {
+                  sass: './src/sass/_color.scss',
+                },
+              },
+            }),
+          },
+        }));
+    });
+
+    ['./color.scss', './_color.scss'].forEach(key => {
+      it(`resolves subpath key ${key} with extension`, () =>
+        testPackageImporter({
+          input: '@use "pkg:foo/color.scss";',
+          output: 'a {b: c;}',
+          files: {
+            'node_modules/foo/src/sass/_color.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                [key]: {
+                  sass: './src/sass/_color.scss',
+                },
+              },
+            }),
+          },
+        }));
+    });
+
     it('compiles with first conditional match found', () =>
       testPackageImporter({
         input: '@use "pkg:foo";',
