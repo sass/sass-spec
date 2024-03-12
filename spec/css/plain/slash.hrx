@@ -1,12 +1,36 @@
-<===> input.scss
+<===> with_intermediate/input.scss
 @import "plain";
 
-<===> plain.css
+<===> with_intermediate/plain.css
+a {b: 1/2/foo/bar}
+
+<===> with_intermediate/output.css
 a {
-  slash: 1/2/foo/bar;
+  b: 1/2/foo/bar;
 }
 
-<===> output.css
+<===>
+================================================================================
+<===> without_intermediate/whitespace/input.scss
+@import "plain";
+
+<===> without_intermediate/whitespace/plain.css
+a {b: 1/ / /bar}
+
+<===> without_intermediate/whitespace/output.css
 a {
-  slash: 1/2/foo/bar;
+  b: 1///bar;
+}
+
+<===>
+================================================================================
+<===> without_intermediate/no_whitespace/input.scss
+@import "plain";
+
+<===> without_intermediate/no_whitespace/plain.css
+a {b: 1///bar}
+
+<===> without_intermediate/no_whitespace/output.css
+a {
+  b: 1///bar;
 }
