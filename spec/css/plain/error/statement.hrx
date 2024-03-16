@@ -312,36 +312,16 @@ Error: Interpolation isn't allowed in plain CSS.
 
 <===>
 ================================================================================
-<===> style_rule/nested/input.scss
+<===> style_rule/nested_property/no_value/input.scss
 @import 'plain'
-<===> style_rule/nested/plain.css
-a {
-  b {
-    x: y;
-  }
-}
-
-<===> style_rule/nested/error
-Error: expected ":".
-  ,
-2 |   b {
-  |     ^
-  '
-  plain.css 2:5   @import
-  input.scss 1:9  root stylesheet
-
-<===>
-================================================================================
-<===> style_rule/nested_property/input.scss
-@import 'plain'
-<===> style_rule/nested_property/plain.css
+<===> style_rule/nested_property/no_value/plain.css
 a {
   x: {
     y: z;
   }
 }
 
-<===> style_rule/nested_property/error
+<===> style_rule/nested_property/no_value/error
 Error: Nested declarations aren't allowed in plain CSS.
   ,
 2 |   x: {
@@ -352,21 +332,128 @@ Error: Nested declarations aren't allowed in plain CSS.
 
 <===>
 ================================================================================
-<===> style_rule/parent_selector/input.scss
+<===> style_rule/nested_property/value/input.scss
 @import 'plain'
-<===> style_rule/parent_selector/plain.css
-&.foo {
-  x: y
+
+<===> style_rule/nested_property/value/plain.css
+a {
+  b: c {
+    d: e;
+  }
 }
 
-<===> style_rule/parent_selector/error
-Error: Parent selectors aren't allowed here.
+<===> style_rule/nested_property/value/error
+Error: Nested declarations aren't allowed in plain CSS.
   ,
-1 | &.foo {
+2 |   b: c {
+  |        ^
+  '
+  plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/parent_selector/suffix/input.scss
+@use 'plain';
+
+<===> style_rule/parent_selector/suffix/plain.css
+a {&b {c: d}}
+
+<===> style_rule/parent_selector/suffix/error
+Error: Parent selectors can't have suffixes in plain CSS.
+  ,
+1 | a {&b {c: d}}
+  |    ^^
+  '
+  plain.css 1:4   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/trailing_combinator/no_nesting/input.scss
+@use 'plain';
+
+<===> style_rule/trailing_combinator/no_nesting/plain.css
+a > {b: c}
+
+<===> style_rule/trailing_combinator/no_nesting/error
+Error: expected selector.
+  ,
+1 | a > {b: c}
+  |     ^
+  '
+  plain.css 1:5   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/trailing_combinator/nesting/input.scss
+@use 'plain';
+
+<===> style_rule/trailing_combinator/nesting/plain.css
+a > {b {c: d}}
+
+<===> style_rule/trailing_combinator/nesting/error
+Error: expected selector.
+  ,
+1 | a > {b {c: d}}
+  |     ^
+  '
+  plain.css 1:5   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/leading_combinator/top_level/input.scss
+@use 'plain';
+
+<===> style_rule/leading_combinator/top_level/plain.css
+> a {b: c}
+
+<===> style_rule/leading_combinator/top_level/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > a {b: c}
   | ^
   '
-  plain.css 1:1   @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:1   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/leading_combinator/through_load_css/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> style_rule/leading_combinator/through_load_css/plain.css
+> b {c: d}
+
+<===> style_rule/leading_combinator/through_load_css/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > b {c: d}
+  | ^
+  '
+  plain.css 1:1   load-css()
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> style_rule/leading_combinator/through_import/input.scss
+a {@import "plain"}
+
+<===> style_rule/leading_combinator/through_import/plain.css
+> b {c: d}
+
+<===> style_rule/leading_combinator/through_import/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > b {c: d}
+  | ^
+  '
+  plain.css 1:1    @import
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
@@ -378,7 +465,7 @@ Error: Parent selectors aren't allowed here.
 }
 
 <===> style_rule/placeholder_selector/error
-Error: Placeholder selectors aren't allowed here.
+Error: Placeholder selectors aren't allowed in plain CSS.
   ,
 1 | %foo {
   | ^^^^
