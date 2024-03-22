@@ -1,0 +1,283 @@
+<===> nesting/one_level/input.scss
+@use "plain";
+
+<===> nesting/one_level/plain.css
+a {b {c: d}}
+
+<===> nesting/one_level/output.css
+a {
+  b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/two_levels/input.scss
+@use "plain";
+
+<===> nesting/two_levels/plain.css
+a {b {c {d: e}}}
+
+<===> nesting/two_levels/output.css
+a {
+  b {
+    c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/multiple_complex/input.scss
+@use "plain";
+
+<===> nesting/multiple_complex/plain.css
+a, b {c, d {e: f}}
+
+<===> nesting/multiple_complex/output.css
+a, b {
+  c, d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/with_declaration/before/input.scss
+@use "plain";
+
+<===> nesting/with_declaration/before/plain.css
+a {
+  b: c;
+  d {e: f}
+}
+
+<===> nesting/with_declaration/before/output.css
+a {
+  b: c;
+  d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/with_declaration/after/input.scss
+@use "plain";
+
+<===> nesting/with_declaration/after/plain.css
+a {
+  b {c: d}
+  e: f;
+}
+
+<===> nesting/with_declaration/after/output.css
+a {
+  b {
+    c: d;
+  }
+  e: f;
+}
+
+<===>
+================================================================================
+<===> nesting/with_declaration/both/input.scss
+@use "plain";
+
+<===> nesting/with_declaration/both/plain.css
+a {
+  b: c;
+  d {e: f}
+  g: h;
+}
+
+<===> nesting/with_declaration/both/output.css
+a {
+  b: c;
+  d {
+    e: f;
+  }
+  g: h;
+}
+
+<===>
+================================================================================
+<===> nesting/combinator/input.scss
+@use "plain";
+
+<===> nesting/combinator/plain.css
+a {+ b {c: d}}
+
+<===> nesting/combinator/output.css
+a {
+  + b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/parent/only/input.scss
+@use "plain";
+
+<===> nesting/parent/only/plain.css
+a {& {b: c}}
+
+<===> nesting/parent/only/output.css
+a {
+  & {
+    b: c;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/parent/start/input.scss
+@use "plain";
+
+<===> nesting/parent/start/plain.css
+a {&.b {c: d}}
+
+<===> nesting/parent/start/output.css
+a {
+  &.b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/parent/mid/input.scss
+@use "plain";
+
+<===> nesting/parent/mid/plain.css
+a {.b&.c {d: e}}
+
+<===> nesting/parent/mid/output.css
+a {
+  .b&.c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/parent/end/input.scss
+@use "plain";
+
+<===> nesting/parent/end/plain.css
+a {.b& {c: d}}
+
+<===> nesting/parent/end/output.css
+a {
+  .b& {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/through_load_css/one_level/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> nesting/through_load_css/one_level/plain.css
+b {c: d}
+
+<===> nesting/through_load_css/one_level/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nesting/through_load_css/two_levels/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> nesting/through_load_css/two_levels/plain.css
+b {c {d: e}}
+
+<===> nesting/through_load_css/two_levels/output.css
+a b {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/through_load_css/top_level_parent/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> nesting/through_load_css/top_level_parent/plain.css
+& {b {c: d}}
+
+<===> nesting/through_load_css/top_level_parent/output.css
+a & {
+  b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/through_import/one_level/input.scss
+a {@import "plain"}
+
+<===> nesting/through_import/one_level/plain.css
+b {c: d}
+
+<===> nesting/through_import/one_level/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> nesting/through_import/two_levels/input.scss
+a {@import "plain"}
+
+<===> nesting/through_import/two_levels/plain.css
+b {c {d: e}}
+
+<===> nesting/through_import/two_levels/output.css
+a b {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> nesting/through_import/top_level_parent/input.scss
+a {@import "plain"}
+
+<===> nesting/through_import/top_level_parent/plain.css
+& {b {c: d}}
+
+<===> nesting/through_import/top_level_parent/output.css
+a & {
+  b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> top_level_parent/input.scss
+@use "plain";
+
+<===> top_level_parent/plain.css
+& {a: b}
+
+<===> top_level_parent/output.css
+& {
+  a: b;
+}
