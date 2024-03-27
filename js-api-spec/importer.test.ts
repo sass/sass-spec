@@ -7,9 +7,10 @@ import {
   compileStringAsync,
   CanonicalizeContext,
   Importer,
+  NodePackageImporter,
 } from 'sass';
 
-import {sassImpl, URL} from './utils';
+import {sassImpl, runOnlyForImpl, URL} from './utils';
 
 it('uses an importer to resolve an @import', () => {
   const result = compileString('@import "orange";', {
@@ -760,6 +761,12 @@ it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', (
   }).toThrowSassException({
     line: 0,
     includes: 'Invalid argument (sourceMapUrl): must be absolute',
+  });
+});
+
+runOnlyForImpl('browser', () => {
+  it('node package loader throws error in browser', () => {
+    expect(() => new NodePackageImporter()).toThrow();
   });
 });
 

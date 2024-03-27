@@ -83,3 +83,13 @@ a {b: calc(1px + 1%)/calc(2px + 2%)}
 a {
   b: calc(1px + 1%)/calc(2px + 2%);
 }
+
+<===>
+================================================================================
+<===> without_intermediate/whitespace/input.scss
+a {b: 1/ / /bar}
+
+<===> without_intermediate/whitespace/output.css
+a {
+  b: 1///bar;
+}

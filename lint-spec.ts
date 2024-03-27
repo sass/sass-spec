@@ -190,7 +190,7 @@ async function lintHrxSize(
       await hrxToRealFiles(archive);
       // Fixes files recursively.
       await lintHrxSize(
-        (await dir.atPath(archive.relPath())) as RealDirectory,
+        (await dir.atPath(p.relative(dir.path, archive.path))) as RealDirectory,
         reporter,
         {fix}
       );
@@ -239,7 +239,7 @@ async function hrxToRealFiles(archive: VirtualDirectory) {
     const subArchivePath = `${subdir.path}.hrx`;
     fs.writeFileSync(subArchivePath, await subdir.asArchive());
   }
-  fs.unlinkSync(archive.path);
+  fs.unlinkSync(`${archive.path}.hrx`);
 }
 
 /**
