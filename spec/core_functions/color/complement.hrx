@@ -6,11 +6,6 @@ a {
   b: aqua;
 }
 
-<===> red/output-libsass.css
-a {
-  b: cyan;
-}
-
 <===>
 ================================================================================
 <===> turquoise/input.scss
@@ -31,22 +26,12 @@ a {
   b: gray;
 }
 
-<===> grayscale/gray/output-libsass.css
-a {
-  b: gray;
-}
-
 <===>
 ================================================================================
 <===> grayscale/white/input.scss
 a {b: complement(white)}
 
 <===> grayscale/white/output.css
-a {
-  b: white;
-}
-
-<===> grayscale/white/output-libsass.css
 a {
   b: white;
 }
@@ -61,11 +46,6 @@ a {
   b: black;
 }
 
-<===> grayscale/black/output-libsass.css
-a {
-  b: black;
-}
-
 <===>
 ================================================================================
 <===> alpha/input.scss
@@ -76,17 +56,8 @@ a {
   b: rgba(224, 64, 80, 0.7);
 }
 
-<===> alpha/output-libsass.css
-a {
-  b: rgba(224, 64, 80, 0.7);
-}
-
 <===>
 ================================================================================
-<===> explicit_space/options.yml
-:ignore_for:
-  - libsass
-
 <===> explicit_space/input.scss
 a {b: complement(red, hwb)}
 
@@ -97,10 +68,6 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/options.yml
-:ignore_for:
-  - libsass
-
 <===> non_legacy/input.scss
 a {b: complement(lab(54.3 80.8 69.9), lch)}
 
@@ -111,10 +78,6 @@ a {
 
 <===>
 ================================================================================
-<===> predefined/options.yml
-:ignore_for:
-  - libsass
-
 <===> predefined/input.scss
 a {b: complement(color(srgb-linear 0.6 0 0.6), hwb)}
 
@@ -125,10 +88,6 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
-:ignore_for:
-  - libsass
-  
 <===> named/input.scss
 a {b: complement($color: red, $space: hwb)}
 
@@ -139,10 +98,6 @@ a {
 
 <===>
 ================================================================================
-<===> error/too_few_args/options.yml
-:ignore_for:
-  - libsass
-
 <===> error/too_few_args/input.scss
 a {b: complement()}
 
@@ -160,10 +115,6 @@ Error: Missing argument $color.
 
 <===>
 ================================================================================
-<===> error/too_many_args/options.yml
-:ignore_for:
-  - libsass
-
 <===> error/too_many_args/input.scss
 a {b: complement(red, lch, 1)}
 
@@ -192,20 +143,8 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/error-libsass
-Error: argument `$color` of `complement($color)` must be a color
-        on line 1:7 of input.scss, in function `complement`
-        from line 1:7 of input.scss
->> a {b: complement(1)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/null_space/non_legacy/options.yml
-:ignore_for:
-  - libsass
-
 <===> error/null_space/non_legacy/input.scss
 a {b: complement(oklch(0.63 0.26 29.2))}
 
@@ -219,10 +158,6 @@ Error: $space: null is not a string.
 
 <===>
 ================================================================================
-<===> error/space/non_polar_angle/options.yml
-:ignore_for:
-  - libsass
-
 <===> error/space/non_polar_angle/input.scss
 a {b: complement(red, xyz)}
 

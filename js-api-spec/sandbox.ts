@@ -32,7 +32,7 @@ export async function sandbox(
     );
   }
   try {
-    await test(
+    return await test(
       Object.assign((...paths: string[]) => p.join(testDir, ...paths), {
         root: testDir,
         url: (...paths: string[]) => pathToFileURL(p.join(testDir, ...paths)),
@@ -49,13 +49,22 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
-        chdir: (callback: () => unknown) => {
+        chdir: async (
+          callback: () => unknown,
+          options?: {entryPoint: string}
+        ) => {
           const oldPath = process.cwd();
           process.chdir(testDir);
+          const oldEntryPoint = require.main?.filename;
+          if (oldEntryPoint) {
+            const filename = options?.entryPoint || p.basename(oldEntryPoint);
+            require.main!.filename = `${testDir}/${filename}`;
+          }
           try {
-            return callback();
+            return await callback();
           } finally {
             process.chdir(oldPath);
+            if (oldEntryPoint) require.main!.filename = oldEntryPoint;
           }
         },
       })
@@ -68,7 +77,7 @@ export async function sandbox(
 }
 
 /** The directory object passed to `sandbox`'s callback. */
-interface SandboxDirectory {
+export interface SandboxDirectory {
   /** The root of the sandbox. */
   readonly root: string;
 
@@ -93,6 +102,11 @@ interface SandboxDirectory {
    */
   write(paths: {[path: string]: string}): void;
 
-  /** Runs `callback` with `root` as the current directory. */
-  chdir<T>(callback: () => T): void;
+  /**
+   * Runs `callback` with `root` as the current directory, and moves
+   * `require.main.filename` into `root`. If `entryPoint` is set, it uses that
+   * as the filename within the directory, otherwise it uses the basename of the
+   * original `require.main.filename`.
+   * */
+  chdir<T>(callback: () => T, options?: {entryPoint: string}): void;
 }

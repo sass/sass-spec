@@ -36,11 +36,6 @@ a {
   b: rgb(127.5, 127.5, 127.5);
 }
 
-<===> max_saturation/output-libsass.css
-a {
-  b: gray;
-}
-
 <===>
 ================================================================================
 <===> mid_saturation/input.scss
@@ -51,11 +46,6 @@ a {
   b: rgb(76.5, 76.5, 76.5);
 }
 
-<===> mid_saturation/output-libsass.css
-a {
-  b: #4d4d4d;
-}
-
 <===>
 ================================================================================
 <===> alpha/input.scss
@@ -64,11 +54,6 @@ a {b: grayscale(rgba(#633736, 0.3))}
 <===> alpha/output.css
 a {
   b: rgba(76.5, 76.5, 76.5, 0.3);
-}
-
-<===> alpha/output-libsass.css
-a {
-  b: rgba(77, 77, 77, 0.3);
 }
 
 <===>
@@ -94,10 +79,6 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/rectangular/options.yml
-:ignore_for:
-  - libsass
-
 <===> non_legacy/rectangular/input.scss
 a {b: grayscale(lab(50 -30 40))}
 
@@ -108,10 +89,6 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/polar/options.yml
-:ignore_for:
-  - libsass
-
 <===> non_legacy/polar/input.scss
 a {b: grayscale(lch(54.3 107 40.9))}
 
@@ -122,10 +99,6 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/predefined/options.yml
-:ignore_for:
-  - libsass
-
 <===> non_legacy/predefined/input.scss
 a {b: grayscale(color(xyz-d65 0.41 0.21 0.02))}
 
@@ -136,10 +109,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_css_var/options.yml
-':ignore_for':
-  - libsass
-
 <===> with_css_var/input.scss
 a {b: grayscale(var(--c))}
 
@@ -150,10 +119,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> with_calc/input.scss
 a {b: grayscale(calc(1 + 2))}
 
@@ -164,10 +129,6 @@ a {
 
 <===>
 ================================================================================
-<===> with_unquoted_calc/options.yml
-:ignore_for:
-  - libsass
-
 <===> with_unquoted_calc/input.scss
 a {b: grayscale(unquote('calc(1)'))}
 
@@ -193,13 +154,6 @@ Error: Missing argument $color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function grayscale is missing argument $color.
-        on line 1 of input.scss
->> a {b: grayscale()}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -217,13 +171,6 @@ Error: Only 1 argument allowed, but 2 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (2 for 1) for `grayscale'
-        on line 1:7 of input.scss
->> a {b: grayscale(red, 1)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/input.scss
@@ -237,20 +184,8 @@ Error: $color: c is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/error-libsass
-Error: argument `$color` of `grayscale($color)` must be a color
-        on line 1:7 of input.scss, in function `grayscale`
-        from line 1:7 of input.scss
->> a {b: grayscale(c)}
-
-   ------^
-
 <===>
 ================================================================================
-<===> error/with_module/type/options.yml
-':ignore_for':
-  - libsass
-
 <===> error/with_module/type/input.scss
 @use 'sass:color';
 a {b: color.grayscale(var(--c))}

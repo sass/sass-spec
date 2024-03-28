@@ -1,7 +1,3 @@
-<===> namespaced_variables/options.yml
-:todo:
-- sass/libsass#2807
-
 <===> namespaced_variables/input.scss
 @use "other";
 a {b: other.$a / other.$b}
@@ -27,12 +23,6 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
   |       ^^^^^^^^^^^^^^^^^^^
   '
     input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> separator/calculation/options.yml
-:ignore_for:
-- libsass
 
 <===>
 ================================================================================
@@ -92,4 +82,14 @@ a {b: calc(1px + 1%)/calc(2px + 2%)}
 <===> separator/calculation/preserved/both/output.css
 a {
   b: calc(1px + 1%)/calc(2px + 2%);
+}
+
+<===>
+================================================================================
+<===> without_intermediate/whitespace/input.scss
+a {b: 1/ / /bar}
+
+<===> without_intermediate/whitespace/output.css
+a {
+  b: 1///bar;
 }

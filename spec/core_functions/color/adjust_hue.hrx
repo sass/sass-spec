@@ -1,18 +1,9 @@
-<===> max/options.yml
-:warning_todo:
-  - libsass
-
 <===> max/input.scss
 a {b: adjust-hue(red, 359)}
 
 <===> max/output.css
 a {
   b: rgb(255, 0, 4.25);
-}
-
-<===> max/output-libsass.css
-a {
-  b: #ff0004;
 }
 
 <===> max/warning
@@ -30,21 +21,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> above_max/options.yml
-:warning_todo:
-  - libsass
-
 <===> above_max/input.scss
 a {b: adjust-hue(red, 540)}
 
 <===> above_max/output.css
 a {
   b: aqua;
-}
-
-<===> above_max/output-libsass.css
-a {
-  b: cyan;
 }
 
 <===> above_max/warning
@@ -62,10 +44,6 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> min/options.yml
-:warning_todo:
-  - libsass
-
 <===> min/input.scss
 a {b: adjust-hue(blue, 0)}
 
@@ -89,21 +67,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> negative/options.yml
-:warning_todo:
-  - libsass
-
 <===> negative/input.scss
 a {b: adjust-hue(red, -180)}
 
 <===> negative/output.css
 a {
   b: aqua;
-}
-
-<===> negative/output-libsass.css
-a {
-  b: cyan;
 }
 
 <===> negative/warning
@@ -121,21 +90,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> middle/options.yml
-:warning_todo:
-  - libsass
-
 <===> middle/input.scss
 a {b: adjust-hue(red, 123)}
 
 <===> middle/output.css
 a {
   b: rgb(0, 255, 12.75);
-}
-
-<===> middle/output-libsass.css
-a {
-  b: #00ff0d;
 }
 
 <===> middle/warning
@@ -153,21 +113,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> fraction/options.yml
-:warning_todo:
-  - libsass
-
 <===> fraction/input.scss
 a {b: adjust-hue(red, 0.5)}
 
 <===> fraction/output.css
 a {
   b: rgb(255, 2.125, 0);
-}
-
-<===> fraction/output-libsass.css
-a {
-  b: #ff0200;
 }
 
 <===> fraction/warning
@@ -185,21 +136,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> alpha/options.yml
-:warning_todo:
-  - libsass
-
 <===> alpha/input.scss
 a {b: adjust-hue(rgba(red, 0.1), 359)}
 
 <===> alpha/output.css
 a {
   b: rgba(255, 0, 4.25, 0.1);
-}
-
-<===> alpha/output-libsass.css
-a {
-  b: rgba(255, 0, 4, 0.1);
 }
 
 <===> alpha/warning
@@ -214,13 +156,6 @@ More info: https://sass-lang.com/d/color-functions
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> units/options.yml
----
-:warning_todo:
-- libsass
 
 <===>
 ================================================================================
@@ -305,10 +240,6 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> units/angle/options.yml
-:ignore_for:
-  - libsass
-
 <===> units/angle/input.scss
 a {b: adjust-hue(red, 60rad)}
 
@@ -332,21 +263,12 @@ More info: https://sass-lang.com/d/color-functions
 
 <===>
 ================================================================================
-<===> named/options.yml
-:warning_todo:
-  - libsass
-
 <===> named/input.scss
 a {b: adjust-hue($color: red, $degrees: 123)}
 
 <===> named/output.css
 a {
   b: rgb(0, 255, 12.75);
-}
-
-<===> named/output-libsass.css
-a {
-  b: #00ff0d;
 }
 
 <===> named/warning
@@ -379,13 +301,6 @@ Error: Missing argument $degrees.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_few_args/error-libsass
-Error: Function adjust-hue is missing argument $degrees.
-        on line 1 of input.scss
->> a {b: adjust-hue(red)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
@@ -403,13 +318,6 @@ Error: Only 2 arguments allowed, but 3 were passed.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/too_many_args/error-libsass
-Error: wrong number of arguments (3 for 2) for `adjust-hue'
-        on line 1:7 of input.scss
->> a {b: adjust-hue(red, 1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/color/input.scss
@@ -423,14 +331,6 @@ Error: $color: 1 is not a color.
   '
   input.scss 1:7  root stylesheet
 
-<===> error/type/color/error-libsass
-Error: argument `$color` of `adjust-hue($color, $degrees)` must be a color
-        on line 1:7 of input.scss, in function `adjust-hue`
-        from line 1:7 of input.scss
->> a {b: adjust-hue(1, 2)}
-
-   ------^
-
 <===>
 ================================================================================
 <===> error/type/hue/input.scss
@@ -443,11 +343,3 @@ Error: $degrees: blue is not a number.
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-<===> error/type/hue/error-libsass
-Error: argument `$degrees` of `adjust-hue($color, $degrees)` must be a number
-        on line 1:7 of input.scss, in function `adjust-hue`
-        from line 1:7 of input.scss
->> a {b: adjust-hue(red, blue)}
-
-   ------^

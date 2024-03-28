@@ -185,11 +185,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/to_unitless/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/to_unitless/input.scss
 a {
   @for $i from 1px through 5 {b: $i;}
@@ -206,11 +201,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/from_unitless/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/from_unitless/input.scss
 a {
   @for $i from 1 through 5px {b: $i;}
@@ -227,11 +217,6 @@ a {
 
 <===>
 ================================================================================
-<===> unit/compatible/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> unit/compatible/input.scss
 a {
   @for $i from 5mm through 1cm {b: $i;}
@@ -259,18 +244,8 @@ Error: "foo" is not a number.
   '
   input.scss 1:14  root stylesheet
 
-<===> error/from_type/error-libsass
-Error: "foo" is not an integer.
-        on line 1 of input.scss
-  Use --trace for backtrace.
-
 <===>
 ================================================================================
-<===> error/from_float/options.yml
----
-:todo:
-  - libsass
-
 <===> error/from_float/input.scss
 @for $i from 1.5 through 4 {}
 <===> error/from_float/error
@@ -293,18 +268,8 @@ Error: "foo" is not a number.
   '
   input.scss 1:24  root stylesheet
 
-<===> error/to_type/error-libsass
-Error: "foo" is not an integer.
-        on line 1 of input.scss
-  Use --trace for backtrace.
-
 <===>
 ================================================================================
-<===> error/to_float/options.yml
----
-:todo:
-  - libsass
-
 <===> error/to_float/input.scss
 @for $i from 1 through 1.5 {}
 <===> error/to_float/error
@@ -317,11 +282,6 @@ Error: 1.5 is not an int.
 
 <===>
 ================================================================================
-<===> error/unit_coersion_to_float/options.yml
----
-:ignore_for:
-  - libsass
-
 <===> error/unit_coersion_to_float/input.scss
 @for $i from 1cm through 5mm {}
 <===> error/unit_coersion_to_float/error
@@ -343,9 +303,3 @@ Error: Expected 42px to have unit %.
   |                           ^^^^
   '
   input.scss 1:27  root stylesheet
-
-<===> error/incompatible_units/error-libsass
-Error: Incompatible units: '%' and 'px'.
-        on line 1:14 of input.scss
->> @for $i from 100% through 42px {}
-   -------------^

@@ -1,0 +1,214 @@
+<===> nested_property/no_value/input.scss
+@import 'plain'
+<===> nested_property/no_value/plain.css
+a {
+  x: {
+    y: z;
+  }
+}
+
+<===> nested_property/no_value/error
+Error: Nested declarations aren't allowed in plain CSS.
+  ,
+2 |   x: {
+  |      ^
+  '
+  plain.css 2:6   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> nested_property/value/input.scss
+@import 'plain'
+
+<===> nested_property/value/plain.css
+a {
+  b: c {
+    d: e;
+  }
+}
+
+<===> nested_property/value/error
+Error: Nested declarations aren't allowed in plain CSS.
+  ,
+2 |   b: c {
+  |        ^
+  '
+  plain.css 2:8   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> parent_selector/suffix/input.scss
+@use 'plain';
+
+<===> parent_selector/suffix/plain.css
+a {&b {c: d}}
+
+<===> parent_selector/suffix/error
+Error: Parent selectors can't have suffixes in plain CSS.
+  ,
+1 | a {&b {c: d}}
+  |    ^^
+  '
+  plain.css 1:4   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> trailing_combinator/no_nesting/input.scss
+@use 'plain';
+
+<===> trailing_combinator/no_nesting/plain.css
+a > {b: c}
+
+<===> trailing_combinator/no_nesting/error
+Error: expected selector.
+  ,
+1 | a > {b: c}
+  |     ^
+  '
+  plain.css 1:5   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> trailing_combinator/nesting/input.scss
+@use 'plain';
+
+<===> trailing_combinator/nesting/plain.css
+a > {b {c: d}}
+
+<===> trailing_combinator/nesting/error
+Error: expected selector.
+  ,
+1 | a > {b {c: d}}
+  |     ^
+  '
+  plain.css 1:5   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> leading_combinator/top_level/input.scss
+@use 'plain';
+
+<===> leading_combinator/top_level/plain.css
+> a {b: c}
+
+<===> leading_combinator/top_level/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > a {b: c}
+  | ^
+  '
+  plain.css 1:1   @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> leading_combinator/through_load_css/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> leading_combinator/through_load_css/plain.css
+> b {c: d}
+
+<===> leading_combinator/through_load_css/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > b {c: d}
+  | ^
+  '
+  plain.css 1:1   load-css()
+  input.scss 3:4  root stylesheet
+
+<===>
+================================================================================
+<===> leading_combinator/through_import/input.scss
+a {@import "plain"}
+
+<===> leading_combinator/through_import/plain.css
+> b {c: d}
+
+<===> leading_combinator/through_import/error
+Error: Top-level leading combinators aren't allowed in plain CSS.
+  ,
+1 | > b {c: d}
+  | ^
+  '
+  plain.css 1:1    @import
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> placeholder_selector/input.scss
+@import 'plain'
+<===> placeholder_selector/plain.css
+%foo {
+  x: y;
+}
+
+<===> placeholder_selector/error
+Error: Placeholder selectors aren't allowed in plain CSS.
+  ,
+1 | %foo {
+  | ^^^^
+  '
+  plain.css 1:1   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/selector/input.scss
+@import 'plain'
+<===> interpolation/selector/plain.css
+a#{b}c {
+  x: y;
+}
+
+<===> interpolation/selector/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a#{b}c {
+  |  ^^^^
+  '
+  plain.css 1:2   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/declaration/input.scss
+@import 'plain'
+<===> interpolation/declaration/plain.css
+a {
+  w#{x}y: z;
+}
+
+<===> interpolation/declaration/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   w#{x}y: z;
+  |    ^^^^
+  '
+  plain.css 2:4   @import
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> interpolation/custom_property/input.scss
+@import 'plain'
+<===> interpolation/custom_property/plain.css
+a {
+  --b: #{c};
+}
+
+<===> interpolation/custom_property/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+2 |   --b: #{c};
+  |        ^^^^
+  '
+  plain.css 2:8   @import
+  input.scss 1:9  root stylesheet

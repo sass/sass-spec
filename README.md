@@ -66,22 +66,8 @@ npm run sass-spec -- --dart $DART_SASS_PATH
 
 #### LibSass
 
-To run specs against [LibSass][], the C++ Sass implementation that's used for
-[Node Sass][] and other languages' Sass wrappers, you'll need to be able to
-[build LibSass][]. Once you have all the build dependencies:
-
-[LibSass]: https://sass-lang.com/libsass
-[Node Sass]: https://npmjs.com/package/node-sass
-[build LibSass]: https://github.com/sass/libsass/blob/master/docs/build.md
-
-```sh
-# If you already have a clone of the LibSass repo, you can use that instead.
-git clone https://github.com/sass/libsass
-(cd libsass; ./script/bootstrap; make sassc)
-export SASSC_PATH=`pwd`/libsass/sassc/bin/sassc
-
-npm run sass-spec -- --impl libsass -c $SASSC_PATH
-```
+As LibSass is approaching end-of-life and hasn't had new feature changes in
+years, this repository no longer supports running tests against it.
 
 ### Spec Structure
 
@@ -183,8 +169,8 @@ against `error`.
 Sometimes different Sass implementations produce different but equally-valid CSS
 outputs or error messages for the same input. To accommodate this,
 implementation-specific output, error, and warning files may be created by
-adding `-dart-sass` or `-libsass` after the file's name (but before its
-extension, in the case of `output.css`).
+adding `-dart-sass` after the file's name (but before its extension, in the case
+of `output.css`).
 
 When a spec is running for an implementation with an implementations-specific
 expectation, the normal expectation is ignored completely in favor of the
@@ -208,7 +194,7 @@ eventually be removed.
 ```yaml
 ---
 :todo:
-- sass/libsass#2827
+- sass/dart-sass#123456
 ```
 
 This option indicates implementations that should add support for a spec, but
@@ -238,7 +224,7 @@ these specs.
 ```yaml
 ---
 :warning_todo:
-- sass/libsass#2834
+- sass/dart-sass#123456
 ```
 
 This option works like [`:todo`](#todo), except instead of skipping the entire
@@ -251,7 +237,7 @@ normal. This should not be used for error specs.
 ```yaml
 ---
 :ignore_for:
-- libsass
+- dart-sass
 ```
 
 This option indicates implementations that are never expected to be compatible
@@ -282,9 +268,9 @@ Output does not match expectation.
 i. Show me the input.
 d. show diff.
 O. Update expected output and pass test.
-I. Migrate copy of test to pass on libsass.
-T. Mark spec as todo for libsass.
-G. Ignore test for libsass FOREVER.
+I. Migrate copy of test to pass on dart-sass.
+T. Mark spec as todo for dart-sass.
+G. Ignore test for dart-sass FOREVER.
 f. Mark as failed.
 X. Exit testing.
 ```
