@@ -3,7 +3,7 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassColor} from 'sass';
-import {captureStdio, skipForImpl} from '../../utils';
+import {captureStdio} from '../../utils';
 import {legacyRGB, legacyHsl, legacyHwb} from './constructors';
 
 describe('Legacy SassColor', () => {
@@ -46,7 +46,7 @@ describe('Legacy SassColor', () => {
         expect(() => legacyRGB(0, 0, 0, 1.1)).toThrow();
       });
 
-      it('allows out of range values which were invalid before color 4', () => {
+      it('allows out-of-gamut values which were invalid before color 4', () => {
         expect(() => legacyRGB(-1, 0, 0, 0)).not.toThrow();
         expect(() => legacyRGB(0, -1, 0, 0)).not.toThrow();
         expect(() => legacyRGB(0, 0, -1, 0)).not.toThrow();
@@ -71,18 +71,21 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toMatch('null-alpha');
         });
+
         it("doesn't warn for undefined alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({red: 1, green: 1, blue: 1, alpha: undefined});
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for no alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({red: 1, green: 1, blue: 1});
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for undefined alpha and undefined space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -95,6 +98,7 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for null alpha with space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -111,20 +115,17 @@ describe('Legacy SassColor', () => {
     });
 
     describe('hsl()', () => {
-      // TODO: Failing in dart-sass because saturation should not be clamped
-      skipForImpl('dart-sass', () => {
-        it('allows valid values', () => {
-          expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
-          expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
-          expect(() => legacyHsl(0, -0.1, 0, 0)).not.toThrow();
-          expect(() => legacyHsl(0, 100.1, 0, 0)).not.toThrow();
-        });
+      it('allows valid values', () => {
+        expect(() => legacyHsl(0, 0, 0, 0)).not.toThrow();
+        expect(() => legacyHsl(4320, 100, 100, 1)).not.toThrow();
+        expect(() => legacyHsl(0, -0.1, 0, 0)).not.toThrow();
+        expect(() => legacyHsl(0, 100.1, 0, 0)).not.toThrow();
+        expect(() => legacyHsl(0, 0, -0.1, 0)).not.toThrow();
+        expect(() => legacyHsl(0, 0, 100.1, 0)).not.toThrow();
       });
 
-      it('disallows invalid values', () => {
-        expect(() => legacyHsl(0, 0, -0.1, 0)).toThrow();
+      it('disallows invalid alpha values', () => {
         expect(() => legacyHsl(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyHsl(0, 0, 100.1, 0)).toThrow();
         expect(() => legacyHsl(0, 0, 0, 1.1)).toThrow();
       });
 
@@ -135,6 +136,7 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toMatch('null-alpha');
         });
+
         it("doesn't warn for undefined alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -146,12 +148,14 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for no alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({hue: 1, saturation: 1, lightness: 1});
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for undefined alpha and undefined space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -164,6 +168,7 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for null alpha with space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -180,20 +185,16 @@ describe('Legacy SassColor', () => {
     });
 
     describe('hwb()', () => {
-      // TODO: Failing in dart-sass because whiteness and blackness should not
-      // be clamped
-      skipForImpl('dart-sass', () => {
-        it('allows valid values', () => {
-          expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
-          expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
-          expect(() => legacyHwb(0, -0.1, 0, 0)).not.toThrow();
-          expect(() => legacyHwb(0, 0, -0.1, 0)).not.toThrow();
-          expect(() => legacyHwb(0, 100.1, 0, 0)).not.toThrow();
-          expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
-        });
+      it('allows valid values', () => {
+        expect(() => legacyHwb(0, 0, 0, 0)).not.toThrow();
+        expect(() => legacyHwb(4320, 100, 100, 1)).not.toThrow();
+        expect(() => legacyHwb(0, -0.1, 0, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 0, -0.1, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 100.1, 0, 0)).not.toThrow();
+        expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
       });
 
-      it('disallows invalid values', () => {
+      it('disallows invalid alpha values', () => {
         expect(() => legacyHwb(0, 0, 0, -0.1)).toThrow();
         expect(() => legacyHwb(0, 0, 0, 1.1)).toThrow();
       });
@@ -205,6 +206,7 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toMatch('null-alpha');
         });
+
         it("doesn't warn for undefined alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -216,12 +218,14 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for no alpha and no space", () => {
           const stdio = captureStdio(() => {
             new SassColor({hue: 1, whiteness: 1, blackness: 1});
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for undefined alpha and undefined space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -234,6 +238,7 @@ describe('Legacy SassColor', () => {
           });
           expect(stdio.err).toBeEmptyString();
         });
+
         it("doesn't warn for null alpha with space", () => {
           const stdio = captureStdio(() => {
             new SassColor({
@@ -335,16 +340,10 @@ describe('Legacy SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
-    // TODO: Failing in dart-sass because legacy colors are equal even if in a
-    // different (legacy) color space
-    skipForImpl('dart-sass', () => {
-      it('equals the same color even in a different color space', () => {
-        expect(color).toEqualWithHash(legacyRGB(62, 152, 62));
-        expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
-        expect(color).toEqualWithHash(
-          legacyHwb(120, 24.313725490196077, 40.3921568627451)
-        );
-      });
+    it('equals the same color even in a different color space', () => {
+      expect(color).toEqualWithHash(legacyRGB(62.118, 152.082, 62.118));
+      expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
+      expect(color).toEqualWithHash(legacyHwb(120, 24.36, 40.36));
     });
 
     it('allows negative hue', () => {
@@ -390,14 +389,10 @@ describe('Legacy SassColor', () => {
       expect(color.alpha).toBe(1);
     });
 
-    // TODO: Failing in dart-sass because legacy colors are equal even if in a
-    // different (legacy) color space
-    skipForImpl('dart-sass', () => {
-      it('equals the same color even in a different color space', () => {
-        expect(color).toEqualWithHash(legacyRGB(107, 148, 107));
-        expect(color).toEqualWithHash(legacyHsl(120, 16.078431372549026, 50));
-        expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
-      });
+    it('equals the same color even in a different color space', () => {
+      expect(color).toEqualWithHash(legacyRGB(107.1, 147.9, 107.1));
+      expect(color).toEqualWithHash(legacyHsl(120, 16, 50));
+      expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
     });
 
     it('allows negative hue', () => {
@@ -412,6 +407,7 @@ describe('Legacy SassColor', () => {
       beforeEach(() => {
         color = legacyRGB(18, 52, 86);
       });
+
       it('changes RGB values', () => {
         expect(color.change({red: 0})).toEqualWithHash(legacyRGB(0, 52, 86));
         expect(color.change({green: 0})).toEqualWithHash(legacyRGB(18, 0, 86));
@@ -444,6 +440,7 @@ describe('Legacy SassColor', () => {
         expect(() => color.change({blue: -1})).not.toThrow();
         expect(() => color.change({blue: 256})).not.toThrow();
       });
+
       it('disallows invalid alpha values', () => {
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
@@ -457,6 +454,7 @@ describe('Legacy SassColor', () => {
           color.change({red: -0.1, green: 50.5, blue: 90.9}).channels
         ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
       });
+
       it('emits deprecation for null values', () => {
         const stdio = captureStdio(() => {
           color.change({red: null});
@@ -469,6 +467,7 @@ describe('Legacy SassColor', () => {
         expect(stdio.err.match(/`green: null`/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/`blue: null`/g)).toBeArrayOfSize(1);
       });
+
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({hue: 1});
@@ -482,6 +481,7 @@ describe('Legacy SassColor', () => {
       beforeEach(() => {
         color = legacyHsl(210, 65.3846153846154, 20.392156862745097);
       });
+
       it('changes HSL values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           legacyHsl(120, 65.3846153846154, 20.392156862745097)
@@ -520,12 +520,12 @@ describe('Legacy SassColor', () => {
         expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
+        expect(color.change({lightness: -0.1}).lightness).toBe(-0.1);
+        expect(color.change({lightness: 100.1}).lightness).toBe(100.1);
         expect(color.change({hue: undefined}).channel('hue')).toBe(210);
       });
 
-      it('disallows invalid values', () => {
-        expect(() => color.change({lightness: -0.1})).toThrow();
-        expect(() => color.change({lightness: 100.1})).toThrow();
+      it('disallows invalid alpha values', () => {
         expect(() => color.change({alpha: -0.1})).toThrow();
         expect(() => color.change({alpha: 1.1})).toThrow();
       });
@@ -542,6 +542,7 @@ describe('Legacy SassColor', () => {
         expect(stdio.err.match(/`saturation: null`/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/`lightness: null`/g)).toBeArrayOfSize(1);
       });
+
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({red: 1});
@@ -555,6 +556,7 @@ describe('Legacy SassColor', () => {
       beforeEach(() => {
         color = legacyHwb(210, 7.0588235294117645, 66.27450980392157);
       });
+
       it('changes HWB values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
           legacyHwb(120, 7.0588235294117645, 66.27450980392157)
@@ -611,6 +613,7 @@ describe('Legacy SassColor', () => {
         expect(stdio.err.match(/`whiteness: null`/g)).toBeArrayOfSize(1);
         expect(stdio.err.match(/`blackness: null`/g)).toBeArrayOfSize(1);
       });
+
       it('emits deprecation for channels from unspecified space', () => {
         const stdio = captureStdio(() => {
           color.change({red: 1});
@@ -624,6 +627,7 @@ describe('Legacy SassColor', () => {
       beforeEach(() => {
         color = legacyRGB(18, 52, 86);
       });
+
       it('changes the alpha value', () => {
         expect(color.change({alpha: 0.5})).toEqualWithHash(
           legacyRGB(18, 52, 86, 0.5)
