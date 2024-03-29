@@ -41,15 +41,56 @@ describe('Color 4 SassColors Spaces', () => {
         expect(() => color.assertString()).toThrow();
       });
 
-      describe('validation on construction', () => {
-        it('throws on invalid alpha', () => {
-          expect(() => {
-            space.constructor(...space.pink, -1);
-          }).toThrow();
-          expect(() => {
-            space.constructor(...space.pink, 1.1);
-          }).toThrow();
-        });
+      describe('allows out-of-range channel values', () => {
+        const average1 = (space.ranges[0][0] + space.ranges[0][1]) / 2;
+        const average2 = (space.ranges[1][0] + space.ranges[1][1]) / 2;
+        const average3 = (space.ranges[2][0] + space.ranges[2][1]) / 2;
+        for (let i = 0; i < 3; i++) {
+          const channel = space.channels[i];
+          if (channel === 'hue') continue;
+
+          it(`for ${channel}`, () => {
+            const aboveRange = space.ranges[i][1] + 10;
+            const belowRange = space.ranges[i][0] - 10;
+            const above = space.constructor(
+              i === 0 ? aboveRange : average1,
+              i === 1 ? aboveRange : average2,
+              i === 2 ? aboveRange : average3
+            );
+            const below = space.constructor(
+              i === 0 ? belowRange : average1,
+              i === 1 ? belowRange : average2,
+              i === 2 ? belowRange : average3
+            );
+
+            expect(above.channels.get(i)).toEqual(aboveRange);
+
+            switch (channel) {
+              case 'saturation':
+                expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
+                expect(below.channels.get(0)).toEqual((average1 + 180) % 360);
+                break;
+
+              case 'chroma':
+                expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
+                expect(below.channels.get(2)).toEqual((average3 + 180) % 360);
+                break;
+
+              default:
+                expect(below.channels.get(i)).toEqual(belowRange);
+                break;
+            }
+          });
+        }
+      });
+
+      it('throws on invalid alpha', () => {
+        expect(() => {
+          space.constructor(...space.pink, -1);
+        }).toThrow();
+        expect(() => {
+          space.constructor(...space.pink, 1.1);
+        }).toThrow();
       });
 
       it(`returns name for ${space.name}`, () => {
