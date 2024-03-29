@@ -1,54 +1,58 @@
 <===> none/red/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb none 0.2 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb none 0.2 0.3));
 
 <===> none/red/output.css
 a {
   value: color(srgb none 0.2 0.3);
+  space: srgb;
   channels: none 0.2 0.3 / 1;
 }
 
 <===>
 ================================================================================
 <===> none/green/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 none 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 none 0.3));
 
 <===> none/green/output.css
 a {
   value: color(srgb 0.1 none 0.3);
+  space: srgb;
   channels: 0.1 none 0.3 / 1;
 }
 
 <===>
 ================================================================================
 <===> none/blue/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(srgb 0.1 none 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(srgb 0.1 none 0.3));
 
 <===> none/blue/output.css
 a {
   value: color(srgb 0.1 none 0.3);
+  space: srgb;
   channels: 0.1 none 0.3 / 1;
 }
 
 <===>
 ================================================================================
 <===> case/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(sRGB 0.1 none 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(sRGB 0.1 none 0.3));
 
 <===> case/output.css
 a {
   value: color(srgb 0.1 none 0.3);
+  space: srgb;
   channels: 0.1 none 0.3 / 1;
 }
 
 <===>
 ================================================================================
 <===> relative_color/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color(from #aaa srgb r g b));
+@use 'core_functions/color/utils';
+@include utils.inspect(color(from #aaa srgb r g b));
 
 <===> relative_color/output.css
 a {
@@ -59,11 +63,12 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-@use 'core_functions/color/color/rgb-utils';
-@include rgb-utils.inspect(color($description: srgb 0.1 0.2 0.3));
+@use 'core_functions/color/utils';
+@include utils.inspect(color($description: srgb 0.1 0.2 0.3));
 
 <===> named/output.css
 a {
   value: color(srgb 0.1 0.2 0.3);
+  space: srgb;
   channels: 0.1 0.2 0.3 / 1;
 }

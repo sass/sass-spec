@@ -10,7 +10,6 @@ import {List} from 'immutable';
 
 import {spaces} from './spaces';
 import {channelCases, channelNames} from './utils';
-import {skipForImpl} from '../../utils';
 
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
 
@@ -161,148 +160,171 @@ describe('Color 4 SassColor Channels', () => {
         });
       });
 
-      // TODO(sass#3654) Failing in dart-sass pending:
-      // https://github.com/sass/sass/issues/3654
-      skipForImpl('dart-sass', () => {
+      if (!['hsl', 'hwb', 'lch', 'oklch'].includes(spaceId)) {
         describe('isChannelPowerless', () => {
-          function checkPowerless(
-            _color: SassColor,
-            powerless = [false, false, false]
-          ) {
-            it(`channels ${_color.channels.toArray()} is ${powerless}`, () => {
-              expect(_color.isChannelPowerless(space.channels[0])).toBe(
-                powerless[0]
-              );
-              expect(_color.isChannelPowerless(space.channels[1])).toBe(
-                powerless[1]
-              );
-              expect(_color.isChannelPowerless(space.channels[2])).toBe(
-                powerless[2]
-              );
-            });
-          }
-          const [ch1, ch2, ch3] = space.ranges;
-          if (space.hasPowerless) {
-            // test powerless channels
-            switch (space.name) {
-              case 'hwb':
-                // If the combined `whiteness` and `blackness` values (after
-                // normalization) are equal to `100%`, then the `hue` channel is
-                // powerless.
-                checkPowerless(space.constructor(ch1[0], 0, 100), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[0], 100, 0), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[0], 50, 50), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 0, 100), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 100, 0), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 50, 50), [
-                  true,
-                  false,
-                  false,
-                ]);
-
-                checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[0], ch2[0], ch3[0]));
-                checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[1], ch2[0], ch3[0]));
-
-                break;
-
-              case 'hsl':
-                // hsl- If the saturation of an HSL color is 0%, then the hue component is powerless.
-                checkPowerless(space.constructor(ch1[0], 0, ch3[0]), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[0], 0, ch3[1]), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 0, ch3[1]), [
-                  true,
-                  false,
-                  false,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 0, ch3[0]), [
-                  true,
-                  false,
-                  false,
-                ]);
-
-                checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
-                checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
-                break;
-
-              case 'lch':
-              case 'oklch':
-                // (ok)lch- If the `chroma` value is 0%, then the `hue` channel is powerless.
-                checkPowerless(space.constructor(ch1[0], 0, ch3[0]), [
-                  false,
-                  false,
-                  true,
-                ]);
-                checkPowerless(space.constructor(ch1[0], 0, ch3[1]), [
-                  false,
-                  false,
-                  true,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 0, ch3[1]), [
-                  false,
-                  false,
-                  true,
-                ]);
-                checkPowerless(space.constructor(ch1[1], 0, ch3[0]), [
-                  false,
-                  false,
-                  true,
-                ]);
-
-                checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
-                checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
-                checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
-                break;
-
-              default:
-                throw new Error(
-                  `Unimplemented isPowerless check for ${space.name}`
-                );
-            }
-          } else {
-            checkPowerless(space.constructor(ch1[0], ch2[0], ch3[0]));
-            checkPowerless(space.constructor(ch1[1], ch2[0], ch3[0]));
-            checkPowerless(space.constructor(ch1[1], ch2[1], ch3[0]));
-            checkPowerless(space.constructor(ch1[1], ch2[1], ch3[1]));
-            checkPowerless(space.constructor(ch1[0], ch2[1], ch3[1]));
-            checkPowerless(space.constructor(ch1[0], ch2[0], ch3[1]));
-            checkPowerless(space.constructor(ch1[1], ch2[0], ch3[1]));
-            checkPowerless(space.constructor(ch1[0], ch2[1], ch3[0]));
-          }
+          const [range1, range2, range3] = space.ranges;
+          checkPowerless(space.constructor(range1[0], range2[0], range3[0]));
+          checkPowerless(space.constructor(range1[1], range2[0], range3[0]));
+          checkPowerless(space.constructor(range1[1], range2[1], range3[0]));
+          checkPowerless(space.constructor(range1[1], range2[1], range3[1]));
+          checkPowerless(space.constructor(range1[0], range2[1], range3[1]));
+          checkPowerless(space.constructor(range1[0], range2[0], range3[1]));
+          checkPowerless(space.constructor(range1[1], range2[0], range3[1]));
+          checkPowerless(space.constructor(range1[0], range2[1], range3[0]));
         });
-      });
+      }
+    });
+  });
+
+  describe('isChannelPowerless', () => {
+    describe('for HWB', () => {
+      // If the combined `whiteness + blackness` is great than or equal to
+      // `100%`, then the `hue` channel is powerless.
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 0, blackness: 100, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 100, blackness: 0, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 50, blackness: 50, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 60, blackness: 60, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: -100, blackness: 200, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 200, blackness: -100, space: 'hwb'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 100, whiteness: 0, blackness: 100, space: 'hwb'}),
+        [true, false, false]
+      );
+
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 0, blackness: 0, space: 'hwb'})
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: 49, blackness: 50, space: 'hwb'})
+      );
+      checkPowerless(
+        new SassColor({hue: 0, whiteness: -1, blackness: 100, space: 'hwb'})
+      );
+      checkPowerless(
+        new SassColor({hue: 100, whiteness: 0, blackness: 0, space: 'hwb'})
+      );
+    });
+
+    describe('for HSL', () => {
+      // If the saturation of an HSL color is 0%, then the hue component is
+      // powerless.
+      checkPowerless(
+        new SassColor({hue: 0, saturation: 0, lightness: 0, space: 'hsl'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 0, saturation: 0, lightness: 100, space: 'hsl'}),
+        [true, false, false]
+      );
+      checkPowerless(
+        new SassColor({hue: 100, saturation: 0, lightness: 0, space: 'hsl'}),
+        [true, false, false]
+      );
+
+      checkPowerless(
+        new SassColor({hue: 0, saturation: 100, lightness: 0, space: 'hsl'})
+      );
+      checkPowerless(
+        new SassColor({hue: 0, saturation: 100, lightness: 100, space: 'hsl'})
+      );
+      checkPowerless(
+        new SassColor({hue: 100, saturation: 100, lightness: 100, space: 'hsl'})
+      );
+      checkPowerless(
+        new SassColor({hue: 100, saturation: 100, lightness: 0, space: 'hsl'})
+      );
+    });
+
+    describe('for LCH', () => {
+      // If the `chroma` value is 0%, then the `hue` channel is powerless.
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 0, hue: 0, space: 'lch'}),
+        [false, false, true]
+      );
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 0, hue: 100, space: 'lch'}),
+        [false, false, true]
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 0, hue: 0, space: 'lch'}),
+        [false, false, true]
+      );
+
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'lch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'lch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'lch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'lch'})
+      );
+    });
+
+    describe('for OKLCH', () => {
+      // If the `chroma` value is 0%, then the `hue` channel is powerless.
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 0, hue: 0, space: 'oklch'}),
+        [false, false, true]
+      );
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 0, hue: 100, space: 'oklch'}),
+        [false, false, true]
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 0, hue: 0, space: 'oklch'}),
+        [false, false, true]
+      );
+
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'oklch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'oklch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'oklch'})
+      );
+      checkPowerless(
+        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'oklch'})
+      );
     });
   });
 });
+
+/**
+ * Creates a test that checks that the powerless channels in `color` match the
+ * expectation in `powerless`.
+ */
+function checkPowerless(
+  color: SassColor,
+  powerless = [false, false, false]
+): void {
+  it(`${color}: ${powerless}`, () => {
+    const space = spaces[color.space]!;
+    expect(color.isChannelPowerless(space.channels[0])).toBe(powerless[0]);
+    expect(color.isChannelPowerless(space.channels[1])).toBe(powerless[1]);
+    expect(color.isChannelPowerless(space.channels[2])).toBe(powerless[2]);
+  });
+}

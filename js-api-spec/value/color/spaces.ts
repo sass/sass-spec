@@ -141,7 +141,7 @@ export const spaces: {
       ],
     ],
   },
-  srgbLinear: {
+  'srgb-linear': {
     constructor: constructors.srgbLinear,
     name: 'srgb-linear',
     isLegacy: false,
@@ -162,7 +162,7 @@ export const spaces: {
       ],
     ],
   },
-  displayP3: {
+  'display-p3': {
     constructor: constructors.displayP3,
     name: 'display-p3',
     isLegacy: false,
@@ -183,7 +183,7 @@ export const spaces: {
       ],
     ],
   },
-  a98Rgb: {
+  'a98-rgb': {
     constructor: constructors.a98Rgb,
     name: 'a98-rgb',
     isLegacy: false,
@@ -204,7 +204,7 @@ export const spaces: {
       ],
     ],
   },
-  prophotoRgb: {
+  'prophoto-rgb': {
     constructor: constructors.prophotoRgb,
     name: 'prophoto-rgb',
     isLegacy: false,
@@ -267,7 +267,7 @@ export const spaces: {
       ],
     ],
   },
-  xyzD50: {
+  'xyz-d50': {
     constructor: constructors.xyzD50,
     name: 'xyz-d50',
     isLegacy: false,
@@ -288,7 +288,7 @@ export const spaces: {
       ],
     ],
   },
-  xyzD65: {
+  'xyz-d65': {
     constructor: constructors.xyzD65,
     name: 'xyz',
     isLegacy: false,
