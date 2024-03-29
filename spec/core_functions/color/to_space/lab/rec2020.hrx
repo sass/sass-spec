@@ -44,11 +44,11 @@ a {
 ================================================================================
 <===> out_of_range/near/input.scss
 @use 'sass:color';
-a {b: color.to-space(lab(50% -150 150), rec2020)}
+a {b: color.to-space(color.change(lab(0% -150 150), $lightness: -50%), rec2020)}
 
 <===> out_of_range/near/output.css
 a {
-  b: color(rec2020 -0.1395629235 0.5307299781 -0.1948126993);
+  b: color(rec2020 -0.2868532205 -0.1310027915 -0.3772590396);
 }
 
 <===>

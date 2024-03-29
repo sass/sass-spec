@@ -11,11 +11,11 @@ a {
 ================================================================================
 <===> out_of_range/input.scss
 @use 'sass:color';
-a {b: color.to-space(oklab(50% -2 2), oklab)}
+a {b: color.to-space(color.change(oklab(0% -2 2), $lightness: -50%), oklab)}
 
 <===> out_of_range/output.css
 a {
-  b: oklab(50% -2 2);
+  b: oklab(-50% -2 2);
 }
 
 <===>

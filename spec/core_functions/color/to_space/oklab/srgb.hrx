@@ -44,11 +44,11 @@ a {
 ================================================================================
 <===> out_of_range/near/input.scss
 @use 'sass:color';
-a {b: color.to-space(oklab(50% -2 2), srgb)}
+a {b: color.to-space(color.change(oklab(0% -2 2), $lightness: -50%), srgb)}
 
 <===> out_of_range/near/output.css
 a {
-  b: color(srgb -1.4213940143 1.5821387804 -2.9084532812);
+  b: color(srgb -2.4568465628 2.5780112923 -4.9406967346);
 }
 
 <===>

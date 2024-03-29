@@ -48,26 +48,22 @@ a {
 ================================================================================
 <===> out_of_range/near/input.scss
 @use 'sass:color';
-a {b: color.to-space(oklab(50% -2 2), lch)}
+a {b: color.to-space(color.change(oklab(0% -2 2), $lightness: -50%), lch)}
 
 <===> out_of_range/near/output.css
 a {
-  b: lch(93.303705573% 17161.6785807833 113.240884837deg);
+  b: lch(133.0510823608% 60439.0054962264 114.2857209699deg);
 }
 
 <===>
 ================================================================================
-<===> out_of_range/far/options.yml
-:todo:
-  - dart-sass
-
 <===> out_of_range/far/input.scss
 @use 'sass:color';
 a {b: color.to-space(oklab(50% -999999 0), lch)}
 
 <===> out_of_range/far/output.css
 a {
-  b: lch(50% 999999 180deg);
+  b: lch(12909434.201534431% 325857647808268600000 180deg);
 }
 
 <===>
