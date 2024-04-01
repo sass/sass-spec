@@ -1,0 +1,54 @@
+<===> README.md
+The W3C tests cover out-of-bounds hue, but not saturation or lightness.
+
+<===>
+================================================================================
+<===> saturation/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(hsl(0, 200%, 50%));
+
+<===> saturation/above/output.css
+a {
+  value: hsl(0, 200%, 50%);
+  space: hsl;
+  channels: 0deg 200% 50% / 1;
+}
+
+<===>
+================================================================================
+<===> saturation/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(hsl(0, -100%, 50%));
+
+<===> saturation/below/output.css
+a {
+  value: hsl(0, 0%, 50%);
+  space: hsl;
+  channels: 0deg 0% 50% / 1;
+}
+
+<===>
+================================================================================
+<===> lightness/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(hsl(0, 100%, 500%));
+
+<===> lightness/above/output.css
+a {
+  value: hsl(0, 100%, 500%);
+  space: hsl;
+  channels: 0deg 100% 500% / 1;
+}
+
+<===>
+================================================================================
+<===> lightness/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(hsl(0, 100%, -100%));
+
+<===> lightness/below/output.css
+a {
+  value: hsl(0, 100%, -100%);
+  space: hsl;
+  channels: 0deg 100% -100% / 1;
+}
