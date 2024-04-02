@@ -12,30 +12,76 @@ import {
 
 import {captureStdio, URL} from './utils';
 
-// TODO(jathak): Add tests for obsolete deprecations once any actually exist.
+/**
+ * Map from obsolete deprecation IDs to version pairs.
+ *
+ * The first version is the version this deprecation type was deprecated in,
+ * while the second version is the version it was made obsolete in.
+ */
+const obsoleteDeprecations: {[key: string]: [string, string]} = {};
 
-describe('deprecation types', () => {
-  const activeDeprecations = {
-    'call-string': '0.0.0',
-    elseif: '1.3.2',
-    'moz-document': '1.7.2',
-    'relative-canonical': '1.14.2',
-    'new-global': '1.17.2',
-    'color-module-compat': '1.23.0',
-    'slash-div': '1.33.0',
-    'bogus-combinators': '1.54.0',
-    'strict-unary': '1.55.0',
-    'function-units': '1.56.0',
-    'duplicate-var-flags': '1.62.0',
-    'null-alpha': '1.62.3',
-    'abs-percent': '1.65.0',
-    'fs-importer-cwd': '1.73.0',
-  };
-  const futureDeprecations = ['import'];
+/** Map from active deprecation IDs to the version they were deprecated in. */
+const activeDeprecations = {
+  'call-string': '0.0.0',
+  elseif: '1.3.2',
+  'moz-document': '1.7.2',
+  'relative-canonical': '1.14.2',
+  'new-global': '1.17.2',
+  'color-module-compat': '1.23.0',
+  'slash-div': '1.33.0',
+  'bogus-combinators': '1.54.0',
+  'strict-unary': '1.55.0',
+  'function-units': '1.56.0',
+  'duplicate-var-flags': '1.62.0',
+  'null-alpha': '1.62.3',
+  'abs-percent': '1.65.0',
+  'fs-importer-cwd': '1.73.0',
+};
 
+/** List of future deprecation IDs. */
+const futureDeprecations = ['import'];
+
+/**
+ * This is a temporary synchronization check to ensure that any new deprecation
+ * types are added to all five of these locations:
+ * - lib/src/deprecation.dart in sass/dart-sass
+ * - js-api-doc/deprecations.d.ts in sass/sass
+ * - spec/js-api/deprecations.d.ts.md in sass/sass
+ * - lib/src/deprecations.ts in sass/embedded-host-node
+ * - js-api-spec/deprecations.test.ts in sass/sass-spec (this file)
+ *
+ * Work to replace these manual changes with generated code from a single
+ * source-of-truth is tracked in sass/sass#3827
+ */
+it('there are no extra deprecation types', () => {
+  const expectedDeprecations = [
+    ...Object.keys(obsoleteDeprecations),
+    ...Object.keys(activeDeprecations),
+    ...futureDeprecations,
+    'user-authored',
+  ];
+  const extraDeprecations = Object.keys(deprecations).filter(
+    deprecation => !expectedDeprecations.includes(deprecation)
+  );
+  expect(extraDeprecations).toBeEmptyArray();
+});
+
+describe('deprecation type', () => {
   const deprecationsMap = deprecations as unknown as {
     [key: string]: Deprecation;
   };
+
+  for (const [id, [deprecatedIn, obsoleteIn]] of Object.entries(
+    obsoleteDeprecations
+  )) {
+    it(`${id} deprecated in ${deprecatedIn} and obsolete in ${obsoleteIn}`, () => {
+      const deprecation = deprecationsMap[id];
+      expect(deprecation?.id).toBe(id);
+      expect(deprecation?.status).toBe('obsolete');
+      expect(deprecation?.deprecatedIn).toEqual(Version.parse(deprecatedIn));
+      expect(deprecation?.obsoleteIn).toEqual(Version.parse(obsoleteIn));
+    });
+  }
 
   for (const [id, version] of Object.entries(activeDeprecations)) {
     it(`${id} deprecated in ${version}`, () => {
@@ -55,8 +101,8 @@ describe('deprecation types', () => {
   }
 });
 
-describe('deprecation flags', () => {
-  it('warning emitted with no flags', done => {
+describe('a warning', () => {
+  it('is emitted with no flags', done => {
     compileString('a { $b: c !global; }', {
       logger: {
         warn(
@@ -70,7 +116,7 @@ describe('deprecation flags', () => {
     });
   });
 
-  it('warning emitted with different deprecation type silenced', done => {
+  it('is emitted with different deprecation type silenced', done => {
     compileString('a { $b: c !global; }', {
       logger: {
         warn(
@@ -85,7 +131,7 @@ describe('deprecation flags', () => {
     });
   });
 
-  it('no warning emitted when deprecation silenced', () => {
+  it('is not emitted when deprecation silenced', () => {
     const stdio = captureStdio(() => {
       compileString('a { $b: c !global; }', {
         silenceDeprecations: [deprecations['new-global']],
@@ -94,7 +140,7 @@ describe('deprecation flags', () => {
     expect(stdio.err).toBe('');
   });
 
-  it('no warning emitted when deprecation id silenced', () => {
+  it('is not emitted when deprecation id silenced', () => {
     const stdio = captureStdio(() => {
       compileString('a { $b: c !global; }', {
         silenceDeprecations: ['new-global'],
@@ -103,7 +149,34 @@ describe('deprecation flags', () => {
     expect(stdio.err).toBe('');
   });
 
-  it('error thrown when deprecation made fatal', () => {
+  it('is emitted for making same deprecation fatal and silent', done => {
+    compileString('a { b: c; }', {
+      fatalDeprecations: ['new-global'],
+      silenceDeprecations: ['new-global'],
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('Ignoring setting to silence');
+          done();
+        },
+      },
+    });
+  });
+
+  it('is emitted for enabling active deprecation', done => {
+    compileString('a { b: c; }', {
+      futureDeprecations: ['new-global'],
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('does not need to be explicitly enabled');
+          done();
+        },
+      },
+    });
+  });
+});
+
+describe('an error', () => {
+  it('is thrown when deprecation made fatal', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [deprecations['new-global']],
@@ -111,7 +184,7 @@ describe('deprecation flags', () => {
     ).toThrowError();
   });
 
-  it('error thrown when deprecation id made fatal', () => {
+  it('is thrown when deprecation id made fatal', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [deprecations['new-global']],
@@ -119,7 +192,7 @@ describe('deprecation flags', () => {
     ).toThrowError();
   });
 
-  it('error thrown when version made fatal', () => {
+  it('is thrown when version made fatal', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [new Version(1, 17, 2)],
@@ -127,7 +200,7 @@ describe('deprecation flags', () => {
     ).toThrowError();
   });
 
-  it('fatal takes precedence, but a warning is emitted', done => {
+  it('is thrown and warning emitted when both fatal and silenced', done => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: ['new-global'],
@@ -141,114 +214,95 @@ describe('deprecation flags', () => {
       })
     ).toThrowError();
   });
+});
 
-  it('warning emitted for making same deprecation fatal and silent', done => {
-    compileString('a { b: c; }', {
-      fatalDeprecations: ['new-global'],
-      silenceDeprecations: ['new-global'],
+describe('for a future deprecation,', () => {
+  let importer: Importer;
+  beforeEach(() => {
+    importer = {
+      canonicalize: (url: string) => new URL(`u:${url}`),
+      load() {
+        return {contents: 'a { b: c; }', syntax: 'scss'};
+      },
+    };
+  });
+
+  it('no warning emitted by default', () => {
+    const stdio = captureStdio(() => {
+      compileString('@import "a"', {importers: [importer]});
+    });
+    expect(stdio.err).toBe('');
+  });
+
+  it('warning emitted when opted into', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      futureDeprecations: [deprecations.import],
       logger: {
-        warn(message: string) {
-          expect(message).toContain('Ignoring setting to silence');
+        warn(
+          message: string,
+          {deprecationType}: {deprecationType?: Deprecation}
+        ) {
+          expect(deprecationType).toEqual(deprecations.import);
           done();
         },
       },
     });
   });
 
-  describe('future deprecation', () => {
-    let importer: Importer;
-    beforeEach(() => {
-      importer = {
-        canonicalize: (url: string) => new URL(`u:${url}`),
-        load() {
-          return {contents: 'a { b: c; }', syntax: 'scss'};
+  it('warning emitted when id opted into', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      futureDeprecations: ['import'],
+      logger: {
+        warn(
+          message: string,
+          {deprecationType}: {deprecationType?: Deprecation}
+        ) {
+          expect(deprecationType).toEqual(deprecations.import);
+          done();
         },
-      };
+      },
     });
+  });
 
-    it('warning emitted when opted into', done => {
-      compileString('@import "a"', {
-        importers: [importer],
-        futureDeprecations: [deprecations.import],
-        logger: {
-          warn(
-            message: string,
-            {deprecationType}: {deprecationType?: Deprecation}
-          ) {
-            expect(deprecationType).toEqual(deprecations.import);
-            done();
-          },
+  it('it must be enabled to be made fatal', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      fatalDeprecations: ['import'],
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('deprecation must be enabled');
+          done();
         },
-      });
+      },
     });
+  });
 
-    it('warning emitted when id opted into', done => {
-      compileString('@import "a"', {
-        importers: [importer],
-        futureDeprecations: ['import'],
-        logger: {
-          warn(
-            message: string,
-            {deprecationType}: {deprecationType?: Deprecation}
-          ) {
-            expect(deprecationType).toEqual(deprecations.import);
-            done();
-          },
+  it('silencing it takes precedence', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      futureDeprecations: ['import'],
+      silenceDeprecations: ['import'],
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('cancel each other out');
+          done();
         },
-      });
+      },
     });
+  });
 
-    it('must be enabled to be made fatal', done => {
-      compileString('@import "a"', {
-        importers: [importer],
-        fatalDeprecations: ['import'],
-        logger: {
-          warn(message: string) {
-            expect(message).toContain('deprecation must be enabled');
-            done();
-          },
+  it('warning emitted for silencing it', done => {
+    compileString('a { b: c; }', {
+      importers: [importer],
+      silenceDeprecations: ['import'],
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('deprecation is not yet active');
+          done();
         },
-      });
-    });
-
-    it('silencing enabled future deprecation takes precedence', done => {
-      compileString('@import "a"', {
-        importers: [importer],
-        futureDeprecations: ['import'],
-        silenceDeprecations: ['import'],
-        logger: {
-          warn(message: string) {
-            expect(message).toContain('cancel each other out');
-            done();
-          },
-        },
-      });
-    });
-
-    it('warning emitted for silencing future deprecation', done => {
-      compileString('a { b: c; }', {
-        importers: [importer],
-        silenceDeprecations: ['import'],
-        logger: {
-          warn(message: string) {
-            expect(message).toContain('deprecation is not yet active');
-            done();
-          },
-        },
-      });
-    });
-
-    it('warning emitted for enabling active deprecation', done => {
-      compileString('a { b: c; }', {
-        importers: [importer],
-        futureDeprecations: ['new-global'],
-        logger: {
-          warn(message: string) {
-            expect(message).toContain('does not need to be explicitly enabled');
-            done();
-          },
-        },
-      });
+      },
     });
   });
 });
