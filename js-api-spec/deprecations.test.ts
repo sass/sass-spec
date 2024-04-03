@@ -6,6 +6,7 @@ import {
   compileString,
   deprecations,
   Deprecation,
+  Deprecations,
   Importer,
   Version,
 } from 'sass';
@@ -18,10 +19,11 @@ import {captureStdio, URL} from './utils';
  * The first version is the version this deprecation type was deprecated in,
  * while the second version is the version it was made obsolete in.
  */
-const obsoleteDeprecations: {[key: string]: [string, string]} = {};
+const obsoleteDeprecations: {[key in keyof Deprecations]?: [string, string]} =
+  {};
 
 /** Map from active deprecation IDs to the version they were deprecated in. */
-const activeDeprecations = {
+const activeDeprecations: {[key in keyof Deprecations]?: string} = {
   'call-string': '0.0.0',
   elseif: '1.3.2',
   'moz-document': '1.7.2',
@@ -38,8 +40,14 @@ const activeDeprecations = {
   'fs-importer-cwd': '1.73.0',
 };
 
-/** List of future deprecation IDs. */
-const futureDeprecations = ['import'];
+/**
+ * List of future deprecation IDs.
+ *
+ * This is only structured as an object to allow us to use a mapped object type
+ * to ensure that all deprecation IDs listed here are included in the JS API
+ * spec.
+ */
+const futureDeprecations: {[key in keyof Deprecations]?: true} = {import: true};
 
 /**
  * This is a temporary synchronization check to ensure that any new deprecation
@@ -53,17 +61,22 @@ const futureDeprecations = ['import'];
  * Work to replace these manual changes with generated code from a single
  * source-of-truth is tracked in sass/sass#3827
  */
-it('there are no extra deprecation types', () => {
+it('there are no extra or missing deprecation types', () => {
   const expectedDeprecations = [
     ...Object.keys(obsoleteDeprecations),
     ...Object.keys(activeDeprecations),
-    ...futureDeprecations,
+    ...Object.keys(futureDeprecations),
     'user-authored',
   ];
-  const extraDeprecations = Object.keys(deprecations).filter(
+  const actualDeprecations = Object.keys(deprecations);
+  const extraDeprecations = actualDeprecations.filter(
     deprecation => !expectedDeprecations.includes(deprecation)
   );
   expect(extraDeprecations).toBeEmptyArray();
+  const missingDeprecations = expectedDeprecations.filter(
+    deprecation => !actualDeprecations.includes(deprecation)
+  );
+  expect(missingDeprecations).toBeEmptyArray();
 });
 
 describe('deprecation type', () => {
@@ -71,9 +84,9 @@ describe('deprecation type', () => {
     [key: string]: Deprecation;
   };
 
-  for (const [id, [deprecatedIn, obsoleteIn]] of Object.entries(
-    obsoleteDeprecations
-  )) {
+  for (const [id, versions] of Object.entries(obsoleteDeprecations)) {
+    if (!versions) continue;
+    const [deprecatedIn, obsoleteIn] = versions;
     it(`${id} deprecated in ${deprecatedIn} and obsolete in ${obsoleteIn}`, () => {
       const deprecation = deprecationsMap[id];
       expect(deprecation?.id).toBe(id);
@@ -92,7 +105,7 @@ describe('deprecation type', () => {
     });
   }
 
-  for (const id of futureDeprecations) {
+  for (const [id] of Object.entries(futureDeprecations)) {
     it(`${id} is a future deprecation`, () => {
       const deprecation = deprecationsMap[id];
       expect(deprecation?.id).toBe(id);
@@ -107,7 +120,9 @@ describe('a warning', () => {
       logger: {
         warn(
           message: string,
-          {deprecationType}: {deprecationType?: Deprecation}
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
           expect(deprecationType).toEqual(deprecations['new-global']);
           done();
@@ -121,7 +136,9 @@ describe('a warning', () => {
       logger: {
         warn(
           message: string,
-          {deprecationType}: {deprecationType?: Deprecation}
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
           expect(deprecationType).toEqual(deprecations['new-global']);
           done();
@@ -241,7 +258,9 @@ describe('for a future deprecation,', () => {
       logger: {
         warn(
           message: string,
-          {deprecationType}: {deprecationType?: Deprecation}
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
@@ -257,7 +276,9 @@ describe('for a future deprecation,', () => {
       logger: {
         warn(
           message: string,
-          {deprecationType}: {deprecationType?: Deprecation}
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
