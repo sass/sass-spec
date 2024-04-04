@@ -178,6 +178,36 @@ describe('with contents', () => {
         }),
       }).stats.includedFiles
     ).toContain(p.resolve('bar')));
+
+  // Regression test for sass/dart-sass#2208.
+  it('imports the same relative url from different base urls as different files', () =>
+    sandbox(dir => {
+      const importer = spy((url: string, prev: string) => {
+        return url === 'x'
+          ? {
+              contents: `x {from: ${p.basename(p.dirname(prev))}}`,
+              file: p.resolve(p.dirname(prev), 'x.scss'),
+            }
+          : null;
+      });
+
+      dir.write({
+        'main.scss': '@import "sub1/test"; @import "sub1/sub2/test"',
+        'sub1/test.scss': '@import "x"',
+        'sub1/sub2/test.scss': '@import "x"',
+      });
+
+      expect(
+        sass
+          .renderSync({
+            file: dir('main.scss'),
+            importer,
+          })
+          .css.toString()
+      ).toEqualIgnoringWhitespace('x { from: sub1; } x { from: sub2; }');
+
+      expect(importer).toHaveBeenCalledTimes(2);
+    }));
 });
 
 describe('with a file redirect', () => {
