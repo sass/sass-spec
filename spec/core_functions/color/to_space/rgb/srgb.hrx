@@ -55,7 +55,7 @@ a {
 ================================================================================
 <===> out_of_range/near/input.scss
 @use 'sass:color';
-a {b: color.to-space(rgb(-50, 100, 400), srgb)}
+a {b: color.to-space(color.change(rgb(0, 100, 0), $red: -50, $blue: 400), srgb)}
 
 <===> out_of_range/near/output.css
 a {
@@ -66,7 +66,7 @@ a {
 ================================================================================
 <===> out_of_range/far/input.scss
 @use 'sass:color';
-a {b: color.to-space(rgb(-999999, 0, 0), srgb)}
+a {b: color.to-space(color.change(black, $red: -999999), srgb)}
 
 <===> out_of_range/far/output.css
 a {
