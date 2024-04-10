@@ -1,0 +1,117 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0 0 0), lch)}
+
+<===> black/output.css
+a {
+  b: lch(0% 0 none);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 1 1 1), lch)}
+
+<===> white/output.css
+a {
+  b: lch(100% 0 none);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.5 0.5 0.5), lch)}
+
+<===> gray/output.css
+a {
+  b: lch(58.0104094495% 0 none);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.2 0.4 0.8), lch)}
+
+<===> middle/output.css
+a {
+  b: lch(47.1831278283% 62.2768528686 264.6841092292deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 -1 0.4 2), lch)}
+
+<===> out_of_range/near/output.css
+a {
+  b: lch(20.0233737121% 619.3542940851 204.5541138043deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/options.yml
+:todo:
+  - dart-sass # w3c/csswg-drafts#9484
+
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 -999999 0 0), lch)}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.1 0.2 0.3 / 0.4), lch)}
+
+<===> alpha/partial/output.css
+a {
+  b: lch(26.3242106967% 24.6972744653 238.2415478893deg / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.1 0.2 0.3 / 0.0), lch)}
+
+<===> alpha/transparent/output.css
+a {
+  b: lch(26.3242106967% 24.6972744653 238.2415478893deg / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 none 0.2 0.3), lch)}
+
+<===> missing/red/output.css
+a {
+  b: lch(24.4167376804% 39.8626971017 217.5675010071deg);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.1 none 0.3), lch)}
+
+<===> missing/green/output.css
+a {
+  b: lch(9.8621057796% 64.8842048882 311.267672367deg);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(rec2020 0.1 0.2 none), lch)}
+
+<===> missing/blue/output.css
+a {
+  b: lch(24.8794631126% 49.5843681064 126.5434514525deg);
+}
