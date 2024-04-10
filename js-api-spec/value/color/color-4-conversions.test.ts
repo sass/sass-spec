@@ -11,7 +11,6 @@ import type {
   KnownColorSpace,
 } from 'sass';
 
-import {skipForImpl} from '../../utils';
 import {spaces} from './spaces';
 import {interpolations} from './interpolation-examples';
 
@@ -43,24 +42,16 @@ describe('Color 4 SassColors Conversions', () => {
         });
       });
 
-      // TODO: Waiting on new ColorJS release to fix `hue` interpolation:
-      // https://github.com/LeaVerou/color.js/pull/338
-      skipForImpl('sass-embedded', () => {
-        // TODO: Failing in dart-sass because `hue` should be normalized to the
-        // [0, 360) range
-        skipForImpl('dart-sass', () => {
-          describe('interpolate', () => {
-            it('interpolates examples', () => {
-              const examples = interpolations[space.name];
-              examples.forEach(([input, output]) => {
-                const res = color.interpolate(blue, {
-                  weight: input.weight,
-                  method: input.method as HueInterpolationMethod,
-                });
-                const outputColor = space.constructor(...output);
-                expect(res).toLooselyEqualColor(outputColor);
-              });
+      describe('interpolate', () => {
+        it('interpolates examples', () => {
+          const examples = interpolations[space.name];
+          examples.forEach(([input, output]) => {
+            const res = color.interpolate(blue, {
+              weight: input.weight,
+              method: input.method as HueInterpolationMethod,
             });
+            const outputColor = space.constructor(...output);
+            expect(res).toLooselyEqualColor(outputColor);
           });
         });
       });
@@ -118,6 +109,47 @@ describe('Color 4 SassColors Conversions', () => {
           ).toLooselyEqualColor(space.constructor(...space.pink, null));
         });
 
+        describe('allows out-of-range channel values', () => {
+          const baseColor = space.constructor(
+            (space.ranges[0][0] + space.ranges[0][1]) / 2,
+            (space.ranges[1][0] + space.ranges[1][1]) / 2,
+            (space.ranges[2][0] + space.ranges[2][1]) / 2
+          );
+          for (let i = 0; i < 3; i++) {
+            const channel = space.channels[i];
+            if (channel === 'hue') continue;
+
+            it(`for ${channel}`, () => {
+              const aboveRange = space.ranges[i][1] + 10;
+              const belowRange = space.ranges[i][0] - 10;
+              const above = baseColor.change({[channel]: aboveRange});
+              const below = baseColor.change({[channel]: belowRange});
+
+              expect(above.channels.get(i)).toEqual(aboveRange);
+
+              switch (channel) {
+                case 'saturation':
+                  expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
+                  expect(below.channels.get(0)).toEqual(
+                    (baseColor.channels.get(0) + 180) % 360
+                  );
+                  break;
+
+                case 'chroma':
+                  expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
+                  expect(below.channels.get(2)).toEqual(
+                    (baseColor.channels.get(2) + 180) % 360
+                  );
+                  break;
+
+                default:
+                  expect(below.channels.get(i)).toEqual(belowRange);
+                  break;
+              }
+            });
+          }
+        });
+
         spaceNames.forEach(destinationSpaceId => {
           it(`changes all channels with space set to ${destinationSpaceId}`, () => {
             const destinationSpace = spaces[destinationSpaceId];
@@ -153,23 +185,6 @@ describe('Color 4 SassColors Conversions', () => {
           expect(() => color.change({alpha: -1})).toThrow();
           expect(() => color.change({alpha: 1.1})).toThrow();
         });
-        if (space.channels.includes('lightness')) {
-          describe('out of range lightness', () => {
-            it('throws on negative lightness', () => {
-              expect(() => color.change({lightness: -1})).toThrow();
-            });
-            // TODO: Failing for oklab and oklch in dart-sass
-            skipForImpl('dart-sass', () => {
-              it('throws on lightness higher than bounds', () => {
-                const index = space.channels.findIndex(
-                  channel => channel === 'lightness'
-                );
-                const lightness = space.ranges[index][1] + 1;
-                expect(() => color.change({lightness})).toThrow();
-              });
-            });
-          });
-        }
       });
 
       describe('isInGamut', () => {

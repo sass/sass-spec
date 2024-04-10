@@ -1,6 +1,6 @@
 <===> rgb/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgb(0 300 0))}
+a {b: color.is-in-gamut(color.change(black, $green: 300))}
 
 <===> rgb/output.css
 a {
@@ -11,7 +11,7 @@ a {
 ================================================================================
 <===> rgba/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(rgba(-1 122 180 / 0.4))}
+a {b: color.is-in-gamut(color.change(rgba(0 122 180 / 0.4), $red: -1))}
 
 <===> rgba/output.css
 a {
@@ -22,11 +22,11 @@ a {
 ================================================================================
 <===> hwb/input.scss
 @use "sass:color";
-a {b: color.is-in-gamut(hwb(0 300% 0%))}
+a {b: color.is-in-gamut(hwb(0 300% -1%))}
 
 <===> hwb/output.css
 a {
-  b: true;
+  b: false;
 }
 
 <===>
@@ -37,7 +37,7 @@ a {b: color.is-in-gamut(hsl(0 0% -1%))}
 
 <===> hsl/output.css
 a {
-  b: true;
+  b: false;
 }
 
 <===>
@@ -235,7 +235,7 @@ a {b: color.is-in-gamut(color(display-p3 1 1 0), hwb)}
 
 <===> wide_narrow/output.css
 a {
-  b: true;
+  b: false;
 }
 
 <===>

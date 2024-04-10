@@ -1,5 +1,5 @@
 <===> calculation/arg_1/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(calc(1px + 1%) 2 3));
 
 <===> calculation/arg_1/output.css
@@ -11,7 +11,7 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_2/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% calc(1px + 1%) 3));
 
 <===> calculation/arg_2/output.css
@@ -23,7 +23,7 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_3/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 calc(1px + 1%)));
 
 <===> calculation/arg_3/output.css
@@ -35,7 +35,7 @@ a {
 <===>
 ================================================================================
 <===> calculation/arg_4/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 3 / calc(1px + 1%)));
 
 <===> calculation/arg_4/output.css
@@ -47,7 +47,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_1/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(var(--foo) 2 3));
 
 <===> var/arg_1/output.css
@@ -59,7 +59,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_2/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% var(--foo) 3));
 
 <===> var/arg_2/output.css
@@ -71,7 +71,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_3/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 var(--foo)));
 
 <===> var/arg_3/output.css
@@ -83,7 +83,7 @@ a {
 <===>
 ================================================================================
 <===> var/arg_4/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% 2 3 / var(--foo)));
 
 <===> var/arg_4/output.css
@@ -96,7 +96,7 @@ a {
 ================================================================================
 <===> multi_argument_var/1_of_2/input.scss
 // var() is substituted before parsing, so it may contain multiple arguments.
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(var(--foo) 2));
 
 <===> multi_argument_var/1_of_2/output.css
@@ -108,7 +108,7 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/2_of_2/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(1% var(--foo)));
 
 <===> multi_argument_var/2_of_2/output.css
@@ -120,7 +120,7 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/1_of_1/no_alpha/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(var(--foo)));
 
 <===> multi_argument_var/1_of_1/no_alpha/output.css
@@ -132,7 +132,7 @@ a {
 <===>
 ================================================================================
 <===> multi_argument_var/1_of_1/alpha/input.scss
-@use 'core_functions/color/oklab/utils';
+@use 'core_functions/color/utils';
 @include utils.inspect(oklab(var(--foo) / 0.4));
 
 <===> multi_argument_var/1_of_1/alpha/output.css
