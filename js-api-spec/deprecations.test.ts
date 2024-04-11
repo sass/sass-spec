@@ -38,6 +38,8 @@ const activeDeprecations: {[key in keyof Deprecations]?: string} = {
   'null-alpha': '1.62.3',
   'abs-percent': '1.65.0',
   'fs-importer-cwd': '1.73.0',
+  'color-4-api': '1.76.0',
+  'color-functions': '1.76.0',
 };
 
 /**
