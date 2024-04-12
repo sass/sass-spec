@@ -560,6 +560,23 @@ describe("compileString()'s importer option", () => {
     expect(result.css).toBe('a {\n  result: "foo/baz/qux/bang";\n}');
   });
 
+  it('loads relative imports without an entrypoint URL', () => {
+    const result = compileString('@import "orange";', {
+      importer: {
+        canonicalize: (url: string) => {
+          expect(url).toBe('orange');
+          return new URL('u:orange');
+        },
+        load: (url: typeof URL) => {
+          const color = url.pathname;
+          return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
+        },
+      },
+    });
+
+    expect(result.css).toBe('.orange {\n  color: orange;\n}');
+  });
+
   it('takes precedence over the importer list for relative URLs', () => {
     const result = compileString('@import "other";', {
       importers: [
