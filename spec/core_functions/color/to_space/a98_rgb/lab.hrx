@@ -1,0 +1,117 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0 0 0), lab)}
+
+<===> black/output.css
+a {
+  b: lab(0% 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 1 1 1), lab)}
+
+<===> white/output.css
+a {
+  b: lab(100% 0 0);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.5 0.5 0.5), lab)}
+
+<===> gray/output.css
+a {
+  b: lab(53.7880481926% 0 0);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.2 0.4 0.8), lab)}
+
+<===> middle/output.css
+a {
+  b: lab(42.9339299516% 6.5030561424 -63.5427502212);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb -1 0.4 2), lab)}
+
+<===> out_of_range/near/output.css
+a {
+  b: lab(30.0623308533% 38.5823326773 -241.4998540297);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/options.yml
+:todo:
+  - dart-sass # w3c/csswg-drafts#9484
+
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb -999999 0 0), lab)}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.1 0.2 0.3 / 0.4), lab)}
+
+<===> alpha/partial/output.css
+a {
+  b: lab(17.7387491045% -7.186319424 -22.7371258976 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.1 0.2 0.3 / 0.0), lab)}
+
+<===> alpha/transparent/output.css
+a {
+  b: lab(17.7387491045% -7.186319424 -22.7371258976 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb none 0.2 0.3), lab)}
+
+<===> missing/red/output.css
+a {
+  b: lab(16.8147782656% -12.534270074 -24.2693697193);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.1 none 0.3), lab)}
+
+<===> missing/green/output.css
+a {
+  b: lab(5.8200823344% 29.1326658037 -42.4044732971);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(a98-rgb 0.1 0.2 none), lab)}
+
+<===> missing/blue/output.css
+a {
+  b: lab(15.5541953165% -27.655552781 23.2496799552);
+}

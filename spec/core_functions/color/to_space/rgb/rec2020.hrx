@@ -1,0 +1,129 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(#000, rec2020)}
+
+<===> black/output.css
+a {
+  b: color(rec2020 0 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(#fff, rec2020)}
+
+<===> white/output.css
+a {
+  b: color(rec2020 1 1 1);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(#aaa, rec2020)}
+
+<===> gray/output.css
+a {
+  b: color(rec2020 0.630170586 0.630170586 0.630170586);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(#28d, rec2020)}
+
+<===> middle/output.css
+a {
+  b: color(rec2020 0.327926145 0.4744067013 0.818404902);
+}
+
+<===>
+================================================================================
+<===> float/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(50.123456789 100.987654321 200.192837465), rec2020)}
+
+<===> float/output.css
+a {
+  b: color(rec2020 0.2689744026 0.3372277303 0.7270775308);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color.change(rgb(0, 100, 0), $red: -50, $blue: 400), rec2020)}
+
+<===> out_of_range/near/output.css
+a {
+  b: color(rec2020 0.3600781868 0.3645236247 1.5702758315);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color.change(black, $red: -999999), rec2020)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color(rec2020 -6394.9114299566 -2369.6504581671 -1240.1892051013);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 20 30 / 0.4), rec2020)}
+
+<===> alpha/partial/output.css
+a {
+  b: color(rec2020 0.0214656524 0.0305541381 0.055318427 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 20 30 / 0.0), rec2020)}
+
+<===> alpha/transparent/output.css
+a {
+  b: color(rec2020 0.0214656524 0.0305541381 0.055318427 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(none 20 30), rec2020)}
+
+<===> missing/red/output.css
+a {
+  b: color(rec2020 none 0.029610358 0.055094541);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 none 30), rec2020)}
+
+<===> missing/green/output.css
+a {
+  b: color(rec2020 0.0111000377 none 0.0525478256);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(rgb(10 20 none), rec2020)}
+
+<===> missing/blue/output.css
+a {
+  b: color(rec2020 0.0189351452 0.0298903102 none);
+}

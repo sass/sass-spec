@@ -1,0 +1,117 @@
+<===> black/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0 0 0), oklab)}
+
+<===> black/output.css
+a {
+  b: oklab(0% 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 1 1 1), oklab)}
+
+<===> white/output.css
+a {
+  b: oklab(99.9999993474% 0.0000000001 0.0000000373);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.5 0.5 0.5), oklab)}
+
+<===> gray/output.css
+a {
+  b: oklab(65.9753951081% 0.0000000001 0.0000000246);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.2 0.4 0.8), oklab)}
+
+<===> middle/output.css
+a {
+  b: oklab(52.9739863521% -0.23472674 -0.1933931965);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb -1 0.4 2), oklab)}
+
+<===> out_of_range/near/output.css
+a {
+  b: oklab(9.4597839538% -2.2223701334 -0.8062107579);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/options.yml
+:todo:
+  - dart-sass # w3c/csswg-drafts#9484
+
+<===> out_of_range/far/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb -999999 0 0), oklab)}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.4), oklab)}
+
+<===> alpha/partial/output.css
+a {
+  b: oklab(34.6066204299% -0.1151566731 -0.0744029999 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.0), oklab)}
+
+<===> alpha/transparent/output.css
+a {
+  b: oklab(34.6066204299% -0.1151566731 -0.0744029999 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb none 0.2 0.3), oklab)}
+
+<===> missing/red/output.css
+a {
+  b: oklab(32.493750959% -0.2028589632 -0.0824787667);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 none 0.3), oklab)}
+
+<===> missing/green/output.css
+a {
+  b: oklab(20.6577507967% -0.042480718 -0.1739784043);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 none), oklab)}
+
+<===> missing/blue/output.css
+a {
+  b: oklab(33.9153744238% -0.1155256021 0.0932618247);
+}

@@ -1,0 +1,52 @@
+<===> in_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(display-p3 0.2 0.4 0.8), display-p3)}
+
+<===> in_range/output.css
+a {
+  b: color(display-p3 0.2 0.4 0.8);
+}
+
+<===>
+================================================================================
+<===> out_of_range/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(display-p3 -1 0.4 2), display-p3)}
+
+<===> out_of_range/output.css
+a {
+  b: color(display-p3 -1 0.4 2);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(display-p3 none 0.2 0.3), display-p3)}
+
+<===> missing/red/output.css
+a {
+  b: color(display-p3 none 0.2 0.3);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(display-p3 0.1 none 0.3), display-p3)}
+
+<===> missing/green/output.css
+a {
+  b: color(display-p3 0.1 none 0.3);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use 'sass:color';
+a {b: color.to-space(color(display-p3 0.1 0.2 none), display-p3)}
+
+<===> missing/blue/output.css
+a {
+  b: color(display-p3 0.1 0.2 none);
+}
