@@ -216,7 +216,7 @@ describe('Color 4 SassColors Conversions', () => {
 
           for (const [method, output] of Object.entries(outputsObj)) {
             describe(method, () => {
-              fit(`in own space, ${input} -> ${output}`, () => {
+              it(`in own space, ${input} -> ${output}`, () => {
                 const res = space
                   .constructor(...input)
                   .toGamut({method: method as GamutMapMethod});
