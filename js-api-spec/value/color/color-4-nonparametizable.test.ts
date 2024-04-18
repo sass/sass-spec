@@ -9,22 +9,27 @@ import type {
   ChannelName,
   ChannelNameXyz,
   ColorSpaceXyz,
+  GamutMapMethod,
   KnownColorSpace,
 } from 'sass';
 
 import * as constructors from './constructors';
 
 describe('Color 4 SassColors Non-parametizable', () => {
-  it('toGamut with space', () => {
-    const cases: [SassColor, KnownColorSpace, SassColor][] = [
+  describe('toGamut', () => {
+    const cases: [
+      SassColor,
+      KnownColorSpace,
+      Record<GamutMapMethod, SassColor>
+    ][] = [
       [
         constructors.oklch(0.8, 2, 150),
         'display-p3',
         {
           'local-minde': constructors.oklch(
-            0.8011972524233195,
-            0.31025433677129627,
-            149.69615588210382
+            0.80777568417,
+            0.3262439045,
+            148.1202740275
           ),
           clip: constructors.oklch(
             0.848829286984,
@@ -38,9 +43,9 @@ describe('Color 4 SassColors Non-parametizable', () => {
         'srgb',
         {
           'local-minde': constructors.oklch(
-            0.8086628549532134,
-            0.23694508940439973,
-            147.5313920153958
+            0.809152570179,
+            0.2379027576,
+            147.4021477687
           ),
           clip: constructors.oklch(
             0.866439611536,
@@ -50,11 +55,18 @@ describe('Color 4 SassColors Non-parametizable', () => {
         },
       ],
     ];
-    cases.forEach(([input, space, outputs]) => {
-      outputs.forEach((method, output) => {
-        expect(input.toGamut({space, method})).toLooselyEqualColor(output);
+
+    for (const [input, space, outputs] of cases) {
+      describe(`with space ${space}`, () => {
+        for (const [method, output] of Object.entries(outputs)) {
+          it(`with method ${method}`, () => {
+            expect(
+              input.toGamut({space, method: method as GamutMapMethod})
+            ).toLooselyEqualColor(output);
+          });
+        }
       });
-    });
+    }
   });
 
   it('channel with space specified, missing returns 0', () => {
