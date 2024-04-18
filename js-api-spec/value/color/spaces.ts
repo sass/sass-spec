@@ -335,7 +335,7 @@ export const spaces: {
       [0, 100],
       [0, 100],
     ],
-    hasOutOfGamut: false,
+    hasOutOfGamut: true,
     gamutExamples: [
       [
         [0.5, 110, 50],
@@ -360,7 +360,7 @@ export const spaces: {
       [0, 100],
       [0, 100],
     ],
-    hasOutOfGamut: false,
+    hasOutOfGamut: true,
     gamutExamples: [
       [
         [0.5, -3, -7],
