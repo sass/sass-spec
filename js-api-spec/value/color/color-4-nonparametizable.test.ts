@@ -12,36 +12,47 @@ import type {
   KnownColorSpace,
 } from 'sass';
 
-import {skipForImpl} from '../../utils';
 import * as constructors from './constructors';
 
 describe('Color 4 SassColors Non-parametizable', () => {
-  // TODO: Waiting on new ColorJS release to fix `toGamut` mapping:
-  // https://github.com/LeaVerou/color.js/pull/344
-  skipForImpl('sass-embedded', () => {
-    it('toGamut with space', () => {
-      const cases: [SassColor, KnownColorSpace, SassColor][] = [
-        [
-          constructors.oklch(0.8, 2, 150),
-          'display-p3',
-          constructors.oklch(
+  it('toGamut with space', () => {
+    const cases: [SassColor, KnownColorSpace, SassColor][] = [
+      [
+        constructors.oklch(0.8, 2, 150),
+        'display-p3',
+        {
+          'local-minde': constructors.oklch(
             0.8011972524233195,
             0.31025433677129627,
             149.69615588210382
           ),
-        ],
-        [
-          constructors.oklch(0.8, 2, 150),
-          'srgb',
-          constructors.oklch(
+          clip: constructors.oklch(
+            0.848829286984,
+            0.3685278106,
+            145.6449503702
+          ),
+        },
+      ],
+      [
+        constructors.oklch(0.8, 2, 150),
+        'srgb',
+        {
+          'local-minde': constructors.oklch(
             0.8086628549532134,
             0.23694508940439973,
             147.5313920153958
           ),
-        ],
-      ];
-      cases.forEach(([input, space, output]) => {
-        expect(input.toGamut(space)).toLooselyEqualColor(output);
+          clip: constructors.oklch(
+            0.866439611536,
+            0.2948272403,
+            142.4953388878
+          ),
+        },
+      ],
+    ];
+    cases.forEach(([input, space, outputs]) => {
+      outputs.forEach((method, output) => {
+        expect(input.toGamut({space, method})).toLooselyEqualColor(output);
       });
     });
   });

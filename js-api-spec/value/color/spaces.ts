@@ -12,6 +12,7 @@ import type {
   ChannelNameLch,
   ChannelNameRgb,
   ChannelNameXyz,
+  GamutMapMethod,
   KnownColorSpace,
 } from 'sass';
 
@@ -31,7 +32,15 @@ export const spaces: {
     hasPowerless?: boolean;
     hasOutOfGamut: boolean;
     // input, output in own space, output in p3
-    gamutExamples: [[number, number, number], [number, number, number]][];
+    gamutExamples: Array<
+      [
+        [number, number, number],
+        (
+          | [number, number, number]
+          | {[key in GamutMapMethod]: [number, number, number]}
+        )
+      ]
+    >;
   };
 } = {
   lab: {
@@ -135,10 +144,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   'srgb-linear': {
@@ -156,10 +162,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   'display-p3': {
@@ -177,10 +180,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   'a98-rgb': {
@@ -198,10 +198,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   'prophoto-rgb': {
@@ -219,10 +216,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   rec2020: {
@@ -240,10 +234,7 @@ export const spaces: {
     ],
     hasOutOfGamut: true,
     gamutExamples: [
-      [
-        [0.5, 2, 2],
-        [1, 1, 1],
-      ],
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
   xyz: {
@@ -347,8 +338,8 @@ export const spaces: {
     hasOutOfGamut: false,
     gamutExamples: [
       [
-        [0.5, 100, 50],
-        [0.5, 100, 50],
+        [0.5, 110, 50],
+        {clip: [0.5, 100, 50], 'local-minde': [3.3611395651, 100, 50.6275640765]},
       ],
     ],
   },
@@ -369,8 +360,8 @@ export const spaces: {
     hasOutOfGamut: false,
     gamutExamples: [
       [
-        [0.5, 100, 50],
-        [0.5, 100, 50],
+        [0.5, -3, -7],
+        {clip: [0.5, 0, 0], 'local-minde': [3.6399424747, 11.209378446, 0]},
       ],
     ],
   },
