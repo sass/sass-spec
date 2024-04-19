@@ -7,6 +7,7 @@
 import {SassColor} from 'sass';
 import type {
   ColorSpaceXyz,
+  GamutMapMethod,
   HueInterpolationMethod,
   KnownColorSpace,
 } from 'sass';
@@ -207,12 +208,23 @@ describe('Color 4 SassColors Conversions', () => {
       });
 
       describe('toGamut', () => {
-        space.gamutExamples.forEach(([input, output]) => {
-          it(`in own space, ${input} -> ${output}`, () => {
-            const res = space.constructor(...input).toGamut();
-            expect(res).toLooselyEqualColor(space.constructor(...output));
-          });
-        });
+        for (const [input, outputs] of space.gamutExamples) {
+          const outputsObj =
+            outputs instanceof Array
+              ? {clip: outputs, 'local-minde': outputs}
+              : outputs;
+
+          for (const [method, output] of Object.entries(outputsObj)) {
+            describe(method, () => {
+              it(`in own space, ${input} -> ${output}`, () => {
+                const res = space
+                  .constructor(...input)
+                  .toGamut({method: method as GamutMapMethod});
+                expect(res).toLooselyEqualColor(space.constructor(...output));
+              });
+            });
+          }
+        }
       });
     });
   });
