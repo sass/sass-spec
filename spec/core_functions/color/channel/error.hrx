@@ -1,0 +1,153 @@
+<===> too_few_args/input.scss
+@use "sass:color";
+a {b: color.channel(pink)}
+
+<===> too_few_args/error
+Error: Missing argument $channel.
+  ,--> input.scss
+2 | a {b: color.channel(pink)}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function channel($color, $channel, $space: null) {
+  |           ======================================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "red", rgb, "red")}
+
+<===> too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+2 | a {b: color.channel(pink, "red", rgb, "red")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function channel($color, $channel, $space: null) {
+  |           ======================================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color/input.scss
+@use "sass:color";
+a {b: color.channel("pink", "red")}
+
+<===> type/color/error
+Error: $color: "pink" is not a color.
+  ,
+2 | a {b: color.channel("pink", "red")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/channel/input.scss
+@use "sass:color";
+a {b: color.channel(pink, red)}
+
+<===> type/channel/error
+Error: $channel: red is not a string.
+  ,
+2 | a {b: color.channel(pink, red)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/space/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "red", red)}
+
+<===> type/space/error
+Error: $space: red is not a string.
+  ,
+2 | a {b: color.channel(pink, "red", red)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/unquoted/input.scss
+@use "sass:color";
+a {b: color.channel(hsl(50deg 50% 50%), hue)}
+
+<===> channel/unquoted/error
+Error: $channel: Expected hue to be a quoted string.
+  ,
+2 | a {b: color.channel(hsl(50deg 50% 50%), hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/wrong_space/input.scss
+@use "sass:color";
+a {b: color.channel(red, "hue")}
+
+<===> channel/wrong_space/error
+Error: $channel: Color red has no channel named hue.
+  ,
+2 | a {b: color.channel(red, "hue")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/wrong_case/input.scss
+@use "sass:color";
+a {b: color.channel(red, "RED")}
+
+<===> channel/wrong_case/error
+
+<===>
+================================================================================
+<===> channel/unknown/input.scss
+@use "sass:color";
+a {b: color.channel(red, "foo")}
+
+<===> channel/unknown/error
+Error: $channel: Color red has no channel named foo.
+  ,
+2 | a {b: color.channel(red, "foo")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/quoted/input.scss
+@use "sass:color";
+a {b: color.channel(red, "hue", $space: "hsl")}
+
+<===> space/quoted/error
+Error: $space: Expected "hsl" to be an unquoted string.
+  ,
+2 | a {b: color.channel(red, "hue", $space: "hsl")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/unknown/input.scss
+@use "sass:color";
+a {b: color.channel(red, "hue", $space: "foo")}
+
+<===> space/unknown/error
+Error: $space: Expected "foo" to be an unquoted string.
+  ,
+2 | a {b: color.channel(red, "hue", $space: "foo")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
