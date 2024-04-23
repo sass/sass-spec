@@ -253,14 +253,14 @@ $a: b;
 ================================================================================
 <===> error/in_keyframe_block/style_rule/input.scss
 @keyframes a {
-  to {b {c: d}}
+  to {to {c: d}}
 }
 
 <===> error/in_keyframe_block/style_rule/error
 Error: Style rules may not be used within keyframe blocks.
   ,
-2 |   to {b {c: d}}
-  |       ^^^^^^^^
+2 |   to {to {c: d}}
+  |       ^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
@@ -283,13 +283,13 @@ Error: At-rules may not be used within keyframe blocks.
 ================================================================================
 <===> error/in_keyframe_block/known_at_rule/input.scss
 @keyframes a {
-  to {@media {b: c}}
+  to {@media screen {b: c}}
 }
 
 <===> error/in_keyframe_block/known_at_rule/error
-Error: Expected identifier.
+Error: At-rules may not be used within keyframe blocks.
   ,
-2 |   to {@media {b: c}}
-  |              ^
+2 |   to {@media screen {b: c}}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:14  root stylesheet
+  input.scss 2:7  root stylesheet
