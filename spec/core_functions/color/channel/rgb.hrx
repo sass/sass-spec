@@ -1,30 +1,63 @@
-<===> red/input.scss
+<===> local/red/input.scss
+@use 'sass:color';
+a {b: color.channel(#abcdef, "red")}
+
+<===> local/red/output.css
+a {
+  b: 171;
+}
+
+<===>
+================================================================================
+<===> local/green/input.scss
+@use 'sass:color';
+a {b: color.channel(#abcdef, "green")}
+
+<===> local/green/output.css
+a {
+  b: 205;
+}
+
+<===>
+================================================================================
+<===> local/blue/input.scss
+@use 'sass:color';
+a {b: color.channel(#abcdef, "blue")}
+
+<===> local/blue/output.css
+a {
+  b: 239;
+}
+
+<===>
+================================================================================
+<===> foreign/red/input.scss
 @use "sass:color";
 a {b: color.channel(pink, "red")}
 
-<===> red/output.css
+<===> foreign/red/output.css
 a {
   b: 255;
 }
 
 <===>
 ================================================================================
-<===> green/input.scss
+<===> foreign/green/input.scss
 @use "sass:color";
 a {b: color.channel(pink, "green")}
 
-<===> green/output.css
+<===> foreign/green/output.css
 a {
   b: 192;
 }
 
 <===>
 ================================================================================
-<===> blue/input.scss
+<===> foreign/blue/input.scss
 @use "sass:color";
 a {b: color.channel(pink, "blue")}
 
-<===> blue/output.css
+<===> foreign/blue/output.css
 a {
   b: 203;
 }
