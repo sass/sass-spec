@@ -1,0 +1,63 @@
+<===> clip/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 0.2 0.5 0.8), $method: clip)}
+
+<===> clip/in_gamut/output.css
+a {
+  b: color(prophoto-rgb 0.2 0.5 0.8);
+}
+
+<===>
+================================================================================
+<===> clip/out_of_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 1.5 0.5 0.8), $method: clip)}
+
+<===> clip/out_of_gamut/output.css
+a {
+  b: color(prophoto-rgb 1 0.5 0.8);
+}
+
+<===>
+================================================================================
+<===> local_minde/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 0.2 0.5 0.8), $method: local-minde)}
+
+<===> local_minde/in_gamut/output.css
+a {
+  b: color(prophoto-rgb 0.2 0.5 0.8);
+}
+
+<===>
+================================================================================
+<===> local_minde/out_of_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 1.1 0.5 0.8), $method: local-minde)}
+
+<===> local_minde/out_of_gamut/output.css
+a {
+  b: color(prophoto-rgb 1 0.5625312196 0.7939519528);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_white/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 0.8 1.1 1.4), $method: local-minde)}
+
+<===> local_minde/to_white/output.css
+a {
+  b: color(prophoto-rgb 1 1 1);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_black/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(color(prophoto-rgb 0 -0.05 -0.05), $method: local-minde)}
+
+<===> local_minde/to_black/output.css
+a {
+  b: color(prophoto-rgb 0 0 0);
+}
