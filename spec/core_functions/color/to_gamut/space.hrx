@@ -1,0 +1,63 @@
+<===> clip/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(60% 0.13 240deg), $space: rgb, $method: clip)}
+
+<===> clip/in_gamut/output.css
+a {
+  b: oklch(60% 0.13 240deg);
+}
+
+<===>
+================================================================================
+<===> clip/out_of_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(60% 0.15 240deg), $space: rgb, $method: clip)}
+
+<===> clip/out_of_gamut/output.css
+a {
+  b: oklch(60.4068473688% 0.1443906201 242.3895382399deg);
+}
+
+<===>
+================================================================================
+<===> local_minde/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(60% 0.13 240deg), $space: rgb, $method: local-minde)}
+
+<===> local_minde/in_gamut/output.css
+a {
+  b: oklch(60% 0.13 240deg);
+}
+
+<===>
+================================================================================
+<===> local_minde/out_of_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(60% 0.15 240deg), $space: rgb, $method: local-minde)}
+
+<===> local_minde/out_of_gamut/output.css
+a {
+  b: oklch(60.4068473688% 0.1443906201 242.3895382399deg);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_white/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(100% 0.13 240deg), $space: rgb, $method: local-minde)}
+
+<===> local_minde/to_white/output.css
+a {
+  b: oklch(99.9999993474% 0.0000000373 89.8755630959deg);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_black/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(oklch(0% 0.13 240deg), $space: rgb, $method: local-minde)}
+
+<===> local_minde/to_black/output.css
+a {
+  b: oklch(0% 0 none);
+}

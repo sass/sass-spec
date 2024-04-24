@@ -1,0 +1,29 @@
+<===> clip/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(lab(50% 500 -999999), $lightness: 150%),
+    $method: clip
+  );
+}
+
+<===> clip/output.css
+a {
+  b: color-mix(in lab, color(xyz 6530020637.921538 2172031124.122868 137328815479.04425) 100%, black);
+}
+
+<===>
+================================================================================
+<===> local_minde/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(lab(50% 500 -999999), $lightness: 150%),
+    $method: local-minde
+  );
+}
+
+<===> local_minde/output.css
+a {
+  b: color-mix(in lab, color(xyz 6530020637.921538 2172031124.122868 137328815479.04425) 100%, black);
+}

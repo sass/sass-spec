@@ -1,0 +1,83 @@
+<===> clip/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(hsl(70deg 50% 50%), $method: clip)}
+
+<===> clip/in_gamut/output.css
+a {
+  b: hsl(70, 50%, 50%);
+}
+
+<===>
+================================================================================
+<===> clip/out_of_gamut/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(hsl(70deg 50% 50%), $saturation: 200%),
+    $method: clip
+  );
+}
+
+<===> clip/out_of_gamut/output.css
+a {
+  b: hsl(70, 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> local_minde/in_gamut/input.scss
+@use 'sass:color';
+a {b: color.to-gamut(hsl(70deg 50% 50%), $method: local-minde)}
+
+<===> local_minde/in_gamut/output.css
+a {
+  b: hsl(70, 50%, 50%);
+}
+
+<===>
+================================================================================
+<===> local_minde/out_of_gamut/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(hsl(70deg 50% 50%), $saturation: 107%),
+    $method: local-minde
+  );
+}
+
+<===> local_minde/out_of_gamut/output.css
+a {
+  b: hsl(73.5850781672, 100%, 67.4750294398%);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_white/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(hsl(70deg 50% 50%), $saturation: 120%),
+    $method: local-minde
+  );
+}
+
+<===> local_minde/to_white/output.css
+a {
+  b: hsl(none 0% 100%);
+}
+
+<===>
+================================================================================
+<===> local_minde/to_black/input.scss
+@use 'sass:color';
+a {
+  b: color.to-gamut(
+    color.change(hsl(70deg 100% 50%), $lightness: -1%),
+    $method: local-minde
+  );
+}
+
+<===> local_minde/to_black/output.css
+a {
+  b: hsl(none 0% 0%);
+}
