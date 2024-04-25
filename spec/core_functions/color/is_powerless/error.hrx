@@ -118,6 +118,20 @@ Error: $channel: Color black doesn't have a channel named "hue".
 
 <===>
 ================================================================================
+<===> channel/wrong_case/input.scss
+@use 'sass:color';
+a {b: color.is-powerless(black, "RED")}
+
+<===> channel/wrong_case/error
+Error: $channel: Color black doesn't have a channel named "RED".
+  ,
+2 | a {b: color.is-powerless(black, "RED")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> space/quoted/input.scss
 @use 'sass:color';
 a {b: color.is-powerless(black, "red", $space: "rgb")}
