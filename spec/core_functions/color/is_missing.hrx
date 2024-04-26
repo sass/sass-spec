@@ -1,0 +1,235 @@
+<===> false/explicit/input.scss
+@use 'sass:color';
+a {b: color.is-missing(#abcdef, "red")}
+
+<===> false/explicit/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/not_powerless/converted/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(color.to-space(#aaaaab, lch), "hue")}
+
+<===> false/not_powerless/converted/non_legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/not_powerless/converted/legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(color.to-space(#aaaaab, hsl), "hue")}
+
+<===> false/not_powerless/converted/legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/not_powerless/direct/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(lch(50% 1% 0deg), "hue")}
+
+<===> false/not_powerless/direct/non_legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/not_powerless/direct/legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(hsl(0deg 50% 1%), "hue")}
+
+<===> false/not_powerless/direct/legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/powerless/direct/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(lch(50% 0% 0deg), "hue")}
+
+<===> false/powerless/direct/non_legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/powerless/direct/legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(hsl(0deg 50% 0%), "hue")}
+
+<===> false/powerless/direct/legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/powerless/converted/legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(color.to-space(#aaaaaa, hsl), "hue")}
+
+<===> false/powerless/converted/legacy/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> true/explicit/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(lab(50% 30 none), "b")}
+
+<===> true/explicit/non_legacy/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/explicit/legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(rgb(none 30 100), "red")}
+
+<===> true/explicit/legacy/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/powerless/converted/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.is-missing(color.to-space(#aaaaaa, lch), "hue")}
+
+<===> true/powerless/converted/non_legacy/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'sass:color';
+a {b: color.is-missing($color: black, $channel: "red")}
+
+<===> named/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use 'sass:color';
+a {b: color.is-missing(black)}
+
+<===> error/too_few_args/error
+Error: Missing argument $channel.
+  ,--> input.scss
+2 | a {b: color.is-missing(black)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-missing($color, $channel) {
+  |           ============================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use 'sass:color';
+a {b: color.is-missing(black, "red", rgb)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | a {b: color.is-missing(black, "red", rgb)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-missing($color, $channel) {
+  |           ============================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+@use 'sass:color';
+a {b: color.is-missing("black", "red")}
+
+<===> error/type/color/error
+Error: $color: "black" is not a color.
+  ,
+2 | a {b: color.is-missing("black", "red")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/channel/input.scss
+@use 'sass:color';
+a {b: color.is-missing(black, red)}
+
+<===> error/type/channel/error
+Error: $channel: red is not a string.
+  ,
+2 | a {b: color.is-missing(black, red)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/channel/wrong_space/input.scss
+@use 'sass:color';
+a {b: color.is-missing(black, "hue")}
+
+<===> error/channel/wrong_space/error
+Error: $channel: Color black doesn't have a channel named "hue".
+  ,
+2 | a {b: color.is-missing(black, "hue")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/channel/unquoted/input.scss
+@use 'sass:color';
+a {b: color.is-missing(hsl(0deg 50% 50%), hue)}
+
+<===> error/channel/unquoted/error
+Error: $channel: Expected hue to be a quoted string.
+  ,
+2 | a {b: color.is-missing(hsl(0deg 50% 50%), hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/channel/wrong_case/input.scss
+@use 'sass:color';
+a {b: color.is-missing(black, "RED")}
+
+<===> error/channel/wrong_case/error
+Error: $channel: Color black doesn't have a channel named "RED".
+  ,
+2 | a {b: color.is-missing(black, "RED")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
