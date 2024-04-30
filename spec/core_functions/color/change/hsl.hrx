@@ -196,6 +196,181 @@ a {
 
 <===>
 ================================================================================
+<===> units/hue/deg/input.scss
+@use 'sass:color';
+a {b: color.change(red, $hue: 60deg)}
+
+<===> units/hue/deg/output.css
+a {
+  b: yellow;
+}
+
+<===>
+================================================================================
+<===> units/hue/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(red, $hue: 60)}
+
+<===> units/hue/unitless/output.css
+a {
+  b: yellow;
+}
+
+<===>
+================================================================================
+<===> units/hue/unknown/input.scss
+@use 'sass:color';
+a {b: color.change(red, $hue: 60in)}
+
+<===> units/hue/unknown/output.css
+a {
+  b: yellow;
+}
+
+<===> units/hue/unknown/warning
+DEPRECATION WARNING: $hue: Passing a unit other than deg (60in) is deprecated.
+
+To preserve current behavior: calc($hue / 1in)
+
+See https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $hue: 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/hue/angle/input.scss
+@use 'sass:color';
+a {b: color.change(red, $hue: 60rad)}
+
+<===> units/hue/angle/output.css
+a {
+  b: rgb(0, 179.576224164, 255);
+}
+
+<===>
+================================================================================
+<===> units/saturation/percent/input.scss
+@use 'sass:color';
+a {b: color.change(red, $saturation: 50%)}
+
+<===> units/saturation/percent/output.css
+a {
+  b: rgb(191.25, 63.75, 63.75);
+}
+
+<===>
+================================================================================
+<===> units/saturation/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(red, $saturation: 50)}
+
+<===> units/saturation/unitless/output.css
+a {
+  b: rgb(191.25, 63.75, 63.75);
+}
+
+<===> units/saturation/unitless/warning
+DEPRECATION WARNING: $saturation: Passing a number without unit % (50) is deprecated.
+
+To preserve current behavior: $saturation * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $saturation: 50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/saturation/unknown/input.scss
+@use 'sass:color';
+a {b: color.change(red, $saturation: 50in)}
+
+<===> units/saturation/unknown/output.css
+a {
+  b: rgb(191.25, 63.75, 63.75);
+}
+
+<===> units/saturation/unknown/warning
+DEPRECATION WARNING: $saturation: Passing a number without unit % (50in) is deprecated.
+
+To preserve current behavior: calc($saturation / 1in * 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $saturation: 50in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/lightness/percent/input.scss
+@use 'sass:color';
+a {b: color.change(red, $lightness: 30%)}
+
+<===> units/lightness/percent/output.css
+a {
+  b: #990000;
+}
+
+<===>
+================================================================================
+<===> units/lightness/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(red, $lightness: 30)}
+
+<===> units/lightness/unitless/output.css
+a {
+  b: #990000;
+}
+
+<===> units/lightness/unitless/warning
+DEPRECATION WARNING: $lightness: Passing a number without unit % (30) is deprecated.
+
+To preserve current behavior: $lightness * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $lightness: 30)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/lightness/unknown/input.scss
+@use 'sass:color';
+a {b: color.change(red, $lightness: 30in)}
+
+<===> units/lightness/unknown/output.css
+a {
+  b: #990000;
+}
+
+<===> units/lightness/unknown/warning
+DEPRECATION WARNING: $lightness: Passing a number without unit % (30in) is deprecated.
+
+To preserve current behavior: calc($lightness / 1in * 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $lightness: 30in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> named/input.scss
 @use 'sass:color';
 a {b: color.change($color: black, $hue: 12, $saturation: 24%, $lightness: 48%)}
