@@ -1,0 +1,32 @@
+<===> escaped/input.scss
+// Function names can be defined and referred to using escapes, which are
+// normalized.
+@function f\6Fo-bar() {@return 1}
+
+a {b: foo-b\61r()}
+
+<===> escaped/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> custom_ident_name/input.scss
+@function --a() {@return 1}
+b {c: --a()}
+
+<===> custom_ident_name/output.css
+b {
+  c: 1;
+}
+
+<===> custom_ident_name/warning
+DEPRECATION WARNING on line 1, column 11 of input.scss: 
+Sass @function names beginning with -- are deprecated for forward-compatibility with plain CSS mixins.
+
+For details, see https://sass-lang.com/d/css-function-mixin
+  ,
+1 | @function --a() {@return 1}
+  |           ^^^
+  '
