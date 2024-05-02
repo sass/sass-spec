@@ -86,6 +86,17 @@ a {
 
 <===>
 ================================================================================
+<===> out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(#993333, $whiteness: 50%, $blackness: -20%)}
+
+<===> out_of_range/output.css
+a {
+  b: hsl(0, 233.3333333333%, 85%);
+}
+
+<===>
+================================================================================
 <===> all/input.scss
 @use 'sass:color';
 a {b: color.change(blue, $hue: 150, $whiteness: 20%, $blackness: 40%)}

@@ -135,3 +135,17 @@ Error: $whiteness: c is not a number or unquoted "none".
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/input.scss
+@use 'sass:color';
+a {b: color.change(red, $space: 1)}
+
+<===> space/error
+Error: $space: 1 is not a string.
+  ,
+2 | a {b: color.change(red, $space: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

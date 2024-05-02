@@ -1,0 +1,129 @@
+<===> lightness/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: 30)}
+
+<===> lightness/unitless/output.css
+a {
+  b: lab(30% 20 -30);
+}
+
+<===>
+================================================================================
+<===> lightness/percent/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: 30%)}
+
+<===> lightness/percent/output.css
+a {
+  b: lab(30% 20 -30);
+}
+
+<===>
+================================================================================
+<===> lightness/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: 120%)}
+
+<===> lightness/out_of_range/output.css
+a {
+  b: color-mix(in lab, color(xyz 1.7255148283 1.6190494947 2.5266428703) 100%, black);
+}
+
+<===>
+================================================================================
+<===> a/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $a: 50)}
+
+<===> a/unitless/output.css
+a {
+  b: lab(50% 50 -30);
+}
+
+<===>
+================================================================================
+<===> a/percent/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $a: -40%)}
+
+<===> a/percent/output.css
+a {
+  b: lab(50% -50 -30);
+}
+
+<===>
+================================================================================
+<===> a/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $a: 200)}
+
+<===> a/out_of_range/output.css
+a {
+  b: lab(50% 200 -30);
+}
+
+<===>
+================================================================================
+<===> b/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $b: 50)}
+
+<===> b/unitless/output.css
+a {
+  b: lab(50% 20 50);
+}
+
+<===>
+================================================================================
+<===> b/percent/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $b: -40%)}
+
+<===> b/percent/output.css
+a {
+  b: lab(50% 20 -50);
+}
+
+<===>
+================================================================================
+<===> b/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $b: -200)}
+
+<===> b/out_of_range/output.css
+a {
+  b: lab(50% 20 -200);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: 20%, $a: -30, $b: 40)}
+
+<===> all/output.css
+a {
+  b: lab(20% -30 40);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30 / 0.9), $lightness: 30%)}
+
+<===> alpha_input/output.css
+a {
+  b: lab(30% 20 -30 / 0.9);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: 30%, $alpha: 0.9)}
+
+<===> alpha_arg/output.css
+a {
+  b: lab(30% 20 -30 / 0.9);
+}

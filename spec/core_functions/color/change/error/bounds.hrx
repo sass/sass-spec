@@ -1,149 +1,14 @@
-<===> README.md
-According to the new color space spec, out-of-bounds values should be allowed
-(and clamped for strictly bounded spaces). See sass/sass-spec#1828.
-
-<===> options.yml
----
-:todo:
-- dart-sass
-
-<===>
-================================================================================
-<===> red/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(red, $red: -1)}
-
-<===> red/too_low/error
-
-<===>
-================================================================================
-<===> red/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(red, $red: 256)}
-
-<===> red/too_high/error
-
-<===>
-================================================================================
-<===> red/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
-@use 'sass:color';
-a {b: color.change(red, $red: 300px)}
-
-<===> red/unit/error
-
-<===>
-================================================================================
-<===> green/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(green, $green: -1)}
-
-<===> green/too_low/error
-
-<===>
-================================================================================
-<===> green/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(green, $green: 256)}
-
-<===> green/too_high/error
-
-<===>
-================================================================================
-<===> green/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
-@use 'sass:color';
-a {b: color.change(green, $green: 300px)}
-
-<===> green/unit/error
-
-<===>
-================================================================================
-<===> blue/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(blue, $blue: -1)}
-
-<===> blue/too_low/error
-
-<===>
-================================================================================
-<===> blue/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(blue, $blue: 256)}
-
-<===> blue/too_high/error
-
-<===>
-================================================================================
-<===> blue/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
-@use 'sass:color';
-a {b: color.change(blue, $blue: 300px)}
-
-<===> blue/unit/error
-
-<===>
-================================================================================
-<===> saturation/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(red, $saturation: -0.001%)}
-
-<===> saturation/too_low/error
-
-<===>
-================================================================================
-<===> saturation/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(red, $saturation: 100.001%)}
-
-<===> saturation/too_high/error
-
-<===>
-================================================================================
-<===> saturation/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
-@use 'sass:color';
-a {b: color.change(red, $saturation: 200px)}
-
-<===> saturation/unit/error
-
-<===>
-================================================================================
-<===> lightness/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(red, $lightness: -0.001%)}
-
-<===> lightness/too_low/error
-
-<===>
-================================================================================
-<===> lightness/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(red, $lightness: 100.001%)}
-
-<===> lightness/too_high/error
-
-<===>
-================================================================================
-<===> lightness/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
-@use 'sass:color';
-a {b: color.change(red, $lightness: 200px)}
-
-<===> lightness/unit/error
-
-<===>
-================================================================================
 <===> alpha/too_low/input.scss
 @use 'sass:color';
 a {b: color.change(red, $alpha: -0.001)}
 
 <===> alpha/too_low/error
+Error: $alpha: Expected -0.001 to be within 0 and 1.
+  ,
+2 | a {b: color.change(red, $alpha: -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -152,45 +17,23 @@ a {b: color.change(red, $alpha: -0.001)}
 a {b: color.change(red, $alpha: 1.001)}
 
 <===> alpha/too_high/error
+Error: $alpha: Expected 1.001 to be within 0 and 1.
+  ,
+2 | a {b: color.change(red, $alpha: 1.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> alpha/unit/input.scss
-// This test covers sass/dart-sass#1745, but should be removed once units are
-// fully forbidden (sass/sass#3374).
 @use 'sass:color';
-a {b: color.change(red, $alpha: 50%)}
+a {b: color.change(red, $alpha: 150%)}
 
 <===> alpha/unit/error
-
-<===>
-================================================================================
-<===> blackness/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(red, $blackness: -0.001%)}
-
-<===> blackness/too_low/error
-
-<===>
-================================================================================
-<===> blackness/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(red, $blackness: 100.001%)}
-
-<===> blackness/too_high/error
-
-<===>
-================================================================================
-<===> whiteness/too_low/input.scss
-@use 'sass:color';
-a {b: color.change(red, $whiteness: -0.001%)}
-
-<===> whiteness/too_low/error
-
-<===>
-================================================================================
-<===> whiteness/too_high/input.scss
-@use 'sass:color';
-a {b: color.change(red, $whiteness: 100.001%)}
-
-<===> whiteness/too_high/error
+Error: $alpha: Expected 150% to be within 0% and 100%.
+  ,
+2 | a {b: color.change(red, $alpha: 150%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

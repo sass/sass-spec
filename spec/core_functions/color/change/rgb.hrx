@@ -42,6 +42,17 @@ a {
 
 <===>
 ================================================================================
+<===> red/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(black, $red: 500)}
+
+<===> red/out_of_range/output.css
+a {
+  b: hsl(0, 5000%, 98.0392156863%);
+}
+
+<===>
+================================================================================
 <===> green/max/input.scss
 @use 'sass:color';
 a {b: color.change(black, $green: 255)}
@@ -86,6 +97,17 @@ a {
 
 <===>
 ================================================================================
+<===> green/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(black, $green: -50)}
+
+<===> green/out_of_range/output.css
+a {
+  b: hsl(120, 100%, -9.8039215686%);
+}
+
+<===>
+================================================================================
 <===> blue/max/input.scss
 @use 'sass:color';
 a {b: color.change(black, $blue: 255)}
@@ -126,6 +148,17 @@ a {b: color.change(black, $blue: 200)}
 <===> blue/high/output.css
 a {
   b: #0000c8;
+}
+
+<===>
+================================================================================
+<===> blue/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(black, $blue: 256)}
+
+<===> blue/out_of_range/output.css
+a {
+  b: hsl(240, 100.7874015748%, 50.1960784314%);
 }
 
 <===>

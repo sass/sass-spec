@@ -1,0 +1,25 @@
+<===> unknown/input.scss
+@use 'sass:color';
+a {b: color.change(red, $space: c)}
+
+<===> unknown/error
+Error: $space: Unknown color space "c".
+  ,
+2 | a {b: color.change(red, $space: c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> quoted/input.scss
+@use 'sass:color';
+a {b: color.change(red, $space: "lab")}
+
+<===> quoted/error
+Error: $space: Expected "lab" to be an unquoted string.
+  ,
+2 | a {b: color.change(red, $space: "lab")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
