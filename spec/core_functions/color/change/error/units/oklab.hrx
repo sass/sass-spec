@@ -1,0 +1,39 @@
+<===> lightness/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 0.3px)}
+
+<===> lightness/error
+Error: $lightness: Expected 0.3px to have unit "%" or no units.
+  ,
+2 | a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 0.3px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> a/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $a: 0.2px)}
+
+<===> a/error
+Error: $a: Expected 0.2px to have unit "%" or no units.
+  ,
+2 | a {b: color.change(oklab(50% 0.2 -0.3), $a: 0.2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> b/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $b: 0.2px)}
+
+<===> b/error
+Error: $b: Expected 0.2px to have unit "%" or no units.
+  ,
+2 | a {b: color.change(oklab(50% 0.2 -0.3), $b: 0.2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
