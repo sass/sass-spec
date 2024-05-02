@@ -1,0 +1,129 @@
+<===> lightness/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 0.3)}
+
+<===> lightness/unitless/output.css
+a {
+  b: oklab(30% 0.2 -0.3);
+}
+
+<===>
+================================================================================
+<===> lightness/percent/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 30%)}
+
+<===> lightness/percent/output.css
+a {
+  b: oklab(30% 0.2 -0.3);
+}
+
+<===>
+================================================================================
+<===> lightness/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 1.2)}
+
+<===> lightness/out_of_range/output.css
+a {
+  b: color-mix(in oklab, color(xyz 2.3267923962 1.5626810194 5.2743259015) 100%, black);
+}
+
+<===>
+================================================================================
+<===> a/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $a: 0.1)}
+
+<===> a/unitless/output.css
+a {
+  b: oklab(50% 0.1 -0.3);
+}
+
+<===>
+================================================================================
+<===> a/percent/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $a: -40%)}
+
+<===> a/percent/output.css
+a {
+  b: oklab(50% -0.16 -0.3);
+}
+
+<===>
+================================================================================
+<===> a/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $a: 1)}
+
+<===> a/out_of_range/output.css
+a {
+  b: oklab(50% 1 -0.3);
+}
+
+<===>
+================================================================================
+<===> b/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $b: 0.4)}
+
+<===> b/unitless/output.css
+a {
+  b: oklab(50% 0.2 0.4);
+}
+
+<===>
+================================================================================
+<===> b/percent/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $b: -40%)}
+
+<===> b/percent/output.css
+a {
+  b: oklab(50% 0.2 -0.16);
+}
+
+<===>
+================================================================================
+<===> b/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $b: -1)}
+
+<===> b/out_of_range/output.css
+a {
+  b: oklab(50% 0.2 -1);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 20%, $a: -0.3, $b: 0.4)}
+
+<===> all/output.css
+a {
+  b: oklab(20% -0.3 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3 / 0.9), $lightness: 30%)}
+
+<===> alpha_input/output.css
+a {
+  b: oklab(30% 0.2 -0.3 / 0.9);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use 'sass:color';
+a {b: color.change(oklab(50% 0.2 -0.3), $lightness: 30%, $alpha: 0.9)}
+
+<===> alpha_arg/output.css
+a {
+  b: oklab(30% 0.2 -0.3 / 0.9);
+}
