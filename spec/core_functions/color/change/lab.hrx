@@ -31,6 +31,17 @@ a {
 
 <===>
 ================================================================================
+<===> lightness/none/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $lightness: none)}
+
+<===> lightness/none/output.css
+a {
+  b: lab(none 20 -30);
+}
+
+<===>
+================================================================================
 <===> a/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(lab(50% 20 -30), $a: 50)}
@@ -64,6 +75,17 @@ a {
 
 <===>
 ================================================================================
+<===> a/none/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $a: none)}
+
+<===> a/none/output.css
+a {
+  b: lab(50% none -30);
+}
+
+<===>
+================================================================================
 <===> b/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(lab(50% 20 -30), $b: 50)}
@@ -93,6 +115,17 @@ a {b: color.change(lab(50% 20 -30), $b: -200)}
 <===> b/out_of_range/output.css
 a {
   b: lab(50% 20 -200);
+}
+
+<===>
+================================================================================
+<===> b/none/input.scss
+@use 'sass:color';
+a {b: color.change(lab(50% 20 -30), $b: none)}
+
+<===> b/none/output.css
+a {
+  b: lab(50% 20 none);
 }
 
 <===>

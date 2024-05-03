@@ -31,6 +31,17 @@ a {
 
 <===>
 ================================================================================
+<===> red/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(srgb 0.2 0.5 0.7), $red: none)}
+
+<===> red/none/output.css
+a {
+  b: color(srgb none 0.5 0.7);
+}
+
+<===>
+================================================================================
 <===> green/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(color(srgb 0.2 0.5 0.7), $green: 0.4)}
@@ -64,6 +75,17 @@ a {
 
 <===>
 ================================================================================
+<===> green/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(srgb 0.2 0.5 0.7), $green: none)}
+
+<===> green/none/output.css
+a {
+  b: color(srgb 0.2 none 0.7);
+}
+
+<===>
+================================================================================
 <===> blue/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(color(srgb 0.2 0.5 0.7), $blue: 0.5)}
@@ -93,6 +115,17 @@ a {b: color.change(color(srgb 0.2 0.5 0.7), $blue: 100)}
 <===> blue/out_of_range/output.css
 a {
   b: color(srgb 0.2 0.5 100);
+}
+
+<===>
+================================================================================
+<===> blue/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(srgb 0.2 0.5 0.7), $blue: none)}
+
+<===> blue/none/output.css
+a {
+  b: color(srgb 0.2 0.5 none);
 }
 
 <===>

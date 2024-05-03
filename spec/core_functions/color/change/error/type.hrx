@@ -101,10 +101,24 @@ Error: $lightness: c is not a number or unquoted "none".
 a {b: color.change(red, $alpha: c)}
 
 <===> alpha/error
-Error: $alpha: c is not a number.
+Error: $alpha: c is not a number or unquoted "none".
   ,
 2 | a {b: color.change(red, $alpha: c)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> quoted_none/input.scss
+@use 'sass:color';
+a {b: color.change(red, $alpha: "none")}
+
+<===> quoted_none/error
+Error: $alpha: "none" is not a number or unquoted "none".
+  ,
+2 | a {b: color.change(red, $alpha: "none")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 

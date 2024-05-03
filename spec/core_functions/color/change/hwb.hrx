@@ -42,6 +42,17 @@ a {
 
 <===>
 ================================================================================
+<===> whiteness/none/input.scss
+@use 'sass:color';
+a {b: color.change(hwb(180deg 30% 50%), $whiteness: none)}
+
+<===> whiteness/none/output.css
+a {
+  b: hwb(180deg none 50%);
+}
+
+<===>
+================================================================================
 <===> blackness/max/input.scss
 @use 'sass:color';
 a {b: color.change(#993333, $blackness: 100%)}
@@ -82,6 +93,17 @@ a {b: color.change(#993333, $blackness: 20%)}
 <===> blackness/low/output.css
 a {
   b: #cc3333;
+}
+
+<===>
+================================================================================
+<===> blackness/none/input.scss
+@use 'sass:color';
+a {b: color.change(hwb(180deg 30% 50%), $blackness: none)}
+
+<===> blackness/none/output.css
+a {
+  b: hwb(180deg 30% none);
 }
 
 <===>
