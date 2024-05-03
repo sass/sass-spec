@@ -10,12 +10,14 @@ According to the new color space spec, out-of-bounds values should be allowed
 <===>
 ================================================================================
 <===> red/too_low/input.scss
-a {b: adjust-color(red, $red: -256)}
+@use 'sass:color';
+a {b: color.adjust(red, $red: -256)}
 
 <===> red/too_low/error
 Error: $red: Expected -256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(red, $red: -256)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $red: -256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -23,12 +25,14 @@ Error: $red: Expected -256 to be within -255 and 255.
 <===>
 ================================================================================
 <===> red/too_high/input.scss
-a {b: adjust-color(red, $red: 256)}
+@use 'sass:color';
+a {b: color.adjust(red, $red: 256)}
 
 <===> red/too_high/error
 Error: $red: Expected 256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(red, $red: 256)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $red: 256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -38,12 +42,14 @@ Error: $red: Expected 256 to be within -255 and 255.
 <===> red/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(red, $red: 300px)}
+@use 'sass:color';
+a {b: color.adjust(red, $red: 300px)}
 
 <===> red/unit/error
 Error: $red: Expected 300px to be within -255 and 255.
   ,
-3 | a {b: adjust-color(red, $red: 300px)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $red: 300px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -51,12 +57,14 @@ Error: $red: Expected 300px to be within -255 and 255.
 <===>
 ================================================================================
 <===> green/too_low/input.scss
-a {b: adjust-color(green, $green: -256)}
+@use 'sass:color';
+a {b: color.adjust(green, $green: -256)}
 
 <===> green/too_low/error
 Error: $green: Expected -256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(green, $green: -256)}
+1 | @use 'sass:color';
+a {b: color.adjust(green, $green: -256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -64,12 +72,14 @@ Error: $green: Expected -256 to be within -255 and 255.
 <===>
 ================================================================================
 <===> green/too_high/input.scss
-a {b: adjust-color(green, $green: 256)}
+@use 'sass:color';
+a {b: color.adjust(green, $green: 256)}
 
 <===> green/too_high/error
 Error: $green: Expected 256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(green, $green: 256)}
+1 | @use 'sass:color';
+a {b: color.adjust(green, $green: 256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -79,12 +89,14 @@ Error: $green: Expected 256 to be within -255 and 255.
 <===> green/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(green, $green: 300px)}
+@use 'sass:color';
+a {b: color.adjust(green, $green: 300px)}
 
 <===> green/unit/error
 Error: $green: Expected 300px to be within -255 and 255.
   ,
-3 | a {b: adjust-color(green, $green: 300px)}
+3 | @use 'sass:color';
+a {b: color.adjust(green, $green: 300px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -92,12 +104,14 @@ Error: $green: Expected 300px to be within -255 and 255.
 <===>
 ================================================================================
 <===> blue/too_low/input.scss
-a {b: adjust-color(blue, $blue: -256)}
+@use 'sass:color';
+a {b: color.adjust(blue, $blue: -256)}
 
 <===> blue/too_low/error
 Error: $blue: Expected -256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(blue, $blue: -256)}
+1 | @use 'sass:color';
+a {b: color.adjust(blue, $blue: -256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -105,12 +119,14 @@ Error: $blue: Expected -256 to be within -255 and 255.
 <===>
 ================================================================================
 <===> blue/too_high/input.scss
-a {b: adjust-color(blue, $blue: 256)}
+@use 'sass:color';
+a {b: color.adjust(blue, $blue: 256)}
 
 <===> blue/too_high/error
 Error: $blue: Expected 256 to be within -255 and 255.
   ,
-1 | a {b: adjust-color(blue, $blue: 256)}
+1 | @use 'sass:color';
+a {b: color.adjust(blue, $blue: 256)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -120,12 +136,14 @@ Error: $blue: Expected 256 to be within -255 and 255.
 <===> blue/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(blue, $blue: 300px)}
+@use 'sass:color';
+a {b: color.adjust(blue, $blue: 300px)}
 
 <===> blue/unit/error
 Error: $blue: Expected 300px to be within -255 and 255.
   ,
-3 | a {b: adjust-color(blue, $blue: 300px)}
+3 | @use 'sass:color';
+a {b: color.adjust(blue, $blue: 300px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -133,12 +151,14 @@ Error: $blue: Expected 300px to be within -255 and 255.
 <===>
 ================================================================================
 <===> saturation/too_low/input.scss
-a {b: adjust-color(red, $saturation: -100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $saturation: -100.001%)}
 
 <===> saturation/too_low/error
 Error: $saturation: Expected -100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $saturation: -100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $saturation: -100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -146,12 +166,14 @@ Error: $saturation: Expected -100.001% to be within -100% and 100%.
 <===>
 ================================================================================
 <===> saturation/too_high/input.scss
-a {b: adjust-color(red, $saturation: 100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $saturation: 100.001%)}
 
 <===> saturation/too_high/error
 Error: $saturation: Expected 100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $saturation: 100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $saturation: 100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -161,7 +183,8 @@ Error: $saturation: Expected 100.001% to be within -100% and 100%.
 <===> saturation/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(red, $saturation: 200px)}
+@use 'sass:color';
+a {b: color.adjust(red, $saturation: 200px)}
 
 <===> saturation/unit/error
 DEPRECATION WARNING: $saturation: Passing a number without unit % (200px) is deprecated.
@@ -171,14 +194,16 @@ To preserve current behavior: calc($saturation / 1px * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-3 | a {b: adjust-color(red, $saturation: 200px)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $saturation: 200px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 3:7  root stylesheet
 
 Error: $saturation: Expected 200px to be within -100% and 100%.
   ,
-3 | a {b: adjust-color(red, $saturation: 200px)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $saturation: 200px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -186,12 +211,14 @@ Error: $saturation: Expected 200px to be within -100% and 100%.
 <===>
 ================================================================================
 <===> lightness/too_low/input.scss
-a {b: adjust-color(red, $lightness: -100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: -100.001%)}
 
 <===> lightness/too_low/error
 Error: $lightness: Expected -100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $lightness: -100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $lightness: -100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -199,12 +226,14 @@ Error: $lightness: Expected -100.001% to be within -100% and 100%.
 <===>
 ================================================================================
 <===> lightness/too_high/input.scss
-a {b: adjust-color(red, $lightness: 100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 100.001%)}
 
 <===> lightness/too_high/error
 Error: $lightness: Expected 100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $lightness: 100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $lightness: 100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -214,7 +243,8 @@ Error: $lightness: Expected 100.001% to be within -100% and 100%.
 <===> lightness/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(red, $lightness: 200px)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 200px)}
 
 <===> lightness/unit/error
 DEPRECATION WARNING: $lightness: Passing a number without unit % (200px) is deprecated.
@@ -224,14 +254,16 @@ To preserve current behavior: calc($lightness / 1px * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-3 | a {b: adjust-color(red, $lightness: 200px)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $lightness: 200px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 3:7  root stylesheet
 
 Error: $lightness: Expected 200px to be within -100% and 100%.
   ,
-3 | a {b: adjust-color(red, $lightness: 200px)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $lightness: 200px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -239,12 +271,14 @@ Error: $lightness: Expected 200px to be within -100% and 100%.
 <===>
 ================================================================================
 <===> alpha/too_low/input.scss
-a {b: adjust-color(red, $alpha: -1.001)}
+@use 'sass:color';
+a {b: color.adjust(red, $alpha: -1.001)}
 
 <===> alpha/too_low/error
 Error: $alpha: Expected -1.001 to be within -1 and 1.
   ,
-1 | a {b: adjust-color(red, $alpha: -1.001)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $alpha: -1.001)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -252,12 +286,14 @@ Error: $alpha: Expected -1.001 to be within -1 and 1.
 <===>
 ================================================================================
 <===> alpha/too_high/input.scss
-a {b: adjust-color(red, $alpha: 1.001)}
+@use 'sass:color';
+a {b: color.adjust(red, $alpha: 1.001)}
 
 <===> alpha/too_high/error
 Error: $alpha: Expected 1.001 to be within -1 and 1.
   ,
-1 | a {b: adjust-color(red, $alpha: 1.001)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $alpha: 1.001)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -267,7 +303,8 @@ Error: $alpha: Expected 1.001 to be within -1 and 1.
 <===> alpha/unit/input.scss
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: adjust-color(red, $alpha: 50%)}
+@use 'sass:color';
+a {b: color.adjust(red, $alpha: 50%)}
 
 <===> alpha/unit/error
 DEPRECATION WARNING: $alpha: Passing a number with unit % is deprecated.
@@ -277,14 +314,16 @@ To preserve current behavior: calc($alpha / 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-3 | a {b: adjust-color(red, $alpha: 50%)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $alpha: 50%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 3:7  root stylesheet
 
 Error: $alpha: Expected 50% to be within -1 and 1.
   ,
-3 | a {b: adjust-color(red, $alpha: 50%)}
+3 | @use 'sass:color';
+a {b: color.adjust(red, $alpha: 50%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
@@ -292,12 +331,14 @@ Error: $alpha: Expected 50% to be within -1 and 1.
 <===>
 ================================================================================
 <===> blackness/too_low/input.scss
-a {b: adjust-color(red, $blackness: -100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $blackness: -100.001%)}
 
 <===> blackness/too_low/error
 Error: $blackness: Expected -100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $blackness: -100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $blackness: -100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -305,12 +346,14 @@ Error: $blackness: Expected -100.001% to be within -100% and 100%.
 <===>
 ================================================================================
 <===> blackness/too_high/input.scss
-a {b: adjust-color(red, $blackness: 100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $blackness: 100.001%)}
 
 <===> blackness/too_high/error
 Error: $blackness: Expected 100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $blackness: 100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $blackness: 100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -318,12 +361,14 @@ Error: $blackness: Expected 100.001% to be within -100% and 100%.
 <===>
 ================================================================================
 <===> whiteness/too_low/input.scss
-a {b: adjust-color(red, $whiteness: -100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $whiteness: -100.001%)}
 
 <===> whiteness/too_low/error
 Error: $whiteness: Expected -100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $whiteness: -100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $whiteness: -100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
@@ -331,12 +376,14 @@ Error: $whiteness: Expected -100.001% to be within -100% and 100%.
 <===>
 ================================================================================
 <===> whiteness/too_high/input.scss
-a {b: adjust-color(red, $whiteness: 100.001%)}
+@use 'sass:color';
+a {b: color.adjust(red, $whiteness: 100.001%)}
 
 <===> whiteness/too_high/error
 Error: $whiteness: Expected 100.001% to be within -100% and 100%.
   ,
-1 | a {b: adjust-color(red, $whiteness: 100.001%)}
+1 | @use 'sass:color';
+a {b: color.adjust(red, $whiteness: 100.001%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
