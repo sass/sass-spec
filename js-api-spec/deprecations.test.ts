@@ -39,6 +39,7 @@ const activeDeprecations: {[key in keyof Deprecations]?: string} = {
   'abs-percent': '1.65.0',
   'fs-importer-cwd': '1.73.0',
   'css-function-mixin': '1.76.0',
+  'feature-exists': '1.78.0',
 };
 
 /**
