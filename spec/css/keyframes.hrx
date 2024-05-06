@@ -251,6 +251,36 @@ $a: b;
 
 <===>
 ================================================================================
+<===> in_keyframe_block/unknown_at_rule/input.scss
+@keyframes a {
+  to {@b}
+}
+
+<===> in_keyframe_block/unknown_at_rule/output.css
+@keyframes a {
+  to {
+    @b;
+  }
+}
+
+<===>
+================================================================================
+<===> in_keyframe_block/known_at_rule/input.scss
+@keyframes a {
+  to {@media screen {b: c}}
+}
+
+<===> in_keyframe_block/known_at_rule/output.css
+@keyframes a {
+  to {
+    @media screen {
+      b: c;
+    }
+  }
+}
+
+<===>
+================================================================================
 <===> error/in_keyframe_block/style_rule/input.scss
 @keyframes a {
   to {to {c: d}}
@@ -261,35 +291,5 @@ Error: Style rules may not be used within keyframe blocks.
   ,
 2 |   to {to {c: d}}
   |       ^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/in_keyframe_block/unknown_at_rule/input.scss
-@keyframes a {
-  to {@b}
-}
-
-<===> error/in_keyframe_block/unknown_at_rule/error
-Error: At-rules may not be used within keyframe blocks.
-  ,
-2 |   to {@b}
-  |       ^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/in_keyframe_block/known_at_rule/input.scss
-@keyframes a {
-  to {@media screen {b: c}}
-}
-
-<===> error/in_keyframe_block/known_at_rule/error
-Error: At-rules may not be used within keyframe blocks.
-  ,
-2 |   to {@media screen {b: c}}
-  |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
