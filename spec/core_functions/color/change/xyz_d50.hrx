@@ -31,6 +31,17 @@ a {
 
 <===>
 ================================================================================
+<===> x/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $x: none)}
+
+<===> x/none/output.css
+a {
+  b: color(xyz-d50 none 0.5 0.7);
+}
+
+<===>
+================================================================================
 <===> y/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $y: 0.4)}
@@ -64,6 +75,17 @@ a {
 
 <===>
 ================================================================================
+<===> y/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $y: none)}
+
+<===> y/none/output.css
+a {
+  b: color(xyz-d50 0.2 none 0.7);
+}
+
+<===>
+================================================================================
 <===> z/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $z: 0.5)}
@@ -93,6 +115,17 @@ a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $z: 100)}
 <===> z/out_of_range/output.css
 a {
   b: color(xyz-d50 0.2 0.5 100);
+}
+
+<===>
+================================================================================
+<===> z/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz-d50 0.2 0.5 0.7), $z: none)}
+
+<===> z/none/output.css
+a {
+  b: color(xyz-d50 0.2 0.5 none);
 }
 
 <===>

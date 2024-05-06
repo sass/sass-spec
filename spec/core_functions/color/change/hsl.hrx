@@ -64,6 +64,17 @@ a {
 
 <===>
 ================================================================================
+<===> hue/none/input.scss
+@use 'sass:color';
+a {b: color.change(hsl(0deg 100% 50%), $hue: none)}
+
+<===> hue/none/output.css
+a {
+  b: hsl(none 100% 50%);
+}
+
+<===>
+================================================================================
 <===> saturation/max/input.scss
 @use 'sass:color';
 a {b: color.change(plum, $saturation: 100%)}
@@ -126,6 +137,17 @@ a {b: color.change(plum, $saturation: -20%)}
 <===> saturation/below_range/output.css
 a {
   b: rgb(177.6, 203.4, 177.6);
+}
+
+<===>
+================================================================================
+<===> saturation/none/input.scss
+@use 'sass:color';
+a {b: color.change(hsl(0deg 100% 50%), $saturation: none)}
+
+<===> saturation/none/output.css
+a {
+  b: hsl(0deg none 50%);
 }
 
 <===>
@@ -203,6 +225,17 @@ a {b: color.change(red, $lightness: -20%)}
 <===> lightness/below_range/output.css
 a {
   b: hsl(0, 100%, -20%);
+}
+
+<===>
+================================================================================
+<===> lightness/none/input.scss
+@use 'sass:color';
+a {b: color.change(hsl(0deg 100% 50%), $lightness: none)}
+
+<===> lightness/none/output.css
+a {
+  b: hsl(0deg 100% none);
 }
 
 <===>

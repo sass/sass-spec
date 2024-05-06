@@ -129,3 +129,14 @@ See https://sass-lang.com/d/function-units
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/none/input.scss
+@use 'sass:color';
+a {b: color.change(red, $alpha: none)}
+
+<===> alpha/none/output.css
+a {
+  b: rgb(255 0 0 / none);
+}

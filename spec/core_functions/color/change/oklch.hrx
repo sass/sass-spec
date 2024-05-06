@@ -31,6 +31,17 @@ a {
 
 <===>
 ================================================================================
+<===> lightness/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: none)}
+
+<===> lightness/none/output.css
+a {
+  b: oklch(none 0.2 30deg);
+}
+
+<===>
+================================================================================
 <===> chroma/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(oklch(50% 0.2 30deg), $chroma: 0.1)}
@@ -75,6 +86,17 @@ a {
 
 <===>
 ================================================================================
+<===> chroma/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: none)}
+
+<===> chroma/none/output.css
+a {
+  b: oklch(50% none 30deg);
+}
+
+<===>
+================================================================================
 <===> hue/unitless/input.scss
 @use 'sass:color';
 a {b: color.change(oklch(50% 0.2 30deg), $hue: 50deg)}
@@ -104,6 +126,17 @@ a {b: color.change(oklch(50% 0.2 30deg), $hue: 400deg)}
 <===> hue/above_max/output.css
 a {
   b: oklch(50% 0.2 40deg);
+}
+
+<===>
+================================================================================
+<===> hue/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $hue: none)}
+
+<===> hue/none/output.css
+a {
+  b: oklch(50% 0.2 none);
 }
 
 <===>
