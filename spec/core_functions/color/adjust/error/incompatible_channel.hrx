@@ -1,0 +1,39 @@
+<===> legacy_space/input.scss
+@use 'sass:color';
+a {b: color.adjust(red, $chroma: 50%)}
+
+<===> legacy_space/error
+Error: $chroma: Color space rgb doesn't have a channel with this name.
+  ,
+2 | a {b: color.adjust(red, $chroma: 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> legacy_channel/input.scss
+@use 'sass:color';
+a {b: color.adjust(color(srgb 0.2 0.5 0.7), $whiteness: 50%)}
+
+<===> legacy_channel/error
+Error: $whiteness: Color space srgb doesn't have a channel with this name.
+  ,
+2 | a {b: color.adjust(color(srgb 0.2 0.5 0.7), $whiteness: 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> modern_both/input.scss
+@use 'sass:color';
+a {b: color.adjust(color(srgb 0.2 0.5 0.7), $chroma: 50%)}
+
+<===> modern_both/error
+Error: $chroma: Color space srgb doesn't have a channel with this name.
+  ,
+2 | a {b: color.adjust(color(srgb 0.2 0.5 0.7), $chroma: 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
