@@ -1,0 +1,118 @@
+<===> positional/input.scss
+@use 'sass:color';
+a {b: color.adjust(red)}
+
+<===> positional/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'sass:color';
+a {b: color.adjust($color: red)}
+
+<===> named/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/max_remaining/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0.5)}
+
+<===> alpha/max_remaining/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/zero/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0)}
+
+<===> alpha/zero/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: 1)}
+
+<===> alpha/above_max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: -1)}
+
+<===> alpha/below_min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/arg_above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: 2)}
+
+<===> alpha/arg_above_max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/arg_below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: -2)}
+
+<===> alpha/arg_below_min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/min_remaining/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: -0.5)}
+
+<===> alpha/min_remaining/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/high/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0.14)}
+
+<===> alpha/high/output.css
+a {
+  b: rgba(255, 0, 0, 0.64);
+}
+
+<===>
+================================================================================
+<===> alpha/low/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgba(red, 0.5), $alpha: -0.14)}
+
+<===> alpha/low/output.css
+a {
+  b: rgba(255, 0, 0, 0.36);
+}

@@ -1,5 +1,6 @@
 <===> hue/max/input.scss
-a {b: adjust-color(red, $hue: 359)}
+@use 'sass:color';
+a {b: color.adjust(red, $hue: 359)}
 
 <===> hue/max/output.css
 a {
@@ -8,10 +9,11 @@ a {
 
 <===>
 ================================================================================
-<===> hue/above_max/input.scss
-a {b: adjust-color(red, $hue: 540)}
+<===> hue/arg_above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(red, $hue: 540)}
 
-<===> hue/above_max/output.css
+<===> hue/arg_above_max/output.css
 a {
   b: aqua;
 }
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> hue/min/input.scss
-a {b: adjust-color(blue, $hue: 0)}
+@use 'sass:color';
+a {b: color.adjust(blue, $hue: 0)}
 
 <===> hue/min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> hue/negative/input.scss
-a {b: adjust-color(red, $hue: -180)}
+@use 'sass:color';
+a {b: color.adjust(red, $hue: -180)}
 
 <===> hue/negative/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> hue/middle/input.scss
-a {b: adjust-color(red, $hue: 123)}
+@use 'sass:color';
+a {b: color.adjust(red, $hue: 123)}
 
 <===> hue/middle/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> hue/fraction/input.scss
-a {b: adjust-color(red, $hue: 0.5)}
+@use 'sass:color';
+a {b: color.adjust(red, $hue: 0.5)}
 
 <===> hue/fraction/output.css
 a {
@@ -58,18 +64,9 @@ a {
 
 <===>
 ================================================================================
-<===> saturation/max/input.scss
-a {b: adjust-color(plum, $saturation: 100%)}
-
-<===> saturation/max/output.css
-a {
-  b: hsl(300, 147.2868217054%, 74.7058823529%);
-}
-
-<===>
-================================================================================
 <===> saturation/max_remaining/input.scss
-a {b: adjust-color(plum, $saturation: 53%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: 53%)}
 
 <===> saturation/max_remaining/output.css
 a {
@@ -79,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/zero/input.scss
-a {b: adjust-color(plum, $saturation: 0%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: 0%)}
 
 <===> saturation/zero/output.css
 a {
@@ -89,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/min/input.scss
-a {b: adjust-color(plum, $saturation: -100%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: -100%)}
 
 <===> saturation/min/output.css
 a {
@@ -99,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/min_remaining/input.scss
-a {b: adjust-color(plum, $saturation: -48%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: -48%)}
 
 <===> saturation/min_remaining/output.css
 a {
@@ -109,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/high/input.scss
-a {b: adjust-color(plum, $saturation: 14%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: 14%)}
 
 <===> saturation/high/output.css
 a {
@@ -119,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/low/input.scss
-a {b: adjust-color(plum, $saturation: -14%)}
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: -14%)}
 
 <===> saturation/low/output.css
 a {
@@ -128,18 +130,53 @@ a {
 
 <===>
 ================================================================================
-<===> lightness/max/input.scss
-a {b: adjust-color(red, $lightness: 100%)}
+<===> saturation/above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: 100%)}
 
-<===> lightness/max/output.css
+<===> saturation/above_max/output.css
 a {
-  b: hsl(0, 100%, 150%);
+  b: hsl(300, 147.2868217054%, 74.7058823529%);
+}
+
+<===>
+================================================================================
+<===> saturation/below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: -100%)}
+
+<===> saturation/below_min/output.css
+a {
+  b: rgb(190.5, 190.5, 190.5);
+}
+
+<===>
+================================================================================
+<===> saturation/arg_above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: 200%)}
+
+<===> saturation/arg_above_max/output.css
+a {
+  b: hsl(300, 247.2868217054%, 74.7058823529%);
+}
+
+<===>
+================================================================================
+<===> saturation/arg_below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $saturation: -200%)}
+
+<===> saturation/arg_below_min/output.css
+a {
+  b: rgb(190.5, 190.5, 190.5);
 }
 
 <===>
 ================================================================================
 <===> lightness/max_remaining/input.scss
-a {b: adjust-color(red, $lightness: 50%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 50%)}
 
 <===> lightness/max_remaining/output.css
 a {
@@ -149,7 +186,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/zero/input.scss
-a {b: adjust-color(red, $lightness: 0%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 0%)}
 
 <===> lightness/zero/output.css
 a {
@@ -159,7 +197,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/fraction/input.scss
-a {b: adjust-color(red, $lightness: 0.5%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 0.5%)}
 
 <===> lightness/fraction/output.css
 a {
@@ -169,7 +208,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/min/input.scss
-a {b: adjust-color(red, $lightness: -100%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: -100%)}
 
 <===> lightness/min/output.css
 a {
@@ -179,7 +219,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/min_remaining/input.scss
-a {b: adjust-color(red, $lightness: -50%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: -50%)}
 
 <===> lightness/min_remaining/output.css
 a {
@@ -189,7 +230,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/high/input.scss
-a {b: adjust-color(red, $lightness: 14%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 14%)}
 
 <===> lightness/high/output.css
 a {
@@ -199,7 +241,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/low/input.scss
-a {b: adjust-color(red, $lightness: -14%)}
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: -14%)}
 
 <===> lightness/low/output.css
 a {
@@ -208,8 +251,53 @@ a {
 
 <===>
 ================================================================================
+<===> lightness/above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 100%)}
+
+<===> lightness/above_max/output.css
+a {
+  b: hsl(0, 100%, 150%);
+}
+
+<===>
+================================================================================
+<===> lightness/below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $lightness: -100%)}
+
+<===> lightness/below_min/output.css
+a {
+  b: hsl(300, 47.2868217054%, -25.2941176471%);
+}
+
+<===>
+================================================================================
+<===> lightness/arg_above_max/input.scss
+@use 'sass:color';
+a {b: color.adjust(red, $lightness: 200%)}
+
+<===> lightness/arg_above_max/output.css
+a {
+  b: hsl(0, 100%, 250%);
+}
+
+<===>
+================================================================================
+<===> lightness/arg_below_min/input.scss
+@use 'sass:color';
+a {b: color.adjust(plum, $lightness: -200%)}
+
+<===> lightness/arg_below_min/output.css
+a {
+  b: hsl(300, 47.2868217054%, -125.2941176471%);
+}
+
+<===>
+================================================================================
 <===> all/input.scss
-a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%)}
+@use 'sass:color';
+a {b: color.adjust(black, $hue: 12, $saturation: 24%, $lightness: 48%)}
 
 <===> all/output.css
 a {
@@ -219,7 +307,15 @@ a {
 <===>
 ================================================================================
 <===> alpha_input/input.scss
-a {b: adjust-color(rgba(black, 0.7), $hue: 12, $saturation: 24%, $lightness: 48%)}
+@use 'sass:color';
+a {
+  b: color.adjust(
+    rgba(black, 0.7),
+    $hue: 12,
+    $saturation: 24%,
+    $lightness: 48%
+  );
+}
 
 <===> alpha_input/output.css
 a {
@@ -229,7 +325,16 @@ a {
 <===>
 ================================================================================
 <===> alpha_arg/input.scss
-a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%, $alpha: -0.7)}
+@use 'sass:color';
+a {
+  b: color.adjust(
+    black,
+    $hue: 12,
+    $saturation: 24%,
+    $lightness: 48%,
+    $alpha: -0.7
+  );
+}
 
 <===> alpha_arg/output.css
 a {
@@ -240,7 +345,16 @@ a {
 ================================================================================
 <===> alpha_arg_above_max/input.scss
 // Regression test for sass/dart-sass#708.
-a {b: adjust-color(black, $hue: 12, $saturation: 24%, $lightness: 48%, $alpha: 0.7)}
+@use 'sass:color';
+a {
+  b: color.adjust(
+    black,
+    $hue: 12,
+    $saturation: 24%,
+    $lightness: 48%,
+    $alpha: 0.7
+  );
+}
 
 <===> alpha_arg_above_max/output.css
 a {
@@ -250,7 +364,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: adjust-color($color: black, $hue: 12, $saturation: 24%, $lightness: 48%)}
+@use 'sass:color';
+a {b: color.adjust($color: black, $hue: 12, $saturation: 24%, $lightness: 48%)}
 
 <===> named/output.css
 a {
