@@ -12,6 +12,16 @@ a {
   b: true;
 }
 
+<===> global_variable_shadowing/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(global-variable-shadowing)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> extend_selector_pseudoclass/input.scss
@@ -21,6 +31,16 @@ a {b: feature-exists(extend-selector-pseudoclass)}
 a {
   b: true;
 }
+
+<===> extend_selector_pseudoclass/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(extend-selector-pseudoclass)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -32,6 +52,16 @@ a {
   b: true;
 }
 
+<===> units_level_3/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(units-level-3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> at_error/input.scss
@@ -41,6 +71,16 @@ a {b: feature-exists(at-error)}
 a {
   b: true;
 }
+
+<===> at_error/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(at-error)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -52,6 +92,16 @@ a {
   b: true;
 }
 
+<===> custom_property/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(custom-property)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> unknown/input.scss
@@ -61,6 +111,16 @@ a {b: feature-exists(unknown)}
 a {
   b: false;
 }
+
+<===> unknown/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(unknown)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -72,6 +132,16 @@ a {
   b: false;
 }
 
+<===> dash_sensitive/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(at_error)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quote_insensitive/input.scss
@@ -81,6 +151,16 @@ a {b: feature-exists("at-error")}
 a {
   b: true;
 }
+
+<===> quote_insensitive/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists("at-error")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -92,12 +172,31 @@ a {
   b: true;
 }
 
+<===> named/warning
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists($feature: at-error)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/type/input.scss
 a {b: feature-exists(1)}
 
 <===> error/type/error
+DEPRECATION WARNING: The feature-exists() function is deprecated.
+More info: https://sass-lang.com/d/feature-exists
+
+  ,
+1 | a {b: feature-exists(1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 Error: $feature: 1 is not a string.
   ,
 1 | a {b: feature-exists(1)}
