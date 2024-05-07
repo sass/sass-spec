@@ -96,6 +96,20 @@ Error: $alpha: c is not a number.
 
 <===>
 ================================================================================
+<===> none/input.scss
+@use 'sass:color';
+a {b: color.change(red, $alpha: none)}
+
+<===> none/error
+Error: $alpha: none is not a number.
+  ,
+2 | a {b: color.change(red, $alpha: none)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> blackness/input.scss
 @use 'sass:color';
 a {b: color.scale(red, $blackness: c)}
@@ -119,5 +133,19 @@ Error: $whiteness: c is not a number.
   ,
 2 | a {b: color.scale(red, $whiteness: c)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/input.scss
+@use 'sass:color';
+a {b: color.scale(red, $space: 1)}
+
+<===> space/error
+Error: $space: 1 is not a string.
+  ,
+2 | a {b: color.scale(red, $space: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
