@@ -1,76 +1,135 @@
-<===> no_saturation/white/input.scss
-a {b: grayscale(white)}
+<===> legacy/no_saturation/white/input.scss
+@use 'sass:color';
+a {b: color.grayscale(white)}
 
-<===> no_saturation/white/output.css
+<===> legacy/no_saturation/white/output.css
 a {
   b: white;
 }
 
 <===>
 ================================================================================
-<===> no_saturation/black/input.scss
-a {b: grayscale(black)}
+<===> legacy/no_saturation/black/input.scss
+@use 'sass:color';
+a {b: color.grayscale(black)}
 
-<===> no_saturation/black/output.css
+<===> legacy/no_saturation/black/output.css
 a {
   b: black;
 }
 
 <===>
 ================================================================================
-<===> no_saturation/gray/input.scss
-a {b: grayscale(#494949)}
+<===> legacy/no_saturation/gray/input.scss
+@use 'sass:color';
+a {b: color.grayscale(#494949)}
 
-<===> no_saturation/gray/output.css
+<===> legacy/no_saturation/gray/output.css
 a {
   b: #494949;
 }
 
 <===>
 ================================================================================
-<===> max_saturation/input.scss
-a {b: grayscale(red)}
+<===> legacy/max_saturation/input.scss
+@use 'sass:color';
+a {b: color.grayscale(red)}
 
-<===> max_saturation/output.css
+<===> legacy/max_saturation/output.css
 a {
   b: rgb(127.5, 127.5, 127.5);
 }
 
 <===>
 ================================================================================
-<===> mid_saturation/input.scss
-a {b: grayscale(#633736)}
+<===> legacy/mid_saturation/input.scss
+@use 'sass:color';
+a {b: color.grayscale(#633736)}
 
-<===> mid_saturation/output.css
+<===> legacy/mid_saturation/output.css
 a {
   b: rgb(76.5, 76.5, 76.5);
 }
 
 <===>
 ================================================================================
-<===> alpha/input.scss
-a {b: grayscale(rgba(#633736, 0.3))}
+<===> legacy/alpha/input.scss
+@use 'sass:color';
+a {b: color.grayscale(rgba(#633736, 0.3))}
 
-<===> alpha/output.css
+<===> legacy/alpha/output.css
 a {
   b: rgba(76.5, 76.5, 76.5, 0.3);
 }
 
 <===>
 ================================================================================
-<===> number/input.scss
+<===> global/number/input.scss
 // A number should produce a plain function string, for CSS filter functions.
 a {b: grayscale(15%)}
 
-<===> number/output.css
+<===> global/number/output.css
 a {
   b: grayscale(15%);
 }
 
 <===>
 ================================================================================
+<===> global/with_css_var/input.scss
+a {b: grayscale(var(--c))}
+
+<===> global/with_css_var/output.css
+a {
+  b: grayscale(var(--c));
+}
+
+<===>
+================================================================================
+<===> global/with_calc/input.scss
+a {b: grayscale(calc(1 + 2))}
+
+<===> global/with_calc/output.css
+a {
+  b: grayscale(3);
+}
+
+<===>
+================================================================================
+<===> global/with_unquoted_calc/input.scss
+a {b: grayscale(unquote('calc(1)'))}
+
+<===> global/with_unquoted_calc/output.css
+a {
+  b: grayscale(calc(1));
+}
+
+<===>
+================================================================================
+<===> number/input.scss
+@use 'sass:color';
+a {b: color.grayscale(1)}
+
+<===> number/output.css
+a {
+  b: grayscale(1);
+}
+
+<===> number/warning
+DEPRECATION WARNING: Passing a number (1) to color.grayscale() is deprecated.
+
+Recommendation: grayscale(1)
+
+  ,
+2 | a {b: color.grayscale(1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> named/input.scss
-a {b: grayscale($color: white)}
+@use 'sass:color';
+a {b: color.grayscale($color: white)}
 
 <===> named/output.css
 a {
@@ -79,20 +138,22 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/rectangular/input.scss
-a {b: grayscale(lab(50 -30 40))}
+<===> modern/rectangular/input.scss
+@use 'sass:color';
+a {b: color.grayscale(lab(50 -30 40))}
 
-<===> non_legacy/rectangular/output.css
+<===> modern/rectangular/output.css
 a {
   b: lab(48.58892555% 0.0000000648 -0.0000078984);
 }
 
 <===>
 ================================================================================
-<===> non_legacy/polar/input.scss
-a {b: grayscale(lch(54.3 107 40.9))}
+<===> modern/polar/input.scss
+@use 'sass:color';
+a {b: color.grayscale(lch(54.3 107 40.9))}
 
-<===> non_legacy/polar/output.css
+<===> modern/polar/output.css
 a {
   b: lch(56.854581217% 0.0000089094 270.4699001175deg);
 }
@@ -100,7 +161,8 @@ a {
 <===>
 ================================================================================
 <===> non_legacy/predefined/input.scss
-a {b: grayscale(color(xyz-d65 0.41 0.21 0.02))}
+@use 'sass:color';
+a {b: color.grayscale(color(xyz-d65 0.41 0.21 0.02))}
 
 <===> non_legacy/predefined/output.css
 a {
@@ -109,80 +171,53 @@ a {
 
 <===>
 ================================================================================
-<===> with_css_var/input.scss
-a {b: grayscale(var(--c))}
-
-<===> with_css_var/output.css
-a {
-  b: grayscale(var(--c));
-}
-
-<===>
-================================================================================
-<===> with_calc/input.scss
-a {b: grayscale(calc(1 + 2))}
-
-<===> with_calc/output.css
-a {
-  b: grayscale(3);
-}
-
-<===>
-================================================================================
-<===> with_unquoted_calc/input.scss
-a {b: grayscale(unquote('calc(1)'))}
-
-<===> with_unquoted_calc/output.css
-a {
-  b: grayscale(calc(1));
-}
-
-<===>
-================================================================================
 <===> error/too_few_args/input.scss
-a {b: grayscale()}
+@use 'sass:color';
+a {b: color.grayscale()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: grayscale()}
-  |       ^^^^^^^^^^^ invocation
-  '
-  ,--> sass:color
-1 | @function grayscale($color) {
-  |           ================= declaration
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/too_many_args/input.scss
-a {b: grayscale(red, 1)}
-
-<===> error/too_many_args/error
-Error: Only 1 argument allowed, but 2 were passed.
-  ,--> input.scss
-1 | a {b: grayscale(red, 1)}
+2 | a {b: color.grayscale()}
   |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function grayscale($color) {
   |           ================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use 'sass:color';
+a {b: color.grayscale(red, 1)}
+
+<===> error/too_many_args/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: color.grayscale(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function grayscale($color) {
+  |           ================= declaration
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: grayscale(c)}
+@use 'sass:color';
+a {b: color.grayscale(c)}
 
 <===> error/type/error
 Error: $color: c is not a color.
   ,
-1 | a {b: grayscale(c)}
-  |       ^^^^^^^^^^^^
+2 | a {b: color.grayscale(c)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
