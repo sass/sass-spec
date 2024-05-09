@@ -1,0 +1,173 @@
+<===> lightness/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: 0.3)}
+
+<===> lightness/unitless/output.css
+a {
+  b: oklch(30% 0.2 30deg);
+}
+
+<===>
+================================================================================
+<===> lightness/percent/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: 30%)}
+
+<===> lightness/percent/output.css
+a {
+  b: oklch(30% 0.2 30deg);
+}
+
+<===>
+================================================================================
+<===> lightness/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: 120%)}
+
+<===> lightness/out_of_range/output.css
+a {
+  b: color-mix(in oklch, color(xyz 2.0602078346 1.6344742217 1.0169251403) 100%, black);
+}
+
+<===>
+================================================================================
+<===> lightness/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: none)}
+
+<===> lightness/none/output.css
+a {
+  b: oklch(none 0.2 30deg);
+}
+
+<===>
+================================================================================
+<===> chroma/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: 0.1)}
+
+<===> chroma/unitless/output.css
+a {
+  b: oklch(50% 0.1 30deg);
+}
+
+<===>
+================================================================================
+<===> chroma/percent/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: 40%)}
+
+<===> chroma/percent/output.css
+a {
+  b: oklch(50% 0.16 30deg);
+}
+
+<===>
+================================================================================
+<===> chroma/negative/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: -0.1)}
+
+<===> chroma/negative/output.css
+a {
+  b: oklch(50% 0.1 210deg);
+}
+
+<===>
+================================================================================
+<===> chroma/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: 1)}
+
+<===> chroma/out_of_range/output.css
+a {
+  b: oklch(50% 1 30deg);
+}
+
+<===>
+================================================================================
+<===> chroma/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $chroma: none)}
+
+<===> chroma/none/output.css
+a {
+  b: oklch(50% none 30deg);
+}
+
+<===>
+================================================================================
+<===> hue/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $hue: 50deg)}
+
+<===> hue/unitless/output.css
+a {
+  b: oklch(50% 0.2 50deg);
+}
+
+<===>
+================================================================================
+<===> hue/negative/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $hue: -20deg)}
+
+<===> hue/negative/output.css
+a {
+  b: oklch(50% 0.2 340deg);
+}
+
+<===>
+================================================================================
+<===> hue/above_max/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $hue: 400deg)}
+
+<===> hue/above_max/output.css
+a {
+  b: oklch(50% 0.2 40deg);
+}
+
+<===>
+================================================================================
+<===> hue/none/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $hue: none)}
+
+<===> hue/none/output.css
+a {
+  b: oklch(50% 0.2 none);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: 20%, $chroma: 0.1, $hue: 40deg)}
+
+<===> all/output.css
+a {
+  b: oklch(20% 0.1 40deg);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg / 0.9), $lightness: 30%)}
+
+<===> alpha_input/output.css
+a {
+  b: oklch(30% 0.2 30deg / 0.9);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use 'sass:color';
+a {b: color.change(oklch(50% 0.2 30deg), $lightness: 30%, $alpha: 0.9)}
+
+<===> alpha_arg/output.css
+a {
+  b: oklch(30% 0.2 30deg / 0.9);
+}

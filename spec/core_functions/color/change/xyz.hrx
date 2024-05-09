@@ -1,0 +1,162 @@
+<===> x/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: 0.5)}
+
+<===> x/unitless/output.css
+a {
+  b: color(xyz 0.5 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/percent/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: 50%)}
+
+<===> x/percent/output.css
+a {
+  b: color(xyz 0.5 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: 1.2)}
+
+<===> x/out_of_range/output.css
+a {
+  b: color(xyz 1.2 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: none)}
+
+<===> x/none/output.css
+a {
+  b: color(xyz none 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> y/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $y: 0.4)}
+
+<===> y/unitless/output.css
+a {
+  b: color(xyz 0.2 0.4 0.7);
+}
+
+<===>
+================================================================================
+<===> y/percent/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $y: 40%)}
+
+<===> y/percent/output.css
+a {
+  b: color(xyz 0.2 0.4 0.7);
+}
+
+<===>
+================================================================================
+<===> y/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $y: -0.2)}
+
+<===> y/out_of_range/output.css
+a {
+  b: color(xyz 0.2 -0.2 0.7);
+}
+
+<===>
+================================================================================
+<===> y/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $y: none)}
+
+<===> y/none/output.css
+a {
+  b: color(xyz 0.2 none 0.7);
+}
+
+<===>
+================================================================================
+<===> z/unitless/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $z: 0.5)}
+
+<===> z/unitless/output.css
+a {
+  b: color(xyz 0.2 0.5 0.5);
+}
+
+<===>
+================================================================================
+<===> z/percent/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $z: 50%)}
+
+<===> z/percent/output.css
+a {
+  b: color(xyz 0.2 0.5 0.5);
+}
+
+<===>
+================================================================================
+<===> z/out_of_range/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $z: 100)}
+
+<===> z/out_of_range/output.css
+a {
+  b: color(xyz 0.2 0.5 100);
+}
+
+<===>
+================================================================================
+<===> z/none/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $z: none)}
+
+<===> z/none/output.css
+a {
+  b: color(xyz 0.2 0.5 none);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: 0.7, $y: 0.4, $z: 0.2)}
+
+<===> all/output.css
+a {
+  b: color(xyz 0.7 0.4 0.2);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7 / 0.9), $x: 0.5)}
+
+<===> alpha_input/output.css
+a {
+  b: color(xyz 0.5 0.5 0.7 / 0.9);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use 'sass:color';
+a {b: color.change(color(xyz 0.2 0.5 0.7), $x: 0.5, $alpha: 0.9)}
+
+<===> alpha_arg/output.css
+a {
+  b: color(xyz 0.5 0.5 0.7 / 0.9);
+}
