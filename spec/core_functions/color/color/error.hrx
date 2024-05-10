@@ -277,3 +277,55 @@ Error: $description: Unknown color space "foo".
   |       ^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/quoted/alpha/input.scss
+a {b: color("from" #aaa srgb r g b / 25%)}
+
+<===> relative_color/quoted/alpha/error
+Error: $description: Expected "from" to be an unquoted string.
+  ,
+1 | a {b: color("from" #aaa srgb r g b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/quoted/no_alpha/input.scss
+a {b: color("from" #aaa srgb r g b)}
+
+<===> relative_color/quoted/no_alpha/error
+Error: $description: Expected "from" to be an unquoted string.
+  ,
+1 | a {b: color("from" #aaa srgb r g b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/wrong_keyword/alpha/input.scss
+a {b: color(c #aaa srgb r g b / 25%)}
+
+<===> relative_color/wrong_keyword/alpha/error
+Error: $description: Unknown color space "c".
+  ,
+1 | a {b: color(c #aaa srgb r g b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/wrong_keyword/no_alpha/input.scss
+a {b: color(c #aaa srgb r g b)}
+
+<===> relative_color/wrong_keyword/no_alpha/error
+Error: $description: Unknown color space "c".
+  ,
+1 | a {b: color(c #aaa srgb r g b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
