@@ -12,25 +12,6 @@ Error: Expected hue channel to be a number, was "foo".
 
 <===>
 ================================================================================
-<===> hue/var/options.yml
----
-:todo:
-- dart-sass
-
-<===> hue/var/input.scss
-@use 'sass:color';
-a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
-
-<===> hue/var/error
-Error: $hue: var(--c) is not a number.
-  ,
-2 | a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> whiteness/type/input.scss
 @use 'sass:color';
 a {b: color.hwb(0, "foo", 40%, 0.5)}
@@ -68,63 +49,6 @@ Error: $whiteness: Expected 30px to have unit "%".
   ,
 2 | a {b: color.hwb(0, 30px, 40%, 0.5)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> whiteness/too_high/options.yml
----
-:todo:
-- dart-sass
-
-<===> whiteness/too_high/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, 101%, 40%, 0.5)}
-
-<===> whiteness/too_high/error
-Error: $whiteness: Expected 101% to be within 0% and 100%.
-  ,
-2 | a {b: color.hwb(0, 101%, 40%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> whiteness/too_low/options.yml
----
-:todo:
-- dart-sass
-
-<===> whiteness/too_low/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, -1%, 40%, 0.5)}
-
-<===> whiteness/too_low/error
-Error: $whiteness: Expected -1% to be within 0% and 100%.
-  ,
-2 | a {b: color.hwb(0, -1%, 40%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> whiteness/var/options.yml
----
-:todo:
-- dart-sass
-
-<===> whiteness/var/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, var(--c), 40%, 0.5)}
-
-<===> whiteness/var/error
-Error: $whiteness: var(--c) is not a number.
-  ,
-2 | a {b: color.hwb(0, var(--c), 40%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
@@ -172,63 +96,6 @@ Error: $blackness: Expected 40px to have unit "%".
 
 <===>
 ================================================================================
-<===> blackness/too_high/options.yml
----
-:todo:
-- dart-sass
-
-<===> blackness/too_high/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, 30%, 101%, 0.5)}
-
-<===> blackness/too_high/error
-Error: $blackness: Expected 101% to be within 0% and 100%.
-  ,
-2 | a {b: color.hwb(0, 30%, 101%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> blackness/too_low/options.yml
----
-:todo:
-- dart-sass
-
-<===> blackness/too_low/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, 30%, -1%, 0.5)}
-
-<===> blackness/too_low/error
-Error: $blackness: Expected -1% to be within 0% and 100%.
-  ,
-2 | a {b: color.hwb(0, 30%, -1%, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> blackness/var/options.yml
----
-:todo:
-- dart-sass
-
-<===> blackness/var/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, 30%, var(--c), 0.5)}
-
-<===> blackness/var/error
-Error: $blackness: var(--c) is not a number.
-  ,
-2 | a {b: color.hwb(0, 30%, var(--c), 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> alpha/unit/input.scss
 @use 'sass:color';
 a {b: color.hwb(0, 0%, 0%, 0.5px)}
@@ -238,24 +105,5 @@ Error: $alpha: Expected 0.5px to have unit "%" or no units.
   ,
 2 | a {b: color.hwb(0, 0%, 0%, 0.5px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> alpha/var/options.yml
----
-:todo:
-- dart-sass
-
-<===> alpha/var/input.scss
-@use 'sass:color';
-a {b: color.hwb(0, 0%, 0%, var(--c))}
-
-<===> alpha/var/error
-Error: $alpha: var(--c) is not a number.
-  ,
-2 | a {b: color.hwb(0, 0%, 0%, var(--c))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

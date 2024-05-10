@@ -42,19 +42,13 @@ a {
 
 <===>
 ================================================================================
-<===> out_of_range/options.yml
-:todo:
-  - dart-sass # w3c/csswg-drafts#9484
-
-<===>
-================================================================================
 <===> out_of_range/near/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(prophoto-rgb -1 0.4 2), lab)}
 
 <===> out_of_range/near/output.css
 a {
-  b: lab(30.0623308533% 38.5823326773 -241.4998540297);
+  b: color-mix(in lab, color(xyz -0.4478815578 -0.0732156915 3.8173184875) 100%, black);
 }
 
 <===>
@@ -62,6 +56,11 @@ a {
 <===> out_of_range/far/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(prophoto-rgb -999999 0 0), lab)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color-mix(in lab, color(xyz -47674467013.1876 -16929933315.113932 -247080732.77775204) 100%, black);
+}
 
 <===>
 ================================================================================

@@ -230,17 +230,11 @@ a {
 
 <===>
 ================================================================================
-<===> relative_color/error/options.yml
-:todo:
-  - dart-sass
-
-<===>
-================================================================================
 <===> relative_color/error/quoted/alpha/input.scss
 a {b: hwb("from" #aaa h w b / 25%)}
 
 <===> relative_color/error/quoted/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hwb("from" #aaa h w b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -253,7 +247,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb("from" #aaa h w b)}
 
 <===> relative_color/error/quoted/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hwb("from" #aaa h w b)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -266,7 +260,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb(c #aaa h w b / 25%)}
 
 <===> relative_color/error/wrong_keyword/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hwb(c #aaa h w b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -279,11 +273,9 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb(c #aaa h w b)}
 
 <===> relative_color/error/wrong_keyword/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hwb(c #aaa h w b)}
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-
