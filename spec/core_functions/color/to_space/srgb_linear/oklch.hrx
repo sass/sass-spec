@@ -53,13 +53,14 @@ a {
 
 <===>
 ================================================================================
-<===> out_of_range/far/options.yml
-:todo:
-  - dart-sass # w3c/csswg-drafts#9484
-
 <===> out_of_range/far/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(srgb-linear -999999 0 0), oklch)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color-mix(in oklch, color(xyz -412390.3868751598 -212638.7932325044 -19330.7993847733) 100%, black);
+}
 
 <===>
 ================================================================================

@@ -1,3 +1,80 @@
+<===> hue/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(var(--c), 30%, 40%, 0.5)}
+
+<===> hue/var/output.css
+a {
+  b: hwb(var(--c) 30% 40% / 0.5);
+}
+
+<===>
+================================================================================
+<===> whiteness/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 101%, 40%, 0.5)}
+
+<===> whiteness/above_max/output.css
+a {
+  b: hsla(0, 0%, 71.6312056738%, 0.5);
+}
+
+<===>
+================================================================================
+<===> whiteness/below_min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, -1%, 40%, 0.5)}
+
+<===> whiteness/below_min/output.css
+a {
+  b: hsla(0, 103.3898305085%, 29.5%, 0.5);
+}
+
+<===>
+================================================================================
+<===> whiteness/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, var(--c), 40%, 0.5)}
+
+<===> whiteness/var/output.css
+a {
+  b: hwb(0 var(--c) 40% / 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 101%, 0.5)}
+
+<===> blackness/above_max/output.css
+a {
+  b: hsla(0, 0%, 22.9007633588%, 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/below_min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, -1%, 0.5)}
+
+<===> blackness/below_min/output.css
+a {
+  b: hsla(0, 102.8985507246%, 65.5%, 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, var(--c), 0.5)}
+
+<===> blackness/var/output.css
+a {
+  b: hwb(0 30% var(--c) / 0.5);
+}
+
+<===>
+================================================================================
 <===> alpha/percent/negative/input.scss
 @use 'sass:color';
 a {b: color.hwb(0, 0%, 0%, -10%)}
@@ -104,6 +181,17 @@ a {b: color.hwb(0, 0%, 0%, 250)}
 <===> alpha/unitless/above_max/output.css
 a {
   b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 0%, 0%, var(--c))}
+
+<===> alpha/var/output.css
+a {
+  b: hwb(0 0% 0% / var(--c));
 }
 
 <===>

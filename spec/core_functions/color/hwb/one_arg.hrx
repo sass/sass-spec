@@ -1,3 +1,91 @@
+<===> hue/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(var(--c) 30% 40%)}
+
+<===> hue/var/output.css
+a {
+  b: hwb(var(--c) 30% 40%);
+}
+
+<===>
+================================================================================
+<===> whiteness/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 101% 40%)}
+
+<===> whiteness/above_max/output.css
+a {
+  b: hsl(0, 0%, 71.6312056738%);
+}
+
+<===>
+================================================================================
+<===> whiteness/below_min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 -1% 40%)}
+
+<===> whiteness/below_min/output.css
+a {
+  b: hsl(0, 103.3898305085%, 29.5%);
+}
+
+<===>
+================================================================================
+<===> whiteness/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 var(--c) 40%)}
+
+<===> whiteness/var/output.css
+a {
+  b: hwb(0 var(--c) 40%);
+}
+
+<===>
+================================================================================
+<===> blackness/var/no_alpha/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% var(--c))}
+
+<===> blackness/var/no_alpha/output.css
+a {
+  b: hwb(0 30% var(--c));
+}
+
+<===>
+================================================================================
+<===> blackness/var/alpha/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% var(--c) / 0.5)}
+
+<===> blackness/var/alpha/output.css
+a {
+  b: hwb(0 30% var(--c)/0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/above_max/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% 101%)}
+
+<===> blackness/above_max/output.css
+a {
+  b: hsl(0, 0%, 22.9007633588%);
+}
+
+<===>
+================================================================================
+<===> blackness/below_min/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 30% -1%)}
+
+<===> blackness/below_min/output.css
+a {
+  b: hsl(0, 102.8985507246%, 65.5%);
+}
+
+<===>
+================================================================================
 <===> alpha/in_gamut/transparent/input.scss
 @use 'sass:color';
 a {b: color.hwb(180 30% 40% / 0)}
@@ -51,6 +139,17 @@ a {b: (color.hwb(180 30% 40% / 0.4))}
 <===> alpha/in_gamut/parenthesized/output.css
 a {
   b: hsla(180, 33.3333333333%, 45%, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/var/input.scss
+@use 'sass:color';
+a {b: color.hwb(0 0 0 / var(--c))}
+
+<===> alpha/var/output.css
+a {
+  b: hwb(0 0 0/var(--c));
 }
 
 <===>
@@ -189,17 +288,11 @@ a {
 
 <===>
 ================================================================================
-<===> relative_color/error/options.yml
-:todo:
-  - dart-sass
-
-<===>
-================================================================================
 <===> relative_color/error/quoted/alpha/input.scss
 a {b: hwb("from" #aaa h w b / 25%)}
 
 <===> relative_color/error/quoted/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hwb("from" #aaa h w b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -212,7 +305,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb("from" #aaa h w b)}
 
 <===> relative_color/error/quoted/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hwb("from" #aaa h w b)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -225,7 +318,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb(c #aaa h w b / 25%)}
 
 <===> relative_color/error/wrong_keyword/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hwb(c #aaa h w b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -238,11 +331,9 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hwb(c #aaa h w b)}
 
 <===> relative_color/error/wrong_keyword/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hwb(c #aaa h w b)}
   |       ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
-

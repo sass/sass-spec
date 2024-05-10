@@ -89,17 +89,11 @@ a {
 
 <===>
 ================================================================================
-<===> error/options.yml
-:todo:
-  - dart-sass
-
-<===>
-================================================================================
 <===> error/quoted/alpha/input.scss
 a {b: lab("from" #aaa l a b / 25%)}
 
 <===> error/quoted/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected lightness channel to be a number, was "from".
   ,
 1 | a {b: lab("from" #aaa l a b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -112,7 +106,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: lab("from" #aaa l a b)}
 
 <===> error/quoted/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected lightness channel to be a number, was "from".
   ,
 1 | a {b: lab("from" #aaa l a b)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -125,7 +119,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: lab(c #aaa l a b / 25%)}
 
 <===> error/wrong_keyword/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected lightness channel to be a number, was c.
   ,
 1 | a {b: lab(c #aaa l a b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -138,7 +132,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: lab(c #aaa l a b)}
 
 <===> error/wrong_keyword/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected lightness channel to be a number, was c.
   ,
 1 | a {b: lab(c #aaa l a b)}
   |       ^^^^^^^^^^^^^^^^^

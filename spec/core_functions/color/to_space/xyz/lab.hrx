@@ -9,17 +9,13 @@ a {
 
 <===>
 ================================================================================
-<===> white/options.yml
-:todo:
-  - dart-sass # w3c/csswg-drafts#9484
-
 <===> white/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(xyz 1 1 1), lab)}
 
 <===> white/output.css
 a {
-  b: lab(100% 0 0);
+  b: color-mix(in lab, color(xyz 1 1 1) 100%, black);
 }
 
 <===>
@@ -57,13 +53,14 @@ a {
 
 <===>
 ================================================================================
-<===> out_of_range/far/options.yml
-:todo:
-  - dart-sass # w3c/csswg-drafts#9484
-
 <===> out_of_range/far/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(xyz -999999 0 0), lab)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color-mix(in lab, color(xyz -999999 0 0.000000002) 100%, black);
+}
 
 <===>
 ================================================================================
@@ -100,17 +97,13 @@ a {
 
 <===>
 ================================================================================
-<===> missing/green/options.yml
-:todo:
-  - dart-sass # w3c/csswg-drafts#9484
-
 <===> missing/green/input.scss
 @use 'sass:color';
 a {b: color.to-space(color(xyz 0.1 none 0.3), lab)}
 
 <===> missing/green/output.css
 a {
-  b: lab(5.8200823344% 29.1326658037 -42.4044732971);
+  b: color-mix(in lab, color(xyz 0.1 0 0.3) 100%, black);
 }
 
 <===>
