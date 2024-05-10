@@ -1,0 +1,215 @@
+<===> no_space/white/input.scss
+@use 'sass:color';
+a {b: color.invert(white)}
+
+<===> no_space/white/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> no_space/black/input.scss
+@use 'sass:color';
+a {b: color.invert(black)}
+
+<===> no_space/black/output.css
+a {
+  b: white;
+}
+
+<===>
+================================================================================
+<===> no_space/gray/input.scss
+@use 'sass:color';
+a {b: color.invert(gray)}
+
+<===> no_space/gray/output.css
+a {
+  b: #7f7f7f;
+}
+
+<===>
+================================================================================
+<===> no_space/turquoise/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise)}
+
+<===> no_space/turquoise/output.css
+a {
+  b: #bf1f2f;
+}
+
+<===>
+================================================================================
+<===> no_space/out_of_gamut/input.scss
+@use 'sass:color';
+@use 'core_functions/color/utils';
+@include utils.inspect(
+  color.invert(color.change(rgb(0 50 0), $red: -100, $blue: 500))
+);
+
+<===> no_space/out_of_gamut/output.css
+a {
+  value: hsl(45, 545.4545454545%, 21.568627451%);
+  space: rgb;
+  channels: 355 205 -245 / 1;
+}
+
+<===>
+================================================================================
+<===> no_space/weighted/min/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 0%)}
+
+<===> no_space/weighted/min/output.css
+a {
+  b: turquoise;
+}
+
+<===>
+================================================================================
+<===> no_space/weighted/max/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 100%)}
+
+<===> no_space/weighted/max/output.css
+a {
+  b: #bf1f2f;
+}
+
+<===>
+================================================================================
+<===> no_space/weighted/middle/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 50%)}
+
+<===> no_space/weighted/middle/output.css
+a {
+  b: rgb(127.5, 127.5, 127.5);
+}
+
+<===>
+================================================================================
+<===> no_space/weighted/low/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 23%)}
+
+<===> no_space/weighted/low/output.css
+a {
+  b: rgb(93.21, 179.61, 170.97);
+}
+
+<===>
+================================================================================
+<===> no_space/weighted/high/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 92%)}
+
+<===> no_space/weighted/high/output.css
+a {
+  b: rgb(180.84, 46.44, 59.88);
+}
+
+<===>
+================================================================================
+<===> no_space/hsl/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(30deg 20% 40%))}
+
+<===> no_space/hsl/output.css
+a {
+  b: hsl(210, 20%, 60%);
+}
+
+<===>
+================================================================================
+<===> no_space/hwb/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(30deg 20% 40%))}
+
+<===> no_space/hwb/output.css
+a {
+  b: hsl(210, 20%, 60%);
+}
+
+<===>
+================================================================================
+<===> space/hsl/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(30deg 20% 40%), $space: hsl)}
+
+<===> space/hsl/output.css
+a {
+  b: hsl(210, 20%, 60%);
+}
+
+<===>
+================================================================================
+<===> space/hwb/input.scss
+@use 'sass:color';
+a {b: color.invert(hwb(30deg 20% 40%), $space: hwb)}
+
+<===> space/hwb/output.css
+a {
+  b: #6699cc;
+}
+
+<===>
+================================================================================
+<===> space/modern/input.scss
+@use 'sass:color';
+a {b: color.invert(#abcdef, $space: display-p3)}
+
+<===> space/modern/output.css
+a {
+  b: rgb(81.948808543, 49.5520621504, 10.5024231747);
+}
+
+<===>
+================================================================================
+<===> units/weight/unitless/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 10)}
+
+<===> units/weight/unitless/output.css
+a {
+  b: rgb(76.7, 204.7, 191.9);
+}
+
+<===> units/weight/unitless/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (10) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.invert(turquoise, 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/weight/unknown/input.scss
+@use 'sass:color';
+a {b: color.invert(turquoise, 10px)}
+
+<===> units/weight/unknown/output.css
+a {
+  b: rgb(76.7, 204.7, 191.9);
+}
+
+<===> units/weight/unknown/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (10px) is deprecated.
+
+To preserve current behavior: calc($weight / 1px * 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.invert(turquoise, 10px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet

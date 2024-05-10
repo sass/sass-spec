@@ -1,0 +1,57 @@
+<===> legacy/input.scss
+a {b: invert(red)}
+
+<===> legacy/output.css
+a {
+  b: aqua;
+}
+
+<===>
+================================================================================
+<===> modern/input.scss
+a {b: invert(color(srgb 0 0.4 1), $space: srgb)}
+
+<===> modern/output.css
+a {
+  b: color(srgb 1 0.6 0);
+}
+
+<===>
+================================================================================
+<===> number/input.scss
+a {b: invert(10%)}
+
+<===> number/output.css
+a {
+  b: invert(10%);
+}
+
+<===>
+================================================================================
+<===> with_css_var/input.scss
+a {b: invert(var(--c))}
+
+<===> with_css_var/output.css
+a {
+  b: invert(var(--c));
+}
+
+<===>
+================================================================================
+<===> with_calc/input.scss
+a {b: invert(calc(1 + 2))}
+
+<===> with_calc/output.css
+a {
+  b: invert(3);
+}
+
+<===>
+================================================================================
+<===> with_unquoted_calc/input.scss
+a {b: invert(unquote('calc(1)'))}
+
+<===> with_unquoted_calc/output.css
+a {
+  b: invert(calc(1));
+}
