@@ -94,6 +94,18 @@ a {
 
 <===>
 ================================================================================
+<===> calc/calculation/with_slash/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 3 / calc(var(--a) / 2)));
+
+<===> calc/calculation/with_slash/output.css
+a {
+  value: lab(1% 2 3/calc(var(--a) / 2));
+  type: string;
+}
+
+<===>
+================================================================================
 <===> var/arg_1/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lab(var(--foo) 2 3 / 0.4));
