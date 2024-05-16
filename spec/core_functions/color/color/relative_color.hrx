@@ -1,0 +1,88 @@
+<===> static/alpha/input.scss
+a {b: color(from #aaa srgb r g b / 25%)}
+
+<===> static/alpha/output.css
+a {
+  b: color(from #aaa srgb r g b/25%);
+}
+
+<===>
+================================================================================
+<===> static/no_alpha/input.scss
+a {b: color(from #aaa srgb r g b)}
+
+<===> static/no_alpha/output.css
+a {
+  b: color(from #aaa srgb r g b);
+}
+
+<===>
+================================================================================
+<===> calc/alpha/input.scss
+a {b: color(from #aaa srgb calc(l + 0.2) a b / 25%)}
+
+<===> calc/alpha/output.css
+a {
+  b: color(from #aaa srgb calc(l + 0.2) a b/25%);
+}
+
+<===>
+================================================================================
+<===> calc/no_alpha/input.scss
+a {b: color(from #aaa srgb calc(l + 0.2) a b)}
+
+<===> calc/no_alpha/output.css
+a {
+  b: color(from #aaa srgb calc(l + 0.2) a b);
+}
+
+<===>
+================================================================================
+<===> var/alpha/input.scss
+a {b: color(from var(--c) srgb r g b / 25%)}
+
+<===> var/alpha/output.css
+a {
+  b: color(from var(--c) srgb r g b/25%);
+}
+
+<===>
+================================================================================
+<===> var/no_alpha/input.scss
+a {b: color(from var(--c) srgb r g b)}
+
+<===> var/no_alpha/output.css
+a {
+  b: color(from var(--c) srgb r g b);
+}
+
+<===>
+================================================================================
+<===> different_case/alpha/input.scss
+a {b: color(From #aaa srgb r g b / 25%)}
+
+<===> different_case/alpha/output.css
+a {
+  b: color(From #aaa srgb r g b/25%);
+}
+
+<===>
+================================================================================
+<===> different_case/no_alpha/input.scss
+a {b: color(From #aaa srgb r g b)}
+
+<===> different_case/no_alpha/output.css
+a {
+  b: color(From #aaa srgb r g b);
+}
+
+<===>
+================================================================================
+<===> slash_list_alpha/input.scss
+@use "sass:list";
+a {b: color(list.slash(from #aaa srgb r g b, 25%))}
+
+<===> slash_list_alpha/output.css
+a {
+  b: color(from #aaa srgb r g b / 25%);
+}
