@@ -12,7 +12,7 @@ describe('deprecation type', () => {
   };
   const obsoleteDeprecations: {[key: string]: [string, string]} = {};
   const activeDeprecations: {[key: string]: string} = {};
-  const futureDeprecations: {[key: string]: true} = {};
+  const futureDeprecations: Set<string> = new Set();
   const data = yaml.load(
     fs.readFileSync('js-api-spec/node_modules/sass/deprecations.yaml', 'utf8')
   ) as {
@@ -30,10 +30,13 @@ describe('deprecation type', () => {
     } else if (dartSass.status === 'active') {
       activeDeprecations[id] = dartSass.deprecated;
     } else if (dartSass.status === 'future') {
-      futureDeprecations[id] = true;
+      futureDeprecations.add(id);
     }
   }
 
+  // These tests assume that the JS API being tested is backed by Dart Sass.
+  // If there's a JS API implementation in the future with a different compiler,
+  // then these tests shouldn't be run.
   for (const [id, versions] of Object.entries(obsoleteDeprecations)) {
     if (!versions) continue;
     const [deprecatedIn, obsoleteIn] = versions;
@@ -55,7 +58,7 @@ describe('deprecation type', () => {
     });
   }
 
-  for (const [id] of Object.entries(futureDeprecations)) {
+  for (const id of futureDeprecations) {
     it(`${id} is a future deprecation`, () => {
       const deprecation = deprecationsMap[id];
       expect(deprecation?.id).toBe(id);
