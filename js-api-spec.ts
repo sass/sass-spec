@@ -82,6 +82,12 @@ if (!fs.existsSync(specIndex)) {
 // `node_modules` directory.
 fs.copySync(p.resolve(specPath), p.join(sassPackagePath, 'js-api'));
 
+// Copy deprecations YAML so we can test against it.
+fs.copySync(
+  p.resolve(p.join(argv.sassSassRepo, 'spec/deprecations.yaml')),
+  p.join(sassPackagePath, 'deprecations.yaml')
+);
+
 fs.writeFileSync(
   p.join(sassPackagePath, 'package.json'),
   JSON.stringify({
