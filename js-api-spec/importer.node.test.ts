@@ -12,6 +12,7 @@ import {
 } from 'sass';
 
 import {sandbox} from './sandbox';
+import {spy} from './utils';
 
 it('avoids importer when canonicalize() returns null', () =>
   sandbox(dir => {
@@ -366,6 +367,30 @@ describe('FileImporter', () => {
       ).toThrowSassException({line: 0});
     });
   });
+
+  // Regression test for sass/dart-sass#2208.
+  it('imports the same relative url from different base urls as different files', () =>
+    sandbox(dir => {
+      const findFileUrl = spy((url, context) => {
+        return url === 'y' ? new URL('x.scss', context.containingUrl) : null;
+      });
+
+      dir.write({
+        'main.scss': '@import "sub1/test"; @import "sub1/sub2/test"',
+        'sub1/test.scss': '@import "y"',
+        'sub1/x.scss': 'x { from: sub1; }',
+        'sub1/sub2/test.scss': '@import "y"',
+        'sub1/sub2/x.scss': 'x { from: sub2; }',
+      });
+
+      expect(
+        compile(dir('main.scss'), {
+          importers: [{findFileUrl}],
+        }).css.toString()
+      ).toEqualIgnoringWhitespace('x { from: sub1; } x { from: sub2; }');
+
+      expect(findFileUrl).toHaveBeenCalledTimes(2);
+    }));
 });
 
 it(
