@@ -60,6 +60,110 @@ Error: $color: c is not a color.
 
 <===>
 ================================================================================
+<===> missing/legacy/same/implicit/input.scss
+a {b: invert(rgb(none 10 20))}
+
+<===> missing/legacy/same/implicit/error
+Error: $red: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: rgb(none 10 20)).
+  ,
+1 | a {b: invert(rgb(none 10 20))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/legacy/same/explicit/input.scss
+a {b: invert(hsl(0 40% none), $space: hsl)}
+
+<===> missing/legacy/same/explicit/error
+Error: $lightness: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(0deg 40% none)).
+  ,
+1 | a {b: invert(hsl(0 40% none), $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/legacy/same/hwb_hue/input.scss
+a {b: invert(hwb(none 10% 20%), $space: hwb)}
+
+<===> missing/legacy/same/hwb_hue/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hwb(none 10% 20%)).
+  ,
+1 | a {b: invert(hwb(none 10% 20%), $space: hwb)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/legacy/analogous/input.scss
+a {b: invert(rgb(10 none 20), $space: xyz)}
+
+<===> missing/legacy/analogous/error
+Error: $y: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: color(xyz 0.0025142545 none 0.0067080366)).
+  ,
+1 | a {b: invert(rgb(10 none 20), $space: xyz)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/legacy/powerless/input.scss
+a {b: invert(grey, $space: hsl)}
+
+<===> missing/legacy/powerless/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 0% 50.1960784314%)).
+  ,
+1 | a {b: invert(grey, $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/modern/same/input.scss
+a {b: invert(color(srgb none 0.1 0.2), $space: srgb)}
+
+<===> missing/modern/same/error
+Error: $red: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: color(srgb none 0.1 0.2)).
+  ,
+1 | a {b: invert(color(srgb none 0.1 0.2), $space: srgb)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/modern/analogous/input.scss
+a {b: invert(color(rec2020 0.1 none 0.2), $space: xyz)}
+
+<===> missing/modern/analogous/error
+Error: $y: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: color(xyz 0.0237000113 none 0.0589013339)).
+  ,
+1 | a {b: invert(color(rec2020 0.1 none 0.2), $space: xyz)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> missing/modern/powerless/input.scss
+a {b: invert(color(rec2020 0.4 0.4 0.4), $space: lch)}
+
+<===> missing/modern/powerless/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(48.649404846% 0 none)).
+  ,
+1 | a {b: invert(color(rec2020 0.4 0.4 0.4), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> type/color/input.scss
 @use 'sass:color';
 a {b: color.invert(c)}
@@ -125,6 +229,34 @@ Error: $space: Unknown color space "c".
   ,
 2 | a {b: color.invert(red, 10%, c)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/missing/default_weight/input.scss
+@use 'sass:color';
+a {b: color.invert(lab(50% -10 10))}
+
+<===> space/missing/default_weight/error
+Error: $color: To use color.invert() with non-legacy color lab(50% -10 10), you must provide a $space.
+  ,
+2 | a {b: color.invert(lab(50% -10 10))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/missing/zero_weight/input.scss
+@use 'sass:color';
+a {b: color.invert(lab(50% -10 10), 0%)}
+
+<===> space/missing/zero_weight/error
+Error: $color: To use color.invert() with non-legacy color lab(50% -10 10), you must provide a $space.
+  ,
+2 | a {b: color.invert(lab(50% -10 10), 0%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 

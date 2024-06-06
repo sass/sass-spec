@@ -105,3 +105,36 @@ a {b: color.invert(lch(20% 80 50deg), $space: DISPLAY-p3)}
 a {
   b: lch(97.4036876937% 47.4823953357 211.8732507605deg);
 }
+
+<===>
+================================================================================
+<===> space/missing_converted/input.scss
+@use 'sass:color';
+a {b: color.invert(color(rec2020 none none none), $space: lab)}
+
+<===> space/missing_converted/output.css
+a {
+  b: color(rec2020 1 1 1);
+}
+
+<===>
+================================================================================
+<===> space/powerless/same/input.scss
+@use 'sass:color';
+a {b: color.invert(lch(40% 0% 120deg), $space: lch)}
+
+<===> space/powerless/same/output.css
+a {
+  b: lch(60% 0 300deg);
+}
+
+<===>
+================================================================================
+<===> space/powerless/different/input.scss
+@use 'sass:color';
+a {b: color.invert(lch(40% 0% 120deg), $space: lab)}
+
+<===> space/powerless/different/output.css
+a {
+  b: lch(60% 0 none);
+}

@@ -241,3 +241,16 @@ Error: $amount: Expected 100.001 to be within 0 and 100.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+a {b: desaturate(color(srgb 1 1 1), 10%)}
+
+<===> error/non_legacy/error
+Error: desaturate() is only supported for legacy colors. Please use color.adjust() instead with an explicit $space argument.
+  ,
+1 | a {b: desaturate(color(srgb 1 1 1), 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

@@ -1,8 +1,151 @@
-<===> input.scss
+<===> identical/input.scss
+@use 'sass:color';
+a {b: color.adjust(oklch(50% 0.2 0deg), $space: lab)}
+
+<===> identical/output.css
+a {
+  b: oklch(50% 0.2 0deg);
+}
+
+<===>
+================================================================================
+<===> legacy/to_legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(pink, $saturation: -5%, $space: hsl)}
+
+<===> legacy/to_legacy/output.css
+a {
+  b: rgb(253.425, 193.575, 204.025);
+}
+
+<===>
+================================================================================
+<===> legacy/to_modern/input.scss
 @use 'sass:color';
 a {b: color.adjust(pink, $chroma: -0.01, $space: oklch)}
 
-<===> output.css
+<===> legacy/to_modern/output.css
 a {
   b: rgb(249.5073873455, 194.8272088475, 204.1290090118);
+}
+
+<===>
+================================================================================
+<===> modern/to_legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(lab(50% 10 -20), $saturation: 5%, $space: hsl)}
+
+<===> modern/to_legacy/output.css
+a {
+  b: lab(48.2797960499% 13.4192461856 -26.2119638245);
+}
+
+<===>
+================================================================================
+<===> modern/to_modern/input.scss
+@use 'sass:color';
+a {b: color.adjust(lab(50% 10 -20), $chroma: 0.01, $space: oklch)}
+
+<===> modern/to_modern/output.css
+a {
+  b: lab(49.8635566117% 11.8934236813 -23.2342925555);
+}
+
+<===>
+================================================================================
+<===> powerless/legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(hsl(0deg 0% 50%), $space: lab)}
+
+<===> powerless/legacy/output.css
+a {
+  b: hsl(0, 0%, 50%);
+}
+
+<===>
+================================================================================
+<===> powerless/modern/input.scss
+@use 'sass:color';
+a {b: color.adjust(oklch(50% 0 0deg), $space: lab)}
+
+<===> powerless/modern/output.css
+a {
+  b: oklch(50% 0 none);
+}
+
+<===>
+================================================================================
+<===> missing/legacy/same/implicit/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgb(none none none))}
+
+<===> missing/legacy/same/implicit/output.css
+a {
+  b: rgb(none none none);
+}
+
+<===>
+================================================================================
+<===> missing/legacy/same/explicit/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgb(none none none), $space: rgb)}
+
+<===> missing/legacy/same/explicit/output.css
+a {
+  b: rgb(none none none);
+}
+
+<===>
+================================================================================
+<===> missing/legacy/analogous/legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(hsl(none 50% 50%), $space: hwb)}
+
+<===> missing/legacy/analogous/legacy/output.css
+a {
+  b: hsl(0, 50%, 50%);
+}
+
+<===>
+================================================================================
+<===> missing/legacy/analogous/modern/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgb(none none none), $space: display-p3)}
+
+<===> missing/legacy/analogous/modern/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> missing/modern/same/implicit/input.scss
+@use 'sass:color';
+a {b: color.adjust(color(srgb none none none))}
+
+<===> missing/modern/same/implicit/output.css
+a {
+  b: color(srgb none none none);
+}
+
+<===>
+================================================================================
+<===> missing/modern/same/explicit/input.scss
+@use 'sass:color';
+a {b: color.adjust(color(srgb none none none), $space: srgb)}
+
+<===> missing/modern/same/explicit/output.css
+a {
+  b: color(srgb none none none);
+}
+
+<===>
+================================================================================
+<===> missing/modern/analogous/input.scss
+@use 'sass:color';
+a {b: color.adjust(color(srgb none none none), $space: display-p3)}
+
+<===> missing/modern/analogous/output.css
+a {
+  b: color(srgb none none none);
 }
