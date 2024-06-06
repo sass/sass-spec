@@ -135,24 +135,82 @@ a {
 
 <===>
 ================================================================================
-<===> space/hsl/input.scss
+<===> space/hsl/no_missing/input.scss
 @use 'sass:color';
 a {b: color.invert(hsl(30deg 20% 40%), $space: hsl)}
 
-<===> space/hsl/output.css
+<===> space/hsl/no_missing/output.css
 a {
   b: hsl(210, 20%, 60%);
 }
 
 <===>
 ================================================================================
-<===> space/hwb/input.scss
+<===> space/hsl/missing/same/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(30deg none 40%), $space: hsl)}
+
+<===> space/hsl/missing/same/output.css
+a {
+  b: hsl(210deg none 60%);
+}
+
+<===>
+================================================================================
+<===> space/hsl/missing/analogous/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(30deg none 40%), $space: lch)}
+
+<===> space/hsl/missing/analogous/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(43.192289563% none none)).
+  ,
+2 | a {b: color.invert(hsl(30deg none 40%), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/hwb/no_missing/input.scss
 @use 'sass:color';
 a {b: color.invert(hwb(30deg 20% 40%), $space: hwb)}
 
-<===> space/hwb/output.css
+<===> space/hwb/no_missing/output.css
 a {
   b: #6699cc;
+}
+
+<===>
+================================================================================
+<===> space/hwb/missing/input.scss
+@use 'sass:color';
+a {b: color.invert(hwb(30deg none 40%), $space: hwb)}
+
+<===> space/hwb/missing/output.css
+a {
+  b: hwb(210deg 40% none);
+}
+
+<===>
+================================================================================
+<===> space/powerless/same/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(120deg 0% 40%), $space: hsl)}
+
+<===> space/powerless/same/output.css
+a {
+  b: hsl(300, 0%, 60%);
+}
+
+<===>
+================================================================================
+<===> space/powerless/different/input.scss
+@use 'sass:color';
+a {b: color.invert(hsl(120deg 0% 40%), $space: rgb)}
+
+<===> space/powerless/different/output.css
+a {
+  b: hsl(0, 0%, 60%);
 }
 
 <===>

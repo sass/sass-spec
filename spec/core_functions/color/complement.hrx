@@ -68,22 +68,134 @@ a {
 
 <===>
 ================================================================================
-<===> non_legacy/input.scss
-a {b: complement(lab(54.3 80.8 69.9), lch)}
+<===> space/legacy/to_legacy/input.scss
+@use 'sass:color';
+a {b: color.complement(red, $space: hwb)}
 
-<===> non_legacy/output.css
+<===> space/legacy/to_legacy/output.css
 a {
-  b: lab(54.3% -80.8 -69.9);
+  b: aqua;
 }
 
 <===>
 ================================================================================
-<===> predefined/input.scss
-a {b: complement(color(srgb-linear 0.6 0 0.6), hwb)}
+<===> space/legacy/to_modern/input.scss
+@use 'sass:color';
+a {b: color.complement(red, $space: oklch)}
 
-<===> predefined/output.css
+<===> space/legacy/to_modern/output.css
 a {
-  b: color(srgb-linear 0 0.6 0);
+  b: hsl(188.1998868883, 488.1808399597%, 14.588696385%);
+}
+
+<===>
+================================================================================
+<===> space/modern/to_legacy/input.scss
+@use 'sass:color';
+a {b: color.complement(lab(50% 10 -20), $space: hsl)}
+
+<===> space/modern/to_legacy/output.css
+a {
+  b: lab(61.7521821385% -8.5219772697 19.4842183485);
+}
+
+<===>
+================================================================================
+<===> space/modern/to_modern/input.scss
+@use 'sass:color';
+a {b: color.complement(lab(50% 10 -20), $space: oklch)}
+
+<===> space/modern/to_modern/output.css
+a {
+  b: lab(51.2269614349% -7.7080887555 21.8652618775);
+}
+
+<===>
+================================================================================
+<===> space/missing/legacy/same/implicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(0deg 50% none))}
+
+<===> space/missing/legacy/same/implicit/output.css
+a {
+  b: hsl(180deg 50% none);
+}
+
+<===>
+================================================================================
+<===> space/missing/legacy/same/explicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(0deg 50% none), $space: hsl)}
+
+<===> space/missing/legacy/same/explicit/output.css
+a {
+  b: hsl(180deg 50% none);
+}
+
+<===>
+================================================================================
+<===> space/missing/legacy/different/implicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hwb(0deg 50% none))}
+
+<===> space/missing/legacy/different/implicit/output.css
+a {
+  b: hsl(180, 100%, 75%);
+}
+
+<===>
+================================================================================
+<===> space/missing/legacy/different/explicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hwb(0deg 50% none), $space: hsl)}
+
+<===> space/missing/legacy/different/explicit/output.css
+a {
+  b: hsl(180, 100%, 75%);
+}
+
+<===>
+================================================================================
+<===> space/missing/modern/same/input.scss
+@use 'sass:color';
+a {b: color.complement(lch(none 50% 0deg), $space: hsl)}
+
+<===> space/missing/modern/same/output.css
+a {
+  b: lch(none 0 none);
+}
+
+<===>
+================================================================================
+<===> space/missing/modern/different/input.scss
+@use 'sass:color';
+a {b: color.complement(color(srgb none 100 200), $space: oklch)}
+
+<===> space/missing/modern/different/output.css
+a {
+  b: color(srgb 156.4212689375 85.1578644836 -71.2263945029);
+}
+
+<===>
+================================================================================
+<===> space/missing/modern/analogous/input.scss
+@use 'sass:color';
+a {b: color.complement(lch(none 50% 0deg), $space: oklch)}
+
+<===> space/missing/modern/analogous/output.css
+a {
+  b: lch(none 24.5072211405 180.9107983689deg);
+}
+
+<===>
+================================================================================
+<===> space/powerless/legacy/implicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(0deg 0% 50%))}
+
+<===> space/powerless/legacy/implicit/output.css
+a {
+  b: hsl(180, 0%, 50%);
 }
 
 <===>
@@ -168,3 +280,117 @@ Error: $space: Color space xyz doesn't have a hue channel.
   |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/legacy/same/implicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(none 30% 40%))}
+
+<===> error/space/missing/legacy/same/implicit/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 30% 40%)).
+  ,
+2 | a {b: color.complement(hsl(none 30% 40%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/legacy/same/explicit/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(none 30% 40%), $space: hsl)}
+
+<===> error/space/missing/legacy/same/explicit/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 30% 40%)).
+  ,
+2 | a {b: color.complement(hsl(none 30% 40%), $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/legacy/analogous/hue/input.scss
+@use 'sass:color';
+a {b: color.complement(hsl(none 30% 40%), $space: lch)}
+
+<===> error/space/missing/legacy/analogous/hue/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(38.0910184332% 29.3078189694 none)).
+  ,
+2 | a {b: color.complement(hsl(none 30% 40%), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/legacy/analogous/lightness/input.scss
+// This is an error specifically because hsl(0deg 50% none) converts through
+// rgb(0 0 0) to lch(none 0 none), so adjusting the hue fails.
+@use 'sass:color';
+a {b: color.complement(hsl(0deg 50% none), $space: lch)}
+
+<===> error/space/missing/legacy/analogous/lightness/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(none 0 none)).
+  ,
+4 | a {b: color.complement(hsl(0deg 50% none), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/modern/same/input.scss
+@use 'sass:color';
+a {b: color.complement(lch(40% 30% none), $space: hsl)}
+
+<===> error/space/missing/modern/same/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 46.6772108151% 42.1546574074%)).
+  ,
+2 | a {b: color.complement(lch(40% 30% none), $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/missing/modern/analogous/input.scss
+@use 'sass:color';
+a {b: color.complement(lch(40% 30% none), $space: lch)}
+
+<===> error/space/missing/modern/analogous/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(40% 45 none)).
+  ,
+2 | a {b: color.complement(lch(40% 30% none), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/powerless/legacy/explicit/input.scss
+@use 'sass:color';
+a {b: color.complement(grey, $space: hsl)}
+
+<===> error/space/powerless/legacy/explicit/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 0% 50.1960784314%)).
+  ,
+2 | a {b: color.complement(grey, $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/space/powerless/modern/input.scss
+@use 'sass:color';
+a {b: color.complement(lab(50% 0 0), $space: lch)}
+
+<===> error/space/powerless/modern/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(50% 0 none)).
+  ,
+2 | a {b: color.complement(lab(50% 0 0), $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
