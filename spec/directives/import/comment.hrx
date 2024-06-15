@@ -1,0 +1,68 @@
+<===> before_url/loud/input.scss
+@import /**/ "a.css"
+
+<===> before_url/loud/output.css
+@import "a.css";
+
+<===>
+================================================================================
+<===> before_url/silent/input.scss
+@import //
+  "a.css"
+
+<===> before_url/silent/output.css
+@import "a.css";
+
+<===>
+================================================================================
+<===> after_url/loud/input.scss
+@import "a.css" /**/
+
+<===> after_url/loud/output.css
+@import "a.css";
+
+<===>
+================================================================================
+<===> after_url/silent/input.scss
+@import "a.css" //
+
+<===> after_url/silent/output.css
+@import "a.css";
+
+<===>
+================================================================================
+<===> before_comma/loud/input.scss
+@import "a.css" /**/, "b.css"
+
+<===> before_comma/loud/output.css
+@import "a.css";
+@import "b.css";
+
+<===>
+================================================================================
+<===> before_comma/silent/input.scss
+@import "a.css" //
+  , "b.css"
+
+<===> before_comma/silent/output.css
+@import "a.css";
+@import "b.css";
+
+<===>
+================================================================================
+<===> after_comma/loud/input.scss
+@import "a.css", /**/ "b.css"
+
+<===> after_comma/loud/output.css
+@import "a.css";
+@import "b.css";
+
+<===>
+================================================================================
+<===> after_comma/silent/input.scss
+@import "a.css", //
+  "b.css"
+
+<===> after_comma/silent/output.css
+@import "a.css";
+@import "b.css";

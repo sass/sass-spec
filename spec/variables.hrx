@@ -59,3 +59,47 @@ This will be an error in Dart Sass 2.0.0.
 3 |   $a: d !global !global;
   |                 ^^^^^^^
   '
+
+<===>
+================================================================================
+<===> comment/before_colon/loud/input.scss
+$a /**/: b
+
+<===> comment/before_colon/loud/output.css
+
+<===>
+================================================================================
+<===> comment/before_colon/silent/input.scss
+$a //
+  : b
+
+<===> comment/before_colon/silent/output.css
+
+<===>
+================================================================================
+<===> comment/after_colon/loud/input.scss
+$a: /**/ b
+
+<===> comment/after_colon/loud/output.css
+
+<===>
+================================================================================
+<===> comment/after_colon/silent/input.scss
+$a: //
+  b
+
+<===> comment/after_colon/silent/output.css
+
+<===>
+================================================================================
+<===> comment/after_value/loud/input.scss
+$a: b /**/
+
+<===> comment/after_value/loud/output.css
+
+<===>
+================================================================================
+<===> comment/after_value/silent/input.scss
+$a: b //
+
+<===> comment/after_value/silent/output.css
