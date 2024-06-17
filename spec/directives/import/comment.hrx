@@ -66,3 +66,101 @@
 <===> after_comma/silent/output.css
 @import "a.css";
 @import "b.css";
+
+<===>
+================================================================================
+<===> modifier/no_args/before/loud/input.scss
+@import "a.css" /**/ b
+
+<===> modifier/no_args/before/loud/output.css
+@import "a.css" b;
+
+<===>
+================================================================================
+<===> modifier/no_args/before/silent/input.scss
+@import "a.css" //
+  b
+
+<===> modifier/no_args/before/silent/output.css
+@import "a.css" b;
+
+<===>
+================================================================================
+<===> modifier/no_args/after/loud/input.scss
+@import "a.css" b /**/
+
+<===> modifier/no_args/after/loud/output.css
+@import "a.css" b;
+
+<===>
+================================================================================
+<===> modifier/no_args/after/silent/input.scss
+@import "a.css" b //
+
+<===> modifier/no_args/after/silent/output.css
+@import "a.css" b;
+
+<===>
+================================================================================
+<===> modifier/args/before/loud/input.scss
+@import "a.css" /**/ b(c)
+
+<===> modifier/args/before/loud/output.css
+@import "a.css" b(c);
+
+<===>
+================================================================================
+<===> modifier/args/before/silent/input.scss
+@import "a.css" //
+  b(c)
+
+<===> modifier/args/before/silent/output.css
+@import "a.css" b(c);
+
+<===>
+================================================================================
+<===> modifier/args/after_open_paren/loud/input.scss
+@import "a.css" b(/**/ c)
+
+<===> modifier/args/after_open_paren/loud/output.css
+@import "a.css" b(/**/ c);
+
+<===>
+================================================================================
+<===> modifier/args/after_open_paren/silent/input.scss
+@import "a.css" b(c)
+
+<===> modifier/args/after_open_paren/silent/output.css
+@import "a.css" b(c);
+
+<===>
+================================================================================
+<===> modifier/args/before_close_paren/loud/input.scss
+@import "a.css" b(c /**/)
+
+<===> modifier/args/before_close_paren/loud/output.css
+@import "a.css" b(c /**/);
+
+<===>
+================================================================================
+<===> modifier/args/before_close_paren/silent/input.scss
+@import "a.css" b(c)
+
+<===> modifier/args/before_close_paren/silent/output.css
+@import "a.css" b(c);
+
+<===>
+================================================================================
+<===> modifier/args/after/loud/input.scss
+@import "a.css" b(c) /**/
+
+<===> modifier/args/after/loud/output.css
+@import "a.css" b(c);
+
+<===>
+================================================================================
+<===> modifier/args/after/silent/input.scss
+@import "a.css" b(c) //
+
+<===> modifier/args/after/silent/output.css
+@import "a.css" b(c);

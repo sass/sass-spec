@@ -1,27 +1,376 @@
 <===> before_query/loud/input.scss
-@supports /**/ (a: b) {}
+@supports /**/ (a: b) {c {d: e}}
 
 <===> before_query/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
 
 <===>
 ================================================================================
 <===> before_query/silent/input.scss
 @supports //
-  (a: b) {}
+  (a: b) {c {d: e}}
 
 <===> before_query/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_open_paren/loud/input.scss
+@supports (/**/ a: b) {c {d: e}}
+
+<===> declaration/normal_prop/after_open_paren/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_open_paren/silent/input.scss
+@supports (//
+  a: b) {c {d: e}}
+
+<===> declaration/normal_prop/after_open_paren/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_colon/loud/input.scss
+@supports (a /**/: b) {c {d: e}}
+
+<===> declaration/normal_prop/before_colon/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_colon/silent/input.scss
+@supports (a //
+  : b) {c {d: e}}
+
+<===> declaration/normal_prop/before_colon/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_colon/loud/input.scss
+@supports (a: /**/ b) {c {d: e}}
+
+<===> declaration/normal_prop/after_colon/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_colon/silent/input.scss
+@supports (a: //
+  b) {c {d: e}}
+
+<===> declaration/normal_prop/after_colon/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_close_paren/loud/input.scss
+@supports (a: b /**/) {c {d: e}}
+
+<===> declaration/normal_prop/before_close_paren/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_close_paren/silent/input.scss
+@supports (a: b //
+  ) {c {d: e}}
+
+<===> declaration/normal_prop/before_close_paren/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/after_open_paren/loud/input.scss
+@supports (/**/ --a: b) {c {d: e}}
+
+<===> declaration/custom_prop/after_open_paren/loud/output.css
+@supports (--a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/after_open_paren/silent/input.scss
+@supports (//
+  --a: b) {c {d: e}}
+
+<===> declaration/custom_prop/after_open_paren/silent/output.css
+@supports (--a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/before_colon/loud/input.scss
+@supports (--a /**/: b) {c {d: e}}
+
+<===> declaration/custom_prop/before_colon/loud/output.css
+@supports (--a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/before_colon/silent/input.scss
+@supports (--a //
+  : b) {c {d: e}}
+
+<===> declaration/custom_prop/before_colon/silent/output.css
+@supports (--a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/after_colon/loud/input.scss
+@supports (--a: /**/ b) {c {d: e}}
+
+<===> declaration/custom_prop/after_colon/loud/output.css
+@supports (--a: /**/ b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/after_colon/silent/input.scss
+@supports (--a: //
+  b) {c {d: e}}
+
+<===> declaration/custom_prop/after_colon/silent/output.css
+@supports (--a:  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/before_close_paren/loud/input.scss
+@supports (--a: b /**/) {c {d: e}}
+
+<===> declaration/custom_prop/before_close_paren/loud/output.css
+@supports (--a: b /**/) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/custom_prop/before_close_paren/silent/input.scss
+@supports (--a: b //
+  ) {c {d: e}}
+
+<===> declaration/custom_prop/before_close_paren/silent/output.css
+@supports (--a: b  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/after_open_paren/loud/input.scss
+@supports a(/**/ b) {c {d: e}}
+
+<===> function/after_open_paren/loud/output.css
+@supports a(/**/ b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/after_open_paren/silent/input.scss
+@supports a(//
+  b) {c {d: e}}
+
+<===> function/after_open_paren/silent/output.css
+@supports a(
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/before_close_paren/loud/input.scss
+@supports a(b /**/) {c {d: e}}
+
+<===> function/before_close_paren/loud/output.css
+@supports a(b /**/) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/before_close_paren/silent/input.scss
+@supports a(b //
+  ) {c {d: e}}
+
+<===> function/before_close_paren/silent/output.css
+@supports a(b 
+  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_open_paren/loud/input.scss
+@supports (/**/ a b) {c {d: e}}
+
+<===> anything/after_open_paren/loud/output.css
+@supports (a b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_open_paren/silent/input.scss
+@supports (//
+  a b) {c {d: e}}
+
+<===> anything/after_open_paren/silent/output.css
+@supports (a b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_ident/loud/input.scss
+@supports (a /**/ b) {c {d: e}}
+
+<===> anything/after_ident/loud/output.css
+@supports (a /**/ b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_ident/silent/input.scss
+@supports (a //
+  b) {c {d: e}}
+
+<===> anything/after_ident/silent/output.css
+@supports (a 
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/before_close_paren/loud/input.scss
+@supports (a b /**/) {c {d: e}}
+
+<===> anything/before_close_paren/loud/output.css
+@supports (a b /**/) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/before_close_paren/silent/input.scss
+@supports (a b //
+  ) {c {d: e}}
+
+<===> anything/before_close_paren/silent/output.css
+@supports (a b 
+  ) {
+  c {
+    d: e;
+  }
+}
 
 <===>
 ================================================================================
 <===> after_query/loud/input.scss
-@supports (a: b) /**/ {}
+@supports (a: b) /**/ {c {d: e}}
 
 <===> after_query/loud/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
 
 <===>
 ================================================================================
 <===> after_query/silent/input.scss
 @supports (a: b) //
-  {}
+  {c {d: e}}
 
 <===> after_query/silent/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
