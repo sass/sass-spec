@@ -115,3 +115,108 @@ a {
 a b {
   c: d;
 }
+
+<===>
+================================================================================
+<===> comment/before_query/loud/input.scss
+@at-root /**/ (without: media) {}
+
+<===> comment/before_query/loud/output.css
+
+<===>
+================================================================================
+<===> comment/before_query/silent/input.scss
+@at-root //
+  (without: media) {}
+
+<===> comment/before_query/silent/output.css
+
+<===>
+================================================================================
+<===> comment/after_open_paren/loud/input.scss
+@at-root (/**/ without: media) {}
+
+<===> comment/after_open_paren/loud/output.css
+
+<===>
+================================================================================
+<===> comment/after_open_paren/silent/input.scss
+@at-root (//
+  without: media) {}
+
+<===> comment/after_open_paren/silent/output.css
+
+<===>
+================================================================================
+<===> comment/before_colon/loud/input.scss
+@at-root (without /**/ : media) {}
+
+<===> comment/before_colon/loud/output.css
+
+<===>
+================================================================================
+<===> comment/before_colon/silent/input.scss
+@at-root (without //
+  : media) {}
+
+<===> comment/before_colon/silent/output.css
+
+<===>
+================================================================================
+<===> comment/after_colon/loud/input.scss
+@at-root (without: /**/ media) {}
+
+<===> comment/after_colon/loud/output.css
+
+<===>
+================================================================================
+<===> comment/after_colon/silent/input.scss
+@at-root (without: //
+  media) {}
+
+<===> comment/after_colon/silent/output.css
+
+<===>
+================================================================================
+<===> comment/before_close_paren/loud/input.scss
+@at-root (without: media /**/) {}
+
+<===> comment/before_close_paren/loud/output.css
+
+<===>
+================================================================================
+<===> comment/before_close_paren/silent/input.scss
+@at-root (without: media //
+  ) {}
+
+<===> comment/before_close_paren/silent/output.css
+
+<===>
+================================================================================
+<===> comment/after_query/loud/input.scss
+@at-root (without: media) /**/ {}
+
+<===> comment/after_query/loud/output.css
+
+<===>
+================================================================================
+<===> comment/after_query/silent/input.scss
+@at-root (without: media) //
+  {}
+
+<===> comment/after_query/silent/output.css
+
+<===>
+================================================================================
+<===> comment/no_query/loud/input.scss
+@at-root /**/ {}
+
+<===> comment/no_query/loud/output.css
+
+<===>
+================================================================================
+<===> comment/no_query/silent/input.scss
+@at-root //
+  {}
+
+<===> comment/no_query/silent/output.css
