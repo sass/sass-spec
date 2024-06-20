@@ -106,3 +106,166 @@ div span {
 @fudge foo {
   color: red;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+   ,
+5  | /     @fudge {
+6  | |         span {
+7  | |             width: 10px;
+8  | |             a {
+9  | |                 font: whatever;
+10 | |             }
+11 | |         }
+12 | |     }
+   | '--- nested rule
+13 |       height: 20px;
+   |       ^^^^^^^^^^^^ declaration
+   '
+    input.scss 13:2  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+   ,
+30 | /     span {
+31 | |         font: whatever;
+32 | |     }
+   | '--- nested rule
+33 | /     border: {
+34 | |         upper: {
+35 | |             left: 10px;
+36 | |             right: 9px;
+37 | |         }
+38 | |         lower: {
+39 | |             left: 8px;
+40 | |             right: 7px;
+41 | |         }
+42 | |     }
+   | '--- declaration
+   '
+    input.scss 33:2  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+34  | /         upper: {
+35  | |             left: 10px;
+36  | |             right: 9px;
+37  | |         }
+    | '--- declaration
+    '
+    input.scss 34:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+35  |               left: 10px;
+    |               ^^^^^^^^^^ declaration
+    '
+    input.scss 35:4  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+36  |               right: 9px;
+    |               ^^^^^^^^^^ declaration
+    '
+    input.scss 36:4  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+38  | /         lower: {
+39  | |             left: 8px;
+40  | |             right: 7px;
+41  | |         }
+    | '--- declaration
+    '
+    input.scss 38:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+39  |               left: 8px;
+    |               ^^^^^^^^^ declaration
+    '
+    input.scss 39:4  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+40  |               right: 7px;
+    |               ^^^^^^^^^^ declaration
+    '
+    input.scss 40:4  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+30  | /     span {
+31  | |         font: whatever;
+32  | |     }
+    | '--- nested rule
+... |
+43  |       background: gray;
+    |       ^^^^^^^^^^^^^^^^ declaration
+    '
+    input.scss 43:2  root stylesheet

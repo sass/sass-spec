@@ -136,7 +136,6 @@ div {
   p a:after {
     content: ">>";
   }
-
   span {
     display: inline-block;
   }
@@ -207,3 +206,44 @@ div span {
     color: green;
   }
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+43  | /       k l m {
+44  | |         hee: fee;
+45  | |       }
+    | '--- nested rule
+... |
+47  |         haa: hoo;
+    |         ^^^^^^^^ declaration
+    '
+    input.scss 47:7  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+39  | /     @media print and (foo: 1 2 3), (bar: 3px hux(muz)), not screen {
+40  | |       /* aa */
+41  | |       hey: ho;
+42  | |       /* bb */
+43  | |       k l m {
+44  | |         hee: fee;
+45  | |       }
+46  | |       /* cc */
+47  | |       haa: hoo;
+48  | |       /* dd */
+49  | |     }
+    | '--- nested rule
+... |
+52  |     blah: blah;
+    |     ^^^^^^^^^^ declaration
+    '
+    input.scss 52:3  root stylesheet

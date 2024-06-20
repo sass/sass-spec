@@ -40,3 +40,51 @@ div for {
   x: 5;
   x: 999;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+   ,
+6  | /   for {
+7  | |     @for $x from 1 through 5 {
+8  | |       $y: $y + 5;
+9  | |       y: $y;
+10 | |       x: $x;
+11 | |       $x: 999;
+12 | |       x: $x;
+13 | |       $y: -9 !global;
+14 | |       $x: -9 !global;
+15 | |     }
+16 | |   }
+   | '--- nested rule
+17 |     x: $x;
+   |     ^^^^^ declaration
+   '
+    input.scss 17:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+6   | /   for {
+7   | |     @for $x from 1 through 5 {
+8   | |       $y: $y + 5;
+9   | |       y: $y;
+10  | |       x: $x;
+11  | |       $x: 999;
+12  | |       x: $x;
+13  | |       $y: -9 !global;
+14  | |       $x: -9 !global;
+15  | |     }
+16  | |   }
+    | '--- nested rule
+... |
+18  |     y: $y;
+    |     ^^^^^ declaration
+    '
+    input.scss 18:3  root stylesheet
