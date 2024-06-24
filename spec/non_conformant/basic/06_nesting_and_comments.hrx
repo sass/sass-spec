@@ -98,3 +98,38 @@ div empty_with_comment {
 div empty_with_comment span {
   c: d;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+    ,
+12  | /     a {
+13  | |       text-decoration: none; /* where will this comment go? */
+14  | |       color: green;
+15  | |       /* what about this comment? */ border: 1px $blah red;
+16  | |     }
+    | '--- nested rule
+... |
+18  |       display: inline-block;
+    |       ^^^^^^^^^^^^^^^^^^^^^ declaration
+    '
+    input.scss 18:5  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+   ,
+27 | /   p { /* comment after open brace goes in */
+28 | |     padding: 10px 8%;
+29 | |     -webkit-box-sizing: $blux;
+30 | |   } /* comment after close brace goes out */
+   | '---^ nested rule
+31 |     margin: 10px 5px;
+   |     ^^^^^^^^^^^^^^^^ declaration
+   '
+    input.scss 31:3  root stylesheet

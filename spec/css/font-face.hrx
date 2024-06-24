@@ -54,6 +54,19 @@ a b c {
   e: f;
 }
 
+<===> bubble/deeply-nested/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+  ,
+1 | a { b { c { @font-face { e: f } g: h; } } }
+  |                                 ^^^^ declaration
+  |             =================== nested rule
+  '
+    input.scss 1:33  root stylesheet
+
 <===>
 ================================================================================
 <===> bubble/loaded/import/input.scss
@@ -72,6 +85,22 @@ c {
 @font-face {
   a: b;
 }
+
+<===> bubble/loaded/import/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+  ,--> input.scss
+3 |   d: e;
+  |   ^^^^ declaration
+  '
+  ,--> upstream.scss
+1 | @font-face { a: b }
+  | =================== nested rule
+  '
+    input.scss 3:3  root stylesheet
 
 <===>
 ================================================================================
@@ -93,3 +122,19 @@ c {
 @font-face {
   a: b;
 }
+
+<===> bubble/loaded/meta-load-css/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `@nest {}`.
+
+  ,--> input.scss
+5 |   d: e;
+  |   ^^^^ declaration
+  '
+  ,--> upstream.scss
+1 | @font-face { a: b }
+  | =================== nested rule
+  '
+    input.scss 5:3  root stylesheet
