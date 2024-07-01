@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:list";
 $x: oo, ba;
 $y: az, hu;
 
@@ -6,7 +7,7 @@ f#{$x}r {
   p: 1;
   b#{$y}x {
     q: 2;
-    mumble#{length($x) + length($y)} {
+    mumble#{list.length($x) + list.length($y)} {
       r: 3;
     }
   }

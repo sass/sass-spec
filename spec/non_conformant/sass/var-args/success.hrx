@@ -1,24 +1,26 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 @mixin foo($x, $y, $zs...) {
-  grarh: type-of(false);
+  grarh: meta.type-of(false);
   f: $zs;
   fa: $x, $y, $zs;
   fv: $zs;
-  ft: type-of($zs);
-  fj: join(1 2 3, $zs);
-  fjt: type-of(join(1 2 3, $zs));
-  fkt: type-of(join($zs, 1 2 3));
-  hoopla: length(a b c d e);
-  boopla: type-of(123+234);
-  koopla: type-of(length(a b c d));
+  ft: meta.type-of($zs);
+  fj: list.join(1 2 3, $zs);
+  fjt: meta.type-of(list.join(1 2 3, $zs));
+  fkt: meta.type-of(list.join($zs, 1 2 3));
+  hoopla: list.length(a b c d e);
+  boopla: meta.type-of(123+234);
+  koopla: meta.type-of(list.length(a b c d));
 }
 
 @mixin bar($x, $y, $z) {
   ba: $x, $y, $z;
   bv: $z;
-  bt: type-of($z);
-  bj: join(1 2 3, $z);
-  bjt: type-of(join(1 2 3, $z));
+  bt: meta.type-of($z);
+  bj: list.join(1 2 3, $z);
+  bjt: meta.type-of(list.join(1 2 3, $z));
 }
 
 $stuff: hey hoo ha;
@@ -35,7 +37,7 @@ div {
   @include foo(a, b, c d e...);
   @include foo(a, c d e...);
   @include foo(a, $stuff...);
-  new: type-of("hello");
+  new: meta.type-of("hello");
 }
 
 @mixin bad($x, $y, $z) {
@@ -45,9 +47,9 @@ div {
 }
 
 @mixin foo($x, $y, $z) {
-  a: type-of(join($x, $y));
-  b: type-of($z);
-  c: type-of(length($x));
+  a: meta.type-of(list.join($x, $y));
+  b: meta.type-of($z);
+  c: meta.type-of(list.length($x));
 }
 
 div {
