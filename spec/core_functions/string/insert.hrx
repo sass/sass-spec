@@ -217,6 +217,21 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:string";
+a {b: string.str-insert("c", 1, "d")}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-insert("c", 1, "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
 <===> error/type/string/input.scss
 @use "sass:string";
 a {b: string.insert(1, "", 1)}

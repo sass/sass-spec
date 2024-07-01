@@ -149,6 +149,20 @@ a list of strings, or a list of lists of strings.
 
 <===>
 ================================================================================
+<===> wrong_name/input.scss
+@use "sass:selector";
+a {b: selector.selector-parse(".c.d")}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-parse(".c.d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> too_many_args/input.scss
 @use "sass:selector";
 a {b: selector.parse(c, d)}

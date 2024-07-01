@@ -130,6 +130,21 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:map";
+a {b: map.map-remove((c: d), c)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-remove((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
 <===> error/type/map/input.scss
 @use "sass:map";
 a {b: map.remove(1)}

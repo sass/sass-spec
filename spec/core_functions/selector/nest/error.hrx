@@ -1,3 +1,17 @@
+<===> wrong_name/input.scss
+@use "sass:selector";
+a {b: selector.selector-nest(c, d)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-nest(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> parent/first_arg/input.scss
 @use "sass:selector";
 a {b: selector.nest("&")}

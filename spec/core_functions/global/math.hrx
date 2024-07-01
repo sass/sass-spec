@@ -106,31 +106,3 @@ a {b: comparable(1px, 1in)}
 a {
   b: true;
 }
-
-<===>
-================================================================================
-<===> error/unitless/input.scss
-@use "sass:math";
-a {b: math.unitless(1)}
-
-<===> error/unitless/error
-Error: Undefined function.
-  ,
-2 | a {b: math.unitless(1)}
-  |       ^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/comparable/input.scss
-@use "sass:math";
-a {b: math.comparable(1px, 1in)}
-
-<===> error/comparable/error
-Error: Undefined function.
-  ,
-2 | a {b: math.comparable(1px, 1in)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet

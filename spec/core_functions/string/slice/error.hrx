@@ -96,6 +96,20 @@ Error: $end-at: Expected 2px to have no units.
 
 <===>
 ================================================================================
+<===> wrong_name/input.scss
+@use "sass:string";
+a {b: string.str-slice("c", 1, 1)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-slice("c", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> too_few_args/input.scss
 @use "sass:string";
 a {b: string.slice("cde")}

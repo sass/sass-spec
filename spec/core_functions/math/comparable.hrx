@@ -88,6 +88,20 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:math";
+a {b: math.comparable(1px, 1in)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: math.comparable(1px, 1in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/arg_1/input.scss
 @use "sass:math";
 a {b: math.compatible(c, 1)}

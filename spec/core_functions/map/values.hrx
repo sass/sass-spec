@@ -58,6 +58,21 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:map";
+a {b: map.map-values((c: d))}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-values((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
 <===> error/type/input.scss
 @use "sass:map";
 a {b: map.values(1)}

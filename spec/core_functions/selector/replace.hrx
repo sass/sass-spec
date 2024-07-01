@@ -206,6 +206,20 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:selector";
+a {b: selector.selector-replace(c, c, d)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-replace(c, c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/selector/parent/input.scss
 @use "sass:selector";
 a {b: selector.replace("&", "c", "d")}

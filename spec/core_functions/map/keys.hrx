@@ -72,6 +72,20 @@ Error: $map: 1 is not a map.
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:map";
+a {b: map.map-keys((c: d))}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-keys((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
 @use "sass:map";
 a {b: map.keys()}

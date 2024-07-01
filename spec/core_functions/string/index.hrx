@@ -103,6 +103,20 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:string";
+a {b: string.str-index("c", "c")}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-index("c", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/string/input.scss
 @use "sass:string";
 a {b: string.index(1, "c")}

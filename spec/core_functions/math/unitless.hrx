@@ -79,6 +79,20 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:math";
+a {b: math.unitless(1)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: math.unitless(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/input.scss
 @use "sass:math";
 a {b: math.is-unitless(c)}

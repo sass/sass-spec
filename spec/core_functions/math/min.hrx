@@ -79,10 +79,9 @@ calculation.
 <===>
 ================================================================================
 <===> global/surrounding_whitespace/input.scss
-@use "sass:math";
 // The extra whitespace doesn't cause this to be parsed as a Sass function, but
 // we want to verify that it also doesn't interfere.
-b {c: math.min( 1px, 2px, )}
+b {c: min( 1px, 2px, )}
 
 <===> global/surrounding_whitespace/output.css
 b {
@@ -92,8 +91,7 @@ b {
 <===>
 ================================================================================
 <===> global/modulo/input.scss
-@use "sass:math";
-a {b: math.min(1px, 7px % 4)}
+a {b: min(1px, 7px % 4)}
 
 <===> global/modulo/output.css
 a {
@@ -103,8 +101,7 @@ a {
 <===>
 ================================================================================
 <===> global/trailing_comma/input.scss
-@use "sass:math";
-a {b: math.min(1px, 2px,)}
+a {b: min(1px, 2px,)}
 
 <===> global/trailing_comma/output.css
 a {

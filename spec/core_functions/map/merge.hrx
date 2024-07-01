@@ -190,6 +190,21 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:map";
+a {b: map.map-merge((c: d), (1: 2))}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-merge((c: d))}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
 <===> error/type/map1/input.scss
 @use "sass:map";
 a {b: map.merge(1, (c: d))}
