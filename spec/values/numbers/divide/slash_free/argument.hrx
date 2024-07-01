@@ -24,7 +24,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/built_in/input.scss
-c {d: join(1/2, 3/4)}
+@use "sass:list";
+c {d: list.join(1/2, 3/4)}
 
 <===> function/built_in/output.css
 c {
@@ -59,7 +60,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/named/input.scss
-c {d: join($list1: 1/2, $list2: 3/4)}
+@use "sass:list";
+c {d: list.join($list1: 1/2, $list2: 3/4)}
 
 <===> function/named/output.css
 c {
@@ -94,7 +96,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/rest/single/input.scss
-c {d: join(1/2, 3/4...)}
+@use "sass:list";
+c {d: list.join(1/2, 3/4...)}
 
 <===> function/rest/single/output.css
 c {
@@ -129,7 +132,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/rest/list/input.scss
-c {d: join(1/2 3/4...)}
+@use "sass:list";
+c {d: list.join(1/2 3/4...)}
 
 <===> function/rest/list/output.css
 c {
@@ -164,7 +168,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/rest/map/input.scss
-c {d: join(("list1": 1/2, "list2": 3/4)...)}
+@use "sass:list";
+c {d: list.join(("list1": 1/2, "list2": 3/4)...)}
 
 <===> function/rest/map/output.css
 c {
@@ -199,7 +204,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> function/rest/kwargs/input.scss
-c {d: join(1/2..., ("list2": 3/4)...)}
+@use "sass:list";
+c {d: list.join(1/2..., ("list2": 3/4)...)}
 
 <===> function/rest/kwargs/output.css
 c {
