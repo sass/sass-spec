@@ -40,10 +40,10 @@ Recommendation: math.div(1, 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2, 3/4)}
-  |            ^^^
+2 | c {d: list.join(1/2, 3/4)}
+  |                 ^^^
   '
-    input.scss 1:12  root stylesheet
+    input.scss 2:17  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -52,10 +52,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2, 3/4)}
-  |                 ^^^
+2 | c {d: list.join(1/2, 3/4)}
+  |                      ^^^
   '
-    input.scss 1:17  root stylesheet
+    input.scss 2:22  root stylesheet
 
 <===>
 ================================================================================
@@ -76,10 +76,10 @@ Recommendation: math.div(1, 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join($list1: 1/2, $list2: 3/4)}
-  |                    ^^^
+2 | c {d: list.join($list1: 1/2, $list2: 3/4)}
+  |                         ^^^
   '
-    input.scss 1:20  root stylesheet
+    input.scss 2:25  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -88,10 +88,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join($list1: 1/2, $list2: 3/4)}
-  |                                 ^^^
+2 | c {d: list.join($list1: 1/2, $list2: 3/4)}
+  |                                      ^^^
   '
-    input.scss 1:33  root stylesheet
+    input.scss 2:38  root stylesheet
 
 <===>
 ================================================================================
@@ -112,10 +112,10 @@ Recommendation: math.div(1, 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2, 3/4...)}
-  |            ^^^
+2 | c {d: list.join(1/2, 3/4...)}
+  |                 ^^^
   '
-    input.scss 1:12  root stylesheet
+    input.scss 2:17  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -124,10 +124,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2, 3/4...)}
-  |                 ^^^
+2 | c {d: list.join(1/2, 3/4...)}
+  |                      ^^^
   '
-    input.scss 1:17  root stylesheet
+    input.scss 2:22  root stylesheet
 
 <===>
 ================================================================================
@@ -148,10 +148,10 @@ Recommendation: math.div(1, 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2 3/4...)}
-  |            ^^^^^^^
+2 | c {d: list.join(1/2 3/4...)}
+  |                 ^^^^^^^
   '
-    input.scss 1:12  root stylesheet
+    input.scss 2:17  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -160,10 +160,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2 3/4...)}
-  |            ^^^^^^^
+2 | c {d: list.join(1/2 3/4...)}
+  |                 ^^^^^^^
   '
-    input.scss 1:12  root stylesheet
+    input.scss 2:17  root stylesheet
 
 <===>
 ================================================================================
@@ -184,10 +184,10 @@ Recommendation: math.div(1, 2) or calc(1 / 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
-  |                      ^^^
+2 | c {d: list.join(("list1": 1/2, "list2": 3/4)...)}
+  |                           ^^^
   '
-    input.scss 1:22  root stylesheet
+    input.scss 2:27  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -196,10 +196,10 @@ Recommendation: math.div(3, 4) or calc(3 / 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(("list1": 1/2, "list2": 3/4)...)}
-  |                                    ^^^
+2 | c {d: list.join(("list1": 1/2, "list2": 3/4)...)}
+  |                                         ^^^
   '
-    input.scss 1:36  root stylesheet
+    input.scss 2:41  root stylesheet
 
 <===>
 ================================================================================
@@ -220,10 +220,10 @@ Recommendation: math.div(1, 2)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2..., ("list2": 3/4)...)}
-  |            ^^^
+2 | c {d: list.join(1/2..., ("list2": 3/4)...)}
+  |                 ^^^
   '
-    input.scss 1:12  root stylesheet
+    input.scss 2:17  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -232,10 +232,10 @@ Recommendation: math.div(3, 4) or calc(3 / 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | c {d: join(1/2..., ("list2": 3/4)...)}
-  |                              ^^^
+2 | c {d: list.join(1/2..., ("list2": 3/4)...)}
+  |                                   ^^^
   '
-    input.scss 1:30  root stylesheet
+    input.scss 2:35  root stylesheet
 
 <===>
 ================================================================================
