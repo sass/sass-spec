@@ -127,6 +127,51 @@ WARNING: warning
 
 <===> functions_in_stack/warning
 WARNING: From function: testing
-    input.scss 3:3   issues-warning()
-    input.scss 8:11  calls-function-that-warns()
-    input.scss 12:3  root stylesheet
+    input.scss 2:3   issues-warning()
+    input.scss 7:11  calls-function-that-warns()
+    input.scss 11:3  root stylesheet
+
+<===>
+================================================================================
+<===> comment/before_expression/loud/input.scss
+@warn /**/ a
+
+<===> comment/before_expression/loud/output.css
+
+<===> comment/before_expression/loud/warning
+WARNING: a
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> comment/before_expression/silent/input.scss
+@warn //
+  a
+
+<===> comment/before_expression/silent/output.css
+
+<===> comment/before_expression/silent/warning
+WARNING: a
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> comment/after_expression/loud/input.scss
+@warn a /**/
+
+<===> comment/after_expression/loud/output.css
+
+<===> comment/after_expression/loud/warning
+WARNING: a
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> comment/after_expression/silent/input.scss
+@warn a //
+
+<===> comment/after_expression/silent/output.css
+
+<===> comment/after_expression/silent/warning
+WARNING: a
+    input.scss 1:1  root stylesheet

@@ -50,6 +50,51 @@ a {
 
 <===>
 ================================================================================
+<===> comment/before_block/loud/input.scss
+a {b: /**/ {c: d}}
+
+<===> comment/before_block/loud/output.css
+a {
+  b-c: d;
+}
+
+<===>
+================================================================================
+<===> comment/before_block/silent/input.scss
+a {
+  b: //
+    {c: d}
+}
+
+<===> comment/before_block/silent/output.css
+a {
+  b-c: d;
+}
+
+<===>
+================================================================================
+<===> comment/after_block/loud/input.scss
+a {b: {c: d} /**/}
+
+<===> comment/after_block/loud/output.css
+a {
+  b-c: d; /**/
+}
+
+<===>
+================================================================================
+<===> comment/after_block/silent/input.scss
+a {
+  b: {c: d} //
+}
+
+<===> comment/after_block/silent/output.css
+a {
+  b-c: d;
+}
+
+<===>
+================================================================================
 <===> error/value_after_propset/input.scss
 a { b: { d: e } f }
 
