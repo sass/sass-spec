@@ -7,7 +7,8 @@ functions.
 <===>
 ================================================================================
 <===> simple/input.scss
-a {b: selector-replace("c", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace("c", "c", "d")}
 
 <===> simple/output.css
 a {
@@ -17,7 +18,8 @@ a {
 <===>
 ================================================================================
 <===> compound/input.scss
-a {b: selector-replace("c.d", "c", "e")}
+@use "sass:selector";
+a {b: selector.replace("c.d", "c", "e")}
 
 <===> compound/output.css
 a {
@@ -27,7 +29,8 @@ a {
 <===>
 ================================================================================
 <===> complex/input.scss
-a {b: selector-replace("c d", "d", "e f")}
+@use "sass:selector";
+a {b: selector.replace("c d", "d", "e f")}
 
 <===> complex/output.css
 a {
@@ -37,7 +40,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/is/input.scss
-a {b: selector-replace(":is(c)", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace(":is(c)", "c", "d")}
 
 <===> selector_pseudo/is/output.css
 a {
@@ -47,7 +51,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/where/input.scss
-a {b: selector-replace(":where(c)", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace(":where(c)", "c", "d")}
 
 <===> selector_pseudo/where/output.css
 a {
@@ -57,7 +62,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/matches/input.scss
-a {b: selector-replace(":matches(c)", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace(":matches(c)", "c", "d")}
 
 <===> selector_pseudo/matches/output.css
 a {
@@ -67,7 +73,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/not/input.scss
-a {b: selector-replace(":not(c)", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace(":not(c)", "c", "d")}
 
 <===> selector_pseudo/not/output.css
 a {
@@ -77,7 +84,8 @@ a {
 <===>
 ================================================================================
 <===> no_op/input.scss
-a {b: selector-replace("c", "d", "e")}
+@use "sass:selector";
+a {b: selector.replace("c", "d", "e")}
 
 <===> no_op/output.css
 a {
@@ -87,7 +95,8 @@ a {
 <===>
 ================================================================================
 <===> partial_no_op/input.scss
-a {b: selector-replace("c, d", "d", "e")}
+@use "sass:selector";
+a {b: selector.replace("c, d", "d", "e")}
 
 <===> partial_no_op/output.css
 a {
@@ -105,7 +114,8 @@ spec just verifies one example for each parameter.
 <===>
 ================================================================================
 <===> format/input/non_string/selector/input.scss
-a {b: selector-replace((c, d c), "c", "e")}
+@use "sass:selector";
+a {b: selector.replace((c, d c), "c", "e")}
 
 <===> format/input/non_string/selector/output.css
 a {
@@ -115,7 +125,8 @@ a {
 <===>
 ================================================================================
 <===> format/input/non_string/extendee/input.scss
-a {b: selector-replace("c.d", (c, ".d"), ".e")}
+@use "sass:selector";
+a {b: selector.replace("c.d", (c, ".d"), ".e")}
 
 <===> format/input/non_string/extendee/output.css
 a {
@@ -125,7 +136,8 @@ a {
 <===>
 ================================================================================
 <===> format/input/non_string/extender/input.scss
-a {b: selector-replace("c", "c", (d, e f))}
+@use "sass:selector";
+a {b: selector.replace("c", "c", (d, e f))}
 
 <===> format/input/non_string/extender/output.css
 a {
@@ -135,7 +147,8 @@ a {
 <===>
 ================================================================================
 <===> format/input/multiple_extendees/compound/input.scss
-a {b: selector-replace("c.d", "c.d", ".e")}
+@use "sass:selector";
+a {b: selector.replace("c.d", "c.d", ".e")}
 
 <===> format/input/multiple_extendees/compound/output.css
 a {
@@ -145,7 +158,8 @@ a {
 <===>
 ================================================================================
 <===> format/input/multiple_extendees/list/input.scss
-a {b: selector-replace("c.d", "c, .d", ".e")}
+@use "sass:selector";
+a {b: selector.replace("c.d", "c, .d", ".e")}
 
 <===> format/input/multiple_extendees/list/output.css
 a {
@@ -155,7 +169,8 @@ a {
 <===>
 ================================================================================
 <===> format/input/multiple_extendees/list_of_compound/input.scss
-a {b: selector-replace("c.d.e.f", "c.d, .e.f", ".g")}
+@use "sass:selector";
+a {b: selector.replace("c.d.e.f", "c.d, .e.f", ".g")}
 
 <===> format/input/multiple_extendees/list_of_compound/output.css
 a {
@@ -165,7 +180,8 @@ a {
 <===>
 ================================================================================
 <===> format/output/input.scss
-$result: selector-replace("c d, e f", "g", "g");
+@use "sass:selector";
+$result: selector.replace("c d, e f", "g", "g");
 a {
   result: $result;
   structure: $result == ("c" "d", "e" "f");
@@ -180,7 +196,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: selector-replace($selector: "c.d", $original: "c", $replacement: "e")}
+@use "sass:selector";
+a {b: selector.replace($selector: "c.d", $original: "c", $replacement: "e")}
 
 <===> named/output.css
 a {
@@ -190,7 +207,8 @@ a {
 <===>
 ================================================================================
 <===> error/selector/parent/input.scss
-a {b: selector-replace("&", "c", "d")}
+@use "sass:selector";
+a {b: selector.replace("&", "c", "d")}
 
 <===> error/selector/parent/error
 Error: $selector: Parent selectors aren't allowed here.
@@ -208,7 +226,8 @@ Error: $selector: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> error/selector/invalid/input.scss
-a {b: selector-replace("[c", "d", "e")}
+@use "sass:selector";
+a {b: selector.replace("[c", "d", "e")}
 
 <===> error/selector/invalid/error
 Error: $selector: expected more input.
@@ -226,7 +245,8 @@ Error: $selector: expected more input.
 <===>
 ================================================================================
 <===> error/selector/type/input.scss
-a {b: selector-replace(1, "c", "d")}
+@use "sass:selector";
+a {b: selector.replace(1, "c", "d")}
 
 <===> error/selector/type/error
 Error: $selector: 1 is not a valid selector: it must be a string,
@@ -240,7 +260,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> error/extendee/parent/input.scss
-a {b: selector-replace("c", "&", "d")}
+@use "sass:selector";
+a {b: selector.replace("c", "&", "d")}
 
 <===> error/extendee/parent/error
 Error: $original: Parent selectors aren't allowed here.
@@ -258,7 +279,8 @@ Error: $original: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> error/extendee/complex/string/input.scss
-a {b: selector-replace("c", "d e", "f")}
+@use "sass:selector";
+a {b: selector.replace("c", "d e", "f")}
 
 <===> error/extendee/complex/string/error
 Error: Can't extend complex selector d e.
@@ -271,7 +293,8 @@ Error: Can't extend complex selector d e.
 <===>
 ================================================================================
 <===> error/extendee/complex/list/input.scss
-a {b: selector-replace("c", d e, "f")}
+@use "sass:selector";
+a {b: selector.replace("c", d e, "f")}
 
 <===> error/extendee/complex/list/error
 Error: Can't extend complex selector d e.
@@ -284,7 +307,8 @@ Error: Can't extend complex selector d e.
 <===>
 ================================================================================
 <===> error/extendee/invalid/input.scss
-a {b: selector-replace("c", "[d", "e")}
+@use "sass:selector";
+a {b: selector.replace("c", "[d", "e")}
 
 <===> error/extendee/invalid/error
 Error: $original: expected more input.
@@ -302,7 +326,8 @@ Error: $original: expected more input.
 <===>
 ================================================================================
 <===> error/extendee/type/input.scss
-a {b: selector-replace("c", 1, "d")}
+@use "sass:selector";
+a {b: selector.replace("c", 1, "d")}
 
 <===> error/extendee/type/error
 Error: $original: 1 is not a valid selector: it must be a string,
@@ -316,7 +341,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> error/extender/parent/input.scss
-a {b: selector-replace("c", "d", "&")}
+@use "sass:selector";
+a {b: selector.replace("c", "d", "&")}
 
 <===> error/extender/parent/error
 Error: $replacement: Parent selectors aren't allowed here.
@@ -334,7 +360,8 @@ Error: $replacement: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> error/extender/invalid/input.scss
-a {b: selector-replace("c", "d", "[e")}
+@use "sass:selector";
+a {b: selector.replace("c", "d", "[e")}
 
 <===> error/extender/invalid/error
 Error: $replacement: expected more input.
@@ -352,7 +379,8 @@ Error: $replacement: expected more input.
 <===>
 ================================================================================
 <===> error/extender/type/input.scss
-a {b: selector-replace("c", "d", 1)}
+@use "sass:selector";
+a {b: selector.replace("c", "d", 1)}
 
 <===> error/extender/type/error
 Error: $replacement: 1 is not a valid selector: it must be a string,
@@ -366,7 +394,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: selector-replace("c", "d", "e", "f")}
+@use "sass:selector";
+a {b: selector.replace("c", "d", "e", "f")}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
@@ -383,7 +412,8 @@ Error: Only 3 arguments allowed, but 4 were passed.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: selector-replace("c", "d")}
+@use "sass:selector";
+a {b: selector.replace("c", "d")}
 
 <===> error/too_few_args/error
 Error: Missing argument $replacement.

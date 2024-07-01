@@ -1,5 +1,6 @@
 <===> 0/input.scss
-a {b: length(())}
+@use "sass:list";
+a {b: list.length(())}
 
 <===> 0/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> 1/input.scss
-a {b: length(join((), 1))}
+@use "sass:list";
+a {b: list.length(list.join((), 1))}
 
 <===> 1/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> 2/input.scss
-a {b: length(c d)}
+@use "sass:list";
+a {b: list.length(c d)}
 
 <===> 2/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> many/input.scss
-a {b: length((1, 2, 3, 4, 5))}
+@use "sass:list";
+a {b: list.length((1, 2, 3, 4, 5))}
 
 <===> many/output.css
 a {
@@ -39,8 +43,9 @@ a {
 <===>
 ================================================================================
 <===> map/empty/input.scss
-@import "core_functions/list/utils";
-a {b: length($empty-map)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.length(utils.$empty-map)}
 
 <===> map/empty/output.css
 a {
@@ -50,7 +55,8 @@ a {
 <===>
 ================================================================================
 <===> map/non_empty/input.scss
-a {b: length((1: 2, 3: 4))}
+@use "sass:list";
+a {b: list.length((1: 2, 3: 4))}
 
 <===> map/non_empty/output.css
 a {
@@ -60,7 +66,8 @@ a {
 <===>
 ================================================================================
 <===> non_list/input.scss
-a {b: length(c)}
+@use "sass:list";
+a {b: list.length(c)}
 
 <===> non_list/output.css
 a {
@@ -70,8 +77,9 @@ a {
 <===>
 ================================================================================
 <===> null_list_item/input.scss
+@use "sass:list";
 // regression test for scssphp/scssphp#403
-a {b: length((null))}
+a {b: list.length((null))}
 
 <===> null_list_item/output.css
 a {
@@ -81,7 +89,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: length($list: 1 2 3)}
+@use "sass:list";
+a {b: list.length($list: 1 2 3)}
 
 <===> named/output.css
 a {
@@ -91,7 +100,8 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: length()}
+@use "sass:list";
+a {b: list.length()}
 
 <===> error/too_few_args/error
 Error: Missing argument $list.
@@ -108,7 +118,8 @@ Error: Missing argument $list.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: length(1, 2)}
+@use "sass:list";
+a {b: list.length(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.

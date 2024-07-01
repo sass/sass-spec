@@ -1,5 +1,6 @@
 <===> positive/0/input.scss
-a {b: str-slice("cde", 0)}
+@use "sass:string";
+a {b: string.slice("cde", 0)}
 
 <===> positive/0/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> positive/1/input.scss
-a {b: str-slice("cde", 1)}
+@use "sass:string";
+a {b: string.slice("cde", 1)}
 
 <===> positive/1/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> positive/2/input.scss
-a {b: str-slice("cde", 2)}
+@use "sass:string";
+a {b: string.slice("cde", 2)}
 
 <===> positive/2/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> positive/last/input.scss
-a {b: str-slice("cde", 4)}
+@use "sass:string";
+a {b: string.slice("cde", 4)}
 
 <===> positive/last/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> positive/after_last/input.scss
-a {b: str-slice("cde", 100)}
+@use "sass:string";
+a {b: string.slice("cde", 100)}
 
 <===> positive/after_last/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> positive/after_end/input.scss
-a {b: str-slice("cdef", 3, 2)}
+@use "sass:string";
+a {b: string.slice("cdef", 3, 2)}
 
 <===> positive/after_end/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> negative/1/input.scss
-a {b: str-slice("cde", -1)}
+@use "sass:string";
+a {b: string.slice("cde", -1)}
 
 <===> negative/1/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> negative/2/input.scss
-a {b: str-slice("cde", -2)}
+@use "sass:string";
+a {b: string.slice("cde", -2)}
 
 <===> negative/2/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> negative/last/input.scss
-a {b: str-slice("cde", -3)}
+@use "sass:string";
+a {b: string.slice("cde", -3)}
 
 <===> negative/last/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> negative/after_last/input.scss
-a {b: str-slice("cde", -100)}
+@use "sass:string";
+a {b: string.slice("cde", -100)}
 
 <===> negative/after_last/output.css
 a {

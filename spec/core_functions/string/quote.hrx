@@ -1,5 +1,6 @@
 <===> unquoted/input.scss
-a {b: quote(c)}
+@use "sass:string";
+a {b: string.quote(c)}
 
 <===> unquoted/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> quoted_double/input.scss
-a {b: quote("c")}
+@use "sass:string";
+a {b: string.quote("c")}
 
 <===> quoted_double/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> quoted_single/input.scss
-a {b: quote('c')}
+@use "sass:string";
+a {b: string.quote('c')}
 
 <===> quoted_single/output.css
 a {
@@ -29,8 +32,9 @@ a {
 <===>
 ================================================================================
 <===> quote_unquoted_quote/single/input.scss
+@use "sass:string";
 // See sass/libsass#2873
-a {b: quote(unquote('"'))}
+a {b: string.quote(string.unquote('"'))}
 
 <===> quote_unquoted_quote/single/output.css
 a {
@@ -40,8 +44,9 @@ a {
 <===>
 ================================================================================
 <===> quote_unquoted_quote/double/input.scss
+@use "sass:string";
 // See sass/libsass#2873
-a {b: quote(unquote('"') + unquote("'"))}
+a {b: string.quote(string.unquote('"') + string.unquote("'"))}
 
 <===> quote_unquoted_quote/double/output.css
 a {
@@ -51,7 +56,8 @@ a {
 <===>
 ================================================================================
 <===> escape/input.scss
-a {b: quote(\0)}
+@use "sass:string";
+a {b: string.quote(\0)}
 
 <===> escape/output.css
 a {
@@ -61,7 +67,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: quote($string: c)}
+@use "sass:string";
+a {b: string.quote($string: c)}
 
 <===> named/output.css
 a {
@@ -71,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: quote((1, 2, 3))}
+@use "sass:string";
+a {b: string.quote((1, 2, 3))}
 
 <===> error/type/error
 Error: $string: 1, 2, 3 is not a string.
@@ -84,7 +92,8 @@ Error: $string: 1, 2, 3 is not a string.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: quote()}
+@use "sass:string";
+a {b: string.quote()}
 
 <===> error/too_few_args/error
 Error: Missing argument $string.
@@ -101,7 +110,8 @@ Error: Missing argument $string.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: quote(c, d)}
+@use "sass:string";
+a {b: string.quote(c, d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.

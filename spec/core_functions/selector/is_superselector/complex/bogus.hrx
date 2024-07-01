@@ -1,5 +1,6 @@
 <===> super/input.scss
-a {b: is-superselector("> c", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("> c", "c")}
 
 <===> super/output.css
 a {
@@ -21,7 +22,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> sub/input.scss
-a {b: is-superselector("c", "d + ~ c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "d + ~ c")}
 
 <===> sub/output.css
 a {

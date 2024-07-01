@@ -1,14 +1,16 @@
 <===> is_unique/input.scss
+@use "sass:map";
+@use "sass:string";
 // As the name suggests, every call to unique-id() should return a different
 // value.
 $ids: ();
 @for $i from 1 to 1000 {
-  $id: unique-id();
-  @if map-has-key($ids, $id) {
+  $id: string.unique-id();
+  @if map.has-key($ids, $id) {
     @error "#{$id} generated more than once";
   }
 
-  $ids: map-merge($ids, ($id: null));
+  $ids: map.merge($ids, ($id: null));
 }
 
 <===> is_unique/output.css
@@ -16,11 +18,13 @@ $ids: ();
 <===>
 ================================================================================
 <===> is_identifier/input.scss
+@use "sass:selector";
+@use "sass:string";
 // Every call to unique-id() should return a valid CSS identifier. We can't test
 // this directly, so we make sure it can parse as a class selector with
 // selector-parse().
 @for $i from 1 to 1000 {
-  $_: selector-parse(".#{unique-id()}");
+  $_: selector.parse(".#{string.unique-id()}");
 }
 
 <===> is_identifier/output.css
@@ -28,7 +32,8 @@ $ids: ();
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: unique-id(c)}
+@use "sass:string";
+a {b: string.unique-id(c)}
 
 <===> error/too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.

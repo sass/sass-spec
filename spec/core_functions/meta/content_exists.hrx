@@ -3,8 +3,9 @@
   - libsass
 
 <===> false/top_level/input.scss
+@use "sass:meta";
 @mixin a {
-  b {c: content-exists()}
+  b {c: meta.content-exists()}
 }
 @include a;
 
@@ -16,12 +17,13 @@ b {
 <===>
 ================================================================================
 <===> false/through_content/input.scss
+@use "sass:meta";
 @mixin call-content {
   @content;
 }
 
 @mixin print-content-exists {
-  a {b: content-exists()}
+  a {b: meta.content-exists()}
 }
 
 @include call-content {
@@ -36,8 +38,9 @@ a {
 <===>
 ================================================================================
 <===> true/empty/input.scss
+@use "sass:meta";
 @mixin a {
-  b {c: content-exists()}
+  b {c: meta.content-exists()}
   @content;
 }
 @include a {}
@@ -54,8 +57,9 @@ b {
   - libsass
 
 <===> true/non_empty/input.scss
+@use "sass:meta";
 @mixin a {
-  b {c: content-exists()}
+  b {c: meta.content-exists()}
   @content;
 }
 @include a {
@@ -80,9 +84,10 @@ d {
 <===>
 ================================================================================
 <===> controls/true/input.scss
+@use "sass:meta";
 // Regression test for sass/libsass#2842
 @mixin test-content-exists() {
-  @if content-exists() {
+  @if meta.content-exists() {
     @content;
   }
   @else {
@@ -104,9 +109,10 @@ a {
 <===>
 ================================================================================
 <===> controls/false/input.scss
+@use "sass:meta";
 // Regression test for sass/libsass#2842
 @mixin test-content-exists() {
-  @if content-exists() {
+  @if meta.content-exists() {
     @content;
   }
   @else {
@@ -126,8 +132,9 @@ a {
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
+@use "sass:meta";
 @mixin a {
-  b {c: content-exists(1)}
+  b {c: meta.content-exists(1)}
 }
 @include a;
 
@@ -147,7 +154,8 @@ Error: Only 0 arguments allowed, but 1 was passed.
 <===>
 ================================================================================
 <===> error/outside_mixin/input.scss
-a {b: content-exists()}
+@use "sass:meta";
+a {b: meta.content-exists()}
 
 <===> error/outside_mixin/error
 Error: content-exists() may only be called within a mixin.
@@ -160,12 +168,13 @@ Error: content-exists() may only be called within a mixin.
 <===>
 ================================================================================
 <===> error/in_content/input.scss
+@use "sass:meta";
 @mixin call-content {
   @content;
 }
 
 @include call-content {
-  a {b: content-exists()}
+  a {b: meta.content-exists()}
 }
 
 <===> error/in_content/error
@@ -181,8 +190,9 @@ Error: content-exists() may only be called within a mixin.
 <===>
 ================================================================================
 <===> error/in_function_called_by_mixin/input.scss
+@use "sass:meta";
 @function call-content-exists() {
-  @return content-exists();
+  @return meta.content-exists();
 }
 
 @mixin call-function {

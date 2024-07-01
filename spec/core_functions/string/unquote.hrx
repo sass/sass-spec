@@ -6,7 +6,8 @@ value with the same serialization.
 <===>
 ================================================================================
 <===> unquoted/input.scss
-a {b: unquote(c)}
+@use "sass:string";
+a {b: string.unquote(c)}
 
 <===> unquoted/output.css
 a {
@@ -16,7 +17,8 @@ a {
 <===>
 ================================================================================
 <===> quoted/input.scss
-a {b: unquote("c")}
+@use "sass:string";
+a {b: string.unquote("c")}
 
 <===> quoted/output.css
 a {
@@ -26,10 +28,11 @@ a {
 <===>
 ================================================================================
 <===> empty/input.scss
-$result: unquote("");
+@use "sass:string";
+$result: string.unquote("");
 a {
   result: $result; // This will not be emitted because the contents is empty.
-  length: str-length($result);
+  length: string.length($result);
   same: $result == "";
 }
 
@@ -42,12 +45,13 @@ a {
 <===>
 ================================================================================
 <===> escaped_quotes/unquoted/input.scss
+@use "sass:string";
 // Unquoting an unquoted string returns it exactly as-is, leaving escapes
 // totally unchanged (whether they're quotes or not).
-$result: unquote(\"c\");
+$result: string.unquote(\"c\");
 a {
   result: $result;
-  length: str-length($result);
+  length: string.length($result);
   same: $result == \"c\";
 }
 
@@ -61,13 +65,14 @@ a {
 <===>
 ================================================================================
 <===> escaped_quotes/quoted/input.scss
+@use "sass:string";
 // Unquoting a quoted string returns an unquoted string with the same code
 // points. Code points such as quotes that need to be escaped in the original
 // don't need escaping in the output.
-$result: unquote("\"c\"");
+$result: string.unquote("\"c\"");
 a {
   result: $result;
-  length: str-length($result);
+  length: string.length($result);
   same: $result == "\"c\"";
 }
 
@@ -81,14 +86,15 @@ a {
 <===>
 ================================================================================
 <===> meaningful_css_characters/input.scss
+@use "sass:string";
 // Unquoted strings aren't required to be valid CSS identifiers, and the
 // `unquote()` function does *not* escape characters that aren't valid
 // identifier characters. This allows it to be used as an escape hatch to
 // produce CSS that Sass doesn't otherwise support.
-$result: unquote("b; c {d: e");
+$result: string.unquote("b; c {d: e");
 a {
   result: $result;
-  length: str-length($result);
+  length: string.length($result);
   same: $result == "b; c {d: e";
 }
 
@@ -102,10 +108,11 @@ a {
 <===>
 ================================================================================
 <===> escaped_backslash/input.scss
-$result: unquote("\\0 ");
+@use "sass:string";
+$result: string.unquote("\\0 ");
 a {
   result: $result;
-  length: str-length($result);
+  length: string.length($result);
   same-as-argument: $result == "\\0 ";
   same-as-literal: $result == \0 ;
 }
@@ -121,7 +128,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: unquote($string: c)}
+@use "sass:string";
+a {b: string.unquote($string: c)}
 
 <===> named/output.css
 a {
@@ -131,7 +139,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: unquote(1)}
+@use "sass:string";
+a {b: string.unquote(1)}
 
 <===> error/type/error
 Error: $string: 1 is not a string.
@@ -144,7 +153,8 @@ Error: $string: 1 is not a string.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: unquote()}
+@use "sass:string";
+a {b: string.unquote()}
 
 <===> error/too_few_args/error
 Error: Missing argument $string.
@@ -161,7 +171,8 @@ Error: Missing argument $string.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: unquote(c, d)}
+@use "sass:string";
+a {b: string.unquote(c, d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.

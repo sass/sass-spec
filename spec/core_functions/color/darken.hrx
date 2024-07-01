@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: darken(red, 100%)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -100%)}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> max_remaining/input.scss
-a {b: darken(red, 50%)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -50%)}
 
 <===> max_remaining/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: darken(red, 0%)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -0%)}
 
 <===> min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: darken(red, 14%)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -14%)}
 
 <===> middle/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> fraction/input.scss
-a {b: darken(red, 0.5%)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -0.5%)}
 
 <===> fraction/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-a {b: darken(rgba(red, 0.2), 100%)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.2), $lightness: -100%)}
 
 <===> alpha/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: darken($color: red, $amount: 14%)}
+@use "sass:color";
+a {b: color.adjust($color: red, $lightness: -14%)}
 
 <===> named/output.css
 a {
@@ -103,7 +110,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> error/type/color/input.scss
-a {b: darken(1, 2)}
+@use "sass:color";
+a {b: color.adjust(1, $lightness: -2)}
 
 <===> error/type/color/error
 Error: $color: 1 is not a color.
@@ -116,7 +124,8 @@ Error: $color: 1 is not a color.
 <===>
 ================================================================================
 <===> error/type/lightness/input.scss
-a {b: darken(red, blue)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -blue)}
 
 <===> error/type/lightness/error
 Error: $amount: blue is not a number.
@@ -129,7 +138,8 @@ Error: $amount: blue is not a number.
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
-a {b: darken(red, -0.001)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: --0.001)}
 
 <===> error/bounds/too_low/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
@@ -142,7 +152,8 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
-a {b: darken(red, 100.001)}
+@use "sass:color";
+a {b: color.adjust(red, $lightness: -100.001)}
 
 <===> error/bounds/too_high/error
 Error: $amount: Expected 100.001 to be within 0 and 100.

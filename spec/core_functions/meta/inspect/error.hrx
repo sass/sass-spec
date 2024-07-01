@@ -1,5 +1,6 @@
 <===> too_few_args/input.scss
-a {a: inspect()}
+@use "sass:meta";
+a {a: meta.inspect()}
 
 <===> too_few_args/error
 Error: Missing argument $value.
@@ -16,7 +17,8 @@ Error: Missing argument $value.
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {a: inspect(1, 2)}
+@use "sass:meta";
+a {a: meta.inspect(1, 2)}
 
 <===> too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.

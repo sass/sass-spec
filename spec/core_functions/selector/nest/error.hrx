@@ -1,5 +1,6 @@
 <===> parent/first_arg/input.scss
-a {b: selector-nest("&")}
+@use "sass:selector";
+a {b: selector.nest("&")}
 
 <===> parent/first_arg/error
 Error: Parent selectors aren't allowed here.
@@ -17,7 +18,8 @@ Error: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> parent/non_initial/input.scss
-a {b: selector-nest("c", "[d]&")}
+@use "sass:selector";
+a {b: selector.nest("c", "[d]&")}
 
 <===> parent/non_initial/error
 Error: "&" may only used at the beginning of a compound selector.
@@ -35,7 +37,8 @@ Error: "&" may only used at the beginning of a compound selector.
 <===>
 ================================================================================
 <===> parent/prefix/input.scss
-a {b: selector-nest("c", "d&")}
+@use "sass:selector";
+a {b: selector.nest("c", "d&")}
 
 <===> parent/prefix/error
 Error: "&" may only used at the beginning of a compound selector.
@@ -53,7 +56,8 @@ Error: "&" may only used at the beginning of a compound selector.
 <===>
 ================================================================================
 <===> invalid/initial/input.scss
-a {b: selector-nest("[c")}
+@use "sass:selector";
+a {b: selector.nest("[c")}
 
 <===> invalid/initial/error
 Error: expected more input.
@@ -71,7 +75,8 @@ Error: expected more input.
 <===>
 ================================================================================
 <===> invalid/later/input.scss
-a {b: selector-nest("c", "[d")}
+@use "sass:selector";
+a {b: selector.nest("c", "[d")}
 
 <===> invalid/later/error
 Error: expected more input.
@@ -89,7 +94,8 @@ Error: expected more input.
 <===>
 ================================================================================
 <===> type/initial/input.scss
-a {b: selector-nest(1)}
+@use "sass:selector";
+a {b: selector.nest(1)}
 
 <===> type/initial/error
 Error: 1 is not a valid selector: it must be a string,
@@ -103,7 +109,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> type/later/input.scss
-a {b: selector-nest("c", 1)}
+@use "sass:selector";
+a {b: selector.nest("c", 1)}
 
 <===> type/later/error
 Error: 1 is not a valid selector: it must be a string,
@@ -117,7 +124,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: selector-nest()}
+@use "sass:selector";
+a {b: selector.nest()}
 
 
 <===> too_few_args/error

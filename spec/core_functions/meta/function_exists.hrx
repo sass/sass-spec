@@ -1,7 +1,8 @@
 <===> same_module/global/input.scss
+@use "sass:meta";
 @function global-function() {@return null}
 
-a {b: function-exists(global-function)}
+a {b: meta.function-exists(global-function)}
 
 <===> same_module/global/output.css
 a {
@@ -11,9 +12,10 @@ a {
 <===>
 ================================================================================
 <===> same_module/local/input.scss
+@use "sass:meta";
 a {
   @function local-function() {@return null}
-  b: function-exists(local-function);
+  b: meta.function-exists(local-function);
 }
 
 <===> same_module/local/output.css
@@ -24,8 +26,9 @@ a {
 <===>
 ================================================================================
 <===> same_module/through_import/input.scss
-@import "other";
-a {b: function-exists(global-function)}
+@use "sass:meta";
+@use "other";
+a {b: meta.function-exists(global-function)}
 
 <===> same_module/through_import/other.scss
 @function global-function() {@return null}
@@ -38,9 +41,10 @@ a {
 <===>
 ================================================================================
 <===> same_module/dash_insensitive/dash_to_underscore/input.scss
+@use "sass:meta";
 @function a_b() {@return null}
 
-c {d: function-exists(a-b)}
+c {d: meta.function-exists(a-b)}
 
 <===> same_module/dash_insensitive/dash_to_underscore/output.css
 c {
@@ -50,9 +54,10 @@ c {
 <===>
 ================================================================================
 <===> same_module/dash_insensitive/underscore_to_dash/input.scss
+@use "sass:meta";
 @function a-b() {@return null}
 
-c {d: function-exists(a_b)}
+c {d: meta.function-exists(a_b)}
 
 <===> same_module/dash_insensitive/underscore_to_dash/output.css
 c {
@@ -62,8 +67,9 @@ c {
 <===>
 ================================================================================
 <===> same_module/non_existent/input.scss
+@use "sass:meta";
 a {
-  b: function-exists(non-existent);
+  b: meta.function-exists(non-existent);
 }
 
 <===> same_module/non_existent/output.css
@@ -74,8 +80,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/undefined/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: function-exists("c", "color")}
+a {b: meta.function-exists("c", "color")}
 
 <===> different_module/undefined/output.css
 a {
@@ -85,8 +92,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/defined/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: function-exists("red", "color")}
+a {b: meta.function-exists("red", "color")}
 
 <===> different_module/defined/output.css
 a {
@@ -96,8 +104,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/chosen_prefix/input.scss
+@use "sass:meta";
 @use "sass:color" as a;
-b {c: function-exists("red", "a")}
+b {c: meta.function-exists("red", "a")}
 
 <===> different_module/chosen_prefix/output.css
 b {
@@ -107,8 +116,9 @@ b {
 <===>
 ================================================================================
 <===> different_module/through_use/input.scss
+@use "sass:meta";
 @use "other" as *;
-a {b: function-exists(global-function)}
+a {b: meta.function-exists(global-function)}
 
 <===> different_module/through_use/other.scss
 @function global-function() {@return null}
@@ -121,8 +131,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/bare/input.scss
+@use "sass:meta";
 @use "midstream" as *;
-a {b: function-exists(c)}
+a {b: meta.function-exists(c)}
 
 <===> different_module/through_forward/bare/_midstream.scss
 @forward "upstream";
@@ -138,10 +149,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/as/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  with-prefix: function-exists(b-c);
-  without-prefix: function-exists(c);
+  with-prefix: meta.function-exists(b-c);
+  without-prefix: meta.function-exists(c);
 }
 
 <===> different_module/through_forward/as/_midstream.scss
@@ -159,10 +171,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  shown: function-exists(b);
-  not-shown: function-exists(c);
+  shown: meta.function-exists(b);
+  not-shown: meta.function-exists(c);
 }
 
 <===> different_module/through_forward/show/_midstream.scss
@@ -181,10 +194,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  hidden: function-exists(b);
-  not-hidden: function-exists(c);
+  hidden: meta.function-exists(b);
+  not-hidden: meta.function-exists(c);
 }
 
 <===> different_module/through_forward/hide/_midstream.scss
@@ -203,9 +217,10 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @use "sass:color";
 
-a {b: function-exists($name: "red", $module: "color")}
+a {b: meta.function-exists($name: "red", $module: "color")}
 
 <===> named/output.css
 a {
@@ -215,7 +230,8 @@ a {
 <===>
 ================================================================================
 <===> error/argument/type/name/input.scss
-a {b: function-exists(12px)}
+@use "sass:meta";
+a {b: meta.function-exists(12px)}
 
 <===> error/argument/type/name/error
 Error: $name: 12px is not a string.
@@ -228,7 +244,8 @@ Error: $name: 12px is not a string.
 <===>
 ================================================================================
 <===> error/argument/type/module/input.scss
-a {b: function-exists("red", 1)}
+@use "sass:meta";
+a {b: meta.function-exists("red", 1)}
 
 <===> error/argument/type/module/error
 Error: $module: 1 is not a string.
@@ -241,7 +258,8 @@ Error: $module: 1 is not a string.
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
-a {b: function-exists()}
+@use "sass:meta";
+a {b: meta.function-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
@@ -258,7 +276,8 @@ Error: Missing argument $name.
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: function-exists(c, d, e)}
+@use "sass:meta";
+a {b: meta.function-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
@@ -275,10 +294,11 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> error/conflict/input.scss
+@use "sass:meta";
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: function-exists(member)}
+a {b: meta.function-exists(member)}
 
 <===> error/conflict/other1.scss
 @function member() {@return from other1}
@@ -302,7 +322,8 @@ Error: This function is available from multiple global modules.
 <===>
 ================================================================================
 <===> error/module/non_existent/input.scss
-a {b: function-exists("c", "d")}
+@use "sass:meta";
+a {b: meta.function-exists("c", "d")}
 
 <===> error/module/non_existent/error
 Error: There is no module with the namespace "d".
@@ -315,7 +336,8 @@ Error: There is no module with the namespace "d".
 <===>
 ================================================================================
 <===> error/module/built_in_but_not_loaded/input.scss
-a {b: function-exists("red", "color")}
+@use "sass:meta";
+a {b: meta.function-exists("red", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
@@ -328,8 +350,9 @@ Error: There is no module with the namespace "color".
 <===>
 ================================================================================
 <===> error/module/dash_sensitive/input.scss
+@use "sass:meta";
 @use "sass:color" as a-b;
-c {d: function-exists("c", $module: "a_b")}
+c {d: meta.function-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".

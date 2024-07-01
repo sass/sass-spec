@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: adjust-hue(red, 359)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 359)}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> above_max/input.scss
-a {b: adjust-hue(red, 540)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 540)}
 
 <===> above_max/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: adjust-hue(blue, 0)}
+@use "sass:color";
+a {b: color.adjust(blue, $hue: 0)}
 
 <===> min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> negative/input.scss
-a {b: adjust-hue(red, -180)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: -180)}
 
 <===> negative/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: adjust-hue(red, 123)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 123)}
 
 <===> middle/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> fraction/input.scss
-a {b: adjust-hue(red, 0.5)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 0.5)}
 
 <===> fraction/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-a {b: adjust-hue(rgba(red, 0.1), 359)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.1), $hue: 359)}
 
 <===> alpha/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> units/deg/input.scss
-a {b: adjust-hue(red, 60deg)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 60deg)}
 
 <===> units/deg/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> units/unitless/input.scss
-a {b: adjust-hue(red, 60)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 60)}
 
 <===> units/unitless/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> units/unknown/input.scss
-a {b: adjust-hue(red, 60in)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 60in)}
 
 <===> units/unknown/output.css
 a {
@@ -112,7 +122,8 @@ See https://sass-lang.com/d/function-units
 <===>
 ================================================================================
 <===> units/angle/input.scss
-a {b: adjust-hue(red, 60rad)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: 60rad)}
 
 <===> units/angle/output.css
 a {
@@ -166,7 +177,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> error/type/color/input.scss
-a {b: adjust-hue(1, 2)}
+@use "sass:color";
+a {b: color.adjust(1, $hue: 2)}
 
 <===> error/type/color/error
 Error: $color: 1 is not a color.
@@ -179,7 +191,8 @@ Error: $color: 1 is not a color.
 <===>
 ================================================================================
 <===> error/type/hue/input.scss
-a {b: adjust-hue(red, blue)}
+@use "sass:color";
+a {b: color.adjust(red, $hue: blue)}
 
 <===> error/type/hue/error
 Error: $degrees: blue is not a number.

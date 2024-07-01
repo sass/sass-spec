@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: red(rgb(255, 0, 0))}
+@use "sass:color";
+a {b: color.red(rgb(255, 0, 0))}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: red(rgb(0, 0, 0))}
+@use "sass:color";
+a {b: color.red(rgb(0, 0, 0))}
 
 <===> min/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: red(rgb(123, 0, 0))}
+@use "sass:color";
+a {b: color.red(rgb(123, 0, 0))}
 
 <===> middle/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: red($color: rgb(234, 0, 0))}
+@use "sass:color";
+a {b: color.red($color: rgb(234, 0, 0))}
 
 <===> named/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: red()}
+@use "sass:color";
+a {b: color.red()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
@@ -56,7 +61,8 @@ Error: Missing argument $color.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: red(red, green)}
+@use "sass:color";
+a {b: color.red(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
@@ -73,7 +79,8 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: red(1)}
+@use "sass:color";
+a {b: color.red(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.

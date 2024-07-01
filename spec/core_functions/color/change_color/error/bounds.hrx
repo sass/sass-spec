@@ -1,5 +1,6 @@
 <===> red/too_low/input.scss
-a {b: change-color(red, $red: -1)}
+@use "sass:color";
+a {b: color.change(red, $red: -1)}
 
 <===> red/too_low/error
 Error: $red: Expected -1 to be within 0 and 255.
@@ -12,7 +13,8 @@ Error: $red: Expected -1 to be within 0 and 255.
 <===>
 ================================================================================
 <===> red/too_high/input.scss
-a {b: change-color(red, $red: 256)}
+@use "sass:color";
+a {b: color.change(red, $red: 256)}
 
 <===> red/too_high/error
 Error: $red: Expected 256 to be within 0 and 255.
@@ -25,9 +27,10 @@ Error: $red: Expected 256 to be within 0 and 255.
 <===>
 ================================================================================
 <===> red/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(red, $red: 300px)}
+a {b: color.change(red, $red: 300px)}
 
 <===> red/unit/error
 Error: $red: Expected 300px to be within 0 and 255.
@@ -40,7 +43,8 @@ Error: $red: Expected 300px to be within 0 and 255.
 <===>
 ================================================================================
 <===> green/too_low/input.scss
-a {b: change-color(green, $green: -1)}
+@use "sass:color";
+a {b: color.change(green, $green: -1)}
 
 <===> green/too_low/error
 Error: $green: Expected -1 to be within 0 and 255.
@@ -53,7 +57,8 @@ Error: $green: Expected -1 to be within 0 and 255.
 <===>
 ================================================================================
 <===> green/too_high/input.scss
-a {b: change-color(green, $green: 256)}
+@use "sass:color";
+a {b: color.change(green, $green: 256)}
 
 <===> green/too_high/error
 Error: $green: Expected 256 to be within 0 and 255.
@@ -66,9 +71,10 @@ Error: $green: Expected 256 to be within 0 and 255.
 <===>
 ================================================================================
 <===> green/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(green, $green: 300px)}
+a {b: color.change(green, $green: 300px)}
 
 <===> green/unit/error
 Error: $green: Expected 300px to be within 0 and 255.
@@ -81,7 +87,8 @@ Error: $green: Expected 300px to be within 0 and 255.
 <===>
 ================================================================================
 <===> blue/too_low/input.scss
-a {b: change-color(blue, $blue: -1)}
+@use "sass:color";
+a {b: color.change(blue, $blue: -1)}
 
 <===> blue/too_low/error
 Error: $blue: Expected -1 to be within 0 and 255.
@@ -94,7 +101,8 @@ Error: $blue: Expected -1 to be within 0 and 255.
 <===>
 ================================================================================
 <===> blue/too_high/input.scss
-a {b: change-color(blue, $blue: 256)}
+@use "sass:color";
+a {b: color.change(blue, $blue: 256)}
 
 <===> blue/too_high/error
 Error: $blue: Expected 256 to be within 0 and 255.
@@ -107,9 +115,10 @@ Error: $blue: Expected 256 to be within 0 and 255.
 <===>
 ================================================================================
 <===> blue/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(blue, $blue: 300px)}
+a {b: color.change(blue, $blue: 300px)}
 
 <===> blue/unit/error
 Error: $blue: Expected 300px to be within 0 and 255.
@@ -122,7 +131,8 @@ Error: $blue: Expected 300px to be within 0 and 255.
 <===>
 ================================================================================
 <===> saturation/too_low/input.scss
-a {b: change-color(red, $saturation: -0.001%)}
+@use "sass:color";
+a {b: color.change(red, $saturation: -0.001%)}
 
 <===> saturation/too_low/error
 Error: $saturation: Expected -0.001% to be within 0% and 100%.
@@ -135,7 +145,8 @@ Error: $saturation: Expected -0.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> saturation/too_high/input.scss
-a {b: change-color(red, $saturation: 100.001%)}
+@use "sass:color";
+a {b: color.change(red, $saturation: 100.001%)}
 
 <===> saturation/too_high/error
 Error: $saturation: Expected 100.001% to be within 0% and 100%.
@@ -148,9 +159,10 @@ Error: $saturation: Expected 100.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> saturation/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(red, $saturation: 200px)}
+a {b: color.change(red, $saturation: 200px)}
 
 <===> saturation/unit/error
 DEPRECATION WARNING: $saturation: Passing a number without unit % (200px) is deprecated.
@@ -175,7 +187,8 @@ Error: $saturation: Expected 200px to be within 0% and 100%.
 <===>
 ================================================================================
 <===> lightness/too_low/input.scss
-a {b: change-color(red, $lightness: -0.001%)}
+@use "sass:color";
+a {b: color.change(red, $lightness: -0.001%)}
 
 <===> lightness/too_low/error
 Error: $lightness: Expected -0.001% to be within 0% and 100%.
@@ -188,7 +201,8 @@ Error: $lightness: Expected -0.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> lightness/too_high/input.scss
-a {b: change-color(red, $lightness: 100.001%)}
+@use "sass:color";
+a {b: color.change(red, $lightness: 100.001%)}
 
 <===> lightness/too_high/error
 Error: $lightness: Expected 100.001% to be within 0% and 100%.
@@ -201,9 +215,10 @@ Error: $lightness: Expected 100.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> lightness/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(red, $lightness: 200px)}
+a {b: color.change(red, $lightness: 200px)}
 
 <===> lightness/unit/error
 DEPRECATION WARNING: $lightness: Passing a number without unit % (200px) is deprecated.
@@ -228,7 +243,8 @@ Error: $lightness: Expected 200px to be within 0% and 100%.
 <===>
 ================================================================================
 <===> alpha/too_low/input.scss
-a {b: change-color(red, $alpha: -0.001)}
+@use "sass:color";
+a {b: color.change(red, $alpha: -0.001)}
 
 <===> alpha/too_low/error
 Error: $alpha: Expected -0.001 to be within 0 and 1.
@@ -241,7 +257,8 @@ Error: $alpha: Expected -0.001 to be within 0 and 1.
 <===>
 ================================================================================
 <===> alpha/too_high/input.scss
-a {b: change-color(red, $alpha: 1.001)}
+@use "sass:color";
+a {b: color.change(red, $alpha: 1.001)}
 
 <===> alpha/too_high/error
 Error: $alpha: Expected 1.001 to be within 0 and 1.
@@ -254,9 +271,10 @@ Error: $alpha: Expected 1.001 to be within 0 and 1.
 <===>
 ================================================================================
 <===> alpha/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: change-color(red, $alpha: 50%)}
+a {b: color.change(red, $alpha: 50%)}
 
 <===> alpha/unit/error
 DEPRECATION WARNING: $alpha: Passing a number with unit % is deprecated.
@@ -281,7 +299,8 @@ Error: $alpha: Expected 50% to be within 0 and 1.
 <===>
 ================================================================================
 <===> blackness/too_low/input.scss
-a {b: change-color(red, $blackness: -0.001%)}
+@use "sass:color";
+a {b: color.change(red, $blackness: -0.001%)}
 
 <===> blackness/too_low/error
 Error: $blackness: Expected -0.001% to be within 0% and 100%.
@@ -294,7 +313,8 @@ Error: $blackness: Expected -0.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> blackness/too_high/input.scss
-a {b: change-color(red, $blackness: 100.001%)}
+@use "sass:color";
+a {b: color.change(red, $blackness: 100.001%)}
 
 <===> blackness/too_high/error
 Error: $blackness: Expected 100.001% to be within 0% and 100%.
@@ -307,7 +327,8 @@ Error: $blackness: Expected 100.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> whiteness/too_low/input.scss
-a {b: change-color(red, $whiteness: -0.001%)}
+@use "sass:color";
+a {b: color.change(red, $whiteness: -0.001%)}
 
 <===> whiteness/too_low/error
 Error: $whiteness: Expected -0.001% to be within 0% and 100%.
@@ -320,7 +341,8 @@ Error: $whiteness: Expected -0.001% to be within 0% and 100%.
 <===>
 ================================================================================
 <===> whiteness/too_high/input.scss
-a {b: change-color(red, $whiteness: 100.001%)}
+@use "sass:color";
+a {b: color.change(red, $whiteness: 100.001%)}
 
 <===> whiteness/too_high/error
 Error: $whiteness: Expected 100.001% to be within 0% and 100%.

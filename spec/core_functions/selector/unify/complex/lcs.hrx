@@ -6,9 +6,10 @@ where the most specific selector will be chosen as the canonical selector.
 <===>
 ================================================================================
 <===> two_versus_one/input.scss
+@use "sass:selector";
 // The longest common subsequence is `.c .d`, which is longer than `.e`, so `.c
 // .d` gets unified while `.e` gets duplicated.
-a {b: selector-unify(".c .d .e .s1", ".e .c .d .s2")}
+a {b: selector.unify(".c .d .e .s1", ".e .c .d .s2")}
 
 <===> two_versus_one/output.css
 a {
@@ -18,9 +19,10 @@ a {
 <===>
 ================================================================================
 <===> three_versus_two/input.scss
+@use "sass:selector";
 // The longest common subsequence is `.c .d .e`, which is longer than `.f g`, so
 // `.c .d .e` gets unified while `.f .g` gets duplicated.
-a {b: selector-unify(".c .d .e .f .g .s1", ".f .g .c .d .e .s2")}
+a {b: selector.unify(".c .d .e .f .g .s1", ".f .g .c .d .e .s2")}
 
 <===> three_versus_two/output.css
 a {
@@ -30,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> non_contiguous/same_positions/input.scss
-a {b: selector-unify(".s1-1 .c .d .s1-2 .e .s1-3", ".s2-1 .c .d .s2-2 .e .s2-3")}
+@use "sass:selector";
+a {b: selector.unify(".s1-1 .c .d .s1-2 .e .s1-3", ".s2-1 .c .d .s2-2 .e .s2-3")}
 
 <===> non_contiguous/same_positions/output.css
 a {
@@ -40,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> non_contiguous/different_positions/input.scss
-a {b: selector-unify(".s1-1 .c .d .s1-2 .e .s1-3", ".c .s2-1 .d .e .s2-2 .s2-3")}
+@use "sass:selector";
+a {b: selector.unify(".s1-1 .c .d .s1-2 .e .s1-3", ".c .s2-1 .d .e .s2-2 .s2-3")}
 
 <===> non_contiguous/different_positions/output.css
 a {

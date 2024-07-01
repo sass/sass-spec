@@ -7,7 +7,8 @@ invalid calls.
 <===>
 ================================================================================
 <===> type/separator/input.scss
-a {b: join(c, d, $separator: 1)}
+@use "sass:list";
+a {b: list.join(c, d, $separator: 1)}
 
 <===> type/separator/error
 Error: $separator: 1 is not a string.
@@ -20,7 +21,8 @@ Error: $separator: 1 is not a string.
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: join(c, d, comma, true, false)}
+@use "sass:list";
+a {b: list.join(c, d, comma, true, false)}
 
 <===> too_many_args/error
 Error: Only 4 arguments allowed, but 5 were passed.
@@ -37,7 +39,8 @@ Error: Only 4 arguments allowed, but 5 were passed.
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: join(c)}
+@use "sass:list";
+a {b: list.join(c)}
 
 <===> too_few_args/error
 Error: Missing argument $list2.
@@ -54,7 +57,8 @@ Error: Missing argument $list2.
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: join(c, d, $invalid: true)}
+@use "sass:list";
+a {b: list.join(c, d, $invalid: true)}
 
 <===> named/error
 Error: No argument named $invalid.
@@ -71,7 +75,8 @@ Error: No argument named $invalid.
 <===>
 ================================================================================
 <===> positional_and_named/input.scss
-a {b: join(c, d, comma, true, false, $invalid: true)}
+@use "sass:list";
+a {b: list.join(c, d, comma, true, false, $invalid: true)}
 
 <===> positional_and_named/error
 Error: Only 4 positional arguments allowed, but 5 were passed.
@@ -88,7 +93,8 @@ Error: Only 4 positional arguments allowed, but 5 were passed.
 <===>
 ================================================================================
 <===> unknown_separator/input.scss
-a {b: join(c, d, $separator: e)}
+@use "sass:list";
+a {b: list.join(c, d, $separator: e)}
 
 <===> unknown_separator/error
 Error: $separator: Must be "space", "comma", "slash", or "auto".

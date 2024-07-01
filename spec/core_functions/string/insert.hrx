@@ -1,5 +1,6 @@
 <===> empty_destination/empty_source/input.scss
-a {b: str-insert("", "", 1)}
+@use "sass:string";
+a {b: string.insert("", "", 1)}
 
 <===> empty_destination/empty_source/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> empty_destination/index_0/input.scss
-a {b: str-insert("", "c", 0)}
+@use "sass:string";
+a {b: string.insert("", "c", 0)}
 
 <===> empty_destination/index_0/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> empty_destination/index_1/input.scss
-a {b: str-insert("", "c", 1)}
+@use "sass:string";
+a {b: string.insert("", "c", 1)}
 
 <===> empty_destination/index_1/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> empty_destination/index_2/input.scss
-a {b: str-insert("", "c", 2)}
+@use "sass:string";
+a {b: string.insert("", "c", 2)}
 
 <===> empty_destination/index_2/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> empty_destination/index_negative_1/input.scss
-a {b: str-insert("", "c", -1)}
+@use "sass:string";
+a {b: string.insert("", "c", -1)}
 
 <===> empty_destination/index_negative_1/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> empty_insertion/input.scss
-a {b: str-insert("cde", "", 1)}
+@use "sass:string";
+a {b: string.insert("cde", "", 1)}
 
 <===> empty_insertion/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> index/positive/0/input.scss
-a {b: str-insert("cde", "f", 0)}
+@use "sass:string";
+a {b: string.insert("cde", "f", 0)}
 
 <===> index/positive/0/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> index/positive/1/input.scss
-a {b: str-insert("cde", "f", 1)}
+@use "sass:string";
+a {b: string.insert("cde", "f", 1)}
 
 <===> index/positive/1/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> index/positive/2/input.scss
-a {b: str-insert("cde", "f", 2)}
+@use "sass:string";
+a {b: string.insert("cde", "f", 2)}
 
 <===> index/positive/2/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> index/positive/last/input.scss
-a {b: str-insert("cde", "f", 4)}
+@use "sass:string";
+a {b: string.insert("cde", "f", 4)}
 
 <===> index/positive/last/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> index/positive/after_last/input.scss
-a {b: str-insert("cde", "f", 100)}
+@use "sass:string";
+a {b: string.insert("cde", "f", 100)}
 
 <===> index/positive/after_last/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> index/negative/1/input.scss
-a {b: str-insert("cde", "f", -1)}
+@use "sass:string";
+a {b: string.insert("cde", "f", -1)}
 
 <===> index/negative/1/output.css
 a {
@@ -119,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> index/negative/2/input.scss
-a {b: str-insert("cde", "f", -2)}
+@use "sass:string";
+a {b: string.insert("cde", "f", -2)}
 
 <===> index/negative/2/output.css
 a {
@@ -129,7 +142,8 @@ a {
 <===>
 ================================================================================
 <===> index/negative/last/input.scss
-a {b: str-insert("cde", "f", -4)}
+@use "sass:string";
+a {b: string.insert("cde", "f", -4)}
 
 <===> index/negative/last/output.css
 a {
@@ -139,8 +153,9 @@ a {
 <===>
 ================================================================================
 <===> index/negative/after_last/less_than_double/input.scss
+@use "sass:string";
 // Regression test for sass/dart-sass#1568
-a {b: str-insert("cdefghijkl", "mno", -15)}
+a {b: string.insert("cdefghijkl", "mno", -15)}
 
 <===> index/negative/after_last/less_than_double/output.css
 a {
@@ -150,7 +165,8 @@ a {
 <===>
 ================================================================================
 <===> index/negative/after_last/more_than_double/input.scss
-a {b: str-insert("cde", "f", -100)}
+@use "sass:string";
+a {b: string.insert("cde", "f", -100)}
 
 <===> index/negative/after_last/more_than_double/output.css
 a {
@@ -160,10 +176,11 @@ a {
 <===>
 ================================================================================
 <===> double_width_character/input.scss
+@use "sass:string";
 // Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
 // character is represented as two UTF-16 code units, so inserting a character
 // at index 2 shouldn't break this emoji in two.
-a {b: str-insert("👭", "c", 2)}
+a {b: string.insert("👭", "c", 2)}
 
 <===> double_width_character/output.css
 @charset "UTF-8";
@@ -174,11 +191,12 @@ a {
 <===>
 ================================================================================
 <===> combining_character/input.scss
+@use "sass:string";
 // Sass does *not* treat strings as sequences of glyphs, so this string which
 // contains "c" followed by a combining umlaut should be considered two separate
 // characters even though it's rendered as only one and the "d" should be
 // injected between the two.
-a {b: str-insert("c\0308", "d", 2)}
+a {b: string.insert("c\0308", "d", 2)}
 
 <===> combining_character/output.css
 @charset "UTF-8";
@@ -189,7 +207,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: str-insert($string: "cde", $insert: "f", $index: 2)}
+@use "sass:string";
+a {b: string.insert($string: "cde", $insert: "f", $index: 2)}
 
 <===> named/output.css
 a {
@@ -199,7 +218,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/string/input.scss
-a {b: str-insert(1, "", 1)}
+@use "sass:string";
+a {b: string.insert(1, "", 1)}
 
 <===> error/type/string/error
 Error: $string: 1 is not a string.
@@ -212,7 +232,8 @@ Error: $string: 1 is not a string.
 <===>
 ================================================================================
 <===> error/type/insert/input.scss
-a {b: str-insert("", 1, 1)}
+@use "sass:string";
+a {b: string.insert("", 1, 1)}
 
 <===> error/type/insert/error
 Error: $insert: 1 is not a string.
@@ -225,7 +246,8 @@ Error: $insert: 1 is not a string.
 <===>
 ================================================================================
 <===> error/type/index/input.scss
-a {b: str-insert("", "", "")}
+@use "sass:string";
+a {b: string.insert("", "", "")}
 
 <===> error/type/index/error
 Error: $index: "" is not a number.
@@ -238,7 +260,8 @@ Error: $index: "" is not a number.
 <===>
 ================================================================================
 <===> error/decimal/input.scss
-a {b: str-insert("", "", 0.5)}
+@use "sass:string";
+a {b: string.insert("", "", 0.5)}
 
 <===> error/decimal/error
 Error: $index: 0.5 is not an int.
@@ -251,7 +274,8 @@ Error: $index: 0.5 is not an int.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: str-insert("", "")}
+@use "sass:string";
+a {b: string.insert("", "")}
 
 <===> error/too_few_args/error
 Error: Missing argument $index.
@@ -268,7 +292,8 @@ Error: Missing argument $index.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: str-insert("", "", 1, 2)}
+@use "sass:string";
+a {b: string.insert("", "", 1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.

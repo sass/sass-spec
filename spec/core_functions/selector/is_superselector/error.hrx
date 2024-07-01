@@ -1,5 +1,6 @@
 <===> super/parent/input.scss
-a {b: is-superselector("&", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("&", "c")}
 
 <===> super/parent/error
 Error: $super: Parent selectors aren't allowed here.
@@ -17,7 +18,8 @@ Error: $super: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> super/invalid/input.scss
-a {b: is-superselector("[c", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("[c", "d")}
 
 <===> super/invalid/error
 Error: $super: expected more input.
@@ -35,7 +37,8 @@ Error: $super: expected more input.
 <===>
 ================================================================================
 <===> super/type/input.scss
-a {b: is-superselector(1, "c")}
+@use "sass:selector";
+a {b: selector.is-superselector(1, "c")}
 
 <===> super/type/error
 Error: $super: 1 is not a valid selector: it must be a string,
@@ -49,7 +52,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> sub/parent/input.scss
-a {b: is-superselector("c", "&")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "&")}
 
 <===> sub/parent/error
 Error: $sub: Parent selectors aren't allowed here.
@@ -67,7 +71,8 @@ Error: $sub: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> sub/invalid/input.scss
-a {b: is-superselector("c", "[d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "[d")}
 
 <===> sub/invalid/error
 Error: $sub: expected more input.
@@ -85,7 +90,8 @@ Error: $sub: expected more input.
 <===>
 ================================================================================
 <===> sub/type/input.scss
-a {b: is-superselector("c", 1)}
+@use "sass:selector";
+a {b: selector.is-superselector("c", 1)}
 
 <===> sub/type/error
 Error: $sub: 1 is not a valid selector: it must be a string,
@@ -99,7 +105,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: is-superselector("c", "d", "e")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "d", "e")}
 
 <===> too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
@@ -116,7 +123,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: is-superselector("c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c")}
 
 <===> too_few_args/error
 Error: Missing argument $sub.

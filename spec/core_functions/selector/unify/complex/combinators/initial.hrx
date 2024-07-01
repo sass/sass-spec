@@ -6,7 +6,8 @@ Any of these specs should pass with any combination of combinators.
 <===>
 ================================================================================
 <===> only_one/selector1/input.scss
-a {b: selector-unify("> .c", ".d")}
+@use "sass:selector";
+a {b: selector.unify("> .c", ".d")}
 
 <===> only_one/selector1/output.css
 a {
@@ -28,7 +29,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> only_one/selector2/input.scss
-a {b: selector-unify(".c", "~ .d")}
+@use "sass:selector";
+a {b: selector.unify(".c", "~ .d")}
 
 <===> only_one/selector2/output.css
 a {
@@ -50,7 +52,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> same/input.scss
-a {b: selector-unify("+ .c", "+ .d")}
+@use "sass:selector";
+a {b: selector.unify("+ .c", "+ .d")}
 
 <===> same/output.css
 a {
@@ -83,7 +86,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> supersequence/contiguous/input.scss
-a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
+@use "sass:selector";
+a {b: selector.unify("+ ~ > .c", "> + ~ > > .d")}
 
 <===> supersequence/contiguous/output.css
 
@@ -113,7 +117,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> supersequence/non_contiguous/input.scss
-a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
+@use "sass:selector";
+a {b: selector.unify("+ ~ > .c", "+ > ~ ~ > .d")}
 
 <===> supersequence/non_contiguous/output.css
 
@@ -143,7 +148,9 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> different/input.scss
-a {b: inspect(selector-unify("+ ~ > .c", "+ > ~ ~ .d"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("+ ~ > .c", "+ > ~ ~ .d"))}
 
 <===> different/output.css
 a {

@@ -1,9 +1,10 @@
 <===> input.scss
+@use "sass:string";
 // Sass does *not* treat strings as sequences of glyphs, so this string which
 // contains "c" followed by a combining umlaut should be considered two separate
 // characters even though it's rendered as only one and only the "d" should be
 // sliced out.
-a {b: str-slice("cd\0308e", 2, 2)}
+a {b: string.slice("cd\0308e", 2, 2)}
 
 <===> output.css
 a {

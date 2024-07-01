@@ -1,5 +1,6 @@
 <===> equal/input.scss
-a {b: is-superselector(".c", ".c")}
+@use "sass:selector";
+a {b: selector.is-superselector(".c", ".c")}
 
 <===> equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> unequal/input.scss
-a {b: is-superselector(".c", ".d")}
+@use "sass:selector";
+a {b: selector.is-superselector(".c", ".d")}
 
 <===> unequal/output.css
 a {

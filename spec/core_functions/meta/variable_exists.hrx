@@ -1,7 +1,8 @@
 <===> global/input.scss
+@use "sass:meta";
 $global-variable: null;
 
-a {b: variable-exists(global-variable)}
+a {b: meta.variable-exists(global-variable)}
 
 <===> global/output.css
 a {
@@ -11,9 +12,10 @@ a {
 <===>
 ================================================================================
 <===> local/input.scss
+@use "sass:meta";
 a {
   $local-variable: null;
-  b: variable-exists(local-variable);
+  b: meta.variable-exists(local-variable);
 }
 
 <===> local/output.css
@@ -24,9 +26,10 @@ a {
 <===>
 ================================================================================
 <===> dash_insensitive/dash_to_underscore/input.scss
+@use "sass:meta";
 $a_b: null;
 
-c {d: variable-exists(a-b)}
+c {d: meta.variable-exists(a-b)}
 
 <===> dash_insensitive/dash_to_underscore/output.css
 c {
@@ -36,9 +39,10 @@ c {
 <===>
 ================================================================================
 <===> dash_insensitive/underscore_to_dash/input.scss
+@use "sass:meta";
 $a-b: null;
 
-c {d: variable-exists(a_b)}
+c {d: meta.variable-exists(a_b)}
 
 <===> dash_insensitive/underscore_to_dash/output.css
 c {
@@ -48,8 +52,9 @@ c {
 <===>
 ================================================================================
 <===> through_import/input.scss
+@use "sass:meta";
 @import "other";
-a {b: variable-exists(global-variable)}
+a {b: meta.variable-exists(global-variable)}
 
 <===> through_import/other.scss
 $global-variable: null;
@@ -62,8 +67,9 @@ a {
 <===>
 ================================================================================
 <===> through_use/input.scss
+@use "sass:meta";
 @use "other" as *;
-a {b: variable-exists(global-variable)}
+a {b: meta.variable-exists(global-variable)}
 
 <===> through_use/other.scss
 $global-variable: null;
@@ -76,10 +82,11 @@ a {
 <===>
 ================================================================================
 <===> through_forward/as/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  with-prefix: variable-exists(b-c);
-  without-prefix: variable-exists(c);
+  with-prefix: meta.variable-exists(b-c);
+  without-prefix: meta.variable-exists(c);
 }
 
 <===> through_forward/as/_midstream.scss
@@ -97,10 +104,11 @@ a {
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  shown: variable-exists(b);
-  not-shown: variable-exists(c);
+  shown: meta.variable-exists(b);
+  not-shown: meta.variable-exists(c);
 }
 
 <===> through_forward/show/_midstream.scss
@@ -119,10 +127,11 @@ a {
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  hidden: variable-exists(b);
-  not-hidden: variable-exists(c);
+  hidden: meta.variable-exists(b);
+  not-hidden: meta.variable-exists(c);
 }
 
 <===> through_forward/hide/_midstream.scss
@@ -141,8 +150,9 @@ a {
 <===>
 ================================================================================
 <===> non_existent/input.scss
+@use "sass:meta";
 a {
-  b: variable-exists(non-existent);
+  b: meta.variable-exists(non-existent);
 }
 
 <===> non_existent/output.css
@@ -153,7 +163,8 @@ a {
 <===>
 ================================================================================
 <===> keyword/input.scss
-a {b: variable-exists($name: foo)}
+@use "sass:meta";
+a {b: meta.variable-exists($name: foo)}
 
 <===> keyword/output.css
 a {
@@ -163,7 +174,8 @@ a {
 <===>
 ================================================================================
 <===> error/argument/type/input.scss
-a {b: variable-exists(12px)}
+@use "sass:meta";
+a {b: meta.variable-exists(12px)}
 
 <===> error/argument/type/error
 Error: $name: 12px is not a string.
@@ -176,7 +188,8 @@ Error: $name: 12px is not a string.
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
-a {b: variable-exists()}
+@use "sass:meta";
+a {b: meta.variable-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
@@ -193,7 +206,8 @@ Error: Missing argument $name.
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: variable-exists(foo, bar)}
+@use "sass:meta";
+a {b: meta.variable-exists(foo, bar)}
 
 <===> error/argument/too_many/error
 Error: Only 1 argument allowed, but 2 were passed.
@@ -210,10 +224,11 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> conflict/input.scss
+@use "sass:meta";
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: variable-exists(member)}
+a {b: meta.variable-exists(member)}
 
 <===> conflict/other1.scss
 $member: from other1;

@@ -1,5 +1,6 @@
 <===> integer/input.scss
-a {b: floor(1)}
+@use "sass:math";
+a {b: math.floor(1)}
 
 <===> integer/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> high/input.scss
-a {b: floor(2.999999999999999)}
+@use "sass:math";
+a {b: math.floor(2.999999999999999)}
 
 <===> high/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> low/input.scss
-a {b: floor(6.1)}
+@use "sass:math";
+a {b: math.floor(6.1)}
 
 <===> low/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> negative/input.scss
-a {b: floor(-7.2)}
+@use "sass:math";
+a {b: math.floor(-7.2)}
 
 <===> negative/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> preserves_units/input.scss
-a {b: floor(7px / 4em) * 1em}
+@use "sass:math";
+a {b: math.floor(7px / 4em) * 1em}
 
 <===> preserves_units/output.css
 a {
@@ -62,7 +67,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: floor($number: 1.6)}
+@use "sass:math";
+a {b: math.floor($number: 1.6)}
 
 <===> named/output.css
 a {
@@ -72,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: floor(c)}
+@use "sass:math";
+a {b: math.floor(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
@@ -85,7 +92,8 @@ Error: $number: c is not a number.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: floor()}
+@use "sass:math";
+a {b: math.floor()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
@@ -102,7 +110,8 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: floor(1, 2)}
+@use "sass:math";
+a {b: math.floor(1, 2)}
 
 
 <===> error/too_many_args/error

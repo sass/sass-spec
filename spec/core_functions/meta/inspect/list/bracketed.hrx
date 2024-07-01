@@ -1,8 +1,9 @@
 <===> input.scss
-$result: inspect([1, 2, 3]);
+@use "sass:meta";
+$result: meta.inspect([1, 2, 3]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> output.css

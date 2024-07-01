@@ -71,9 +71,10 @@ a {
 <===>
 ================================================================================
 <===> type/number/input.scss
+@use "sass:math";
 @use "sass:list";
 @use "sass:meta";
-a {b: meta.type-of(list.nth(meta.calc-args(min(1%, 2px)), 1))}
+a {b: meta.type-of(list.nth(meta.calc-args(math.min(1%, 2px)), 1))}
 
 <===> type/number/output.css
 a {
@@ -132,9 +133,10 @@ c {
 <===>
 ================================================================================
 <===> type/calculation/input.scss
+@use "sass:math";
 @use "sass:list";
 @use "sass:meta";
-a {b: meta.type-of(list.nth(meta.calc-args(min(max(1%, 1px), 2px)), 1))}
+a {b: meta.type-of(list.nth(meta.calc-args(math.min(math.max(1%, 1px), 2px)), 1))}
 
 <===> type/calculation/output.css
 a {

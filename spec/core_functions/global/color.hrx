@@ -1,6 +1,5 @@
 <===> red/input.scss
-@use "sass:color";
-a {b: color.red(#abcdef)}
+a {b: red(#abcdef)}
 
 <===> red/output.css
 a {
@@ -10,8 +9,7 @@ a {
 <===>
 ================================================================================
 <===> green/input.scss
-@use "sass:color";
-a {b: color.green(#abcdef)}
+a {b: green(#abcdef)}
 
 <===> green/output.css
 a {
@@ -21,8 +19,7 @@ a {
 <===>
 ================================================================================
 <===> blue/input.scss
-@use "sass:color";
-a {b: color.blue(#abcdef)}
+a {b: blue(#abcdef)}
 
 <===> blue/output.css
 a {
@@ -32,8 +29,7 @@ a {
 <===>
 ================================================================================
 <===> hue/input.scss
-@use "sass:color";
-a {b: color.hue(#abcdef)}
+a {b: hue(#abcdef)}
 
 <===> hue/output.css
 a {
@@ -43,8 +39,7 @@ a {
 <===>
 ================================================================================
 <===> saturation/input.scss
-@use "sass:color";
-a {b: color.saturation(#abcdef)}
+a {b: saturation(#abcdef)}
 
 <===> saturation/output.css
 a {
@@ -54,8 +49,7 @@ a {
 <===>
 ================================================================================
 <===> lightness/input.scss
-@use "sass:color";
-a {b: color.lightness(#abcdef)}
+a {b: lightness(#abcdef)}
 
 <===> lightness/output.css
 a {
@@ -65,8 +59,7 @@ a {
 <===>
 ================================================================================
 <===> mix/input.scss
-@use "sass:color";
-a {b: color.mix(#abcdef, #daddee)}
+a {b: mix(#abcdef, #daddee)}
 
 <===> mix/output.css
 a {
@@ -76,8 +69,7 @@ a {
 <===>
 ================================================================================
 <===> complement/input.scss
-@use "sass:color";
-a {b: color.complement(#abcdef)}
+a {b: complement(#abcdef)}
 
 <===> complement/output.css
 a {
@@ -87,8 +79,7 @@ a {
 <===>
 ================================================================================
 <===> invert/input.scss
-@use "sass:color";
-a {b: color.invert(#abcdef)}
+a {b: invert(#abcdef)}
 
 <===> invert/output.css
 a {
@@ -98,8 +89,7 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-@use "sass:color";
-a {b: color.alpha(#abcdef)}
+a {b: alpha(#abcdef)}
 
 <===> alpha/output.css
 a {
@@ -109,8 +99,7 @@ a {
 <===>
 ================================================================================
 <===> adjust/input.scss
-@use "sass:color";
-a {b: color.adjust(#abcdef, $red: 10)}
+a {b: adjust-color(#abcdef, $red: 10)}
 
 <===> adjust/output.css
 a {
@@ -120,8 +109,7 @@ a {
 <===>
 ================================================================================
 <===> scale/input.scss
-@use "sass:color";
-a {b: color.scale(#abcdef, $red: 10%)}
+a {b: scale-color(#abcdef, $red: 10%)}
 
 <===> scale/output.css
 a {
@@ -131,8 +119,7 @@ a {
 <===>
 ================================================================================
 <===> change/input.scss
-@use "sass:color";
-a {b: color.change(#abcdef, $red: 10)}
+a {b: change-color(#abcdef, $red: 10)}
 
 <===> change/output.css
 a {
@@ -142,8 +129,7 @@ a {
 <===>
 ================================================================================
 <===> ie_hex_str/input.scss
-@use "sass:color";
-a {b: color.ie-hex-str(#abcdef)}
+a {b: ie-hex-str(#abcdef)}
 
 <===> ie_hex_str/output.css
 a {
@@ -152,119 +138,96 @@ a {
 
 <===>
 ================================================================================
-<===> css_overloads/README.md
-CSS overloads are still supported for module functions to ease the transition,
-but they should produce deprecation warnings.
+<===> grayscale/input.scss
+a {b: grayscale(red)}
+
+<===> grayscale/output.css
+a {
+  b: black;
+}
 
 <===>
 ================================================================================
-<===> css_overloads/grayscale/input.scss
-@use "sass:color";
-a {b: color.grayscale(1)}
+<===> grayscale/with_number/input.scss
+// A number should produce a plain function string, for CSS filter functions.
+a {b: grayscale(15%)}
 
-<===> css_overloads/grayscale/output.css
+<===> grayscale/with_number/output.css
 a {
-  b: grayscale(1);
+  b: grayscale(15%);
 }
-
-<===> css_overloads/grayscale/warning
-DEPRECATION WARNING: Passing a number (1) to color.grayscale() is deprecated.
-
-Recommendation: grayscale(1)
-
-  ,
-2 | a {b: color.grayscale(1)}
-  |       ^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
-<===> css_overloads/invert/input.scss
-@use "sass:color";
-a {b: color.invert(1)}
+<===> grayscale/with_css_var/input.scss
+a {b: grayscale(var(--c))}
 
-<===> css_overloads/invert/output.css
+<===> grayscale/with_css_var/output.css
 a {
-  b: invert(1);
+  b: grayscale(var(--c));
 }
-
-<===> css_overloads/invert/warning
-DEPRECATION WARNING: Passing a number (1) to color.invert() is deprecated.
-
-Recommendation: invert(1)
-
-  ,
-2 | a {b: color.invert(1)}
-  |       ^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
-<===> css_overloads/alpha/one_arg/input.scss
-@use "sass:color";
-a {b: color.alpha(c=d)}
+<===> grayscale/with_calc/input.scss
+a {b: grayscale(calc(1 + 2))}
 
-<===> css_overloads/alpha/one_arg/output.css
+<===> grayscale/with_calc/output.css
 a {
-  b: alpha(c=d);
+  b: grayscale(3);
 }
-
-<===> css_overloads/alpha/one_arg/warning
-DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
-
-Recommendation: alpha(c=d)
-
-  ,
-2 | a {b: color.alpha(c=d)}
-  |       ^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
-<===> css_overloads/alpha/multi_arg/input.scss
-@use "sass:color";
-a {b: color.alpha(c=d, e=f, g=h)}
+<===> grayscale/with_unquoted_calc/input.scss
+@use "sass:string";
+a {b: grayscale(string.unquote('calc(1)'))}
 
-<===> css_overloads/alpha/multi_arg/output.css
+<===> grayscale/with_unquoted_calc/output.css
 a {
-  b: alpha(c=d, e=f, g=h);
+  b: grayscale(calc(1));
 }
-
-<===> css_overloads/alpha/multi_arg/warning
-DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
-
-Recommendation: alpha(c=d, e=f, g=h)
-
-  ,
-2 | a {b: color.alpha(c=d, e=f, g=h)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
-<===> css_overloads/opacity/input.scss
-@use "sass:color";
-a {b: color.opacity(1)}
+<===> invert/with_number/input.scss
+a {b: invert(10%)}
 
-<===> css_overloads/opacity/output.css
+<===> invert/with_number/output.css
 a {
-  b: opacity(1);
+  b: invert(10%);
 }
 
-<===> css_overloads/opacity/warning
-DEPRECATION WARNING: Passing a number (1 to color.opacity() is deprecated.
+<===>
+================================================================================
+<===> invert/with_css_var/input.scss
+a {b: invert(var(--c))}
 
-Recommendation: opacity(1)
+<===> invert/with_css_var/output.css
+a {
+  b: invert(var(--c));
+}
 
-  ,
-2 | a {b: color.opacity(1)}
-  |       ^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
+<===>
+================================================================================
+<===> invert/with_calc/input.scss
+a {b: invert(calc(1 + 2))}
+
+<===> invert/with_calc/output.css
+a {
+  b: invert(3);
+}
+
+<===>
+================================================================================
+<===> invert/with_unquoted_calc/input.scss
+@use "sass:string";
+a {b: invert(string.unquote('calc(1)'))}
+
+<===> invert/with_unquoted_calc/output.css
+a {
+  b: invert(calc(1));
+}
 
 <===>
 ================================================================================

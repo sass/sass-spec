@@ -1,5 +1,6 @@
 <===> red/input.scss
-a {b: complement(red)}
+@use "sass:color";
+a {b: color.complement(red)}
 
 <===> red/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> turquoise/input.scss
-a {b: complement(turquoise)}
+@use "sass:color";
+a {b: color.complement(turquoise)}
 
 <===> turquoise/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/gray/input.scss
-a {b: complement(gray)}
+@use "sass:color";
+a {b: color.complement(gray)}
 
 <===> grayscale/gray/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/white/input.scss
-a {b: complement(white)}
+@use "sass:color";
+a {b: color.complement(white)}
 
 <===> grayscale/white/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/black/input.scss
-a {b: complement(black)}
+@use "sass:color";
+a {b: color.complement(black)}
 
 <===> grayscale/black/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-a {b: complement(rgba(turquoise, 0.7))}
+@use "sass:color";
+a {b: color.complement(rgba(turquoise, 0.7))}
 
 <===> alpha/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: complement($color: red)}
+@use "sass:color";
+a {b: color.complement($color: red)}
 
 <===> named/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: complement()}
+@use "sass:color";
+a {b: color.complement()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
@@ -86,7 +94,8 @@ Error: Missing argument $color.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: complement(red, 1)}
+@use "sass:color";
+a {b: color.complement(red, 1)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
@@ -103,7 +112,8 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: complement(1)}
+@use "sass:color";
+a {b: color.complement(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.

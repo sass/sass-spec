@@ -149,7 +149,8 @@ Error: $lightness: "var(--foo) / 0.4" is not a number.
 <===>
 ================================================================================
 <===> slash_list/too_few_elements/input.scss
-a {b: hsl(append((), 0 100% 100%, $separator: slash))}
+@use "sass:list";
+a {b: hsl(list.append((), 0 100% 100%, $separator: slash))}
 
 <===> slash_list/too_few_elements/error
 Error: Only 2 slash-separated elements allowed, but 1 was passed.

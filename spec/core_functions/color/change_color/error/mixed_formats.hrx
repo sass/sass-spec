@@ -1,5 +1,6 @@
 <===> red_and_hue/input.scss
-a {b: change-color(red, $red: 1, $hue: 1)}
+@use "sass:color";
+a {b: color.change(red, $red: 1, $hue: 1)}
 
 <===> red_and_hue/error
 Error: RGB parameters may not be passed along with HSL parameters.
@@ -12,7 +13,8 @@ Error: RGB parameters may not be passed along with HSL parameters.
 <===>
 ================================================================================
 <===> green_and_saturation/input.scss
-a {b: change-color(red, $green: 1, $saturation: 1%)}
+@use "sass:color";
+a {b: color.change(red, $green: 1, $saturation: 1%)}
 
 <===> green_and_saturation/error
 Error: RGB parameters may not be passed along with HSL parameters.
@@ -25,7 +27,8 @@ Error: RGB parameters may not be passed along with HSL parameters.
 <===>
 ================================================================================
 <===> blue_and_lightness/input.scss
-a {b: change-color(red, $blue: 1, $lightness: 1%)}
+@use "sass:color";
+a {b: color.change(red, $blue: 1, $lightness: 1%)}
 
 <===> blue_and_lightness/error
 Error: RGB parameters may not be passed along with HSL parameters.
@@ -38,7 +41,8 @@ Error: RGB parameters may not be passed along with HSL parameters.
 <===>
 ================================================================================
 <===> red_and_blackness/input.scss
-a {b: adjust-color(red, $red: 1, $blackness: 1%)}
+@use "sass:color";
+a {b: color.adjust(red, $red: 1, $blackness: 1%)}
 
 <===> red_and_blackness/error
 Error: RGB parameters may not be passed along with HWB parameters.
@@ -51,7 +55,8 @@ Error: RGB parameters may not be passed along with HWB parameters.
 <===>
 ================================================================================
 <===> green_and_whiteness/input.scss
-a {b: change-color(red, $green: 1, $whiteness: 1%)}
+@use "sass:color";
+a {b: color.change(red, $green: 1, $whiteness: 1%)}
 
 <===> green_and_whiteness/error
 Error: RGB parameters may not be passed along with HWB parameters.
@@ -64,7 +69,8 @@ Error: RGB parameters may not be passed along with HWB parameters.
 <===>
 ================================================================================
 <===> saturation_and_blackness/input.scss
-a {b: change-color(red, $saturation: 1%, $blackness: 1%)}
+@use "sass:color";
+a {b: color.change(red, $saturation: 1%, $blackness: 1%)}
 
 <===> saturation_and_blackness/error
 Error: HSL parameters may not be passed along with HWB parameters.
@@ -77,7 +83,8 @@ Error: HSL parameters may not be passed along with HWB parameters.
 <===>
 ================================================================================
 <===> lightness_and_whiteness/input.scss
-a {b: change-color(red, $lightness: 1%, $whiteness: 1%)}
+@use "sass:color";
+a {b: color.change(red, $lightness: 1%, $whiteness: 1%)}
 
 <===> lightness_and_whiteness/error
 Error: HSL parameters may not be passed along with HWB parameters.

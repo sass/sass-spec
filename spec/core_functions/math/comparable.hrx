@@ -1,5 +1,6 @@
 <===> unitless/to_unitless/input.scss
-a {b: comparable(1, 2)}
+@use "sass:math";
+a {b: math.compatible(1, 2)}
 
 <===> unitless/to_unitless/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> unitless/to_unit/input.scss
-a {b: comparable(1, 2px)}
+@use "sass:math";
+a {b: math.compatible(1, 2px)}
 
 <===> unitless/to_unit/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> unit/to_same/input.scss
-a {b: comparable(1px, 2px)}
+@use "sass:math";
+a {b: math.compatible(1px, 2px)}
 
 <===> unit/to_same/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> unit/to_compatible/input.scss
-a {b: comparable(1px, 2in)}
+@use "sass:math";
+a {b: math.compatible(1px, 2in)}
 
 <===> unit/to_compatible/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> unit/to_different/input.scss
-a {b: comparable(1px, 2em)}
+@use "sass:math";
+a {b: math.compatible(1px, 2em)}
 
 <===> unit/to_different/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> unit/to_inverse/input.scss
-a {b: comparable(1px, 1/1px)}
+@use "sass:math";
+a {b: math.compatible(1px, 1/1px)}
 
 <===> unit/to_inverse/output.css
 a {
@@ -72,7 +78,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: comparable($number1: 1, $number2: 2)}
+@use "sass:math";
+a {b: math.compatible($number1: 1, $number2: 2)}
 
 <===> named/output.css
 a {
@@ -82,7 +89,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/arg_1/input.scss
-a {b: comparable(c, 1)}
+@use "sass:math";
+a {b: math.compatible(c, 1)}
 
 <===> error/type/arg_1/error
 Error: $number1: c is not a number.
@@ -95,7 +103,8 @@ Error: $number1: c is not a number.
 <===>
 ================================================================================
 <===> error/type/arg_2/input.scss
-a {b: comparable(1, c)}
+@use "sass:math";
+a {b: math.compatible(1, c)}
 
 <===> error/type/arg_2/error
 Error: $number2: c is not a number.
@@ -108,7 +117,8 @@ Error: $number2: c is not a number.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: comparable(1)}
+@use "sass:math";
+a {b: math.compatible(1)}
 
 <===> error/too_few_args/error
 Error: Missing argument $number2.
@@ -125,7 +135,8 @@ Error: Missing argument $number2.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: comparable(1, 2, 3)}
+@use "sass:math";
+a {b: math.compatible(1, 2, 3)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.

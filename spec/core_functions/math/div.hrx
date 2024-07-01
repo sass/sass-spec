@@ -105,11 +105,12 @@ a {
 <===>
 ================================================================================
 <===> non_numeric/numerator/input.scss
+@use "sass:meta";
 @use "sass:math";
 a {
   $result: math.div(b, 3);
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> non_numeric/numerator/output.css
@@ -131,11 +132,12 @@ Use list.slash() instead for a slash separator.
 <===>
 ================================================================================
 <===> non_numeric/denominator/input.scss
+@use "sass:meta";
 @use "sass:math";
 a {
   $result: math.div(6, b);
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> non_numeric/denominator/output.css

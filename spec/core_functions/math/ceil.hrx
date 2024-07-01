@@ -1,5 +1,6 @@
 <===> integer/input.scss
-a {b: ceil(1)}
+@use "sass:math";
+a {b: math.ceil(1)}
 
 <===> integer/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> high/input.scss
-a {b: ceil(2.9)}
+@use "sass:math";
+a {b: math.ceil(2.9)}
 
 <===> high/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> low/input.scss
-a {b: ceil(6.000000000000001)}
+@use "sass:math";
+a {b: math.ceil(6.000000000000001)}
 
 <===> low/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> negative/input.scss
-a {b: ceil(-7.6)}
+@use "sass:math";
+a {b: math.ceil(-7.6)}
 
 <===> negative/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> preserves_units/input.scss
-a {b: ceil(7px / 4em) * 1em}
+@use "sass:math";
+a {b: math.ceil(7px / 4em) * 1em}
 
 <===> preserves_units/output.css
 a {
@@ -62,7 +67,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: ceil($number: 1.6)}
+@use "sass:math";
+a {b: math.ceil($number: 1.6)}
 
 <===> named/output.css
 a {
@@ -72,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: ceil(c)}
+@use "sass:math";
+a {b: math.ceil(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
@@ -85,7 +92,8 @@ Error: $number: c is not a number.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: ceil()}
+@use "sass:math";
+a {b: math.ceil()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
@@ -102,7 +110,8 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: ceil(1, 2)}
+@use "sass:math";
+a {b: math.ceil(1, 2)}
 
 
 <===> error/too_many_args/error

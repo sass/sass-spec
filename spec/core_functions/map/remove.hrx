@@ -1,5 +1,7 @@
 <===> not_found/empty/input.scss
-a {b: inspect(map-remove((), 1))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((), 1))}
 
 <===> not_found/empty/output.css
 a {
@@ -9,7 +11,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/non_empty/input.scss
-a {b: inspect(map-remove((c: d), d))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((c: d), d))}
 
 <===> not_found/non_empty/output.css
 a {
@@ -19,7 +23,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/no_keys/input.scss
-a {b: inspect(map-remove((c: d)))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((c: d)))}
 
 <===> not_found/no_keys/output.css
 a {
@@ -29,7 +35,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/multiple/input.scss
-a {b: inspect(map-remove((c: d), e, f, g))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((c: d), e, f, g))}
 
 <===> not_found/multiple/output.css
 a {
@@ -39,7 +47,9 @@ a {
 <===>
 ================================================================================
 <===> found/single/input.scss
-a {b: inspect(map-remove((c: d), c))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((c: d), c))}
 
 <===> found/single/output.css
 a {
@@ -49,7 +59,9 @@ a {
 <===>
 ================================================================================
 <===> found/first/input.scss
-a {b: inspect(map-remove((1: 2, 3: 4, 5: 6), 1))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((1: 2, 3: 4, 5: 6), 1))}
 
 <===> found/first/output.css
 a {
@@ -59,7 +71,9 @@ a {
 <===>
 ================================================================================
 <===> found/middle/input.scss
-a {b: inspect(map-remove((1: 2, 3: 4, 5: 6), 3))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((1: 2, 3: 4, 5: 6), 3))}
 
 <===> found/middle/output.css
 a {
@@ -69,7 +83,9 @@ a {
 <===>
 ================================================================================
 <===> found/last/input.scss
-a {b: inspect(map-remove((1: 2, 3: 4, 5: 6), 5))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((1: 2, 3: 4, 5: 6), 5))}
 
 <===> found/last/output.css
 a {
@@ -79,7 +95,9 @@ a {
 <===>
 ================================================================================
 <===> found/multiple/all/input.scss
-a {b: inspect(map-remove((1: 2, 3: 4, 5: 6, 7: 8, 9: 10), 1, 5, 9))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((1: 2, 3: 4, 5: 6, 7: 8, 9: 10), 1, 5, 9))}
 
 <===> found/multiple/all/output.css
 a {
@@ -89,7 +107,9 @@ a {
 <===>
 ================================================================================
 <===> found/multiple/some/input.scss
-a {b: inspect(map-remove((1: 2, 3: 4, 5: 6, 7: 8), 1, 5, 9))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove((1: 2, 3: 4, 5: 6, 7: 8), 1, 5, 9))}
 
 <===> found/multiple/some/output.css
 a {
@@ -99,7 +119,9 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: inspect(map-remove($map: (c: d), $key: c))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.remove($map: (c: d), $key: c))}
 
 <===> named/output.css
 a {
@@ -109,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/map/input.scss
-a {b: map-remove(1)}
+@use "sass:map";
+a {b: map.remove(1)}
 
 <===> error/type/map/error
 Error: $map: 1 is not a map.
@@ -122,7 +145,8 @@ Error: $map: 1 is not a map.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: map-remove()}
+@use "sass:map";
+a {b: map.remove()}
 
 <===> error/too_few_args/error
 Error: Missing argument $map.
@@ -139,7 +163,8 @@ Error: Missing argument $map.
 <===>
 ================================================================================
 <===> error/positional_and_named/input.scss
-a {b: map-remove((c: d, e: f), c, $key: e)}
+@use "sass:map";
+a {b: map.remove((c: d, e: f), c, $key: e)}
 
 <===> error/positional_and_named/error
 Error: Argument $key was passed both by position and by name.

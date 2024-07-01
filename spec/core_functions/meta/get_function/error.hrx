@@ -1,5 +1,6 @@
 <===> argument/type/name/input.scss
-a {b: get-function(2px)}
+@use "sass:meta";
+a {b: meta.get-function(2px)}
 
 <===> argument/type/name/error
 Error: $name: 2px is not a string.
@@ -12,7 +13,8 @@ Error: $name: 2px is not a string.
 <===>
 ================================================================================
 <===> argument/type/module/input.scss
-a {b: get-function(c, $module: 1)}
+@use "sass:meta";
+a {b: meta.get-function(c, $module: 1)}
 
 <===> argument/type/module/error
 Error: $module: 1 is not a string.
@@ -25,12 +27,13 @@ Error: $module: 1 is not a string.
 <===>
 ================================================================================
 <===> argument/function_ref/input.scss
+@use "sass:meta";
 @function foo() {
   @return null;
 }
 
-$foo-ref: get-function(foo);
-a {b: get-function($foo-ref)}
+$foo-ref: meta.get-function(foo);
+a {b: meta.get-function($foo-ref)}
 
 <===> argument/function_ref/error
 Error: $name: get-function("foo") is not a string.

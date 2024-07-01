@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: fade-in(rgba(red, 0.5), 1)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.5), $alpha: 1)}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> max_remaining/input.scss
-a {b: fade-in(rgba(red, 0.5), 0.5)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0.5)}
 
 <===> max_remaining/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: fade-in(rgba(red, 0.5), 0)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0)}
 
 <===> min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: fade-in(rgba(red, 0.5), 0.14)}
+@use "sass:color";
+a {b: color.adjust(rgba(red, 0.5), $alpha: 0.14)}
 
 <===> middle/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: fade-in($color: rgba(red, 0.5), $amount: 0.14)}
+@use "sass:color";
+a {b: color.adjust($color: rgba(red, 0.5), $alpha: 0.14)}
 
 <===> named/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> opacify/input.scss
-a {b: opacify($color: rgba(red, 0.5), $amount: 0.14)}
+@use "sass:color";
+a {b: color.adjust($color: rgba(red, 0.5), $alpha: 0.14)}
 
 <===> opacify/output.css
 a {
@@ -93,7 +99,8 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> error/type/color/input.scss
-a {b: fade-in(1, 0.1)}
+@use "sass:color";
+a {b: color.adjust(1, $alpha: 0.1)}
 
 <===> error/type/color/error
 Error: $color: 1 is not a color.
@@ -106,7 +113,8 @@ Error: $color: 1 is not a color.
 <===>
 ================================================================================
 <===> error/type/alpha/input.scss
-a {b: fade-in(red, blue)}
+@use "sass:color";
+a {b: color.adjust(red, $alpha: blue)}
 
 <===> error/type/alpha/error
 Error: $amount: blue is not a number.
@@ -119,7 +127,8 @@ Error: $amount: blue is not a number.
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
-a {b: fade-in(red, -0.001)}
+@use "sass:color";
+a {b: color.adjust(red, $alpha: -0.001)}
 
 <===> error/bounds/too_low/error
 Error: $amount: Expected -0.001 to be within 0 and 1.
@@ -132,7 +141,8 @@ Error: $amount: Expected -0.001 to be within 0 and 1.
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
-a {b: fade-in(red, 1.001)}
+@use "sass:color";
+a {b: color.adjust(red, $alpha: 1.001)}
 
 <===> error/bounds/too_high/error
 Error: $amount: Expected 1.001 to be within 0 and 1.
@@ -145,9 +155,10 @@ Error: $amount: Expected 1.001 to be within 0 and 1.
 <===>
 ================================================================================
 <===> error/bounds/unit/input.scss
+@use "sass:color";
 // This test covers sass/dart-sass#1745, but should be removed once units are
 // fully forbidden (sass/sass#3374).
-a {b: fade-in(red, 50%)}
+a {b: color.adjust(red, $alpha: 50%)}
 
 <===> error/bounds/unit/error
 Error: $amount: Expected 50% to be within 0 and 1.

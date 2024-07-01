@@ -1,5 +1,6 @@
 <===> isolated/input.scss
-a {b: selector-unify(".c > .d + .e", ".f .g ~ .h")}
+@use "sass:selector";
+a {b: selector.unify(".c > .d + .e", ".f .g ~ .h")}
 
 <===> isolated/output.css
 a {
@@ -16,7 +17,8 @@ random. Any of these specs should pass with any combination of combinators.
 <===>
 ================================================================================
 <===> in_a_row/same/input.scss
-a {b: selector-unify(".c + ~ > .d", ".e + ~ > .f")}
+@use "sass:selector";
+a {b: selector.unify(".c + ~ > .d", ".e + ~ > .f")}
 
 <===> in_a_row/same/output.css
 
@@ -46,7 +48,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> in_a_row/supersequence/contiguous/input.scss
-a {b: selector-unify(".c + ~ > .d", ".e > + ~ > > .f")}
+@use "sass:selector";
+a {b: selector.unify(".c + ~ > .d", ".e > + ~ > > .f")}
 
 <===> in_a_row/supersequence/contiguous/output.css
 
@@ -76,7 +79,8 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> in_a_row/supersequence/non_contiguous/input.scss
-a {b: selector-unify(".c + ~ > .d", ".e + > ~ ~ > .f")}
+@use "sass:selector";
+a {b: selector.unify(".c + ~ > .d", ".e + > ~ ~ > .f")}
 
 <===> in_a_row/supersequence/non_contiguous/output.css
 
@@ -106,7 +110,9 @@ More info: https://sass-lang.com/d/bogus-combinators
 <===>
 ================================================================================
 <===> in_a_row/different/input.scss
-a {b: inspect(selector-unify(".c + ~ > .d", ".e + > ~ ~ .f"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(".c + ~ > .d", ".e + > ~ ~ .f"))}
 
 <===> in_a_row/different/output.css
 a {

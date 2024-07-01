@@ -1,5 +1,6 @@
 <===> 1/of_1/input.scss
-a {b: nth(join((), c), 1)}
+@use "sass:list";
+a {b: list.nth(list.join((), c), 1)}
 
 <===> 1/of_1/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> 1/of_2/input.scss
-a {b: nth(c d, 1)}
+@use "sass:list";
+a {b: list.nth(c d, 1)}
 
 <===> 1/of_2/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> 2/of_2/input.scss
-a {b: nth(c d, 2)}
+@use "sass:list";
+a {b: list.nth(c d, 2)}
 
 <===> 2/of_2/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> 2/of_4/input.scss
-a {b: nth(c d e f, 2)}
+@use "sass:list";
+a {b: list.nth(c d e f, 2)}
 
 <===> 2/of_4/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> negative/1/of_1/input.scss
-a {b: nth(join((), c), -1)}
+@use "sass:list";
+a {b: list.nth(list.join((), c), -1)}
 
 <===> negative/1/of_1/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> negative/1/of_2/input.scss
-a {b: nth(c d, -1)}
+@use "sass:list";
+a {b: list.nth(c d, -1)}
 
 <===> negative/1/of_2/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> negative/2/of_2/input.scss
-a {b: nth(c d, -2)}
+@use "sass:list";
+a {b: list.nth(c d, -2)}
 
 <===> negative/2/of_2/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> negative/2/of_4/input.scss
-a {b: nth(c d e f, -2)}
+@use "sass:list";
+a {b: list.nth(c d e f, -2)}
 
 <===> negative/2/of_4/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> map/input.scss
-a {b: nth((c: d, e: f, g: h), 2)}
+@use "sass:list";
+a {b: list.nth((c: d, e: f, g: h), 2)}
 
 <===> map/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> non_list/input.scss
-a {b: nth(c, 1)}
+@use "sass:list";
+a {b: list.nth(c, 1)}
 
 <===> non_list/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: nth($list: c d, $n: 1)}
+@use "sass:list";
+a {b: list.nth($list: c d, $n: 1)}
 
 <===> named/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> bracketed/input.scss
-a {b: nth([c, d], 2)}
+@use "sass:list";
+a {b: list.nth([c, d], 2)}
 
 <===> bracketed/output.css
 a {
@@ -119,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> units/input.scss
-a {b: nth(c d, 1px)}
+@use "sass:list";
+a {b: list.nth(c d, 1px)}
 
 <===> units/output.css
 a {
@@ -142,7 +155,8 @@ More info: https://sass-lang.com/d/function-units
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: nth(c d, e)}
+@use "sass:list";
+a {b: list.nth(c d, e)}
 
 <===> error/type/error
 Error: $n: e is not a number.
@@ -155,7 +169,8 @@ Error: $n: e is not a number.
 <===>
 ================================================================================
 <===> error/index/0/input.scss
-a {b: nth(c d, 0)}
+@use "sass:list";
+a {b: list.nth(c d, 0)}
 
 <===> error/index/0/error
 Error: $n: List index may not be 0.
@@ -168,7 +183,8 @@ Error: $n: List index may not be 0.
 <===>
 ================================================================================
 <===> error/index/too_high/input.scss
-a {b: nth(c d, 3)}
+@use "sass:list";
+a {b: list.nth(c d, 3)}
 
 <===> error/index/too_high/error
 Error: $n: Invalid index 3 for a list with 2 elements.
@@ -181,7 +197,8 @@ Error: $n: Invalid index 3 for a list with 2 elements.
 <===>
 ================================================================================
 <===> error/index/too_low/input.scss
-a {b: nth(c d, -3)}
+@use "sass:list";
+a {b: list.nth(c d, -3)}
 
 <===> error/index/too_low/error
 Error: $n: Invalid index -3 for a list with 2 elements.
@@ -194,7 +211,8 @@ Error: $n: Invalid index -3 for a list with 2 elements.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: nth(c d)}
+@use "sass:list";
+a {b: list.nth(c d)}
 
 <===> error/too_few_args/error
 Error: Missing argument $n.
@@ -211,7 +229,8 @@ Error: Missing argument $n.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: nth(c d, 1, 2)}
+@use "sass:list";
+a {b: list.nth(c d, 1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.

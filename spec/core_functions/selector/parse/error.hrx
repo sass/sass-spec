@@ -1,5 +1,6 @@
 <===> parent/input.scss
-a {b: selector-parse("&")}
+@use "sass:selector";
+a {b: selector.parse("&")}
 
 <===> parent/error
 Error: $selector: Parent selectors aren't allowed here.
@@ -17,7 +18,8 @@ Error: $selector: Parent selectors aren't allowed here.
 <===>
 ================================================================================
 <===> parse/invalid/input.scss
-a {b: selector-parse("[c")}
+@use "sass:selector";
+a {b: selector.parse("[c")}
 
 <===> parse/invalid/error
 Error: $selector: expected more input.
@@ -35,7 +37,8 @@ Error: $selector: expected more input.
 <===>
 ================================================================================
 <===> parse/extra/input.scss
-a {b: selector-parse("c {")}
+@use "sass:selector";
+a {b: selector.parse("c {")}
 
 <===> parse/extra/error
 Error: $selector: expected selector.
@@ -53,7 +56,9 @@ Error: $selector: expected selector.
 <===>
 ================================================================================
 <===> too_nested/input.scss
-a {b: selector-parse((append((), append((), c)),))}
+@use "sass:list";
+@use "sass:selector";
+a {b: selector.parse((list.append((), list.append((), c)),))}
 
 <===> too_nested/error
 Error: $selector: (c,) is not a valid selector: it must be a string,
@@ -67,7 +72,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> inner_comma/input.scss
-a {b: selector-parse(((c,),))}
+@use "sass:selector";
+a {b: selector.parse(((c,),))}
 
 <===> inner_comma/error
 Error: $selector: ((c,),) is not a valid selector: it must be a string,
@@ -81,7 +87,9 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> outer_space/input.scss
-a {b: selector-parse(append((), append((), c)))}
+@use "sass:list";
+@use "sass:selector";
+a {b: selector.parse(list.append((), list.append((), c)))}
 
 <===> outer_space/error
 Error: $selector: c is not a valid selector: it must be a string,
@@ -95,8 +103,9 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> slash_list/top_level/input.scss
+@use "sass:selector";
 @use "sass:list";
-a {b: selector-parse(list.slash(c d, e f))}
+a {b: selector.parse(list.slash(c d, e f))}
 
 <===> slash_list/top_level/error
 Error: $selector: c d / e f is not a valid selector: it must be a string,
@@ -110,8 +119,9 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> slash_list/in_comma_list/input.scss
+@use "sass:selector";
 @use "sass:list";
-a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+a {b: selector.parse((list.slash(c, d), list.slash(e, f)))}
 
 <===> slash_list/in_comma_list/error
 Error: $selector: c / d, e / f is not a valid selector: it must be a string,
@@ -125,7 +135,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> type/input.scss
-a {b: selector-parse(1)}
+@use "sass:selector";
+a {b: selector.parse(1)}
 
 <===> type/error
 Error: $selector: 1 is not a valid selector: it must be a string,
@@ -139,7 +150,8 @@ a list of strings, or a list of lists of strings.
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: selector-parse(c, d)}
+@use "sass:selector";
+a {b: selector.parse(c, d)}
 
 <===> too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
@@ -156,7 +168,8 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: selector-parse()}
+@use "sass:selector";
+a {b: selector.parse()}
 
 <===> too_few_args/error
 Error: Missing argument $selector.

@@ -1,5 +1,6 @@
 <===> opaque/input.scss
-a {b: ie-hex-str(#daddee)}
+@use "sass:color";
+a {b: color.ie-hex-str(#daddee)}
 
 <===> opaque/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> translucent/input.scss
-a {b: ie-hex-str(rgba(#daddee, 0.3))}
+@use "sass:color";
+a {b: color.ie-hex-str(rgba(#daddee, 0.3))}
 
 <===> translucent/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> transparent/input.scss
-a {b: ie-hex-str(rgba(turquoise, 0))}
+@use "sass:color";
+a {b: color.ie-hex-str(rgba(turquoise, 0))}
 
 <===> transparent/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> leading_zero/input.scss
-a {b: ie-hex-str(rgba(#020304, 0.003))}
+@use "sass:color";
+a {b: color.ie-hex-str(rgba(#020304, 0.003))}
 
 <===> leading_zero/output.css
 a {
@@ -39,7 +43,9 @@ a {
 <===>
 ================================================================================
 <===> type/input.scss
-a {b: type-of(ie-hex-str(#daddee))}
+@use "sass:color";
+@use "sass:meta";
+a {b: meta.type-of(color.ie-hex-str(#daddee))}
 
 <===> type/output.css
 a {
@@ -49,7 +55,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: ie-hex-str($color: #daddee)}
+@use "sass:color";
+a {b: color.ie-hex-str($color: #daddee)}
 
 <===> named/output.css
 a {
@@ -59,7 +66,8 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: ie-hex-str()}
+@use "sass:color";
+a {b: color.ie-hex-str()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
@@ -76,7 +84,8 @@ Error: Missing argument $color.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: ie-hex-str(red, blue)}
+@use "sass:color";
+a {b: color.ie-hex-str(red, blue)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
@@ -93,7 +102,8 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: ie-hex-str(c)}
+@use "sass:color";
+a {b: color.ie-hex-str(c)}
 
 <===> error/type/error
 Error: $color: c is not a color.

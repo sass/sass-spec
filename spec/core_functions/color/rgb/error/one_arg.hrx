@@ -149,7 +149,8 @@ Error: $blue: "var(--foo) / 0.4" is not a number.
 <===>
 ================================================================================
 <===> slash_list/too_few_elements/input.scss
-a {b: rgb(append((), 1 2 3, $separator: slash))}
+@use "sass:list";
+a {b: rgb(list.append((), 1 2 3, $separator: slash))}
 
 <===> slash_list/too_few_elements/error
 Error: Only 2 slash-separated elements allowed, but 1 was passed.

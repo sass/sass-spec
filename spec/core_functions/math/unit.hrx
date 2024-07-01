@@ -5,7 +5,8 @@ totally consistent output across different implementations.
 <===>
 ================================================================================
 <===> none/input.scss
-a {b: unit(1)}
+@use "sass:math";
+a {b: math.unit(1)}
 
 <===> none/output.css
 a {
@@ -15,7 +16,8 @@ a {
 <===>
 ================================================================================
 <===> one_numerator/input.scss
-a {b: unit(1px)}
+@use "sass:math";
+a {b: math.unit(1px)}
 
 <===> one_numerator/output.css
 a {
@@ -25,7 +27,8 @@ a {
 <===>
 ================================================================================
 <===> multiple_numerators/input.scss
-a {b: unit(1px * 1em * 1rad)}
+@use "sass:math";
+a {b: math.unit(1px * 1em * 1rad)}
 
 <===> multiple_numerators/output.css
 a {
@@ -35,7 +38,8 @@ a {
 <===>
 ================================================================================
 <===> one_denominator/input.scss
-a {b: unit(1/1px)}
+@use "sass:math";
+a {b: math.unit(1/1px)}
 
 <===> one_denominator/output.css
 a {
@@ -58,7 +62,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> multiple_denominators/input.scss
-a {b: unit(1 / 1px / 3em / 4rad)}
+@use "sass:math";
+a {b: math.unit(1 / 1px / 3em / 4rad)}
 
 <===> multiple_denominators/output.css
 a {
@@ -81,7 +86,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> numerator_and_denominator/single/input.scss
-a {b: unit(1px / 1em)}
+@use "sass:math";
+a {b: math.unit(1px / 1em)}
 
 <===> numerator_and_denominator/single/output.css
 a {
@@ -104,7 +110,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> numerator_and_denominator/multiple/input.scss
-a {b: unit(1px * 1em / 1rad / 1s)}
+@use "sass:math";
+a {b: math.unit(1px * 1em / 1rad / 1s)}
 
 <===> numerator_and_denominator/multiple/output.css
 a {
@@ -139,7 +146,8 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: unit($number: 1)}
+@use "sass:math";
+a {b: math.unit($number: 1)}
 
 <===> named/output.css
 a {
@@ -149,7 +157,8 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: unit(c)}
+@use "sass:math";
+a {b: math.unit(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
@@ -162,7 +171,8 @@ Error: $number: c is not a number.
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: unit()}
+@use "sass:math";
+a {b: math.unit()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
@@ -179,7 +189,8 @@ Error: Missing argument $number.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: unit(1, 2)}
+@use "sass:math";
+a {b: math.unit(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.

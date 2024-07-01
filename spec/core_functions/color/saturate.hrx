@@ -57,7 +57,8 @@ a {
 <===>
 ================================================================================
 <===> one_arg/with_unquoted_calc/input.scss
-a {b: saturate(unquote('calc(1)'))}
+@use "sass:string";
+a {b: saturate(string.unquote('calc(1)'))}
 
 <===> one_arg/with_unquoted_calc/output.css
 a {
@@ -77,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/max/input.scss
-a {b: saturate(plum, 100%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: 100%)}
 
 <===> two_args/max/output.css
 a {
@@ -87,7 +89,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/max_remaining/input.scss
-a {b: saturate(plum, 53%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: 53%)}
 
 <===> two_args/max_remaining/output.css
 a {
@@ -97,7 +100,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/min/input.scss
-a {b: saturate(plum, 0%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: 0%)}
 
 <===> two_args/min/output.css
 a {
@@ -107,7 +111,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/middle/input.scss
-a {b: saturate(plum, 14%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: 14%)}
 
 <===> two_args/middle/output.css
 a {
@@ -117,7 +122,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/alpha/input.scss
-a {b: saturate(rgba(plum, 0.5), 100%)}
+@use "sass:color";
+a {b: color.adjust(rgba(plum, 0.5), $saturation: 100%)}
 
 <===> two_args/alpha/output.css
 a {
@@ -127,7 +133,8 @@ a {
 <===>
 ================================================================================
 <===> two_args/named/input.scss
-a {b: saturate($color: plum, $amount: 14%)}
+@use "sass:color";
+a {b: color.adjust($color: plum, $saturation: 14%)}
 
 <===> two_args/named/output.css
 a {
@@ -203,7 +210,8 @@ Error: Missing argument $amount.
 <===>
 ================================================================================
 <===> error/two_args/type/color/input.scss
-a {b: saturate(1, 2)}
+@use "sass:color";
+a {b: color.adjust(1, $saturation: 2)}
 
 <===> error/two_args/type/color/error
 Error: $color: 1 is not a color.
@@ -216,7 +224,8 @@ Error: $color: 1 is not a color.
 <===>
 ================================================================================
 <===> error/two_args/type/lightness/input.scss
-a {b: saturate(plum, blue)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: blue)}
 
 <===> error/two_args/type/lightness/error
 Error: $amount: blue is not a number.
@@ -229,7 +238,8 @@ Error: $amount: blue is not a number.
 <===>
 ================================================================================
 <===> error/two_args/bounds/too_low/input.scss
-a {b: saturate(plum, -0.001)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -0.001)}
 
 <===> error/two_args/bounds/too_low/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
@@ -242,7 +252,8 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 <===>
 ================================================================================
 <===> error/two_args/bounds/too_high/input.scss
-a {b: saturate(plum, 100.001)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: 100.001)}
 
 <===> error/two_args/bounds/too_high/error
 Error: $amount: Expected 100.001 to be within 0 and 100.

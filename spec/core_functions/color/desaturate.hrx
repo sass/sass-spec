@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: desaturate(plum, 100%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -100%)}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> max_remaining/input.scss
-a {b: desaturate(plum, 48%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -48%)}
 
 <===> max_remaining/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: desaturate(plum, 0%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -0%)}
 
 <===> min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: desaturate(plum, 14%)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -14%)}
 
 <===> middle/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-a {b: desaturate(rgba(plum, 0.3), 100%)}
+@use "sass:color";
+a {b: color.adjust(rgba(plum, 0.3), $saturation: -100%)}
 
 <===> alpha/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: desaturate($color: plum, $amount: 14%)}
+@use "sass:color";
+a {b: color.adjust($color: plum, $saturation: -14%)}
 
 <===> named/output.css
 a {
@@ -110,7 +116,8 @@ Error: Missing argument $amount.
 <===>
 ================================================================================
 <===> error/type/color/input.scss
-a {b: desaturate(1, 2)}
+@use "sass:color";
+a {b: color.adjust(1, $saturation: -2)}
 
 <===> error/type/color/error
 Error: $color: 1 is not a color.
@@ -123,7 +130,8 @@ Error: $color: 1 is not a color.
 <===>
 ================================================================================
 <===> error/type/lightness/input.scss
-a {b: desaturate(plum, blue)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -blue)}
 
 <===> error/type/lightness/error
 Error: $amount: blue is not a number.
@@ -136,7 +144,8 @@ Error: $amount: blue is not a number.
 <===>
 ================================================================================
 <===> error/bounds/too_low/input.scss
-a {b: desaturate(plum, -0.001)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: --0.001)}
 
 <===> error/bounds/too_low/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
@@ -149,7 +158,8 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 <===>
 ================================================================================
 <===> error/bounds/too_high/input.scss
-a {b: desaturate(plum, 100.001)}
+@use "sass:color";
+a {b: color.adjust(plum, $saturation: -100.001)}
 
 <===> error/bounds/too_high/error
 Error: $amount: Expected 100.001 to be within 0 and 100.

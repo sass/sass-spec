@@ -1,5 +1,6 @@
 <===> too_few/input.scss
-a {b: scale-color()}
+@use "sass:color";
+a {b: color.scale()}
 
 <===> too_few/error
 Error: Missing argument $color.
@@ -16,7 +17,8 @@ Error: Missing argument $color.
 <===>
 ================================================================================
 <===> too_many/input.scss
-a {b: scale-color(red, 1)}
+@use "sass:color";
+a {b: color.scale(red, 1)}
 
 <===> too_many/error
 Error: Only one positional argument is allowed. All other arguments must be passed by name.
@@ -29,7 +31,8 @@ Error: Only one positional argument is allowed. All other arguments must be pass
 <===>
 ================================================================================
 <===> unknown/input.scss
-a {b: scale-color(red, $hue: 10%)}
+@use "sass:color";
+a {b: color.scale(red, $hue: 10%)}
 
 <===> unknown/error
 Error: No argument named $hue.
