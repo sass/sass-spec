@@ -49,14 +49,14 @@ a {b: color.blue()}
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: blue()}
-  |       ^^^^^^ invocation
+2 | a {b: color.blue()}
+  |       ^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function blue($color) {
   |           ============ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -67,14 +67,14 @@ a {b: color.blue(red, green)}
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: blue(red, green)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.blue(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function blue($color) {
   |           ============ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -85,7 +85,7 @@ a {b: color.blue(1)}
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: blue(1)}
-  |       ^^^^^^^
+2 | a {b: color.blue(1)}
+  |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

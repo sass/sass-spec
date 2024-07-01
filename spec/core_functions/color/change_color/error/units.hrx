@@ -5,11 +5,10 @@ a {b: color.change(white, $whiteness: 1)}
 <===> none/whiteness/error
 Error: $whiteness: Expected 1 to have unit "%".
   ,
-1 | a {b: change-color(white, $whiteness: 1)}
+2 | a {b: color.change(white, $whiteness: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
-
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -20,10 +19,10 @@ a {b: color.change(black, $blackness: 1)}
 <===> none/blackness/error
 Error: $blackness: Expected 1 to have unit "%".
   ,
-1 | a {b: change-color(black, $blackness: 1)}
+2 | a {b: color.change(black, $blackness: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -34,10 +33,10 @@ a {b: color.change(white, $whiteness: 1px)}
 <===> wrong/whiteness/error
 Error: $whiteness: Expected 1px to have unit "%".
   ,
-1 | a {b: change-color(white, $whiteness: 1px)}
+2 | a {b: color.change(white, $whiteness: 1px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -48,7 +47,7 @@ a {b: color.change(black, $blackness: 1px)}
 <===> wrong/blackness/error
 Error: $blackness: Expected 1px to have unit "%".
   ,
-1 | a {b: change-color(black, $blackness: 1px)}
+2 | a {b: color.change(black, $blackness: 1px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

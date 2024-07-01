@@ -165,10 +165,10 @@ To preserve current behavior: calc($n / 1px)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: set-nth(c d, 1px, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: list.set-nth(c d, 1px, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -179,10 +179,10 @@ a {b: list.set-nth(c d, e, f)}
 <===> error/type/error
 Error: $n: e is not a number.
   ,
-1 | a {b: set-nth(c d, e, f)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: list.set-nth(c d, e, f)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -193,10 +193,10 @@ a {b: list.set-nth(c d, 0, e)}
 <===> error/index/0/error
 Error: $n: List index may not be 0.
   ,
-1 | a {b: set-nth(c d, 0, e)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: list.set-nth(c d, 0, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -207,10 +207,10 @@ a {b: list.set-nth(c d, 3, e)}
 <===> error/index/too_high/error
 Error: $n: Invalid index 3 for a list with 2 elements.
   ,
-1 | a {b: set-nth(c d, 3, e)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: list.set-nth(c d, 3, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -221,10 +221,10 @@ a {b: list.set-nth(c d, -3, e)}
 <===> error/index/too_low/error
 Error: $n: Invalid index -3 for a list with 2 elements.
   ,
-1 | a {b: set-nth(c d, -3, e)}
-  |       ^^^^^^^^^^^^^^^^^^^
+2 | a {b: list.set-nth(c d, -3, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -235,14 +235,14 @@ a {b: list.set-nth(c d, 1)}
 <===> error/index/too_few_args/error
 Error: Missing argument $value.
   ,--> input.scss
-1 | a {b: set-nth(c d, 1)}
-  |       ^^^^^^^^^^^^^^^ invocation
+2 | a {b: list.set-nth(c d, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function set-nth($list, $n, $value) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -253,11 +253,11 @@ a {b: list.set-nth(c d, 1, 2, 3)}
 <===> error/index/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: set-nth(c d, 1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: list.set-nth(c d, 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function set-nth($list, $n, $value) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

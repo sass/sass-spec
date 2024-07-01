@@ -70,10 +70,10 @@ Recommendation: math.div(1, 1px)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | a {b: comparable(1px, 1/1px)}
-  |                       ^^^^^
+2 | a {b: math.compatible(1px, 1/1px)}
+  |                            ^^^^^
   '
-    input.scss 1:23  root stylesheet
+    input.scss 2:28  root stylesheet
 
 <===>
 ================================================================================
@@ -109,10 +109,10 @@ a {b: math.compatible(c, 1)}
 <===> error/type/arg_1/error
 Error: $number1: c is not a number.
   ,
-1 | a {b: comparable(c, 1)}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: math.compatible(c, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -123,10 +123,10 @@ a {b: math.compatible(1, c)}
 <===> error/type/arg_2/error
 Error: $number2: c is not a number.
   ,
-1 | a {b: comparable(1, c)}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: math.compatible(1, c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -137,14 +137,14 @@ a {b: math.compatible(1)}
 <===> error/too_few_args/error
 Error: Missing argument $number2.
   ,--> input.scss
-1 | a {b: comparable(1)}
-  |       ^^^^^^^^^^^^^ invocation
+2 | a {b: math.compatible(1)}
+  |       ^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function compatible($number1, $number2) {
   |           ============================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -155,11 +155,11 @@ a {b: math.compatible(1, 2, 3)}
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: comparable(1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: math.compatible(1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function compatible($number1, $number2) {
   |           ============================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

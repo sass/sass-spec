@@ -27,7 +27,7 @@ a {
 ================================================================================
 <===> same_module/through_import/input.scss
 @use "sass:meta";
-@use "other";
+@import "other";
 a {b: meta.function-exists(global-function)}
 
 <===> same_module/through_import/other.scss
@@ -236,10 +236,10 @@ a {b: meta.function-exists(12px)}
 <===> error/argument/type/name/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: function-exists(12px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.function-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -250,10 +250,10 @@ a {b: meta.function-exists("red", 1)}
 <===> error/argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: function-exists("red", 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.function-exists("red", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -264,14 +264,14 @@ a {b: meta.function-exists()}
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,--> input.scss
-1 | a {b: function-exists()}
-  |       ^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.function-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function function-exists($name, $module: null) {
   |           ===================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -282,14 +282,14 @@ a {b: meta.function-exists(c, d, e)}
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: function-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.function-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function function-exists($name, $module: null) {
   |           ===================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -309,15 +309,15 @@ a {b: meta.function-exists(member)}
 <===> error/conflict/error
 Error: This function is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes function
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes function
 ... |
-4   | a {b: function-exists(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^^^^ function use
+5   | a {b: meta.function-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ function use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet
 
 <===>
 ================================================================================
@@ -328,10 +328,10 @@ a {b: meta.function-exists("c", "d")}
 <===> error/module/non_existent/error
 Error: There is no module with the namespace "d".
   ,
-1 | a {b: function-exists("c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.function-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -342,10 +342,10 @@ a {b: meta.function-exists("red", "color")}
 <===> error/module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
   ,
-1 | a {b: function-exists("red", "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.function-exists("red", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -357,7 +357,7 @@ c {d: meta.function-exists("c", $module: "a_b")}
 <===> error/module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".
   ,
-2 | c {d: function-exists("c", $module: "a_b")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | c {d: meta.function-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet

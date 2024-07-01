@@ -141,15 +141,15 @@ a {
 <===> error/too_many_args/error
 Error: Only 0 arguments allowed, but 1 was passed.
   ,--> input.scss
-2 |   b {c: content-exists(1)}
-  |         ^^^^^^^^^^^^^^^^^ invocation
+3 |   b {c: meta.content-exists(1)}
+  |         ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function content-exists() {
   |           ================ declaration
   '
-  input.scss 2:9  a()
-  input.scss 4:1  root stylesheet
+  input.scss 3:9  a()
+  input.scss 5:1  root stylesheet
 
 <===>
 ================================================================================
@@ -160,10 +160,10 @@ a {b: meta.content-exists()}
 <===> error/outside_mixin/error
 Error: content-exists() may only be called within a mixin.
   ,
-1 | a {b: content-exists()}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: meta.content-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -180,12 +180,12 @@ Error: content-exists() may only be called within a mixin.
 <===> error/in_content/error
 Error: content-exists() may only be called within a mixin.
   ,
-6 |   a {b: content-exists()}
-  |         ^^^^^^^^^^^^^^^^
+7 |   a {b: meta.content-exists()}
+  |         ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 6:9  @content
-  input.scss 2:3  call-content()
-  input.scss 5:1  root stylesheet
+  input.scss 7:9  @content
+  input.scss 3:3  call-content()
+  input.scss 6:1  root stylesheet
 
 <===>
 ================================================================================
@@ -204,9 +204,9 @@ Error: content-exists() may only be called within a mixin.
 <===> error/in_function_called_by_mixin/error
 Error: content-exists() may only be called within a mixin.
   ,
-2 |   @return content-exists();
-  |           ^^^^^^^^^^^^^^^^
+3 |   @return meta.content-exists();
+  |           ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:11  call-content-exists()
-  input.scss 6:9   call-function()
-  input.scss 9:1   root stylesheet
+  input.scss 3:11  call-content-exists()
+  input.scss 7:9   call-function()
+  input.scss 10:1  root stylesheet

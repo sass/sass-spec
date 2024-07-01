@@ -94,10 +94,10 @@ a {b: color.adjust(1, $alpha: -0.1)}
 <===> error/type/color/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: fade-out(1, 0.1)}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(1, $alpha: -0.1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -106,26 +106,12 @@ Error: $color: 1 is not a color.
 a {b: color.adjust(red, $alpha: -blue)}
 
 <===> error/type/alpha/error
-Error: $amount: blue is not a number.
+Error: $alpha: -blue is not a number.
   ,
-1 | a {b: fade-out(red, blue)}
-  |       ^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(red, $alpha: -blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/bounds/too_low/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $alpha: --0.001)}
-
-<===> error/bounds/too_low/error
-Error: $amount: Expected -0.001 to be within 0 and 1.
-  ,
-1 | a {b: fade-out(red, -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -134,12 +120,12 @@ Error: $amount: Expected -0.001 to be within 0 and 1.
 a {b: color.adjust(red, $alpha: -1.001)}
 
 <===> error/bounds/too_high/error
-Error: $amount: Expected 1.001 to be within 0 and 1.
+Error: $alpha: Expected -1.001 to be within -1 and 1.
   ,
-1 | a {b: fade-out(red, 1.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(red, $alpha: -1.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -150,9 +136,21 @@ Error: $amount: Expected 1.001 to be within 0 and 1.
 a {b: color.adjust(red, $alpha: -50%)}
 
 <===> error/bounds/unit/error
-Error: $amount: Expected 50% to be within 0 and 1.
+DEPRECATION WARNING: $alpha: Passing a number with unit % is deprecated.
+
+To preserve current behavior: calc($alpha / 1%)
+
+More info: https://sass-lang.com/d/function-units
+
   ,
-3 | a {b: fade-out(red, 50%)}
-  |       ^^^^^^^^^^^^^^^^^^
+4 | a {b: color.adjust(red, $alpha: -50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:7  root stylesheet
+    input.scss 4:7  root stylesheet
+
+Error: $alpha: Expected -50% to be within -1 and 1.
+  ,
+4 | a {b: color.adjust(red, $alpha: -50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet

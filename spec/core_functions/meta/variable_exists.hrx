@@ -180,10 +180,10 @@ a {b: meta.variable-exists(12px)}
 <===> error/argument/type/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: variable-exists(12px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.variable-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -194,14 +194,14 @@ a {b: meta.variable-exists()}
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,--> input.scss
-1 | a {b: variable-exists()}
-  |       ^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.variable-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function variable-exists($name) {
   |           ====================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -212,14 +212,14 @@ a {b: meta.variable-exists(foo, bar)}
 <===> error/argument/too_many/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: variable-exists(foo, bar)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.variable-exists(foo, bar)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function variable-exists($name) {
   |           ====================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -239,12 +239,12 @@ $member: from other2;
 <===> conflict/error
 Error: This variable is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes variable
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes variable
 ... |
-4   | a {b: variable-exists(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^^^^ variable use
+5   | a {b: meta.variable-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet

@@ -137,11 +137,10 @@ a {b: map.map-remove((c: d), c)}
 <===> error/wrong_name/error
 Error: Undefined function.
   ,
-2 | a {b: map.map-remove((c: d))}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: map.map-remove((c: d), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
-
 
 <===>
 ================================================================================
@@ -152,10 +151,10 @@ a {b: map.remove(1)}
 <===> error/type/map/error
 Error: $map: 1 is not a map.
   ,
-1 | a {b: map-remove(1)}
+2 | a {b: map.remove(1)}
   |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -166,14 +165,14 @@ a {b: map.remove()}
 <===> error/too_few_args/error
 Error: Missing argument $map.
   ,--> input.scss
-1 | a {b: map-remove()}
+2 | a {b: map.remove()}
   |       ^^^^^^^^^^^^ invocation
   '
   ,
 1 | @function remove($map) {
   |           ============ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -184,7 +183,7 @@ a {b: map.remove((c: d, e: f), c, $key: e)}
 <===> error/positional_and_named/error
 Error: Argument $key was passed both by position and by name.
   ,
-1 | a {b: map-remove((c: d, e: f), c, $key: e)}
+2 | a {b: map.remove((c: d, e: f), c, $key: e)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

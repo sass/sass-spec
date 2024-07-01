@@ -96,10 +96,10 @@ To preserve current behavior: math.random(math.div($limit, 1px))
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: random(1px)}
-  |       ^^^^^^^^^^^
+2 | a {b: math.random(1px)}
+  |       ^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -122,10 +122,10 @@ a {b: math.random(c)}
 <===> error/type/error
 Error: $limit: c is not a number.
   ,
-1 | a {b: random(c)}
-  |       ^^^^^^^^^
+2 | a {b: math.random(c)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -136,10 +136,10 @@ a {b: math.random(1.5)}
 <===> error/decimal/error
 Error: $limit: 1.5 is not an int.
   ,
-1 | a {b: random(1.5)}
-  |       ^^^^^^^^^^^
+2 | a {b: math.random(1.5)}
+  |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -150,10 +150,10 @@ a {b: math.random(0)}
 <===> error/zero/error
 Error: $limit: Must be greater than 0, was 0.
   ,
-1 | a {b: random(0)}
-  |       ^^^^^^^^^
+2 | a {b: math.random(0)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -164,7 +164,7 @@ a {b: math.random(-1)}
 <===> error/negative/error
 Error: $limit: Must be greater than 0, was -1.
   ,
-1 | a {b: random(-1)}
-  |       ^^^^^^^^^^
+2 | a {b: math.random(-1)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

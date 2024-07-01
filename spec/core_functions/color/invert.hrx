@@ -136,10 +136,10 @@ To preserve current behavior: $weight * 1%
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: invert(turquoise, 10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.invert(turquoise, 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -160,10 +160,10 @@ To preserve current behavior: calc($weight / 1px * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: invert(turquoise, 10px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.invert(turquoise, 10px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -197,14 +197,14 @@ a {b: color.invert()}
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: invert()}
-  |       ^^^^^^^^ invocation
+2 | a {b: color.invert()}
+  |       ^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function invert($color, $weight: 100%) {
   |           ============================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -215,14 +215,14 @@ a {b: color.invert(turquoise, 0%, 1)}
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: invert(turquoise, 0%, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.invert(turquoise, 0%, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function invert($color, $weight: 100%) {
   |           ============================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -233,10 +233,10 @@ a {b: color.invert(1, 50%)}
 <===> error/number_with_weight/error
 Error: Only one argument may be passed to the plain-CSS invert() function.
   ,
-1 | a {b: invert(1, 50%)}
-  |       ^^^^^^^^^^^^^^
+2 | a {b: color.invert(1, 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -247,10 +247,10 @@ a {b: color.invert(c)}
 <===> error/type/color/error
 Error: $color: c is not a color.
   ,
-1 | a {b: invert(c)}
-  |       ^^^^^^^^^
+2 | a {b: color.invert(c)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -275,10 +275,10 @@ a {b: color.invert(red, c)}
 <===> error/type/weight/error
 Error: $weight: c is not a number.
   ,
-1 | a {b: invert(red, c)}
-  |       ^^^^^^^^^^^^^^
+2 | a {b: color.invert(red, c)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -289,10 +289,10 @@ a {b: color.invert(red, -0.001%)}
 <===> error/bounds/too_low/error
 Error: $weight: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: invert(red, -0.001%)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.invert(red, -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -303,7 +303,7 @@ a {b: color.invert(red, 100.001%)}
 <===> error/bounds/too_high/error
 Error: $weight: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: invert(red, 100.001%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.invert(red, 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

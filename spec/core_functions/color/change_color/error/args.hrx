@@ -5,14 +5,14 @@ a {b: color.change()}
 <===> too_few/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: change-color()}
+2 | a {b: color.change()}
   |       ^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function change($color, $kwargs...) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -23,10 +23,10 @@ a {b: color.change(red, 1)}
 <===> too_many/error
 Error: Only one positional argument is allowed. All other arguments must be passed by name.
   ,
-1 | a {b: change-color(red, 1)}
+2 | a {b: color.change(red, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -37,7 +37,7 @@ a {b: color.change(red, $ambience: 10%)}
 <===> unknown/error
 Error: No argument named $ambience.
   ,
-1 | a {b: change-color(red, $ambience: 10%)}
+2 | a {b: color.change(red, $ambience: 10%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

@@ -252,10 +252,10 @@ To preserve current behavior: $weight * 1%
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: mix(#91e16f, #0144bf, 50)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.mix(#91e16f, #0144bf, 50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -276,10 +276,10 @@ To preserve current behavior: calc($weight / 1px * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: mix(#91e16f, #0144bf, 50px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.mix(#91e16f, #0144bf, 50px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -290,14 +290,14 @@ a {b: color.mix(red, blue, 100, 1)}
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: mix(red, blue, 100, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.mix(red, blue, 100, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function mix($color1, $color2, $weight: 50%) {
   |           =================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -308,14 +308,14 @@ a {b: color.mix(red)}
 <===> error/too_few_args/error
 Error: Missing argument $color2.
   ,--> input.scss
-1 | a {b: mix(red)}
-  |       ^^^^^^^^ invocation
+2 | a {b: color.mix(red)}
+  |       ^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function mix($color1, $color2, $weight: 50%) {
   |           =================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -326,10 +326,10 @@ a {b: color.mix(1, blue)}
 <===> error/type/color1/error
 Error: $color1: 1 is not a color.
   ,
-1 | a {b: mix(1, blue)}
-  |       ^^^^^^^^^^^^
+2 | a {b: color.mix(1, blue)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -340,10 +340,10 @@ a {b: color.mix(red, 1)}
 <===> error/type/color2/error
 Error: $color2: 1 is not a color.
   ,
-1 | a {b: mix(red, 1)}
-  |       ^^^^^^^^^^^
+2 | a {b: color.mix(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -354,10 +354,10 @@ a {b: color.mix(red, blue, green)}
 <===> error/type/weight/error
 Error: $weight: green is not a number.
   ,
-1 | a {b: mix(red, blue, green)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.mix(red, blue, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -368,10 +368,10 @@ a {b: color.mix(red, blue, -0.001%)}
 <===> error/bounds/too_low/error
 Error: $weight: Expected -0.001% to be within 0% and 100%.
   ,
-1 | a {b: mix(red, blue, -0.001%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.mix(red, blue, -0.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -382,7 +382,7 @@ a {b: color.mix(red, blue, 100.001%)}
 <===> error/bounds/too_high/error
 Error: $weight: Expected 100.001% to be within 0% and 100%.
   ,
-1 | a {b: mix(red, blue, 100.001%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.mix(red, blue, 100.001%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

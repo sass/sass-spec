@@ -73,10 +73,10 @@ a {b: string.to-lower-case(1)}
 <===> error/type/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: to-lower-case(1)}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: string.to-lower-case(1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -87,14 +87,14 @@ a {b: string.to-lower-case()}
 <===> error/too_few_args/error
 Error: Missing argument $string.
   ,--> input.scss
-1 | a {b: to-lower-case()}
-  |       ^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.to-lower-case()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function to-lower-case($string) {
   |           ====================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -106,11 +106,11 @@ a {b: string.to-lower-case("", "")}
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: to-lower-case("", "")}
-  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.to-lower-case("", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function to-lower-case($string) {
   |           ====================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

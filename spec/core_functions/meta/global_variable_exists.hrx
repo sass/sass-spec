@@ -27,7 +27,7 @@ a {
 ================================================================================
 <===> same_module/through_import/input.scss
 @use "sass:meta";
-@use "other";
+@import "other";
 a {b: meta.global-variable-exists(global-variable)}
 
 <===> same_module/through_import/other.scss
@@ -244,10 +244,10 @@ a {b: meta.global-variable-exists(12px)}
 <===> error/argument/type/name/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: global-variable-exists(12px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -258,10 +258,10 @@ a {b: meta.global-variable-exists("c", 1)}
 <===> error/argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: global-variable-exists("c", 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -272,14 +272,14 @@ a {b: meta.global-variable-exists()}
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,--> input.scss
-1 | a {b: global-variable-exists()}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.global-variable-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function global-variable-exists($name, $module: null) {
   |           ============================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -290,14 +290,14 @@ a {b: meta.global-variable-exists(c, d, e)}
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: global-variable-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.global-variable-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function global-variable-exists($name, $module: null) {
   |           ============================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -317,15 +317,15 @@ $member: from other2;
 <===> error/conflict/error
 Error: This variable is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes variable
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes variable
 ... |
-4   | a {b: global-variable-exists(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
+5   | a {b: meta.global-variable-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet
 
 <===>
 ================================================================================
@@ -336,10 +336,10 @@ a {b: meta.global-variable-exists("c", "d")}
 <===> error/module/non_existent/error
 Error: There is no module with the namespace "d".
   ,
-1 | a {b: global-variable-exists("c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -350,10 +350,10 @@ a {b: meta.global-variable-exists("c", "color")}
 <===> error/module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
   ,
-1 | a {b: global-variable-exists("c", "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -365,7 +365,7 @@ c {d: meta.global-variable-exists("c", $module: "a_b")}
 <===> error/module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".
   ,
-2 | c {d: global-variable-exists("c", $module: "a_b")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | c {d: meta.global-variable-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet

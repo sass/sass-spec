@@ -114,10 +114,10 @@ a {b: string.length(1)}
 <===> error/type/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: str-length(1)}
-  |       ^^^^^^^^^^^^^
+2 | a {b: string.length(1)}
+  |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -128,14 +128,14 @@ a {b: string.length()}
 <===> error/too_few_args/error
 Error: Missing argument $string.
   ,--> input.scss
-1 | a {b: str-length()}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: string.length()}
+  |       ^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function length($string) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -146,11 +146,11 @@ a {b: string.length(c, d)}
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: str-length(c, d)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.length(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function length($string) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

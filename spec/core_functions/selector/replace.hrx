@@ -232,10 +232,10 @@ Error: $selector: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-replace("&", "c", "d")}
+2 | a {b: selector.replace("&", "c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -251,10 +251,10 @@ Error: $selector: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-replace("[c", "d", "e")}
+2 | a {b: selector.replace("[c", "d", "e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -266,10 +266,10 @@ a {b: selector.replace(1, "c", "d")}
 Error: $selector: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-replace(1, "c", "d")}
+2 | a {b: selector.replace(1, "c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -285,10 +285,10 @@ Error: $original: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-replace("c", "&", "d")}
+2 | a {b: selector.replace("c", "&", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -299,10 +299,10 @@ a {b: selector.replace("c", "d e", "f")}
 <===> error/extendee/complex/string/error
 Error: Can't extend complex selector d e.
   ,
-1 | a {b: selector-replace("c", "d e", "f")}
+2 | a {b: selector.replace("c", "d e", "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -313,10 +313,10 @@ a {b: selector.replace("c", d e, "f")}
 <===> error/extendee/complex/list/error
 Error: Can't extend complex selector d e.
   ,
-1 | a {b: selector-replace("c", d e, "f")}
+2 | a {b: selector.replace("c", d e, "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -332,10 +332,10 @@ Error: $original: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-replace("c", "[d", "e")}
+2 | a {b: selector.replace("c", "[d", "e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -347,10 +347,10 @@ a {b: selector.replace("c", 1, "d")}
 Error: $original: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-replace("c", 1, "d")}
+2 | a {b: selector.replace("c", 1, "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -366,10 +366,10 @@ Error: $replacement: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-replace("c", "d", "&")}
+2 | a {b: selector.replace("c", "d", "&")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -385,10 +385,10 @@ Error: $replacement: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-replace("c", "d", "[e")}
+2 | a {b: selector.replace("c", "d", "[e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -400,10 +400,10 @@ a {b: selector.replace("c", "d", 1)}
 Error: $replacement: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-replace("c", "d", 1)}
+2 | a {b: selector.replace("c", "d", 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -414,14 +414,14 @@ a {b: selector.replace("c", "d", "e", "f")}
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: selector-replace("c", "d", "e", "f")}
+2 | a {b: selector.replace("c", "d", "e", "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function replace($selector, $original, $replacement) {
   |           =========================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -432,11 +432,11 @@ a {b: selector.replace("c", "d")}
 <===> error/too_few_args/error
 Error: Missing argument $replacement.
   ,--> input.scss
-1 | a {b: selector-replace("c", "d")}
+2 | a {b: selector.replace("c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function replace($selector, $original, $replacement) {
   |           =========================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

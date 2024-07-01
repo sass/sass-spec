@@ -124,10 +124,10 @@ a {b: string.index(1, "c")}
 <===> error/type/string/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: str-index(1, "c")}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: string.index(1, "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -138,10 +138,10 @@ a {b: string.index("c", 1)}
 <===> error/type/substring/error
 Error: $substring: 1 is not a string.
   ,
-1 | a {b: str-index("c", 1)}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: string.index("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -152,14 +152,14 @@ a {b: string.index("c")}
 <===> error/too_few_args/error
 Error: Missing argument $substring.
   ,--> input.scss
-1 | a {b: str-index("c")}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: string.index("c")}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function index($string, $substring) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -170,11 +170,11 @@ a {b: string.index("c", "d", "e")}
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: str-index("c", "d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.index("c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function index($string, $substring) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

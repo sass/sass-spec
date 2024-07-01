@@ -216,10 +216,10 @@ a {b: color.adjust(1, $saturation: 2)}
 <===> error/two_args/type/color/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: saturate(1, 2)}
-  |       ^^^^^^^^^^^^^^
+2 | a {b: color.adjust(1, $saturation: 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -228,26 +228,12 @@ Error: $color: 1 is not a color.
 a {b: color.adjust(plum, $saturation: blue)}
 
 <===> error/two_args/type/lightness/error
-Error: $amount: blue is not a number.
+Error: $saturation: blue is not a number.
   ,
-1 | a {b: saturate(plum, blue)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(plum, $saturation: blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/two_args/bounds/too_low/input.scss
-@use "sass:color";
-a {b: color.adjust(plum, $saturation: -0.001)}
-
-<===> error/two_args/bounds/too_low/error
-Error: $amount: Expected -0.001 to be within 0 and 100.
-  ,
-1 | a {b: saturate(plum, -0.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -256,9 +242,21 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 a {b: color.adjust(plum, $saturation: 100.001)}
 
 <===> error/two_args/bounds/too_high/error
-Error: $amount: Expected 100.001 to be within 0 and 100.
+DEPRECATION WARNING: $saturation: Passing a number without unit % (100.001) is deprecated.
+
+To preserve current behavior: $saturation * 1%
+
+More info: https://sass-lang.com/d/function-units
+
   ,
-1 | a {b: saturate(plum, 100.001)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(plum, $saturation: 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
+
+Error: $saturation: Expected 100.001 to be within -100% and 100%.
+  ,
+2 | a {b: color.adjust(plum, $saturation: 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

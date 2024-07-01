@@ -71,10 +71,10 @@ a {b: math.percentage(c)}
 <===> error/type/error
 Error: $number: c is not a number.
   ,
-1 | a {b: percentage(c)}
-  |       ^^^^^^^^^^^^^
+2 | a {b: math.percentage(c)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -85,10 +85,10 @@ a {b: math.percentage(1%)}
 <===> error/unit/error
 Error: $number: Expected 1% to have no units.
   ,
-1 | a {b: percentage(1%)}
-  |       ^^^^^^^^^^^^^^
+2 | a {b: math.percentage(1%)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -99,14 +99,14 @@ a {b: math.percentage()}
 <===> error/too_few_args/error
 Error: Missing argument $number.
   ,--> input.scss
-1 | a {b: percentage()}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: math.percentage()}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function percentage($number) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -117,11 +117,11 @@ a {b: math.percentage(1, 2)}
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: percentage(1, 2)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: math.percentage(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function percentage($number) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

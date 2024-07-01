@@ -72,6 +72,17 @@ a {
   b: alpha(c = d);
 }
 
+<===> filter/space_before_equals/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c = d)
+
+  ,
+3 | a {b: color.alpha(string.unquote("c = d"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> opacity/positional/input.scss
@@ -206,12 +217,12 @@ Recommendation: opacity(1)
 a {b: color.alpha()}
 
 <===> error/too_few_args/error
-Error: Missing argument $color.
+Error: () isn't a valid CSS value.
   ,
-1 | a {b: alpha()}
-  |       ^^^^^^^
+2 | a {b: color.alpha()}
+  |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -235,10 +246,10 @@ a {b: color.alpha(1)}
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: alpha(1)}
-  |       ^^^^^^^^
+2 | a {b: color.alpha(1)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -263,10 +274,10 @@ a {b: color.alpha("c=d")}
 <===> error/quoted_string/error
 Error: $color: "c=d" is not a color.
   ,
-1 | a {b: alpha("c=d")}
-  |       ^^^^^^^^^^^^
+2 | a {b: color.alpha("c=d")}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -277,10 +288,10 @@ a {b: color.alpha(cd)}
 <===> error/unquoted_string/no_equals/error
 Error: $color: cd is not a color.
   ,
-1 | a {b: alpha(cd)}
-  |       ^^^^^^^^^
+2 | a {b: color.alpha(cd)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -292,7 +303,7 @@ a {b: color.alpha(string.unquote("1=c"))}
 <===> error/unquoted_string/non_identifier_before_equals/error
 Error: $color: 1=c is not a color.
   ,
-1 | a {b: alpha(unquote("1=c"))}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: color.alpha(string.unquote("1=c"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 3:7  root stylesheet

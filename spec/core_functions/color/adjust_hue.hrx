@@ -107,17 +107,17 @@ a {
 }
 
 <===> units/unknown/warning
-DEPRECATION WARNING: $degrees: Passing a unit other than deg (60in) is deprecated.
+DEPRECATION WARNING: $hue: Passing a unit other than deg (60in) is deprecated.
 
-To preserve current behavior: calc($degrees / 1in)
+To preserve current behavior: calc($hue / 1in)
 
 See https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: adjust-hue(red, 60in)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(red, $hue: 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -183,10 +183,10 @@ a {b: color.adjust(1, $hue: 2)}
 <===> error/type/color/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: adjust-hue(1, 2)}
-  |       ^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(1, $hue: 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -195,9 +195,9 @@ Error: $color: 1 is not a color.
 a {b: color.adjust(red, $hue: blue)}
 
 <===> error/type/hue/error
-Error: $degrees: blue is not a number.
+Error: $hue: blue is not a number.
   ,
-1 | a {b: adjust-hue(red, blue)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.adjust(red, $hue: blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

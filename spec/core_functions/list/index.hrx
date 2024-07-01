@@ -154,14 +154,14 @@ a {b: list.index(c d e)}
 <===> error/too_few_args/error
 Error: Missing argument $value.
   ,--> input.scss
-1 | a {b: index(c d e)}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: list.index(c d e)}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function index($list, $value) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -172,11 +172,11 @@ a {b: list.index(c d e, d, e)}
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: index(c d e, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: list.index(c d e, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function index($list, $value) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

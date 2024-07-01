@@ -197,11 +197,10 @@ a {b: map.map-merge((c: d), (1: 2))}
 <===> error/wrong_name/error
 Error: Undefined function.
   ,
-2 | a {b: map.map-merge((c: d))}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: map.map-merge((c: d), (1: 2))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
-
 
 <===>
 ================================================================================
@@ -212,10 +211,10 @@ a {b: map.merge(1, (c: d))}
 <===> error/type/map1/error
 Error: $map1: 1 is not a map.
   ,
-1 | a {b: map-merge(1, (c: d))}
+2 | a {b: map.merge(1, (c: d))}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -226,10 +225,10 @@ a {b: map.merge((c: d), 1)}
 <===> error/type/map2/error
 Error: $map2: 1 is not a map.
   ,
-1 | a {b: map-merge((c: d), 1)}
+2 | a {b: map.merge((c: d), 1)}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -240,10 +239,10 @@ a {b: map.merge(1, c, (d: e))}
 <===> error/type/nested/map1/error
 Error: $map1: 1 is not a map.
   ,
-1 | a {b: map-merge(1, c, (d: e))}
+2 | a {b: map.merge(1, c, (d: e))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -254,10 +253,10 @@ a {b: map.merge((c: d), e, 1)}
 <===> error/type/nested/map2/error
 Error: $map2: 1 is not a map.
   ,
-1 | a {b: map-merge((c: d), e, 1)}
+2 | a {b: map.merge((c: d), e, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -268,14 +267,14 @@ a {b: map.merge()}
 <===> error/zero_args/error
 Error: Missing argument $map1.
   ,--> input.scss
-1 | a {b: map-merge()}
+2 | a {b: map.merge()}
   |       ^^^^^^^^^^^ invocation
   '
   ,
 1 | @function merge($map1, $args...) {
   |           ====================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -286,7 +285,7 @@ a {b: map.merge((c: d))}
 <===> error/one_arg/error
 Error: Expected $args to contain a key.
   ,
-1 | a {b: map-merge((c: d))}
+2 | a {b: map.merge((c: d))}
   |       ^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

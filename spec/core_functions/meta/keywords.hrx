@@ -158,10 +158,10 @@ a {b: meta.keywords(1 2 3)}
 <===> error/type/non_arg_list/error
 Error: $args: 1 2 3 is not an argument list.
   ,
-1 | a {b: keywords(1 2 3)}
-  |       ^^^^^^^^^^^^^^^
+2 | a {b: meta.keywords(1 2 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -172,10 +172,10 @@ a {b: meta.keywords(1)}
 <===> error/type/non_list/error
 Error: $args: 1 is not an argument list.
   ,
-1 | a {b: keywords(1)}
-  |       ^^^^^^^^^^^
+2 | a {b: meta.keywords(1)}
+  |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -186,14 +186,14 @@ a {b: meta.keywords()}
 <===> error/too_few_args/error
 Error: Missing argument $args.
   ,--> input.scss
-1 | a {b: keywords()}
-  |       ^^^^^^^^^^ invocation
+2 | a {b: meta.keywords()}
+  |       ^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function keywords($args) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -204,11 +204,11 @@ a {b: meta.keywords(1, 2)}
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: keywords(1, 2)}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.keywords(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function keywords($args) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

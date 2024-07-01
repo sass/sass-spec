@@ -239,10 +239,10 @@ a {b: string.insert(1, "", 1)}
 <===> error/type/string/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: str-insert(1, "", 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.insert(1, "", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -253,10 +253,10 @@ a {b: string.insert("", 1, 1)}
 <===> error/type/insert/error
 Error: $insert: 1 is not a string.
   ,
-1 | a {b: str-insert("", 1, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.insert("", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -267,10 +267,10 @@ a {b: string.insert("", "", "")}
 <===> error/type/index/error
 Error: $index: "" is not a number.
   ,
-1 | a {b: str-insert("", "", "")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.insert("", "", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -281,10 +281,10 @@ a {b: string.insert("", "", 0.5)}
 <===> error/decimal/error
 Error: $index: 0.5 is not an int.
   ,
-1 | a {b: str-insert("", "", 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.insert("", "", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -295,14 +295,14 @@ a {b: string.insert("", "")}
 <===> error/too_few_args/error
 Error: Missing argument $index.
   ,--> input.scss
-1 | a {b: str-insert("", "")}
-  |       ^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.insert("", "")}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function insert($string, $insert, $index) {
   |           ================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -313,11 +313,11 @@ a {b: string.insert("", "", 1, 2)}
 <===> error/too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: str-insert("", "", 1, 2)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.insert("", "", 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function insert($string, $insert, $index) {
   |           ================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
