@@ -1,8 +1,10 @@
 <===> input.scss
+@use "sass:color";
+@use "sass:math";
 @use "sass:meta";
 
 @mixin ie-opacity($opacity) {
-  opacity: $opacity / 100;
+  opacity: math.div($opacity, 100);
   filter: alpha(opacity=$opacity);
   bilter: alpha(opacity=$opacity);
   kilter: meta.type-of(opacity=$opacity);
@@ -21,7 +23,7 @@ foo {
   blah: meta.type-of(hux = mumble);
   @include ie-opacity(.5);
   left: expression(document.body.clientWidth/4);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($startColor)}', endColorstr='#{ie-hex-str($endColor)}', GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{color.ie-hex-str($startColor)}', endColorstr='#{color.ie-hex-str($endColor)}', GradientType=1);
 }
 
 .parser {
@@ -71,17 +73,3 @@ foo {
   filter: progid:DXImageTransform.Microsoft.MotionBlur(strength=13, direction=310) progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled="false", startColorstr=#550000FF, endColorstr=#55FFFF00);
 }
-
-<===> warning
-DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div($opacity, 100) or calc($opacity / 100)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 |   opacity: $opacity / 100;
-  |            ^^^^^^^^^^^^^^
-  '
-    input.scss 2:12  ie-opacity()
-    input.scss 19:3  root stylesheet

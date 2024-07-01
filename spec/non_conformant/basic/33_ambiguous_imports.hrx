@@ -1,15 +1,17 @@
 <===> input.scss
+@use "sass:meta";
 main {
   color: red;
 }
 
-@import "dir";
+@include meta.load-css("dir");
 <===> dir.scss
+@use "sass:meta";
 dir {
   color: blue;
 }
 
-@import "blir/fudge";
+@include meta.load-css("blir/fudge");
 <===> blir/_fudge.scss
 fudge {
   color: brown;
