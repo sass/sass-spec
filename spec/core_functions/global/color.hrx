@@ -302,88 +302,10 @@ a {
 
 <===>
 ================================================================================
-<===> error/adjust_color/input.scss
-@use "sass:color";
-a {b: color.adjust-color(#abcdef, $red: 10)}
-
-<===> error/adjust_color/error
-Error: Undefined function.
-  ,
-2 | a {b: color.adjust-color(#abcdef, $red: 10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/scale_color/input.scss
-@use "sass:color";
-a {b: color.scale-color(#abcdef, $red: 10%)}
-
-<===> error/scale_color/error
-Error: Undefined function.
-  ,
-2 | a {b: color.scale-color(#abcdef, $red: 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/change_color/input.scss
-@use "sass:color";
-a {b: color.change-color(#abcdef, $red: 10)}
-
-<===> error/change_color/error
-Error: Undefined function.
-  ,
-2 | a {b: color.change-color(#abcdef, $red: 10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/adjust_hue/input.scss
-@use "sass:color";
-a {b: color.adjust-hue(#abcdef, 10)}
-
-<===> error/adjust_hue/error
-Error: The function adjust-hue() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $hue: 10)
-
-More info: https://sass-lang.com/documentation/functions/color#adjust-hue
-  ,
-2 | a {b: color.adjust-hue(#abcdef, 10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/lighten/module/input.scss
-@use "sass:color";
-a {b: color.lighten(#abcdef, 10%)}
-
-<===> error/lighten/module/error
-Error: The function lighten() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $lightness: 10%)
-
-More info: https://sass-lang.com/documentation/functions/color#lighten
-  ,
-2 | a {b: color.lighten(#abcdef, 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/lighten/bounds/too_low/input.scss
+<===> error/too_low/lighten/input.scss
 a {b: lighten(red, -0.001)}
 
-<===> error/lighten/bounds/too_low/error
+<===> error/too_low/lighten/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: lighten(red, -0.001)}
@@ -393,28 +315,10 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 
 <===>
 ================================================================================
-<===> error/darken/module/input.scss
-@use "sass:color";
-a {b: color.darken(#abcdef, 10%)}
-
-<===> error/darken/module/error
-Error: The function darken() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $lightness: -10%)
-
-More info: https://sass-lang.com/documentation/functions/color#darken
-  ,
-2 | a {b: color.darken(#abcdef, 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/darken/bounds/too_low/input.scss
+<===> error/too_low/darken/input.scss
 a {b: darken(red, -0.001)}
 
-<===> error/darken/bounds/too_low/error
+<===> error/too_low/darken/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: darken(red, -0.001)}
@@ -424,28 +328,10 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 
 <===>
 ================================================================================
-<===> error/saturate/module/input.scss
-@use "sass:color";
-a {b: color.saturate(#abcdef, 10%)}
-
-<===> error/saturate/module/error
-Error: The function saturate() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $saturation: 10%)
-
-More info: https://sass-lang.com/documentation/functions/color#saturate
-  ,
-2 | a {b: color.saturate(#abcdef, 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/saturate/bounds/too_low/input.scss
+<===> error/too_low/saturate/input.scss
 a {b: saturate(red, -0.001)}
 
-<===> error/saturate/bounds/too_low/error
+<===> error/too_low/saturate/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: saturate(red, -0.001)}
@@ -455,28 +341,10 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 
 <===>
 ================================================================================
-<===> error/desaturate/module/input.scss
-@use "sass:color";
-a {b: color.desaturate(#abcdef, 10%)}
-
-<===> error/desaturate/module/error
-Error: The function desaturate() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $saturation: -10%)
-
-More info: https://sass-lang.com/documentation/functions/color#desaturate
-  ,
-2 | a {b: color.desaturate(#abcdef, 10%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/desaturate/bounds/too_low/input.scss
+<===> error/too_low/desaturate/input.scss
 a {b: desaturate(red, -0.001)}
 
-<===> error/desaturate/bounds/too_low/error
+<===> error/too_low/desaturate/error
 Error: $amount: Expected -0.001 to be within 0 and 100.
   ,
 1 | a {b: desaturate(red, -0.001)}
@@ -486,46 +354,10 @@ Error: $amount: Expected -0.001 to be within 0 and 100.
 
 <===>
 ================================================================================
-<===> error/opacify/input.scss
-@use "sass:color";
-a {b: color.opacify(#abcdef, 0.5)}
-
-<===> error/opacify/error
-Error: The function opacify() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $alpha: 0.5)
-
-More info: https://sass-lang.com/documentation/functions/color#opacify
-  ,
-2 | a {b: color.opacify(#abcdef, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/fade_in/module/input.scss
-@use "sass:color";
-a {b: color.fade-in(#abcdef, 0.5)}
-
-<===> error/fade_in/module/error
-Error: The function fade-in() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $alpha: 0.5)
-
-More info: https://sass-lang.com/documentation/functions/color#fade-in
-  ,
-2 | a {b: color.fade-in(#abcdef, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/fade_in/bounds/too_low/input.scss
+<===> error/too_low/fade_in/input.scss
 a {b: fade-in(red, -0.001)}
 
-<===> error/fade_in/bounds/too_low/error
+<===> error/too_low/fade_in/error
 Error: $amount: Expected -0.001 to be within 0 and 1.
   ,
 1 | a {b: fade-in(red, -0.001)}
@@ -535,50 +367,13 @@ Error: $amount: Expected -0.001 to be within 0 and 1.
 
 <===>
 ================================================================================
-<===> error/transparentize/input.scss
-@use "sass:color";
-a {b: color.transparentize(#abcdef, 0.5)}
-
-<===> error/transparentize/error
-Error: The function transparentize() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $alpha: -0.5)
-
-More info: https://sass-lang.com/documentation/functions/color#transparentize
-  ,
-2 | a {b: color.transparentize(#abcdef, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/fade_out/module/input.scss
-@use "sass:color";
-a {b: color.fade-out(#abcdef, 0.5)}
-
-<===> error/fade_out/module/error
-Error: The function fade-out() isn't in the sass:color module.
-
-Recommendation: color.adjust(#abcdef, $alpha: -0.5)
-
-More info: https://sass-lang.com/documentation/functions/color#fade-out
-  ,
-2 | a {b: color.fade-out(#abcdef, 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> error/fade_out/bounds/too_low/input.scss
+<===> error/too_low/fade_out/input.scss
 a {b: fade-out(red, -0.001)}
 
-<===> error/fade_out/bounds/too_low/error
+<===> error/too_low/fade_out/error
 Error: $amount: Expected -0.001 to be within 0 and 1.
   ,
 1 | a {b: fade-out(red, -0.001)}
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
-
