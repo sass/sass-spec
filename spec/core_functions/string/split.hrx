@@ -10,11 +10,13 @@ a {
 <===>
 ================================================================================
 <===> empty/input.scss
+@use "sass:list";
+@use "sass:meta";
 @use "sass:string";
 $result: string.split("", "/");
 a {
-  value: inspect($result);
-  separator: list-separator($result); 
+  value: meta.inspect($result);
+  separator: list.separator($result); 
 }
 
 <===> empty/output.css
@@ -26,11 +28,13 @@ a {
 <===>
 ================================================================================
 <===> single/input.scss
+@use "sass:list";
+@use "sass:meta";
 @use "sass:string";
 $result: string.split("a", "");
 a {
-  value: inspect($result);
-  separator: list-separator($result); 
+  value: meta.inspect($result);
+  separator: list.separator($result); 
 }
 
 <===> single/output.css

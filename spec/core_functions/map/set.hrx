@@ -1,6 +1,7 @@
 <===> empty/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((), c, d))}
+a {b: meta.inspect(map.set((), c, d))}
 
 <===> empty/output.css
 a {
@@ -10,8 +11,9 @@ a {
 <===>
 ================================================================================
 <===> update_existing_key/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: d), c, e))}
+a {b: meta.inspect(map.set((c: d), c, e))}
 
 <===> update_existing_key/output.css
 a {
@@ -21,8 +23,9 @@ a {
 <===>
 ================================================================================
 <===> new_key/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: d), e, f))}
+a {b: meta.inspect(map.set((c: d), e, f))}
 
 <===> new_key/output.css
 a {
@@ -32,8 +35,9 @@ a {
 <===>
 ================================================================================
 <===> nested/empty/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: ()), c, d, e, f))}
+a {b: meta.inspect(map.set((c: ()), c, d, e, f))}
 
 <===> nested/empty/output.css
 a {
@@ -43,8 +47,9 @@ a {
 <===>
 ================================================================================
 <===> nested/update_existing_key/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: (d: e)), c, d, f))}
+a {b: meta.inspect(map.set((c: (d: e)), c, d, f))}
 
 <===> nested/update_existing_key/output.css
 a {
@@ -54,8 +59,9 @@ a {
 <===>
 ================================================================================
 <===> nested/new_key/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: (d: e)), c, f, g))}
+a {b: meta.inspect(map.set((c: (d: e)), c, f, g))}
 
 <===> nested/new_key/output.css
 a {
@@ -65,8 +71,9 @@ a {
 <===>
 ================================================================================
 <===> nested/value_is_not_a_map/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: 1), c, d, f))}
+a {b: meta.inspect(map.set((c: 1), c, d, f))}
 
 <===> nested/value_is_not_a_map/output.css
 a {
@@ -76,8 +83,9 @@ a {
 <===>
 ================================================================================
 <===> nested/long/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set((c: (d: (e: (f: (g: h))))), c, d, e, f, g, i))}
+a {b: meta.inspect(map.set((c: (d: (e: (f: (g: h))))), c, d, e, f, g, i))}
 
 <===> nested/long/output.css
 a {
@@ -87,8 +95,9 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @use "sass:map";
-a {b: inspect(map.set($map: (c: d), $key: c, $value: e))}
+a {b: meta.inspect(map.set($map: (c: d), $key: c, $value: e))}
 
 <===> named/output.css
 a {

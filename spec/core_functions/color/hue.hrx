@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: hue(hsl(359, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(359, 50%, 50%))}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> above_max/input.scss
-a {b: hue(hsl(540, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(540, 50%, 50%))}
 
 <===> above_max/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: hue(hsl(0, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(0, 50%, 50%))}
 
 <===> min/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> negative/input.scss
-a {b: hue(hsl(-180, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(-180, 50%, 50%))}
 
 <===> negative/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: hue(hsl(123, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(123, 50%, 50%))}
 
 <===> middle/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> fraction/input.scss
-a {b: hue(hsl(0.5, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue(hsl(0.5, 50%, 50%))}
 
 <===> fraction/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: hue($color: hsl(234, 50%, 50%))}
+@use "sass:color";
+a {b: color.hue($color: hsl(234, 50%, 50%))}
 
 <===> named/output.css
 a {
@@ -69,46 +76,49 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: hue()}
+@use "sass:color";
+a {b: color.hue()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: hue()}
-  |       ^^^^^ invocation
+2 | a {b: color.hue()}
+  |       ^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function hue($color) {
   |           =========== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: hue(red, green)}
+@use "sass:color";
+a {b: color.hue(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: hue(red, green)}
-  |       ^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.hue(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function hue($color) {
   |           =========== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: hue(1)}
+@use "sass:color";
+a {b: color.hue(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: hue(1)}
-  |       ^^^^^^
+2 | a {b: color.hue(1)}
+  |       ^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

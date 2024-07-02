@@ -11,7 +11,8 @@ of the other.
 <===>
 ================================================================================
 <===> same_order/input.scss
-a {b: is-superselector("c", "c.d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c.d")}
 
 <===> same_order/output.css
 a {
@@ -21,7 +22,8 @@ a {
 <===>
 ================================================================================
 <===> different_order/input.scss
-a {b: is-superselector("c.e", "c:d.e")}
+@use "sass:selector";
+a {b: selector.is-superselector("c.e", "c:d.e")}
 
 <===> different_order/output.css
 a {
@@ -31,7 +33,8 @@ a {
 <===>
 ================================================================================
 <===> superset/input.scss
-a {b: is-superselector("c.d", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c.d", "c")}
 
 <===> superset/output.css
 a {
@@ -41,7 +44,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/present/input.scss
-a {b: is-superselector("::d", "c::d")}
+@use "sass:selector";
+a {b: selector.is-superselector("::d", "c::d")}
 
 <===> pseudo_element/present/output.css
 a {
@@ -51,7 +55,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/absent/in_1/input.scss
-a {b: is-superselector("c", "c::d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c::d")}
 
 <===> pseudo_element/absent/in_1/output.css
 a {
@@ -61,7 +66,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/absent/in_2/input.scss
-a {b: is-superselector("c::d", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c::d", "c")}
 
 <===> pseudo_element/absent/in_2/output.css
 a {
@@ -71,7 +77,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/subset/before/input.scss
-a {b: is-superselector(".c::d", ".c.e::d")}
+@use "sass:selector";
+a {b: selector.is-superselector(".c::d", ".c.e::d")}
 
 <===> pseudo_element/subset/before/output.css
 a {
@@ -81,7 +88,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/subset/after/input.scss
-a {b: is-superselector("::d:c", "::d:c:e")}
+@use "sass:selector";
+a {b: selector.is-superselector("::d:c", "::d:c:e")}
 
 <===> pseudo_element/subset/after/output.css
 a {
@@ -91,7 +99,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/superset/before/input.scss
-a {b: is-superselector(".c.e::d", ".c::d")}
+@use "sass:selector";
+a {b: selector.is-superselector(".c.e::d", ".c::d")}
 
 <===> pseudo_element/superset/before/output.css
 a {
@@ -101,7 +110,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/superset/after/input.scss
-a {b: is-superselector("::d:c:e", "::d:c")}
+@use "sass:selector";
+a {b: selector.is-superselector("::d:c:e", "::d:c")}
 
 <===> pseudo_element/superset/after/output.css
 a {
@@ -111,7 +121,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/same_order/input.scss
-a {b: is-superselector("::d:e", "::d:e")}
+@use "sass:selector";
+a {b: selector.is-superselector("::d:e", "::d:e")}
 
 <===> pseudo_element/same_order/output.css
 a {
@@ -121,7 +132,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/different_order/input.scss
-a {b: is-superselector(":e::d", "::d:e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":e::d", "::d:e")}
 
 <===> pseudo_element/different_order/output.css
 a {
@@ -131,7 +143,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/class_syntax/before/input.scss
-a {b: is-superselector("c", "c:before")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c:before")}
 
 <===> pseudo_element/class_syntax/before/output.css
 a {
@@ -141,7 +154,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/class_syntax/after/input.scss
-a {b: is-superselector("c", "c:after")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c:after")}
 
 <===> pseudo_element/class_syntax/after/output.css
 a {
@@ -151,7 +165,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/class_syntax/first_line/input.scss
-a {b: is-superselector("c", "c:first-line")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c:first-line")}
 
 <===> pseudo_element/class_syntax/first_line/output.css
 a {
@@ -161,7 +176,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/class_syntax/first_letter/input.scss
-a {b: is-superselector("c", "c:first-letter")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c:first-letter")}
 
 <===> pseudo_element/class_syntax/first_letter/output.css
 a {

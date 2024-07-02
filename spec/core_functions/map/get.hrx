@@ -1,5 +1,7 @@
 <===> not_found/empty/input.scss
-a {b: inspect(map-get((), 1))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((), 1))}
 
 <===> not_found/empty/output.css
 a {
@@ -9,7 +11,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/non_empty/input.scss
-a {b: inspect(map-get((c: d), d))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c: d), d))}
 
 <===> not_found/non_empty/output.css
 a {
@@ -19,7 +23,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/dash_sensitive/input.scss
-a {b: inspect(map-get((c-d: e), c_d))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c-d: e), c_d))}
 
 <===> not_found/dash_sensitive/output.css
 a {
@@ -29,7 +35,8 @@ a {
 <===>
 ================================================================================
 <===> found/single/input.scss
-a {b: map-get((c: d), c)}
+@use "sass:map";
+a {b: map.get((c: d), c)}
 
 <===> found/single/output.css
 a {
@@ -39,7 +46,8 @@ a {
 <===>
 ================================================================================
 <===> found/first/input.scss
-a {b: map-get((1: 2, 3: 4, 5: 6), 1)}
+@use "sass:map";
+a {b: map.get((1: 2, 3: 4, 5: 6), 1)}
 
 <===> found/first/output.css
 a {
@@ -49,7 +57,8 @@ a {
 <===>
 ================================================================================
 <===> found/middle/input.scss
-a {b: map-get((1: 2, 3: 4, 5: 6), 3)}
+@use "sass:map";
+a {b: map.get((1: 2, 3: 4, 5: 6), 3)}
 
 <===> found/middle/output.css
 a {
@@ -59,7 +68,8 @@ a {
 <===>
 ================================================================================
 <===> found/last/input.scss
-a {b: map-get((1: 2, 3: 4, 5: 6), 5)}
+@use "sass:map";
+a {b: map.get((1: 2, 3: 4, 5: 6), 5)}
 
 <===> found/last/output.css
 a {
@@ -69,7 +79,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: map-get($map: (c: d), $key: c)}
+@use "sass:map";
+a {b: map.get($map: (c: d), $key: c)}
 
 <===> named/output.css
 a {
@@ -79,7 +90,9 @@ a {
 <===>
 ================================================================================
 <===> nested/found/partial_path/input.scss
-a {b: inspect(map-get((c: (d: (e: f))), c, d))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c: (d: (e: f))), c, d))}
 
 <===> nested/found/partial_path/output.css
 a {
@@ -89,7 +102,8 @@ a {
 <===>
 ================================================================================
 <===> nested/found/full_path/input.scss
-a {b: map-get((c: (d: (e: f))), c, d, e)}
+@use "sass:map";
+a {b: map.get((c: (d: (e: f))), c, d, e)}
 
 <===> nested/found/full_path/output.css
 a {
@@ -99,7 +113,9 @@ a {
 <===>
 ================================================================================
 <===> nested/not_found/top_level/input.scss
-a {b: inspect(map-get((c: (d: (e: f))), d))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c: (d: (e: f))), d))}
 
 <===> nested/not_found/top_level/output.css
 a {
@@ -109,7 +125,9 @@ a {
 <===>
 ================================================================================
 <===> nested/not_found/deep/input.scss
-a {b: inspect(map-get((c: (d: (e: f))), c, d, g))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c: (d: (e: f))), c, d, g))}
 
 <===> nested/not_found/deep/output.css
 a {
@@ -119,7 +137,9 @@ a {
 <===>
 ================================================================================
 <===> nested/not_found/too_many_keys/input.scss
-a {b: inspect(map-get((c: (d: (e: f))), c, d, e, f))}
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(map.get((c: (d: (e: f))), c, d, e, f))}
 
 <===> nested/not_found/too_many_keys/output.css
 a {
@@ -128,30 +148,46 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:map";
+a {b: map.map-get((c: d), c)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: map.map-get((c: d), c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/map/input.scss
-a {b: map-get(1, 2)}
+@use "sass:map";
+a {b: map.get(1, 2)}
 
 <===> error/type/map/error
 Error: $map: 1 is not a map.
   ,
-1 | a {b: map-get(1, 2)}
+2 | a {b: map.get(1, 2)}
   |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: map-get(1)}
+@use "sass:map";
+a {b: map.get(1)}
 
 <===> error/too_few_args/error
 Error: Missing argument $key.
   ,--> input.scss
-1 | a {b: map-get(1)}
+2 | a {b: map.get(1)}
   |       ^^^^^^^^^^ invocation
   '
   ,--> sass:map
 1 | @function get($map, $key, $keys...) {
   |           ========================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

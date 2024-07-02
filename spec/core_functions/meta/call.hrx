@@ -1,6 +1,7 @@
 <===> args/none/input.scss
+@use "sass:meta";
 @function a() {@return b}
-c {d: call(get-function("a"))}
+c {d: meta.call(meta.get-function("a"))}
 
 <===> args/none/output.css
 c {
@@ -10,7 +11,8 @@ c {
 <===>
 ================================================================================
 <===> args/positional/input.scss
-a {b: call(get-function("rgb"), 1, 2, 3)}
+@use "sass:meta";
+a {b: meta.call(meta.get-function("rgb"), 1, 2, 3)}
 
 <===> args/positional/output.css
 a {
@@ -20,7 +22,8 @@ a {
 <===>
 ================================================================================
 <===> args/named/input.scss
-a {b: call(get-function("rgb"), $blue: 1, $green: 2, $red: 3)}
+@use "sass:meta";
+a {b: meta.call(meta.get-function("rgb"), $blue: 1, $green: 2, $red: 3)}
 
 <===> args/named/output.css
 a {
@@ -30,8 +33,9 @@ a {
 <===>
 ================================================================================
 <===> args/splat/positional/input.scss
+@use "sass:meta";
 $args: 1, 2, 3;
-a {b: call(get-function("rgb"), $args...)}
+a {b: meta.call(meta.get-function("rgb"), $args...)}
 
 <===> args/splat/positional/output.css
 a {
@@ -41,8 +45,9 @@ a {
 <===>
 ================================================================================
 <===> args/splat/named/input.scss
+@use "sass:meta";
 $args: ("green": 1, "blue": 2, "red": 3);
-a {b: call(get-function("rgb"), $args...)}
+a {b: meta.call(meta.get-function("rgb"), $args...)}
 
 <===> args/splat/named/output.css
 a {
@@ -52,9 +57,10 @@ a {
 <===>
 ================================================================================
 <===> args/splat/combined/input.scss
+@use "sass:meta";
 $positional: 1 2;
 $named: ("blue": 3);
-a {b: call(get-function("rgb"), $positional..., $named...)}
+a {b: meta.call(meta.get-function("rgb"), $positional..., $named...)}
 
 <===> args/splat/combined/output.css
 a {
@@ -64,8 +70,9 @@ a {
 <===>
 ================================================================================
 <===> string/local/input.scss
+@use "sass:meta";
 @function a($arg) {@return $arg + 1}
-a {b: call("a", 1)}
+a {b: meta.call("a", 1)}
 
 <===> string/local/output.css
 a {
@@ -78,15 +85,16 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function("a"))
 
   ,
-2 | a {b: call("a", 1)}
-  |       ^^^^^^^^^^^^
+3 | a {b: meta.call("a", 1)}
+  |       ^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:7  root stylesheet
+    input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> string/built_in/input.scss
-a {b: call("rgb", 1, 2, 3)}
+@use "sass:meta";
+a {b: meta.call("rgb", 1, 2, 3)}
 
 <===> string/built_in/output.css
 a {
@@ -99,15 +107,16 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function("rgb"))
 
   ,
-1 | a {b: call("rgb", 1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.call("rgb", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: call($function: get-function("rgb"), $red: 1, $green: 2, $blue: 3)}
+@use "sass:meta";
+a {b: meta.call($function: meta.get-function("rgb"), $red: 1, $green: 2, $blue: 3)}
 
 <===> named/output.css
 a {
@@ -117,58 +126,62 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: call(1)}
+@use "sass:meta";
+a {b: meta.call(1)}
 
 <===> error/type/error
 Error: $function: 1 is not a function reference.
   ,
-1 | a {b: call(1)}
-  |       ^^^^^^^
+2 | a {b: meta.call(1)}
+  |       ^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: call()}
+@use "sass:meta";
+a {b: meta.call()}
 
 <===> error/too_few_args/error
 Error: Missing argument $function.
   ,--> input.scss
-1 | a {b: call()}
-  |       ^^^^^^ invocation
+2 | a {b: meta.call()}
+  |       ^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function call($function, $args...) {
   |           ========================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/invalid_args/input.scss
-a {b: call(get-function("rgb"), 1)}
+@use "sass:meta";
+a {b: meta.call(meta.get-function("rgb"), 1)}
 
 <===> error/invalid_args/error
 Error: Missing element $green.
   ,
-1 | a {b: call(get-function("rgb"), 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.call(meta.get-function("rgb"), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/if_args/input.scss
+@use "sass:meta";
 // The if() function has a special behavior to avoid evaluating the
 // non-returned argument but that behavior does not propagate to call()
 // itself when using call() to call if().
-a {b: call(get-function("if"), true, "", $undefined)}
+a {b: meta.call(meta.get-function("if"), true, "", $undefined)}
 
 <===> error/if_args/error
 Error: Undefined variable.
   ,
-4 | a {b: call(get-function("if"), true, "", $undefined)}
-  |                                          ^^^^^^^^^^
+5 | a {b: meta.call(meta.get-function("if"), true, "", $undefined)}
+  |                                                    ^^^^^^^^^^
   '
-  input.scss 4:42  root stylesheet
+  input.scss 5:52  root stylesheet

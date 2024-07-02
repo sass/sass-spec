@@ -1,29 +1,31 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 $x: a, b, 1+2;
 
-@if type-of(nth($x, 3)) == number {
+@if meta.type-of(list.nth($x, 3)) == number {
   div {
     background: gray;
   }
 }
 
-@if type-of(nth($x, 2)) == number {
+@if meta.type-of(list.nth($x, 2)) == number {
   div {
     background: gray;
   }
 }
-@else if type-of(nth($x, 2)) == string {
+@else if meta.type-of(list.nth($x, 2)) == string {
   div {
     background: blue;
   }
 }
 
-@if type-of(nth($x, 2)) == number {
+@if meta.type-of(list.nth($x, 2)) == number {
   div {
     background: gray;
   }
 }
-@else if type-of(nth($x, 2)) == color {
+@else if meta.type-of(list.nth($x, 2)) == color {
   div {
     background: blue;
   }

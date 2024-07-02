@@ -1,5 +1,6 @@
 <===> two/in_sub/input.scss
-a {b: is-superselector("c", "c, d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "c, d")}
 
 <===> two/in_sub/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> two/in_super/input.scss
-a {b: is-superselector("c, d", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d", "c")}
 
 <===> two/in_super/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> two/in_both/equal/input.scss
-a {b: is-superselector("c, d", "c, d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d", "c, d")}
 
 <===> two/in_both/equal/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> two/in_both/subset/input.scss
-a {b: is-superselector("c, d", "c.e, d.f")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d", "c.e, d.f")}
 
 <===> two/in_both/subset/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> two/in_both/superset/input.scss
-a {b: is-superselector("c.e, d.f", "c, d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c.e, d.f", "c, d")}
 
 <===> two/in_both/superset/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> two/both_satisfied_by_one_superselector/input.scss
-a {b: is-superselector(".c", "d.c, e.c")}
+@use "sass:selector";
+a {b: selector.is-superselector(".c", "d.c, e.c")}
 
 <===> two/both_satisfied_by_one_superselector/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> three/match_one/input.scss
-a {b: is-superselector("c, d, e", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d, e", "d")}
 
 <===> three/match_one/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> three/match_two/input.scss
-a {b: is-superselector("c, d, e", "e, c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d, e", "e, c")}
 
 <===> three/match_two/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> three/match_three/input.scss
-a {b: is-superselector("c, d, e", "d, c, e")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d, e", "d, c, e")}
 
 <===> three/match_three/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> three/miss_one/input.scss
-a {b: is-superselector("c, d, e", "c, f")}
+@use "sass:selector";
+a {b: selector.is-superselector("c, d, e", "c, f")}
 
 <===> three/miss_one/output.css
 a {

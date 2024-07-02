@@ -1,0 +1,191 @@
+<===> default/and_explicit/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c", "e|*"))}
+
+<===> default/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> default/and_empty/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c", "|*"))}
+
+<===> default/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> default/and_default/input.scss
+@use "sass:selector";
+a {b: selector.unify("c", "*")}
+
+<===> default/and_default/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> default/and_any/input.scss
+@use "sass:selector";
+a {b: selector.unify("c", "*|*")}
+
+<===> default/and_any/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> explicit/and_explicit/same/input.scss
+@use "sass:selector";
+a {b: selector.unify("c|d", "c|*")}
+
+<===> explicit/and_explicit/same/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> explicit/and_explicit/different/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c|d", "e|*"))}
+
+<===> explicit/and_explicit/different/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> explicit/and_empty/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c|d", "|*"))}
+
+<===> explicit/and_empty/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> explicit/and_default/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c|d", "*"))}
+
+<===> explicit/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> explicit/and_any/input.scss
+@use "sass:selector";
+a {b: selector.unify("c|d", "*|*")}
+
+<===> explicit/and_any/output.css
+a {
+  b: c|d;
+}
+
+<===>
+================================================================================
+<===> empty/and_explicit/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("|c", "e|*"))}
+
+<===> empty/and_explicit/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> empty/and_empty/input.scss
+@use "sass:selector";
+a {b: selector.unify("|c", "|*")}
+
+<===> empty/and_empty/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> empty/and_default/input.scss
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("|c", "*"))}
+
+<===> empty/and_default/output.css
+a {
+  b: null;
+}
+
+<===>
+================================================================================
+<===> empty/and_any/input.scss
+@use "sass:selector";
+a {b: selector.unify("|c", "*|*")}
+
+<===> empty/and_any/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> any/and_explicit/input.scss
+@use "sass:selector";
+a {b: selector.unify("*|c", "d|*")}
+
+<===> any/and_explicit/output.css
+a {
+  b: d|c;
+}
+
+<===>
+================================================================================
+<===> any/and_empty/input.scss
+@use "sass:selector";
+a {b: selector.unify("*|c", "|*")}
+
+<===> any/and_empty/output.css
+a {
+  b: |c;
+}
+
+<===>
+================================================================================
+<===> any/and_default/input.scss
+@use "sass:selector";
+a {b: selector.unify("*|c", "*")}
+
+<===> any/and_default/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> any/and_any/input.scss
+@use "sass:selector";
+a {b: selector.unify("*|c", "*|*")}
+
+<===> any/and_any/output.css
+a {
+  b: *|c;
+}

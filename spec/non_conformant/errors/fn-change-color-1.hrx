@@ -1,11 +1,12 @@
 <===> input.scss
+@use "sass:color";
 foo {
-  test: change-color(red, $red: 0.5, $hue: 0.2);
+  test: color.change(red, $red: 0.5, $hue: 0.2);
 }
 <===> error
 Error: RGB parameters may not be passed along with HSL parameters.
   ,
-2 |   test: change-color(red, $red: 0.5, $hue: 0.2);
+3 |   test: color.change(red, $red: 0.5, $hue: 0.2);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:9  root stylesheet
+  input.scss 3:9  root stylesheet

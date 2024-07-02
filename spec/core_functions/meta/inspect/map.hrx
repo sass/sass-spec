@@ -1,8 +1,9 @@
 <===> number/input.scss
-$result: inspect((1: 2, 3: 4));
+@use "sass:meta";
+$result: meta.inspect((1: 2, 3: 4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> number/output.css
@@ -14,10 +15,11 @@ a {
 <===>
 ================================================================================
 <===> list/key/space/input.scss
-$result: inspect((1 2: 3, 4 5: 6));
+@use "sass:meta";
+$result: meta.inspect((1 2: 3, 4 5: 6));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> list/key/space/output.css
@@ -29,10 +31,11 @@ a {
 <===>
 ================================================================================
 <===> list/key/comma/input.scss
-$result: inspect(((1, 2): 3, (4, 5): 6));
+@use "sass:meta";
+$result: meta.inspect(((1, 2): 3, (4, 5): 6));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> list/key/comma/output.css
@@ -44,10 +47,11 @@ a {
 <===>
 ================================================================================
 <===> list/value/space/input.scss
-$result: inspect((1: 2 3, 4: 5 6));
+@use "sass:meta";
+$result: meta.inspect((1: 2 3, 4: 5 6));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> list/value/space/output.css
@@ -59,10 +63,11 @@ a {
 <===>
 ================================================================================
 <===> list/value/comma/input.scss
-$result: inspect((1: (2, 3), 4: (5, 6)));
+@use "sass:meta";
+$result: meta.inspect((1: (2, 3), 4: (5, 6)));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> list/value/comma/output.css

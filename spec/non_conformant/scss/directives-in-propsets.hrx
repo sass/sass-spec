@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:meta";
 $color: red;
 $position: 50%;
 $x: 0;
@@ -12,10 +13,10 @@ div {
     something: {
       color: green;
     }
-    @if (type-of($color) == "color") {
+    @if (meta.type-of($color) == "color") {
       color: $color;
     }
-    @if (type-of($position) == "number") {
+    @if (meta.type-of($position) == "number") {
       position: $position;
       @include foo();
     }

@@ -1,6 +1,7 @@
 <===> superset/input.scss
+@use "sass:selector";
 a {
-  b: is-superselector(
+  b: selector.is-superselector(
     ":nth-child(n+1 of c d, e f, g h)",
     ":nth-child(n+1 of c d.i, e j f)");
 }
@@ -13,8 +14,9 @@ a {
 <===>
 ================================================================================
 <===> subset/input.scss
+@use "sass:selector";
 a {
-  b: is-superselector(
+  b: selector.is-superselector(
       ":nth-child(n+1 of c d.i, e j f)",
       ":nth-child(n+1 of c d, e f, g h)");
 }
@@ -27,7 +29,8 @@ a {
 <===>
 ================================================================================
 <===> different_arg/input.scss
-a {b: is-superselector(":nth-child(n+1 of c)", ":nth-child(n+2 of c)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":nth-child(n+1 of c)", ":nth-child(n+2 of c)")}
 
 <===> different_arg/output.css
 a {
@@ -37,7 +40,8 @@ a {
 <===>
 ================================================================================
 <===> bare_super/input.scss
-a {b: is-superselector("c", ":nth-child(n+1 of c)")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", ":nth-child(n+1 of c)")}
 
 <===> bare_super/output.css
 a {
@@ -47,7 +51,8 @@ a {
 <===>
 ================================================================================
 <===> bare_sub/input.scss
-a {b: is-superselector(":nth-child(n+1 of c d, e f, g h)", "c d, e f, g h")}
+@use "sass:selector";
+a {b: selector.is-superselector(":nth-child(n+1 of c d, e f, g h)", "c d, e f, g h")}
 
 <===> bare_sub/output.css
 a {
@@ -57,8 +62,9 @@ a {
 <===>
 ================================================================================
 <===> prefix/superset/input.scss
+@use "sass:selector";
 a {
-  b: is-superselector(
+  b: selector.is-superselector(
       ":-pfx-nth-child(n+1 of c d, e f, g h)",
       ":-pfx-nth-child(n+1 of c d.i, e j f)");
 }
@@ -71,8 +77,9 @@ a {
 <===>
 ================================================================================
 <===> prefix/subset/input.scss
+@use "sass:selector";
 a {
-  b: is-superselector(
+  b: selector.is-superselector(
       ":-pfx-nth-child(n+1 of c d.i, e j f)",
       ":-pfx-nth-child(n+1 of c d, e f, g h)");
 }

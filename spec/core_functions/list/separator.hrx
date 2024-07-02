@@ -1,5 +1,6 @@
 <===> empty/space/input.scss
-a {b: list-separator(())}
+@use "sass:list";
+a {b: list.separator(())}
 
 <===> empty/space/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> empty/comma/input.scss
-a {b: list-separator(join((), (), comma))}
+@use "sass:list";
+a {b: list.separator(list.join((), (), comma))}
 
 <===> empty/comma/output.css
 a {
@@ -19,9 +21,10 @@ a {
 <===>
 ================================================================================
 <===> empty/map/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "core_functions/list/utils";
 
-a {b: list-separator($empty-map)}
+a {b: list.separator(utils.$empty-map)}
 
 <===> empty/map/output.css
 a {
@@ -31,7 +34,8 @@ a {
 <===>
 ================================================================================
 <===> single/space/input.scss
-a {b: list-separator([1])}
+@use "sass:list";
+a {b: list.separator([1])}
 
 <===> single/space/output.css
 a {
@@ -41,7 +45,8 @@ a {
 <===>
 ================================================================================
 <===> single/comma/input.scss
-a {b: list-separator((1,))}
+@use "sass:list";
+a {b: list.separator((1,))}
 
 <===> single/comma/output.css
 a {
@@ -51,7 +56,8 @@ a {
 <===>
 ================================================================================
 <===> single/slash/input.scss
-a {b: list-separator(join(1, (), $separator: slash))}
+@use "sass:list";
+a {b: list.separator(list.join(1, (), $separator: slash))}
 
 <===> single/slash/output.css
 a {
@@ -61,7 +67,8 @@ a {
 <===>
 ================================================================================
 <===> single/non_list/input.scss
-a {b: list-separator(1)}
+@use "sass:list";
+a {b: list.separator(1)}
 
 <===> single/non_list/output.css
 a {
@@ -71,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> multi/space/input.scss
-a {b: list-separator(1 2 3)}
+@use "sass:list";
+a {b: list.separator(1 2 3)}
 
 <===> multi/space/output.css
 a {
@@ -81,7 +89,8 @@ a {
 <===>
 ================================================================================
 <===> multi/comma/input.scss
-a {b: list-separator((1, 2, 3))}
+@use "sass:list";
+a {b: list.separator((1, 2, 3))}
 
 <===> multi/comma/output.css
 a {
@@ -92,7 +101,7 @@ a {
 ================================================================================
 <===> multi/slash/input.scss
 @use 'sass:list';
-a {b: list-separator(list.slash(1, 2, 3))}
+a {b: list.separator(list.slash(1, 2, 3))}
 
 <===> multi/slash/output.css
 a {
@@ -102,7 +111,8 @@ a {
 <===>
 ================================================================================
 <===> multi/map/input.scss
-a {b: list-separator((c: d, e: f, g: h))}
+@use "sass:list";
+a {b: list.separator((c: d, e: f, g: h))}
 
 <===> multi/map/output.css
 a {
@@ -112,7 +122,8 @@ a {
 <===>
 ================================================================================
 <===> bracketed/input.scss
-a {b: list-separator([c, d])}
+@use "sass:list";
+a {b: list.separator([c, d])}
 
 <===> bracketed/output.css
 a {
@@ -122,33 +133,35 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: list-separator()}
+@use "sass:list";
+a {b: list.separator()}
 
 <===> error/too_few_args/error
 Error: Missing argument $list.
   ,--> input.scss
-1 | a {b: list-separator()}
+2 | a {b: list.separator()}
   |       ^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function separator($list) {
   |           ================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: list-separator(c, d)}
+@use "sass:list";
+a {b: list.separator(c, d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: list-separator(c, d)}
+2 | a {b: list.separator(c, d)}
   |       ^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function separator($list) {
   |           ================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

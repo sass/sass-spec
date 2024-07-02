@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:meta";
 @function exists($name) {
-  @return variable-exists($name);
+  @return meta.variable-exists($name);
 }
 
 @function f() {
@@ -9,30 +10,30 @@
 }
 
 @function g() {
-  @return variable-exists(foo);
+  @return meta.variable-exists(foo);
 }
 
 div {
-  foo: variable-exists(x);
-  foo: variable-exists("x");
+  foo: meta.variable-exists(x);
+  foo: meta.variable-exists("x");
 
   span {
     $x: false;
 
-    foo: variable-exists(x);
-    foo: variable-exists("x");
-    foo: variable-exists(y);
-    foo: variable-exists("y");
+    foo: meta.variable-exists(x);
+    foo: meta.variable-exists("x");
+    foo: meta.variable-exists(y);
+    foo: meta.variable-exists("y");
     foo: exists(x);
     foo: exists("x");
 
     p {
-      foo: variable-exists(x);
-      foo: variable-exists("x");
+      foo: meta.variable-exists(x);
+      foo: meta.variable-exists("x");
       foo: exists(x);
       foo: exists("x");
-      foo: variable-exists(y);
-      foo: variable-exists("y");
+      foo: meta.variable-exists(y);
+      foo: meta.variable-exists("y");
       foo: f();
       $y: blah;
     }

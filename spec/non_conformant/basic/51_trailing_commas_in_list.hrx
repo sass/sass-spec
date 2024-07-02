@@ -1,10 +1,12 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 $mylist: (alpha, beta, gamma, );
 $my-single-item-list: (alpha,);
 .test { 
-  out1: length($mylist);
-  blah: type-of(nth($mylist,3));
-  out: length($my-single-item-list); 
+  out1: list.length($mylist);
+  blah: meta.type-of(list.nth($mylist,3));
+  out: list.length($my-single-item-list); 
 }
 <===> output.css
 .test {

@@ -1,5 +1,6 @@
 <===> single/in_sub/input.scss
-a {b: is-superselector("c", "d c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "d c")}
 
 <===> single/in_sub/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> single/in_super/input.scss
-a {b: is-superselector("c d", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c d", "d")}
 
 <===> single/in_super/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> single/in_both/equal/input.scss
-a {b: is-superselector("c d", "c d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c d", "c d")}
 
 <===> single/in_both/equal/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> single/in_both/subset/input.scss
-a {b: is-superselector("c d", "c.e d.f")}
+@use "sass:selector";
+a {b: selector.is-superselector("c d", "c.e d.f")}
 
 <===> single/in_both/subset/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> single/in_both/superset/input.scss
-a {b: is-superselector("c.e d.f", "c d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c.e d.f", "c d")}
 
 <===> single/in_both/superset/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/in_sub/input.scss
-a {b: is-superselector("c", "d e c")}
+@use "sass:selector";
+a {b: selector.is-superselector("c", "d e c")}
 
 <===> multiple/in_sub/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/match_first/input.scss
-a {b: is-superselector("d c", "d e c")}
+@use "sass:selector";
+a {b: selector.is-superselector("d c", "d e c")}
 
 <===> multiple/match_first/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/match_second/input.scss
-a {b: is-superselector("e c", "d e c")}
+@use "sass:selector";
+a {b: selector.is-superselector("e c", "d e c")}
 
 <===> multiple/match_second/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/match_neither/input.scss
-a {b: is-superselector("f c", "d e c")}
+@use "sass:selector";
+a {b: selector.is-superselector("f c", "d e c")}
 
 <===> multiple/match_neither/output.css
 a {
@@ -94,7 +103,8 @@ Regression tests for sass/dart-sass#1843.
 <===>
 ================================================================================
 <===> multiple/extra_middle/descendant/input.scss
-a {b: is-superselector("a b c", "a x b c")}
+@use "sass:selector";
+a {b: selector.is-superselector("a b c", "a x b c")}
 
 <===> multiple/extra_middle/descendant/output.css
 a {
@@ -104,7 +114,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/extra_middle/child/input.scss
-a {b: is-superselector("a b c", "a x > b c")}
+@use "sass:selector";
+a {b: selector.is-superselector("a b c", "a x > b c")}
 
 <===> multiple/extra_middle/child/output.css
 a {
@@ -114,7 +125,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/extra_middle/following_sibling/input.scss
-a {b: is-superselector("a b c", "a x ~ b c")}
+@use "sass:selector";
+a {b: selector.is-superselector("a b c", "a x ~ b c")}
 
 <===> multiple/extra_middle/following_sibling/output.css
 a {
@@ -124,7 +136,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/extra_middle/next_sibling/input.scss
-a {b: is-superselector("a b c", "a x + b c")}
+@use "sass:selector";
+a {b: selector.is-superselector("a b c", "a x + b c")}
 
 <===> multiple/extra_middle/next_sibling/output.css
 a {
@@ -134,7 +147,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/super/input.scss
-a {b: is-superselector("d c", "d > c")}
+@use "sass:selector";
+a {b: selector.is-superselector("d c", "d > c")}
 
 <===> and_child/super/output.css
 a {
@@ -144,7 +158,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/sub/input.scss
-a {b: is-superselector("d > c", "d c")}
+@use "sass:selector";
+a {b: selector.is-superselector("d > c", "d c")}
 
 <===> and_child/sub/output.css
 a {
@@ -154,7 +169,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/multiple/first/input.scss
-a {b: is-superselector("d c", "d > e > c")}
+@use "sass:selector";
+a {b: selector.is-superselector("d c", "d > e > c")}
 
 <===> and_child/multiple/first/output.css
 a {
@@ -164,7 +180,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/multiple/second/input.scss
-a {b: is-superselector("e c", "d > e > c")}
+@use "sass:selector";
+a {b: selector.is-superselector("e c", "d > e > c")}
 
 <===> and_child/multiple/second/output.css
 a {
@@ -174,7 +191,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/multiple/neither/input.scss
-a {b: is-superselector("f c", "d > e > c")}
+@use "sass:selector";
+a {b: selector.is-superselector("f c", "d > e > c")}
 
 <===> and_child/multiple/neither/output.css
 a {

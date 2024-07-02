@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:list";
 @function foo($a, $b...) {
-  @return "a: #{length($b)}, b: #{nth($b, 2)}";
+  @return "a: #{list.length($b)}, b: #{list.nth($b, 2)}";
 }
 
 .foo {val: foo(1, 2, 3, 4)}

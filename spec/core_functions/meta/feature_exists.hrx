@@ -5,7 +5,8 @@ actually fully supports that feature.
 <===>
 ================================================================================
 <===> global_variable_shadowing/input.scss
-a {b: feature-exists(global-variable-shadowing)}
+@use "sass:meta";
+a {b: meta.feature-exists(global-variable-shadowing)}
 
 <===> global_variable_shadowing/output.css
 a {
@@ -15,7 +16,8 @@ a {
 <===>
 ================================================================================
 <===> extend_selector_pseudoclass/input.scss
-a {b: feature-exists(extend-selector-pseudoclass)}
+@use "sass:meta";
+a {b: meta.feature-exists(extend-selector-pseudoclass)}
 
 <===> extend_selector_pseudoclass/output.css
 a {
@@ -25,7 +27,8 @@ a {
 <===>
 ================================================================================
 <===> units_level_3/input.scss
-a {b: feature-exists(units-level-3)}
+@use "sass:meta";
+a {b: meta.feature-exists(units-level-3)}
 
 <===> units_level_3/output.css
 a {
@@ -35,7 +38,8 @@ a {
 <===>
 ================================================================================
 <===> at_error/input.scss
-a {b: feature-exists(at-error)}
+@use "sass:meta";
+a {b: meta.feature-exists(at-error)}
 
 <===> at_error/output.css
 a {
@@ -45,7 +49,8 @@ a {
 <===>
 ================================================================================
 <===> custom_property/input.scss
-a {b: feature-exists(custom-property)}
+@use "sass:meta";
+a {b: meta.feature-exists(custom-property)}
 
 <===> custom_property/output.css
 a {
@@ -55,7 +60,8 @@ a {
 <===>
 ================================================================================
 <===> unknown/input.scss
-a {b: feature-exists(unknown)}
+@use "sass:meta";
+a {b: meta.feature-exists(unknown)}
 
 <===> unknown/output.css
 a {
@@ -65,7 +71,8 @@ a {
 <===>
 ================================================================================
 <===> dash_sensitive/input.scss
-a {b: feature-exists(at_error)}
+@use "sass:meta";
+a {b: meta.feature-exists(at_error)}
 
 <===> dash_sensitive/output.css
 a {
@@ -75,7 +82,8 @@ a {
 <===>
 ================================================================================
 <===> quote_insensitive/input.scss
-a {b: feature-exists("at-error")}
+@use "sass:meta";
+a {b: meta.feature-exists("at-error")}
 
 <===> quote_insensitive/output.css
 a {
@@ -85,7 +93,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: feature-exists($feature: at-error)}
+@use "sass:meta";
+a {b: meta.feature-exists($feature: at-error)}
 
 <===> named/output.css
 a {
@@ -95,46 +104,49 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: feature-exists(1)}
+@use "sass:meta";
+a {b: meta.feature-exists(1)}
 
 <===> error/type/error
 Error: $feature: 1 is not a string.
   ,
-1 | a {b: feature-exists(1)}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: meta.feature-exists(1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: feature-exists()}
+@use "sass:meta";
+a {b: meta.feature-exists()}
 
 <===> error/too_few_args/error
 Error: Missing argument $feature.
   ,--> input.scss
-1 | a {b: feature-exists()}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.feature-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function feature-exists($feature) {
   |           ======================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: feature-exists(at-error, custom-property)}
+@use "sass:meta";
+a {b: meta.feature-exists(at-error, custom-property)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: feature-exists(at-error, custom-property)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.feature-exists(at-error, custom-property)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function feature-exists($feature) {
   |           ======================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

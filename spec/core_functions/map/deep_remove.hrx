@@ -1,6 +1,7 @@
 <===> not_found/empty/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((), 1))}
+a {b: meta.inspect(map.deep-remove((), 1))}
 
 <===> not_found/empty/output.css
 a {
@@ -10,8 +11,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/top_level/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: d), d))}
+a {b: meta.inspect(map.deep-remove((c: d), d))}
 
 <===> not_found/top_level/output.css
 a {
@@ -21,8 +23,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/nested/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e)), c, e))}
+a {b: meta.inspect(map.deep-remove((c: (d: e)), c, e))}
 
 <===> not_found/nested/output.css
 a {
@@ -32,8 +35,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/not_a_map/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e)), c, d, e))}
+a {b: meta.inspect(map.deep-remove((c: (d: e)), c, d, e))}
 
 <===> not_found/not_a_map/output.css
 a {
@@ -43,8 +47,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/extra_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e)), c, d, e, f, g))}
+a {b: meta.inspect(map.deep-remove((c: (d: e)), c, d, e, f, g))}
 
 <===> not_found/extra_keys/output.css
 a {
@@ -54,8 +59,9 @@ a {
 <===>
 ================================================================================
 <===> found/top_level/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: d), c))}
+a {b: meta.inspect(map.deep-remove((c: d), c))}
 
 <===> found/top_level/output.css
 a {
@@ -65,8 +71,9 @@ a {
 <===>
 ================================================================================
 <===> found/nested/single/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e)), c, d))}
+a {b: meta.inspect(map.deep-remove((c: (d: e)), c, d))}
 
 <===> found/nested/single/output.css
 a {
@@ -76,8 +83,9 @@ a {
 <===>
 ================================================================================
 <===> found/nested/first/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, d))}
+a {b: meta.inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, d))}
 
 <===> found/nested/first/output.css
 a {
@@ -87,8 +95,9 @@ a {
 <===>
 ================================================================================
 <===> found/nested/middle/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, f))}
+a {b: meta.inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, f))}
 
 <===> found/nested/middle/output.css
 a {
@@ -98,8 +107,9 @@ a {
 <===>
 ================================================================================
 <===> found/nested/last/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, h))}
+a {b: meta.inspect(map.deep-remove((c: (d: e, f: g, h: i)), c, h))}
 
 <===> found/nested/last/output.css
 a {

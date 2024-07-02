@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:meta";
 @function exists($name) {
-  @return global-variable-exists($name);
+  @return meta.global-variable-exists($name);
 }
 
 @function f() {
@@ -9,37 +10,37 @@
 }
 
 @function g() {
-  @return global-variable-exists(foo);
+  @return meta.global-variable-exists(foo);
 }
 
 $z: hi;
 
 div {
-  foo: global-variable-exists(x);    
-  foo: global-variable-exists("x");    
-  foo: global-variable-exists(z);
-  foo: global-variable-exists("z");    
+  foo: meta.global-variable-exists(x);    
+  foo: meta.global-variable-exists("x");    
+  foo: meta.global-variable-exists(z);
+  foo: meta.global-variable-exists("z");    
 
   span {
     $x: false;
 
-    foo: global-variable-exists(x);
-    foo: global-variable-exists("x");    
-    foo: global-variable-exists(y);
-    foo: global-variable-exists("y");    
+    foo: meta.global-variable-exists(x);
+    foo: meta.global-variable-exists("x");    
+    foo: meta.global-variable-exists(y);
+    foo: meta.global-variable-exists("y");    
 
-    foo: global-variable-exists(z);
-    foo: global-variable-exists("z");    
+    foo: meta.global-variable-exists(z);
+    foo: meta.global-variable-exists("z");    
 
     p {
-      foo: global-variable-exists(x);
-      foo: global-variable-exists("x");    
+      foo: meta.global-variable-exists(x);
+      foo: meta.global-variable-exists("x");    
       foo: exists(x);
       foo: exists("x");    
-      foo: global-variable-exists(z);
-      foo: global-variable-exists("z");    
-      foo: global-variable-exists(y);
-      foo: global-variable-exists("y");    
+      foo: meta.global-variable-exists(z);
+      foo: meta.global-variable-exists("z");    
+      foo: meta.global-variable-exists(y);
+      foo: meta.global-variable-exists("y");    
       foo: f();
       $y: blah;
       //TODO: check for shadowing

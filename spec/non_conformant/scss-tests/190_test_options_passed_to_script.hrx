@@ -1,5 +1,6 @@
 <===> input.scss
-foo {color: darken(black, 10%)}
+@use "sass:color";
+foo {color: color.adjust(black, $lightness: -10%)}
 
 <===> output.css
 foo {

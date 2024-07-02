@@ -105,8 +105,10 @@ WARNING: warning
 <===>
 ================================================================================
 <===> functions_in_stack/input.scss
+@use "sass:meta";
+
 @function issues-warning($a) {
-  @warn "From function: #{inspect($a)}";
+  @warn "From function: #{meta.inspect($a)}";
   @return $a;
 }
 
@@ -125,9 +127,9 @@ WARNING: warning
 
 <===> functions_in_stack/warning
 WARNING: From function: testing
-    input.scss 2:3   issues-warning()
-    input.scss 7:11  calls-function-that-warns()
-    input.scss 11:3  root stylesheet
+    input.scss 4:3   issues-warning()
+    input.scss 9:11  calls-function-that-warns()
+    input.scss 13:3  root stylesheet
 
 <===>
 ================================================================================

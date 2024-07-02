@@ -1,5 +1,6 @@
 <===> superset/input.scss
-a {b: is-superselector(":not(c d, e f, g h)", ":not(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d, e f, g h)", ":not(c d.i, e j f)")}
 
 <===> superset/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> subset/input.scss
-a {b: is-superselector(":not(c d.i, e j f)", ":not(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d.i, e j f)", ":not(c d, e f, g h)")}
 
 <===> subset/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> bare_sub/input.scss
-a {b: is-superselector(":not(c d, e f, g h)", "c d, e f, g h")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d, e f, g h)", "c d, e f, g h")}
 
 <===> bare_sub/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> type/input.scss
-a {b: is-superselector(":not(c.d)", "e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c.d)", "e")}
 
 <===> type/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> id/input.scss
-a {b: is-superselector(":not(#c.d)", "#e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(#c.d)", "#e")}
 
 <===> id/output.css
 a {
@@ -57,7 +62,8 @@ of elements matched by its selector gets, `:not(X, Y)` is equivalent to
 <===>
 ================================================================================
 <===> equivalence/split_super/superset/input.scss
-a {b: is-superselector(":not(c d):not(e f):not(g h)", ":not(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d):not(e f):not(g h)", ":not(c d.i, e j f)")}
 <===> equivalence/split_super/superset/output.css
 a {
   b: false;
@@ -66,7 +72,8 @@ a {
 <===>
 ================================================================================
 <===> equivalence/split_super/subset/input.scss
-a {b: is-superselector(":not(c d.i):not(e j f)", ":not(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d.i):not(e j f)", ":not(c d, e f, g h)")}
 
 <===> equivalence/split_super/subset/output.css
 a {
@@ -76,7 +83,8 @@ a {
 <===>
 ================================================================================
 <===> equivalence/split_sub/superset/input.scss
-a {b: is-superselector(":not(c d, e f, g h)", ":not(c d.i):not(e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d, e f, g h)", ":not(c d.i):not(e j f)")}
 
 <===> equivalence/split_sub/superset/output.css
 a {
@@ -86,7 +94,8 @@ a {
 <===>
 ================================================================================
 <===> equivalence/split_sub/subset/input.scss
-a {b: is-superselector(":not(c d.i, e j f)", ":not(c d):not(e f):not(g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":not(c d.i, e j f)", ":not(c d):not(e f):not(g h)")}
 
 <===> equivalence/split_sub/subset/output.css
 a {
@@ -96,7 +105,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/superset/input.scss
-a {b: is-superselector(":-pfx-not(c d, e f, g h)", ":-pfx-not(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-not(c d, e f, g h)", ":-pfx-not(c d.i, e j f)")}
 
 <===> prefix/superset/output.css
 a {
@@ -106,7 +116,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/subset/input.scss
-a {b: is-superselector(":-pfx-not(c d.i, e j f)", ":-pfx-not(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-not(c d.i, e j f)", ":-pfx-not(c d, e f, g h)")}
 
 <===> prefix/subset/output.css
 a {

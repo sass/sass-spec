@@ -14,7 +14,8 @@ Most changes here should also be reflected in `is.hrx` and `matches.hrx`.
 <===>
 ================================================================================
 <===> simple/equal/input.scss
-a {b: is-superselector(":where(c)", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c)", "c")}
 
 <===> simple/equal/output.css
 a {
@@ -24,7 +25,8 @@ a {
 <===>
 ================================================================================
 <===> simple/unequal/input.scss
-a {b: is-superselector(":where(c)", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c)", "d")}
 
 <===> simple/unequal/output.css
 a {
@@ -34,7 +36,8 @@ a {
 <===>
 ================================================================================
 <===> compound/superset/input.scss
-a {b: is-superselector(":where(c.e)", "c.d.e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c.e)", "c.d.e")}
 
 <===> compound/superset/output.css
 a {
@@ -44,7 +47,8 @@ a {
 <===>
 ================================================================================
 <===> compound/subset/input.scss
-a {b: is-superselector(":where(c.d.e)", "c e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c.d.e)", "c e")}
 
 <===> compound/subset/output.css
 a {
@@ -54,7 +58,8 @@ a {
 <===>
 ================================================================================
 <===> complex/superset/input.scss
-a {b: is-superselector(":where(c e)", "c d e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c e)", "c d e")}
 
 <===> complex/superset/output.css
 a {
@@ -64,7 +69,8 @@ a {
 <===>
 ================================================================================
 <===> complex/subset/input.scss
-a {b: is-superselector(":where(c d e)", "c e")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c d e)", "c e")}
 
 <===> complex/subset/output.css
 a {
@@ -74,7 +80,8 @@ a {
 <===>
 ================================================================================
 <===> list/superset/input.scss
-a {b: is-superselector(":where(c d, e f, g h)", "c d, e f")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c d, e f, g h)", "c d, e f")}
 
 <===> list/superset/output.css
 a {
@@ -84,7 +91,8 @@ a {
 <===>
 ================================================================================
 <===> list/subset/input.scss
-a {b: is-superselector(":where(c d, e f)", "c d, e f, g h")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c d, e f)", "c d, e f, g h")}
 
 <===> list/subset/output.css
 a {
@@ -101,7 +109,8 @@ check on those two selectors in isolation.
 <===>
 ================================================================================
 <===> both/superset/input.scss
-a {b: is-superselector(":where(c d, e f, g h)", ":where(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c d, e f, g h)", ":where(c d.i, e j f)")}
 
 <===> both/superset/output.css
 a {
@@ -111,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> both/subset/input.scss
-a {b: is-superselector(":where(c d.i, e j f)", ":where(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c d.i, e j f)", ":where(c d, e f, g h)")}
 
 <===> both/subset/output.css
 a {
@@ -121,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/superset/input.scss
-a {b: is-superselector(":-pfx-is(c d, e f, g h)", "c d.i, e j f")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-is(c d, e f, g h)", "c d.i, e j f")}
 
 <===> prefix/superset/output.css
 a {
@@ -131,7 +142,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/subset/input.scss
-a {b: is-superselector(":-pfx-is(c d.i, e j f)", "c d, e f, g h")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-is(c d.i, e j f)", "c d, e f, g h")}
 
 <===> prefix/subset/output.css
 a {
@@ -147,7 +159,8 @@ semantics, because in practice they match different browsers.
 <===>
 ================================================================================
 <===> not_superselector_of/any/input.scss
-a {b: is-superselector(":where(c, d)", ":any(c, d)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c, d)", ":any(c, d)")}
 
 <===> not_superselector_of/any/output.css
 a {
@@ -157,7 +170,8 @@ a {
 <===>
 ================================================================================
 <===> not_superselector_of/prefixed/input.scss
-a {b: is-superselector(":where(c, d)", ":-pfx-where(c, d)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":where(c, d)", ":-pfx-where(c, d)")}
 
 <===> not_superselector_of/prefixed/output.css
 a {

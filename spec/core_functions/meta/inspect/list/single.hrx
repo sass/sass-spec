@@ -1,8 +1,10 @@
 <===> space/input.scss
-$result: inspect(append((), 1, space));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.append((), 1, space));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/output.css
@@ -14,10 +16,11 @@ a {
 <===>
 ================================================================================
 <===> comma/input.scss
-$result: inspect((1,));
+@use "sass:meta";
+$result: meta.inspect((1,));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/output.css
@@ -29,10 +32,12 @@ a {
 <===>
 ================================================================================
 <===> slash/input.scss
-$result: inspect(append((), 1, slash));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.append((), 1, slash));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> slash/output.css
@@ -44,10 +49,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/undecided/input.scss
-$result: inspect([1]);
+@use "sass:meta";
+$result: meta.inspect([1]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/undecided/output.css
@@ -59,10 +65,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/comma/input.scss
-$result: inspect([1,]);
+@use "sass:meta";
+$result: meta.inspect([1,]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/comma/output.css

@@ -154,15 +154,17 @@ in-input {
 outer {@import "imported"}
 
 <===> nested_import_into_use/_imported.scss
+@use "sass:meta";
 @use "used";
 
-in-imported {parent: inspect(&)}
+in-imported {parent: meta.inspect(&)}
 
 <===> nested_import_into_use/_used.scss
+@use "sass:meta";
 // This parent selector will be `null`, because used modules are always
 // evaluated in a clean context, even if their CSS is then copied into an
 // imported file.
-in-used {parent: inspect(&)}
+in-used {parent: meta.inspect(&)}
 
 <===> nested_import_into_use/output.css
 outer in-used {

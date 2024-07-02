@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:list";
 @mixin foo($a, $b...) {
-  a: length($b);
-  b: nth($b, 2);
+  a: list.length($b);
+  b: list.nth($b, 2);
 }
 
 .foo {@include foo(1, 2, 3, 4)}

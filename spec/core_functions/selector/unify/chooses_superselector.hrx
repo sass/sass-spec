@@ -5,7 +5,8 @@ subselector is returned (since it's more specific).
 <===>
 ================================================================================
 <===> whole_selector/selector1/input.scss
-a {b: selector-unify("c", "d c.e")}
+@use "sass:selector";
+a {b: selector.unify("c", "d c.e")}
 
 <===> whole_selector/selector1/output.css
 a {
@@ -15,7 +16,8 @@ a {
 <===>
 ================================================================================
 <===> whole_selector/selector2/input.scss
-a {b: selector-unify("d c.e", "c")}
+@use "sass:selector";
+a {b: selector.unify("d c.e", "c")}
 
 <===> whole_selector/selector2/output.css
 a {
@@ -25,7 +27,8 @@ a {
 <===>
 ================================================================================
 <===> parent/selector1/input.scss
-a {b: selector-unify("c d", "c.e .f")}
+@use "sass:selector";
+a {b: selector.unify("c d", "c.e .f")}
 
 <===> parent/selector1/output.css
 a {
@@ -35,7 +38,8 @@ a {
 <===>
 ================================================================================
 <===> parent/selector2/input.scss
-a {b: selector-unify("c.e .f", "c d")}
+@use "sass:selector";
+a {b: selector.unify("c.e .f", "c d")}
 
 <===> parent/selector2/output.css
 a {

@@ -1,5 +1,6 @@
 <===> leading/initial/input.scss
-a {b: selector-nest("> c", "d")}
+@use "sass:selector";
+a {b: selector.nest("> c", "d")}
 
 <===> leading/initial/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> leading/final/input.scss
-a {b: selector-nest("c", "+ d")}
+@use "sass:selector";
+a {b: selector.nest("c", "+ d")}
 
 <===> leading/final/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> trailing/initial/input.scss
-a {b: selector-nest("c ~", "d")}
+@use "sass:selector";
+a {b: selector.nest("c ~", "d")}
 
 <===> trailing/initial/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> trailing/final/input.scss
-a {b: selector-nest("c", "d >")}
+@use "sass:selector";
+a {b: selector.nest("c", "d >")}
 
 <===> trailing/final/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/middle/input.scss
-a {b: selector-nest("c > > d", "e")}
+@use "sass:selector";
+a {b: selector.nest("c > > d", "e")}
 
 <===> multiple/middle/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/leading/initial/input.scss
-a {b: selector-nest("~ ~ c", "d")}
+@use "sass:selector";
+a {b: selector.nest("~ ~ c", "d")}
 
 <===> multiple/leading/initial/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/leading/final/input.scss
-a {b: selector-nest("c", "+ > d")}
+@use "sass:selector";
+a {b: selector.nest("c", "+ > d")}
 
 <===> multiple/leading/final/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/trailing/initial/input.scss
-a {b: selector-nest("c > ~", "d")}
+@use "sass:selector";
+a {b: selector.nest("c > ~", "d")}
 
 <===> multiple/trailing/initial/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/trailing/final/input.scss
-a {b: selector-nest("c", "d + >")}
+@use "sass:selector";
+a {b: selector.nest("c", "d + >")}
 
 <===> multiple/trailing/final/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> only/before/input.scss
-a {b: selector-nest("~", "c")}
+@use "sass:selector";
+a {b: selector.nest("~", "c")}
 
 <===> only/before/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> only/after/input.scss
-a {b: selector-nest("c", "+")}
+@use "sass:selector";
+a {b: selector.nest("c", "+")}
 
 <===> only/after/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> only/between/input.scss
-a {b: selector-nest("c", ">", "d")}
+@use "sass:selector";
+a {b: selector.nest("c", ">", "d")}
 
 <===> only/between/output.css
 a {

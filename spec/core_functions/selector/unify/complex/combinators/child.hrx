@@ -1,5 +1,6 @@
 <===> and_descendant/distinct/input.scss
-a {b: selector-unify(".c > .d", ".e .f")}
+@use "sass:selector";
+a {b: selector.unify(".c > .d", ".e .f")}
 
 <===> and_descendant/distinct/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> and_descendant/identical/input.scss
-a {b: selector-unify(".c > .s1", ".c .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c > .s1", ".c .s2")}
 
 <===> and_descendant/identical/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> and_descendant/superselector/input.scss
-a {b: selector-unify(".c.s1-1 > .s1-2", ".c .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 > .s1-2", ".c .s2")}
 
 <===> and_descendant/superselector/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> and_descendant/overlap/input.scss
-a {b: selector-unify(".c.s1-1 > .s1-2", ".c.s2-1 .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 > .s1-2", ".c.s2-1 .s2-2")}
 
 <===> and_descendant/overlap/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/distinct/input.scss
-a {b: selector-unify(".c > .d", ".e > .f")}
+@use "sass:selector";
+a {b: selector.unify(".c > .d", ".e > .f")}
 
 <===> and_child/distinct/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/superselector/input.scss
-a {b: selector-unify(".c.s1-1 > .s1-2", ".c > .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 > .s1-2", ".c > .s2")}
 
 <===> and_child/superselector/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/overlap/input.scss
-a {b: selector-unify(".c.s1-1 > .s1-2", ".c.s2-1 > .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 > .s1-2", ".c.s2-1 > .s2-2")}
 
 <===> and_child/overlap/output.css
 a {
@@ -69,7 +76,9 @@ a {
 <===>
 ================================================================================
 <===> and_child/conflict/input.scss
-a {b: inspect(selector-unify("#s1-1 > .s1-2", "#s2-1 > .s2-2"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("#s1-1 > .s1-2", "#s2-1 > .s2-2"))}
 
 <===> and_child/conflict/output.css
 a {
@@ -79,7 +88,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/input.scss
-a {b: selector-unify(".c > .s1", ".c ~ .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c > .s1", ".c ~ .s2")}
 
 <===> and_sibling/output.css
 a {
@@ -89,7 +99,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/input.scss
-a {b: selector-unify(".c > .s1", ".c + .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c > .s1", ".c + .s2")}
 
 <===> and_next_sibling/output.css
 a {

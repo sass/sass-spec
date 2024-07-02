@@ -1,44 +1,47 @@
 <===> argument/type/name/input.scss
-a {b: get-function(2px)}
+@use "sass:meta";
+a {b: meta.get-function(2px)}
 
 <===> argument/type/name/error
 Error: $name: 2px is not a string.
   ,
-1 | a {b: get-function(2px)}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> argument/type/module/input.scss
-a {b: get-function(c, $module: 1)}
+@use "sass:meta";
+a {b: meta.get-function(c, $module: 1)}
 
 <===> argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: get-function(c, $module: 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(c, $module: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> argument/function_ref/input.scss
+@use "sass:meta";
 @function foo() {
   @return null;
 }
 
-$foo-ref: get-function(foo);
-a {b: get-function($foo-ref)}
+$foo-ref: meta.get-function(foo);
+a {b: meta.get-function($foo-ref)}
 
 <===> argument/function_ref/error
 Error: $name: get-function("foo") is not a string.
   ,
-6 | a {b: get-function($foo-ref)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+7 | a {b: meta.get-function($foo-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 6:7  root stylesheet
+  input.scss 7:7  root stylesheet
 
 <===>
 ================================================================================

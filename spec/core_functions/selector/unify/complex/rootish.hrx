@@ -5,7 +5,8 @@ All rootish selectors are expected to behave like `:root`, but we only test
 <===>
 ================================================================================
 <===> root/in_one/selector1/two_layer/input.scss
-a {b: selector-unify(":root .c", ".d .e")}
+@use "sass:selector";
+a {b: selector.unify(":root .c", ".d .e")}
 
 <===> root/in_one/selector1/two_layer/output.css
 a {
@@ -15,7 +16,8 @@ a {
 <===>
 ================================================================================
 <===> root/in_one/selector1/three_layer/input.scss
-a {b: selector-unify(":root .c .d", ".e .f")}
+@use "sass:selector";
+a {b: selector.unify(":root .c .d", ".e .f")}
 
 <===> root/in_one/selector1/three_layer/output.css
 a {
@@ -25,7 +27,8 @@ a {
 <===>
 ================================================================================
 <===> root/in_one/selector2/two_layer/input.scss
-a {b: selector-unify(".c .d", ":root .e")}
+@use "sass:selector";
+a {b: selector.unify(".c .d", ":root .e")}
 
 <===> root/in_one/selector2/two_layer/output.css
 a {
@@ -35,7 +38,8 @@ a {
 <===>
 ================================================================================
 <===> root/in_one/selector2/three_layer/input.scss
-a {b: selector-unify(".c .d", ":root .e .f")}
+@use "sass:selector";
+a {b: selector.unify(".c .d", ":root .e .f")}
 
 <===> root/in_one/selector2/three_layer/output.css
 a {
@@ -45,7 +49,9 @@ a {
 <===>
 ================================================================================
 <===> root/in_both/cant_unify/input.scss
-a {b: inspect(selector-unify("c:root .d", "e:root .f"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("c:root .d", "e:root .f"))}
 
 <===> root/in_both/cant_unify/output.css
 a {
@@ -55,7 +61,8 @@ a {
 <===>
 ================================================================================
 <===> root/in_both/superselector/input.scss
-a {b: selector-unify("c:root .d", ":root .e")}
+@use "sass:selector";
+a {b: selector.unify("c:root .d", ":root .e")}
 
 <===> root/in_both/superselector/output.css
 a {
@@ -65,7 +72,8 @@ a {
 <===>
 ================================================================================
 <===> root/in_both/can_unify/input.scss
-a {b: selector-unify(".c:root .d", ".e:root .f")}
+@use "sass:selector";
+a {b: selector.unify(".c:root .d", ".e:root .f")}
 
 <===> root/in_both/can_unify/output.css
 a {
@@ -75,7 +83,8 @@ a {
 <===>
 ================================================================================
 <===> scope/input.scss
-a {b: selector-unify(":scope .c", ".d .e")}
+@use "sass:selector";
+a {b: selector.unify(":scope .c", ".d .e")}
 
 <===> scope/output.css
 a {
@@ -85,7 +94,8 @@ a {
 <===>
 ================================================================================
 <===> host/input.scss
-a {b: selector-unify(":host .c", ".d .e")}
+@use "sass:selector";
+a {b: selector.unify(":host .c", ".d .e")}
 
 <===> host/output.css
 a {
@@ -95,7 +105,8 @@ a {
 <===>
 ================================================================================
 <===> host_context/input.scss
-a {b: selector-unify(":host-context(f g) .c", ".d .e")}
+@use "sass:selector";
+a {b: selector.unify(":host-context(f g) .c", ".d .e")}
 
 <===> host_context/output.css
 a {
@@ -105,7 +116,8 @@ a {
 <===>
 ================================================================================
 <===> mixed/input.scss
-a {b: selector-unify(":root .c .d", ":scope .e .f")}
+@use "sass:selector";
+a {b: selector.unify(":root .c .d", ":scope .e .f")}
 
 <===> mixed/output.css
 a {

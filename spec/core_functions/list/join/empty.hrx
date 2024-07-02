@@ -1,13 +1,15 @@
 <===> both/undecided/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join((), ());
+$result: list.join((), ());
 a {
-  value: inspect($result);
+  value: meta.inspect($result);
 
   // `join()` should always produce a real separator, even when the inputs have
   // undecided separators. It should default to `space`.
-  separator: real-separator($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/undecided/output.css
@@ -19,12 +21,14 @@ a {
 <===>
 ================================================================================
 <===> both/space/first/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join($empty-space-list, ());
+$result: list.join(utils.$empty-space-list, ());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/space/first/output.css
@@ -36,12 +40,14 @@ a {
 <===>
 ================================================================================
 <===> both/space/last/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join((), $empty-space-list);
+$result: list.join((), utils.$empty-space-list);
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/space/last/output.css
@@ -53,12 +59,14 @@ a {
 <===>
 ================================================================================
 <===> both/comma/first/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join($empty-comma-list, ());
+$result: list.join(utils.$empty-comma-list, ());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/comma/first/output.css
@@ -70,12 +78,14 @@ a {
 <===>
 ================================================================================
 <===> both/comma/last/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join((), $empty-comma-list);
+$result: list.join((), utils.$empty-comma-list);
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/comma/last/output.css
@@ -87,13 +97,15 @@ a {
 <===>
 ================================================================================
 <===> both/slash/first/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$empty-slash-list: join((), (), $separator: slash);
-$result: join($empty-slash-list, ());
+$empty-slash-list: list.join((), (), $separator: slash);
+$result: list.join($empty-slash-list, ());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/slash/first/output.css
@@ -105,13 +117,15 @@ a {
 <===>
 ================================================================================
 <===> both/slash/last/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$empty-slash-list: join((), (), $separator: slash);
-$result: join((), $empty-slash-list);
+$empty-slash-list: list.join((), (), $separator: slash);
+$result: list.join((), $empty-slash-list);
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> both/slash/last/output.css
@@ -123,7 +137,8 @@ a {
 <===>
 ================================================================================
 <===> first/undecided/and_space/input.scss
-a {b: join((), 1 2 3)}
+@use "sass:list";
+a {b: list.join((), 1 2 3)}
 
 <===> first/undecided/and_space/output.css
 a {
@@ -133,7 +148,8 @@ a {
 <===>
 ================================================================================
 <===> first/undecided/and_comma/input.scss
-a {b: join((), (1, 2, 3))}
+@use "sass:list";
+a {b: list.join((), (1, 2, 3))}
 
 <===> first/undecided/and_comma/output.css
 a {
@@ -144,7 +160,7 @@ a {
 ================================================================================
 <===> first/undecided/and_slash/input.scss
 @use "sass:list";
-a {b: join((), list.slash(1, 2, 3))}
+a {b: list.join((), list.slash(1, 2, 3))}
 
 <===> first/undecided/and_slash/output.css
 a {
@@ -154,8 +170,9 @@ a {
 <===>
 ================================================================================
 <===> first/space/input.scss
-@import "core_functions/list/utils";
-a {b: join($empty-space-list, (1, 2, 3))}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(utils.$empty-space-list, (1, 2, 3))}
 
 <===> first/space/output.css
 a {
@@ -165,8 +182,9 @@ a {
 <===>
 ================================================================================
 <===> first/comma/input.scss
-@import "core_functions/list/utils";
-a {b: join($empty-comma-list, 1 2 3)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(utils.$empty-comma-list, 1 2 3)}
 
 <===> first/comma/output.css
 a {
@@ -176,8 +194,9 @@ a {
 <===>
 ================================================================================
 <===> first/slash/input.scss
-$empty-slash-list: join((), (), $separator: slash);
-a {b: join($empty-slash-list, 1 2 3)}
+@use "sass:list";
+$empty-slash-list: list.join((), (), $separator: slash);
+a {b: list.join($empty-slash-list, 1 2 3)}
 
 <===> first/slash/output.css
 a {
@@ -187,7 +206,8 @@ a {
 <===>
 ================================================================================
 <===> second/undecided/space/input.scss
-a {b: join(1 2 3, ())}
+@use "sass:list";
+a {b: list.join(1 2 3, ())}
 
 <===> second/undecided/space/output.css
 a {
@@ -197,7 +217,8 @@ a {
 <===>
 ================================================================================
 <===> second/undecided/comma/input.scss
-a {b: join((1, 2, 3), ())}
+@use "sass:list";
+a {b: list.join((1, 2, 3), ())}
 
 <===> second/undecided/comma/output.css
 a {
@@ -208,7 +229,7 @@ a {
 ================================================================================
 <===> second/undecided/slash/input.scss
 @use "sass:list";
-a {b: join(list.slash(1, 2, 3), ())}
+a {b: list.join(list.slash(1, 2, 3), ())}
 
 <===> second/undecided/slash/output.css
 a {
@@ -218,8 +239,9 @@ a {
 <===>
 ================================================================================
 <===> second/space/input.scss
-@import "core_functions/list/utils";
-a {b: join((1, 2, 3), $empty-space-list)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join((1, 2, 3), utils.$empty-space-list)}
 
 <===> second/space/output.css
 a {
@@ -229,8 +251,9 @@ a {
 <===>
 ================================================================================
 <===> second/comma/input.scss
-@import "core_functions/list/utils";
-a {b: join(1 2 3, $empty-comma-list)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(1 2 3, utils.$empty-comma-list)}
 
 <===> second/comma/output.css
 a {
@@ -240,8 +263,9 @@ a {
 <===>
 ================================================================================
 <===> second/slash/input.scss
-$empty-slash-list: join((), (), $separator: slash);
-a {b: join(1 2 3, $empty-slash-list)}
+@use "sass:list";
+$empty-slash-list: list.join((), (), $separator: slash);
+a {b: list.join(1 2 3, $empty-slash-list)}
 
 <===> second/slash/output.css
 a {
@@ -251,12 +275,14 @@ a {
 <===>
 ================================================================================
 <===> map/first/undecided/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join($empty-map, ());
+$result: list.join(utils.$empty-map, ());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> map/first/undecided/output.css
@@ -268,8 +294,9 @@ a {
 <===>
 ================================================================================
 <===> map/first/space/input.scss
-@import "core_functions/list/utils";
-a {b: join($empty-map, 1 2 3)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(utils.$empty-map, 1 2 3)}
 
 <===> map/first/space/output.css
 a {
@@ -279,8 +306,9 @@ a {
 <===>
 ================================================================================
 <===> map/first/comma/input.scss
-@import "core_functions/list/utils";
-a {b: join($empty-map, (1, 2, 3))}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(utils.$empty-map, (1, 2, 3))}
 
 <===> map/first/comma/output.css
 a {
@@ -291,8 +319,8 @@ a {
 ================================================================================
 <===> map/first/slash/input.scss
 @use "sass:list";
-@import "core_functions/list/utils";
-a {b: join($empty-map, list.slash(1, 2, 3))}
+@use "core_functions/list/utils";
+a {b: list.join(utils.$empty-map, list.slash(1, 2, 3))}
 
 <===> map/first/slash/output.css
 a {
@@ -302,8 +330,9 @@ a {
 <===>
 ================================================================================
 <===> map/second/space/input.scss
-@import "core_functions/list/utils";
-a {b: join(1 2 3, $empty-map)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join(1 2 3, utils.$empty-map)}
 
 <===> map/second/space/output.css
 a {
@@ -313,8 +342,9 @@ a {
 <===>
 ================================================================================
 <===> map/second/comma/input.scss
-@import "core_functions/list/utils";
-a {b: join((1, 2, 3), $empty-map)}
+@use "sass:list";
+@use "core_functions/list/utils";
+a {b: list.join((1, 2, 3), utils.$empty-map)}
 
 <===> map/second/comma/output.css
 a {
@@ -325,8 +355,8 @@ a {
 ================================================================================
 <===> map/second/slash/input.scss
 @use "sass:list";
-@import "core_functions/list/utils";
-a {b: join(list.slash(1, 2, 3), $empty-map)}
+@use "core_functions/list/utils";
+a {b: list.join(list.slash(1, 2, 3), utils.$empty-map)}
 
 <===> map/second/slash/output.css
 a {
@@ -336,12 +366,14 @@ a {
 <===>
 ================================================================================
 <===> map/second/undecided/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: join($empty-map, ());
+$result: list.join(utils.$empty-map, ());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> map/second/undecided/output.css

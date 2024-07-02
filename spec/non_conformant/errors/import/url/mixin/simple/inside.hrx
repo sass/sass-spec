@@ -1,16 +1,17 @@
 <===> input.scss
+@use "sass:string";
 @mixin import-google-fonts() {
   @import url("http://fonts.googleapis.com/css?family=#{$family}");
 }
 foo {
-  $family: unquote("Droid+Sans");
+  $family: string.unquote("Droid+Sans");
   @include import-google-fonts();
 }
 <===> error
 Error: Undefined variable.
   ,
-2 |   @import url("http://fonts.googleapis.com/css?family=#{$family}");
+3 |   @import url("http://fonts.googleapis.com/css?family=#{$family}");
   |                                                         ^^^^^^^
   '
-  input.scss 2:57  import-google-fonts()
-  input.scss 6:3   root stylesheet
+  input.scss 3:57  import-google-fonts()
+  input.scss 7:3   root stylesheet

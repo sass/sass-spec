@@ -1,7 +1,8 @@
 <===> class/input.scss
+@use "sass:selector";
 // Because neither compound selector containing `.c` is a superselector of the
 // other, they aren't unified.
-a {b: selector-unify(".c.s1-1 .s1-2", ".c.s2-1 .s2-2")}
+a {b: selector.unify(".c.s1-1 .s1-2", ".c.s2-1 .s2-2")}
 
 <===> class/output.css
 a {
@@ -11,7 +12,8 @@ a {
 <===>
 ================================================================================
 <===> id/no_unification/input.scss
-a {b: selector-unify("#s1-1.c .s1-2", "#s2-1.c .s2-2")}
+@use "sass:selector";
+a {b: selector.unify("#s1-1.c .s1-2", "#s2-1.c .s2-2")}
 
 <===> id/no_unification/output.css
 a {
@@ -21,10 +23,11 @@ a {
 <===>
 ================================================================================
 <===> id/forced_unification/input.scss
+@use "sass:selector";
 // Even though neither selector containing `#c` is a superselector of the other,
 // they're still unified because the selector can't meainingfully contain two
 // instances of `#c`.
-a {b: selector-unify("#c.s1-1 .s1-2", "#c.s2-1 .s2-2")}
+a {b: selector.unify("#c.s1-1 .s1-2", "#c.s2-1 .s2-2")}
 
 <===> id/forced_unification/output.css
 a {
@@ -34,7 +37,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/no_unification/input.scss
-a {b: selector-unify("::s1-1.c .s1-2", "::s2-1.c .s2-2")}
+@use "sass:selector";
+a {b: selector.unify("::s1-1.c .s1-2", "::s2-1.c .s2-2")}
 
 <===> pseudo_element/no_unification/output.css
 a {
@@ -44,7 +48,8 @@ a {
 <===>
 ================================================================================
 <===> pseudo_element/forced_unification/input.scss
-a {b: selector-unify(".s1-1::c .s1-2", ".s2-1::c .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".s1-1::c .s1-2", ".s2-1::c .s2-2")}
 
 <===> pseudo_element/forced_unification/output.css
 a {
