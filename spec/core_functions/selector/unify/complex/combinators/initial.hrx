@@ -6,7 +6,8 @@ Any of these specs should pass with any combination of combinators.
 <===>
 ================================================================================
 <===> only_one/selector1/input.scss
-a {b: selector-unify("> .c", ".d")}
+@use "sass:selector";
+a {b: selector.unify("> .c", ".d")}
 
 <===> only_one/selector1/output.css
 a {
@@ -20,15 +21,16 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("> .c", ".d")}
+2 | a {b: selector.unify("> .c", ".d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> only_one/selector2/input.scss
-a {b: selector-unify(".c", "~ .d")}
+@use "sass:selector";
+a {b: selector.unify(".c", "~ .d")}
 
 <===> only_one/selector2/output.css
 a {
@@ -42,15 +44,16 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify(".c", "~ .d")}
+2 | a {b: selector.unify(".c", "~ .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> same/input.scss
-a {b: selector-unify("+ .c", "+ .d")}
+@use "sass:selector";
+a {b: selector.unify("+ .c", "+ .d")}
 
 <===> same/output.css
 a {
@@ -64,10 +67,10 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ .c", "+ .d")}
+2 | a {b: selector.unify("+ .c", "+ .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 DEPRECATION WARNING: $selector2: + .d is not valid CSS.
 This will be an error in Dart Sass 2.0.0.
@@ -75,15 +78,16 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ .c", "+ .d")}
+2 | a {b: selector.unify("+ .c", "+ .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> supersequence/contiguous/input.scss
-a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
+@use "sass:selector";
+a {b: selector.unify("+ ~ > .c", "> + ~ > > .d")}
 
 <===> supersequence/contiguous/output.css
 
@@ -94,10 +98,10 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
+2 | a {b: selector.unify("+ ~ > .c", "> + ~ > > .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 DEPRECATION WARNING: $selector2: > + ~ > > .d is not valid CSS.
 This will be an error in Dart Sass 2.0.0.
@@ -105,15 +109,16 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ ~ > .c", "> + ~ > > .d")}
+2 | a {b: selector.unify("+ ~ > .c", "> + ~ > > .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> supersequence/non_contiguous/input.scss
-a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
+@use "sass:selector";
+a {b: selector.unify("+ ~ > .c", "+ > ~ ~ > .d")}
 
 <===> supersequence/non_contiguous/output.css
 
@@ -124,10 +129,10 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
+2 | a {b: selector.unify("+ ~ > .c", "+ > ~ ~ > .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 DEPRECATION WARNING: $selector2: + > ~ ~ > .d is not valid CSS.
 This will be an error in Dart Sass 2.0.0.
@@ -135,15 +140,17 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-unify("+ ~ > .c", "+ > ~ ~ > .d")}
+2 | a {b: selector.unify("+ ~ > .c", "+ > ~ ~ > .d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> different/input.scss
-a {b: inspect(selector-unify("+ ~ > .c", "+ > ~ ~ .d"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("+ ~ > .c", "+ > ~ ~ .d"))}
 
 <===> different/output.css
 a {
@@ -157,10 +164,10 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: inspect(selector-unify("+ ~ > .c", "+ > ~ ~ .d"))}
-  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: meta.inspect(selector.unify("+ ~ > .c", "+ > ~ ~ .d"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:15  root stylesheet
+    input.scss 3:20  root stylesheet
 
 DEPRECATION WARNING: $selector2: + > ~ ~ .d is not valid CSS.
 This will be an error in Dart Sass 2.0.0.
@@ -168,7 +175,7 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: inspect(selector-unify("+ ~ > .c", "+ > ~ ~ .d"))}
-  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: meta.inspect(selector.unify("+ ~ > .c", "+ > ~ ~ .d"))}
+  |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:15  root stylesheet
+    input.scss 3:20  root stylesheet

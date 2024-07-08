@@ -1,6 +1,7 @@
 <===> defined/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: call(get-function("red", $module: "color"), #abcdef)}
+a {b: meta.call(meta.get-function("red", $module: "color"), #abcdef)}
 
 <===> defined/output.css
 a {
@@ -10,8 +11,9 @@ a {
 <===>
 ================================================================================
 <===> chosen_prefix/input.scss
+@use "sass:meta";
 @use "sass:color" as a;
-b {c: call(get-function("red", $module: "a"), #abcdef)}
+b {c: meta.call(meta.get-function("red", $module: "a"), #abcdef)}
 
 <===> chosen_prefix/output.css
 b {
@@ -21,8 +23,9 @@ b {
 <===>
 ================================================================================
 <===> through_use/input.scss
+@use "sass:meta";
 @use "other" as *;
-a {b: call(get-function(add-two), 10)}
+a {b: meta.call(meta.get-function(add-two), 10)}
 
 <===> through_use/other.scss
 @function add-two($v) {@return $v + 2}
@@ -35,8 +38,9 @@ a {
 <===>
 ================================================================================
 <===> through_forward/bare/input.scss
+@use "sass:meta";
 @use "midstream" as *;
-a {b: call(get-function(c))}
+a {b: meta.call(meta.get-function(c))}
 
 <===> through_forward/bare/_midstream.scss
 @forward "upstream";
@@ -52,9 +56,10 @@ a {
 <===>
 ================================================================================
 <===> through_forward/as/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  b: call(get-function(c-d));
+  b: meta.call(meta.get-function(c-d));
 }
 
 <===> through_forward/as/_midstream.scss
@@ -71,9 +76,10 @@ a {
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  b: call(get-function(c));
+  b: meta.call(meta.get-function(c));
 }
 
 <===> through_forward/show/_midstream.scss
@@ -90,9 +96,10 @@ a {
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  b: call(get-function(d));
+  b: meta.call(meta.get-function(d));
 }
 
 <===> through_forward/hide/_midstream.scss
@@ -113,8 +120,9 @@ a {
   - libsass
 
 <===> named/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: call(get-function($name: "red", $module: "color"), #abcdef)}
+a {b: meta.call(meta.get-function($name: "red", $module: "color"), #abcdef)}
 
 <===> named/output.css
 a {

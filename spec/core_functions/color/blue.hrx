@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: blue(rgb(0, 0, 255))}
+@use "sass:color";
+a {b: color.blue(rgb(0, 0, 255))}
 
 <===> max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: blue(rgb(0, 0, 0))}
+@use "sass:color";
+a {b: color.blue(rgb(0, 0, 0))}
 
 <===> min/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: blue(rgb(0, 0, 123))}
+@use "sass:color";
+a {b: color.blue(rgb(0, 0, 123))}
 
 <===> middle/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: blue($color: rgb(0, 0, 234))}
+@use "sass:color";
+a {b: color.blue($color: rgb(0, 0, 234))}
 
 <===> named/output.css
 a {
@@ -39,46 +43,49 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: blue()}
+@use "sass:color";
+a {b: color.blue()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: blue()}
-  |       ^^^^^^ invocation
+2 | a {b: color.blue()}
+  |       ^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function blue($color) {
   |           ============ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: blue(red, green)}
+@use "sass:color";
+a {b: color.blue(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: blue(red, green)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.blue(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function blue($color) {
   |           ============ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: blue(1)}
+@use "sass:color";
+a {b: color.blue(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: blue(1)}
-  |       ^^^^^^^
+2 | a {b: color.blue(1)}
+  |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

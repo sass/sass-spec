@@ -1,7 +1,8 @@
 <===> same_module/global/input.scss
+@use "sass:meta";
 @mixin global-mixin() {}
 
-a {b: mixin-exists(global-mixin)}
+a {b: meta.mixin-exists(global-mixin)}
 
 <===> same_module/global/output.css
 a {
@@ -11,9 +12,10 @@ a {
 <===>
 ================================================================================
 <===> same_module/local/input.scss
+@use "sass:meta";
 a {
   @mixin local-mixin() {}
-  b: mixin-exists(local-mixin);
+  b: meta.mixin-exists(local-mixin);
 }
 
 <===> same_module/local/output.css
@@ -24,8 +26,9 @@ a {
 <===>
 ================================================================================
 <===> same_module/through_import/input.scss
+@use "sass:meta";
 @import "other";
-a {b: mixin-exists(global-mixin)}
+a {b: meta.mixin-exists(global-mixin)}
 
 <===> same_module/through_import/other.scss
 @mixin global-mixin() {}
@@ -38,8 +41,9 @@ a {
 <===>
 ================================================================================
 <===> same_module/non_existent/input.scss
+@use "sass:meta";
 a {
-  b: mixin-exists(non-existent);
+  b: meta.mixin-exists(non-existent);
 }
 
 <===> same_module/non_existent/output.css
@@ -50,8 +54,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/undefined/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: mixin-exists("c", "color")}
+a {b: meta.mixin-exists("c", "color")}
 
 <===> different_module/undefined/output.css
 a {
@@ -61,8 +66,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/defined/input.scss
+@use "sass:meta";
 @use "other";
-a {b: mixin-exists("c", "other")}
+a {b: meta.mixin-exists("c", "other")}
 
 <===> different_module/defined/_other.scss
 @mixin c() {}
@@ -75,8 +81,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/chosen_prefix/input.scss
+@use "sass:meta";
 @use "other" as a;
-b {c: mixin-exists("d", "a")}
+b {c: meta.mixin-exists("d", "a")}
 
 <===> different_module/chosen_prefix/_other.scss
 @mixin d() {}
@@ -89,8 +96,9 @@ b {
 <===>
 ================================================================================
 <===> different_module/through_use/input.scss
+@use "sass:meta";
 @use "other" as *;
-a {b: mixin-exists(global-mixin)}
+a {b: meta.mixin-exists(global-mixin)}
 
 <===> different_module/through_use/other.scss
 @mixin global-mixin() {}
@@ -103,8 +111,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/bare/input.scss
+@use "sass:meta";
 @use "midstream" as *;
-a {b: mixin-exists(c)}
+a {b: meta.mixin-exists(c)}
 
 <===> different_module/through_forward/bare/_midstream.scss
 @forward "upstream";
@@ -120,10 +129,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/as/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  with-prefix: mixin-exists(b-c);
-  without-prefix: mixin-exists(c);
+  with-prefix: meta.mixin-exists(b-c);
+  without-prefix: meta.mixin-exists(c);
 }
 
 <===> different_module/through_forward/as/_midstream.scss
@@ -141,10 +151,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  shown: mixin-exists(b);
-  not-shown: mixin-exists(c);
+  shown: meta.mixin-exists(b);
+  not-shown: meta.mixin-exists(c);
 }
 
 <===> different_module/through_forward/show/_midstream.scss
@@ -163,10 +174,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  hidden: mixin-exists(b);
-  not-hidden: mixin-exists(c);
+  hidden: meta.mixin-exists(b);
+  not-hidden: meta.mixin-exists(c);
 }
 
 <===> different_module/through_forward/hide/_midstream.scss
@@ -185,8 +197,9 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @use "other";
-a {b: mixin-exists($name: "c", $module: "other")}
+a {b: meta.mixin-exists($name: "c", $module: "other")}
 
 <===> named/_other.scss
 @mixin c() {}
@@ -199,70 +212,75 @@ a {
 <===>
 ================================================================================
 <===> error/argument/type/name/input.scss
-a {b: mixin-exists(12px)}
+@use "sass:meta";
+a {b: meta.mixin-exists(12px)}
 
 <===> error/argument/type/name/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: mixin-exists(12px)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.mixin-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/type/module/input.scss
-a {b: mixin-exists(c, 1)}
+@use "sass:meta";
+a {b: meta.mixin-exists(c, 1)}
 
 <===> error/argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: mixin-exists(c, 1)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.mixin-exists(c, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
-a {b: mixin-exists()}
+@use "sass:meta";
+a {b: meta.mixin-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,--> input.scss
-1 | a {b: mixin-exists()}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.mixin-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function mixin-exists($name, $module: null) {
   |           ================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: mixin-exists(c, d, e)}
+@use "sass:meta";
+a {b: meta.mixin-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: mixin-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.mixin-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function mixin-exists($name, $module: null) {
   |           ================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/conflict/input.scss
+@use "sass:meta";
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: mixin-exists(member)}
+a {b: meta.mixin-exists(member)}
 
 <===> error/conflict/other1.scss
 @mixin member() {}
@@ -273,52 +291,55 @@ a {b: mixin-exists(member)}
 <===> error/conflict/error
 Error: This mixin is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes mixin
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes mixin
 ... |
-4   | a {b: mixin-exists(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^ mixin use
+5   | a {b: meta.mixin-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^ mixin use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/non_existent/input.scss
-a {b: mixin-exists("c", "d")}
+@use "sass:meta";
+a {b: meta.mixin-exists("c", "d")}
 
 <===> error/module/non_existent/error
 Error: There is no module with the namespace "d".
   ,
-1 | a {b: mixin-exists("c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.mixin-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/built_in_but_not_loaded/input.scss
-a {b: mixin-exists("c", "color")}
+@use "sass:meta";
+a {b: meta.mixin-exists("c", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
   ,
-1 | a {b: mixin-exists("c", "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.mixin-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/dash_sensitive/input.scss
+@use "sass:meta";
 @use "sass:color" as a-b;
-c {d: mixin-exists("c", $module: "a_b")}
+c {d: meta.mixin-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".
   ,
-2 | c {d: mixin-exists("c", $module: "a_b")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | c {d: meta.mixin-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet

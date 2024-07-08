@@ -1,5 +1,6 @@
 <===> hue/deg/input.scss
-a {b: change-color(red, $hue: 60deg)}
+@use "sass:color";
+a {b: color.change(red, $hue: 60deg)}
 
 <===> hue/deg/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> hue/unitless/input.scss
-a {b: change-color(red, $hue: 60)}
+@use "sass:color";
+a {b: color.change(red, $hue: 60)}
 
 <===> hue/unitless/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> hue/unknown/input.scss
-a {b: change-color(red, $hue: 60in)}
+@use "sass:color";
+a {b: color.change(red, $hue: 60in)}
 
 <===> hue/unknown/output.css
 a {
@@ -34,15 +37,16 @@ To preserve current behavior: calc($hue / 1in)
 See https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: change-color(red, $hue: 60in)}
+2 | a {b: color.change(red, $hue: 60in)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> hue/angle/input.scss
-a {b: change-color(red, $hue: 60rad)}
+@use "sass:color";
+a {b: color.change(red, $hue: 60rad)}
 
 <===> hue/angle/output.css
 a {
@@ -52,7 +56,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/percent/input.scss
-a {b: change-color(red, $saturation: 50%)}
+@use "sass:color";
+a {b: color.change(red, $saturation: 50%)}
 
 <===> saturation/percent/output.css
 a {
@@ -62,7 +67,8 @@ a {
 <===>
 ================================================================================
 <===> saturation/unitless/input.scss
-a {b: change-color(red, $saturation: 50)}
+@use "sass:color";
+a {b: color.change(red, $saturation: 50)}
 
 <===> saturation/unitless/output.css
 a {
@@ -77,15 +83,16 @@ To preserve current behavior: $saturation * 1%
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: change-color(red, $saturation: 50)}
+2 | a {b: color.change(red, $saturation: 50)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> saturation/unknown/input.scss
-a {b: change-color(red, $saturation: 50in)}
+@use "sass:color";
+a {b: color.change(red, $saturation: 50in)}
 
 <===> saturation/unknown/output.css
 a {
@@ -100,15 +107,16 @@ To preserve current behavior: calc($saturation / 1in * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: change-color(red, $saturation: 50in)}
+2 | a {b: color.change(red, $saturation: 50in)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> lightness/percent/input.scss
-a {b: change-color(red, $lightness: 30%)}
+@use "sass:color";
+a {b: color.change(red, $lightness: 30%)}
 
 <===> lightness/percent/output.css
 a {
@@ -118,7 +126,8 @@ a {
 <===>
 ================================================================================
 <===> lightness/unitless/input.scss
-a {b: change-color(red, $lightness: 30)}
+@use "sass:color";
+a {b: color.change(red, $lightness: 30)}
 
 <===> lightness/unitless/output.css
 a {
@@ -133,15 +142,16 @@ To preserve current behavior: $lightness * 1%
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: change-color(red, $lightness: 30)}
+2 | a {b: color.change(red, $lightness: 30)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> lightness/unknown/input.scss
-a {b: change-color(red, $lightness: 30in)}
+@use "sass:color";
+a {b: color.change(red, $lightness: 30in)}
 
 <===> lightness/unknown/output.css
 a {
@@ -156,15 +166,16 @@ To preserve current behavior: calc($lightness / 1in * 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: change-color(red, $lightness: 30in)}
+2 | a {b: color.change(red, $lightness: 30in)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> alpha/unitless/input.scss
-a {b: change-color(red, $alpha: 0.5)}
+@use "sass:color";
+a {b: color.change(red, $alpha: 0.5)}
 
 <===> alpha/unitless/output.css
 a {
@@ -174,7 +185,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/percent/input.scss
-a {b: adjust-color(red, $alpha: 0.5%)}
+@use "sass:color";
+a {b: color.adjust(red, $alpha: 0.5%)}
 
 <===> alpha/percent/output.css
 a {
@@ -189,15 +201,16 @@ To preserve current behavior: calc($alpha / 1%)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: adjust-color(red, $alpha: 0.5%)}
+2 | a {b: color.adjust(red, $alpha: 0.5%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> alpha/unknown/input.scss
-a {b: adjust-color(red, $alpha: 0.5px)}
+@use "sass:color";
+a {b: color.adjust(red, $alpha: 0.5px)}
 
 <===> alpha/unknown/output.css
 a {
@@ -212,7 +225,7 @@ To preserve current behavior: calc($alpha / 1px)
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: adjust-color(red, $alpha: 0.5px)}
+2 | a {b: color.adjust(red, $alpha: 0.5px)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet

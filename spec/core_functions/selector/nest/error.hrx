@@ -1,5 +1,20 @@
+<===> wrong_name/input.scss
+@use "sass:selector";
+a {b: selector.selector-nest(c, d)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-nest(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> parent/first_arg/input.scss
-a {b: selector-nest("&")}
+@use "sass:selector";
+a {b: selector.nest("&")}
 
 <===> parent/first_arg/error
 Error: Parent selectors aren't allowed here.
@@ -9,15 +24,16 @@ Error: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-nest("&")}
+2 | a {b: selector.nest("&")}
   |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> parent/non_initial/input.scss
-a {b: selector-nest("c", "[d]&")}
+@use "sass:selector";
+a {b: selector.nest("c", "[d]&")}
 
 <===> parent/non_initial/error
 Error: "&" may only used at the beginning of a compound selector.
@@ -27,15 +43,16 @@ Error: "&" may only used at the beginning of a compound selector.
   '
   - 1:4  root stylesheet
   ,
-1 | a {b: selector-nest("c", "[d]&")}
+2 | a {b: selector.nest("c", "[d]&")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> parent/prefix/input.scss
-a {b: selector-nest("c", "d&")}
+@use "sass:selector";
+a {b: selector.nest("c", "d&")}
 
 <===> parent/prefix/error
 Error: "&" may only used at the beginning of a compound selector.
@@ -45,15 +62,16 @@ Error: "&" may only used at the beginning of a compound selector.
   '
   - 1:2  root stylesheet
   ,
-1 | a {b: selector-nest("c", "d&")}
+2 | a {b: selector.nest("c", "d&")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> invalid/initial/input.scss
-a {b: selector-nest("[c")}
+@use "sass:selector";
+a {b: selector.nest("[c")}
 
 <===> invalid/initial/error
 Error: expected more input.
@@ -63,15 +81,16 @@ Error: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-nest("[c")}
+2 | a {b: selector.nest("[c")}
   |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> invalid/later/input.scss
-a {b: selector-nest("c", "[d")}
+@use "sass:selector";
+a {b: selector.nest("c", "[d")}
 
 <===> invalid/later/error
 Error: expected more input.
@@ -81,49 +100,52 @@ Error: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-nest("c", "[d")}
+2 | a {b: selector.nest("c", "[d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> type/initial/input.scss
-a {b: selector-nest(1)}
+@use "sass:selector";
+a {b: selector.nest(1)}
 
 <===> type/initial/error
 Error: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-nest(1)}
+2 | a {b: selector.nest(1)}
   |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> type/later/input.scss
-a {b: selector-nest("c", 1)}
+@use "sass:selector";
+a {b: selector.nest("c", 1)}
 
 <===> type/later/error
 Error: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-nest("c", 1)}
+2 | a {b: selector.nest("c", 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: selector-nest()}
+@use "sass:selector";
+a {b: selector.nest()}
 
 
 <===> too_few_args/error
 Error: $selectors: At least one selector must be passed.
   ,
-1 | a {b: selector-nest()}
+2 | a {b: selector.nest()}
   |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

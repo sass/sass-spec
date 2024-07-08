@@ -1,5 +1,6 @@
 <===> both_empty/input.scss
-a {b: str-index("", "")}
+@use "sass:string";
+a {b: string.index("", "")}
 
 <===> both_empty/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> empty_substring/input.scss
-a {b: str-index("cde", "")}
+@use "sass:string";
+a {b: string.index("cde", "")}
 
 <===> empty_substring/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> beginning/input.scss
-a {b: str-index("cde", "c")}
+@use "sass:string";
+a {b: string.index("cde", "c")}
 
 <===> beginning/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: str-index("cde", "d")}
+@use "sass:string";
+a {b: string.index("cde", "d")}
 
 <===> middle/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> end/input.scss
-a {b: str-index("cde", "e")}
+@use "sass:string";
+a {b: string.index("cde", "e")}
 
 <===> end/output.css
 a {
@@ -49,7 +54,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/input.scss
-a {b: inspect(str-index("cde", "f"))}
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.inspect(string.index("cde", "f"))}
 
 <===> not_found/output.css
 a {
@@ -59,9 +66,10 @@ a {
 <===>
 ================================================================================
 <===> double_width_character/input.scss
+@use "sass:string";
 // Sass treats strings as sequences of Unicode codepoint; it doesn't care if a
 // character is represented as two UTF-16 code units.
-a {b: str-index("👭a", "a")}
+a {b: string.index("👭a", "a")}
 
 <===> double_width_character/output.css
 a {
@@ -71,10 +79,11 @@ a {
 <===>
 ================================================================================
 <===> combining_character/input.scss
+@use "sass:string";
 // Sass does *not* treat strings as sequences of glyphs, so this string which
 // contains "c" followed by a combining umlaut should be considered two separate
 // characters even though it's rendered as only one.
-a {b: str-index("c\0308 a", "a")}
+a {b: string.index("c\0308 a", "a")}
 
 <===> combining_character/output.css
 a {
@@ -84,7 +93,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: str-index($string: "cde", $substring: "c")}
+@use "sass:string";
+a {b: string.index($string: "cde", $substring: "c")}
 
 <===> named/output.css
 a {
@@ -93,60 +103,78 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:string";
+a {b: string.str-index("c", "c")}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-index("c", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/string/input.scss
-a {b: str-index(1, "c")}
+@use "sass:string";
+a {b: string.index(1, "c")}
 
 <===> error/type/string/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: str-index(1, "c")}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: string.index(1, "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/substring/input.scss
-a {b: str-index("c", 1)}
+@use "sass:string";
+a {b: string.index("c", 1)}
 
 <===> error/type/substring/error
 Error: $substring: 1 is not a string.
   ,
-1 | a {b: str-index("c", 1)}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: string.index("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: str-index("c")}
+@use "sass:string";
+a {b: string.index("c")}
 
 <===> error/too_few_args/error
 Error: Missing argument $substring.
   ,--> input.scss
-1 | a {b: str-index("c")}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: string.index("c")}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function index($string, $substring) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: str-index("c", "d", "e")}
+@use "sass:string";
+a {b: string.index("c", "d", "e")}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: str-index("c", "d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.index("c", "d", "e")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function index($string, $substring) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

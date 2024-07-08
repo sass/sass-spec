@@ -1,4 +1,7 @@
 <===> input.scss
+@use "sass:string";
+@use "sass:list";
+
 $inputs-list: 'input[type="email"]',
               'input[type="number"]',
               'input[type="password"]',
@@ -19,13 +22,13 @@ $inputs-list: 'input[type="email"]',
 $unquoted-inputs-list: ();
 
 @each $input-type in $inputs-list {
-  $unquoted-inputs-list: append($unquoted-inputs-list, unquote($input-type), comma);
+  $unquoted-inputs-list: list.append($unquoted-inputs-list, string.unquote($input-type), comma);
 }
 
 div {
   content: $unquoted-inputs-list;
-  content: append((), hello);
-  content: length(());
+  content: list.append((), hello);
+  content: list.length(());
 }
 <===> output.css
 div {

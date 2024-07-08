@@ -1,40 +1,57 @@
 <===> too_few/input.scss
-a {b: change-color()}
+@use "sass:color";
+a {b: color.change()}
 
 <===> too_few/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: change-color()}
+2 | a {b: color.change()}
   |       ^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function change($color, $kwargs...) {
   |           ========================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_many/input.scss
-a {b: change-color(red, 1)}
+@use "sass:color";
+a {b: color.change(red, 1)}
 
 <===> too_many/error
 Error: Only one positional argument is allowed. All other arguments must be passed by name.
   ,
-1 | a {b: change-color(red, 1)}
+2 | a {b: color.change(red, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> unknown/input.scss
-a {b: change-color(red, $ambience: 10%)}
+@use "sass:color";
+a {b: color.change(red, $ambience: 10%)}
 
 <===> unknown/error
 Error: No argument named $ambience.
   ,
-1 | a {b: change-color(red, $ambience: 10%)}
+2 | a {b: color.change(red, $ambience: 10%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_name/input.scss
+@use "sass:color";
+a {b: color.change-color(#abcdef, $red: 10)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: color.change-color(#abcdef, $red: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

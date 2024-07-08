@@ -1,5 +1,6 @@
 <===> alone/input.scss
-a {b: selector-nest("c", "&")}
+@use "sass:selector";
+a {b: selector.nest("c", "&")}
 
 <===> alone/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> compound/input.scss
-a {b: selector-nest("c", "&.d")}
+@use "sass:selector";
+a {b: selector.nest("c", "&.d")}
 
 <===> compound/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> suffix/input.scss
-a {b: selector-nest("c", "&d")}
+@use "sass:selector";
+a {b: selector.nest("c", "&d")}
 
 <===> suffix/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> complex/simple_parent/input.scss
-a {b: selector-nest("c", "d &.e")}
+@use "sass:selector";
+a {b: selector.nest("c", "d &.e")}
 
 <===> complex/simple_parent/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> complex/complex_parent/input.scss
-a {b: selector-nest("c d", "e &.f")}
+@use "sass:selector";
+a {b: selector.nest("c d", "e &.f")}
 
 <===> complex/complex_parent/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/simple_parent/is/input.scss
-a {b: selector-nest("c", ":is(&)")}
+@use "sass:selector";
+a {b: selector.nest("c", ":is(&)")}
 
 <===> selector_pseudo/simple_parent/is/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/simple_parent/where/input.scss
-a {b: selector-nest("c", ":where(&)")}
+@use "sass:selector";
+a {b: selector.nest("c", ":where(&)")}
 
 <===> selector_pseudo/simple_parent/where/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/simple_parent/matches/input.scss
-a {b: selector-nest("c", ":matches(&)")}
+@use "sass:selector";
+a {b: selector.nest("c", ":matches(&)")}
 
 <===> selector_pseudo/simple_parent/matches/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/complex_parent/is/input.scss
-a {b: selector-nest("c d", ":is(&)")}
+@use "sass:selector";
+a {b: selector.nest("c d", ":is(&)")}
 
 <===> selector_pseudo/complex_parent/is/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/complex_parent/where/input.scss
-a {b: selector-nest("c d", ":where(&)")}
+@use "sass:selector";
+a {b: selector.nest("c d", ":where(&)")}
 
 <===> selector_pseudo/complex_parent/where/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> selector_pseudo/complex_parent/matches/input.scss
-a {b: selector-nest("c d", ":matches(&)")}
+@use "sass:selector";
+a {b: selector.nest("c d", ":matches(&)")}
 
 <===> selector_pseudo/complex_parent/matches/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> multiple/input.scss
-a {b: selector-nest("c", "&.d &.e")}
+@use "sass:selector";
+a {b: selector.nest("c", "&.d &.e")}
 
 <===> multiple/output.css
 a {
@@ -119,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> in_one_complex/input.scss
-a {b: selector-nest("c", "&.d, e")}
+@use "sass:selector";
+a {b: selector.nest("c", "&.d, e")}
 
 <===> in_one_complex/output.css
 a {

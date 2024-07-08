@@ -1,0 +1,77 @@
+<===> nest/input.scss
+a {b: selector-nest(c, d)}
+
+<===> nest/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> append/input.scss
+a {b: selector-append(c, d)}
+
+<===> append/output.css
+a {
+  b: cd;
+}
+
+<===>
+================================================================================
+<===> replace/input.scss
+a {b: selector-replace(c, c, d)}
+
+<===> replace/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> extend/input.scss
+a {b: selector-extend(c, c, d)}
+
+<===> extend/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> unify/input.scss
+a {b: selector-unify(".c", ".d")}
+
+<===> unify/output.css
+a {
+  b: .c.d;
+}
+
+<===>
+================================================================================
+<===> is_superselector/input.scss
+a {b: is-superselector(c, d)}
+
+<===> is_superselector/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> simple_selectors/input.scss
+a {b: simple-selectors(".c.d")}
+
+<===> simple_selectors/output.css
+a {
+  b: .c, .d;
+}
+
+<===>
+================================================================================
+<===> parse/input.scss
+a {b: selector-parse(".c, .d")}
+
+<===> parse/output.css
+a {
+  b: .c, .d;
+}

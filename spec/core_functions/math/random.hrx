@@ -13,26 +13,29 @@
 <===>
 ================================================================================
 <===> null/input.scss
-@import "../util";
+@use "sass:meta";
+@use "../util";
 @function check($value) {@return $value >= 0 and $value < 1}
-@include check-values(null, get-function(check));
+@include util.check-values(null, meta.get-function(check));
 
 <===> null/output.css
 
 <===>
 ================================================================================
 <===> one/input.scss
-@import "../util";
+@use "sass:meta";
+@use "../util";
 @function check($value) {@return $value == 1}
-@include check-values(1, get-function(check));
+@include util.check-values(1, meta.get-function(check));
 
 <===> one/output.css
 
 <===>
 ================================================================================
 <===> within_precision/input.scss
+@use "sass:math";
 // This is within the precision limit to be considered identical to 1.
-a {b: random(1.0000000000001)}
+a {b: math.random(1.0000000000001)}
 
 <===> within_precision/output.css
 a {
@@ -42,25 +45,29 @@ a {
 <===>
 ================================================================================
 <===> two/input.scss
-@import "../util";
+@use "sass:meta";
+@use "../util";
 @function check($value) {@return $value == 1 or $value == 2}
-@include check-values(2, get-function(check));
+@include util.check-values(2, meta.get-function(check));
 
 <===> two/output.css
 
 <===>
 ================================================================================
 <===> one_hundred/input.scss
-@import "../util";
-@function check($value) {@return $value == round($value) and $value > 0 and $value <= 100}
-@include check-values(100, get-function(check));
+@use "sass:math";
+@use "sass:meta";
+@use "../util";
+@function check($value) {@return $value == math.round($value) and $value > 0 and $value <= 100}
+@include util.check-values(100, meta.get-function(check));
 
 <===> one_hundred/output.css
 
 <===>
 ================================================================================
 <===> no_arg/input.scss
-$value: random();
+@use "sass:math";
+$value: math.random();
 a {b: $value >= 0 and $value < 1}
 
 <===> no_arg/output.css
@@ -71,7 +78,8 @@ a {
 <===>
 ================================================================================
 <===> ignores_units/input.scss
-a {b: random(1px)}
+@use "sass:math";
+a {b: math.random(1px)}
 
 <===> ignores_units/output.css
 a {
@@ -88,15 +96,16 @@ To preserve current behavior: math.random(math.div($limit, 1px))
 More info: https://sass-lang.com/d/function-units
 
   ,
-1 | a {b: random(1px)}
-  |       ^^^^^^^^^^^
+2 | a {b: math.random(1px)}
+  |       ^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-$value: random($limit: 10);
+@use "sass:math";
+$value: math.random($limit: 10);
 a {b: $value > 0 and $value <= 10}
 
 <===> named/output.css
@@ -107,51 +116,55 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: random(c)}
+@use "sass:math";
+a {b: math.random(c)}
 
 <===> error/type/error
 Error: $limit: c is not a number.
   ,
-1 | a {b: random(c)}
-  |       ^^^^^^^^^
+2 | a {b: math.random(c)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/decimal/input.scss
-a {b: random(1.5)}
+@use "sass:math";
+a {b: math.random(1.5)}
 
 <===> error/decimal/error
 Error: $limit: 1.5 is not an int.
   ,
-1 | a {b: random(1.5)}
-  |       ^^^^^^^^^^^
+2 | a {b: math.random(1.5)}
+  |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/zero/input.scss
-a {b: random(0)}
+@use "sass:math";
+a {b: math.random(0)}
 
 <===> error/zero/error
 Error: $limit: Must be greater than 0, was 0.
   ,
-1 | a {b: random(0)}
-  |       ^^^^^^^^^
+2 | a {b: math.random(0)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/negative/input.scss
-a {b: random(-1)}
+@use "sass:math";
+a {b: math.random(-1)}
 
 <===> error/negative/error
 Error: $limit: Must be greater than 0, was -1.
   ,
-1 | a {b: random(-1)}
-  |       ^^^^^^^^^^
+2 | a {b: math.random(-1)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

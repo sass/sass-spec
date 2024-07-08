@@ -1,5 +1,6 @@
 <===> equal/input.scss
-a {b: is-superselector("*", "*")}
+@use "sass:selector";
+a {b: selector.is-superselector("*", "*")}
 
 <===> equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> and_type/input.scss
-a {b: is-superselector("*", "c")}
+@use "sass:selector";
+a {b: selector.is-superselector("*", "c")}
 
 <===> and_type/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> and_class/input.scss
-a {b: is-superselector("*", ".c")}
+@use "sass:selector";
+a {b: selector.is-superselector("*", ".c")}
 
 <===> and_class/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/explicit/equal/input.scss
-a {b: is-superselector("c|*", "c|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "c|d")}
 
 <===> namespace/explicit/and_type/explicit/equal/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/explicit/unequal/input.scss
-a {b: is-superselector("c|*", "e|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "e|d")}
 
 <===> namespace/explicit/and_type/explicit/unequal/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/implicit/input.scss
-a {b: is-superselector("c|*", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "d")}
 
 <===> namespace/explicit/and_type/implicit/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/empty/input.scss
-a {b: is-superselector("c|*", "|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "|d")}
 
 <===> namespace/explicit/and_type/empty/output.css
 a {
@@ -73,7 +80,8 @@ a {
 :todo:
 
 <===> namespace/explicit/and_universal/explicit/equal/input.scss
-a {b: is-superselector("c|*", "c|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "c|*")}
 
 <===> namespace/explicit/and_universal/explicit/equal/output.css
 a {
@@ -83,7 +91,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/explicit/unequal/input.scss
-a {b: is-superselector("c|*", "d|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "d|*")}
 
 <===> namespace/explicit/and_universal/explicit/unequal/output.css
 a {
@@ -93,7 +102,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/implicit/input.scss
-a {b: is-superselector("c|*", "*")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "*")}
 
 <===> namespace/explicit/and_universal/implicit/output.css
 a {
@@ -103,7 +113,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/empty/input.scss
-a {b: is-superselector("c|*", "|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "|*")}
 
 <===> namespace/explicit/and_universal/empty/output.css
 a {
@@ -113,7 +124,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/universal/input.scss
-a {b: is-superselector("c|*", "*|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", "*|*")}
 
 <===> namespace/explicit/and_universal/universal/output.css
 a {
@@ -123,7 +135,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_class/input.scss
-a {b: is-superselector("c|*", ".d")}
+@use "sass:selector";
+a {b: selector.is-superselector("c|*", ".d")}
 
 <===> namespace/explicit/and_class/output.css
 a {
@@ -133,7 +146,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/explicit/input.scss
-a {b: is-superselector("|*", "c|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "c|d")}
 
 <===> namespace/empty/and_type/explicit/output.css
 a {
@@ -143,7 +157,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/implicit/input.scss
-a {b: is-superselector("|*", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "d")}
 
 <===> namespace/empty/and_type/implicit/output.css
 a {
@@ -153,7 +168,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/empty/input.scss
-a {b: is-superselector("|*", "|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "|d")}
 
 <===> namespace/empty/and_type/empty/output.css
 a {
@@ -163,7 +179,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/explicit/input.scss
-a {b: is-superselector("|*", "c|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "c|*")}
 
 <===> namespace/empty/and_universal/explicit/output.css
 a {
@@ -173,7 +190,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/implicit/input.scss
-a {b: is-superselector("|*", "*")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "*")}
 
 <===> namespace/empty/and_universal/implicit/output.css
 a {
@@ -183,7 +201,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/empty/input.scss
-a {b: is-superselector("|*", "|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "|*")}
 
 <===> namespace/empty/and_universal/empty/output.css
 a {
@@ -193,7 +212,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/universal/input.scss
-a {b: is-superselector("|*", "*|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", "*|*")}
 
 <===> namespace/empty/and_universal/universal/output.css
 a {
@@ -203,7 +223,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_class/input.scss
-a {b: is-superselector("|*", ".d")}
+@use "sass:selector";
+a {b: selector.is-superselector("|*", ".d")}
 
 <===> namespace/empty/and_class/output.css
 a {
@@ -213,7 +234,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/explicit/input.scss
-a {b: is-superselector("*|*", "c|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "c|d")}
 
 <===> namespace/universal/and_type/explicit/output.css
 a {
@@ -223,7 +245,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/implicit/input.scss
-a {b: is-superselector("*|*", "d")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "d")}
 
 <===> namespace/universal/and_type/implicit/output.css
 a {
@@ -233,7 +256,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/empty/input.scss
-a {b: is-superselector("*|*", "|d")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "|d")}
 
 <===> namespace/universal/and_type/empty/output.css
 a {
@@ -243,7 +267,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/explicit/input.scss
-a {b: is-superselector("*|*", "c|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "c|*")}
 
 <===> namespace/universal/and_universal/explicit/output.css
 a {
@@ -253,7 +278,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/implicit/input.scss
-a {b: is-superselector("*|*", "*")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "*")}
 
 <===> namespace/universal/and_universal/implicit/output.css
 a {
@@ -263,7 +289,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/empty/input.scss
-a {b: is-superselector("*|*", "|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "|*")}
 
 <===> namespace/universal/and_universal/empty/output.css
 a {
@@ -273,7 +300,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/universal/input.scss
-a {b: is-superselector("*|*", "*|*")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", "*|*")}
 
 <===> namespace/universal/and_universal/universal/output.css
 a {
@@ -283,7 +311,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_class/input.scss
-a {b: is-superselector("*|*", ".d")}
+@use "sass:selector";
+a {b: selector.is-superselector("*|*", ".d")}
 
 <===> namespace/universal/and_class/output.css
 a {
