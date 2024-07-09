@@ -37,6 +37,84 @@ a {
 
 <===>
 ================================================================================
+<===> unitless/a/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(infinity) -3));
+
+<===> unitless/a/degenerate/positive_infinity/output.css
+a {
+  value: lab(1% calc(infinity) -3);
+  space: lab;
+  channels: 1% calc(infinity) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(-infinity) -3));
+
+<===> unitless/a/degenerate/negative_infinity/output.css
+a {
+  value: lab(1% calc(-infinity) -3);
+  space: lab;
+  channels: 1% calc(-infinity) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(NaN) -3));
+
+<===> unitless/a/degenerate/nan/output.css
+a {
+  value: lab(1% calc(NaN) -3);
+  space: lab;
+  channels: 1% calc(NaN) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(infinity)));
+
+<===> unitless/b/degenerate/positive_infinity/output.css
+a {
+  value: lab(1% 2 calc(infinity));
+  space: lab;
+  channels: 1% 2 calc(infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(-infinity)));
+
+<===> unitless/b/degenerate/negative_infinity/output.css
+a {
+  value: lab(1% 2 calc(-infinity));
+  space: lab;
+  channels: 1% 2 calc(-infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(NaN)));
+
+<===> unitless/b/degenerate/nan/output.css
+a {
+  value: lab(1% 2 calc(NaN));
+  space: lab;
+  channels: 1% 2 calc(NaN) / 1;
+}
+
+<===>
+================================================================================
 <===> unitless/lightness/in_range/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lab(10 2 -3));
@@ -72,6 +150,45 @@ a {
   value: lab(0% 2 3);
   space: lab;
   channels: 0% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/positive_infinity/output.css
+a {
+  value: lab(100% 2 -3);
+  space: lab;
+  channels: 100% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(-infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/negative_infinity/output.css
+a {
+  value: lab(0% 2 -3);
+  space: lab;
+  channels: 0% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(NaN) 2 -3));
+
+<===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: lab(0% 2 -3);
+  space: lab;
+  channels: 0% 2 -3 / 1;
 }
 
 <===>

@@ -37,6 +37,84 @@ a {
 
 <===>
 ================================================================================
+<===> unitless/a/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% calc(infinity) -300));
+
+<===> unitless/a/degenerate/positive_infinity/output.css
+a {
+  value: oklab(1% calc(infinity) -300);
+  space: oklab;
+  channels: 1% calc(infinity) -300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% calc(-infinity) -300));
+
+<===> unitless/a/degenerate/negative_infinity/output.css
+a {
+  value: oklab(1% calc(-infinity) -300);
+  space: oklab;
+  channels: 1% calc(-infinity) -300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% calc(NaN) -300));
+
+<===> unitless/a/degenerate/nan/output.css
+a {
+  value: oklab(1% calc(NaN) -300);
+  space: oklab;
+  channels: 1% calc(NaN) -300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% 2 calc(infinity)));
+
+<===> unitless/b/degenerate/positive_infinity/output.css
+a {
+  value: oklab(1% 2 calc(infinity));
+  space: oklab;
+  channels: 1% 2 calc(infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% 2 calc(-infinity)));
+
+<===> unitless/b/degenerate/negative_infinity/output.css
+a {
+  value: oklab(1% 2 calc(-infinity));
+  space: oklab;
+  channels: 1% 2 calc(-infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% 2 calc(NaN)));
+
+<===> unitless/b/degenerate/nan/output.css
+a {
+  value: oklab(1% 2 calc(NaN));
+  space: oklab;
+  channels: 1% 2 calc(NaN) / 1;
+}
+
+<===>
+================================================================================
 <===> unitless/lightness/in_range/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(oklab(0.1 2 -3));
@@ -72,6 +150,45 @@ a {
   value: oklab(0% 2 3);
   space: oklab;
   channels: 0% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(calc(infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/positive_infinity/output.css
+a {
+  value: oklab(100% 2 -3);
+  space: oklab;
+  channels: 100% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(calc(-infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/negative_infinity/output.css
+a {
+  value: oklab(0% 2 -3);
+  space: oklab;
+  channels: 0% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(calc(NaN) 2 -3));
+
+<===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: oklab(0% 2 -3);
+  space: oklab;
+  channels: 0% 2 -3 / 1;
 }
 
 <===>
