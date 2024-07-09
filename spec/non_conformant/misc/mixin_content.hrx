@@ -23,3 +23,23 @@ $color: blue;
   color: blue;
   border-color: yellow;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+3 | /   .#{$class} {
+4 | |     background-color: $color;
+5 | |     @content;
+6 | |     border-color: $color;
+  | |     ^^^^^^^^^^^^^^^^^^^^ declaration
+7 | |   }
+  | '--- nested rule
+  '
+    input.scss 6:5  context()
+    input.scss 9:1  root stylesheet

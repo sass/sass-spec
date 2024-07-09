@@ -44,3 +44,61 @@ div for {
   x: -9;
   y: -9;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+   ,
+6  | /   for {
+7  | |     x: $x;
+8  | |     y: $y;
+9  | |     @for $x from 1 through 5 {
+10 | |       $y: $y + 5;
+11 | |       x: $x;
+12 | |       y: $y;
+13 | |       $x: 999;
+14 | |       $y: -9 !global;
+15 | |       $x: -9 !global;
+16 | |     }
+17 | |     x: $x;
+18 | |     y: $y;
+19 | |   }
+   | '--- nested rule
+20 |     x: $x;
+   |     ^^^^^ declaration
+   '
+    input.scss 20:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+6   | /   for {
+7   | |     x: $x;
+8   | |     y: $y;
+9   | |     @for $x from 1 through 5 {
+10  | |       $y: $y + 5;
+11  | |       x: $x;
+12  | |       y: $y;
+13  | |       $x: 999;
+14  | |       $y: -9 !global;
+15  | |       $x: -9 !global;
+16  | |     }
+17  | |     x: $x;
+18  | |     y: $y;
+19  | |   }
+    | '--- nested rule
+... |
+21  |     y: $y;
+    |     ^^^^^ declaration
+    '
+    input.scss 21:3  root stylesheet

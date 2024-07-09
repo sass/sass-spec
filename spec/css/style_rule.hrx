@@ -19,6 +19,142 @@ a {
 
 <===>
 ================================================================================
+<===> declaration/interleaved/before_nested_rule/input.scss
+a {
+  b: c;
+  d {e: f}
+}
+
+<===> declaration/interleaved/before_nested_rule/output.css
+a {
+  b: c;
+}
+a d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_nested_rule/input.scss
+a {
+  b {c: d}
+  e: f
+}
+
+<===> declaration/interleaved/after_nested_rule/output.css
+a {
+  e: f;
+}
+a b {
+  c: d;
+}
+
+<===> declaration/interleaved/after_nested_rule/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   b {c: d}
+  |   ======== nested rule
+3 |   e: f
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/around_nested_rule/input.scss
+a {
+  b: c;
+  d {e: f}
+  g: h;
+}
+
+<===> declaration/interleaved/around_nested_rule/output.css
+a {
+  b: c;
+  g: h;
+}
+a d {
+  e: f;
+}
+
+<===> declaration/interleaved/around_nested_rule/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+3 |   d {e: f}
+  |   ======== nested rule
+4 |   g: h;
+  |   ^^^^ declaration
+  '
+    input.scss 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/in_at_rule/input.scss
+@a {
+  b {
+    c {d: e}
+    f: g;
+  }
+}
+
+<===> declaration/interleaved/in_at_rule/output.css
+@a {
+  b {
+    f: g;
+  }
+  b c {
+    d: e;
+  }
+}
+
+<===> declaration/interleaved/in_at_rule/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+3 |     c {d: e}
+  |     ======== nested rule
+4 |     f: g;
+  |     ^^^^ declaration
+  '
+    input.scss 4:5  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/in_bubbled_rule/input.scss
+a {
+  b {c: d}
+  @e {f: g}
+}
+
+<===> declaration/interleaved/in_bubbled_rule/output.css
+a b {
+  c: d;
+}
+@e {
+  a {
+    f: g;
+  }
+}
+
+<===>
+================================================================================
 <===> declaration/comment/before_colon/loud/input.scss
 a {b /**/ : c}
 
