@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:meta";
+
 @function fncall($void) {
   @return "key";
 }
@@ -9,14 +11,14 @@ $map: (
 );
 
 .foo {
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 <===> error
 Error: Duplicate key.
   ,
-6 |   fncall(1+2): 'foo',
+8 |   fncall(1+2): 'foo',
   |   =========== first key
-7 |   fncall(1+2): 'bar',
+9 |   fncall(1+2): 'bar',
   |   ^^^^^^^^^^^ second key
   '
-  input.scss 7:3  root stylesheet
+  input.scss 9:3  root stylesheet
