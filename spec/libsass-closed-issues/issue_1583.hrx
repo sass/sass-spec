@@ -1,28 +1,32 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
+@use "sass:string";
+
 $ls: ((foo,));
 
 foo {
-  baz: length($ls);
-  baz: type-of($ls);
-  baz: inspect($ls);
+  baz: list.length($ls);
+  baz: meta.type-of($ls);
+  baz: meta.inspect($ls);
 }
 
 bar {
-  baz: length(&);
-  baz: type-of(&);
-  baz: inspect(&);
+  baz: list.length(&);
+  baz: meta.type-of(&);
+  baz: meta.inspect(&);
 }
 
 foo {
-  string: inspect(&);
-  str-length: str-length(inspect(&));
+  string: meta.inspect(&);
+  str-length: str-length(meta.inspect(&));
   list-length: length(&);
 }
 
 foo, bar {
-  string: inspect(&);
-  str-length: str-length(inspect(&));
-  list-length: length(&);
+  string: meta.inspect(&);
+  str-length: string.length(meta.inspect(&));
+  list-length: list.length(&);
 }
 
 <===> output.css

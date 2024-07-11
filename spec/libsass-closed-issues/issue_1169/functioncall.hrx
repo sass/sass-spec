@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:meta";
+
 $count: 0;
 
 @function counter() {
@@ -12,7 +14,7 @@ $map: (
 );
 
 .foo {
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 <===> output.css
 .foo {
