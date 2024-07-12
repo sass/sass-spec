@@ -6,6 +6,18 @@ a {
   b: c;
 }
 
+<===> unquote/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.unquote instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: unquote("c")}
+  |       ^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quote/input.scss
@@ -15,6 +27,18 @@ a {b: quote(c)}
 a {
   b: "c";
 }
+
+<===> quote/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.quote instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: quote(c)}
+  |       ^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -26,6 +50,18 @@ a {
   b: 1;
 }
 
+<===> length/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: str-length("c")}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> insert/input.scss
@@ -35,6 +71,18 @@ a {b: str-insert("c", "d", 1)}
 a {
   b: "dc";
 }
+
+<===> insert/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.insert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: str-insert("c", "d", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -46,6 +94,18 @@ a {
   b: 1;
 }
 
+<===> index/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.index instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: str-index("c", "c")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> slice/input.scss
@@ -55,6 +115,18 @@ a {b: str-slice("c", 1, 1)}
 a {
   b: "c";
 }
+
+<===> slice/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.slice instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: str-slice("c", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -66,6 +138,18 @@ a {
   b: "C";
 }
 
+<===> to_upper_case/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.to-upper-case instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: to-upper-case("c")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> unique_id/input.scss
@@ -76,3 +160,15 @@ a {b: meta.type-of(unique-id())}
 a {
   b: string;
 }
+
+<===> unique_id/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.unique-id instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | a {b: meta.type-of(unique-id())}
+  |                    ^^^^^^^^^^^
+  '
+    input.scss 2:20  root stylesheet
