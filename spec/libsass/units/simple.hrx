@@ -1,9 +1,10 @@
 <===> input.scss
+@use "sass:math";
 div {
   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
   ho: (23in/2fu) > (23cm/2fu);
-  hoo: unit((23px/2fu/12emu/1.2gnu));
-  hee: unit((2in/3cm/4cm));
+  hoo: math.unit((23px/2fu/12emu/1.2gnu));
+  hee: math.unit((2in/3cm/4cm));
 }
 <===> output.css
 div {
@@ -21,10 +22,10 @@ Recommendation: math.div((5in + 3cm) * 10px * 100pt * 10fu, 2px) or calc((5in + 
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+3 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:9  root stylesheet
+    input.scss 3:9  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -33,10 +34,10 @@ Recommendation: math.div(math.div((5in + 3cm) * 10px * 100pt * 10fu, 2px), 2fu) 
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+3 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:9  root stylesheet
+    input.scss 3:9  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -45,10 +46,10 @@ Recommendation: math.div(math.div(math.div((5in + 3cm) * 10px * 100pt * 10fu, 2p
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
+3 |   hey: ((5in + 3cm) * 10px * 100pt * 10fu / 2px / 2fu / 3pt);
   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:9  root stylesheet
+    input.scss 3:9  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -57,10 +58,10 @@ Recommendation: math.div(23in, 2fu) or calc(23in / 2fu)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |   ho: (23in/2fu) > (23cm/2fu);
+4 |   ho: (23in/2fu) > (23cm/2fu);
   |        ^^^^^^^^
   '
-    input.scss 3:8  root stylesheet
+    input.scss 4:8  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -69,10 +70,10 @@ Recommendation: math.div(23cm, 2fu) or calc(23cm / 2fu)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |   ho: (23in/2fu) > (23cm/2fu);
+4 |   ho: (23in/2fu) > (23cm/2fu);
   |                     ^^^^^^^^
   '
-    input.scss 3:21  root stylesheet
+    input.scss 4:21  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -81,10 +82,10 @@ Recommendation: math.div(23px, 2fu) or calc(23px / 2fu)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
-  |              ^^^^^^^^
+5 |   hoo: math.unit((23px/2fu/12emu/1.2gnu));
+  |                   ^^^^^^^^
   '
-    input.scss 4:14  root stylesheet
+    input.scss 5:19  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -93,10 +94,10 @@ Recommendation: math.div(math.div(23px, 2fu), 12emu) or calc(23px / 2fu / 12emu)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
-  |              ^^^^^^^^^^^^^^
+5 |   hoo: math.unit((23px/2fu/12emu/1.2gnu));
+  |                   ^^^^^^^^^^^^^^
   '
-    input.scss 4:14  root stylesheet
+    input.scss 5:19  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -105,10 +106,10 @@ Recommendation: math.div(math.div(math.div(23px, 2fu), 12emu), 1.2gnu) or calc(2
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-4 |   hoo: unit((23px/2fu/12emu/1.2gnu));
-  |              ^^^^^^^^^^^^^^^^^^^^^
+5 |   hoo: math.unit((23px/2fu/12emu/1.2gnu));
+  |                   ^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:14  root stylesheet
+    input.scss 5:19  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -117,10 +118,10 @@ Recommendation: math.div(2in, 3cm) or calc(2in / 3cm)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-5 |   hee: unit((2in/3cm/4cm));
-  |              ^^^^^^^
+6 |   hee: math.unit((2in/3cm/4cm));
+  |                   ^^^^^^^
   '
-    input.scss 5:14  root stylesheet
+    input.scss 6:19  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -129,7 +130,7 @@ Recommendation: math.div(math.div(2in, 3cm), 4cm) or calc(2in / 3cm / 4cm)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-5 |   hee: unit((2in/3cm/4cm));
-  |              ^^^^^^^^^^^
+6 |   hee: math.unit((2in/3cm/4cm));
+  |                   ^^^^^^^^^^^
   '
-    input.scss 5:14  root stylesheet
+    input.scss 6:19  root stylesheet

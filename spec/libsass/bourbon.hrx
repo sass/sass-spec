@@ -7,6 +7,7 @@
 - lint-hrx
 
 <===> input.scss
+@use "sass:color";
 @import "lib/_bourbon.scss";
 
 box:hover {
@@ -31,7 +32,7 @@ div {
 
   // Multiple linear-gradients - Demo
   @include background-image(linear-gradient(hsla(0, 100%, 100%, 0.25) 0%, hsla(0, 100%, 100%, 0.08) 50%, transparent 50%),
-                             linear-gradient(#4e7ba3, darken(#4e7ba4, 10%)));
+                             linear-gradient(#4e7ba3, color.adjust(#4e7ba4, $lightness: -10%)));
 
   // NOT SUPPORTED - Multiple image assets with shorthand notation
   @include background-image(url("/images/a.png") center no-repeat, url("images/b.png") left repeat);
@@ -1933,3 +1934,288 @@ div {
   background-image: -webkit-url("/images/a.png")-gradient(center), -webkit-url("images/b.png")-gradient(left);
   background-image: url("/images/a.png")-gradient( center), url("images/b.png")-gradient( left);
 }
+
+<===> warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.unquote instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+25 |   $unquoted-inputs-list: append($unquoted-inputs-list, unquote($input-type), comma);
+   |                                                        ^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/addons/_html5-input-types.scss 25:56  @import
+    lib/_bourbon.scss 50:9                    @import
+    input.scss 2:9                            root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+25 |   $unquoted-inputs-list: append($unquoted-inputs-list, unquote($input-type), comma);
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/addons/_html5-input-types.scss 25:26  @import
+    lib/_bourbon.scss 50:9                    @import
+    input.scss 2:9                            root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+36 |       $all-text-inputs-hover: append($all-text-inputs-hover, $input-type-hover, comma);
+   |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/addons/_html5-input-types.scss 36:31  @import
+    lib/_bourbon.scss 50:9                    @import
+    input.scss 2:9                            root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+44 |       $all-text-inputs-focus: append($all-text-inputs-focus, $input-type-focus, comma);
+   |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/addons/_html5-input-types.scss 44:31  @import
+    lib/_bourbon.scss 50:9                    @import
+    input.scss 2:9                            root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.length instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+14 |   @for $i from 1 through length($images) {
+   |                          ^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 14:26  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 19:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+15 |     $type: type-of(nth($images, $i)); // Get type of variable - List or String
+   |                    ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 15:20  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 19:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.type-of instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+15 |     $type: type-of(nth($images, $i)); // Get type of variable - List or String
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 15:12  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 19:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+37 |       $images-prefixed: join($images-prefixed, nth($images, $i), comma);
+   |                                                ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 37:48  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 19:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.join instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+37 |       $images-prefixed: join($images-prefixed, nth($images, $i), comma);
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 37:25  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 19:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 |   $pos-type: type-of(nth($pos, 1));
+  |                      ^^^^^^^^^^^^
+  '
+    lib/functions/_linear-gradient.scss 3:22  linear-gradient()
+    input.scss 22:51                          root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.type-of instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 |   $pos-type: type-of(nth($pos, 1));
+  |              ^^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/functions/_linear-gradient.scss 3:14  linear-gradient()
+    input.scss 22:51                          root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.zip instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+7 |     $gradients: zip($pos $gradients);
+  |                 ^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/functions/_linear-gradient.scss 7:17  linear-gradient()
+    input.scss 22:51                          root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+19 |       $gradient-type: nth(nth($images, $i), 1); // linear or radial
+   |                           ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 19:27  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+19 |       $gradient-type: nth(nth($images, $i), 1); // linear or radial
+   |                       ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 19:23  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+24 |         $gradient-pos:  nth(nth($images, $i), 2); // Get gradient position
+   |                             ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 24:29  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+24 |         $gradient-pos:  nth(nth($images, $i), 2); // Get gradient position
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 24:25  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+25 |         $gradient-args: nth(nth($images, $i), 3); // Get actual gradient (red, blue)
+   |                             ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 25:29  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+25 |         $gradient-args: nth(nth($images, $i), 3); // Get actual gradient (red, blue)
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 25:25  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+33 |       $images-prefixed: append($images-prefixed, $gradient, comma);
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 33:25  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 22:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.unquote instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+23 |     $vendor-gradients: unquote($vendor-gradients);
+   |                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/helpers/_render-gradients.scss 23:24  -render-gradients()
+    lib/css3/_background-image.scss 32:18     -add-prefix()
+    lib/css3/_background-image.scss 8:21      background-image()
+    input.scss 22:3                           root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+28 |         $gradient-args: nth(nth($images, $i), 2); // Get actual gradient (red, blue)
+   |                             ^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 28:29  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 29:3                        root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.nth instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+28 |         $gradient-args: nth(nth($images, $i), 2); // Get actual gradient (red, blue)
+   |                         ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_background-image.scss 28:25  -add-prefix()
+    lib/css3/_background-image.scss 7:21   background-image()
+    input.scss 29:3                        root stylesheet
