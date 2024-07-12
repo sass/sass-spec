@@ -1,27 +1,28 @@
 <===> input.scss
+@use "sass:list";
 $Selectors: ();
 
 //////////////////////////////
 // Add selectors of various depths and makeups
 //////////////////////////////
 .foo {
-  $Selectors: append($Selectors, &) !global;
+  $Selectors: list.append($Selectors, &) !global;
 }
 
 .bar a {
-  $Selectors: append($Selectors, &) !global;
+  $Selectors: list.append($Selectors, &) !global;
 }
 
 .bar,
 .baz {
-  $Selectors: append($Selectors, &) !global;
+  $Selectors: list.append($Selectors, &) !global;
 }
 
 .qux {
   &.waldo {
     .where & {
       .final {
-        $Selectors: append($Selectors, &) !global;
+        $Selectors: list.append($Selectors, &) !global;
       }
     }
   }
@@ -31,12 +32,12 @@ $Selectors: ();
 // Display Results
 //////////////////////////////
 .result {
-  length: length($Selectors);
+  length: list.length($Selectors);
   content: $Selectors;
-  @for $i from 1 through length($Selectors) {
+  @for $i from 1 through list.length($Selectors) {
     index: $i;
-    length: length(nth($Selectors, $i));
-    content: nth($Selectors, $i);
+    length: list.length(list.nth($Selectors, $i));
+    content: list.nth($Selectors, $i);
   }
 }
 <===> output.css

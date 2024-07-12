@@ -1,8 +1,9 @@
 <===> input.scss
+@use "sass:list";
 foo.bar.baz asd.qwe xyz, second {
-  length: length(&);
-  length: length(nth(&, 1));
-  length: length(nth(nth(&, 1), 1));
+  length: list.length(&);
+  length: list.length(list.nth(&, 1));
+  length: list.length(list.nth(list.nth(&, 1), 1));
 }
 <===> output.css
 foo.bar.baz asd.qwe xyz, second {
