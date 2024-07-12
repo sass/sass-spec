@@ -1,9 +1,10 @@
 <===> input.scss
+@use "sass:list";
 @function map-each($map) {
   $values: ();
 
   @each $key, $value in $map {
-    $values: append($values, $value);
+    $values: list.append($values, $value);
   }
 
   @return $values;

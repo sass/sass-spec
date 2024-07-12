@@ -1,11 +1,12 @@
 <===> input.scss
+@use "sass:color";
 $colors: (
     yellow: #ffeb3b
 );
 @each $name, $color in $colors {
-    $amount: 40;
+    $amount: 40%;
     @for $i from 0 through 9 {
-        .#{$name}-#{($i*100)} { background-color: lighten($color, $amount) };
+        .#{$name}-#{($i*100)} { background-color: color.adjust($color, $lightness: $amount) };
         $amount: $amount - 2;
     }
 }
@@ -14,12 +15,12 @@ $colors: (
     yellow: yellow,
     red: red,
     blue: blue,
-    
+
 );
 @each $name, $color in $colors {
     @for $i from 0 through 2 {
-        .#{$name}-#{($i*100)} { 
-          background-color: lighten($color, 10) 
+        .#{$name}-#{($i*100)} {
+          background-color: color.adjust($color, $lightness: 10%)
         };
     }
 }
@@ -109,10 +110,10 @@ Always quote color names when using them as strings or map keys (for example, "y
 If you really want to use the color value here, use '"" + $name'.
 
   ,
-7 |         .#{$name}-#{($i*100)} { background-color: lighten($color, $amount) };
+8 |         .#{$name}-#{($i*100)} { background-color: color.adjust($color, $lightness: $amount) };
   |            ^^^^^
   '
-    input.scss 7:12  root stylesheet
+    input.scss 8:12  root stylesheet
 
 WARNING: You probably don't mean to use the color value yellow in interpolation here.
 It may end up represented as yellow, which will likely produce invalid CSS.
@@ -120,10 +121,10 @@ Always quote color names when using them as strings or map keys (for example, "y
 If you really want to use the color value here, use '"" + $name'.
 
    ,
-20 |         .#{$name}-#{($i*100)} { 
+21 |         .#{$name}-#{($i*100)} {
    |            ^^^^^
    '
-    input.scss 20:12  root stylesheet
+    input.scss 21:12  root stylesheet
 
 WARNING: You probably don't mean to use the color value red in interpolation here.
 It may end up represented as red, which will likely produce invalid CSS.
@@ -131,10 +132,10 @@ Always quote color names when using them as strings or map keys (for example, "r
 If you really want to use the color value here, use '"" + $name'.
 
    ,
-20 |         .#{$name}-#{($i*100)} { 
+21 |         .#{$name}-#{($i*100)} {
    |            ^^^^^
    '
-    input.scss 20:12  root stylesheet
+    input.scss 21:12  root stylesheet
 
 WARNING: You probably don't mean to use the color value blue in interpolation here.
 It may end up represented as blue, which will likely produce invalid CSS.
@@ -142,7 +143,7 @@ Always quote color names when using them as strings or map keys (for example, "b
 If you really want to use the color value here, use '"" + $name'.
 
    ,
-20 |         .#{$name}-#{($i*100)} { 
+21 |         .#{$name}-#{($i*100)} {
    |            ^^^^^
    '
-    input.scss 20:12  root stylesheet
+    input.scss 21:12  root stylesheet

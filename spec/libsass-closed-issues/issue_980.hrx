@@ -1,8 +1,9 @@
 <===> input.scss
+@use "sass:list";
 @function foo($value, $default: 13, $args...) {
   $res: $value + $default;
-  @if length($args) != 0 {
-    $res: $res + nth($args, 1);
+  @if list.length($args) != 0 {
+    $res: $res + list.nth($args, 1);
   }
   @return $res;
 }

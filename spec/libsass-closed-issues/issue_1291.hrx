@@ -4,13 +4,14 @@
 - dart-sass
 
 <===> input.scss
+@use "sass:string";
 @mixin spec1($decimal) {
-  $decimal: unquote($decimal) * -1;
+  $decimal: string.unquote($decimal) * -1;
   value: $decimal;
 }
 
 @mixin spec2($decimal) {
-  $decimal: -1 * unquote($decimal);
+  $decimal: -1 * string.unquote($decimal);
   value: $decimal;
 }
 

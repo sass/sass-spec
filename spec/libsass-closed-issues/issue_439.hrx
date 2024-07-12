@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:string";
 @mixin odd( $selector, $n) {
   $selector: "& + " + $selector + " + " + $selector;
-  $placeholder: unique_id();
+  $placeholder: string.unique_id();
   %#{$placeholder} { @content; }
   #{$selector}:first-child {
     #{$selector} { @extend %#{$placeholder}; }
@@ -21,9 +22,9 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-6 |     #{$selector} { @extend %#{$placeholder}; }
+7 |     #{$selector} { @extend %#{$placeholder}; }
   |     ^^^^^^^^^^^^ invalid selector
   |                    ======================== @extend rule
   '
-    input.scss 6:5   odd()
-    input.scss 11:3  root stylesheet
+    input.scss 7:5   odd()
+    input.scss 12:3  root stylesheet

@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:map";
 
 @function hello($name) {
     @return $name;
@@ -11,10 +12,10 @@ $foo: (
 );
 
 a {
-  foo: map-get($foo, "bar()");
-  foo: map-get($foo, "bar(\"foo\")");
-  foo: map-get($foo, 'bar("foo")');
-  foo: map-get($foo, "bob");
+  foo: map.get($foo, "bar()");
+  foo: map.get($foo, "bar(\"foo\")");
+  foo: map.get($foo, 'bar("foo")');
+  foo: map.get($foo, "bob");
 }
 
 <===> output.css

@@ -17,7 +17,9 @@ async function migrate() {
 
   await rootDir.forEachTest(
     async testDir => {
-      const files = (await testDir.listFiles()).filter(
+      const allFiles = await testDir.listFiles();
+      if (allFiles.includes('error')) return;
+      const files = allFiles.filter(
         file => file.endsWith('.scss') || file.endsWith('.sass')
       );
       console.log(testDir.relPath());

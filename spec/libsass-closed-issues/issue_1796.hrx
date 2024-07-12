@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:list";
 .parent {
     .brother, .sister, .cousin {
         color: green;
@@ -6,8 +7,8 @@
 
         $new-sel: ();
         @each $s in & {
-            $last: nth($s, -1);
-            $new-sel: append($new-sel, $s #{'+'} $last, comma);
+            $last: list.nth($s, -1);
+            $new-sel: list.append($new-sel, $s #{'+'} $last, comma);
             x: $new-sel;
         }
         @at-root #{$new-sel} {

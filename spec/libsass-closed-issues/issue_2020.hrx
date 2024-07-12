@@ -1,10 +1,11 @@
 <===> input.scss
+@use "sass:list";
 @use "sass:meta";
 
 form {
-  $selector: nth(&, 1);
+  $selector: list.nth(&, 1);
   sel: meta.inspect($selector);
-  $selector: nth($selector, 1);
+  $selector: list.nth($selector, 1);
   sel: meta.inspect($selector);
 }
 <===> output.css

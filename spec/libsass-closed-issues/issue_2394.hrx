@@ -1,6 +1,8 @@
 <===> input.scss
+@use "sass:map";
+@use "sass:meta";
 @mixin brokenTest($color: red, $variableArguments...) {
-  $width: map-get(keywords($variableArguments), width);
+  $width: map.get(meta.keywords($variableArguments), width);
   a {
     width: $width;
     color: $color;
@@ -8,8 +10,8 @@
 }
 
 @mixin workingTest($variableArguments...) {
-  $width: map-get(keywords($variableArguments), width);
-  $color: map-get(keywords($variableArguments), color);
+  $width: map.get(meta.keywords($variableArguments), width);
+  $color: map.get(meta.keywords($variableArguments), color);
   a {
     width: $width;
     color: $color;

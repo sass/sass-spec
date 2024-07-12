@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:map";
 // ----
 // libsass (v3.3.2)
 // ----
@@ -8,17 +9,17 @@ $prefix:(
 	bar: #bar
 );
 
-#{map-get($prefix, foo)} {
+#{map.get($prefix, foo)} {
   color: red;
 }
-#{map-get($prefix, bar)} {
+#{map.get($prefix, bar)} {
   color: red;
 }
 
-#{map-get($prefix, foo)} .baz {
+#{map.get($prefix, foo)} .baz {
   color: red;
 }
-#{map-get($prefix, bar)} .baz {
+#{map.get($prefix, bar)} .baz {
   color: red;
 }
 <===> output.css

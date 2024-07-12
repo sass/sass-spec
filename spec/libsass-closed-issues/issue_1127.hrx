@@ -1,7 +1,8 @@
 <===> input.scss
-$a: to-upper-case('abcd');
-$b: to-upper-case("abcd");
-$c: to-upper-case(abcd);
+@use "sass:string";
+$a: string.to-upper-case('abcd');
+$b: string.to-upper-case("abcd");
+$c: string.to-upper-case(abcd);
 
 foo {
     content: #{$a};
@@ -14,35 +15,35 @@ foo {
     content: "#{$b}";
     content: "#{$c}";
 
-    content: #{unquote($a)};
-    content: #{unquote($b)};
-    content: #{unquote($c)};
-    content: '#{unquote($a)}';
-    content: '#{unquote($b)}';
-    content: '#{unquote($c)}';
-    content: "#{unquote($a)}";
-    content: "#{unquote($b)}";
-    content: "#{unquote($c)}";
+    content: #{string.unquote($a)};
+    content: #{string.unquote($b)};
+    content: #{string.unquote($c)};
+    content: '#{string.unquote($a)}';
+    content: '#{string.unquote($b)}';
+    content: '#{string.unquote($c)}';
+    content: "#{string.unquote($a)}";
+    content: "#{string.unquote($b)}";
+    content: "#{string.unquote($c)}";
 
-    content: #{$a + unquote("efg")};
-    content: #{$b + unquote("efg")};
-    content: #{$c + unquote("efg")};
-    content: '#{$a + unquote("efg")}';
-    content: '#{$b + unquote("efg")}';
-    content: '#{$c + unquote("efg")}';
-    content: "#{$a + unquote("efg")}";
-    content: "#{$b + unquote("efg")}";
-    content: "#{$c + unquote("efg")}";
+    content: #{$a + string.unquote("efg")};
+    content: #{$b + string.unquote("efg")};
+    content: #{$c + string.unquote("efg")};
+    content: '#{$a + string.unquote("efg")}';
+    content: '#{$b + string.unquote("efg")}';
+    content: '#{$c + string.unquote("efg")}';
+    content: "#{$a + string.unquote("efg")}";
+    content: "#{$b + string.unquote("efg")}";
+    content: "#{$c + string.unquote("efg")}";
 
-    content: #{$a + unquote("")};
-    content: #{$b + unquote("")};
-    content: #{$c + unquote("")};
-    content: '#{$a + unquote("")}';
-    content: '#{$b + unquote("")}';
-    content: '#{$c + unquote("")}';
-    content: "#{$a + unquote("")}";
-    content: "#{$b + unquote("")}";
-    content: "#{$c + unquote("")}";
+    content: #{$a + string.unquote("")};
+    content: #{$b + string.unquote("")};
+    content: #{$c + string.unquote("")};
+    content: '#{$a + string.unquote("")}';
+    content: '#{$b + string.unquote("")}';
+    content: '#{$c + string.unquote("")}';
+    content: "#{$a + string.unquote("")}";
+    content: "#{$b + string.unquote("")}";
+    content: "#{$c + string.unquote("")}";
 }
 
 <===> output.css

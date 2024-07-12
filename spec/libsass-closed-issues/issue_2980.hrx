@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:map";
 $config: (
         phone: (
                 break-point-width:0px,
@@ -19,8 +20,8 @@ $config: (
 );
 
 @each $key, $map in $config {
-  $break-point-width: map_get($map, break-point-width);
-  $break-point-name: map_get($map, break-point-name);
+  $break-point-width: map.get($map, break-point-width);
+  $break-point-name: map.get($map, break-point-name);
   $infix: if($break-point-width == 0px, null, -$break-point-name);
       .foo#{$infix} {
         content: '#{$break-point-name}';

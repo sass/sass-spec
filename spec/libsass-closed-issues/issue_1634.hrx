@@ -1,12 +1,14 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 $empty-list: ();
 
 @function foo($args...) {
-    @return call(bar, $args...);
+    @return meta.call(bar, $args...);
 }
 
 @function bar($list) {
-    @return length($list);
+    @return list.length($list);
 }
 
 test {
@@ -23,8 +25,8 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function(bar))
 
   ,
-4 |     @return call(bar, $args...);
-  |             ^^^^^^^^^^^^^^^^^^^
+6 |     @return meta.call(bar, $args...);
+  |             ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:13  foo()
-    input.scss 12:9  root stylesheet
+    input.scss 6:13  foo()
+    input.scss 14:9  root stylesheet

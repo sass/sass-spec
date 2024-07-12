@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:meta";
 @function _test1() {
   @return 'hello';
 }
@@ -28,34 +29,34 @@ $_test2: true;
 $test: true;
 
 .test {
-  function: function-exists('_test1');
-  function: function-exists('-test1');
-  function: function-exists('_test2');
-  function: function-exists('-test2');
-  function: function-exists('test1');
-  function: function-exists('test2');
-  function: function-exists('test');
-  mixin: mixin-exists('_test1');
-  mixin: mixin-exists('-test1');
-  mixin: mixin-exists('_test2');
-  mixin: mixin-exists('-test2');
-  mixin: mixin-exists('test1');
-  mixin: mixin-exists('test2');
-  mixin: mixin-exists('test');
-  variable: variable-exists('_test1');
-  variable: variable-exists('-test1');
-  variable: variable-exists('_test2');
-  variable: variable-exists('-test2');
-  variable: variable-exists('test1');
-  variable: variable-exists('test2');
-  variable: variable-exists('test');
-  global-variable: global-variable-exists('_test1');
-  global-variable: global-variable-exists('-test1');
-  global-variable: global-variable-exists('_test2');
-  global-variable: global-variable-exists('-test2');
-  global-variable: global-variable-exists('test1');
-  global-variable: global-variable-exists('test2');
-  global-variable: global-variable-exists('test');
+  function: meta.function-exists('_test1');
+  function: meta.function-exists('-test1');
+  function: meta.function-exists('_test2');
+  function: meta.function-exists('-test2');
+  function: meta.function-exists('test1');
+  function: meta.function-exists('test2');
+  function: meta.function-exists('test');
+  mixin: meta.mixin-exists('_test1');
+  mixin: meta.mixin-exists('-test1');
+  mixin: meta.mixin-exists('_test2');
+  mixin: meta.mixin-exists('-test2');
+  mixin: meta.mixin-exists('test1');
+  mixin: meta.mixin-exists('test2');
+  mixin: meta.mixin-exists('test');
+  variable: meta.variable-exists('_test1');
+  variable: meta.variable-exists('-test1');
+  variable: meta.variable-exists('_test2');
+  variable: meta.variable-exists('-test2');
+  variable: meta.variable-exists('test1');
+  variable: meta.variable-exists('test2');
+  variable: meta.variable-exists('test');
+  global-variable: meta.global-variable-exists('_test1');
+  global-variable: meta.global-variable-exists('-test1');
+  global-variable: meta.global-variable-exists('_test2');
+  global-variable: meta.global-variable-exists('-test2');
+  global-variable: meta.global-variable-exists('test1');
+  global-variable: meta.global-variable-exists('test2');
+  global-variable: meta.global-variable-exists('test');
 }
 
 <===> output.css

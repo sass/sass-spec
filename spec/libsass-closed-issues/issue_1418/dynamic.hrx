@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:meta";
 foo {
-    color: call(missing, $a: b);
+    color: meta.call(missing, $a: b);
 }
 
 <===> error
@@ -9,14 +10,14 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function(missing))
 
   ,
-2 |     color: call(missing, $a: b);
-  |            ^^^^^^^^^^^^^^^^^^^^
+3 |     color: meta.call(missing, $a: b);
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:12  root stylesheet
+    input.scss 3:12  root stylesheet
 
 Error: Plain CSS functions don't support keyword arguments.
   ,
-2 |     color: call(missing, $a: b);
-  |            ^^^^^^^^^^^^^^^^^^^^
+3 |     color: meta.call(missing, $a: b);
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:12  root stylesheet
+  input.scss 3:12  root stylesheet

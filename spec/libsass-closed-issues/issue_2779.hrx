@@ -1,5 +1,6 @@
 <===> input.scss
-@debug(selector-extend(".a .b", "&b", ndll));
+@use "sass:selector";
+@debug(selector.extend(".a .b", "&b", ndll));
 
 <===> error
 Error: $extendee: Parent selectors aren't allowed here.
@@ -9,7 +10,7 @@ Error: $extendee: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | @debug(selector-extend(".a .b", "&b", ndll));
+2 | @debug(selector.extend(".a .b", "&b", ndll));
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:8  root stylesheet
+  input.scss 2:8  root stylesheet

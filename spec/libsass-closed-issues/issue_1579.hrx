@@ -1,10 +1,11 @@
 <===> input.scss
+@use "sass:meta";
 @function foo($a, $b: null, $c: false) {
   @return $c;
 }
 
 @function bar($args...) {
-  @return call(foo, $args...);
+  @return meta.call(foo, $args...);
 }
 
 test {
@@ -22,8 +23,8 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function(foo))
 
   ,
-6 |   @return call(foo, $args...);
-  |           ^^^^^^^^^^^^^^^^^^^
+7 |   @return meta.call(foo, $args...);
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:11  bar()
-    input.scss 10:9  root stylesheet
+    input.scss 7:11  bar()
+    input.scss 11:9  root stylesheet
