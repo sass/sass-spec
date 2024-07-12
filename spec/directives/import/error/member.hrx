@@ -7,6 +7,15 @@ b {c: $d}
 $d: e;
 
 <===> inaccessible/nested/variable/error
+DEPRECATION WARNING on line 1, column 12 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | a {@import "other"}
+  |            ^^^^^^^
+  '
+
 Error: Undefined variable.
   ,
 3 | b {c: $d}
@@ -25,6 +34,15 @@ b {@include c}
 @mixin c() {d: e};
 
 <===> inaccessible/nested/mixin/error
+DEPRECATION WARNING on line 1, column 12 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | a {@import "other"}
+  |            ^^^^^^^
+  '
+
 Error: Undefined mixin.
   ,
 3 | b {@include c}
@@ -46,3 +64,13 @@ b {c: d()}
 b {
   c: d();
 }
+
+<===> inaccessible/nested/function/warning
+DEPRECATION WARNING on line 1, column 12 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | a {@import "other"}
+  |            ^^^^^^^
+  '
