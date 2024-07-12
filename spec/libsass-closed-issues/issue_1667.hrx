@@ -1,12 +1,13 @@
 <===> input.scss
+@use "sass:map";
 $map: (
   1: 1,
   1px: 1px
 );
 
 foo {
-  a: map-get($map, 1);
-  b: map-get($map, 1px);
+  a: map.get($map, 1);
+  b: map.get($map, 1px);
 }
 
 $type-scale: (
@@ -41,8 +42,8 @@ $type-scale: (
 );
 
 @function get-size($size) {
-	@if map-has-key($type-scale, $size) {
-		@return map-get($type-scale, $size);
+	@if map.has-key($type-scale, $size) {
+		@return map.get($type-scale, $size);
 	}
 
 	@warn "Not a valid size.";

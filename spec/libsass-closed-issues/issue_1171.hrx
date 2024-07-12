@@ -1,18 +1,19 @@
 <===> input.scss
+@use "sass:list";
 @function foo($initial, $args...) {
-  $args: append($args, 3);
+  $args: list.append($args, 3);
 
   @return bar($initial, $args...);
 }
 
 @function bar($args...) {
-  @return length($args);
+  @return list.length($args);
 }
 
 @function baz($initial, $args...) {
-  $args: append($args, 3);
+  $args: list.append($args, 3);
 
-  @return nth($args, 1);
+  @return list.nth($args, 1);
 }
 
 .test {

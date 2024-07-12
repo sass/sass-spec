@@ -1,10 +1,13 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:math";
+@use "sass:meta";
 div {
   foo: (1a2b3c);
 
-  length-1: length(1a2b3c);
+  length-1: list.length(1a2b3c);
 
-  unit-1: unit(1a2b3c);
+  unit-1: math.unit(1a2b3c);
 
   result-1: 1em-.75em;
   result-2: 2em-1em;
@@ -12,12 +15,12 @@ div {
   result-4: 1.5em-1em;
   result-5: 2em-1.5em;
 
-  type-1: type-of(1em-.75em);
-  type-2: type-of(2em-1em);
-  type-3: type-of(2em-0.75em);
-  type-4: type-of(1.5em-1em);
-  type-5: type-of(2em-1.5em);
-  type-6: type-of(1a2b3c);
+  type-1: meta.type-of(1em-.75em);
+  type-2: meta.type-of(2em-1em);
+  type-3: meta.type-of(2em-0.75em);
+  type-4: meta.type-of(1.5em-1em);
+  type-5: meta.type-of(2em-1.5em);
+  type-6: meta.type-of(1a2b3c);
 
   test-1: (1-em-2-em);
   test-1: (1-em - 2-em);

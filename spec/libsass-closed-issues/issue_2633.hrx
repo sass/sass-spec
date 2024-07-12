@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:selector";
 $sel1: '.something__child + .something__child--mod1';
 $sel2: '.something__child ~ .something__child--mod2';
-$result1: selector-unify($sel1, $sel2);
+$result1: selector.unify($sel1, $sel2);
 
 #{$result1} {
   /* nothing */
@@ -10,7 +11,7 @@ $result1: selector-unify($sel1, $sel2);
 .a {
   color: blue;
   & > * {
-    @at-root #{selector-unify(&, '.b')} {
+    @at-root #{selector.unify(&, '.b')} {
       color: red;
     }
   }
@@ -19,7 +20,7 @@ $result1: selector-unify($sel1, $sel2);
 .a, .b {
   color: blue;
   & > * {
-    @at-root #{selector-unify(&, '.c, .d')} {
+    @at-root #{selector.unify(&, '.c, .d')} {
       color: red;
     }
   }

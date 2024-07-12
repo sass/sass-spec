@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:math";
 @mixin foo($option: 'foo') {
      // Create a unique, random placeholder to store styles
-    $placeholder : $option + random(9999);
+    $placeholder : $option + math.random(9999);
 
     // Store the styles in the placeholder
     @at-root %#{$placeholder} {

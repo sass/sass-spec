@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:color";
 $endColor: red;
 test {
-  background-color: darken($endColor, 10%) \9;
+  background-color: color.adjust($endColor, $lightness: -10%) \9;
 }
 <===> output.css
 test {
