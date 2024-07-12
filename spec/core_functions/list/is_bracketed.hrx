@@ -1,5 +1,6 @@
 <===> unbracketed/empty/input.scss
-a {b: is-bracketed(())}
+@use "sass:list";
+a {b: list.is-bracketed(())}
 
 <===> unbracketed/empty/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> unbracketed/single/input.scss
-a {b: is-bracketed((1,))}
+@use "sass:list";
+a {b: list.is-bracketed((1,))}
 
 <===> unbracketed/single/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> unbracketed/multi/input.scss
-a {b: is-bracketed(1 2 3)}
+@use "sass:list";
+a {b: list.is-bracketed(1 2 3)}
 
 <===> unbracketed/multi/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> unbracketed/non_list/input.scss
-a {b: is-bracketed(1)}
+@use "sass:list";
+a {b: list.is-bracketed(1)}
 
 <===> unbracketed/non_list/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> unbracketed/map/input.scss
-a {b: is-bracketed((c: d, e: f, g: h))}
+@use "sass:list";
+a {b: list.is-bracketed((c: d, e: f, g: h))}
 
 <===> unbracketed/map/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> bracketed/empty/input.scss
-a {b: is-bracketed([])}
+@use "sass:list";
+a {b: list.is-bracketed([])}
 
 <===> bracketed/empty/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> bracketed/single/input.scss
-a {b: is-bracketed([1])}
+@use "sass:list";
+a {b: list.is-bracketed([1])}
 
 <===> bracketed/single/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> bracketed/multi/input.scss
-a {b: is-bracketed([1, 2, 3])}
+@use "sass:list";
+a {b: list.is-bracketed([1, 2, 3])}
 
 <===> bracketed/multi/output.css
 a {
@@ -79,33 +87,35 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: is-bracketed()}
+@use "sass:list";
+a {b: list.is-bracketed()}
 
 <===> error/too_few_args/error
 Error: Missing argument $list.
   ,--> input.scss
-1 | a {b: is-bracketed()}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: list.is-bracketed()}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function is-bracketed($list) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: is-bracketed(a b, c d)}
+@use "sass:list";
+a {b: list.is-bracketed(a b, c d)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: is-bracketed(a b, c d)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: list.is-bracketed(a b, c d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function is-bracketed($list) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

@@ -1,5 +1,6 @@
 <===> simple/input.scss
-a {b: selector-extend(":is(.c)", ".c", ".d")}
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d")}
 
 <===> simple/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> list/input.scss
-a {b: selector-extend(":is(.c)", ".c", ".d, .e")}
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d, .e")}
 
 <===> list/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> is_in_extender/input.scss
-a {b: selector-extend(":is(.c)", ".c", ":is(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ":is(.d, .e)")}
 
 <===> is_in_extender/output.css
 a {

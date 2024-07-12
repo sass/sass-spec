@@ -1,5 +1,6 @@
 <===> selector/parent/input.scss
-a {b: selector-extend("&", "c", "d")}
+@use "sass:selector";
+a {b: selector.extend("&", "c", "d")}
 
 <===> selector/parent/error
 Error: $selector: Parent selectors aren't allowed here.
@@ -9,15 +10,16 @@ Error: $selector: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-extend("&", "c", "d")}
+2 | a {b: selector.extend("&", "c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> selector/invalid/input.scss
-a {b: selector-extend("[c", "d", "e")}
+@use "sass:selector";
+a {b: selector.extend("[c", "d", "e")}
 
 <===> selector/invalid/error
 Error: $selector: expected more input.
@@ -27,29 +29,31 @@ Error: $selector: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-extend("[c", "d", "e")}
+2 | a {b: selector.extend("[c", "d", "e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> selector/type/input.scss
-a {b: selector-extend(1, "c", "d")}
+@use "sass:selector";
+a {b: selector.extend(1, "c", "d")}
 
 <===> selector/type/error
 Error: $selector: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-extend(1, "c", "d")}
+2 | a {b: selector.extend(1, "c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extendee/parent/input.scss
-a {b: selector-extend("c", "&", "d")}
+@use "sass:selector";
+a {b: selector.extend("c", "&", "d")}
 
 <===> extendee/parent/error
 Error: $extendee: Parent selectors aren't allowed here.
@@ -59,41 +63,44 @@ Error: $extendee: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-extend("c", "&", "d")}
+2 | a {b: selector.extend("c", "&", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extendee/complex/string/input.scss
-a {b: selector-extend("c", "d e", "f")}
+@use "sass:selector";
+a {b: selector.extend("c", "d e", "f")}
 
 <===> extendee/complex/string/error
 Error: Can't extend complex selector d e.
   ,
-1 | a {b: selector-extend("c", "d e", "f")}
+2 | a {b: selector.extend("c", "d e", "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extendee/complex/list/input.scss
-a {b: selector-extend("c", d e, "f")}
+@use "sass:selector";
+a {b: selector.extend("c", d e, "f")}
 
 <===> extendee/complex/list/error
 Error: Can't extend complex selector d e.
   ,
-1 | a {b: selector-extend("c", d e, "f")}
+2 | a {b: selector.extend("c", d e, "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extendee/invalid/input.scss
-a {b: selector-extend("c", "[d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c", "[d", "e")}
 
 <===> extendee/invalid/error
 Error: $extendee: expected more input.
@@ -103,29 +110,31 @@ Error: $extendee: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-extend("c", "[d", "e")}
+2 | a {b: selector.extend("c", "[d", "e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extendee/type/input.scss
-a {b: selector-extend("c", 1, "d")}
+@use "sass:selector";
+a {b: selector.extend("c", 1, "d")}
 
 <===> extendee/type/error
 Error: $extendee: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-extend("c", 1, "d")}
+2 | a {b: selector.extend("c", 1, "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extender/parent/input.scss
-a {b: selector-extend("c", "d", "&")}
+@use "sass:selector";
+a {b: selector.extend("c", "d", "&")}
 
 <===> extender/parent/error
 Error: $extender: Parent selectors aren't allowed here.
@@ -135,15 +144,16 @@ Error: $extender: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-extend("c", "d", "&")}
+2 | a {b: selector.extend("c", "d", "&")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extender/invalid/input.scss
-a {b: selector-extend("c", "d", "[e")}
+@use "sass:selector";
+a {b: selector.extend("c", "d", "[e")}
 
 <===> extender/invalid/error
 Error: $extender: expected more input.
@@ -153,24 +163,25 @@ Error: $extender: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-extend("c", "d", "[e")}
+2 | a {b: selector.extend("c", "d", "[e")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extender/type/input.scss
-a {b: selector-extend("c", "d", 1)}
+@use "sass:selector";
+a {b: selector.extend("c", "d", 1)}
 
 <===> extender/type/error
 Error: $extender: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-extend("c", "d", 1)}
+2 | a {b: selector.extend("c", "d", 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -189,33 +200,35 @@ Error: Undefined function.
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: selector-extend("c", "d", "e", "f")}
+@use "sass:selector";
+a {b: selector.extend("c", "d", "e", "f")}
 
 <===> too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: selector-extend("c", "d", "e", "f")}
+2 | a {b: selector.extend("c", "d", "e", "f")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function extend($selector, $extendee, $extender) {
   |           ======================================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: selector-extend("c", "d")}
+@use "sass:selector";
+a {b: selector.extend("c", "d")}
 
 <===> too_few_args/error
 Error: Missing argument $extender.
   ,--> input.scss
-1 | a {b: selector-extend("c", "d")}
+2 | a {b: selector.extend("c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function extend($selector, $extendee, $extender) {
   |           ======================================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

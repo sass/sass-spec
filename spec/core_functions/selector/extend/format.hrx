@@ -7,7 +7,8 @@ spec just verifies one example for each parameter.
 <===>
 ================================================================================
 <===> input/non_string/selector/input.scss
-a {b: selector-extend((c, d c), "c", "e")}
+@use "sass:selector";
+a {b: selector.extend((c, d c), "c", "e")}
 
 <===> input/non_string/selector/output.css
 a {
@@ -17,7 +18,8 @@ a {
 <===>
 ================================================================================
 <===> input/non_string/extendee/input.scss
-a {b: selector-extend("c.d", (c, ".d"), ".e")}
+@use "sass:selector";
+a {b: selector.extend("c.d", (c, ".d"), ".e")}
 
 <===> input/non_string/extendee/output.css
 a {
@@ -27,7 +29,8 @@ a {
 <===>
 ================================================================================
 <===> input/non_string/extender/input.scss
-a {b: selector-extend("c", "c", (d, e f))}
+@use "sass:selector";
+a {b: selector.extend("c", "c", (d, e f))}
 
 <===> input/non_string/extender/output.css
 a {
@@ -37,7 +40,8 @@ a {
 <===>
 ================================================================================
 <===> input/multiple_extendees/compound/input.scss
-a {b: selector-extend("c.d", "c.d", ".e")}
+@use "sass:selector";
+a {b: selector.extend("c.d", "c.d", ".e")}
 
 <===> input/multiple_extendees/compound/output.css
 a {
@@ -47,7 +51,8 @@ a {
 <===>
 ================================================================================
 <===> input/multiple_extendees/list/input.scss
-a {b: selector-extend("c.d", "c, .d", ".e")}
+@use "sass:selector";
+a {b: selector.extend("c.d", "c, .d", ".e")}
 
 <===> input/multiple_extendees/list/output.css
 a {
@@ -57,7 +62,8 @@ a {
 <===>
 ================================================================================
 <===> input/multiple_extendees/list_of_compound/input.scss
-a {b: selector-extend("c.d.e.f", "c.d, .e.f", ".g")}
+@use "sass:selector";
+a {b: selector.extend("c.d.e.f", "c.d, .e.f", ".g")}
 
 <===> input/multiple_extendees/list_of_compound/output.css
 a {
@@ -67,7 +73,8 @@ a {
 <===>
 ================================================================================
 <===> output/input.scss
-$result: selector-extend("c d, e f", "g", "g");
+@use "sass:selector";
+$result: selector.extend("c d, e f", "g", "g");
 a {
   result: $result;
   structure: $result == ("c" "d", "e" "f");

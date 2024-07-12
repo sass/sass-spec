@@ -1,5 +1,6 @@
 <===> missing/input.scss
-a {b: selector-extend("c", "d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c", "d", "e")}
 
 <===> missing/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/element/alone/input.scss
-a {b: selector-extend("c.d", ".d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c.d", ".d", "e")}
 
 <===> conflict/element/alone/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/element/with_class/input.scss
-a {b: selector-extend("c.d", ".d", "e.f")}
+@use "sass:selector";
+a {b: selector.extend("c.d", ".d", "e.f")}
 
 <===> conflict/element/with_class/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/id/input.scss
-a {b: selector-extend("#c.d", ".d", "#e")}
+@use "sass:selector";
+a {b: selector.extend("#c.d", ".d", "#e")}
 
 <===> conflict/id/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/pseudo_element/unknown/input.scss
-a {b: selector-extend("::c.d", ".d", "::e")}
+@use "sass:selector";
+a {b: selector.extend("::c.d", ".d", "::e")}
 
 <===> conflict/pseudo_element/unknown/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/pseudo_element/class_syntax/input.scss
-a {b: selector-extend(":before.c", ".c", ":after")}
+@use "sass:selector";
+a {b: selector.extend(":before.c", ".c", ":after")}
 
 <===> conflict/pseudo_element/class_syntax/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/namespace_and_namespace/input.scss
-a {b: selector-extend("c|*.d", ".d", "e|*")}
+@use "sass:selector";
+a {b: selector.extend("c|*.d", ".d", "e|*")}
 
 <===> conflict/universal/namespace_and_namespace/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/namespace_and_empty/input.scss
-a {b: selector-extend("c|*.d", ".d", "|*")}
+@use "sass:selector";
+a {b: selector.extend("c|*.d", ".d", "|*")}
 
 <===> conflict/universal/namespace_and_empty/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/empty_and_namespace/input.scss
-a {b: selector-extend("|*.c", ".c", "d|*")}
+@use "sass:selector";
+a {b: selector.extend("|*.c", ".c", "d|*")}
 
 <===> conflict/universal/empty_and_namespace/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/namespace_and_default/input.scss
-a {b: selector-extend("c|*.d", ".d", "*")}
+@use "sass:selector";
+a {b: selector.extend("c|*.d", ".d", "*")}
 
 <===> conflict/universal/namespace_and_default/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/default_and_namespace/input.scss
-a {b: selector-extend("*.c", ".c", "d|*")}
+@use "sass:selector";
+a {b: selector.extend("*.c", ".c", "d|*")}
 
 <===> conflict/universal/default_and_namespace/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/empty_and_default/input.scss
-a {b: selector-extend("|*.c", ".c", "*")}
+@use "sass:selector";
+a {b: selector.extend("|*.c", ".c", "*")}
 
 <===> conflict/universal/empty_and_default/output.css
 a {
@@ -119,7 +131,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/universal/default_and_empty/input.scss
-a {b: selector-extend("*.c", ".c", "|*")}
+@use "sass:selector";
+a {b: selector.extend("*.c", ".c", "|*")}
 
 <===> conflict/universal/default_and_empty/output.css
 a {
@@ -129,7 +142,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/parent/input.scss
-a {b: selector-extend("c > .d", ".d", "e > .f")}
+@use "sass:selector";
+a {b: selector.extend("c > .d", ".d", "e > .f")}
 
 <===> conflict/parent/output.css
 a {
@@ -139,7 +153,8 @@ a {
 <===>
 ================================================================================
 <===> conflict/next_sibling/input.scss
-a {b: selector-extend("c + .d", ".d", "e + .f")}
+@use "sass:selector";
+a {b: selector.extend("c + .d", ".d", "e + .f")}
 
 <===> conflict/next_sibling/output.css
 a {
@@ -149,7 +164,8 @@ a {
 <===>
 ================================================================================
 <===> unification/identical_to_extendee/input.scss
-a {b: selector-extend("c.d", ".d", ".d")}
+@use "sass:selector";
+a {b: selector.extend("c.d", ".d", ".d")}
 
 <===> unification/identical_to_extendee/output.css
 a {
@@ -159,7 +175,8 @@ a {
 <===>
 ================================================================================
 <===> unification/identical_to_selector/input.scss
-a {b: selector-extend("c.d", ".d", "c.d")}
+@use "sass:selector";
+a {b: selector.extend("c.d", ".d", "c.d")}
 
 <===> unification/identical_to_selector/output.css
 a {
@@ -169,7 +186,8 @@ a {
 <===>
 ================================================================================
 <===> unification/additional/simple/input.scss
-a {b: selector-extend("c", "c", "c.d")}
+@use "sass:selector";
+a {b: selector.extend("c", "c", "c.d")}
 
 <===> unification/additional/simple/output.css
 a {
@@ -179,7 +197,8 @@ a {
 <===>
 ================================================================================
 <===> unification/additional/ancestor/input.scss
-a {b: selector-extend("c", "c", "d c")}
+@use "sass:selector";
+a {b: selector.extend("c", "c", "d c")}
 
 <===> unification/additional/ancestor/output.css
 a {
@@ -189,7 +208,8 @@ a {
 <===>
 ================================================================================
 <===> unification/additional/parent/input.scss
-a {b: selector-extend("c", "c", "d > c")}
+@use "sass:selector";
+a {b: selector.extend("c", "c", "d > c")}
 
 <===> unification/additional/parent/output.css
 a {
@@ -199,7 +219,8 @@ a {
 <===>
 ================================================================================
 <===> unification/additional/sibling/input.scss
-a {b: selector-extend("c", "c", "d ~ c")}
+@use "sass:selector";
+a {b: selector.extend("c", "c", "d ~ c")}
 
 <===> unification/additional/sibling/output.css
 a {
@@ -209,7 +230,8 @@ a {
 <===>
 ================================================================================
 <===> unification/additional/next_sibling/input.scss
-a {b: selector-extend("c", "c", "d + c")}
+@use "sass:selector";
+a {b: selector.extend("c", "c", "d + c")}
 
 <===> unification/additional/next_sibling/output.css
 a {
@@ -219,7 +241,8 @@ a {
 <===>
 ================================================================================
 <===> unification/subselector_of_target/is/input.scss
-a {b: selector-extend(".c:is(d)", ":is(d)", "d.e")}
+@use "sass:selector";
+a {b: selector.extend(".c:is(d)", ":is(d)", "d.e")}
 
 <===> unification/subselector_of_target/is/output.css
 a {
@@ -229,7 +252,8 @@ a {
 <===>
 ================================================================================
 <===> unification/subselector_of_target/where/input.scss
-a {b: selector-extend(".c:where(d)", ":where(d)", "d.e")}
+@use "sass:selector";
+a {b: selector.extend(".c:where(d)", ":where(d)", "d.e")}
 
 <===> unification/subselector_of_target/where/output.css
 a {
@@ -239,7 +263,8 @@ a {
 <===>
 ================================================================================
 <===> unification/subselector_of_target/matches/input.scss
-a {b: selector-extend(".c:matches(d)", ":matches(d)", "d.e")}
+@use "sass:selector";
+a {b: selector.extend(".c:matches(d)", ":matches(d)", "d.e")}
 
 <===> unification/subselector_of_target/matches/output.css
 a {
@@ -249,8 +274,9 @@ a {
 <===>
 ================================================================================
 <===> unification/specificity_modification/where/input.scss
+@use "sass:selector";
 a {
-  b: selector-extend(":where(.x)", ".x", ".x .y");
+  b: selector.extend(":where(.x)", ".x", ".x .y");
 }
 
 <===> unification/specificity_modification/where/output.css

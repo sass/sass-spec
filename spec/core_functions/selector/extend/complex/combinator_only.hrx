@@ -1,5 +1,6 @@
 <===> selector/input.scss
-a {b: selector-extend("+", ".c", ".d")}
+@use "sass:selector";
+a {b: selector.extend("+", ".c", ".d")}
 
 <===> selector/output.css
 a {
@@ -13,15 +14,16 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-extend("+", ".c", ".d")}
+2 | a {b: selector.extend("+", ".c", ".d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> extender/input.scss
-a {b: selector-extend(".c", ".c", ">")}
+@use "sass:selector";
+a {b: selector.extend(".c", ".c", ">")}
 
 <===> extender/output.css
 a {
@@ -35,7 +37,7 @@ This will be an error in Dart Sass 2.0.0.
 More info: https://sass-lang.com/d/bogus-combinators
 
   ,
-1 | a {b: selector-extend(".c", ".c", ">")}
+2 | a {b: selector.extend(".c", ".c", ">")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
