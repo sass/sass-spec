@@ -1,5 +1,6 @@
 <===> simple/input.scss
-a {b: selector-extend(":-ms-matches(.c)", ".c", ".d")}
+@use "sass:selector";
+a {b: selector.extend(":-ms-matches(.c)", ".c", ".d")}
 
 <===> simple/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> list/input.scss
-a {b: selector-extend(":-ms-matches(.c)", ".c", ".d, .e")}
+@use "sass:selector";
+a {b: selector.extend(":-ms-matches(.c)", ".c", ".d, .e")}
 
 <===> list/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> same_prefix_in_extender/input.scss
-a {b: selector-extend(":-ms-matches(.c)", ".c", ":-ms-matches(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":-ms-matches(.c)", ".c", ":-ms-matches(.d, .e)")}
 
 <===> same_prefix_in_extender/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> different_prefix_in_extender/input.scss
-a {b: selector-extend(":-ms-matches(.c)", ".c", ":-moz-matches(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":-ms-matches(.c)", ".c", ":-moz-matches(.d, .e)")}
 
 <===> different_prefix_in_extender/output.css
 a {

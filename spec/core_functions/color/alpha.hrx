@@ -86,7 +86,8 @@ Recommendation: alpha(c = d)
 <===>
 ================================================================================
 <===> opacity/positional/input.scss
-a {b: opacity(rgba(red, 0.2))}
+@use "sass:color";
+a {b: color.opacity(rgba(red, 0.2))}
 
 <===> opacity/positional/output.css
 a {
@@ -96,7 +97,8 @@ a {
 <===>
 ================================================================================
 <===> opacity/named/input.scss
-a {b: opacity($color: rgba(red, 0.2))}
+@use "sass:color";
+a {b: color.opacity($color: rgba(red, 0.2))}
 
 <===> opacity/named/output.css
 a {
