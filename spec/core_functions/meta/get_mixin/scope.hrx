@@ -11,7 +11,7 @@ $add-two-mixin: null;
 
   // This mixin reference will still refer to this nested `add-two` mixin
   // even when it goes out of scope.
-  $add-two-mixin: get-mixin(add-two) !global;
+  $add-two-mixin: meta.get-mixin(add-two) !global;
 }
 
 a {@include meta.apply($add-two-mixin, 10)}
@@ -35,7 +35,7 @@ a {
 
       // Like a normal mixin call, get-mixin() will always use the
       // innermost definition of a mixin.
-      @include meta.apply(get-mixin(add-two), 10);
+      @include meta.apply(meta.get-mixin(add-two), 10);
     }
   }
 }
