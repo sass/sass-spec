@@ -14,7 +14,7 @@ c {
 <===>
 ================================================================================
 <===> hsl/input.scss
-@import "plain";
+@use "plain";
 
 <===> hsl/plain.css
 a {b: hsl(0, 100%, 50%)}
@@ -27,7 +27,7 @@ a {
 <===>
 ================================================================================
 <===> hsla/input.scss
-@import "plain";
+@use "plain";
 
 <===> hsla/plain.css
 a {b: hsla(0, 100%, 50%, 0.5)}
@@ -40,7 +40,7 @@ a {
 <===>
 ================================================================================
 <===> rgb/input.scss
-@import "plain";
+@use "plain";
 
 <===> rgb/plain.css
 a {b: rgb(10, 20, 30)}
@@ -53,7 +53,7 @@ a {
 <===>
 ================================================================================
 <===> rgba/input.scss
-@import "plain";
+@use "plain";
 
 <===> rgba/plain.css
 a {b: rgba(10, 20, 30, 0.5)}
@@ -66,7 +66,7 @@ a {
 <===>
 ================================================================================
 <===> grayscale/input.scss
-@import "plain";
+@use "plain";
 
 <===> grayscale/plain.css
 a {b: grayscale(0.1)}
@@ -79,7 +79,7 @@ a {
 <===>
 ================================================================================
 <===> invert/input.scss
-@import "plain";
+@use "plain";
 
 <===> invert/plain.css
 a {b: invert(0.1)}
@@ -92,7 +92,7 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-@import "plain";
+@use "plain";
 
 <===> alpha/plain.css
 a {b: alpha(0.1)}
@@ -105,7 +105,7 @@ a {
 <===>
 ================================================================================
 <===> saturate/input.scss
-@import "plain";
+@use "plain";
 
 <===> saturate/plain.css
 a {b: saturate(0.1)}
@@ -118,7 +118,7 @@ a {
 <===>
 ================================================================================
 <===> empty_fallback_var/input.scss
-@import "plain";
+@use "plain";
 
 <===> empty_fallback_var/plain.css
 a {b: var(--c, )}
@@ -131,7 +131,7 @@ a {
 <===>
 ================================================================================
 <===> error/empty_fallback_var/invalid_second_arg_syntax/input.scss
-@import "plain";
+@use "plain";
 
 <===> error/empty_fallback_var/invalid_second_arg_syntax/plain.css
 a {b: var(--c, {})}
@@ -142,13 +142,13 @@ Error: Expected expression.
 1 | a {b: var(--c, {})}
   |                ^
   '
-  plain.css 1:16  @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:16  @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> error/empty_fallback_var/empty_second_before_third/input.scss
-@import "plain";
+@use "plain";
 
 <===> error/empty_fallback_var/empty_second_before_third/plain.css
 a {b: var(--c, , d)}
@@ -159,5 +159,5 @@ Error: Expected expression.
 1 | a {b: var(--c, , d)}
   |                ^
   '
-  plain.css 1:16  @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:16  @use
+  input.scss 1:1  root stylesheet
