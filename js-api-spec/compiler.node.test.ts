@@ -30,7 +30,7 @@ describe('Compiler', () => {
     it('performs complete compilations', () =>
       sandbox(dir => {
         const logger = getLogger();
-        dir.write({'input.scss': '@import "bar"; .fn {value: foo(bar)}'});
+        dir.write({'input.scss': '@use "bar"; .fn {value: foo(bar)}'});
         const result = compiler.compile(dir('input.scss'), {
           importers,
           functions,
@@ -52,7 +52,7 @@ describe('Compiler', () => {
             syntax: 'scss',
           }),
         };
-        dir.write({'input.scss': '@import "nested"; a {b: c}'});
+        dir.write({'input.scss': '@use "nested"; a {b: c}'});
         const result = compiler.compile(dir('input.scss'), {
           importers: [nestedImporter],
         });
@@ -91,7 +91,7 @@ describe('AsyncCompiler', () => {
             .map((_, i) => {
               const filename = `input-${i}.scss`;
               dir.write({
-                [filename]: `@import "${i}"; .fn {value: foo(${i})}`,
+                [filename]: `@use "${i}" as _; .fn {value: foo(${i})}`,
               });
               return compiler.compileAsync(dir(filename), {
                 importers: asyncImporters,
@@ -121,7 +121,7 @@ describe('AsyncCompiler', () => {
     it('waits for compilations to finish before disposing', () =>
       sandbox(async dir => {
         let completed = false;
-        dir.write({'input.scss': '@import "slow"'});
+        dir.write({'input.scss': '@use "slow"'});
         const {importer, triggerComplete} = getTriggeredImporter(
           () => (completed = true)
         );

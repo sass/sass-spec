@@ -131,7 +131,8 @@ describe('an error', () => {
   });
 });
 
-describe('for a future deprecation,', () => {
+// Excluding these tests since there aren't any future deprecations currently.
+xdescribe('for a future deprecation,', () => {
   let importer: Importer;
   beforeEach(() => {
     importer = {
