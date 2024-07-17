@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 @function foo() {
   @return 1+2 3/4 5+6;
 }
@@ -9,10 +11,10 @@
 
 div {
   content: foobar(1+2 3/4 5+6, orange);
-  content: append(1+2 2/3 5+6, orange);
+  content: list.append(1+2 2/3 5+6, orange);
   content: 1+2 2/3 5+6;
-  content: type-of(2/3);
-  content: type-of(orange);
+  content: meta.type-of(2/3);
+  content: meta.type-of(orange);
   content: foo();
   @include bar();
 }
@@ -35,10 +37,10 @@ Recommendation: math.div(2, 3)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-13 |   content: type-of(2/3);
-   |                    ^^^
+15 |   content: meta.type-of(2/3);
+   |                         ^^^
    '
-    input.scss 13:20  root stylesheet
+    input.scss 15:25  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -47,8 +49,8 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-5 | @mixin bar($x: 3/4) {
+7 | @mixin bar($x: 3/4) {
   |                ^^^
   '
-    input.scss 5:16  bar()
-    input.scss 16:3  root stylesheet
+    input.scss 7:16  bar()
+    input.scss 18:3  root stylesheet

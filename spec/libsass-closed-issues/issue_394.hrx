@@ -1,11 +1,12 @@
 <===> input.scss
+@use "sass:list";
 $list1: alpha beta gamma;
 $list2: one two three;
 
 $map: (alpha: one, beta: two, gamma: three);
 
 .ma-list {
-  @each $item1, $item2 in zip($list1, $list2) {
+  @each $item1, $item2 in list.zip($list1, $list2) {
     #{$item1}: $item2;
   }
 }

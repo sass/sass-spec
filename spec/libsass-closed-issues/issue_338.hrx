@@ -1,8 +1,9 @@
 <===> input.scss
+@use "sass:list";
 $list: ("a", "b");
 
 test {
-    content: if( length($list) > 2, nth($list, 3), nth($list, 1) );
+    content: if( list.length($list) > 2, list.nth($list, 3), list.nth($list, 1) );
 }
 
 <===> output.css

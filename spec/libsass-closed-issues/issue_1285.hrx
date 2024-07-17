@@ -1,8 +1,9 @@
 <===> input.scss
+@use "sass:color";
 .container {
   @for $i from 1 through 3 {
     @at-root .box-#{$i} {
-      color: darken(red,($i * 5));
+      color: color.adjust(red,$lightness: -($i * 5%));
     }
   }
 

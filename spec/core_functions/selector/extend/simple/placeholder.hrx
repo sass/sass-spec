@@ -1,5 +1,6 @@
 <===> equal/input.scss
-a {b: selector-extend("%c", "%c", "e")}
+@use "sass:selector";
+a {b: selector.extend("%c", "%c", "e")}
 
 <===> equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> unequal/input.scss
-a {b: selector-extend("%c", "%d", "e")}
+@use "sass:selector";
+a {b: selector.extend("%c", "%d", "e")}
 
 <===> unequal/output.css
 a {

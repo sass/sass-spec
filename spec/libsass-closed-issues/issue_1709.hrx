@@ -1,7 +1,10 @@
 <===> input.scss
+@use "sass:string";
+@use "sass:meta";
+
 @mixin transition( $prefix_properties, $transitions... ) {
 
-    @if not str-index( inspect( $transitions ), ',') {
+    @if not string.index( meta.inspect( $transitions ), ',') {
         $transitions: ( $transitions );
     }
 

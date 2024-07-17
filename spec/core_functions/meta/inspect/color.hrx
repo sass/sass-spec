@@ -74,12 +74,13 @@ alpha channel is anything other than 1, or the color name if it has one, or else
 the hex code.
 
 <===> generated/_utils.scss
+@use "sass:color";
 /// Returns a copy of `$color` that doesn't have color-literal metadata
 /// associated with it.
 @function generated-color($color) {
   // This doesn't change the value of `$color` at all, but it does construct a
   // new object.
-  @return scale-color($color, $blue: 0%);
+  @return color.scale($color, $blue: 0%);
 }
 
 <===>

@@ -1,11 +1,12 @@
 <===> input.scss
+@use "sass:string";
 @function test($pos) {
   @return test-#{$pos};
 }
 
 .foo {
-  content: test(str-slice('scale-0', 7));   // Nope
-  content: test-#{str-slice('scale-0', 7)}; // Yep
+  content: test(string.slice('scale-0', 7));   // Nope
+  content: test-#{string.slice('scale-0', 7)}; // Yep
 }
 <===> output.css
 .foo {

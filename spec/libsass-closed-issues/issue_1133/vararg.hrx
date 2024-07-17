@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:meta";
 @function foo($this, $my) {
   @return (this: $this, my: $my);
 }
@@ -11,7 +12,7 @@ a {
 }
 
 b {
-  $map: call("foo", (this: is, my: map)...);
+  $map: meta.call("foo", (this: is, my: map)...);
   @each $k, $v in $map {
     #{$k}: $v;
   }
@@ -34,7 +35,7 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function("foo"))
 
    ,
-13 |   $map: call("foo", (this: is, my: map)...);
-   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+14 |   $map: meta.call("foo", (this: is, my: map)...);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 13:9  root stylesheet
+    input.scss 14:9  root stylesheet

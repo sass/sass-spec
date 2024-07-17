@@ -2,11 +2,12 @@
 @use "other" with ($a: configured);
 
 <===> _other.scss
-$before-declaration: variable-exists(a);
+@use "sass:meta";
+$before-declaration: meta.variable-exists(a);
 $a: original !default;
 b {
   before-declaration: $before-declaration;
-  after-declaration: variable-exists(a);
+  after-declaration: meta.variable-exists(a);
 }
 
 <===> output.css

@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 div {
     foo: 'A'#{B};
     foo: #{A}'B';
@@ -14,31 +16,31 @@ div {
 }
 
 div {
-    foo: type-of('A'#{B});
-    foo: type-of(#{A}'B');
-    foo: type-of('A'#{B}'C');
-    foo: type-of(#{A}'B'#{C});
-    foo: type-of(A#{B}'C');
-    foo: type-of('A'#{B}C);
-    foo: type-of(#{A}B'C');
-    foo: type-of('A'#{B}C'D');
-    foo: type-of('A'B#{C}D'E');
-    foo: type-of(A'B'#{C}D'E');
-    foo: type-of(#{A}'B'C'D''E');
+    foo: meta.type-of('A'#{B});
+    foo: meta.type-of(#{A}'B');
+    foo: meta.type-of('A'#{B}'C');
+    foo: meta.type-of(#{A}'B'#{C});
+    foo: meta.type-of(A#{B}'C');
+    foo: meta.type-of('A'#{B}C);
+    foo: meta.type-of(#{A}B'C');
+    foo: meta.type-of('A'#{B}C'D');
+    foo: meta.type-of('A'B#{C}D'E');
+    foo: meta.type-of(A'B'#{C}D'E');
+    foo: meta.type-of(#{A}'B'C'D''E');
 }
 
 div {
-    foo: length('A'#{B});
-    foo: length(#{A}'B');
-    foo: length('A'#{B}'C');
-    foo: length(#{A}'B'#{C});
-    foo: length(A#{B}'C');
-    foo: length('A'#{B}C);
-    foo: length(#{A}B'C');
-    foo: length('A'#{B}C'D');
-    foo: length('A'B#{C}D'E');
-    foo: length(A'B'#{C}D'E');
-    foo: length(#{A}'B'C'D''E');
+    foo: list.length('A'#{B});
+    foo: list.length(#{A}'B');
+    foo: list.length('A'#{B}'C');
+    foo: list.length(#{A}'B'#{C});
+    foo: list.length(A#{B}'C');
+    foo: list.length('A'#{B}C);
+    foo: list.length(#{A}B'C');
+    foo: list.length('A'#{B}C'D');
+    foo: list.length('A'B#{C}D'E');
+    foo: list.length(A'B'#{C}D'E');
+    foo: list.length(#{A}'B'C'D''E');
 }
 <===> output.css
 div {

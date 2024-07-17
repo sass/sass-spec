@@ -4,6 +4,11 @@
 - dart-sass
 
 <===> input.scss
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:selector";
+@use "sass:string";
 // ----
 // Sass (v3.4.21)
 // Compass (v1.0.3)
@@ -11,20 +16,20 @@
 
 @function remove-modifiers($selector) {
     // convert selector to a string
-    $selector: inspect(nth($selector, 1));
+    $selector: meta.inspect(list.nth($selector, 1));
   
     $modifier: '';
   
     // Find out where the first modifier starts
-    $modifier-index: str-index($selector, '"--');
+    $modifier-index: string.index($selector, '"--');
   
     @if $modifier-index {
       // Strip the first part of the selector up until the first modifier
-      $modifier: str-slice($selector, $modifier-index);
+      $modifier: string.slice($selector, $modifier-index);
       // Find out where the modifier ends
-      $modifier-end: str-index($modifier, '"]');
+      $modifier-end: string.index($modifier, '"]');
       // Isolate the modifier
-      $modifier: str-slice($modifier, 0, $modifier-end);
+      $modifier: string.slice($modifier, 0, $modifier-end);
       // Remove the modifier from the selector
       $selector: str-replace($selector, $modifier, '');
       // Remove junk characters
@@ -40,12 +45,12 @@
     $result: ();
     
     @each $item in $list {
-      @if not index($result, $item) {
-        @if length($item) > 1 and $recursive {
-          $result: append($result, remove-duplicates($item, $recursive));
+      @if not list.index($result, $item) {
+        @if list.length($item) > 1 and $recursive {
+          $result: list.append($result, remove-duplicates($item, $recursive));
         }
         @else {
-          $result: append($result, $item);
+          $result: list.append($result, $item);
         }
       }
     }
@@ -54,11 +59,11 @@
   }
   
   @function str-replace($string, $search, $replace) { 
-    $index: str-index($string, $search);
+    $index: string.index($string, $search);
   
     @if $index {
-      @return str-slice($string, 1, $index - 1) + $replace + str-replace(
-        str-slice($string, $index + str-length($search)), $search, $replace
+      @return string.slice($string, 1, $index - 1) + $replace + str-replace(
+        string.slice($string, $index + string.length($search)), $search, $replace
       );
     }
   
@@ -80,7 +85,7 @@
   
     // Spoof our modules into a list
     $selectors: str-replace($selectors, ' ', ', ');
-    $selectors: selector-parse($selectors);
+    $selectors: selector.parse($selectors);
   
     @return $selectors;
   }
@@ -88,11 +93,11 @@
   @function list-remove($list, $value, $recursive: false) { 
       $result: ();
   
-      @for $i from 1 through length($list) {
-          @if type-of(nth($list, $i)) == list and $recursive {
-              $result: append($result, list-remove(nth($list, $i), $value, $recursive), comma);
-          } @else if nth($list, $i) != $value {
-              $result: append($result, nth($list, $i), comma);
+      @for $i from 1 through list.length($list) {
+          @if meta.type-of(list.nth($list, $i)) == list and $recursive {
+              $result: list.append($result, list-remove(list.nth($list, $i), $value, $recursive), comma);
+          } @else if list.nth($list, $i) != $value {
+              $result: list.append($result, list.nth($list, $i), comma);
           }
       }
   
@@ -100,13 +105,13 @@
    }
    
   @function this($options...) {
-    $value: map-get($config, $options...);
+    $value: map.get($config, $options...);
     $debug: true;
   
     $this: &;
   
-    @if length($this) > 0 {
-      @if str-index(inspect(nth($this, 1)), '%') == 1 {
+    @if list.length($this) > 0 {
+      @if string.index(meta.inspect(list.nth($this, 1)), '%') == 1 {
         $debug: false;
       }
     }
@@ -120,7 +125,7 @@
   
   @function config($map-old, $map-new) {
       // Merge default and custom options
-      $map-merged: map-merge($map-old, $map-new);
+      $map-merged: map.merge($map-old, $map-new);
     
       // Store config in global variable
       $config: $map-merged !global;
@@ -139,8 +144,8 @@
     $selectors: ();
   
     @each $item in $module {
-      $selectors: join($selectors, '.#{$module}', comma);
-      $selectors: join($selectors, '[class*="#{$module}--"]', comma);
+      $selectors: list.join($selectors, '.#{$module}', comma);
+      $selectors: list.join($selectors, '[class*="#{$module}--"]', comma);
     }
       
     #{$selectors} {
@@ -152,13 +157,13 @@
       $selectors: '[class*="#{$module}#{$glue}"]';
       $this: &;
       $tree: module-tree($this);
-      $namespace: nth($tree, length($tree));
+      $namespace: list.nth($tree, list.length($tree));
   
       @if $components {
         $selectors: ();
   
         @each $component in $components {
-          $selectors: join(
+          $selectors: list.join(
             $selectors, 
             '.#{$namespace}#{$glue}#{$component}, [class*="#{$namespace}#{$glue}#{$component}-"]', 
             comma
@@ -170,29 +175,29 @@
   
       @each $selector in & {
         // spoof the selector into a list
-        $selector: str-replace(inspect($selector), ' ', ', ');
-        $selector: selector-parse($selector);
+        $selector: str-replace(meta.inspect($selector), ' ', ', ');
+        $selector: selector.parse($selector);
   
         // if the last item isn't a modifier, remove it
-        @if not str-index(inspect(nth($selector, length($selector))), '[class*="--') {
-          $selector: list-remove($selector, nth($selector, length($selector)));
+        @if not string.index(meta.inspect(list.nth($selector, list.length($selector))), '[class*="--') {
+          $selector: list-remove($selector, list.nth($selector, list.length($selector)));
         }
   
         // convert the selector back into a string
-        @if length($selector) == 1 {
-          $selector: nth($selector, 1);
+        @if list.length($selector) == 1 {
+          $selector: list.nth($selector, 1);
         }
-        $selector: str-replace(inspect($selector), ', ', ' ');
+        $selector: str-replace(meta.inspect($selector), ', ', ' ');
   
         // Re-build the parent selector
-        $parents: append($parents, $selector, comma);
+        $parents: list.append($parents, $selector, comma);
       }
   
       // remove duplicate selectors
       $parents: remove-duplicates($parents);
   
-      @if length($parents) == 1 {
-        $parents: nth($parents, 1);
+      @if list.length($parents) == 1 {
+        $parents: list.nth($parents, 1);
       }
   
       @if ($parents == '()') {
@@ -212,12 +217,12 @@
   @mixin modifier($modifier) {
     $selectors: &;
   
-    @if str-index(inspect(&), '.#{$module}') {
+    @if string.index(meta.inspect(&), '.#{$module}') {
       $selectors: ();
   
-      @for $i from 1 through length(&) {
+      @for $i from 1 through list.length(&) {
         @if $i % 2 == 0 {
-          $selectors: append($selectors, nth(&, $i), comma);
+          $selectors: list.append($selectors, list.nth(&, $i), comma);
         }
       }
     }
@@ -226,7 +231,7 @@
       $modifier-selectors: ();
       
       @each $item in $modifier {
-        $modifier-selectors: join(
+        $modifier-selectors: list.join(
           $modifier-selectors, '&[class*="--#{$modifier}"]', comma
         );
       }

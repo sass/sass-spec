@@ -29,7 +29,8 @@ a {
 <===>
 ================================================================================
 <===> variable/before/input.scss
-$c: unquote("1 +");
+@use "sass:string";
+$c: string.unquote("1 +");
 a {b: calc($c 2)}
 
 <===> variable/before/output.css
@@ -40,7 +41,8 @@ a {
 <===>
 ================================================================================
 <===> variable/after/input.scss
-$c: unquote("+ 2");
+@use "sass:string";
+$c: string.unquote("+ 2");
 a {b: calc(1 $c)}
 
 <===> variable/after/output.css
@@ -51,7 +53,8 @@ a {
 <===>
 ================================================================================
 <===> variable/between/input.scss
-$c: unquote("+ 2 +");
+@use "sass:string";
+$c: string.unquote("+ 2 +");
 a {b: calc(1 $c 3)}
 
 <===> variable/between/output.css

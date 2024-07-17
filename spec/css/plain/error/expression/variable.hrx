@@ -1,5 +1,5 @@
 <===> use/input.scss
-@import 'plain'
+@use 'plain'
 <===> use/plain.css
 a {
   x: $var;
@@ -11,13 +11,13 @@ Error: Sass variables aren't allowed in plain CSS.
 2 |   x: $var;
   |      ^^^^
   '
-  plain.css 2:6   @import
-  input.scss 1:9  root stylesheet
+  plain.css 2:6   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> declaration/input.scss
-@import 'plain'
+@use 'plain'
 <===> declaration/plain.css
 $var: value;
 
@@ -27,5 +27,5 @@ Error: Sass variables aren't allowed in plain CSS.
 1 | $var: value;
   | ^^^^
   '
-  plain.css 1:1   @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:1   @use
+  input.scss 1:1  root stylesheet

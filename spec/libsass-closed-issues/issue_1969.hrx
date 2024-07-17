@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:color";
 $base-text-color: #666;
 
 @function calcNavbarTextColor ($base-text-color) {
@@ -8,7 +9,7 @@ $base-text-color: #666;
 $header-text-color: calcNavbarTextColor($base-text-color);
 
 .test_class {
-        color: lighten($header-text-color, 20%);
+        color: color.adjust($header-text-color, $lightness: 20%);
 }
 <===> output.css
 .test_class {

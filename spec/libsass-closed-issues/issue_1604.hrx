@@ -1,12 +1,15 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
+
 @function test($args...) {
   $all: ();
 
   @each $arg in $args {
-    $all: append($all, $arg);
+    $all: list.append($all, $arg);
   }
 
-  @return inspect($all);
+  @return meta.inspect($all);
 }
 
 test {

@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:meta";
 a {
-  b: inspect((1 / 1px / 1rad));
+  b: meta.inspect((1 / 1px / 1rad));
 }
 
 <===> output.css
@@ -16,10 +17,10 @@ Recommendation: math.div(1, 1px) or calc(1 / 1px)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 |   b: inspect((1 / 1px / 1rad));
-  |               ^^^^^^^
+3 |   b: meta.inspect((1 / 1px / 1rad));
+  |                    ^^^^^^^
   '
-    input.scss 2:15  root stylesheet
+    input.scss 3:20  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -28,7 +29,7 @@ Recommendation: math.div(math.div(1, 1px), 1rad) or calc(1 / 1px / 1rad)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-2 |   b: inspect((1 / 1px / 1rad));
-  |               ^^^^^^^^^^^^^^
+3 |   b: meta.inspect((1 / 1px / 1rad));
+  |                    ^^^^^^^^^^^^^^
   '
-    input.scss 2:15  root stylesheet
+    input.scss 3:20  root stylesheet

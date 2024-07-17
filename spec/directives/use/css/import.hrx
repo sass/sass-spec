@@ -24,6 +24,16 @@ in-input {
   a: b;
 }
 
+<===> use_into_import/warning
+DEPRECATION WARNING on line 1, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
+
 <===>
 ================================================================================
 <===> use_into_import_into_use/input.scss
@@ -61,6 +71,16 @@ in-input {
   a: b;
 }
 
+<===> use_into_import_into_use/warning
+DEPRECATION WARNING on line 1, column 9 of _used-downstream.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
+
 <===>
 ================================================================================
 <===> use_and_import_same/input.scss
@@ -87,6 +107,15 @@ a {
 }
 
 <===> use_and_import_same/warning
+DEPRECATION WARNING on line 5, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+5 | @import "other";
+  |         ^^^^^^^
+  '
+
 _other.scss:3 DEBUG: evaluating other
 _other.scss:3 DEBUG: evaluating other
 
@@ -118,6 +147,15 @@ a {
 }
 
 <===> use_module_used_by_import/warning
+DEPRECATION WARNING on line 2, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 | @import "imported";
+  |         ^^^^^^^^^^
+  '
+
 _shared.scss:3 DEBUG: evaluating shared
 
 <===>
@@ -148,6 +186,16 @@ in-input {
   a: b;
 }
 
+<===> import_into_use/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
+
 <===>
 ================================================================================
 <===> nested_import_into_use/input.scss
@@ -170,10 +218,19 @@ in-used {parent: meta.inspect(&)}
 outer in-used {
   parent: (in-used,);
 }
-
 outer in-imported {
   parent: (outer in-imported,);
 }
+
+<===> nested_import_into_use/warning
+DEPRECATION WARNING on line 1, column 16 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | outer {@import "imported"}
+  |                ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -212,6 +269,25 @@ in-input {
   a: b;
 }
 
+<===> import_into_use_into_import/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported-downstream";
+  |         ^^^^^^^^^^^^^^^^^^^^^
+  '
+
+DEPRECATION WARNING on line 1, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported-upstream";
+  |         ^^^^^^^^^^^^^^^^^^^
+  '
+
 <===>
 ================================================================================
 <===> import_module_imported_by_use/input.scss
@@ -238,5 +314,23 @@ a {
 }
 
 <===> import_module_imported_by_use/warning
+DEPRECATION WARNING on line 2, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 | @import "shared";
+  |         ^^^^^^^^
+  '
+
+DEPRECATION WARNING on line 1, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "shared";
+  |         ^^^^^^^^
+  '
+
 _shared.scss:3 DEBUG: evaluating shared
 _shared.scss:3 DEBUG: evaluating shared

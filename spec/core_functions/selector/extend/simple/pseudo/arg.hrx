@@ -1,5 +1,6 @@
 <===> class/equal/input.scss
-a {b: selector-extend(":c(@#$)", ":c(@#$)", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c(@#$)", ":c(@#$)", "e")}
 
 <===> class/equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> class/unequal/name/input.scss
-a {b: selector-extend(":c(@#$)", ":d(@#$)", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c(@#$)", ":d(@#$)", "e")}
 
 <===> class/unequal/name/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> class/unequal/argument/input.scss
-a {b: selector-extend(":c(@#$)", ":c(*&^)", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c(@#$)", ":c(*&^)", "e")}
 
 <===> class/unequal/argument/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> class/unequal/has_argument/input.scss
-a {b: selector-extend(":c(@#$)", ":c", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c(@#$)", ":c", "e")}
 
 <===> class/unequal/has_argument/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> element/equal/input.scss
-a {b: selector-extend("::c(@#$)", "::c(@#$)", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c(@#$)", "::c(@#$)", "e")}
 
 <===> element/equal/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> element/unequal/name/input.scss
-a {b: selector-extend("::c(@#$)", ":d(@#$)", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c(@#$)", ":d(@#$)", "e")}
 
 <===> element/unequal/name/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> element/unequal/argument/input.scss
-a {b: selector-extend("::c(@#$)", "::c(*&^)", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c(@#$)", "::c(*&^)", "e")}
 
 <===> element/unequal/argument/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> element/unequal/has_argument/input.scss
-a {b: selector-extend("::c(@#$)", "::c", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c(@#$)", "::c", "e")}
 
 <===> element/unequal/has_argument/output.css
 a {

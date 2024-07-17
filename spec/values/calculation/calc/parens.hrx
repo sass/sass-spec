@@ -50,7 +50,8 @@ a {
 <===>
 ================================================================================
 <===> variable/input.scss
-$c: unquote("1 + 2");
+@use "sass:string";
+$c: string.unquote("1 + 2");
 a {b: calc(($c))}
 
 <===> variable/output.css

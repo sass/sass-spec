@@ -1,12 +1,13 @@
 <===> input.scss
+@use "sass:meta";
 $quoted: "green";
 $unquoted: green;
 
 .test {
-  string: type-of($quoted);
-  color: type-of($unquoted);
-  string: type-of("green");
-  color: type-of(green);
+  string: meta.type-of($quoted);
+  color: meta.type-of($unquoted);
+  string: meta.type-of("green");
+  color: meta.type-of(green);
 }
 
 <===> output.css

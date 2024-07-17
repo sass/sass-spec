@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:map";
 $tablet-portrait:                 768px;
 $tablet-landscape:                980px;
 $desk-normal:                     1120px;
@@ -26,7 +27,7 @@ $grid-breakpoints-immobile: (
   }
 }
 
-@each $name in map-keys($grid-breakpoints-immobile) {
+@each $name in map.keys($grid-breakpoints-immobile) {
   @include grid-media-query($name, $grid-breakpoints-immobile) {
     body.immobile & {
       margin-bottom: 0;
@@ -37,9 +38,9 @@ $grid-breakpoints-immobile: (
 <===> error
 Error: Top-level selectors may not contain the parent selector "&".
    ,
-30 |     body.immobile & {
+31 |     body.immobile & {
    |                   ^
    '
-  input.scss 30:19  @content
-  input.scss 22:9   grid-media-query()
-  input.scss 29:3   root stylesheet
+  input.scss 31:19  @content
+  input.scss 23:9   grid-media-query()
+  input.scss 30:3   root stylesheet

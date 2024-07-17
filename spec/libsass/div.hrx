@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 $x: 3/4;
 $xs: hey 3/4 ho;
 
@@ -8,9 +10,9 @@ div {
   b: hey $x ho;
   /* $xs: hey 3/4 ho */
   c: $xs;
-  d: nth($xs, 2);
-  e: nth($xs, 2) == 0.75;
-  f: type-of(nth($xs, 2));
+  d: list.nth($xs, 2);
+  e: list.nth($xs, 2) == 0.75;
+  f: meta.type-of(list.nth($xs, 2));
 }
 <===> output.css
 div {
@@ -32,10 +34,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | $x: 3/4;
+3 | $x: 3/4;
   |     ^^^
   '
-    input.scss 1:5  root stylesheet
+    input.scss 3:5  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -44,10 +46,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-10 |   d: nth($xs, 2);
-   |      ^^^^^^^^^^^
+12 |   d: list.nth($xs, 2);
+   |      ^^^^^^^^^^^^^^^^
    '
-    input.scss 10:6  root stylesheet
+    input.scss 12:6  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -56,10 +58,10 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-11 |   e: nth($xs, 2) == 0.75;
-   |      ^^^^^^^^^^^
+13 |   e: list.nth($xs, 2) == 0.75;
+   |      ^^^^^^^^^^^^^^^^
    '
-    input.scss 11:6  root stylesheet
+    input.scss 13:6  root stylesheet
 
 DEPRECATION WARNING: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -68,7 +70,7 @@ Recommendation: math.div(3, 4)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-12 |   f: type-of(nth($xs, 2));
-   |              ^^^^^^^^^^^
+14 |   f: meta.type-of(list.nth($xs, 2));
+   |                   ^^^^^^^^^^^^^^^^
    '
-    input.scss 12:14  root stylesheet
+    input.scss 14:19  root stylesheet

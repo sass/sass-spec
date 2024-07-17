@@ -1,11 +1,12 @@
 <===> input.scss
-@debug(selector-extend(".a .b", ".b", null));
+@use "sass:selector";
+@debug(selector.extend(".a .b", ".b", null));
 
 <===> error
 Error: $extender: null is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | @debug(selector-extend(".a .b", ".b", null));
+2 | @debug(selector.extend(".a .b", ".b", null));
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:8  root stylesheet
+  input.scss 2:8  root stylesheet

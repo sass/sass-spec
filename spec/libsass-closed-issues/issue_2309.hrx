@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:map";
 $button-sizes: (
   'xs': (
     'line-height': 16 / 12,
@@ -15,10 +17,10 @@ $button-sizes: (
 );
 
 @each $size in $button-sizes {
-  $size-metrics: nth($size, 2);
+  $size-metrics: list.nth($size, 2);
 
   .c-button__icon {
-    min-height: map-get($size-metrics, 'line-height') * 1em;
+    min-height: map.get($size-metrics, 'line-height') * 1em;
   }
 }
 <===> output.css
@@ -46,10 +48,10 @@ Recommendation: math.div(16, 12) or calc(16 / 12)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |     'line-height': 16 / 12,
+5 |     'line-height': 16 / 12,
   |                    ^^^^^^^
   '
-    input.scss 3:20  root stylesheet
+    input.scss 5:20  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -58,10 +60,10 @@ Recommendation: math.div(18, 14) or calc(18 / 14)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-6 |     'line-height': 18 / 14,
+8 |     'line-height': 18 / 14,
   |                    ^^^^^^^
   '
-    input.scss 6:20  root stylesheet
+    input.scss 8:20  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -69,11 +71,11 @@ Recommendation: math.div(18, 14) or calc(18 / 14)
 
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
-  ,
-9 |     'line-height': 18 / 14,
-  |                    ^^^^^^^
-  '
-    input.scss 9:20  root stylesheet
+   ,
+11 |     'line-height': 18 / 14,
+   |                    ^^^^^^^
+   '
+    input.scss 11:20  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -82,7 +84,7 @@ Recommendation: math.div(22, 16) or calc(22 / 16)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-12 |     'line-height': 22 / 16,
+14 |     'line-height': 22 / 16,
    |                    ^^^^^^^
    '
-    input.scss 12:20  root stylesheet
+    input.scss 14:20  root stylesheet

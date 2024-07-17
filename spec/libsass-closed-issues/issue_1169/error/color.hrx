@@ -1,18 +1,20 @@
 <===> input.scss
+@use "sass:meta";
+
 $map: (
   red: 'foo',
   red: 'bar',
 );
 
 .foo {
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 <===> error
 Error: Duplicate key.
   ,
-2 |   red: 'foo',
+4 |   red: 'foo',
   |   === first key
-3 |   red: 'bar',
+5 |   red: 'bar',
   |   ^^^ second key
   '
-  input.scss 3:3  root stylesheet
+  input.scss 5:3  root stylesheet

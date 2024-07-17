@@ -1,24 +1,25 @@
 <===> input.scss
+@use "sass:string";
 @warn "\"foo\"" + "";
 @warn "" + "\"foo\"";
 @warn "" + "\"foo";
 @warn "\"foo\"" + "bar";
-@warn unquote("\"foo\" and \"bar\"");
+@warn string.unquote("\"foo\" and \"bar\"");
 
 <===> output.css
 
 <===> warning
 WARNING: "foo"
-    input.scss 1:1  root stylesheet
-
-WARNING: "foo"
     input.scss 2:1  root stylesheet
 
-WARNING: "foo
+WARNING: "foo"
     input.scss 3:1  root stylesheet
 
-WARNING: "foo"bar
+WARNING: "foo
     input.scss 4:1  root stylesheet
 
-WARNING: "foo" and "bar"
+WARNING: "foo"bar
     input.scss 5:1  root stylesheet
+
+WARNING: "foo" and "bar"
+    input.scss 6:1  root stylesheet

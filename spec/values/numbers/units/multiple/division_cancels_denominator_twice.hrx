@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:meta";
 $number: 1px * 1rad / 1ms / 1Hz;
 a {
-  b: inspect($number / (1 / 1ms / 1Hz));
+  b: meta.inspect($number / (1 / 1ms / 1Hz));
 }
 
 <===> output.css
@@ -17,10 +18,10 @@ Recommendation: math.div(1px * 1rad, 1ms) or calc(1px * 1rad / 1ms)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | $number: 1px * 1rad / 1ms / 1Hz;
+2 | $number: 1px * 1rad / 1ms / 1Hz;
   |          ^^^^^^^^^^^^^^^^
   '
-    input.scss 1:10  root stylesheet
+    input.scss 2:10  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -29,10 +30,10 @@ Recommendation: math.div(math.div(1px * 1rad, 1ms), 1Hz) or calc(1px * 1rad / 1m
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | $number: 1px * 1rad / 1ms / 1Hz;
+2 | $number: 1px * 1rad / 1ms / 1Hz;
   |          ^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:10  root stylesheet
+    input.scss 2:10  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -41,10 +42,10 @@ Recommendation: math.div(1, 1ms) or calc(1 / 1ms)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |   b: inspect($number / (1 / 1ms / 1Hz));
-  |                         ^^^^^^^
+4 |   b: meta.inspect($number / (1 / 1ms / 1Hz));
+  |                              ^^^^^^^
   '
-    input.scss 3:25  root stylesheet
+    input.scss 4:30  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -53,10 +54,10 @@ Recommendation: math.div(math.div(1, 1ms), 1Hz) or calc(1 / 1ms / 1Hz)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |   b: inspect($number / (1 / 1ms / 1Hz));
-  |                         ^^^^^^^^^^^^^
+4 |   b: meta.inspect($number / (1 / 1ms / 1Hz));
+  |                              ^^^^^^^^^^^^^
   '
-    input.scss 3:25  root stylesheet
+    input.scss 4:30  root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -65,7 +66,7 @@ Recommendation: math.div($number, 1 / 1ms / 1Hz) or calc($number / (1 / 1ms / 1H
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-3 |   b: inspect($number / (1 / 1ms / 1Hz));
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^
+4 |   b: meta.inspect($number / (1 / 1ms / 1Hz));
+  |                   ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 3:14  root stylesheet
+    input.scss 4:19  root stylesheet

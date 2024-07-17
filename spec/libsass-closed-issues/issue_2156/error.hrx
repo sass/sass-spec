@@ -1,10 +1,11 @@
 <===> input.scss
-@error unquote("\"foo\" and \"bar\"");
+@use "sass:string";
+@error string.unquote("\"foo\" and \"bar\"");
 
 <===> error
 Error: "foo" and "bar"
   ,
-1 | @error unquote("\"foo\" and \"bar\"");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | @error string.unquote("\"foo\" and \"bar\"");
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:1  root stylesheet
+  input.scss 2:1  root stylesheet

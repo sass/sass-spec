@@ -1,5 +1,6 @@
 <===> equal/input.scss
-a {b: selector-extend("[c=d]", "[c=d]", "e")}
+@use "sass:selector";
+a {b: selector.extend("[c=d]", "[c=d]", "e")}
 
 <===> equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> unequal/name/input.scss
-a {b: selector-extend("[c=d]", "[e=d]", "f")}
+@use "sass:selector";
+a {b: selector.extend("[c=d]", "[e=d]", "f")}
 
 <===> unequal/name/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> unequal/value/input.scss
-a {b: selector-extend("[c=d]", "[c=e]", "f")}
+@use "sass:selector";
+a {b: selector.extend("[c=d]", "[c=e]", "f")}
 
 <===> unequal/value/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> unequal/operator/input.scss
-a {b: selector-extend("[c=d]", "[c^=d]", "f")}
+@use "sass:selector";
+a {b: selector.extend("[c=d]", "[c^=d]", "f")}
 
 <===> unequal/operator/output.css
 a {
