@@ -9,6 +9,39 @@ a {
 
 <===>
 ================================================================================
+<===> hue/degenerate/positive_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(calc(infinity), 30%, 40%, 0.5)}
+
+<===> hue/degenerate/positive_infinity/output.css
+a {
+  b: hsla(0, 0%, 30%, 0.5);
+}
+
+<===>
+================================================================================
+<===> hue/degenerate/negative_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(calc(-infinity), 30%, 40%, 0.5)}
+
+<===> hue/degenerate/negative_infinity/output.css
+a {
+  b: hsla(0, 0%, 30%, 0.5);
+}
+
+<===>
+================================================================================
+<===> hue/degenerate/nan/input.scss
+@use 'sass:color';
+a {b: color.hwb(calc(NaN), 30%, 40%, 0.5)}
+
+<===> hue/degenerate/nan/output.css
+a {
+  b: hsla(0, 0%, 30%, 0.5);
+}
+
+<===>
+================================================================================
 <===> whiteness/above_max/input.scss
 @use 'sass:color';
 a {b: color.hwb(0, 101%, 40%, 0.5)}
@@ -42,6 +75,39 @@ a {
 
 <===>
 ================================================================================
+<===> whiteness/degenerate/positive_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, calc(infinity * 1%), 40%, 0.5)}
+
+<===> whiteness/degenerate/positive_infinity/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
+}
+
+<===>
+================================================================================
+<===> whiteness/degenerate/negative_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, calc(-infinity * 1%), 40%, 0.5)}
+
+<===> whiteness/degenerate/negative_infinity/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
+}
+
+<===>
+================================================================================
+<===> whiteness/degenerate/nan/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, calc(NaN * 1%), 40%, 0.5)}
+
+<===> whiteness/degenerate/nan/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
+}
+
+<===>
+================================================================================
 <===> blackness/above_max/input.scss
 @use 'sass:color';
 a {b: color.hwb(0, 30%, 101%, 0.5)}
@@ -71,6 +137,39 @@ a {b: color.hwb(0, 30%, var(--c), 0.5)}
 <===> blackness/var/output.css
 a {
   b: hwb(0 30% var(--c) / 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/degenerate/positive_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, calc(infinity * 1%), 0.5)}
+
+<===> blackness/degenerate/positive_infinity/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/degenerate/negative_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, calc(-infinity * 1%), 0.5)}
+
+<===> blackness/degenerate/negative_infinity/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
+}
+
+<===>
+================================================================================
+<===> blackness/degenerate/nan/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, calc(NaN * 1%), 0.5)}
+
+<===> blackness/degenerate/nan/output.css
+a {
+  b: hsla(calc(NaN), calc(NaN * 1%), calc(NaN * 1%), 0.5);
 }
 
 <===>
@@ -192,6 +291,39 @@ a {b: color.hwb(0, 0%, 0%, var(--c))}
 <===> alpha/var/output.css
 a {
   b: hwb(0 0% 0% / var(--c));
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/positive_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 40%, calc(infinity))}
+
+<===> alpha/degenerate/positive_infinity/output.css
+a {
+  b: hsl(0, 33.3333333333%, 45%);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/negative_infinity/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 40%, calc(-infinity))}
+
+<===> alpha/degenerate/negative_infinity/output.css
+a {
+  b: hsla(0, 33.3333333333%, 45%, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/nan/input.scss
+@use 'sass:color';
+a {b: color.hwb(0, 30%, 40%, calc(NaN))}
+
+<===> alpha/degenerate/nan/output.css
+a {
+  b: hsla(0, 33.3333333333%, 45%, 0);
 }
 
 <===>

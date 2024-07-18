@@ -50,6 +50,45 @@ a {
 
 <===>
 ================================================================================
+<===> degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 3deg / calc(infinity)));
+
+<===> degenerate/positive_infinity/output.css
+a {
+  value: lch(1% 2 3deg);
+  space: lch;
+  channels: 1% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 3deg / calc(-infinity)));
+
+<===> degenerate/negative_infinity/output.css
+a {
+  value: lch(1% 2 3deg / 0);
+  space: lch;
+  channels: 1% 2 3deg / 0;
+}
+
+<===>
+================================================================================
+<===> degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 3deg / calc(NaN)));
+
+<===> degenerate/nan/output.css
+a {
+  value: lch(1% 2 3deg / 0);
+  space: lch;
+  channels: 1% 2 3deg / 0;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lch($channels: 1% 2 3deg / 0.4));

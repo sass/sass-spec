@@ -157,3 +157,17 @@ Error: $color: 1 is not a color.
   |       ^^^^^^^^^^^^
   '
   input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+@use 'sass:color';
+a {b: color.lightness(lch(0% 0 0deg))}
+
+<===> error/non_legacy/error
+Error: color.lightness() is only supported for legacy colors. Please use color.channel() instead with an explicit $space argument.
+  ,
+2 | a {b: color.lightness(lch(0% 0 0deg))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

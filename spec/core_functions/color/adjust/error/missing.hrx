@@ -1,0 +1,67 @@
+<===> legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgb(none 0 0), $red: 10)}
+
+<===> legacy/error
+Error: $red: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: rgb(none 0 0)).
+  ,
+2 | a {b: color.adjust(rgb(none 0 0), $red: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> modern/input.scss
+@use 'sass:color';
+a {b: color.adjust(lab(none 0 0), $lightness: 10%)}
+
+<===> modern/error
+Error: $lightness: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lab(none 0 0)).
+  ,
+2 | a {b: color.adjust(lab(none 0 0), $lightness: 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> powerless/legacy/input.scss
+@use 'sass:color';
+a {b: color.adjust(grey, $hue: 10deg, $space: hsl)}
+
+<===> powerless/legacy/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: hsl(none 0% 50.1960784314%)).
+  ,
+2 | a {b: color.adjust(grey, $hue: 10deg, $space: hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> powerless/modern/input.scss
+@use 'sass:color';
+a {b: color.adjust(grey, $hue: 10deg, $space: lch)}
+
+<===> powerless/modern/error
+Error: $hue: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: lch(53.5850134522% 0 none)).
+  ,
+2 | a {b: color.adjust(grey, $hue: 10deg, $space: lch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/input.scss
+@use 'sass:color';
+a {b: color.adjust(rgb(0 0 0 / none), $alpha: 0.1)}
+
+<===> alpha/error
+Error: $alpha: Because the CSS working group is still deciding on the best behavior, Sass doesn't currently support modifying missing channels (color: rgb(0 0 0 / none)).
+  ,
+2 | a {b: color.adjust(rgb(0 0 0 / none), $alpha: 0.1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
