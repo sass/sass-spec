@@ -73,7 +73,7 @@ describe('Compiler', () => {
     it('performs complete compilations', () => {
       const logger = getLogger();
       const result = compiler.compileString(
-        '@import "bar"; .fn {value: foo(baz)}',
+        '@use "bar"; .fn {value: foo(baz)}',
         {importers, functions, logger}
       );
       expect(result.css).toEqualIgnoringWhitespace(
@@ -90,7 +90,7 @@ describe('Compiler', () => {
           syntax: 'scss',
         }),
       };
-      const result = compiler.compileString('@import "nested"; a {b: c}', {
+      const result = compiler.compileString('@use "nested"; a {b: c}', {
         importers: [nestedImporter],
       });
       expect(result.css).toEqualIgnoringWhitespace('x {y: z;} a {b: c;}');
@@ -139,8 +139,12 @@ describe('AsyncCompiler', () => {
         .fill(0)
         .map((_, i) =>
           compiler.compileStringAsync(
-            `@import "${i}"; .fn {value: foo(${i})}`,
-            {importers: asyncImporters, functions, logger}
+            `@use "${i}" as _; .fn {value: foo(${i})}`,
+            {
+              importers: asyncImporters,
+              functions,
+              logger,
+            }
           )
         );
       Array.from(await Promise.all(compilations))
@@ -165,7 +169,7 @@ describe('AsyncCompiler', () => {
       const {importer, triggerComplete} = getTriggeredImporter(
         () => (completed = true)
       );
-      const compilation = compiler.compileStringAsync('@import "slow"', {
+      const compilation = compiler.compileStringAsync('@use "slow"', {
         importers: [importer],
       });
 

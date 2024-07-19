@@ -18,7 +18,7 @@ it('avoids importer when canonicalize() returns null', () =>
   sandbox(dir => {
     dir.write({'dir/_other.scss': 'a {from: dir}'});
 
-    const result = compileString('@import "other";', {
+    const result = compileString('@use "other";', {
       importers: [
         {
           canonicalize: () => null,
@@ -37,7 +37,7 @@ it('fails to import when load() returns null', () =>
     dir.write({'dir/_other.scss': 'a {from: dir}'});
 
     expect(() => {
-      compileString('@import "other";', {
+      compileString('@use "other";', {
         importers: [
           {
             canonicalize: (url: string) => new URL(`u:${url}`),
@@ -52,7 +52,7 @@ it('fails to import when load() returns null', () =>
 it('prefers a relative file load to an importer', () =>
   sandbox(dir => {
     dir.write({
-      'input.scss': '@import "other"',
+      'input.scss': '@use "other"',
       '_other.scss': 'a {from: relative}',
     });
 
@@ -74,7 +74,7 @@ it('prefers a relative file load to an importer', () =>
 it('prefers an importer to a load path', () =>
   sandbox(dir => {
     dir.write({
-      'input.scss': '@import "other"',
+      'input.scss': '@use "other"',
       'dir/_other.scss': 'a {from: load-path}',
     });
 
@@ -95,7 +95,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'_other.scss': 'a {b: c}'});
 
-      const result = compileString('@import "other";', {
+      const result = compileString('@use "other";', {
         importers: [{findFileUrl: () => dir.url('_other.scss')}],
       });
       expect(result.css).toBe('a {\n  b: c;\n}');
@@ -105,7 +105,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'other/_index.scss': 'a {b: c}'});
 
-      const result = compileString('@import "other";', {
+      const result = compileString('@use "other";', {
         importers: [{findFileUrl: () => dir.url('other')}],
       });
       expect(result.css).toBe('a {\n  b: c;\n}');
@@ -115,7 +115,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'_other.scss': 'a {from: dir}'});
 
-      const result = compileString('@import "other";', {
+      const result = compileString('@use "other";', {
         importers: [{findFileUrl: () => null}],
         loadPaths: [dir.root],
       });
@@ -126,7 +126,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'_other.scss': 'a {from: dir}'});
 
-      const result = compileString('@import "other";', {
+      const result = compileString('@use "other";', {
         importers: [{findFileUrl: () => dir.url('nonexistent/other')}],
         loadPaths: [dir.root],
       });
@@ -137,7 +137,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'dir/_other.scss': 'a {b: c}'});
 
-      const result = compileString('@import "u:other";', {
+      const result = compileString('@use "u:other";', {
         importers: [
           {
             findFileUrl(url: string) {
@@ -154,7 +154,7 @@ describe('FileImporter', () => {
     sandbox(dir => {
       dir.write({'_other.scss': 'a {b: c}'});
 
-      const result = compileString(`@import "${dir.url('other')}";`, {
+      const result = compileString(`@use "${dir.url('other')}";`, {
         importers: [
           {
             findFileUrl() {
@@ -168,11 +168,11 @@ describe('FileImporter', () => {
 
   it("doesn't pass relative loads to the importer", () =>
     sandbox(dir => {
-      dir.write({'_midstream.scss': '@import "upstream"'});
+      dir.write({'_midstream.scss': '@use "upstream"'});
       dir.write({'_upstream.scss': 'a {b: c}'});
 
       let count = 0;
-      const result = compileString('@import "midstream";', {
+      const result = compileString('@use "midstream";', {
         importers: [
           {
             findFileUrl() {
@@ -191,7 +191,7 @@ describe('FileImporter', () => {
 
   it('wraps an error', () => {
     expect(() => {
-      compileString('@import "other";', {
+      compileString('@use "other";', {
         importers: [
           {
             findFileUrl() {
@@ -205,7 +205,7 @@ describe('FileImporter', () => {
 
   it('rejects a non-file URL', () => {
     expect(() => {
-      compileString('@import "other";', {
+      compileString('@use "other";', {
         importers: [{findFileUrl: () => new URL('u:other.scss')}],
       });
     }).toThrowSassException({line: 0});
@@ -215,7 +215,7 @@ describe('FileImporter', () => {
     it('.scss, parses it as SCSS', () =>
       sandbox(dir => {
         dir.write({'_other.scss': '$a: value; b {c: $a}'});
-        const result = compileString('@import "other";', {
+        const result = compileString('@use "other";', {
           importers: [{findFileUrl: () => dir.url('other')}],
         });
         expect(result.css).toBe('b {\n  c: value;\n}');
@@ -224,7 +224,7 @@ describe('FileImporter', () => {
     it('.sass, parses it as the indented syntax', () =>
       sandbox(dir => {
         dir.write({'_other.sass': '$a: value\nb\n  c: $a'});
-        const result = compileString('@import "other";', {
+        const result = compileString('@use "other";', {
           importers: [{findFileUrl: () => dir.url('other')}],
         });
         expect(result.css).toBe('b {\n  c: value;\n}');
@@ -233,7 +233,7 @@ describe('FileImporter', () => {
     it('.css, allows plain CSS', () =>
       sandbox(dir => {
         dir.write({'_other.css': 'a {b: c}'});
-        const result = compileString('@import "other";', {
+        const result = compileString('@use "other";', {
           importers: [{findFileUrl: () => dir.url('other')}],
         });
         expect(result.css).toBe('a {\n  b: c;\n}');
@@ -243,7 +243,7 @@ describe('FileImporter', () => {
       sandbox(dir => {
         dir.write({'_other.css': '$a: value; b {c: $a}'});
         expect(() => {
-          compileString('@import "other";', {
+          compileString('@use "other";', {
             importers: [{findFileUrl: () => dir.url('other')}],
           });
         }).toThrowSassException({
@@ -266,6 +266,8 @@ describe('FileImporter', () => {
               },
             },
           ],
+          // TODO(jathak): Add this once import deprecation is active
+          // silenceDeprecations: ['import'],
         });
       }));
 
@@ -289,7 +291,7 @@ describe('FileImporter', () => {
     it('set for a relative URL', () =>
       sandbox(dir => {
         dir.write({'_other.css': 'a {b: c}'});
-        const result = compileString('@import "other";', {
+        const result = compileString('@use "other";', {
           importers: [
             {
               findFileUrl: (url: string, context: CanonicalizeContext) => {
@@ -308,7 +310,7 @@ describe('FileImporter', () => {
     it('set for an absolute URL', () =>
       sandbox(dir => {
         dir.write({'_other.css': 'a {b: c}'});
-        const result = compileString('@import "u:other";', {
+        const result = compileString('@use "u:other";', {
           importers: [
             {
               findFileUrl: (url: string, context: CanonicalizeContext) => {
@@ -327,7 +329,7 @@ describe('FileImporter', () => {
     it('unset when the URL is unavailable', () =>
       sandbox(dir => {
         dir.write({'_other.css': 'a {b: c}'});
-        const result = compileString('@import "u:other";', {
+        const result = compileString('@use "u:other";', {
           importers: [
             {
               findFileUrl: (url: string, context: CanonicalizeContext) => {
@@ -342,7 +344,7 @@ describe('FileImporter', () => {
   });
 
   describe('async', () => {
-    it('resolves an @import', async () =>
+    it('resolves an @use', async () =>
       sandbox(async dir => {
         dir.write({'_other.scss': 'a {b: c}'});
         const result = await compileStringAsync('@use "other"', {
@@ -357,7 +359,7 @@ describe('FileImporter', () => {
 
     it('wraps an error', async () => {
       await expectAsync(() =>
-        compileStringAsync('@import "other";', {
+        compileStringAsync('@use "other";', {
           importers: [
             {
               findFileUrl: () => Promise.reject('this import is bad actually'),
@@ -376,10 +378,10 @@ describe('FileImporter', () => {
       });
 
       dir.write({
-        'main.scss': '@import "sub1/test"; @import "sub1/sub2/test"',
-        'sub1/test.scss': '@import "y"',
+        'main.scss': '@use "sub1/test"; @use "sub1/sub2/test" as test2',
+        'sub1/test.scss': '@use "y"',
         'sub1/x.scss': 'x { from: sub1; }',
-        'sub1/sub2/test.scss': '@import "y"',
+        'sub1/sub2/test.scss': '@use "y"',
         'sub1/sub2/x.scss': 'x { from: sub2; }',
       });
 
