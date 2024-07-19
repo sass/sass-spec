@@ -75,7 +75,7 @@ describe('renderSync()', () => {
             '_other.scss': 'a {b: c}',
             // Node Sass parses imports as paths, not as URLs, so the absolute
             // path should work here.
-            'importer.scss': `@use "${dir('_other.scss').replace(
+            'importer.scss': `@import "${dir('_other.scss').replace(
               /\\/g,
               '\\\\'
             )}";`,
