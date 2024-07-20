@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:meta";
 $foo: 1 2 3 blah 4;
 foo {
-  bar: call(min, $foo...);
+  bar: meta.call(min, $foo...);
 }
 
 <===> error
@@ -10,14 +11,14 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function(min))
 
   ,
-3 |   bar: call(min, $foo...);
-  |        ^^^^^^^^^^^^^^^^^^
+4 |   bar: meta.call(min, $foo...);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 3:8  root stylesheet
+    input.scss 4:8  root stylesheet
 
 Error: blah is not a number.
   ,
-3 |   bar: call(min, $foo...);
-  |        ^^^^^^^^^^^^^^^^^^
+4 |   bar: meta.call(min, $foo...);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:8  root stylesheet
+  input.scss 4:8  root stylesheet

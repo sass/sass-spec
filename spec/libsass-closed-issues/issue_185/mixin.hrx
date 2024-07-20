@@ -1,19 +1,20 @@
 <===> input.scss
+@use "sass:list";
 @function shift($list) {
-  @if length($list) == 1 { @return (); }
+  @if list.length($list) == 1 { @return (); }
 
   $new: ();
-  @for $i from 2 through length($list) {
-    $new: append($new, nth($list, $i));
+  @for $i from 2 through list.length($list) {
+    $new: list.append($new, list.nth($list, $i));
   }
   @return $new;
 }
 
 @mixin media($medias...) {
-  @if length($medias) == 0 {
+  @if list.length($medias) == 0 {
     @content;
   } @else {
-    @media #{nth($medias, 1)} {
+    @media #{list.nth($medias, 1)} {
       @include media(shift($medias)...) {
         @content;
       }

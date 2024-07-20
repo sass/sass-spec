@@ -82,7 +82,11 @@ describe('compileString', () => {
               '_upstream.scss': 'a {b: c}',
             });
             expect(
-              compileString('@import "left"; @import "right"', {url}).loadedUrls
+              compileString('@import "left"; @import "right"', {
+                url,
+                // TODO(jathak): Add this once import deprecation is active
+                // silenceDeprecations: ['import'],
+              }).loadedUrls
             ).toEqual([
               url,
               dir.url('_left.scss'),

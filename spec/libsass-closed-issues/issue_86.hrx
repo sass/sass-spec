@@ -1,12 +1,15 @@
 <===> input.scss
+@use "sass:color";
+@use "sass:math";
+@use "sass:meta";
 .color-functions {
     $color: red;
-    hue: hue($color);
-    hue-type: type-of(hue($color));
-    hue-unit: unit(hue($color));
-    hue-comparable: comparable(hue($color), hue($color));
-	test-1: comparable(lightness(red), 1%);
-	test-2: comparable(saturation(red), 1%);
+    hue: color.hue($color);
+    hue-type: meta.type-of(color.hue($color));
+    hue-unit: math.unit(color.hue($color));
+    hue-comparable: math.compatible(color.hue($color), color.hue($color));
+	test-1: math.compatible(color.lightness(red), 1%);
+	test-2: math.compatible(color.saturation(red), 1%);
 }
 <===> output.css
 .color-functions {

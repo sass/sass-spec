@@ -1,4 +1,5 @@
 <===> input.sass
+@use "sass:list"
 // The amount of the column of a single row.
 $columnAmount: 16
 
@@ -7,10 +8,10 @@ $columnName  : one two three four five six seven eight nine ten eleven twelve th
 
 =column-generator
   @for $i from 1 through $columnAmount
-    [class*="#{nth($columnName, $i)} wide"]
+    [class*="#{list.nth($columnName, $i)} wide"]
       width: 100% / $columnAmount * $i 
 
-    &[class*="#{nth($columnName, $i)} column"], & .row[class*="#{nth($columnName, $i)} column"]
+    &[class*="#{list.nth($columnName, $i)} column"], & .row[class*="#{list.nth($columnName, $i)} column"]
       > .column:not(.row)
         width  : 100% / $columnAmount * $i !important
 
@@ -122,11 +123,11 @@ Recommendation: math.div(100%, $columnAmount) or calc(100% / $columnAmount)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-10 |       width: 100% / $columnAmount * $i 
+11 |       width: 100% / $columnAmount * $i 
    |              ^^^^^^^^^^^^^^^^^^^^
    '
-    input.sass 10:14  column-generator()
-    input.sass 17:3   root stylesheet
+    input.sass 11:14  column-generator()
+    input.sass 18:3   root stylesheet
 
 DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
 
@@ -135,8 +136,8 @@ Recommendation: math.div(100%, $columnAmount) or calc(100% / $columnAmount)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
    ,
-14 |         width  : 100% / $columnAmount * $i !important
+15 |         width  : 100% / $columnAmount * $i !important
    |                  ^^^^^^^^^^^^^^^^^^^^
    '
-    input.sass 14:18  column-generator()
-    input.sass 17:3   root stylesheet
+    input.sass 15:18  column-generator()
+    input.sass 18:3   root stylesheet

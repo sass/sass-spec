@@ -1,10 +1,13 @@
 <===> _util.scss
+@use "sass:math";
+@use "sass:meta";
+
 // Calls `random()` one thousand times, and throws an error if `$check` returns
 // `false` for any of the values.
 @mixin check-values($arg, $check) {
   @for $i from 1 through 1000 {
-    $value: random($arg);
-    @if not call($check, $value) {
+    $value: math.random($arg);
+    @if not meta.call($check, $value) {
       @error "#{$value} did not match expectation";
     }
   }

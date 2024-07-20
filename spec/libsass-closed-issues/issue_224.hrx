@@ -1,11 +1,12 @@
 <===> input.scss
+@use "sass:list";
 $list: ("a", "b", "c");
 
 test {
-    content: nth($list, -1);
-    content: nth($list, -2);
-    content: nth($list, -3);
-    content: nth($list, -1) == nth($list, length($list));
+    content: list.nth($list, -1);
+    content: list.nth($list, -2);
+    content: list.nth($list, -3);
+    content: list.nth($list, -1) == list.nth($list, list.length($list));
 }
 
 <===> output.css

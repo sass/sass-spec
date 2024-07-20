@@ -68,7 +68,7 @@ describe('the sources list', () => {
     sandbox(dir => {
       dir.write({
         'test.scss': `
-            @import "other";
+            @use "other";
             a {b: c}
           `,
         '_other.scss': 'x {y: z}',
@@ -86,7 +86,7 @@ describe('the sources list', () => {
     sandbox(dir => {
       dir.write({
         'test.scss': `
-            @import "other";
+            @use "other";
             a {b: c}
           `,
         'subdir/_other.scss': 'x {y: z}',
@@ -104,7 +104,7 @@ describe('the sources list', () => {
   it('contains a URL handled by an importer', () => {
     const map = renderSourceMap({
       data: `
-        @import "other";
+        @use "other";
         a {b: c}
       `,
       sourceMap: true,
@@ -119,7 +119,7 @@ describe('the sources list', () => {
     sandbox(dir => {
       dir.write({
         'test.scss': `
-            @import "other";
+            @use "other";
             a {b: c}
           `,
         'subdir/_other.scss': 'x {y: z}',
@@ -200,7 +200,7 @@ describe('with a string sourceMap and no outFile', () => {
     expect(
       renderSourceMap({
         data: `
-            @import "other";
+            @use "other";
             a {b: c}
           `,
         importer: () => ({contents: 'x {y: z}'}),
@@ -291,7 +291,7 @@ describe('with sourceMapContents', () => {
   it("includes an imported file's contents in the source map", () =>
     sandbox(dir => {
       const scss = `
-        @import "other";
+        @use "other";
         a {b: c}
       `;
       dir.write({'test.scss': scss, 'other.scss': 'x {y: z}'});

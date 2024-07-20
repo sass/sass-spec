@@ -1,17 +1,18 @@
 <===> input.scss
+@use "sass:list";
 .test .nest {
-  length: length(&);
+  length: list.length(&);
   @each $list in & {
     list: $list;
-    length: length($list);
+    length: list.length($list);
   }
 }
 
 .test, .other {
-  length: length(&);
+  length: list.length(&);
   @each $list in & {
     list: $list;
-    length: length($list);
+    length: list.length($list);
   }
 }
 

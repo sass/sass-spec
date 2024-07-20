@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:meta";
+
 $a: 'foo';
 $b: 'foo';
 $map: (
@@ -8,14 +10,14 @@ $map: (
 
 .foo {
   content: $a == $b;
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 <===> error
 Error: Duplicate key.
   ,
-4 |   $a: 1,
+6 |   $a: 1,
   |   == first key
-5 |   $b: 2
+7 |   $b: 2
   |   ^^ second key
   '
-  input.scss 5:3  root stylesheet
+  input.scss 7:3  root stylesheet

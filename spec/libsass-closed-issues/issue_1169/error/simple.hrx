@@ -1,11 +1,13 @@
 <===> input.scss
+@use "sass:meta";
+
 $map: (
   red: 'bar',
   #{red}: 'baz',
 );
 
 .foo {
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 <===> output.css
 .foo {

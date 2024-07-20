@@ -1,5 +1,5 @@
 <===> nested_property/no_value/input.scss
-@import 'plain'
+@use 'plain'
 <===> nested_property/no_value/plain.css
 a {
   x: {
@@ -13,13 +13,13 @@ Error: Nested declarations aren't allowed in plain CSS.
 2 |   x: {
   |      ^
   '
-  plain.css 2:6   @import
-  input.scss 1:9  root stylesheet
+  plain.css 2:6   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> nested_property/value/input.scss
-@import 'plain'
+@use 'plain'
 
 <===> nested_property/value/plain.css
 a {
@@ -34,8 +34,8 @@ Error: Nested declarations aren't allowed in plain CSS.
 2 |   b: c {
   |        ^
   '
-  plain.css 2:8   @import
-  input.scss 1:9  root stylesheet
+  plain.css 2:8   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -144,7 +144,7 @@ Error: Top-level leading combinators aren't allowed in plain CSS.
 <===>
 ================================================================================
 <===> placeholder_selector/input.scss
-@import 'plain'
+@use 'plain'
 <===> placeholder_selector/plain.css
 %foo {
   x: y;
@@ -156,13 +156,13 @@ Error: Placeholder selectors aren't allowed in plain CSS.
 1 | %foo {
   | ^^^^
   '
-  plain.css 1:1   @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:1   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> interpolation/selector/input.scss
-@import 'plain'
+@use 'plain'
 <===> interpolation/selector/plain.css
 a#{b}c {
   x: y;
@@ -174,13 +174,13 @@ Error: Interpolation isn't allowed in plain CSS.
 1 | a#{b}c {
   |  ^^^^
   '
-  plain.css 1:2   @import
-  input.scss 1:9  root stylesheet
+  plain.css 1:2   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> interpolation/declaration/input.scss
-@import 'plain'
+@use 'plain'
 <===> interpolation/declaration/plain.css
 a {
   w#{x}y: z;
@@ -192,13 +192,13 @@ Error: Interpolation isn't allowed in plain CSS.
 2 |   w#{x}y: z;
   |    ^^^^
   '
-  plain.css 2:4   @import
-  input.scss 1:9  root stylesheet
+  plain.css 2:4   @use
+  input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
 <===> interpolation/custom_property/input.scss
-@import 'plain'
+@use 'plain'
 <===> interpolation/custom_property/plain.css
 a {
   --b: #{c};
@@ -210,5 +210,5 @@ Error: Interpolation isn't allowed in plain CSS.
 2 |   --b: #{c};
   |        ^^^^
   '
-  plain.css 2:8   @import
-  input.scss 1:9  root stylesheet
+  plain.css 2:8   @use
+  input.scss 1:1  root stylesheet
