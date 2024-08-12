@@ -1,0 +1,49 @@
+<===> with_color/input.scss
+a {b: grayscale(red)}
+
+<===> with_color/output.css
+a {
+  b: rgb(127.5, 127.5, 127.5);
+}
+
+<===>
+================================================================================
+<===> with_number/input.scss
+// A number should produce a plain function string, for CSS filter functions.
+a {b: grayscale(15%)}
+
+<===> with_number/output.css
+a {
+  b: grayscale(15%);
+}
+
+<===>
+================================================================================
+<===> with_css_var/input.scss
+a {b: grayscale(var(--c))}
+
+<===> with_css_var/output.css
+a {
+  b: grayscale(var(--c));
+}
+
+<===>
+================================================================================
+<===> with_calc/input.scss
+a {b: grayscale(calc(1 + 2))}
+
+<===> with_calc/output.css
+a {
+  b: grayscale(3);
+}
+
+<===>
+================================================================================
+<===> with_unquoted_calc/input.scss
+@use "sass:string";
+a {b: grayscale(string.unquote('calc(1)'))}
+
+<===> with_unquoted_calc/output.css
+a {
+  b: grayscale(calc(1));
+}
