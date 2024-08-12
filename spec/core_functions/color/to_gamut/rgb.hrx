@@ -1,5 +1,5 @@
 <===> clip/in_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(#abcdef, $method: clip)}
 
 <===> clip/in_gamut/output.css
@@ -10,7 +10,7 @@ a {
 <===>
 ================================================================================
 <===> clip/out_of_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color.change(#abcdef, $red: 300), $method: clip)}
 
 <===> clip/out_of_gamut/output.css
@@ -21,7 +21,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/in_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(#abcdef, $method: local-minde)}
 
 <===> local_minde/in_gamut/output.css
@@ -32,7 +32,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/out_of_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color.change(#abcdef, $red: 300), $method: local-minde)}
 
 <===> local_minde/out_of_gamut/output.css
@@ -43,7 +43,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/to_white/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color.change(#e6ff00, $green: 280, $blue: -25),
@@ -59,7 +59,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/to_black/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color.change(black, $red: -5, $green: -5),

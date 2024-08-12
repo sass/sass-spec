@@ -1,5 +1,5 @@
 <===> false/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(#abcdef, "red")}
 
 <===> false/explicit/output.css
@@ -10,7 +10,7 @@ a {
 <===>
 ================================================================================
 <===> false/not_powerless/converted/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(color.to-space(#aaaaab, lch), "hue")}
 
 <===> false/not_powerless/converted/non_legacy/output.css
@@ -21,7 +21,7 @@ a {
 <===>
 ================================================================================
 <===> false/not_powerless/converted/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(color.to-space(#aaaaab, hsl), "hue")}
 
 <===> false/not_powerless/converted/legacy/output.css
@@ -32,7 +32,7 @@ a {
 <===>
 ================================================================================
 <===> false/not_powerless/direct/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(lch(50% 1% 0deg), "hue")}
 
 <===> false/not_powerless/direct/non_legacy/output.css
@@ -43,7 +43,7 @@ a {
 <===>
 ================================================================================
 <===> false/not_powerless/direct/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(hsl(0deg 50% 1%), "hue")}
 
 <===> false/not_powerless/direct/legacy/output.css
@@ -54,7 +54,7 @@ a {
 <===>
 ================================================================================
 <===> false/powerless/direct/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(lch(50% 0% 0deg), "hue")}
 
 <===> false/powerless/direct/non_legacy/output.css
@@ -65,7 +65,7 @@ a {
 <===>
 ================================================================================
 <===> false/powerless/direct/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(hsl(0deg 50% 0%), "hue")}
 
 <===> false/powerless/direct/legacy/output.css
@@ -76,7 +76,7 @@ a {
 <===>
 ================================================================================
 <===> false/powerless/converted/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(color.to-space(#aaaaaa, hsl), "hue")}
 
 <===> false/powerless/converted/legacy/output.css
@@ -87,7 +87,7 @@ a {
 <===>
 ================================================================================
 <===> true/explicit/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(lab(50% 30 none), "b")}
 
 <===> true/explicit/non_legacy/output.css
@@ -98,7 +98,7 @@ a {
 <===>
 ================================================================================
 <===> true/explicit/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(rgb(none 30 100), "red")}
 
 <===> true/explicit/legacy/output.css
@@ -109,7 +109,7 @@ a {
 <===>
 ================================================================================
 <===> true/powerless/converted/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(color.to-space(#aaaaaa, lch), "hue")}
 
 <===> true/powerless/converted/non_legacy/output.css
@@ -120,7 +120,7 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing($color: black, $channel: "red")}
 
 <===> named/output.css
@@ -131,7 +131,7 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(black)}
 
 <===> error/too_few_args/error
@@ -149,7 +149,7 @@ Error: Missing argument $channel.
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(black, "red", rgb)}
 
 <===> error/too_many_args/error
@@ -167,7 +167,7 @@ Error: Only 2 arguments allowed, but 3 were passed.
 <===>
 ================================================================================
 <===> error/type/color/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing("black", "red")}
 
 <===> error/type/color/error
@@ -181,7 +181,7 @@ Error: $color: "black" is not a color.
 <===>
 ================================================================================
 <===> error/type/channel/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(black, red)}
 
 <===> error/type/channel/error
@@ -195,7 +195,7 @@ Error: $channel: red is not a string.
 <===>
 ================================================================================
 <===> error/channel/wrong_space/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(black, "hue")}
 
 <===> error/channel/wrong_space/error
@@ -209,7 +209,7 @@ Error: $channel: Color black doesn't have a channel named "hue".
 <===>
 ================================================================================
 <===> error/channel/unquoted/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(hsl(0deg 50% 50%), hue)}
 
 <===> error/channel/unquoted/error
@@ -223,7 +223,7 @@ Error: $channel: Expected hue to be a quoted string.
 <===>
 ================================================================================
 <===> error/channel/wrong_case/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.is-missing(black, "RED")}
 
 <===> error/channel/wrong_case/error
