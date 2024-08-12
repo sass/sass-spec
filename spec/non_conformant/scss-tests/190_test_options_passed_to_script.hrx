@@ -1,21 +1,8 @@
 <===> input.scss
-foo {color: darken(black, 10%)}
+@use "sass:color";
+foo {color: color.adjust(black, $lightness: -10%)}
 
 <===> output.css
 foo {
-  color: black;
+  color: hsl(0, 0%, -10%);
 }
-
-<===> warning
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -100%)
-color.adjust($color, $lightness: -10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-1 | foo {color: darken(black, 10%)}
-  |             ^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:13  root stylesheet

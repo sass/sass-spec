@@ -57,3 +57,44 @@ a div foo, a div bar, a span foo, a span bar {
 div {
   blah: blah from a variable blah;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+6   |     flugablug: $a $b glug;
+    |     ^^^^^^^^^^^^^^^^^^^^^ declaration
+... |
+13  | /     foo, bar {
+14  | |       more: stuff so forth;
+15  | |       blah: blah;
+16  | |     }
+    | '--- nested rule
+    '
+    input.scss 6:3   bar()
+    input.scss 27:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+6   |     flugablug: $a $b glug;
+    |     ^^^^^^^^^^^^^^^^^^^^^ declaration
+... |
+13  | /     foo, bar {
+14  | |       more: stuff so forth;
+15  | |       blah: blah;
+16  | |     }
+    | '--- nested rule
+    '
+    input.scss 6:3   bar()
+    input.scss 28:3  root stylesheet

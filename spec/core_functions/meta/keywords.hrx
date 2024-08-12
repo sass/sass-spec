@@ -1,14 +1,16 @@
 <===> _utils.scss
+@use "sass:meta";
 /// Returns the keyword arguments passed to this function as a map.
 @function args-to-keywords($args...) {
-  @return keywords($args);
+  @return meta.keywords($args);
 }
 
 <===>
 ================================================================================
 <===> empty/no_args/input.scss
-@import "../../utils";
-a {b: inspect(args-to-keywords())}
+@use "sass:meta";
+@use "../../utils";
+a {b: meta.inspect(utils.args-to-keywords())}
 
 <===> empty/no_args/output.css
 a {
@@ -18,8 +20,9 @@ a {
 <===>
 ================================================================================
 <===> empty/positional/input.scss
-@import "../../utils";
-a {b: inspect(args-to-keywords(1, 2, 3))}
+@use "sass:meta";
+@use "../../utils";
+a {b: meta.inspect(utils.args-to-keywords(1, 2, 3))}
 
 <===> empty/positional/output.css
 a {
@@ -29,8 +32,9 @@ a {
 <===>
 ================================================================================
 <===> one_arg/input.scss
-@import "../utils";
-a {b: inspect(args-to-keywords($c: d))}
+@use "sass:meta";
+@use "../utils";
+a {b: meta.inspect(utils.args-to-keywords($c: d))}
 
 <===> one_arg/output.css
 a {
@@ -40,8 +44,9 @@ a {
 <===>
 ================================================================================
 <===> multi_arg/input.scss
-@import "../utils";
-a {b: inspect(args-to-keywords($c: d, $e: f, $g: h))}
+@use "sass:meta";
+@use "../utils";
+a {b: meta.inspect(utils.args-to-keywords($c: d, $e: f, $g: h))}
 
 <===> multi_arg/output.css
 a {
@@ -51,13 +56,14 @@ a {
 <===>
 ================================================================================
 <===> forwarded/function/input.scss
-@import "../../utils";
+@use "sass:meta";
+@use "../../utils";
 
 @function args-to-keywords-forward($args...) {
-  @return args-to-keywords($args...);
+  @return utils.args-to-keywords($args...);
 }
 
-a {b: inspect(args-to-keywords-forward($c: d))}
+a {b: meta.inspect(args-to-keywords-forward($c: d))}
 
 <===> forwarded/function/output.css
 a {
@@ -67,13 +73,14 @@ a {
 <===>
 ================================================================================
 <===> forwarded/call/input.scss
-@import "../../utils";
+@use "sass:meta";
+@use "../../utils";
 
 @function args-to-keywords-forward($args...) {
-  @return call(get-function("args-to-keywords"), $args...);
+  @return meta.call(meta.get-function("args-to-keywords", $module: "utils"), $args...);
 }
 
-a {b: inspect(args-to-keywords-forward($c: d))}
+a {b: meta.inspect(args-to-keywords-forward($c: d))}
 
 <===> forwarded/call/output.css
 a {
@@ -83,10 +90,11 @@ a {
 <===>
 ================================================================================
 <===> forwarded/mixin/input.scss
-@import "../../utils";
+@use "sass:meta";
+@use "../../utils";
 
 @mixin args-to-keywords-forward($args...) {
-  a {b: inspect(args-to-keywords($args...))}
+  a {b: meta.inspect(utils.args-to-keywords($args...))}
 }
 
 @include args-to-keywords-forward($c: d);
@@ -99,14 +107,15 @@ a {
 <===>
 ================================================================================
 <===> forwarded/content/input.scss
-@import "../../utils";
+@use "sass:meta";
+@use "../../utils";
 
 @mixin args-to-keywords-forward($args...) {
   @content($args...);
 }
 
 @include args-to-keywords-forward($c: d) using ($args...) {
-  a {b: inspect(args-to-keywords($args...))}
+  a {b: meta.inspect(utils.args-to-keywords($args...))}
 }
 
 <===> forwarded/content/output.css
@@ -117,8 +126,9 @@ a {
 <===>
 ================================================================================
 <===> dash_insensitive/input.scss
-@import "../utils";
-a {b: inspect(args-to-keywords($c-d: e, $f_g: h))}
+@use "sass:meta";
+@use "../utils";
+a {b: meta.inspect(utils.args-to-keywords($c-d: e, $f_g: h))}
 
 <===> dash_insensitive/output.css
 a {
@@ -128,11 +138,12 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @function args-to-keywords($args...) {
-  @return keywords($args: $args);
+  @return meta.keywords($args: $args);
 }
 
-a {b: inspect(args-to-keywords($c: d))}
+a {b: meta.inspect(args-to-keywords($c: d))}
 
 <===> named/output.css
 a {
@@ -142,59 +153,63 @@ a {
 <===>
 ================================================================================
 <===> error/type/non_arg_list/input.scss
-a {b: keywords(1 2 3)}
+@use "sass:meta";
+a {b: meta.keywords(1 2 3)}
 
 <===> error/type/non_arg_list/error
 Error: $args: (1 2 3) is not an argument list.
   ,
-1 | a {b: keywords(1 2 3)}
-  |       ^^^^^^^^^^^^^^^
+2 | a {b: meta.keywords(1 2 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/non_list/input.scss
-a {b: keywords(1)}
+@use "sass:meta";
+a {b: meta.keywords(1)}
 
 <===> error/type/non_list/error
 Error: $args: 1 is not an argument list.
   ,
-1 | a {b: keywords(1)}
-  |       ^^^^^^^^^^^
+2 | a {b: meta.keywords(1)}
+  |       ^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: keywords()}
+@use "sass:meta";
+a {b: meta.keywords()}
 
 <===> error/too_few_args/error
 Error: Missing argument $args.
   ,--> input.scss
-1 | a {b: keywords()}
-  |       ^^^^^^^^^^ invocation
+2 | a {b: meta.keywords()}
+  |       ^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function keywords($args) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: keywords(1, 2)}
+@use "sass:meta";
+a {b: meta.keywords(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: keywords(1, 2)}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.keywords(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function keywords($args) {
   |           =============== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

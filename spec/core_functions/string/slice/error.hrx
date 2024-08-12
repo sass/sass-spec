@@ -1,122 +1,145 @@
 <===> type/string/input.scss
-a {b: str-slice(1, 2)}
+@use "sass:string";
+a {b: string.slice(1, 2)}
 
 <===> type/string/error
 Error: $string: 1 is not a string.
   ,
-1 | a {b: str-slice(1, 2)}
-  |       ^^^^^^^^^^^^^^^
+2 | a {b: string.slice(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> type/start_at/input.scss
-a {b: str-slice("cde", "f")}
+@use "sass:string";
+a {b: string.slice("cde", "f")}
 
 <===> type/start_at/error
 Error: $start-at: "f" is not a number.
   ,
-1 | a {b: str-slice("cde", "f")}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("cde", "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> type/end_at/input.scss
-a {b: str-slice("cde", 1, "f")}
+@use "sass:string";
+a {b: string.slice("cde", 1, "f")}
 
 <===> type/end_at/error
 Error: $end-at: "f" is not a number.
   ,
-1 | a {b: str-slice("cde", 1, "f")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("cde", 1, "f")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> decimal/start/input.scss
-a {b: str-slice("", 0.5)}
+@use "sass:string";
+a {b: string.slice("", 0.5)}
 
 <===> decimal/start/error
 Error: 0.5 is not an int.
   ,
-1 | a {b: str-slice("", 0.5)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("", 0.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> decimal/end/input.scss
-a {b: str-slice("", 1, 1.5)}
+@use "sass:string";
+a {b: string.slice("", 1, 1.5)}
 
 <===> decimal/end/error
 Error: 1.5 is not an int.
   ,
-1 | a {b: str-slice("", 1, 1.5)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("", 1, 1.5)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> unit/start/input.scss
-a {b: str-slice("", 1px)}
+@use "sass:string";
+a {b: string.slice("", 1px)}
 
 <===> unit/start/error
 Error: $start-at: Expected 1px to have no units.
   ,
-1 | a {b: str-slice("", 1px)}
-  |       ^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("", 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> unit/end/input.scss
-a {b: str-slice("", 1, 2px)}
+@use "sass:string";
+a {b: string.slice("", 1, 2px)}
 
 <===> unit/end/error
 Error: $end-at: Expected 2px to have no units.
   ,
-1 | a {b: str-slice("", 1, 2px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: string.slice("", 1, 2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_name/input.scss
+@use "sass:string";
+a {b: string.str-slice("c", 1, 1)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: string.str-slice("c", 1, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: str-slice("cde")}
+@use "sass:string";
+a {b: string.slice("cde")}
 
 <===> too_few_args/error
 Error: Missing argument $start-at.
   ,--> input.scss
-1 | a {b: str-slice("cde")}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.slice("cde")}
+  |       ^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function slice($string, $start-at, $end-at: -1) {
   |           ====================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: str-slice("cde", 1, 2, 3)}
+@use "sass:string";
+a {b: string.slice("cde", 1, 2, 3)}
 
 <===> too_many_args/error
 Error: Only 3 arguments allowed, but 4 were passed.
   ,--> input.scss
-1 | a {b: str-slice("cde", 1, 2, 3)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: string.slice("cde", 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:string
 1 | @function slice($string, $start-at, $end-at: -1) {
   |           ====================================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

@@ -5,10 +5,11 @@ function, inspect() should return them in the same format the user wrote them.
 <===>
 ================================================================================
 <===> literal/short_hex/input.scss
-$result: inspect(#00f);
+@use "sass:meta";
+$result: meta.inspect(#00f);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> literal/short_hex/output.css
@@ -20,10 +21,11 @@ a {
 <===>
 ================================================================================
 <===> literal/long_hex/input.scss
-$result: inspect(#0000ff);
+@use "sass:meta";
+$result: meta.inspect(#0000ff);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> literal/long_hex/output.css
@@ -35,10 +37,11 @@ a {
 <===>
 ================================================================================
 <===> literal/named/input.scss
-$result: inspect(blue);
+@use "sass:meta";
+$result: meta.inspect(blue);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> literal/named/output.css
@@ -50,10 +53,11 @@ a {
 <===>
 ================================================================================
 <===> literal/transparent/input.scss
-$result: inspect(transparent);
+@use "sass:meta";
+$result: meta.inspect(transparent);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> literal/transparent/output.css
@@ -70,21 +74,23 @@ alpha channel is anything other than 1, or the color name if it has one, or else
 the hex code.
 
 <===> generated/_utils.scss
+@use "sass:color";
 /// Returns a copy of `$color` that doesn't have color-literal metadata
 /// associated with it.
 @function generated-color($color) {
   // This doesn't change the value of `$color` at all, but it does construct a
   // new object.
-  @return scale-color($color, $blue: 0%);
+  @return color.scale($color, $blue: 0%);
 }
 
 <===>
 ================================================================================
 <===> generated/alpha/input.scss
-$result: inspect(rgba(1, 2, 3, 0.4));
+@use "sass:meta";
+$result: meta.inspect(rgba(1, 2, 3, 0.4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> generated/alpha/output.css
@@ -96,11 +102,12 @@ a {
 <===>
 ================================================================================
 <===> generated/transparent/input.scss
-@import "../utils";
-$result: inspect(generated-color(transparent));
+@use "sass:meta";
+@use "../utils";
+$result: meta.inspect(utils.generated-color(transparent));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> generated/transparent/output.css
@@ -112,11 +119,12 @@ a {
 <===>
 ================================================================================
 <===> generated/named/input.scss
-@import "../utils";
-$result: inspect(generated-color(#00f));
+@use "sass:meta";
+@use "../utils";
+$result: meta.inspect(utils.generated-color(#00f));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> generated/named/output.css
@@ -128,11 +136,12 @@ a {
 <===>
 ================================================================================
 <===> generated/short_hex/input.scss
-@import "../utils";
-$result: inspect(generated-color(#abc));
+@use "sass:meta";
+@use "../utils";
+$result: meta.inspect(utils.generated-color(#abc));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> generated/short_hex/output.css
@@ -144,11 +153,12 @@ a {
 <===>
 ================================================================================
 <===> generated/long_hex/input.scss
-@import "../utils";
-$result: inspect(generated-color(#abcdef));
+@use "sass:meta";
+@use "../utils";
+$result: meta.inspect(utils.generated-color(#abcdef));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> generated/long_hex/output.css

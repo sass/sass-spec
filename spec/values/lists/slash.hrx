@@ -65,7 +65,7 @@ a {
 @use "sass:list";
 // CSS doesn't use slash-separated bracketed lists, but Sass supports them in
 // case one day that changes.
-a {b: join(c d, e f, $separator: slash, $bracketed: true)}
+a {b: list.join(c d, e f, $separator: slash, $bracketed: true)}
 
 <===> output/bracketed_slash/output.css
 a {
@@ -76,7 +76,7 @@ a {
 ================================================================================
 <===> functions/length/input.scss
 @use "sass:list";
-a {b: length(list.slash(c, d, e, f, g))}
+a {b: list.length(list.slash(c, d, e, f, g))}
 
 <===> functions/length/output.css
 a {
@@ -87,7 +87,7 @@ a {
 ================================================================================
 <===> functions/nth/input.scss
 @use "sass:list";
-a {b: nth(list.slash(c, d, e, f, g), 3)}
+a {b: list.nth(list.slash(c, d, e, f, g), 3)}
 
 <===> functions/nth/output.css
 a {

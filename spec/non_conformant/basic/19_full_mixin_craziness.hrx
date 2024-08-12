@@ -199,3 +199,60 @@ div {
   a: global-x;
   b: changed global y;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+   ,
+7  |     margin: $x $y;
+   |     ^^^^^^^^^^^^^ declaration
+8  | /   blip {
+9  | |     hey: now;
+10 | |   }
+   | '--- nested rule
+   '
+    input.scss 7:3   foo()
+    input.scss 27:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+8   | /   blip {
+9   | |     hey: now;
+10  | |   }
+    | '--- nested rule
+... |
+15  |     margin: $x $y $z;
+    |     ^^^^^^^^^^^^^^^^ declaration
+    '
+    input.scss 15:3  foogoo()
+    input.scss 28:3  root stylesheet
+
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+8   | /   blip {
+9   | |     hey: now;
+10  | |   }
+    | '--- nested rule
+... |
+15  |     margin: $x $y $z;
+    |     ^^^^^^^^^^^^^^^^ declaration
+    '
+    input.scss 15:3  foogoo()
+    input.scss 29:3  root stylesheet

@@ -1,5 +1,6 @@
 <===> no_arg/class/same/input.scss
-a {b: selector-unify(":c", ":c")}
+@use "sass:selector";
+a {b: selector.unify(":c", ":c")}
 
 <===> no_arg/class/same/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/class/different/input.scss
-a {b: selector-unify(":c", ":d")}
+@use "sass:selector";
+a {b: selector.unify(":c", ":d")}
 
 <===> no_arg/class/different/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/element/same/input.scss
-a {b: selector-unify("::c", "::c")}
+@use "sass:selector";
+a {b: selector.unify("::c", "::c")}
 
 <===> no_arg/element/same/output.css
 a {
@@ -29,7 +32,9 @@ a {
 <===>
 ================================================================================
 <===> no_arg/element/different/input.scss
-a {b: inspect(selector-unify("::c", "::d"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("::c", "::d"))}
 
 <===> no_arg/element/different/output.css
 a {
@@ -39,7 +44,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/different_syntax_same_semantics/before/input.scss
-a {b: selector-unify(":before", "::before")}
+@use "sass:selector";
+a {b: selector.unify(":before", "::before")}
 
 <===> no_arg/different_syntax_same_semantics/before/output.css
 a {
@@ -49,7 +55,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/different_syntax_same_semantics/after/input.scss
-a {b: selector-unify(":after", "::after")}
+@use "sass:selector";
+a {b: selector.unify(":after", "::after")}
 
 <===> no_arg/different_syntax_same_semantics/after/output.css
 a {
@@ -59,7 +66,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/different_syntax_same_semantics/first_line/input.scss
-a {b: selector-unify(":first-line", "::first-line")}
+@use "sass:selector";
+a {b: selector.unify(":first-line", "::first-line")}
 
 <===> no_arg/different_syntax_same_semantics/first_line/output.css
 a {
@@ -69,7 +77,8 @@ a {
 <===>
 ================================================================================
 <===> no_arg/different_syntax_same_semantics/first_letter/input.scss
-a {b: selector-unify(":first-letter", "::first-letter")}
+@use "sass:selector";
+a {b: selector.unify(":first-letter", "::first-letter")}
 
 <===> no_arg/different_syntax_same_semantics/first_letter/output.css
 a {
@@ -79,7 +88,8 @@ a {
 <===>
 ================================================================================
 <===> arg/class/same/input.scss
-a {b: selector-unify(":c(@#$)", ":c(@#$)")}
+@use "sass:selector";
+a {b: selector.unify(":c(@#$)", ":c(@#$)")}
 
 <===> arg/class/same/output.css
 a {
@@ -89,7 +99,8 @@ a {
 <===>
 ================================================================================
 <===> arg/class/different/input.scss
-a {b: selector-unify(":c(@#$)", ":c(*&^)")}
+@use "sass:selector";
+a {b: selector.unify(":c(@#$)", ":c(*&^)")}
 
 <===> arg/class/different/output.css
 a {
@@ -99,7 +110,8 @@ a {
 <===>
 ================================================================================
 <===> arg/element/same/input.scss
-a {b: selector-unify("::c(@#$)", "::c(@#$)")}
+@use "sass:selector";
+a {b: selector.unify("::c(@#$)", "::c(@#$)")}
 
 <===> arg/element/same/output.css
 a {
@@ -109,7 +121,9 @@ a {
 <===>
 ================================================================================
 <===> arg/element/different/input.scss
-a {b: inspect(selector-unify("::c(@#$)", "::c(*&^)"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("::c(@#$)", "::c(*&^)"))}
 
 <===> arg/element/different/output.css
 a {
@@ -119,7 +133,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/is/same/input.scss
-a {b: selector-unify(":is(.c)", ":is(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c)", ":is(.c)")}
 
 <===> selector_arg/is/same/output.css
 a {
@@ -129,7 +144,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/is/different/input.scss
-a {b: selector-unify(":is(.c)", ":is(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c)", ":is(.d)")}
 
 <===> selector_arg/is/different/output.css
 a {
@@ -139,7 +155,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/where/same/input.scss
-a {b: selector-unify(":where(.c)", ":where(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":where(.c)", ":where(.c)")}
 
 <===> selector_arg/where/same/output.css
 a {
@@ -149,7 +166,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/where/different/input.scss
-a {b: selector-unify(":where(.c)", ":where(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":where(.c)", ":where(.d)")}
 
 <===> selector_arg/where/different/output.css
 a {
@@ -159,7 +177,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/matches/same/input.scss
-a {b: selector-unify(":matches(.c)", ":matches(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":matches(.c)", ":matches(.c)")}
 
 <===> selector_arg/matches/same/output.css
 a {
@@ -169,7 +188,8 @@ a {
 <===>
 ================================================================================
 <===> selector_arg/matches/different/input.scss
-a {b: selector-unify(":matches(.c)", ":matches(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":matches(.c)", ":matches(.d)")}
 
 <===> selector_arg/matches/different/output.css
 a {
@@ -179,7 +199,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/host/argless/input.scss
-a {b: selector-unify(":host", ":host")}
+@use "sass:selector";
+a {b: selector.unify(":host", ":host")}
 
 <===> host/argless/host/argless/output.css
 a {
@@ -189,7 +210,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/host/arg/input.scss
-a {b: selector-unify(":host", ":host(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":host", ":host(.c)")}
 
 <===> host/argless/host/arg/output.css
 a {
@@ -199,7 +221,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/host_context/left/input.scss
-a {b: selector-unify(":host", ":host-context(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":host", ":host-context(.c)")}
 
 <===> host/argless/host_context/left/output.css
 a {
@@ -209,7 +232,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/host_context/right/input.scss
-a {b: selector-unify(":host-context(.c)", ":host")}
+@use "sass:selector";
+a {b: selector.unify(":host-context(.c)", ":host")}
 
 <===> host/argless/host_context/right/output.css
 a {
@@ -219,7 +243,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/selector_pseudo/left/input.scss
-a {b: selector-unify(":host", ":is(.c)")}
+@use "sass:selector";
+a {b: selector.unify(":host", ":is(.c)")}
 
 <===> host/argless/selector_pseudo/left/output.css
 a {
@@ -229,7 +254,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/selector_pseudo/right/input.scss
-a {b: selector-unify(":is(.c)", ":host")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c)", ":host")}
 
 <===> host/argless/selector_pseudo/right/output.css
 a {
@@ -239,7 +265,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/pseudo/left/input.scss
-a {b: inspect(selector-unify(":host", ":hover"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host", ":hover"))}
 
 <===> host/argless/pseudo/left/output.css
 a {
@@ -249,7 +277,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/pseudo/right/input.scss
-a {b: inspect(selector-unify(":hover", ":host"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":hover", ":host"))}
 
 <===> host/argless/pseudo/right/output.css
 a {
@@ -259,7 +289,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/class/left/input.scss
-a {b: inspect(selector-unify(":host", ".c"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host", ".c"))}
 
 <===> host/argless/class/left/output.css
 a {
@@ -269,7 +301,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/class/right/input.scss
-a {b: inspect(selector-unify(".c", ":host"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(".c", ":host"))}
 
 <===> host/argless/class/right/output.css
 a {
@@ -279,7 +313,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/universal/left/input.scss
-a {b: inspect(selector-unify(":host", "*"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host", "*"))}
 
 <===> host/argless/universal/left/output.css
 a {
@@ -289,7 +325,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/universal/right/input.scss
-a {b: inspect(selector-unify("*", ":host"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify("*", ":host"))}
 
 <===> host/argless/universal/right/output.css
 a {
@@ -299,7 +337,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/selector_pseudos/left/input.scss
-a {b: selector-unify(":host", ":is(.c):is(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":host", ":is(.c):is(.d)")}
 
 <===> host/argless/compound/selector_pseudos/left/output.css
 a {
@@ -309,7 +348,8 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/selector_pseudos/right/input.scss
-a {b: selector-unify(":is(.c):is(.d)", ":host")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c):is(.d)", ":host")}
 
 <===> host/argless/compound/selector_pseudos/right/output.css
 a {
@@ -319,7 +359,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/class_and_selector_pseudo/left/input.scss
-a {b: inspect(selector-unify(":host", ".c:is(.d)"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host", ".c:is(.d)"))}
 
 <===> host/argless/compound/class_and_selector_pseudo/left/output.css
 a {
@@ -329,7 +371,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/class_and_selector_pseudo/right/input.scss
-a {b: inspect(selector-unify(".c:is(.d)", ":host"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(".c:is(.d)", ":host"))}
 
 <===> host/argless/compound/class_and_selector_pseudo/right/output.css
 a {
@@ -339,7 +383,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/host_and_class/left/input.scss
-a {b: inspect(selector-unify(":host", ":host.c"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host", ":host.c"))}
 
 <===> host/argless/compound/host_and_class/left/output.css
 a {
@@ -349,7 +395,9 @@ a {
 <===>
 ================================================================================
 <===> host/argless/compound/host_and_class/right/input.scss
-a {b: inspect(selector-unify(":host.c", ":host"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host.c", ":host"))}
 
 <===> host/argless/compound/host_and_class/right/output.css
 a {
@@ -359,7 +407,8 @@ a {
 <===>
 ================================================================================
 <===> host/arg/preserved/left/input.scss
-a {b: selector-unify(":host(.c)", ":is(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":host(.c)", ":is(.d)")}
 
 <===> host/arg/preserved/left/output.css
 a {
@@ -369,7 +418,8 @@ a {
 <===>
 ================================================================================
 <===> host/arg/preserved/right/input.scss
-a {b: selector-unify(":is(.c)", ":host(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c)", ":host(.d)")}
 
 <===> host/arg/preserved/right/output.css
 a {
@@ -379,7 +429,9 @@ a {
 <===>
 ================================================================================
 <===> host/arg/removed/left/input.scss
-a {b: inspect(selector-unify(":host(.c)", ".d"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host(.c)", ".d"))}
 
 <===> host/arg/removed/left/output.css
 a {
@@ -389,7 +441,9 @@ a {
 <===>
 ================================================================================
 <===> host/arg/removed/right/input.scss
-a {b: inspect(selector-unify(".c", ":host(.d)"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(".c", ":host(.d)"))}
 
 <===> host/arg/removed/right/output.css
 a {
@@ -399,7 +453,8 @@ a {
 <===>
 ================================================================================
 <===> host_context/preserved/left/input.scss
-a {b: selector-unify(":host-context(.c)", ":is(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":host-context(.c)", ":is(.d)")}
 
 <===> host_context/preserved/left/output.css
 a {
@@ -409,7 +464,8 @@ a {
 <===>
 ================================================================================
 <===> host_context/preserved/right/input.scss
-a {b: selector-unify(":is(.c)", ":host-context(.d)")}
+@use "sass:selector";
+a {b: selector.unify(":is(.c)", ":host-context(.d)")}
 
 <===> host_context/preserved/right/output.css
 a {
@@ -419,7 +475,9 @@ a {
 <===>
 ================================================================================
 <===> host_context/removed/left/input.scss
-a {b: inspect(selector-unify(":host-context(.c)", ".d"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(":host-context(.c)", ".d"))}
 
 <===> host_context/removed/left/output.css
 a {
@@ -429,7 +487,9 @@ a {
 <===>
 ================================================================================
 <===> host_context/removed/right/input.scss
-a {b: inspect(selector-unify(".c", ":host-context(.d)"))}
+@use "sass:meta";
+@use "sass:selector";
+a {b: meta.inspect(selector.unify(".c", ":host-context(.d)"))}
 
 <===> host_context/removed/right/output.css
 a {

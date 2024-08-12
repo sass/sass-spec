@@ -1,23 +1,10 @@
 <===> input.scss
+@use "sass:color";
 b {
-    color: lighten(Crimson, 10%);
+    color: color.adjust(Crimson, $lightness: 10%);
 }
 
 <===> output.css
 b {
   color: rgb(236.75, 54.25, 90.75);
 }
-
-<===> warning
-DEPRECATION WARNING: lighten() is deprecated. Suggestions:
-
-color.scale($color, $lightness: 18.8888888889%)
-color.adjust($color, $lightness: 10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-2 |     color: lighten(Crimson, 10%);
-  |            ^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:12  root stylesheet

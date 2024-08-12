@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:color";
 $x: rgb(0, 255, 255);
 
 div {
@@ -13,13 +14,13 @@ div {
   
   $x: rgb(123, 45, 6);
   
-  hoo: red($x);
-  moo: green($x);
-  poo: blue($x);
+  hoo: color.red($x);
+  moo: color.green($x);
+  poo: color.blue($x);
   
-  goo: mix(rgba(255, 0, 0, 0.5), #00f);
+  goo: color.mix(rgba(255, 0, 0, 0.5), #00f);
   
-  boo: invert(#123456);
+  boo: color.invert(#123456);
 }
 
 <===> output.css
@@ -39,38 +40,38 @@ div {
 }
 
 <===> warning
-DEPRECATION WARNING: red() is deprecated. Suggestion:
+DEPRECATION WARNING: color.red() is deprecated. Suggestion:
 
 color.channel($color, red)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-15 |   hoo: red($x);
-   |        ^^^^^^^
+16 |   hoo: color.red($x);
+   |        ^^^^^^^^^^^^^
    '
-    input.scss 15:8  root stylesheet
+    input.scss 16:8  root stylesheet
 
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-16 |   moo: green($x);
-   |        ^^^^^^^^^
+17 |   moo: color.green($x);
+   |        ^^^^^^^^^^^^^^^
    '
-    input.scss 16:8  root stylesheet
+    input.scss 17:8  root stylesheet
 
-DEPRECATION WARNING: blue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.blue() is deprecated. Suggestion:
 
 color.channel($color, blue)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-17 |   poo: blue($x);
-   |        ^^^^^^^^
+18 |   poo: color.blue($x);
+   |        ^^^^^^^^^^^^^^
    '
-    input.scss 17:8  root stylesheet
+    input.scss 18:8  root stylesheet

@@ -1,8 +1,9 @@
 <===> user_defined/input.scss
+@use "sass:meta";
 @function add-two($v) {@return $v + 2}
-$add-two-fn: get-function(add-two);
+$add-two-fn: meta.get-function(add-two);
 
-a {b: call($add-two-fn, 10)}
+a {b: meta.call($add-two-fn, 10)}
 
 <===> user_defined/output.css
 a {
@@ -12,15 +13,16 @@ a {
 <===>
 ================================================================================
 <===> redefined/input.scss
+@use "sass:meta";
 @function add-two($v) {@return $v + 2}
-$add-two-fn: get-function(add-two);
+$add-two-fn: meta.get-function(add-two);
 
 // The function returned by `get-function()` is locked in place when it's
 // called. Redefining the function after the fact shouldn't affect the stored
 // value.
 @function add-two($v) {@error "Should not be called"}
 
-a {b: call($add-two-fn, 10)}
+a {b: meta.call($add-two-fn, 10)}
 
 <===> redefined/output.css
 a {
@@ -30,9 +32,10 @@ a {
 <===>
 ================================================================================
 <===> built_in/input.scss
-$round-fn: get-function(round);
+@use "sass:meta";
+$round-fn: meta.get-function(round);
 
-a {b: call($round-fn, 0.6)}
+a {b: meta.call($round-fn, 0.6)}
 
 <===> built_in/output.css
 a {
@@ -42,8 +45,9 @@ a {
 <===>
 ================================================================================
 <===> through_import/input.scss
+@use "sass:meta";
 @import "other";
-a {b: call(get-function(add-two), 10)}
+a {b: meta.call(meta.get-function(add-two), 10)}
 
 <===> through_import/other.scss
 @function add-two($v) {@return $v + 2}
@@ -56,12 +60,13 @@ a {
 <===>
 ================================================================================
 <===> plain_css/input.scss
-$sass-fn: get-function(round);
-$css-fn: get-function(round, $css: true);
+@use "sass:meta";
+$sass-fn: meta.get-function(round);
+$css-fn: meta.get-function(round, $css: true);
 
 a {
-  sass-fn: call($sass-fn, 0.6);
-  css-fn: call($css-fn, 0.6);
+  sass-fn: meta.call($sass-fn, 0.6);
+  css-fn: meta.call($css-fn, 0.6);
 }
 
 <===> plain_css/output.css
@@ -73,9 +78,10 @@ a {
 <===>
 ================================================================================
 <===> dash_insensitive/dash_to_underscore/input.scss
+@use "sass:meta";
 @function add_two($v) {@return $v + 2}
 
-a {b: call(get-function(add-two), 10)}
+a {b: meta.call(meta.get-function(add-two), 10)}
 
 <===> dash_insensitive/dash_to_underscore/output.css
 a {
@@ -85,9 +91,10 @@ a {
 <===>
 ================================================================================
 <===> dash_insensitive/underscore_to_dash/input.scss
+@use "sass:meta";
 @function add-two($v) {@return $v + 2}
 
-a {b: call(get-function(add_two), 10)}
+a {b: meta.call(meta.get-function(add_two), 10)}
 
 <===> dash_insensitive/underscore_to_dash/output.css
 a {

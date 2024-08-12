@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: green(rgb(0, 255, 0))}
+@use "sass:color";
+a {b: color.green(rgb(0, 255, 0))}
 
 <===> max/output.css
 a {
@@ -7,22 +8,23 @@ a {
 }
 
 <===> max/warning
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: green(rgb(0, 255, 0))}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.green(rgb(0, 255, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: green(rgb(0, 0, 0))}
+@use "sass:color";
+a {b: color.green(rgb(0, 0, 0))}
 
 <===> min/output.css
 a {
@@ -30,22 +32,23 @@ a {
 }
 
 <===> min/warning
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: green(rgb(0, 0, 0))}
-  |       ^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.green(rgb(0, 0, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: green(rgb(0, 123, 0))}
+@use "sass:color";
+a {b: color.green(rgb(0, 123, 0))}
 
 <===> middle/output.css
 a {
@@ -53,22 +56,23 @@ a {
 }
 
 <===> middle/warning
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: green(rgb(0, 123, 0))}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.green(rgb(0, 123, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: green($color: rgb(0, 234, 0))}
+@use "sass:color";
+a {b: color.green($color: rgb(0, 234, 0))}
 
 <===> named/output.css
 a {
@@ -76,64 +80,67 @@ a {
 }
 
 <===> named/warning
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: green($color: rgb(0, 234, 0))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.green($color: rgb(0, 234, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: green()}
+@use "sass:color";
+a {b: color.green()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: green()}
-  |       ^^^^^^^ invocation
+2 | a {b: color.green()}
+  |       ^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function green($color) {
   |           ============= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: green(red, green)}
+@use "sass:color";
+a {b: color.green(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: green(red, green)}
-  |       ^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.green(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function green($color) {
   |           ============= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: green(1)}
+@use "sass:color";
+a {b: color.green(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: green(1)}
-  |       ^^^^^^^^
+2 | a {b: color.green(1)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

@@ -1,5 +1,6 @@
 <===> found/single/input.scss
-a {b: index([c], c)}
+@use "sass:list";
+a {b: list.index([c], c)}
 
 <===> found/single/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> found/first/input.scss
-a {b: index(a b c, a)}
+@use "sass:list";
+a {b: list.index(a b c, a)}
 
 <===> found/first/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> found/last/input.scss
-a {b: index(a b c, c)}
+@use "sass:list";
+a {b: list.index(a b c, c)}
 
 <===> found/last/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> found/sass_equality/input.scss
-a {b: index(1px 1in 1cm, 96px)}
+@use "sass:list";
+a {b: list.index(1px 1in 1cm, 96px)}
 
 <===> found/sass_equality/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> found/multiple/input.scss
-a {b: index(a b c a b c, b)}
+@use "sass:list";
+a {b: list.index(a b c a b c, b)}
 
 <===> found/multiple/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> found/map/input.scss
-a {b: index((c: d, e: f, g: h), e f)}
+@use "sass:list";
+a {b: list.index((c: d, e: f, g: h), e f)}
 
 <===> found/map/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> found/non_list/input.scss
-a {b: index(c, c)}
+@use "sass:list";
+a {b: list.index(c, c)}
 
 <===> found/non_list/output.css
 a {
@@ -69,7 +76,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/empty/input.scss
-a {b: inspect(index((), c))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.index((), c))}
 
 <===> not_found/empty/output.css
 a {
@@ -79,7 +88,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/non_empty/input.scss
-a {b: inspect(index(c d e, f))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.index(c d e, f))}
 
 <===> not_found/non_empty/output.css
 a {
@@ -89,8 +100,10 @@ a {
 <===>
 ================================================================================
 <===> not_found/map/empty/input.scss
-@import "core_functions/list/utils";
-a {b: inspect(index($empty-map, e))}
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
+a {b: meta.inspect(list.index(utils.$empty-map, e))}
 
 <===> not_found/map/empty/output.css
 a {
@@ -100,7 +113,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/map/non_empty/input.scss
-a {b: inspect(index((c: d, e: f, g: h), e))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.index((c: d, e: f, g: h), e))}
 
 <===> not_found/map/non_empty/output.css
 a {
@@ -110,7 +125,9 @@ a {
 <===>
 ================================================================================
 <===> not_found/non_list/input.scss
-a {b: inspect(index(c, d))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.index(c, d))}
 
 <===> not_found/non_list/output.css
 a {
@@ -120,7 +137,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: index($list: c d e, $value: d)}
+@use "sass:list";
+a {b: list.index($list: c d e, $value: d)}
 
 <===> named/output.css
 a {
@@ -130,33 +148,35 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: index(c d e)}
+@use "sass:list";
+a {b: list.index(c d e)}
 
 <===> error/too_few_args/error
 Error: Missing argument $value.
   ,--> input.scss
-1 | a {b: index(c d e)}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: list.index(c d e)}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function index($list, $value) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: index(c d e, d, e)}
+@use "sass:list";
+a {b: list.index(c d e, d, e)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: index(c d e, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: list.index(c d e, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:list
 1 | @function index($list, $value) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

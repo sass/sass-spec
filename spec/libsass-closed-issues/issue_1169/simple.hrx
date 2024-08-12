@@ -1,4 +1,6 @@
 <===> input.scss
+@use "sass:meta";
+
 $map1: (
    red: 'bar',
   'red': 'foo',
@@ -10,8 +12,8 @@ $map2: (
 );
 
 .foo {
-  content: inspect($map1);
-  content: inspect($map2);
+  content: meta.inspect($map1);
+  content: meta.inspect($map2);
 }
 <===> output.css
 .foo {

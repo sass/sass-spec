@@ -1,5 +1,7 @@
 <===> inspect/input.scss
-a {b: inspect(get-function(lighten))};
+@use "sass:meta";
+
+a {b: meta.inspect(meta.get-function(lighten))};
 
 <===> inspect/output.css
 a {
@@ -9,7 +11,9 @@ a {
 <===>
 ================================================================================
 <===> type_of/input.scss
-a {b: type-of(get-function(lighten))};
+@use "sass:meta";
+
+a {b: meta.type-of(meta.get-function(lighten))};
 
 <===> type_of/output.css
 a {

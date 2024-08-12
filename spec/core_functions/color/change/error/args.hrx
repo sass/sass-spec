@@ -41,3 +41,17 @@ Error: $ambience: Color space rgb doesn't have a channel with this name.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_name/input.scss
+@use "sass:color";
+a {b: color.change-color(#abcdef, $red: 10)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: color.change-color(#abcdef, $red: 10)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

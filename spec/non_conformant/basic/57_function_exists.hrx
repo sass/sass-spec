@@ -1,6 +1,7 @@
 <===> input.scss
+@use "sass:meta";
 @function exists($name) {
-  @return function-exists($name);
+  @return meta.function-exists($name);
 }
 
 @function f() {
@@ -9,54 +10,54 @@
 }
 
 @function g() {
-  @return function-exists(foo);
+  @return meta.function-exists(foo);
 }
 
 @function h() {
-  @return function-exists(lighten);
+  @return meta.function-exists(lighten);
 }
 
 div {
-  foo: function-exists(lighten); 
-  foo: function-exists("lighten"); 
-  foo: function-exists(exists);
-  foo: function-exists("exists"); 
-  foo: function-exists(f);
-  foo: function-exists("f"); 
-  foo: function-exists(g);
-  foo: function-exists("g"); 
-  foo: function-exists(nope);
-  foo: function-exists("nope"); 
+  foo: meta.function-exists(lighten); 
+  foo: meta.function-exists("lighten"); 
+  foo: meta.function-exists(exists);
+  foo: meta.function-exists("exists"); 
+  foo: meta.function-exists(f);
+  foo: meta.function-exists("f"); 
+  foo: meta.function-exists(g);
+  foo: meta.function-exists("g"); 
+  foo: meta.function-exists(nope);
+  foo: meta.function-exists("nope"); 
   foo: g();
   foo: f();
   foo: h();
 
 
   span {
-    foo: function-exists(lighten); 
-    foo: function-exists("lighten"); 
-    foo: function-exists(exists);
-    foo: function-exists("exists"); 
-    foo: function-exists(f);
-    foo: function-exists("f"); 
-    foo: function-exists(g);
-    foo: function-exists("g"); 
-    foo: function-exists(nope);
-    foo: function-exists("nope"); 
+    foo: meta.function-exists(lighten); 
+    foo: meta.function-exists("lighten"); 
+    foo: meta.function-exists(exists);
+    foo: meta.function-exists("exists"); 
+    foo: meta.function-exists(f);
+    foo: meta.function-exists("f"); 
+    foo: meta.function-exists(g);
+    foo: meta.function-exists("g"); 
+    foo: meta.function-exists(nope);
+    foo: meta.function-exists("nope"); 
     foo: g();
     foo: f();
     foo: h();
     p {
-      foo: function-exists(lighten); 
-      foo: function-exists("lighten"); 
-      foo: function-exists(exists);
-      foo: function-exists("exists"); 
-      foo: function-exists(f);
-      foo: function-exists("f"); 
-      foo: function-exists(g);
-      foo: function-exists("g"); 
-      foo: function-exists(nope);
-      foo: function-exists("nope"); 
+      foo: meta.function-exists(lighten); 
+      foo: meta.function-exists("lighten"); 
+      foo: meta.function-exists(exists);
+      foo: meta.function-exists("exists"); 
+      foo: meta.function-exists(f);
+      foo: meta.function-exists("f"); 
+      foo: meta.function-exists(g);
+      foo: meta.function-exists("g"); 
+      foo: meta.function-exists(nope);
+      foo: meta.function-exists("nope"); 
       foo: g();
       foo: f();
       foo: h();

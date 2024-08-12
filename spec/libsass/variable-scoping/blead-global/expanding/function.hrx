@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:meta";
 $continue_inner: true;
 $continue_outer: true;
 $root_default: initial;
@@ -27,22 +28,22 @@ $root_explicit: initial !global;
 
 result {
   fn: fn();
-  @if variable-exists(continue_outer) {
+  @if meta.variable-exists(continue_outer) {
     continue_outer: $continue_outer;
   }
-  @if variable-exists(continue_inner) {
+  @if meta.variable-exists(continue_inner) {
     continue_inner: $continue_inner;
   }
   root_default: $root_default;
   root_implicit: $root_implicit;
   root_explicit: $root_explicit;
-  @if variable-exists(local_default) {
+  @if meta.variable-exists(local_default) {
     local_default: $local_default;
   }
-  @if variable-exists(local_implicit) {
+  @if meta.variable-exists(local_implicit) {
     local_implicit: $local_implicit;
   }
-  @if variable-exists(local_explicit) {
+  @if meta.variable-exists(local_explicit) {
     local_explicit: $local_explicit;
   }
 }
@@ -64,18 +65,18 @@ Since this assignment is at the root of the stylesheet, the !global flag is
 unnecessary and can safely be removed.
 
   ,
-5 | $root_explicit: initial !global;
+6 | $root_explicit: initial !global;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 5:1  root stylesheet
+    input.scss 6:1  root stylesheet
 
 DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
 
 Recommendation: add `$local_explicit: null` at the stylesheet root.
 
    ,
-12 |   $local_explicit: outer !global;
+13 |   $local_explicit: outer !global;
    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 12:3  fn()
-    input.scss 28:7  root stylesheet
+    input.scss 13:3  fn()
+    input.scss 29:7  root stylesheet

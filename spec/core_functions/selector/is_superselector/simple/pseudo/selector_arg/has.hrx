@@ -1,5 +1,6 @@
 <===> superset/input.scss
-a {b: is-superselector(":has(c d, e f, g h)", ":has(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":has(c d, e f, g h)", ":has(c d.i, e j f)")}
 
 <===> superset/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> subset/input.scss
-a {b: is-superselector(":has(c d.i, e j f)", ":has(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":has(c d.i, e j f)", ":has(c d, e f, g h)")}
 
 <===> subset/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> bare_sub/input.scss
-a {b: is-superselector(":has(c d, e f, g h)", "c d, e f, g h")}
+@use "sass:selector";
+a {b: selector.is-superselector(":has(c d, e f, g h)", "c d, e f, g h")}
 
 <===> bare_sub/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/superset/input.scss
-a {b: is-superselector(":-pfx-has(c d, e f, g h)", ":-pfx-has(c d.i, e j f)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-has(c d, e f, g h)", ":-pfx-has(c d.i, e j f)")}
 
 <===> prefix/superset/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> prefix/subset/input.scss
-a {b: is-superselector(":-pfx-has(c d.i, e j f)", ":-pfx-has(c d, e f, g h)")}
+@use "sass:selector";
+a {b: selector.is-superselector(":-pfx-has(c d.i, e j f)", ":-pfx-has(c d, e f, g h)")}
 
 <===> prefix/subset/output.css
 a {

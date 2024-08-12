@@ -1,8 +1,9 @@
 <===> true/input.scss
-$result: inspect(true);
+@use "sass:meta";
+$result: meta.inspect(true);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> true/output.css
@@ -14,10 +15,11 @@ a {
 <===>
 ================================================================================
 <===> false/input.scss
-$result: inspect(false);
+@use "sass:meta";
+$result: meta.inspect(false);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> false/output.css

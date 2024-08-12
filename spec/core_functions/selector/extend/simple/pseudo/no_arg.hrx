@@ -1,5 +1,6 @@
 <===> class/equal/input.scss
-a {b: selector-extend(":c", ":c", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c", ":c", "e")}
 
 <===> class/equal/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> class/unequal/input.scss
-a {b: selector-extend(":c", ":d", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c", ":d", "e")}
 
 <===> class/unequal/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> class/and_element/input.scss
-a {b: selector-extend(":c", "::c", "e")}
+@use "sass:selector";
+a {b: selector.extend(":c", "::c", "e")}
 
 <===> class/and_element/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> element/equal/input.scss
-a {b: selector-extend("::c", "::c", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c", "::c", "e")}
 
 <===> element/equal/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> element/unequal/input.scss
-a {b: selector-extend("::c", "::d", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c", "::d", "e")}
 
 <===> element/unequal/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> element/and_class/input.scss
-a {b: selector-extend("::c", ":c", "e")}
+@use "sass:selector";
+a {b: selector.extend("::c", ":c", "e")}
 
 <===> element/and_class/output.css
 a {

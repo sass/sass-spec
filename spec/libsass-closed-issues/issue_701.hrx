@@ -1,17 +1,19 @@
 <===> input.scss
+@use "sass:meta";
+
 .test-1 {
   content: null;
-  content: inspect(null);
-  content: inspect(false);
-  content: inspect(true);
-  content: inspect(42);
-  content: inspect(42.3);
-  content: inspect(42px);
-  content: inspect("string");
+  content: meta.inspect(null);
+  content: meta.inspect(false);
+  content: meta.inspect(true);
+  content: meta.inspect(42);
+  content: meta.inspect(42.3);
+  content: meta.inspect(42px);
+  content: meta.inspect("string");
   $list: 1, 2, 3;
-  content: inspect($list);
+  content: meta.inspect($list);
   $map: ( a: 1, b: 2, c: 3 );
-  content: inspect($map);
+  content: meta.inspect($map);
 }
 
 <===> output.css

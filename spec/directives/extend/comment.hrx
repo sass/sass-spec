@@ -1,0 +1,62 @@
+<===> before_arg/loud/input.scss
+a {b: c}
+d {@extend /**/ a}
+
+<===> before_arg/loud/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> before_arg/silent/input.scss
+a {b: c}
+d {
+  @extend //
+  a
+}
+
+<===> before_arg/silent/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> after_arg/loud/input.scss
+a {b: c}
+d {@extend a /**/}
+
+<===> after_arg/loud/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> after_arg/silent/input.scss
+a {b: c}
+d {
+  @extend a //
+}
+
+<===> after_arg/silent/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> after_optional/loud/input.scss
+a {@extend b !optional /**/}
+
+<===> after_optional/loud/output.css
+
+<===>
+================================================================================
+<===> after_optional/silent/input.scss
+a {
+  @extend b !optional //
+}
+
+<===> after_optional/silent/output.css

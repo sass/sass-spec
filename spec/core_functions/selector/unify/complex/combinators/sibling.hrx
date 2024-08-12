@@ -1,5 +1,6 @@
 <===> and_descendant/input.scss
-a {b: selector-unify(".c ~ .s1", ".c .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .s1", ".c .s2")}
 
 <===> and_descendant/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> and_child/input.scss
-a {b: selector-unify(".c ~ .s1", ".c > .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .s1", ".c > .s2")}
 
 <===> and_child/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/distinct/input.scss
-a {b: selector-unify(".c ~ .d", ".e ~ .f")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .d", ".e ~ .f")}
 
 <===> and_sibling/distinct/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/identical/input.scss
-a {b: selector-unify(".c ~ .s1", ".c ~ .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .s1", ".c ~ .s2")}
 
 <===> and_sibling/identical/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/superselector/input.scss
-a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c ~ .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c ~ .s2")}
 
 <===> and_sibling/superselector/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/overlap/input.scss
-a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c.s2-1 ~ .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c.s2-1 ~ .s2-2")}
 
 <===> and_sibling/overlap/output.css
 a {
@@ -59,7 +65,8 @@ a {
 <===>
 ================================================================================
 <===> and_sibling/conflict/input.scss
-a {b: selector-unify("#s1-1 ~ .s1-2", "#s2-1 ~ .s2-2")}
+@use "sass:selector";
+a {b: selector.unify("#s1-1 ~ .s1-2", "#s2-1 ~ .s2-2")}
 
 <===> and_sibling/conflict/output.css
 a {
@@ -69,7 +76,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/distinct/input.scss
-a {b: selector-unify(".c ~ .d", ".e + .f")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .d", ".e + .f")}
 
 <===> and_next_sibling/distinct/output.css
 a {
@@ -79,7 +87,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/identical/input.scss
-a {b: selector-unify(".c ~ .s1", ".c + .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c ~ .s1", ".c + .s2")}
 
 <===> and_next_sibling/identical/output.css
 a {
@@ -89,7 +98,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/superselector/input.scss
-a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c + .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c + .s2")}
 
 <===> and_next_sibling/superselector/output.css
 a {
@@ -99,7 +109,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/overlap/input.scss
-a {b: selector-unify(".c.s1-1 ~ .s1-2", ".c.s2-1 + .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c.s2-1 + .s2-2")}
 
 <===> and_next_sibling/overlap/output.css
 a {
@@ -109,7 +120,8 @@ a {
 <===>
 ================================================================================
 <===> and_next_sibling/conflict/input.scss
-a {b: selector-unify("#s1-1 ~ .s1-2", "#s2-1 + .s2-2")}
+@use "sass:selector";
+a {b: selector.unify("#s1-1 ~ .s1-2", "#s2-1 + .s2-2")}
 
 <===> and_next_sibling/conflict/output.css
 a {

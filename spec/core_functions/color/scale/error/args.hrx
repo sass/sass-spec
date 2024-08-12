@@ -41,3 +41,17 @@ Error: $hue: Channel isn't scalable.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_name/input.scss
+@use "sass:color";
+a {b: color.scale-color(#abcdef, $red: 10%)}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: color.scale-color(#abcdef, $red: 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -134,11 +134,12 @@ b {
 @include meta.load-css("other", $with: (a: configured));
 
 <===> variable_exists/_other.scss
-$before-declaration: variable-exists(a);
+@use "sass:meta";
+$before-declaration: meta.variable-exists(a);
 $a: original !default;
 b {
   before-declaration: $before-declaration;
-  after-declaration: variable-exists(a);
+  after-declaration: meta.variable-exists(a);
 }
 
 <===> variable_exists/output.css

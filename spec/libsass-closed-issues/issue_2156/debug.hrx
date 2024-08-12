@@ -1,15 +1,16 @@
 <===> input.scss
+@use "sass:string";
 @debug "\"foo\"" + "";
 @debug "" + "\"foo\"";
 @debug "" + "\"foo";
 @debug "\"foo\"" + "bar";
-@debug unquote("\"foo\" and \"bar\"");
+@debug string.unquote("\"foo\" and \"bar\"");
 
 <===> output.css
 
 <===> warning
-/sass/spec/libsass-issues/issue_2156/input.scss:1 DEBUG: "foo"
-/sass/spec/libsass-issues/issue_2156/input.scss:2 DEBUG: "foo"
-/sass/spec/libsass-issues/issue_2156/input.scss:3 DEBUG: "foo
-/sass/spec/libsass-issues/issue_2156/input.scss:4 DEBUG: "foo"bar
-/sass/spec/libsass-issues/issue_2156/input.scss:5 DEBUG: "foo" and "bar"
+input.scss:2 DEBUG: "foo"
+input.scss:3 DEBUG: "foo"
+input.scss:4 DEBUG: "foo
+input.scss:5 DEBUG: "foo"bar
+input.scss:6 DEBUG: "foo" and "bar"

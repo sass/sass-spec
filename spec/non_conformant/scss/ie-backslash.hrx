@@ -1,22 +1,9 @@
 <===> input.scss
+@use "sass:color";
 div {
-  background-color: darken(red, 10%) \9;
+  background-color: color.adjust(red, $lightness: -10%) \9;
 }
 <===> output.css
 div {
   background-color: #cc0000 \9 ;
 }
-
-<===> warning
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -20%)
-color.adjust($color, $lightness: -10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-2 |   background-color: darken(red, 10%) \9;
-  |                     ^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:21  root stylesheet

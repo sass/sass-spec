@@ -1,11 +1,14 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:math";
+@use "sass:string";
 // @charset "UTF-8";
 
 @mixin background-image-retina($file, $type, $width, $height) {
-  background-image: unquote(image-url("#{$file}.#{$type}", true));
-  hey: length(a b c d);
-  ho: unquote("hello");
-  hee: unquote(unit(10fudge));
+  background-image: string.unquote(image-url("#{$file}.#{$type}", true));
+  hey: list.length(a b c d);
+  ho: string.unquote("hello");
+  hee: string.unquote(math.unit(10fudge));
 
   @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
     & {
@@ -49,7 +52,7 @@ div {
   @include bar(1);
   @include bar($x: n1, $y: n2);
   @include bar($x: n1);
-  blah: unquote("hello");
+  blah: string.unquote("hello");
 }
 <===> output.css
 div {
@@ -89,3 +92,25 @@ div {
   bar-y: default;
   blah: hello;
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+12  | /   @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+13  | |     & {
+14  | |       background-image: image-url("#{$file}@2x.#{$type}");
+15  | |       -webkit-background-size: $width $height;
+16  | |     }
+17  | |   }
+    | '--- nested rule
+... |
+25  |     fudge: walnut;
+    |     ^^^^^^^^^^^^^ declaration
+    '
+    input.scss 25:3  root stylesheet

@@ -1,5 +1,6 @@
 <===> unitless/input.scss
-a {b: unitless(1)}
+@use "sass:math";
+a {b: math.is-unitless(1)}
 
 <===> unitless/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> numerator/input.scss
-a {b: unitless(1px)}
+@use "sass:math";
+a {b: math.is-unitless(1px)}
 
 <===> numerator/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> denominator/input.scss
-a {b: unitless(1/1px)}
+@use "sass:math";
+a {b: math.is-unitless(1/1px)}
 
 <===> denominator/output.css
 a {
@@ -34,15 +37,16 @@ Recommendation: math.div(1, 1px)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | a {b: unitless(1/1px)}
-  |                ^^^^^
+2 | a {b: math.is-unitless(1/1px)}
+  |                        ^^^^^
   '
-    input.scss 1:16  root stylesheet
+    input.scss 2:24  root stylesheet
 
 <===>
 ================================================================================
 <===> numerator_and_denominator/input.scss
-a {b: unitless(1px/1em)}
+@use "sass:math";
+a {b: math.is-unitless(1px/1em)}
 
 <===> numerator_and_denominator/output.css
 a {
@@ -57,15 +61,16 @@ Recommendation: math.div(1px, 1em)
 More info and automated migrator: https://sass-lang.com/d/slash-div
 
   ,
-1 | a {b: unitless(1px/1em)}
-  |                ^^^^^^^
+2 | a {b: math.is-unitless(1px/1em)}
+  |                        ^^^^^^^
   '
-    input.scss 1:16  root stylesheet
+    input.scss 2:24  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: unitless($number: 100)}
+@use "sass:math";
+a {b: math.is-unitless($number: 100)}
 
 <===> named/output.css
 a {
@@ -74,47 +79,64 @@ a {
 
 <===>
 ================================================================================
+<===> error/wrong_name/input.scss
+@use "sass:math";
+a {b: math.unitless(1)}
+
+<===> error/wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: math.unitless(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/type/input.scss
-a {b: unitless(c)}
+@use "sass:math";
+a {b: math.is-unitless(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
   ,
-1 | a {b: unitless(c)}
-  |       ^^^^^^^^^^^
+2 | a {b: math.is-unitless(c)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: unitless()}
+@use "sass:math";
+a {b: math.is-unitless()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
   ,--> input.scss
-1 | a {b: unitless()}
-  |       ^^^^^^^^^^ invocation
+2 | a {b: math.is-unitless()}
+  |       ^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function is-unitless($number) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: unitless(1, 2)}
+@use "sass:math";
+a {b: math.is-unitless(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: unitless(1, 2)}
-  |       ^^^^^^^^^^^^^^ invocation
+2 | a {b: math.is-unitless(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function is-unitless($number) {
   |           ==================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

@@ -1,5 +1,6 @@
 <===> two_level/input.scss
-a {b: selector-unify(".c.s1-1 .s1-2", ".c .s2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 .s1-2", ".c .s2")}
 
 <===> two_level/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> three_level/outer/input.scss
-a {b: selector-unify(".c.s1-1 .s1-2 .s1-3", ".c .s2-1 .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".c.s1-1 .s1-2 .s1-3", ".c .s2-1 .s2-2")}
 
 <===> three_level/outer/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> three_level/inner/input.scss
-a {b: selector-unify(".s1-1 .c.s1-2 .s1-3", ".s2-1 .c .s2-2")}
+@use "sass:selector";
+a {b: selector.unify(".s1-1 .c.s1-2 .s1-3", ".s2-1 .c .s2-2")}
 
 <===> three_level/inner/output.css
 a {

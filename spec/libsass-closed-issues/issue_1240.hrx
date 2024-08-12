@@ -1,7 +1,8 @@
 <===> input.scss
+@use "sass:list";
 $var: 1;
 $list: 2, 3;
-$new-list: append($var, $list);
+$new-list: list.append($var, $list);
 $nested-list: $var $list;
 @debug($var);
 @debug($list);
@@ -22,7 +23,7 @@ div {
 }
 
 <===> warning
-input.scss:5 DEBUG: 1
-input.scss:6 DEBUG: 2, 3
-input.scss:7 DEBUG: 1 (2, 3)
+input.scss:6 DEBUG: 1
+input.scss:7 DEBUG: 2, 3
 input.scss:8 DEBUG: 1 (2, 3)
+input.scss:9 DEBUG: 1 (2, 3)

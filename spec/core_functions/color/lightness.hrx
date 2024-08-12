@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: lightness(hsl(0, 100%, 100%))}
+@use "sass:color";
+a {b: color.lightness(hsl(0, 100%, 100%))}
 
 <===> max/output.css
 a {
@@ -7,22 +8,23 @@ a {
 }
 
 <===> max/warning
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: lightness(hsl(0, 100%, 100%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.lightness(hsl(0, 100%, 100%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: lightness(hsl(0, 100%, 0%))}
+@use "sass:color";
+a {b: color.lightness(hsl(0, 100%, 0%))}
 
 <===> min/output.css
 a {
@@ -30,22 +32,23 @@ a {
 }
 
 <===> min/warning
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: lightness(hsl(0, 100%, 0%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.lightness(hsl(0, 100%, 0%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: lightness(hsl(0, 100%, 50%))}
+@use "sass:color";
+a {b: color.lightness(hsl(0, 100%, 50%))}
 
 <===> middle/output.css
 a {
@@ -53,22 +56,23 @@ a {
 }
 
 <===> middle/warning
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: lightness(hsl(0, 100%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.lightness(hsl(0, 100%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> fraction/input.scss
-a {b: lightness(hsl(0, 100%, 0.5%))}
+@use "sass:color";
+a {b: color.lightness(hsl(0, 100%, 0.5%))}
 
 <===> fraction/output.css
 a {
@@ -76,22 +80,23 @@ a {
 }
 
 <===> fraction/warning
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: lightness(hsl(0, 100%, 0.5%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.lightness(hsl(0, 100%, 0.5%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: lightness($color: hsl(0, 100%, 42%))}
+@use "sass:color";
+a {b: color.lightness($color: hsl(0, 100%, 42%))}
 
 <===> named/output.css
 a {
@@ -99,64 +104,67 @@ a {
 }
 
 <===> named/warning
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: lightness($color: hsl(0, 100%, 42%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.lightness($color: hsl(0, 100%, 42%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: lightness()}
+@use "sass:color";
+a {b: color.lightness()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: lightness()}
-  |       ^^^^^^^^^^^ invocation
+2 | a {b: color.lightness()}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function lightness($color) {
   |           ================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: lightness(red, green)}
+@use "sass:color";
+a {b: color.lightness(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: lightness(red, green)}
-  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.lightness(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function lightness($color) {
   |           ================= declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: lightness(1)}
+@use "sass:color";
+a {b: color.lightness(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: lightness(1)}
-  |       ^^^^^^^^^^^^
+2 | a {b: color.lightness(1)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

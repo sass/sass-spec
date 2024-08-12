@@ -41,15 +41,16 @@ Error: $lightness: Color space rgb doesn't have a channel with this name.
 <===>
 ================================================================================
 <===> red_and_blackness/input.scss
-a {b: adjust-color(red, $red: 1, $blackness: 1%)}
+@use "sass:color";
+a {b: color.change(red, $red: 1, $blackness: 1%)}
 
 <===> red_and_blackness/error
 Error: $blackness: Color space rgb doesn't have a channel with this name.
   ,
-1 | a {b: adjust-color(red, $red: 1, $blackness: 1%)}
+2 | a {b: color.change(red, $red: 1, $blackness: 1%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

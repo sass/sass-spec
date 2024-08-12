@@ -1,5 +1,6 @@
 <===> same_value/input.scss
-$lighten-fn: get-function(lighten);
+@use "sass:meta";
+$lighten-fn: meta.get-function(lighten);
 a {b: $lighten-fn == $lighten-fn}
 
 <===> same_value/output.css
@@ -10,7 +11,8 @@ a {
 <===>
 ================================================================================
 <===> built_in/same/input.scss
-a {b: get-function(lighten) == get-function(lighten)}
+@use "sass:meta";
+a {b: meta.get-function(lighten) == meta.get-function(lighten)}
 
 <===> built_in/same/output.css
 a {
@@ -20,7 +22,8 @@ a {
 <===>
 ================================================================================
 <===> built_in/different/input.scss
-a {b: get-function(lighten) == get-function(darken)}
+@use "sass:meta";
+a {b: meta.get-function(lighten) == meta.get-function(darken)}
 
 <===> built_in/different/output.css
 a {
@@ -30,8 +33,9 @@ a {
 <===>
 ================================================================================
 <===> user_defined/same/input.scss
+@use "sass:meta";
 @function user-defined() {@return null}
-a {b: get-function(user-defined) == get-function(user-defined)}
+a {b: meta.get-function(user-defined) == meta.get-function(user-defined)}
 
 <===> user_defined/same/output.css
 a {
@@ -41,9 +45,10 @@ a {
 <===>
 ================================================================================
 <===> user_defined/different/input.scss
+@use "sass:meta";
 @function user-defined-1() {@return null}
 @function user-defined-2() {@return null}
-a {b: get-function(user-defined-1) == get-function(user-defined-2)}
+a {b: meta.get-function(user-defined-1) == meta.get-function(user-defined-2)}
 
 <===> user_defined/different/output.css
 a {
@@ -53,11 +58,12 @@ a {
 <===>
 ================================================================================
 <===> user_defined/redefined/input.scss
+@use "sass:meta";
 @function user-defined() {@return null}
-$first-reference: get-function(user-defined);
+$first-reference: meta.get-function(user-defined);
 
 @function user-defined() {@return null}
-$second-reference: get-function(user-defined);
+$second-reference: meta.get-function(user-defined);
 a {b: $first-reference == $second-reference}
 
 <===> user_defined/redefined/output.css

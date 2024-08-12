@@ -1,6 +1,7 @@
 <===> shallow/empty/both/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((), ()))}
+a {b: meta.inspect(map.deep-merge((), ()))}
 
 <===> shallow/empty/both/output.css
 a {
@@ -10,8 +11,9 @@ a {
 <===>
 ================================================================================
 <===> shallow/empty/first/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((), (c: d, e: f)))}
+a {b: meta.inspect(map.deep-merge((), (c: d, e: f)))}
 
 <===> shallow/empty/first/output.css
 a {
@@ -21,8 +23,9 @@ a {
 <===>
 ================================================================================
 <===> shallow/empty/second/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: d, e: f), ()))}
+a {b: meta.inspect(map.deep-merge((c: d, e: f), ()))}
 
 <===> shallow/empty/second/output.css
 a {
@@ -32,8 +35,9 @@ a {
 <===>
 ================================================================================
 <===> shallow/different_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: d, e: f), (1: 2, 3: 4)))}
+a {b: meta.inspect(map.deep-merge((c: d, e: f), (1: 2, 3: 4)))}
 
 <===> shallow/different_keys/output.css
 a {
@@ -43,8 +47,9 @@ a {
 <===>
 ================================================================================
 <===> shallow/same_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: d, e: f), (c: 1, e: 2)))}
+a {b: meta.inspect(map.deep-merge((c: d, e: f), (c: 1, e: 2)))}
 
 <===> shallow/same_keys/output.css
 a {
@@ -54,8 +59,9 @@ a {
 <===>
 ================================================================================
 <===> shallow/overlapping_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: d, e: f, g: h), (i: 1, e: 2, j: 3)))}
+a {b: meta.inspect(map.deep-merge((c: d, e: f, g: h), (i: 1, e: 2, j: 3)))}
 
 <===> shallow/overlapping_keys/output.css
 a {
@@ -65,8 +71,9 @@ a {
 <===>
 ================================================================================
 <===> deep/empty/first/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: ()), (c: (d: e))))}
+a {b: meta.inspect(map.deep-merge((c: ()), (c: (d: e))))}
 
 <===> deep/empty/first/output.css
 a {
@@ -76,8 +83,9 @@ a {
 <===>
 ================================================================================
 <===> deep/empty/second/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: (d: e)), (c: ())))}
+a {b: meta.inspect(map.deep-merge((c: (d: e)), (c: ())))}
 
 <===> deep/empty/second/output.css
 a {
@@ -87,8 +95,9 @@ a {
 <===>
 ================================================================================
 <===> deep/different_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: (d: e, f: g)), (c: (1: 2, 3: 4))))}
+a {b: meta.inspect(map.deep-merge((c: (d: e, f: g)), (c: (1: 2, 3: 4))))}
 
 <===> deep/different_keys/output.css
 a {
@@ -98,8 +107,9 @@ a {
 <===>
 ================================================================================
 <===> deep/same_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: (d: e, f: g)), (c: (d: 1, f: 2))))}
+a {b: meta.inspect(map.deep-merge((c: (d: e, f: g)), (c: (d: 1, f: 2))))}
 
 <===> deep/same_keys/output.css
 a {
@@ -109,8 +119,9 @@ a {
 <===>
 ================================================================================
 <===> deep/overlapping_keys/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: (d: e, f: g, h: i)), (c: (j: 1, f: 2, k: 3))))}
+a {b: meta.inspect(map.deep-merge((c: (d: e, f: g, h: i)), (c: (j: 1, f: 2, k: 3))))}
 
 <===> deep/overlapping_keys/output.css
 a {
@@ -120,8 +131,9 @@ a {
 <===>
 ================================================================================
 <===> deep/multiple_layers/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge((c: (d: (e: (f: g)))), (c: (d: (e: (1: 2))))))}
+a {b: meta.inspect(map.deep-merge((c: (d: (e: (f: g)))), (c: (d: (e: (1: 2))))))}
 
 <===> deep/multiple_layers/output.css
 a {
@@ -131,8 +143,9 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @use 'sass:map';
-a {b: inspect(map.deep-merge($map1: (c: d), $map2: (1: 2)))}
+a {b: meta.inspect(map.deep-merge($map1: (c: d), $map2: (1: 2)))}
 
 <===> named/output.css
 a {

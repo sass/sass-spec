@@ -1,8 +1,9 @@
 <===> input.scss
+@use "sass:meta";
 $name: "lighten";
 $args: ("color": #ff0000, "amount": 10%);
 foo {
-  bar: call($name, $args...);
+  bar: meta.call($name, $args...);
 }
 
 <===> output.css
@@ -16,10 +17,10 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function("lighten"))
 
   ,
-4 |   bar: call($name, $args...);
-  |        ^^^^^^^^^^^^^^^^^^^^^
+5 |   bar: meta.call($name, $args...);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:8  root stylesheet
+    input.scss 5:8  root stylesheet
 
 DEPRECATION WARNING: lighten() is deprecated. Suggestions:
 
@@ -29,7 +30,7 @@ color.adjust($color, $lightness: 10%)
 More info: https://sass-lang.com/d/color-functions
 
   ,
-4 |   bar: call($name, $args...);
-  |        ^^^^^^^^^^^^^^^^^^^^^
+5 |   bar: meta.call($name, $args...);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:8  root stylesheet
+    input.scss 5:8  root stylesheet
