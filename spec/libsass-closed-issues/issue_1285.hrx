@@ -3,10 +3,11 @@
   - libsass
 
 <===> input.scss
+@use "sass:color";
 .container {
   @for $i from 1 through 3 {
     @at-root .box-#{$i} {
-      color: darken(red,($i * 5));
+      color: color.adjust(red,$lightness: -($i * 5%));
     }
   }
 
@@ -32,43 +33,3 @@
 .outside-child {
   background-color: blue;
 }
-
-<===> warning
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -10%)
-color.adjust($color, $lightness: -5%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-4 |       color: darken(red,($i * 5));
-  |              ^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 4:14  root stylesheet
-
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -20%)
-color.adjust($color, $lightness: -10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-4 |       color: darken(red,($i * 5));
-  |              ^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 4:14  root stylesheet
-
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -30%)
-color.adjust($color, $lightness: -15%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-4 |       color: darken(red,($i * 5));
-  |              ^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 4:14  root stylesheet

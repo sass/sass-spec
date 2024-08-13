@@ -11,25 +11,28 @@
 //    lists, but in order to thoroughly test their behavior we want to be able
 //    to distinguish lists that are internally space-separated from those that
 //    are internally undecided.
+@use "sass:list";
+@use "sass:map";
 
 /// Like `list-separator()` but returns `undecided` for lists with undecided
 /// separators.
 @function real-separator($list) {
-  @if list-separator(join($list, 1 2)) != list-separator(join($list, (1, 2))) {
+  @if list.separator(list.join($list, 1 2)) !=
+      list.separator(list.join($list, (1, 2))) {
     @return undecided;
   } @else {
-    @return list-separator($list);
+    @return list.separator($list);
   }
 }
 
 /// Returns a copy of `$list` with the given `$separator`.
 @function with-separator($list, $separator) {
-  @return join($list, (), $separator);
+  @return list.join($list, (), $separator);
 }
 
 /// An empty map, created by removing a value from a map. This *should* be
 /// treated as identical to the literal `()`.
-$empty-map: map-remove((a: b), a);
+$empty-map: map.remove((a: b), a);
 
 /// The value `()` has an undefined separator, but we can construct an empty
 /// list with a defined space separator.

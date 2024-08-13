@@ -3,6 +3,7 @@
   - lint-hrx
 
 <===> input.scss
+@use "sass:color";
 @import "lib/_bourbon.scss";
 
 box:hover {
@@ -27,7 +28,7 @@ div {
 
   // Multiple linear-gradients - Demo
   @include background-image(linear-gradient(hsla(0, 100%, 100%, 0.25) 0%, hsla(0, 100%, 100%, 0.08) 50%, transparent 50%),
-                             linear-gradient(#4e7ba3, darken(#4e7ba4, 10%)));
+                             linear-gradient(#4e7ba3, color.adjust(#4e7ba4, $lightness: -10%)));
 
   // NOT SUPPORTED - Multiple image assets with shorthand notation
   @include background-image(url("/images/a.png") center no-repeat, url("images/b.png") left repeat);
@@ -1929,17 +1930,3 @@ div {
   background-image: -webkit-url("/images/a.png")-gradient(center), -webkit-url("images/b.png")-gradient(left);
   background-image: url("/images/a.png")-gradient( center), url("images/b.png")-gradient( left);
 }
-
-<===> warning
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
-
-color.scale($color, $lightness: -21.0743801653%)
-color.adjust($color, $lightness: -10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-   ,
-25 |                              linear-gradient(#4e7ba3, darken(#4e7ba4, 10%)));
-   |                                                       ^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 25:55  root stylesheet

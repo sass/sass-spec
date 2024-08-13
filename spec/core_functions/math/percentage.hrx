@@ -1,5 +1,6 @@
 <===> zero/input.scss
-a {b: percentage(0)}
+@use "sass:math";
+a {b: math.percentage(0)}
 
 <===> zero/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> small/input.scss
-a {b: percentage(0.246)}
+@use "sass:math";
+a {b: math.percentage(0.246)}
 
 <===> small/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> large/input.scss
-a {b: percentage(123.456)}
+@use "sass:math";
+a {b: math.percentage(123.456)}
 
 <===> large/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> integer/input.scss
-a {b: percentage(42)}
+@use "sass:math";
+a {b: math.percentage(42)}
 
 <===> integer/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> negative/input.scss
-a {b: percentage(-0.4)}
+@use "sass:math";
+a {b: math.percentage(-0.4)}
 
 <===> negative/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: percentage($number: 1)}
+@use "sass:math";
+a {b: math.percentage($number: 1)}
 
 <===> named/output.css
 a {
@@ -59,59 +65,63 @@ a {
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: percentage(c)}
+@use "sass:math";
+a {b: math.percentage(c)}
 
 <===> error/type/error
 Error: $number: c is not a number.
   ,
-1 | a {b: percentage(c)}
-  |       ^^^^^^^^^^^^^
+2 | a {b: math.percentage(c)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/unit/input.scss
-a {b: percentage(1%)}
+@use "sass:math";
+a {b: math.percentage(1%)}
 
 <===> error/unit/error
 Error: $number: Expected 1% to have no units.
   ,
-1 | a {b: percentage(1%)}
-  |       ^^^^^^^^^^^^^^
+2 | a {b: math.percentage(1%)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: percentage()}
+@use "sass:math";
+a {b: math.percentage()}
 
 <===> error/too_few_args/error
 Error: Missing argument $number.
   ,--> input.scss
-1 | a {b: percentage()}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: math.percentage()}
+  |       ^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function percentage($number) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: percentage(1, 2)}
+@use "sass:math";
+a {b: math.percentage(1, 2)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: percentage(1, 2)}
-  |       ^^^^^^^^^^^^^^^^ invocation
+2 | a {b: math.percentage(1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:math
 1 | @function percentage($number) {
   |           =================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

@@ -1,0 +1,59 @@
+<===> get/input.scss
+a {b: map-get((c: d), c)}
+
+<===> get/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> merge/input.scss
+@use "sass:meta";
+a {b: meta.inspect(map-merge((c: d), (e: f)))}
+
+<===> merge/output.css
+a {
+  b: (c: d, e: f);
+}
+
+<===>
+================================================================================
+<===> remove/input.scss
+@use "sass:meta";
+a {b: meta.inspect(map-remove((c: d), c))}
+
+<===> remove/output.css
+a {
+  b: ();
+}
+
+<===>
+================================================================================
+<===> keys/input.scss
+a {b: map-keys((c: d))}
+
+<===> keys/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> values/input.scss
+a {b: map-values((c: d))}
+
+<===> values/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> has_key/input.scss
+a {b: map-has-key((c: d), c)}
+
+<===> has_key/output.css
+a {
+  b: true;
+}

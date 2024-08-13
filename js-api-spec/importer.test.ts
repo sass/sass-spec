@@ -12,8 +12,8 @@ import {
 
 import {sassImpl, runOnlyForImpl, URL} from './utils';
 
-it('uses an importer to resolve an @import', () => {
-  const result = compileString('@import "orange";', {
+it('uses an importer to resolve a @use', () => {
+  const result = compileString('@use "orange";', {
     importers: [
       {
         canonicalize: (url: string) => new URL(`u:${url}`),
@@ -29,7 +29,7 @@ it('uses an importer to resolve an @import', () => {
 });
 
 it('passes the canonicalized URL to the importer', () => {
-  const result = compileString('@import "orange";', {
+  const result = compileString('@use "orange";', {
     importers: [
       {
         canonicalize: () => new URL('u:blue'),
@@ -60,6 +60,7 @@ it('only invokes the importer once for a given canonicalization', () => {
           },
         },
       ],
+      silenceDeprecations: ['import'],
     }
   );
 
@@ -75,7 +76,7 @@ it('only invokes the importer once for a given canonicalization', () => {
 describe('the imported URL', () => {
   // Regression test for sass/dart-sass#1137.
   it("isn't changed if it's root-relative", () => {
-    const result = compileString('@import "/orange";', {
+    const result = compileString('@use "/orange";', {
       importers: [
         {
           canonicalize(url: string) {
@@ -109,7 +110,7 @@ describe('the imported URL', () => {
 
 describe('the containing URL', () => {
   it('is null for a potentially canonical scheme', () => {
-    const result = compileString('@import "u:orange"', {
+    const result = compileString('@use "u:orange"', {
       importers: [
         {
           canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -127,7 +128,7 @@ describe('the containing URL', () => {
   describe('for a non-canonical scheme', () => {
     describe('in a list', () => {
       it('is set to the original URL', () => {
-        const result = compileString('@import "u:orange"', {
+        const result = compileString('@use "u:orange"', {
           importers: [
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -147,7 +148,7 @@ describe('the containing URL', () => {
       });
 
       it('is null if the original URL is null', () => {
-        const result = compileString('@import "u:orange"', {
+        const result = compileString('@use "u:orange"', {
           importers: [
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -166,7 +167,7 @@ describe('the containing URL', () => {
 
     describe('as a string', () => {
       it('is set to the original URL', () => {
-        const result = compileString('@import "u:orange"', {
+        const result = compileString('@use "u:orange"', {
           importers: [
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -186,7 +187,7 @@ describe('the containing URL', () => {
       });
 
       it('is null if the original URL is null', () => {
-        const result = compileString('@import "u:orange"', {
+        const result = compileString('@use "u:orange"', {
           importers: [
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -206,7 +207,7 @@ describe('the containing URL', () => {
 
   describe('for a schemeless load', () => {
     it('is set to the original URL', () => {
-      const result = compileString('@import "orange"', {
+      const result = compileString('@use "orange"', {
         importers: [
           {
             canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -223,7 +224,7 @@ describe('the containing URL', () => {
     });
 
     it('is null if the original URL is null', () => {
-      const result = compileString('@import "orange"', {
+      const result = compileString('@use "orange"', {
         importers: [
           {
             canonicalize: (url: string, context: CanonicalizeContext) => {
@@ -246,7 +247,7 @@ describe(
   () => {
     it('set as a list', () =>
       expect(() =>
-        compileString('@import "orange"', {
+        compileString('@use "orange"', {
           importers: [
             {
               canonicalize: (url: string) => {
@@ -261,7 +262,7 @@ describe(
 
     it('set as a string', () =>
       expect(() =>
-        compileString('@import "orange"', {
+        compileString('@use "orange"', {
           importers: [
             {
               canonicalize: (url: string) => {
@@ -318,7 +319,7 @@ describe('throws an error for an invalid scheme:', () => {
 });
 
 it("uses an importer's source map URL", () => {
-  const result = compileString('@import "orange";', {
+  const result = compileString('@use "orange";', {
     importers: [
       {
         canonicalize: (url: string) => new URL(`u:${url}`),
@@ -340,7 +341,7 @@ it("uses an importer's source map URL", () => {
 
 it('wraps an error in canonicalize()', () => {
   expect(() => {
-    compileString('@import "orange";', {
+    compileString('@use "orange";', {
       importers: [
         {
           canonicalize() {
@@ -357,7 +358,7 @@ it('wraps an error in canonicalize()', () => {
 
 it('wraps an error in load()', () => {
   expect(() => {
-    compileString('@import "orange";', {
+    compileString('@use "orange";', {
       importers: [
         {
           canonicalize: (url: string) => new URL(`u:${url}`),
@@ -372,7 +373,7 @@ it('wraps an error in load()', () => {
 
 it('fails to import when load() returns null', () =>
   expect(() => {
-    compileString('@import "other";', {
+    compileString('@use "other";', {
       importers: [
         {
           canonicalize: (url: string) => new URL(`u:${url}`),
@@ -384,7 +385,7 @@ it('fails to import when load() returns null', () =>
 
 describe('with syntax', () => {
   it('scss, parses it as SCSS', () => {
-    const result = compileString('@import "other";', {
+    const result = compileString('@use "other";', {
       importers: [
         {
           canonicalize: () => new URL('u:other'),
@@ -397,7 +398,7 @@ describe('with syntax', () => {
   });
 
   it('indented, parses it as the indented syntax', () => {
-    const result = compileString('@import "other";', {
+    const result = compileString('@use "other";', {
       importers: [
         {
           canonicalize: () => new URL('u:other'),
@@ -413,7 +414,7 @@ describe('with syntax', () => {
   });
 
   it('css, allows plain CSS', () => {
-    const result = compileString('@import "other";', {
+    const result = compileString('@use "other";', {
       importers: [
         {
           canonicalize: () => new URL('u:other'),
@@ -427,7 +428,7 @@ describe('with syntax', () => {
 
   it('css, rejects SCSS', () => {
     expect(() => {
-      compileString('@import "other";', {
+      compileString('@use "other";', {
         importers: [
           {
             canonicalize: () => new URL('u:other'),
@@ -443,8 +444,8 @@ describe('with syntax', () => {
 });
 
 describe('async', () => {
-  it('resolves an @import', async () => {
-    const result = await compileStringAsync('@import "orange";', {
+  it('resolves a @use', async () => {
+    const result = await compileStringAsync('@use "orange";', {
       importers: [
         {
           canonicalize: (url: string) => Promise.resolve(new URL(`u:${url}`)),
@@ -464,7 +465,7 @@ describe('async', () => {
 
   it('wraps an asynchronous error in canonicalize', async () => {
     await expectAsync(() =>
-      compileStringAsync('@import "orange";', {
+      compileStringAsync('@use "orange";', {
         importers: [
           {
             canonicalize: () => Promise.reject('this import is bad actually'),
@@ -479,7 +480,7 @@ describe('async', () => {
 
   it('wraps a synchronous error in canonicalize', async () => {
     await expectAsync(() =>
-      compileStringAsync('@import "orange";', {
+      compileStringAsync('@use "orange";', {
         importers: [
           {
             canonicalize() {
@@ -496,7 +497,7 @@ describe('async', () => {
 
   it('wraps an asynchronous error in load', async () => {
     await expectAsync(() =>
-      compileStringAsync('@import "orange";', {
+      compileStringAsync('@use "orange";', {
         importers: [
           {
             canonicalize: (url: string) => new URL(`u:${url}`),
@@ -509,7 +510,7 @@ describe('async', () => {
 
   it('wraps a synchronous error in load', async () => {
     await expectAsync(() =>
-      compileStringAsync('@import "orange";', {
+      compileStringAsync('@use "orange";', {
         importers: [
           {
             canonicalize: (url: string) => new URL(`u:${url}`),
@@ -525,7 +526,7 @@ describe('async', () => {
 
 describe("compileString()'s importer option", () => {
   it('loads relative imports from the entrypoint', () => {
-    const result = compileString('@import "orange";', {
+    const result = compileString('@use "orange";', {
       importer: {
         canonicalize: (url: string) => {
           expect(url).toBe('u:orange');
@@ -543,7 +544,7 @@ describe("compileString()'s importer option", () => {
   });
 
   it("loads imports relative to the entrypoint's URL", () => {
-    const result = compileString('@import "baz/qux";', {
+    const result = compileString('@use "baz/qux";', {
       importer: {
         canonicalize: (url: string) => {
           expect(url).toBe('u:foo/baz/qux');
@@ -561,7 +562,7 @@ describe("compileString()'s importer option", () => {
   });
 
   it('loads relative imports without an entrypoint URL', () => {
-    const result = compileString('@import "orange";', {
+    const result = compileString('@use "orange";', {
       importer: {
         canonicalize: (url: string) => {
           expect(url).toBe('orange');
@@ -578,7 +579,7 @@ describe("compileString()'s importer option", () => {
   });
 
   it('takes precedence over the importer list for relative URLs', () => {
-    const result = compileString('@import "other";', {
+    const result = compileString('@use "other";', {
       importers: [
         {
           canonicalize() {
@@ -599,7 +600,7 @@ describe("compileString()'s importer option", () => {
   });
 
   it("doesn't load absolute imports", () => {
-    const result = compileString('@import "u:orange";', {
+    const result = compileString('@use "u:orange";', {
       importer: {
         canonicalize: () => {
           throw 'Should not be called';
@@ -627,7 +628,7 @@ describe("compileString()'s importer option", () => {
   });
 
   it("doesn't load from other importers", () => {
-    const result = compileString('@import "u:midstream";', {
+    const result = compileString('@use "u:midstream";', {
       importer: {
         canonicalize: () => {
           throw 'Should not be called';
@@ -641,7 +642,7 @@ describe("compileString()'s importer option", () => {
           canonicalize: (url: string) => new URL(url),
           load: (url: typeof URL) => {
             if (url.pathname === 'midstream') {
-              return {contents: "@import 'orange';", syntax: 'scss'};
+              return {contents: "@use 'orange';", syntax: 'scss'};
             } else {
               const color = url.pathname;
               return {contents: `.${color} {color: ${color}}`, syntax: 'scss'};
@@ -660,7 +661,7 @@ describe("compileString()'s importer option", () => {
     // "first:other" import is resolved it should be passed to the first
     // importer first despite being in the second importer's file.
     let secondCalled = false;
-    const result = compileString('@import "second:other";', {
+    const result = compileString('@use "second:other";', {
       importers: [
         {
           canonicalize: (url: string) =>
@@ -678,7 +679,7 @@ describe("compileString()'s importer option", () => {
             secondCalled = true;
             return url.startsWith('second:') ? new URL(url) : null;
           },
-          load: () => ({contents: '@import "first:other";', syntax: 'scss'}),
+          load: () => ({contents: '@use "first:other";', syntax: 'scss'}),
         },
       ],
     });
@@ -689,7 +690,11 @@ describe("compileString()'s importer option", () => {
 
 describe('fromImport is', () => {
   it('true from an @import', () => {
-    compileString('@import "foo"', {importers: [expectFromImport(true)]});
+    compileString('@import "foo"', {
+      importers: [expectFromImport(true)],
+      // TODO(jathak): Add this once import deprecation is active
+      // silenceDeprecations: ['import'],
+    });
   });
 
   it('false from a @use', () => {
@@ -710,7 +715,7 @@ describe('fromImport is', () => {
 describe('when importer does not return string contents', () => {
   it('throws an error in sync mode', () => {
     expect(() => {
-      compileString('@import "other";', {
+      compileString('@use "other";', {
         importers: [
           {
             canonicalize: (url: string) => new URL(`u:${url}`),
@@ -735,7 +740,7 @@ describe('when importer does not return string contents', () => {
 
   it('throws an error in async mode', async () => {
     await expectAsync(async () => {
-      await compileStringAsync('@import "other";', {
+      await compileStringAsync('@use "other";', {
         importers: [
           {
             canonicalize: (url: string) => new URL(`u:${url}`),
@@ -761,7 +766,7 @@ describe('when importer does not return string contents', () => {
 
 it('throws an ArgumentError when the result sourceMapUrl is missing a scheme', () => {
   expect(() => {
-    compileString('@import "other";', {
+    compileString('@use "other";', {
       importers: [
         {
           canonicalize: (url: string) => new URL(`u:${url}`),

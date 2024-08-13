@@ -1,5 +1,6 @@
 <===> max/input.scss
-a {b: saturation(hsl(0, 100%, 50%))}
+@use "sass:color";
+a {b: color.saturation(hsl(0, 100%, 50%))}
 
 <===> max/output.css
 a {
@@ -7,22 +8,23 @@ a {
 }
 
 <===> max/warning
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: saturation(hsl(0, 100%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.saturation(hsl(0, 100%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> min/input.scss
-a {b: saturation(hsl(0, 0%, 50%))}
+@use "sass:color";
+a {b: color.saturation(hsl(0, 0%, 50%))}
 
 <===> min/output.css
 a {
@@ -30,22 +32,23 @@ a {
 }
 
 <===> min/warning
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: saturation(hsl(0, 0%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.saturation(hsl(0, 0%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> middle/input.scss
-a {b: saturation(hsl(0, 50%, 50%))}
+@use "sass:color";
+a {b: color.saturation(hsl(0, 50%, 50%))}
 
 <===> middle/output.css
 a {
@@ -53,22 +56,23 @@ a {
 }
 
 <===> middle/warning
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: saturation(hsl(0, 50%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.saturation(hsl(0, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> fraction/input.scss
-a {b: saturation(hsl(0, 0.5%, 50%))}
+@use "sass:color";
+a {b: color.saturation(hsl(0, 0.5%, 50%))}
 
 <===> fraction/output.css
 a {
@@ -76,22 +80,23 @@ a {
 }
 
 <===> fraction/warning
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: saturation(hsl(0, 0.5%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.saturation(hsl(0, 0.5%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: saturation($color: hsl(0, 42%, 50%))}
+@use "sass:color";
+a {b: color.saturation($color: hsl(0, 42%, 50%))}
 
 <===> named/output.css
 a {
@@ -99,69 +104,72 @@ a {
 }
 
 <===> named/warning
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-1 | a {b: saturation($color: hsl(0, 42%, 50%))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.saturation($color: hsl(0, 42%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:7  root stylesheet
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: saturation()}
+@use "sass:color";
+a {b: color.saturation()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: saturation()}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: color.saturation()}
+  |       ^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function saturation($color) {
   |           ================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: saturation(red, green)}
+@use "sass:color";
+a {b: color.saturation(red, green)}
 
 <===> error/too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: saturation(red, green)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.saturation(red, green)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function saturation($color) {
   |           ================== declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: saturation(1)}
+@use "sass:color";
+a {b: color.saturation(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: saturation(1)}
-  |       ^^^^^^^^^^^^^
+2 | a {b: color.saturation(1)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.saturation(color(srgb 1 1 1))}
 
 <===> error/non_legacy/error

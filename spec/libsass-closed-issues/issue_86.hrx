@@ -1,12 +1,15 @@
 <===> input.scss
+@use "sass:color";
+@use "sass:math";
+@use "sass:meta";
 .color-functions {
     $color: red;
-    hue: hue($color);
-    hue-type: type-of(hue($color));
-    hue-unit: unit(hue($color));
-    hue-comparable: comparable(hue($color), hue($color));
-	test-1: comparable(lightness(red), 1%);
-	test-2: comparable(saturation(red), 1%);
+    hue: color.hue($color);
+    hue-type: meta.type-of(color.hue($color));
+    hue-unit: math.unit(color.hue($color));
+    hue-comparable: math.compatible(color.hue($color), color.hue($color));
+	test-1: math.compatible(color.lightness(red), 1%);
+	test-2: math.compatible(color.saturation(red), 1%);
 }
 <===> output.css
 .color-functions {
@@ -19,86 +22,86 @@
 }
 
 <===> warning
-DEPRECATION WARNING: hue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
 
 color.channel($color, hue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-3 |     hue: hue($color);
-  |          ^^^^^^^^^^^
+6 |     hue: color.hue($color);
+  |          ^^^^^^^^^^^^^^^^^
   '
-    input.scss 3:10  root stylesheet
+    input.scss 6:10  root stylesheet
 
-DEPRECATION WARNING: hue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
 
 color.channel($color, hue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-4 |     hue-type: type-of(hue($color));
-  |                       ^^^^^^^^^^^
+7 |     hue-type: meta.type-of(color.hue($color));
+  |                            ^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:23  root stylesheet
+    input.scss 7:28  root stylesheet
 
-DEPRECATION WARNING: hue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
 
 color.channel($color, hue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-5 |     hue-unit: unit(hue($color));
-  |                    ^^^^^^^^^^^
+8 |     hue-unit: math.unit(color.hue($color));
+  |                         ^^^^^^^^^^^^^^^^^
   '
-    input.scss 5:20  root stylesheet
+    input.scss 8:25  root stylesheet
 
-DEPRECATION WARNING: hue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
 
 color.channel($color, hue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-6 |     hue-comparable: comparable(hue($color), hue($color));
-  |                                ^^^^^^^^^^^
+9 |     hue-comparable: math.compatible(color.hue($color), color.hue($color));
+  |                                     ^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:32  root stylesheet
+    input.scss 9:37  root stylesheet
 
-DEPRECATION WARNING: hue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
 
 color.channel($color, hue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-6 |     hue-comparable: comparable(hue($color), hue($color));
-  |                                             ^^^^^^^^^^^
+9 |     hue-comparable: math.compatible(color.hue($color), color.hue($color));
+  |                                                        ^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:45  root stylesheet
+    input.scss 9:56  root stylesheet
 
-DEPRECATION WARNING: lightness() is deprecated. Suggestion:
+DEPRECATION WARNING: color.lightness() is deprecated. Suggestion:
 
 color.channel($color, lightness)
 
 More info: https://sass-lang.com/d/color-functions
 
-  ,
-7 |     test-1: comparable(lightness(red), 1%);
-  |                        ^^^^^^^^^^^^^^
-  '
-    input.scss 7:21  root stylesheet
+   ,
+10 |     test-1: math.compatible(color.lightness(red), 1%);
+   |                             ^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 10:26  root stylesheet
 
-DEPRECATION WARNING: saturation() is deprecated. Suggestion:
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
 
 color.channel($color, saturation)
 
 More info: https://sass-lang.com/d/color-functions
 
-  ,
-8 |     test-2: comparable(saturation(red), 1%);
-  |                        ^^^^^^^^^^^^^^^
-  '
-    input.scss 8:21  root stylesheet
+   ,
+11 |     test-2: math.compatible(color.saturation(red), 1%);
+   |                             ^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:26  root stylesheet

@@ -1,7 +1,8 @@
 <===> direct/input.scss
+@use "sass:meta";
 @use "other";
 
-a {b: inspect(other.$member)}
+a {b: meta.inspect(other.$member)}
 
 <===> direct/other.scss
 x {
@@ -22,9 +23,10 @@ a {
 <===>
 ================================================================================
 <===> through_import/input.scss
+@use "sass:meta";
 @use "used";
 
-a {b: inspect(used.$member)}
+a {b: meta.inspect(used.$member)}
 
 <===> through_import/used.scss
 @import "imported";

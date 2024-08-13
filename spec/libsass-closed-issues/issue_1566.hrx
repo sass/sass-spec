@@ -1,10 +1,11 @@
 <===> input.scss
+@use "sass:meta";
 @function foo($predicate) {
-  @return call('bar', $predicate);
+  @return meta.call('bar', $predicate);
 }
 
 @function bar($predicate) {
-  @return type-of($predicate);
+  @return meta.type-of($predicate);
 }
 
 test {
@@ -22,8 +23,8 @@ DEPRECATION WARNING: Passing a string to call() is deprecated and will be illega
 Recommendation: call(get-function("bar"))
 
   ,
-2 |   @return call('bar', $predicate);
-  |           ^^^^^^^^^^^^^^^^^^^^^^^
+3 |   @return meta.call('bar', $predicate);
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:11  foo()
-    input.scss 10:9  root stylesheet
+    input.scss 3:11  foo()
+    input.scss 11:9  root stylesheet

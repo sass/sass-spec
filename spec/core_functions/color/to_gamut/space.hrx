@@ -1,5 +1,5 @@
 <===> clip/in_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(60% 0.13 240deg), $space: rgb, $method: clip)}
 
 <===> clip/in_gamut/output.css
@@ -10,7 +10,7 @@ a {
 <===>
 ================================================================================
 <===> clip/out_of_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(60% 0.15 240deg), $space: rgb, $method: clip)}
 
 <===> clip/out_of_gamut/output.css
@@ -21,7 +21,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/legacy/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(rgb(none none none), $method: clip)}
 
 <===> clip/missing/legacy/same/implicit/output.css
@@ -32,7 +32,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/legacy/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(rgb(none none none), $space: rgb, $method: clip)}
 
 <===> clip/missing/legacy/same/explicit/output.css
@@ -43,7 +43,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/legacy/same/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color.change(rgb(none 0 none), $green: 300),
@@ -59,7 +59,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/legacy/analogous/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(none 50% 50%), $space: hwb, $method: clip)}
 
 <===> clip/missing/legacy/analogous/legacy/output.css
@@ -70,7 +70,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/legacy/analogous/modern/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(rgb(none none none), $space: display-p3, $method: clip)}
 
 <===> clip/missing/legacy/analogous/modern/output.css
@@ -81,7 +81,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/modern/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color(srgb none none none), $method: clip)}
 
 <===> clip/missing/modern/same/implicit/output.css
@@ -92,7 +92,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/modern/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color(srgb none none none), $space: srgb, $method: clip)}
 
 <===> clip/missing/modern/same/explicit/output.css
@@ -103,7 +103,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/modern/same/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color(srgb none 1.2 none), $method: clip)}
 
 <===> clip/missing/modern/same/with_mapping/output.css
@@ -114,7 +114,7 @@ a {
 <===>
 ================================================================================
 <===> clip/missing/modern/analogous/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color(srgb none none none),
@@ -131,7 +131,7 @@ a {
 <===>
 ================================================================================
 <===> clip/powerless/legacy/no_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(0deg 0% 20%), $space: srgb, $method: clip)}
 
 <===> clip/powerless/legacy/no_mapping/output.css
@@ -142,7 +142,7 @@ a {
 <===>
 ================================================================================
 <===> clip/powerless/legacy/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(0deg 10% 1000%), $space: srgb, $method: clip)}
 
 <===> clip/powerless/legacy/with_mapping/output.css
@@ -153,7 +153,7 @@ a {
 <===>
 ================================================================================
 <===> clip/powerless/modern/no_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(10% 0% 0deg), $space: srgb, $method: clip)}
 
 <===> clip/powerless/modern/no_mapping/output.css
@@ -164,7 +164,7 @@ a {
 <===>
 ================================================================================
 <===> clip/powerless/modern/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(lch(1000% 10% 0deg), $space: hsl, $method: clip)}
 
 <===> clip/powerless/modern/with_mapping/output.css
@@ -175,7 +175,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/in_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(60% 0.13 240deg), $space: rgb, $method: local-minde)}
 
 <===> local_minde/in_gamut/output.css
@@ -186,7 +186,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/out_of_gamut/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(60% 0.15 240deg), $space: rgb, $method: local-minde)}
 
 <===> local_minde/out_of_gamut/output.css
@@ -197,7 +197,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/to_white/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(100% 0.13 240deg), $space: rgb, $method: local-minde)}
 
 <===> local_minde/to_white/output.css
@@ -208,7 +208,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/to_black/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(0% 0.13 240deg), $space: rgb, $method: local-minde)}
 
 <===> local_minde/to_black/output.css
@@ -219,7 +219,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/legacy/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(rgb(none none none), $method: local-minde)}
 
 <===> local_minde/missing/legacy/same/implicit/output.css
@@ -230,7 +230,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/legacy/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(rgb(none none none), $space: rgb, $method: local-minde)}
 
 <===> local_minde/missing/legacy/same/explicit/output.css
@@ -241,7 +241,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/legacy/same/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color.change(rgb(none 0 none), $green: 300),
@@ -257,7 +257,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/legacy/analogous/legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(none 50% 50%), $space: hwb, $method: local-minde)}
 
 <===> local_minde/missing/legacy/analogous/legacy/output.css
@@ -268,7 +268,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/legacy/analogous/modern/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     rgb(none none none),
@@ -285,7 +285,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/modern/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color(srgb none none none), $method: local-minde)}
 
 <===> local_minde/missing/modern/same/implicit/output.css
@@ -296,7 +296,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/modern/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color(srgb none none none),
@@ -313,7 +313,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/modern/same/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(color(srgb none 1.2 none), $method: local-minde)}
 
 <===> local_minde/missing/modern/same/with_mapping/output.css
@@ -324,7 +324,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/missing/modern/analogous/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {
   b: color.to-gamut(
     color(srgb none none none),
@@ -341,7 +341,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/powerless/legacy/no_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(0deg 0% 20%), $space: srgb, $method: local-minde)}
 
 <===> local_minde/powerless/legacy/no_mapping/output.css
@@ -352,7 +352,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/powerless/legacy/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(hsl(0deg 10% 1000%), $space: srgb, $method: local-minde)}
 
 <===> local_minde/powerless/legacy/with_mapping/output.css
@@ -363,7 +363,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/powerless/modern/no_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(oklch(10% 0% 0deg), $space: srgb, $method: local-minde)}
 
 <===> local_minde/powerless/modern/no_mapping/output.css
@@ -374,7 +374,7 @@ a {
 <===>
 ================================================================================
 <===> local_minde/powerless/modern/with_mapping/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.to-gamut(lch(1000% 10% 0deg), $space: srgb, $method: local-minde)}
 
 <===> local_minde/powerless/modern/with_mapping/output.css

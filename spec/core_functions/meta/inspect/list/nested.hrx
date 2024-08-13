@@ -1,8 +1,9 @@
 <===> empty/in_space/bracketed/input.scss
-$result: inspect([() ()]);
+@use "sass:meta";
+$result: meta.inspect([() ()]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_space/bracketed/output.css
@@ -14,10 +15,11 @@ a {
 <===>
 ================================================================================
 <===> empty/in_space/unbracketed/input.scss
-$result: inspect(() ());
+@use "sass:meta";
+$result: meta.inspect(() ());
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_space/unbracketed/output.css
@@ -29,10 +31,11 @@ a {
 <===>
 ================================================================================
 <===> empty/in_comma/bracketed/input.scss
-$result: inspect([(), ()]);
+@use "sass:meta";
+$result: meta.inspect([(), ()]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_comma/bracketed/output.css
@@ -44,10 +47,11 @@ a {
 <===>
 ================================================================================
 <===> empty/in_comma/unbracketed/input.scss
-$result: inspect(((), ()));
+@use "sass:meta";
+$result: meta.inspect(((), ()));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_comma/unbracketed/output.css
@@ -59,10 +63,12 @@ a {
 <===>
 ================================================================================
 <===> empty/in_slash/bracketed/input.scss
-$result: inspect(join([(), ()], (), $separator: slash));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.join([(), ()], (), $separator: slash));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_slash/bracketed/output.css
@@ -74,11 +80,12 @@ a {
 <===>
 ================================================================================
 <===> empty/in_slash/unbracketed/input.scss
+@use "sass:meta";
 @use "sass:list";
-$result: inspect(list.slash((), ()));
+$result: meta.inspect(list.slash((), ()));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> empty/in_slash/unbracketed/output.css
@@ -90,7 +97,8 @@ a {
 <===>
 ================================================================================
 <===> empty_bracketed/bracketed/input.scss
-a {b: inspect([[] []])}
+@use "sass:meta";
+a {b: meta.inspect([[] []])}
 
 <===> empty_bracketed/bracketed/output.css
 a {
@@ -100,7 +108,8 @@ a {
 <===>
 ================================================================================
 <===> empty_bracketed/unbracketed/input.scss
-a {b: inspect(([] []))}
+@use "sass:meta";
+a {b: meta.inspect(([] []))}
 
 <===> empty_bracketed/unbracketed/output.css
 a {
@@ -110,10 +119,11 @@ a {
 <===>
 ================================================================================
 <===> space/in_space/bracketed/input.scss
-$result: inspect([(1 2) (3 4)]);
+@use "sass:meta";
+$result: meta.inspect([(1 2) (3 4)]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_space/bracketed/output.css
@@ -125,10 +135,11 @@ a {
 <===>
 ================================================================================
 <===> space/in_space/unbracketed/input.scss
-$result: inspect((1 2) (3 4));
+@use "sass:meta";
+$result: meta.inspect((1 2) (3 4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_space/unbracketed/output.css
@@ -140,10 +151,11 @@ a {
 <===>
 ================================================================================
 <===> space/in_comma/bracketed/input.scss
-$result: inspect([1 2, 3 4]);
+@use "sass:meta";
+$result: meta.inspect([1 2, 3 4]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_comma/bracketed/output.css
@@ -155,10 +167,11 @@ a {
 <===>
 ================================================================================
 <===> space/in_comma/unbracketed/input.scss
-$result: inspect((1 2, 3 4));
+@use "sass:meta";
+$result: meta.inspect((1 2, 3 4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_comma/unbracketed/output.css
@@ -170,10 +183,12 @@ a {
 <===>
 ================================================================================
 <===> space/in_slash/bracketed/input.scss
-$result: inspect(join([1 2, 3 4], (), $separator: slash));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.join([1 2, 3 4], (), $separator: slash));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_slash/bracketed/output.css
@@ -185,11 +200,12 @@ a {
 <===>
 ================================================================================
 <===> space/in_slash/unbracketed/input.scss
+@use "sass:meta";
 @use "sass:list";
-$result: inspect(list.slash(1 2, 3 4));
+$result: meta.inspect(list.slash(1 2, 3 4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> space/in_slash/unbracketed/output.css
@@ -201,10 +217,11 @@ a {
 <===>
 ================================================================================
 <===> comma/in_space/bracketed/input.scss
-$result: inspect([(1, 2) (3, 4)]);
+@use "sass:meta";
+$result: meta.inspect([(1, 2) (3, 4)]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_space/bracketed/output.css
@@ -216,10 +233,11 @@ a {
 <===>
 ================================================================================
 <===> comma/in_space/unbracketed/input.scss
-$result: inspect((1, 2) (3, 4));
+@use "sass:meta";
+$result: meta.inspect((1, 2) (3, 4));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_space/unbracketed/output.css
@@ -231,10 +249,11 @@ a {
 <===>
 ================================================================================
 <===> comma/in_comma/bracketed/input.scss
-$result: inspect([(1, 2), (3, 4)]);
+@use "sass:meta";
+$result: meta.inspect([(1, 2), (3, 4)]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_comma/bracketed/output.css
@@ -246,10 +265,11 @@ a {
 <===>
 ================================================================================
 <===> comma/in_comma/unbracketed/input.scss
-$result: inspect(((1, 2), (3, 4)));
+@use "sass:meta";
+$result: meta.inspect(((1, 2), (3, 4)));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_comma/unbracketed/output.css
@@ -261,10 +281,12 @@ a {
 <===>
 ================================================================================
 <===> comma/in_slash/bracketed/input.scss
-$result: inspect(join([(1, 2), (3, 4)], (), $separator: slash));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.join([(1, 2), (3, 4)], (), $separator: slash));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_slash/bracketed/output.css
@@ -276,11 +298,12 @@ a {
 <===>
 ================================================================================
 <===> comma/in_slash/unbracketed/input.scss
+@use "sass:meta";
 @use "sass:list";
-$result: inspect(list.slash((1, 2), (3, 4)));
+$result: meta.inspect(list.slash((1, 2), (3, 4)));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> comma/in_slash/unbracketed/output.css
@@ -292,10 +315,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_space/bracketed/input.scss
-$result: inspect([[1, 2] [3, 4]]);
+@use "sass:meta";
+$result: meta.inspect([[1, 2] [3, 4]]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_space/bracketed/output.css
@@ -307,10 +331,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_space/unbracketed/input.scss
-$result: inspect([1, 2] [3, 4]);
+@use "sass:meta";
+$result: meta.inspect([1, 2] [3, 4]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_space/unbracketed/output.css
@@ -322,10 +347,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_comma/bracketed/input.scss
-$result: inspect([[1, 2], [3, 4]]);
+@use "sass:meta";
+$result: meta.inspect([[1, 2], [3, 4]]);
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_comma/bracketed/output.css
@@ -337,10 +363,11 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_comma/unbracketed/input.scss
-$result: inspect(((1, 2), (3, 4)));
+@use "sass:meta";
+$result: meta.inspect(((1, 2), (3, 4)));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_comma/unbracketed/output.css
@@ -352,10 +379,12 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_slash/bracketed/input.scss
-$result: inspect(join([[1, 2], [3, 4]], (), $separator: slash));
+@use "sass:list";
+@use "sass:meta";
+$result: meta.inspect(list.join([[1, 2], [3, 4]], (), $separator: slash));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_slash/bracketed/output.css
@@ -367,11 +396,12 @@ a {
 <===>
 ================================================================================
 <===> bracketed/in_slash/unbracketed/input.scss
+@use "sass:meta";
 @use "sass:list";
-$result: inspect(list.slash([1, 2], [3, 4]));
+$result: meta.inspect(list.slash([1, 2], [3, 4]));
 a {
   value: $result;
-  type: type-of($result);
+  type: meta.type-of($result);
 }
 
 <===> bracketed/in_slash/unbracketed/output.css

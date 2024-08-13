@@ -1,5 +1,6 @@
 <===> parent/input.scss
-a {b: selector-parse("&")}
+@use "sass:selector";
+a {b: selector.parse("&")}
 
 <===> parent/error
 Error: $selector: Parent selectors aren't allowed here.
@@ -9,15 +10,16 @@ Error: $selector: Parent selectors aren't allowed here.
   '
   - 1:1  root stylesheet
   ,
-1 | a {b: selector-parse("&")}
+2 | a {b: selector.parse("&")}
   |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> parse/invalid/input.scss
-a {b: selector-parse("[c")}
+@use "sass:selector";
+a {b: selector.parse("[c")}
 
 <===> parse/invalid/error
 Error: $selector: expected more input.
@@ -27,15 +29,16 @@ Error: $selector: expected more input.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-parse("[c")}
+2 | a {b: selector.parse("[c")}
   |       ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> parse/extra/input.scss
-a {b: selector-parse("c {")}
+@use "sass:selector";
+a {b: selector.parse("c {")}
 
 <===> parse/extra/error
 Error: $selector: expected selector.
@@ -45,127 +48,151 @@ Error: $selector: expected selector.
   '
   - 1:3  root stylesheet
   ,
-1 | a {b: selector-parse("c {")}
+2 | a {b: selector.parse("c {")}
   |       ^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_nested/input.scss
-a {b: selector-parse((append((), append((), c)),))}
+@use "sass:list";
+@use "sass:selector";
+a {b: selector.parse((list.append((), list.append((), c)),))}
 
 <===> too_nested/error
 Error: $selector: (c,) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-parse((append((), append((), c)),))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: selector.parse((list.append((), list.append((), c)),))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> inner_comma/input.scss
-a {b: selector-parse(((c,),))}
+@use "sass:selector";
+a {b: selector.parse(((c,),))}
 
 <===> inner_comma/error
 Error: $selector: ((c,),) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-parse(((c,),))}
+2 | a {b: selector.parse(((c,),))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> outer_space/input.scss
-a {b: selector-parse(append((), append((), c)))}
+@use "sass:list";
+@use "sass:selector";
+a {b: selector.parse(list.append((), list.append((), c)))}
 
 <===> outer_space/error
 Error: $selector: (c) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-parse(append((), append((), c)))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: selector.parse(list.append((), list.append((), c)))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> slash_list/top_level/input.scss
+@use "sass:selector";
 @use "sass:list";
-a {b: selector-parse(list.slash(c d, e f))}
+a {b: selector.parse(list.slash(c d, e f))}
 
 <===> slash_list/top_level/error
 Error: $selector: (c d / e f) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-2 | a {b: selector-parse(list.slash(c d, e f))}
+3 | a {b: selector.parse(list.slash(c d, e f))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> slash_list/in_comma_list/input.scss
+@use "sass:selector";
 @use "sass:list";
-a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+a {b: selector.parse((list.slash(c, d), list.slash(e, f)))}
 
 <===> slash_list/in_comma_list/error
 Error: $selector: (c / d, e / f) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-2 | a {b: selector-parse((list.slash(c, d), list.slash(e, f)))}
+3 | a {b: selector.parse((list.slash(c, d), list.slash(e, f)))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> type/input.scss
-a {b: selector-parse(1)}
+@use "sass:selector";
+a {b: selector.parse(1)}
 
 <===> type/error
 Error: $selector: 1 is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-1 | a {b: selector-parse(1)}
+2 | a {b: selector.parse(1)}
   |       ^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong_name/input.scss
+@use "sass:selector";
+a {b: selector.selector-parse(".c.d")}
+
+<===> wrong_name/error
+Error: Undefined function.
+  ,
+2 | a {b: selector.selector-parse(".c.d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_many_args/input.scss
-a {b: selector-parse(c, d)}
+@use "sass:selector";
+a {b: selector.parse(c, d)}
 
 <===> too_many_args/error
 Error: Only 1 argument allowed, but 2 were passed.
   ,--> input.scss
-1 | a {b: selector-parse(c, d)}
+2 | a {b: selector.parse(c, d)}
   |       ^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function parse($selector) {
   |           ================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> too_few_args/input.scss
-a {b: selector-parse()}
+@use "sass:selector";
+a {b: selector.parse()}
 
 <===> too_few_args/error
 Error: Missing argument $selector.
   ,--> input.scss
-1 | a {b: selector-parse()}
+2 | a {b: selector.parse()}
   |       ^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:selector
 1 | @function parse($selector) {
   |           ================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet

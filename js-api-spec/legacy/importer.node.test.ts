@@ -13,10 +13,10 @@ it('imports cascade through importers', () =>
   expect(
     sass
       .renderSync({
-        data: "@import 'foo'",
+        data: "@use 'foo'",
         importer: [
-          (url: string) => (url === 'foo' ? {contents: '@import "bar"'} : null),
-          (url: string) => (url === 'bar' ? {contents: '@import "baz"'} : null),
+          (url: string) => (url === 'foo' ? {contents: '@use "bar"'} : null),
+          (url: string) => (url === 'bar' ? {contents: '@use "baz"'} : null),
           (url: string) => (url === 'baz' ? {contents: 'a {b: c}'} : null),
         ],
       })
@@ -27,7 +27,7 @@ it('an empty object means an empty file', () =>
   expect(
     sass
       .renderSync({
-        data: "@import 'foo'",
+        data: "@use 'foo'",
         importer: () => ({} as sass.LegacyImporterResult),
       })
       .css.toString()
@@ -39,7 +39,7 @@ describe('import precedence:', () => {
       sandbox(dir => {
         dir.write({
           'sub/test.scss': 'a {from: relative}',
-          'sub/base.scss': '@import "test"',
+          'sub/base.scss': '@use "test"',
         });
 
         dir.chdir(() =>
@@ -62,7 +62,7 @@ describe('import precedence:', () => {
           expect(
             sass
               .renderSync({
-                data: '@import "test"',
+                data: '@use "test"',
                 importer: () => ({contents: 'a {from: importer}'}),
               })
               .css.toString()
@@ -81,7 +81,7 @@ describe('import precedence:', () => {
           expect(
             sass
               .renderSync({
-                data: '@import "test"',
+                data: '@use "test"',
                 includePaths: [dir('sub')],
               })
               .css.toString()
@@ -94,7 +94,7 @@ describe('import precedence:', () => {
       sandbox(dir => {
         dir.write({
           'sub/test.scss': 'a {from: cwd}',
-          'sub/base.scss': '@import "sub/test"',
+          'sub/base.scss': '@use "sub/test"',
         });
 
         dir.chdir(() =>
@@ -118,7 +118,7 @@ describe('import precedence:', () => {
         expect(
           sass
             .renderSync({
-              data: '@import "test"',
+              data: '@use "test"',
               includePaths: [dir.root],
               importer: [],
             })
@@ -133,7 +133,7 @@ describe('with contents', () => {
     expect(
       sass
         .renderSync({
-          data: '@import "foo"',
+          data: '@use "foo"',
           importer: () => ({contents: 'a {b: c}'}),
         })
         .css.toString()
@@ -146,7 +146,7 @@ describe('with contents', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "test"',
+            data: '@use "test"',
             importer: () => ({
               contents: 'a {from: contents}',
               file: dir('test.scss'),
@@ -159,7 +159,7 @@ describe('with contents', () => {
   it('contents use file name as canonical url', () =>
     expect(
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => ({
           contents: '',
           file: 'bar',
@@ -171,7 +171,7 @@ describe('with contents', () => {
   it('passes through an absolute file path', () =>
     expect(
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => ({
           contents: '',
           file: p.resolve('bar'),
@@ -192,9 +192,9 @@ describe('with contents', () => {
       });
 
       dir.write({
-        'main.scss': '@import "sub1/test"; @import "sub1/sub2/test"',
-        'sub1/test.scss': '@import "x"',
-        'sub1/sub2/test.scss': '@import "x"',
+        'main.scss': '@use "sub1/test"; @use "sub1/sub2/test" as test2',
+        'sub1/test.scss': '@use "x"',
+        'sub1/sub2/test.scss': '@use "x"',
       });
 
       expect(
@@ -218,7 +218,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             importer: () => ({file: dir('test.scss')}),
           })
           .css.toString()
@@ -232,7 +232,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             importer: () => ({file: dir('test.sass')}),
           })
           .css.toString()
@@ -247,7 +247,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             importer: () => ({file: dir('test.css')}),
           })
           .css.toString()
@@ -261,7 +261,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             importer: () => ({file: dir('target.scss')}),
           })
           .css.toString()
@@ -309,7 +309,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             importer: () => ({file: dir('test')}),
           })
           .css.toString()
@@ -320,7 +320,7 @@ describe('with a file redirect', () => {
     sandbox(dir => {
       dir.write({
         '_other.scss': 'a {b: c}',
-        'test.scss': '@import "foo"',
+        'test.scss': '@use "foo"',
       });
 
       expect(
@@ -337,7 +337,7 @@ describe('with a file redirect', () => {
     sandbox(dir => {
       dir.write({
         '_other.scss': 'a {b: c}',
-        'test.scss': '@import "foo"',
+        'test.scss': '@use "foo"',
       });
 
       const result = sass.renderSync({
@@ -358,7 +358,7 @@ describe('with a file redirect', () => {
       expect(
         sass
           .renderSync({
-            data: '@import "foo"',
+            data: '@use "foo"',
             includePaths: [dir.root],
             importer: () => ({file: 'test.scss'}),
           })
@@ -369,7 +369,7 @@ describe('with a file redirect', () => {
   it('relative to the base file takes precedence over include paths', () =>
     sandbox(dir => {
       dir.write({
-        'test.scss': '@import "foo"',
+        'test.scss': '@use "foo"',
         '_other.scss': 'a {from: relative}',
         'sub/_other.scss': 'a {from: load path}',
       });
@@ -394,7 +394,7 @@ describe('with a file redirect', () => {
           expect(
             sass
               .renderSync({
-                data: '@import "foo"',
+                data: '@use "foo"',
                 importer: () => ({file: 'test.scss'}),
               })
               .css.toString()
@@ -406,7 +406,7 @@ describe('with a file redirect', () => {
       sandbox(dir => {
         dir.write({
           '_other.scss': 'a {from: cwd}',
-          'sub/test.scss': '@import "foo"',
+          'sub/test.scss': '@use "foo"',
           'sub/_other.scss': 'a {from: relative}',
         });
 
@@ -426,7 +426,7 @@ describe('with a file redirect', () => {
       sandbox(dir => {
         dir.write({
           '_other.scss': 'a {from: cwd}',
-          'test.scss': '@import "foo"',
+          'test.scss': '@use "foo"',
           'sub/_other.scss': 'a {from: load path}',
         });
 
@@ -452,7 +452,7 @@ describe('the imported URL', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo"', importer});
+    sass.renderSync({data: '@use "foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
@@ -471,18 +471,18 @@ describe('the imported URL', () => {
 
   it("isn't resolved relative to the current file", () => {
     const importer = spy((url: string) => {
-      if (url === 'foo/bar') return {contents: '@import "baz"'};
+      if (url === 'foo/bar') return {contents: '@use "baz"'};
       expect(url).toBe('baz');
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo/bar"', importer});
+    sass.renderSync({data: '@use "foo/bar"', importer});
     expect(importer).toHaveBeenCalledTimes(2);
   });
 
   it('is added to includedFiles', () => {
     const result = sass.renderSync({
-      data: '@import "foo"',
+      data: '@use "foo"',
       importer: () => ({contents: ''}),
     });
     expect(result.stats.includedFiles).toContain('foo');
@@ -495,7 +495,7 @@ describe('the imported URL', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "/foo"', importer});
+    sass.renderSync({data: '@use "/foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
@@ -506,7 +506,7 @@ describe('the imported URL', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "/foo/bar/baz"', importer});
+    sass.renderSync({data: '@use "/foo/bar/baz"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
@@ -524,7 +524,7 @@ describe('the imported URL', () => {
 describe('the previous URL', () => {
   it('is an absolute path for stylesheets from the filesystem', () =>
     sandbox(dir => {
-      dir.write({'test.scss': '@import "foo"'});
+      dir.write({'test.scss': '@use "foo"'});
 
       const importer = spy((url, prev) => {
         expect(prev).toBe(p.resolve(dir('test.scss')));
@@ -538,8 +538,8 @@ describe('the previous URL', () => {
   it('is an absolute path for stylesheets redirected to the filesystem', () =>
     sandbox(dir => {
       dir.write({
-        'test.scss': '@import "foo"',
-        '_other.scss': '@import "baz"',
+        'test.scss': '@use "foo"',
+        '_other.scss': '@use "baz"',
       });
 
       const importer = spy((url, prev) => {
@@ -559,13 +559,13 @@ describe('the previous URL', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo"', importer});
+    sass.renderSync({data: '@use "foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
   it('is the imported string for imports from importers', () => {
     const importer1 = spy((url: string) =>
-      url === 'foo' ? {contents: '@import "bar"'} : null
+      url === 'foo' ? {contents: '@use "bar"'} : null
     );
 
     const importer2 = spy((url, prev) => {
@@ -575,7 +575,7 @@ describe('the previous URL', () => {
     });
 
     sass.renderSync({
-      data: '@import "foo"',
+      data: '@use "foo"',
       importer: [importer1, importer2],
     });
     expect(importer1).toHaveBeenCalledTimes(2);
@@ -587,8 +587,8 @@ describe('the previous URL', () => {
     sandbox(dir => {
       dir.write({
         'test.scss': `
-          @import "relative";
-          @import "importer";
+          @use "relative";
+          @use "importer";
         `,
         '_relative.scss': 'a {b: relative}',
       });
@@ -619,25 +619,25 @@ describe('this', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo"', importer});
+    sass.renderSync({data: '@use "foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
   it('includes the data when rendering via data', () => {
     const importer = spy(function (this: sass.LegacyImporterThis) {
       const options = this.options;
-      expect(options.data).toBe('@import "foo"');
+      expect(options.data).toBe('@use "foo"');
       expect(options.file).toBeUndefined();
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo"', importer});
+    sass.renderSync({data: '@use "foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
   it('includes the filename when rendering via file', () =>
     sandbox(dir => {
-      dir.write({'test.scss': '@import "foo"'});
+      dir.write({'test.scss': '@use "foo"'});
 
       const importer = spy(function (this: sass.LegacyImporterThis) {
         const options = this.options;
@@ -666,7 +666,7 @@ describe('this', () => {
       });
 
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         includePaths: [dir.root],
         importer,
       });
@@ -681,7 +681,7 @@ describe('this', () => {
           return {contents: ''};
         });
 
-        sass.renderSync({data: '@import "foo"', indentWidth: 5, importer});
+        sass.renderSync({data: '@use "foo"', indentWidth: 5, importer});
         expect(importer).toHaveBeenCalled();
       });
 
@@ -691,7 +691,7 @@ describe('this', () => {
           return {contents: ''};
         });
 
-        sass.renderSync({data: '@import "foo"', indentType: 'tab', importer});
+        sass.renderSync({data: '@use "foo"', indentType: 'tab', importer});
         expect(importer).toHaveBeenCalled();
       });
 
@@ -701,7 +701,7 @@ describe('this', () => {
           return {contents: ''};
         });
 
-        sass.renderSync({data: '@import "foo"', linefeed: 'cr', importer});
+        sass.renderSync({data: '@use "foo"', linefeed: 'cr', importer});
         expect(importer).toHaveBeenCalled();
       });
     });
@@ -713,7 +713,7 @@ describe('this', () => {
       return {contents: ''};
     });
 
-    sass.renderSync({data: '@import "foo"', importer});
+    sass.renderSync({data: '@use "foo"', importer});
     expect(importer).toHaveBeenCalled();
   });
 
@@ -727,7 +727,7 @@ describe('this', () => {
         return {contents: ''};
       });
 
-      sass.renderSync({data: '@import "foo"', importer});
+      sass.renderSync({data: '@use "foo"', importer});
       expect(importer).toHaveBeenCalled();
     });
 
@@ -737,13 +737,13 @@ describe('this', () => {
         return {contents: ''};
       });
 
-      sass.renderSync({data: '@import "foo"', importer});
+      sass.renderSync({data: '@use "foo"', importer});
       expect(importer).toHaveBeenCalled();
     });
 
     it('a file entry', () =>
       sandbox(dir => {
-        dir.write({'test.scss': '@import "foo"'});
+        dir.write({'test.scss': '@use "foo"'});
 
         const importer = spy(function (this: sass.LegacyImporterThis) {
           expect(this.options.result.stats.entry).toBe(dir('test.scss'));
@@ -805,7 +805,7 @@ describe('gracefully handles an error when', () => {
   it('an importer redirects to a non-existent file', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => ({file: '_does_not_exist'}),
       })
     ).toThrowLegacyException({line: 1}));
@@ -813,7 +813,7 @@ describe('gracefully handles an error when', () => {
   it('an error is returned', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => new Error('oh no'),
       })
     ).toThrowLegacyException({line: 1}));
@@ -823,7 +823,7 @@ describe('gracefully handles an error when', () => {
 
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => new MyError('oh no'),
       })
     ).toThrowLegacyException({line: 1});
@@ -832,7 +832,7 @@ describe('gracefully handles an error when', () => {
   it('null is returned', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => null,
       })
     ).toThrowLegacyException({line: 1}));
@@ -840,7 +840,7 @@ describe('gracefully handles an error when', () => {
   it('undefined is returned', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => undefined as unknown as sass.LegacyImporterResult,
       })
     ).toThrowLegacyException({line: 1}));
@@ -848,7 +848,7 @@ describe('gracefully handles an error when', () => {
   it('an unrecognized value is returned', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => 10 as unknown as sass.LegacyImporterResult,
       })
     ).toThrowLegacyException({line: 1}));
@@ -856,7 +856,7 @@ describe('gracefully handles an error when', () => {
   it('it occurs in a file with a custom URL scheme', () =>
     expect(() =>
       sass.renderSync({
-        data: '@import "foo:bar"',
+        data: '@use "foo:bar"',
         importer: () => ({contents: '@error "oh no"'}),
       })
     ).toThrowLegacyException({line: 1, file: 'foo:bar'}));
@@ -866,7 +866,7 @@ describe('render()', () => {
   it('supports asynchronous importers', done =>
     sass.render(
       {
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: ((
           _: string,
           __: string,
@@ -884,7 +884,7 @@ describe('render()', () => {
   it('supports asynchronous errors', done =>
     sass.render(
       {
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: ((
           _: string,
           __: string,
@@ -902,7 +902,7 @@ describe('render()', () => {
   it('supports synchronous importers', done =>
     sass.render(
       {
-        data: '@import "foo"',
+        data: '@use "foo"',
         importer: () => ({contents: 'a {b: c}'}),
       },
       (err?: sass.LegacyException, result?: sass.LegacyResult) => {
@@ -913,7 +913,7 @@ describe('render()', () => {
 
   it('supports synchronous null returns', done =>
     sass.render(
-      {data: '@import "foo"', importer: () => null},
+      {data: '@use "foo"', importer: () => null},
       (err?: sass.LegacyException) => {
         expect(typeof err).toBe('object');
         done();
@@ -925,7 +925,7 @@ describe('when importer returns non-string contents', () => {
   it('throws an error in sync mode', () => {
     expect(() => {
       sass.renderSync({
-        data: '@import "other";',
+        data: '@use "other";',
         importer() {
           return {
             // Need to force an invalid type to test bad-type handling.
@@ -944,7 +944,7 @@ describe('when importer returns non-string contents', () => {
   it('throws an error in async mode', done => {
     sass.render(
       {
-        data: '@import "other";',
+        data: '@use "other";',
         importer() {
           return {
             // Need to force an invalid type to test bad-type handling.

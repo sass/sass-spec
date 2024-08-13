@@ -7,12 +7,14 @@ passing invalid named parameters, it has no error tests.
 <===>
 ================================================================================
 <===> no_lists/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: zip();
+$result: list.zip();
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> no_lists/output.css
@@ -24,12 +26,14 @@ a {
 <===>
 ================================================================================
 <===> one_list/empty/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: zip(());
+$result: list.zip(());
 a {
-  value: inspect($result);
-  separator: real-separator($result);
+  value: meta.inspect($result);
+  separator: utils.real-separator($result);
 }
 
 <===> one_list/empty/output.css
@@ -41,16 +45,18 @@ a {
 <===>
 ================================================================================
 <===> one_list/space/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: zip(1 2 3);
-$element: nth($result, 2);
+$result: list.zip(1 2 3);
+$element: list.nth($result, 2);
 
 a {
   value: $result;
   element: $element {
-    type: type-of($element);
-    separator: real-separator($element);
+    type: meta.type-of($element);
+    separator: utils.real-separator($element);
   }
 }
 
@@ -65,16 +71,18 @@ a {
 <===>
 ================================================================================
 <===> one_list/comma/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: zip((1, 2, 3));
-$element: nth($result, 2);
+$result: list.zip((1, 2, 3));
+$element: list.nth($result, 2);
 
 a {
   value: $result;
   element: $element {
-    type: type-of($element);
-    separator: real-separator($element);
+    type: meta.type-of($element);
+    separator: utils.real-separator($element);
   }
 }
 
@@ -89,16 +97,18 @@ a {
 <===>
 ================================================================================
 <===> one_list/bracketed/input.scss
-@import "core_functions/list/utils";
+@use "sass:list";
+@use "sass:meta";
+@use "core_functions/list/utils";
 
-$result: zip([1 2 3]);
-$element: nth($result, 2);
+$result: list.zip([1 2 3]);
+$element: list.nth($result, 2);
 
 a {
   value: $result;
   element: $element {
-    type: type-of($element);
-    separator: real-separator($element);
+    type: meta.type-of($element);
+    separator: utils.real-separator($element);
   }
 }
 
@@ -113,7 +123,9 @@ a {
 <===>
 ================================================================================
 <===> two_lists/first_empty/input.scss
-a {b: inspect(zip((), 1 2 3))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.zip((), 1 2 3))}
 
 <===> two_lists/first_empty/output.css
 a {
@@ -123,7 +135,9 @@ a {
 <===>
 ================================================================================
 <===> two_lists/second_empty/input.scss
-a {b: inspect(zip(1 2 3, ()))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.zip(1 2 3, ()))}
 
 <===> two_lists/second_empty/output.css
 a {
@@ -133,7 +147,8 @@ a {
 <===>
 ================================================================================
 <===> two_lists/first_longer/input.scss
-a {b: zip(1 2 3 4, c d)}
+@use "sass:list";
+a {b: list.zip(1 2 3 4, c d)}
 
 <===> two_lists/first_longer/output.css
 a {
@@ -143,7 +158,8 @@ a {
 <===>
 ================================================================================
 <===> two_lists/second_longer/input.scss
-a {b: zip(1 2, c d e f)}
+@use "sass:list";
+a {b: list.zip(1 2, c d e f)}
 
 <===> two_lists/second_longer/output.css
 a {
@@ -153,7 +169,8 @@ a {
 <===>
 ================================================================================
 <===> two_lists/same_length/input.scss
-a {b: zip(1 2 3, c d e)}
+@use "sass:list";
+a {b: list.zip(1 2 3, c d e)}
 
 <===> two_lists/same_length/output.css
 a {
@@ -163,7 +180,8 @@ a {
 <===>
 ================================================================================
 <===> three_lists/input.scss
-a {b: zip(1 2 3, c d e, red green blue)}
+@use "sass:list";
+a {b: list.zip(1 2 3, c d e, red green blue)}
 
 <===> three_lists/output.css
 a {
@@ -173,7 +191,10 @@ a {
 <===>
 ================================================================================
 <===> map/empty/input.scss
-a {b: inspect(zip(map-remove((c: d), c)))}
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+a {b: meta.inspect(list.zip(map.remove((c: d), c)))}
 
 <===> map/empty/output.css
 a {
@@ -183,7 +204,9 @@ a {
 <===>
 ================================================================================
 <===> map/non_empty/input.scss
-a {b: inspect(zip((c: d, e: f, g: h), 1 2 3))}
+@use "sass:list";
+@use "sass:meta";
+a {b: meta.inspect(list.zip((c: d, e: f, g: h), 1 2 3))}
 
 <===> map/non_empty/output.css
 a {
@@ -193,7 +216,8 @@ a {
 <===>
 ================================================================================
 <===> non_list/input.scss
-a {b: zip(c, d, e)}
+@use "sass:list";
+a {b: list.zip(c, d, e)}
 
 <===> non_list/output.css
 a {

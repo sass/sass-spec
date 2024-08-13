@@ -1,7 +1,8 @@
 <===> same_module/global/input.scss
+@use "sass:meta";
 $global-variable: null;
 
-a {b: global-variable-exists(global-variable)}
+a {b: meta.global-variable-exists(global-variable)}
 
 <===> same_module/global/output.css
 a {
@@ -11,9 +12,10 @@ a {
 <===>
 ================================================================================
 <===> same_module/local/input.scss
+@use "sass:meta";
 a {
   $local-variable: null;
-  b: global-variable-exists(local-variable);
+  b: meta.global-variable-exists(local-variable);
 }
 
 <===> same_module/local/output.css
@@ -24,8 +26,9 @@ a {
 <===>
 ================================================================================
 <===> same_module/through_import/input.scss
+@use "sass:meta";
 @import "other";
-a {b: global-variable-exists(global-variable)}
+a {b: meta.global-variable-exists(global-variable)}
 
 <===> same_module/through_import/other.scss
 $global-variable: null;
@@ -38,8 +41,9 @@ a {
 <===>
 ================================================================================
 <===> same_module/non_existent/input.scss
+@use "sass:meta";
 a {
-  b: global-variable-exists(non-existent);
+  b: meta.global-variable-exists(non-existent);
 }
 
 <===> same_module/non_existent/output.css
@@ -50,9 +54,10 @@ a {
 <===>
 ================================================================================
 <===> dash_insensitive/dash_to_underscore/input.scss
+@use "sass:meta";
 $a_b: null;
 
-c {d: global-variable-exists(a-b)}
+c {d: meta.global-variable-exists(a-b)}
 
 <===> dash_insensitive/dash_to_underscore/output.css
 c {
@@ -62,9 +67,10 @@ c {
 <===>
 ================================================================================
 <===> dash_insensitive/underscore_to_dash/input.scss
+@use "sass:meta";
 $a-b: null;
 
-c {d: global-variable-exists(a_b)}
+c {d: meta.global-variable-exists(a_b)}
 
 <===> dash_insensitive/underscore_to_dash/output.css
 c {
@@ -74,8 +80,9 @@ c {
 <===>
 ================================================================================
 <===> different_module/undefined/input.scss
+@use "sass:meta";
 @use "sass:color";
-a {b: global-variable-exists("c", "color")}
+a {b: meta.global-variable-exists("c", "color")}
 
 <===> different_module/undefined/output.css
 a {
@@ -85,8 +92,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/defined/input.scss
+@use "sass:meta";
 @use "other";
-a {b: global-variable-exists("c", "other")}
+a {b: meta.global-variable-exists("c", "other")}
 
 <===> different_module/defined/_other.scss
 $c: null;
@@ -99,8 +107,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/chosen_prefix/input.scss
+@use "sass:meta";
 @use "other" as a;
-b {c: global-variable-exists("d", "a")}
+b {c: meta.global-variable-exists("d", "a")}
 
 <===> different_module/chosen_prefix/_other.scss
 $d: null;
@@ -113,8 +122,9 @@ b {
 <===>
 ================================================================================
 <===> different_module/through_use/input.scss
+@use "sass:meta";
 @use "other" as *;
-a {b: global-variable-exists(global-variable)}
+a {b: meta.global-variable-exists(global-variable)}
 
 <===> different_module/through_use/other.scss
 $global-variable: null;
@@ -127,8 +137,9 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/bare/input.scss
+@use "sass:meta";
 @use "midstream" as *;
-a {b: variable-exists(c)}
+a {b: meta.variable-exists(c)}
 
 <===> different_module/through_forward/bare/_midstream.scss
 @forward "upstream";
@@ -144,10 +155,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/as/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  with-prefix: global-variable-exists(b-c);
-  without-prefix: global-variable-exists(c);
+  with-prefix: meta.global-variable-exists(b-c);
+  without-prefix: meta.global-variable-exists(c);
 }
 
 <===> different_module/through_forward/as/_midstream.scss
@@ -165,10 +177,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  shown: global-variable-exists(b);
-  not-shown: global-variable-exists(c);
+  shown: meta.global-variable-exists(b);
+  not-shown: meta.global-variable-exists(c);
 }
 
 <===> different_module/through_forward/show/_midstream.scss
@@ -187,10 +200,11 @@ a {
 <===>
 ================================================================================
 <===> different_module/through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  hidden: global-variable-exists(b);
-  not-hidden: global-variable-exists(c);
+  hidden: meta.global-variable-exists(b);
+  not-hidden: meta.global-variable-exists(c);
 }
 
 <===> different_module/through_forward/hide/_midstream.scss
@@ -209,8 +223,9 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
+@use "sass:meta";
 @use "other";
-a {b: global-variable-exists($name: "c", $module: "other")}
+a {b: meta.global-variable-exists($name: "c", $module: "other")}
 
 <===> named/_other.scss
 $c: null;
@@ -223,70 +238,75 @@ a {
 <===>
 ================================================================================
 <===> error/argument/type/name/input.scss
-a {b: global-variable-exists(12px)}
+@use "sass:meta";
+a {b: meta.global-variable-exists(12px)}
 
 <===> error/argument/type/name/error
 Error: $name: 12px is not a string.
   ,
-1 | a {b: global-variable-exists(12px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists(12px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/type/module/input.scss
-a {b: global-variable-exists("c", 1)}
+@use "sass:meta";
+a {b: meta.global-variable-exists("c", 1)}
 
 <===> error/argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: global-variable-exists("c", 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/too_few/input.scss
-a {b: global-variable-exists()}
+@use "sass:meta";
+a {b: meta.global-variable-exists()}
 
 <===> error/argument/too_few/error
 Error: Missing argument $name.
   ,--> input.scss
-1 | a {b: global-variable-exists()}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.global-variable-exists()}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function global-variable-exists($name, $module: null) {
   |           ============================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/argument/too_many/input.scss
-a {b: global-variable-exists(c, d, e)}
+@use "sass:meta";
+a {b: meta.global-variable-exists(c, d, e)}
 
 <===> error/argument/too_many/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: global-variable-exists(c, d, e)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: meta.global-variable-exists(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:meta
 1 | @function global-variable-exists($name, $module: null) {
   |           ============================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/conflict/input.scss
+@use "sass:meta";
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: global-variable-exists(member)}
+a {b: meta.global-variable-exists(member)}
 
 <===> error/conflict/other1.scss
 $member: from other1;
@@ -297,52 +317,55 @@ $member: from other2;
 <===> error/conflict/error
 Error: This variable is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes variable
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes variable
 ... |
-4   | a {b: global-variable-exists(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
+5   | a {b: meta.global-variable-exists(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/non_existent/input.scss
-a {b: global-variable-exists("c", "d")}
+@use "sass:meta";
+a {b: meta.global-variable-exists("c", "d")}
 
 <===> error/module/non_existent/error
 Error: There is no module with the namespace "d".
   ,
-1 | a {b: global-variable-exists("c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/built_in_but_not_loaded/input.scss
-a {b: global-variable-exists("c", "color")}
+@use "sass:meta";
+a {b: meta.global-variable-exists("c", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
   ,
-1 | a {b: global-variable-exists("c", "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.global-variable-exists("c", "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/module/dash_sensitive/input.scss
+@use "sass:meta";
 @use "sass:color" as a-b;
-c {d: global-variable-exists("c", $module: "a_b")}
+c {d: meta.global-variable-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".
   ,
-2 | c {d: global-variable-exists("c", $module: "a_b")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | c {d: meta.global-variable-exists("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet

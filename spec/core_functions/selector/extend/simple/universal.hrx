@@ -5,7 +5,8 @@ matched because this phase only cares about full structural equality.
 <===>
 ================================================================================
 <===> equal/input.scss
-a {b: selector-extend("*", "*", "c")}
+@use "sass:selector";
+a {b: selector.extend("*", "*", "c")}
 
 <===> equal/output.css
 a {
@@ -15,7 +16,8 @@ a {
 <===>
 ================================================================================
 <===> and_type/input.scss
-a {b: selector-extend("*", "c", "d")}
+@use "sass:selector";
+a {b: selector.extend("*", "c", "d")}
 
 <===> and_type/output.css
 a {
@@ -25,7 +27,8 @@ a {
 <===>
 ================================================================================
 <===> and_class/input.scss
-a {b: selector-extend("*", ".c", "d")}
+@use "sass:selector";
+a {b: selector.extend("*", ".c", "d")}
 
 <===> and_class/output.css
 a {
@@ -35,7 +38,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/explicit/equal/input.scss
-a {b: selector-extend("c|*", "c|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "c|d", "e")}
 
 <===> namespace/explicit/and_type/explicit/equal/output.css
 a {
@@ -45,7 +49,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/explicit/unequal/input.scss
-a {b: selector-extend("c|*", "e|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "e|d", "e")}
 
 <===> namespace/explicit/and_type/explicit/unequal/output.css
 a {
@@ -55,7 +60,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/implicit/input.scss
-a {b: selector-extend("c|*", "d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "d", "e")}
 
 <===> namespace/explicit/and_type/implicit/output.css
 a {
@@ -65,7 +71,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_type/empty/input.scss
-a {b: selector-extend("c|*", "|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "|d", "e")}
 
 <===> namespace/explicit/and_type/empty/output.css
 a {
@@ -75,7 +82,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/explicit/equal/input.scss
-a {b: selector-extend("c|*", "c|*", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "c|*", "e")}
 
 <===> namespace/explicit/and_universal/explicit/equal/output.css
 a {
@@ -85,7 +93,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/explicit/unequal/input.scss
-a {b: selector-extend("c|*", "d|*", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "d|*", "e")}
 
 <===> namespace/explicit/and_universal/explicit/unequal/output.css
 a {
@@ -95,7 +104,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/implicit/input.scss
-a {b: selector-extend("c|*", "*", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "*", "e")}
 
 <===> namespace/explicit/and_universal/implicit/output.css
 a {
@@ -105,7 +115,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/empty/input.scss
-a {b: selector-extend("c|*", "|*", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "|*", "e")}
 
 <===> namespace/explicit/and_universal/empty/output.css
 a {
@@ -115,7 +126,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_universal/universal/input.scss
-a {b: selector-extend("c|*", "*|*", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", "*|*", "e")}
 
 <===> namespace/explicit/and_universal/universal/output.css
 a {
@@ -125,7 +137,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/explicit/and_class/input.scss
-a {b: selector-extend("c|*", ".d", "e")}
+@use "sass:selector";
+a {b: selector.extend("c|*", ".d", "e")}
 
 <===> namespace/explicit/and_class/output.css
 a {
@@ -135,7 +148,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/explicit/input.scss
-a {b: selector-extend("|*", "c|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("|*", "c|d", "e")}
 
 <===> namespace/empty/and_type/explicit/output.css
 a {
@@ -145,7 +159,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/implicit/input.scss
-a {b: selector-extend("|*", "d", "e")}
+@use "sass:selector";
+a {b: selector.extend("|*", "d", "e")}
 
 <===> namespace/empty/and_type/implicit/output.css
 a {
@@ -155,7 +170,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_type/empty/input.scss
-a {b: selector-extend("|*", "|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("|*", "|d", "e")}
 
 <===> namespace/empty/and_type/empty/output.css
 a {
@@ -165,7 +181,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/explicit/input.scss
-a {b: selector-extend("|*", "c|*", "d")}
+@use "sass:selector";
+a {b: selector.extend("|*", "c|*", "d")}
 
 <===> namespace/empty/and_universal/explicit/output.css
 a {
@@ -175,7 +192,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/implicit/input.scss
-a {b: selector-extend("|*", "*", "c")}
+@use "sass:selector";
+a {b: selector.extend("|*", "*", "c")}
 
 <===> namespace/empty/and_universal/implicit/output.css
 a {
@@ -185,7 +203,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/empty/input.scss
-a {b: selector-extend("|*", "|*", "c")}
+@use "sass:selector";
+a {b: selector.extend("|*", "|*", "c")}
 
 <===> namespace/empty/and_universal/empty/output.css
 a {
@@ -195,7 +214,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_universal/universal/input.scss
-a {b: selector-extend("|*", "*|*", "c")}
+@use "sass:selector";
+a {b: selector.extend("|*", "*|*", "c")}
 
 <===> namespace/empty/and_universal/universal/output.css
 a {
@@ -205,7 +225,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/empty/and_class/input.scss
-a {b: selector-extend("|*", ".c", "d")}
+@use "sass:selector";
+a {b: selector.extend("|*", ".c", "d")}
 
 <===> namespace/empty/and_class/output.css
 a {
@@ -215,7 +236,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/explicit/input.scss
-a {b: selector-extend("*|*", "c|d", "e")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "c|d", "e")}
 
 <===> namespace/universal/and_type/explicit/output.css
 a {
@@ -225,7 +247,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/implicit/input.scss
-a {b: selector-extend("*|*", "c", "d")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "c", "d")}
 
 <===> namespace/universal/and_type/implicit/output.css
 a {
@@ -235,7 +258,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_type/empty/input.scss
-a {b: selector-extend("*|*", "|c", "d")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "|c", "d")}
 
 <===> namespace/universal/and_type/empty/output.css
 a {
@@ -245,7 +269,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/explicit/input.scss
-a {b: selector-extend("*|*", "c|*", "d")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "c|*", "d")}
 
 <===> namespace/universal/and_universal/explicit/output.css
 a {
@@ -255,7 +280,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/implicit/input.scss
-a {b: selector-extend("*|*", "*", "c")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "*", "c")}
 
 <===> namespace/universal/and_universal/implicit/output.css
 a {
@@ -265,7 +291,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/empty/input.scss
-a {b: selector-extend("*|*", "|*", "c")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "|*", "c")}
 
 <===> namespace/universal/and_universal/empty/output.css
 a {
@@ -275,7 +302,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_universal/universal/input.scss
-a {b: selector-extend("*|*", "*|*", "c")}
+@use "sass:selector";
+a {b: selector.extend("*|*", "*|*", "c")}
 
 <===> namespace/universal/and_universal/universal/output.css
 a {
@@ -285,7 +313,8 @@ a {
 <===>
 ================================================================================
 <===> namespace/universal/and_class/input.scss
-a {b: selector-extend("*|*", ".c", "d")}
+@use "sass:selector";
+a {b: selector.extend("*|*", ".c", "d")}
 
 <===> namespace/universal/and_class/output.css
 a {

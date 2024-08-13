@@ -9,7 +9,8 @@ than a selector list.
 <===>
 ================================================================================
 <===> simple/input.scss
-a {b: selector-extend(":not(.c)", ".c", ".d")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ".d")}
 
 <===> simple/output.css
 a {
@@ -19,7 +20,8 @@ a {
 <===>
 ================================================================================
 <===> list/input.scss
-a {b: selector-extend(":not(.c)", ".c", ".d, .e")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ".d, .e")}
 
 <===> list/output.css
 a {
@@ -29,7 +31,8 @@ a {
 <===>
 ================================================================================
 <===> complex/input.scss
-a {b: selector-extend(":not(.c .d)", ".d", ".e .f")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c .d)", ".d", ".e .f")}
 
 <===> complex/output.css
 a {
@@ -39,7 +42,8 @@ a {
 <===>
 ================================================================================
 <===> component/input.scss
-a {b: selector-extend(":not(.c.d)", ".c", ".e")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c.d)", ".c", ".e")}
 
 <===> component/output.css
 a {
@@ -49,9 +53,10 @@ a {
 <===>
 ================================================================================
 <===> list_in_not/input.scss
+@use "sass:selector";
 // If the original :not() already contains a selector list, we add new selectors
 // to that list because there's no risk of breaking additional browsers.
-a {b: selector-extend(":not(.c, .d)", ".c", ".e")}
+a {b: selector.extend(":not(.c, .d)", ".c", ".e")}
 
 <===> list_in_not/output.css
 a {
@@ -61,7 +66,8 @@ a {
 <===>
 ================================================================================
 <===> is/list/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":is(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":is(.d, .e)")}
 
 <===> is/list/output.css
 a {
@@ -71,7 +77,8 @@ a {
 <===>
 ================================================================================
 <===> is/list_of_complex/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":is(.d .e, .f .g)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":is(.d .e, .f .g)")}
 
 <===> is/list_of_complex/output.css
 a {
@@ -81,7 +88,8 @@ a {
 <===>
 ================================================================================
 <===> is/in_compound/input.scss
-a {b: selector-extend(":not(.c)", ".c", ".d:is(.e, .f)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ".d:is(.e, .f)")}
 
 <===> is/in_compound/output.css
 a {
@@ -91,7 +99,8 @@ a {
 <===>
 ================================================================================
 <===> matches/list/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":matches(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":matches(.d, .e)")}
 
 <===> matches/list/output.css
 a {
@@ -101,7 +110,8 @@ a {
 <===>
 ================================================================================
 <===> matches/list_of_complex/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":matches(.d .e, .f .g)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":matches(.d .e, .f .g)")}
 
 <===> matches/list_of_complex/output.css
 a {
@@ -111,7 +121,8 @@ a {
 <===>
 ================================================================================
 <===> matches/in_compound/input.scss
-a {b: selector-extend(":not(.c)", ".c", ".d:matches(.e, .f)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ".d:matches(.e, .f)")}
 
 <===> matches/in_compound/output.css
 a {
@@ -121,7 +132,8 @@ a {
 <===>
 ================================================================================
 <===> where/list/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":where(.d, .e)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":where(.d, .e)")}
 
 <===> where/list/output.css
 a {
@@ -131,7 +143,8 @@ a {
 <===>
 ================================================================================
 <===> where/list_of_complex/input.scss
-a {b: selector-extend(":not(.c)", ".c", ":where(.d .e, .f .g)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ":where(.d .e, .f .g)")}
 
 <===> where/list_of_complex/output.css
 a {
@@ -141,7 +154,8 @@ a {
 <===>
 ================================================================================
 <===> where/in_compound/input.scss
-a {b: selector-extend(":not(.c)", ".c", ".d:where(.e, .f)")}
+@use "sass:selector";
+a {b: selector.extend(":not(.c)", ".c", ".d:where(.e, .f)")}
 
 <===> where/in_compound/output.css
 a {
@@ -151,11 +165,12 @@ a {
 <===>
 ================================================================================
 <===> not_in_extender/input.scss
+@use "sass:selector";
 // Ideally, this should emit `.d, :not(.c)`, but that would be the only
 // situation where extending a pseudo selector could produce a full-on selector
 // list. For the sake of simplicity of the `@extend` algorithm, we just ignore
 // nested `:not()`s instead.
-a {b: selector-extend(":not(.c)", ".c", ":not(.d)")}
+a {b: selector.extend(":not(.c)", ".c", ":not(.d)")}
 
 <===> not_in_extender/output.css
 a {

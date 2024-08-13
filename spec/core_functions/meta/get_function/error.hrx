@@ -1,44 +1,47 @@
 <===> argument/type/name/input.scss
-a {b: get-function(2px)}
+@use "sass:meta";
+a {b: meta.get-function(2px)}
 
 <===> argument/type/name/error
 Error: $name: 2px is not a string.
   ,
-1 | a {b: get-function(2px)}
-  |       ^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(2px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> argument/type/module/input.scss
-a {b: get-function(c, $module: 1)}
+@use "sass:meta";
+a {b: meta.get-function(c, $module: 1)}
 
 <===> argument/type/module/error
 Error: $module: 1 is not a string.
   ,
-1 | a {b: get-function(c, $module: 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(c, $module: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> argument/function_ref/input.scss
+@use "sass:meta";
 @function foo() {
   @return null;
 }
 
-$foo-ref: get-function(foo);
-a {b: get-function($foo-ref)}
+$foo-ref: meta.get-function(foo);
+a {b: meta.get-function($foo-ref)}
 
 <===> argument/function_ref/error
 Error: $name: get-function("foo") is not a string.
   ,
-6 | a {b: get-function($foo-ref)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^
+7 | a {b: meta.get-function($foo-ref)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 6:7  root stylesheet
+  input.scss 7:7  root stylesheet
 
 <===>
 ================================================================================
@@ -77,22 +80,24 @@ Error: Only 3 arguments allowed, but 4 were passed.
 <===>
 ================================================================================
 <===> non_existent/input.scss
-a {b: get-function(does-not-exist)}
+@use "sass:meta";
+a {b: meta.get-function(does-not-exist)}
 
 <===> non_existent/error
 Error: Function not found: does-not-exist
   ,
-1 | a {b: get-function(does-not-exist)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(does-not-exist)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/show/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  b: call(get-function(d));
+  b: meta.call(meta.get-function(d));
 }
 
 <===> through_forward/show/_midstream.scss
@@ -104,17 +109,18 @@ a {
 <===> through_forward/show/error
 Error: Function not found: d
   ,
-3 |   b: call(get-function(d));
-  |           ^^^^^^^^^^^^^^^
+4 |   b: meta.call(meta.get-function(d));
+  |                ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:11  root stylesheet
+  input.scss 4:16  root stylesheet
 
 <===>
 ================================================================================
 <===> through_forward/hide/input.scss
+@use "sass:meta";
 @use "midstream" as *;
 a {
-  b: call(get-function(c));
+  b: meta.call(meta.get-function(c));
 }
 
 <===> through_forward/hide/_midstream.scss
@@ -126,52 +132,56 @@ a {
 <===> through_forward/hide/error
 Error: Function not found: c
   ,
-3 |   b: call(get-function(c));
-  |           ^^^^^^^^^^^^^^^
+4 |   b: meta.call(meta.get-function(c));
+  |                ^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:11  root stylesheet
+  input.scss 4:16  root stylesheet
 
 <===>
 ================================================================================
 <===> division/input.scss
-a {b: get-function(rgb) / get-function(lighten)}
+@use "sass:meta";
+a {b: meta.get-function(rgb) / meta.get-function(lighten)}
 
 <===> division/error
 Error: get-function("rgb") isn't a valid CSS value.
   ,
-1 | a {b: get-function(rgb) / get-function(lighten)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function(rgb) / meta.get-function(lighten)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> function_exists/input.scss
+@use "sass:meta";
+
 @function add-two($v) {
   @return $v + 2;
 }
 
-$add-two-fn: get-function(add-two);
+$add-two-fn: meta.get-function(add-two);
 
 .error {
-  error: get-function($add-two-fn);
+  error: meta.get-function($add-two-fn);
 }
 
 <===> function_exists/error
 Error: $name: get-function("add-two") is not a string.
-  ,
-8 |   error: get-function($add-two-fn);
-  |          ^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 8:10  root stylesheet
+   ,
+10 |   error: meta.get-function($add-two-fn);
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+  input.scss 10:10  root stylesheet
 
 <===>
 ================================================================================
 <===> conflict/input.scss
+@use "sass:meta";
 @use "other1" as *;
 @use "other2" as *;
 
-a {b: get-function(member)}
+a {b: meta.get-function(member)}
 
 <===> conflict/other1.scss
 @function member() {@return from other1}
@@ -182,80 +192,85 @@ a {b: get-function(member)}
 <===> conflict/error
 Error: This function is available from multiple global modules.
     ,
-1   | @use "other1" as *;
+2   | @use "other1" as *;
     | ================== includes function
-2   | @use "other2" as *;
+3   | @use "other2" as *;
     | ================== includes function
 ... |
-4   | a {b: get-function(member)}
-    |       ^^^^^^^^^^^^^^^^^^^^ function use
+5   | a {b: meta.get-function(member)}
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^ function use
     '
-  input.scss 4:7  root stylesheet
+  input.scss 5:7  root stylesheet
 
 <===>
 ================================================================================
 <===> module/undefined/input.scss
 @use "sass:color";
-a {b: get-function("c", $module: "color")}
+@use "sass:meta";
+a {b: meta.get-function("c", $module: "color")}
 
 <===> module/undefined/error
 Error: Function not found: "c"
   ,
-2 | a {b: get-function("c", $module: "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: meta.get-function("c", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> module/non_existent/input.scss
+@use "sass:meta";
+a {b: meta.get-function("c", $module: "d")}
+
+<===> module/non_existent/error
+Error: There is no module with the namespace "d".
+  ,
+2 | a {b: meta.get-function("c", $module: "d")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
-<===> module/non_existent/input.scss
-a {b: get-function("c", $module: "d")}
-
-<===> module/non_existent/error
-Error: There is no module with the namespace "d".
-  ,
-1 | a {b: get-function("c", $module: "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
 <===> module/built_in_but_not_loaded/input.scss
-a {b: get-function("red", $module: "color")}
+@use "sass:meta";
+a {b: meta.get-function("red", $module: "color")}
 
 <===> module/built_in_but_not_loaded/error
 Error: There is no module with the namespace "color".
   ,
-1 | a {b: get-function("red", $module: "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: meta.get-function("red", $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> module/dash_sensitive/input.scss
 @use "sass:color" as a-b;
-c {d: get-function("c", $module: "a_b")}
+@use "sass:meta";
+c {d: meta.get-function("c", $module: "a_b")}
 
 <===> module/dash_sensitive/error
 Error: There is no module with the namespace "a_b".
   ,
-2 | c {d: get-function("c", $module: "a_b")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | c {d: meta.get-function("c", $module: "a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> module/and_css/input.scss
 @use "sass:color";
-a {b: get-function("red", $css: true, $module: "color")}
+@use "sass:meta";
+a {b: meta.get-function("red", $css: true, $module: "color")}
 
 <===> module/and_css/error
 Error: $css and $module may not both be passed at once.
   ,
-2 | a {b: get-function("red", $css: true, $module: "color")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: meta.get-function("red", $css: true, $module: "color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 3:7  root stylesheet

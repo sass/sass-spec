@@ -1,18 +1,19 @@
 <===> input.scss
+@use "sass:color";
 a {
   four-digit: #0123;
   eight-digit: #98765432;
 
   // Verify that the color channels are set correctly.
-  four-digit-red: red(#0123);
-  four-digit-green: green(#0123);
-  four-digit-blue: blue(#0123);
-  four-digit-alpha: alpha(#0123);
+  four-digit-red: color.red(#0123);
+  four-digit-green: color.green(#0123);
+  four-digit-blue: color.blue(#0123);
+  four-digit-alpha: color.alpha(#0123);
 
-  eight-digit-red: red(#98765432);
-  eight-digit-green: green(#98765432);
-  eight-digit-blue: blue(#98765432);
-  eight-digit-alpha: alpha(#98765432);
+  eight-digit-red: color.red(#98765432);
+  eight-digit-green: color.green(#98765432);
+  eight-digit-blue: color.blue(#98765432);
+  eight-digit-alpha: color.alpha(#98765432);
 }
 
 <===> output.css
@@ -30,74 +31,74 @@ a {
 }
 
 <===> warning
-DEPRECATION WARNING: red() is deprecated. Suggestion:
+DEPRECATION WARNING: color.red() is deprecated. Suggestion:
 
 color.channel($color, red)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-6 |   four-digit-red: red(#0123);
-  |                   ^^^^^^^^^^
+7 |   four-digit-red: color.red(#0123);
+  |                   ^^^^^^^^^^^^^^^^
   '
-    input.scss 6:19  root stylesheet
+    input.scss 7:19  root stylesheet
 
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-7 |   four-digit-green: green(#0123);
-  |                     ^^^^^^^^^^^^
+8 |   four-digit-green: color.green(#0123);
+  |                     ^^^^^^^^^^^^^^^^^^
   '
-    input.scss 7:21  root stylesheet
+    input.scss 8:21  root stylesheet
 
-DEPRECATION WARNING: blue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.blue() is deprecated. Suggestion:
 
 color.channel($color, blue)
 
 More info: https://sass-lang.com/d/color-functions
 
   ,
-8 |   four-digit-blue: blue(#0123);
-  |                    ^^^^^^^^^^^
+9 |   four-digit-blue: color.blue(#0123);
+  |                    ^^^^^^^^^^^^^^^^^
   '
-    input.scss 8:20  root stylesheet
+    input.scss 9:20  root stylesheet
 
-DEPRECATION WARNING: red() is deprecated. Suggestion:
+DEPRECATION WARNING: color.red() is deprecated. Suggestion:
 
 color.channel($color, red)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-11 |   eight-digit-red: red(#98765432);
-   |                    ^^^^^^^^^^^^^^
+12 |   eight-digit-red: color.red(#98765432);
+   |                    ^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 11:20  root stylesheet
+    input.scss 12:20  root stylesheet
 
-DEPRECATION WARNING: green() is deprecated. Suggestion:
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
 
 color.channel($color, green)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-12 |   eight-digit-green: green(#98765432);
-   |                      ^^^^^^^^^^^^^^^^
+13 |   eight-digit-green: color.green(#98765432);
+   |                      ^^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 12:22  root stylesheet
+    input.scss 13:22  root stylesheet
 
-DEPRECATION WARNING: blue() is deprecated. Suggestion:
+DEPRECATION WARNING: color.blue() is deprecated. Suggestion:
 
 color.channel($color, blue)
 
 More info: https://sass-lang.com/d/color-functions
 
    ,
-13 |   eight-digit-blue: blue(#98765432);
-   |                     ^^^^^^^^^^^^^^^
+14 |   eight-digit-blue: color.blue(#98765432);
+   |                     ^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 13:21  root stylesheet
+    input.scss 14:21  root stylesheet

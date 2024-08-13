@@ -48,7 +48,7 @@ describe('renderSync()', () => {
         sandbox(dir => {
           dir.write({
             '_other.scss': 'a {b: c}',
-            'importer.scss': '@import "other";',
+            'importer.scss': '@use "other";',
           });
           expect(
             sass.renderSync({file: dir('importer.scss')}).css.toString()
@@ -60,7 +60,7 @@ describe('renderSync()', () => {
         sandbox(dir => {
           dir.write({
             '_other.scss': 'a {b: c}',
-            'subdir/importer.scss': '@import "../other";',
+            'subdir/importer.scss': '@use "../other";',
           });
           dir.chdir(() => {
             expect(
@@ -125,7 +125,7 @@ describe('renderSync()', () => {
           dir.write({'test.scss': 'a {b: c}'});
           expect(
             sass
-              .renderSync({data: '@import "test"', includePaths: [dir.root]})
+              .renderSync({data: '@use "test"', includePaths: [dir.root]})
               .css.toString()
           ).toEqualIgnoringWhitespace('a { b: c; }');
         }));
@@ -140,7 +140,7 @@ describe('renderSync()', () => {
           withSassPath([dir('dir1'), dir('dir2')], () =>
             expect(
               sass
-                .renderSync({data: '@import "test1"; @import "test2"'})
+                .renderSync({data: '@use "test1"; @use "test2"'})
                 .css.toString()
             ).toEqualIgnoringWhitespace('a { b: c; } x { y: z; }')
           );
@@ -157,7 +157,7 @@ describe('renderSync()', () => {
             expect(
               sass
                 .renderSync({
-                  data: '@import "test"',
+                  data: '@use "test"',
                   includePaths: [dir('dir2')],
                 })
                 .css.toString()
@@ -169,14 +169,14 @@ describe('renderSync()', () => {
       it('a file imported through a relative load path supports relative imports', () =>
         sandbox(dir => {
           dir.write({
-            'sub/_midstream.scss': '@import "upstream"',
+            'sub/_midstream.scss': '@use "upstream"',
             'sub/_upstream.scss': 'a {b: c}',
           });
 
           expect(
             sass
               .renderSync({
-                data: '@import "sub/midstream"',
+                data: '@use "sub/midstream"',
                 includePaths: [p.relative(process.cwd(), dir.root)],
               })
               .css.toString()
@@ -210,7 +210,7 @@ describe('renderSync()', () => {
         dir.write({'_other.scss': 'a {b: c}'});
         expect(
           sass
-            .renderSync({file: dir('test.scss'), data: '@import "other"'})
+            .renderSync({file: dir('test.scss'), data: '@use "other"'})
             .css.toString()
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
@@ -664,7 +664,7 @@ describe('the result object', () => {
       sandbox(dir => {
         dir.write({
           '_other.scss': 'a {b: c}',
-          'test.scss': '@import "other"',
+          'test.scss': '@use "other"',
         });
         expect(
           sass.renderSync({file: dir('test.scss')}).stats.includedFiles
@@ -675,7 +675,7 @@ describe('the result object', () => {
       sandbox(dir => {
         dir.write({
           '_other.scss': 'a {b: c}',
-          'test.scss': '@import "other"',
+          'test.scss': '@use "other"',
         });
         expect(
           sass

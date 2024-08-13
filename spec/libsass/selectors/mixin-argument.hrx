@@ -1,13 +1,15 @@
 <===> input.scss
+@use "sass:list";
+@use "sass:meta";
 @mixin selector-info($selector) {
-  type: type-of($selector);
-  length: length($selector);
+  type: meta.type-of($selector);
+  length: list.length($selector);
   content: $selector;
-  @for $i from 1 through length($selector) {
+  @for $i from 1 through list.length($selector) {
     index: $i;
-    length: length(nth($selector, $i));
-    type: type-of(nth($selector, $i));
-    content: nth($selector, $i);
+    length: list.length(list.nth($selector, $i));
+    type: meta.type-of(list.nth($selector, $i));
+    content: list.nth($selector, $i);
   }
 }
 

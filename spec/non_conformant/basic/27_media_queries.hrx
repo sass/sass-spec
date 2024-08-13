@@ -35,3 +35,25 @@ a b c d e f {
     hee: fee;
   }
 }
+
+<===> warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+    ,
+8   | /     @media print and (foo: 1 2 3), (bar: 3px hux(muz)), not screen {
+9   | |       hey: ho;
+10  | |       k l m {
+11  | |         hee: fee;
+12  | |       }
+13  | |     }
+    | '--- nested rule
+... |
+15  |     blah: blah;
+    |     ^^^^^^^^^^ declaration
+    '
+    input.scss 15:3  root stylesheet

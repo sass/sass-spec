@@ -1,20 +1,7 @@
 <===> input.scss
-div { color: desaturate(#999, 50%); }
+@use "sass:color";
+div { color: color.adjust(#999, $saturation: -50%); }
 <===> output.css
 div {
   color: #999999;
 }
-
-<===> warning
-DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
-
-color.scale($color, $saturation: -100%)
-color.adjust($color, $saturation: -50%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-1 | div { color: desaturate(#999, 50%); }
-  |              ^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 1:14  root stylesheet

@@ -1,5 +1,6 @@
 <===> red/input.scss
-a {b: complement(red)}
+@use "sass:color";
+a {b: color.complement(red)}
 
 <===> red/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> turquoise/input.scss
-a {b: complement(turquoise)}
+@use "sass:color";
+a {b: color.complement(turquoise)}
 
 <===> turquoise/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/gray/input.scss
-a {b: complement(gray)}
+@use "sass:color";
+a {b: color.complement(gray)}
 
 <===> grayscale/gray/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/white/input.scss
-a {b: complement(white)}
+@use "sass:color";
+a {b: color.complement(white)}
 
 <===> grayscale/white/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> grayscale/black/input.scss
-a {b: complement(black)}
+@use "sass:color";
+a {b: color.complement(black)}
 
 <===> grayscale/black/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> alpha/input.scss
-a {b: complement(rgba(turquoise, 0.7))}
+@use "sass:color";
+a {b: color.complement(rgba(turquoise, 0.7))}
 
 <===> alpha/output.css
 a {
@@ -69,7 +75,7 @@ a {
 <===>
 ================================================================================
 <===> space/legacy/to_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(red, $space: hwb)}
 
 <===> space/legacy/to_legacy/output.css
@@ -80,7 +86,7 @@ a {
 <===>
 ================================================================================
 <===> space/legacy/to_modern/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(red, $space: oklch)}
 
 <===> space/legacy/to_modern/output.css
@@ -91,7 +97,7 @@ a {
 <===>
 ================================================================================
 <===> space/modern/to_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lab(50% 10 -20), $space: hsl)}
 
 <===> space/modern/to_legacy/output.css
@@ -102,7 +108,7 @@ a {
 <===>
 ================================================================================
 <===> space/modern/to_modern/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lab(50% 10 -20), $space: oklch)}
 
 <===> space/modern/to_modern/output.css
@@ -113,7 +119,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/legacy/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(0deg 50% none))}
 
 <===> space/missing/legacy/same/implicit/output.css
@@ -124,7 +130,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/legacy/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(0deg 50% none), $space: hsl)}
 
 <===> space/missing/legacy/same/explicit/output.css
@@ -135,7 +141,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/legacy/different/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hwb(0deg 50% none))}
 
 <===> space/missing/legacy/different/implicit/output.css
@@ -146,7 +152,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/legacy/different/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hwb(0deg 50% none), $space: hsl)}
 
 <===> space/missing/legacy/different/explicit/output.css
@@ -157,7 +163,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/modern/same/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lch(none 50% 0deg), $space: hsl)}
 
 <===> space/missing/modern/same/output.css
@@ -168,7 +174,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/modern/different/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(color(srgb none 100 200), $space: oklch)}
 
 <===> space/missing/modern/different/output.css
@@ -179,7 +185,7 @@ a {
 <===>
 ================================================================================
 <===> space/missing/modern/analogous/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lch(none 50% 0deg), $space: oklch)}
 
 <===> space/missing/modern/analogous/output.css
@@ -190,7 +196,7 @@ a {
 <===>
 ================================================================================
 <===> space/powerless/legacy/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(0deg 0% 50%))}
 
 <===> space/powerless/legacy/implicit/output.css
@@ -201,7 +207,8 @@ a {
 <===>
 ================================================================================
 <===> named/input.scss
-a {b: complement($color: red, $space: hwb)}
+@use "sass:color";
+a {b: color.complement($color: red, $space: hwb)}
 
 <===> named/output.css
 a {
@@ -211,80 +218,85 @@ a {
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
-a {b: complement()}
+@use "sass:color";
+a {b: color.complement()}
 
 <===> error/too_few_args/error
 Error: Missing argument $color.
   ,--> input.scss
-1 | a {b: complement()}
-  |       ^^^^^^^^^^^^ invocation
+2 | a {b: color.complement()}
+  |       ^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function complement($color, $space: null) {
   |           ================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/too_many_args/input.scss
-a {b: complement(red, lch, 1)}
+@use "sass:color";
+a {b: color.complement(red, lch, 1)}
 
 <===> error/too_many_args/error
 Error: Only 2 arguments allowed, but 3 were passed.
   ,--> input.scss
-1 | a {b: complement(red, lch, 1)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+2 | a {b: color.complement(red, lch, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
   '
   ,--> sass:color
 1 | @function complement($color, $space: null) {
   |           ================================ declaration
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: complement(1)}
+@use "sass:color";
+a {b: color.complement(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: complement(1)}
-  |       ^^^^^^^^^^^^^
+2 | a {b: color.complement(1)}
+  |       ^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/null_space/non_legacy/input.scss
-a {b: complement(oklch(0.63 0.26 29.2))}
+@use "sass:color";
+a {b: color.complement(oklch(0.63 0.26 29.2))}
 
 <===> error/null_space/non_legacy/error
 Error: $space: null is not a string.
   ,
-1 | a {b: complement(oklch(0.63 0.26 29.2))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.complement(oklch(0.63 0.26 29.2))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/space/non_polar_angle/input.scss
-a {b: complement(red, xyz)}
+@use "sass:color";
+a {b: color.complement(red, xyz)}
 
 <===> error/space/non_polar_angle/error
 Error: $space: Color space xyz doesn't have a hue channel.
   ,
-1 | a {b: complement(red, xyz)}
-  |       ^^^^^^^^^^^^^^^^^^^^
+2 | a {b: color.complement(red, xyz)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/space/missing/legacy/same/implicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(none 30% 40%))}
 
 <===> error/space/missing/legacy/same/implicit/error
@@ -298,7 +310,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/missing/legacy/same/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(none 30% 40%), $space: hsl)}
 
 <===> error/space/missing/legacy/same/explicit/error
@@ -312,7 +324,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/missing/legacy/analogous/hue/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(none 30% 40%), $space: lch)}
 
 <===> error/space/missing/legacy/analogous/hue/error
@@ -328,7 +340,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===> error/space/missing/legacy/analogous/lightness/input.scss
 // This is an error specifically because hsl(0deg 50% none) converts through
 // rgb(0 0 0) to lch(none 0 none), so adjusting the hue fails.
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(hsl(0deg 50% none), $space: lch)}
 
 <===> error/space/missing/legacy/analogous/lightness/error
@@ -342,7 +354,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/missing/modern/same/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lch(40% 30% none), $space: hsl)}
 
 <===> error/space/missing/modern/same/error
@@ -356,7 +368,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/missing/modern/analogous/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lch(40% 30% none), $space: lch)}
 
 <===> error/space/missing/modern/analogous/error
@@ -370,7 +382,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/powerless/legacy/explicit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(grey, $space: hsl)}
 
 <===> error/space/powerless/legacy/explicit/error
@@ -384,7 +396,7 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 <===>
 ================================================================================
 <===> error/space/powerless/modern/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.complement(lab(50% 0 0), $space: lch)}
 
 <===> error/space/powerless/modern/error

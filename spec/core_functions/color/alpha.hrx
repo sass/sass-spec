@@ -1,5 +1,6 @@
 <===> color/max/input.scss
-a {b: alpha(red)}
+@use "sass:color";
+a {b: color.alpha(red)}
 
 <===> color/max/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> color/min/input.scss
-a {b: alpha(rgba(red, 0))}
+@use "sass:color";
+a {b: color.alpha(rgba(red, 0))}
 
 <===> color/min/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> color/middle/input.scss
-a {b: alpha(rgba(red, 0.42))}
+@use "sass:color";
+a {b: color.alpha(rgba(red, 0.42))}
 
 <===> color/middle/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> color/named/input.scss
-a {b: alpha($color: rgba(red, 0.73))}
+@use "sass:color";
+a {b: color.alpha($color: rgba(red, 0.73))}
 
 <===> color/named/output.css
 a {
@@ -59,17 +63,31 @@ a {
 <===>
 ================================================================================
 <===> filter/space_before_equals/input.scss
-a {b: alpha(unquote("c = d"))}
+@use "sass:color";
+@use "sass:string";
+a {b: color.alpha(string.unquote("c = d"))}
 
 <===> filter/space_before_equals/output.css
 a {
   b: alpha(c = d);
 }
 
+<===> filter/space_before_equals/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c = d)
+
+  ,
+3 | a {b: color.alpha(string.unquote("c = d"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> opacity/positional/input.scss
-a {b: opacity(rgba(red, 0.2))}
+@use "sass:color";
+a {b: color.opacity(rgba(red, 0.2))}
 
 <===> opacity/positional/output.css
 a {
@@ -79,7 +97,8 @@ a {
 <===>
 ================================================================================
 <===> opacity/named/input.scss
-a {b: opacity($color: rgba(red, 0.2))}
+@use "sass:color";
+a {b: color.opacity($color: rgba(red, 0.2))}
 
 <===> opacity/named/output.css
 a {
@@ -119,7 +138,8 @@ a {
 <===>
 ================================================================================
 <===> opacity/with_unquoted_calc/input.scss
-a {b: opacity(unquote('calc(1)'))}
+@use "sass:string";
+a {b: opacity(string.unquote('calc(1)'))}
 
 <===> opacity/with_unquoted_calc/output.css
 a {
@@ -128,16 +148,83 @@ a {
 
 <===>
 ================================================================================
+<===> css_overloads/alpha/one_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d)}
+
+<===> css_overloads/alpha/one_arg/output.css
+a {
+  b: alpha(c=d);
+}
+
+<===> css_overloads/alpha/one_arg/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d)
+
+  ,
+2 | a {b: color.alpha(c=d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/alpha/multi_arg/input.scss
+@use "sass:color";
+a {b: color.alpha(c=d, e=f, g=h)}
+
+<===> css_overloads/alpha/multi_arg/output.css
+a {
+  b: alpha(c=d, e=f, g=h);
+}
+
+<===> css_overloads/alpha/multi_arg/warning
+DEPRECATION WARNING: Using color.alpha() for a Microsoft filter is deprecated.
+
+Recommendation: alpha(c=d, e=f, g=h)
+
+  ,
+2 | a {b: color.alpha(c=d, e=f, g=h)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> css_overloads/opacity/input.scss
+@use "sass:color";
+a {b: color.opacity(1)}
+
+<===> css_overloads/opacity/output.css
+a {
+  b: opacity(1);
+}
+
+<===> css_overloads/opacity/warning
+DEPRECATION WARNING: Passing a number (1 to color.opacity() is deprecated.
+
+Recommendation: opacity(1)
+
+  ,
+2 | a {b: color.opacity(1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/too_few_args/input.scss
-a {b: alpha()}
+@use "sass:color";
+a {b: color.alpha()}
 
 <===> error/too_few_args/error
-Error: Missing argument $color.
+Error: () isn't a valid CSS value.
   ,
-1 | a {b: alpha()}
-  |       ^^^^^^^
+2 | a {b: color.alpha()}
+  |       ^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -155,20 +242,21 @@ Error: Only 1 argument allowed, but 2 were passed.
 <===>
 ================================================================================
 <===> error/type/input.scss
-a {b: alpha(1)}
+@use "sass:color";
+a {b: color.alpha(1)}
 
 <===> error/type/error
 Error: $color: 1 is not a color.
   ,
-1 | a {b: alpha(1)}
-  |       ^^^^^^^^
+2 | a {b: color.alpha(1)}
+  |       ^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/with_module/type/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.opacity(var(--c))}
 
 <===> error/with_module/type/error
@@ -182,46 +270,50 @@ Error: $color: var(--c) is not a color.
 <===>
 ================================================================================
 <===> error/quoted_string/input.scss
-a {b: alpha("c=d")}
+@use "sass:color";
+a {b: color.alpha("c=d")}
 
 <===> error/quoted_string/error
 Error: $color: "c=d" is not a color.
   ,
-1 | a {b: alpha("c=d")}
-  |       ^^^^^^^^^^^^
+2 | a {b: color.alpha("c=d")}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/unquoted_string/no_equals/input.scss
-a {b: alpha(cd)}
+@use "sass:color";
+a {b: color.alpha(cd)}
 
 <===> error/unquoted_string/no_equals/error
 Error: $color: cd is not a color.
   ,
-1 | a {b: alpha(cd)}
-  |       ^^^^^^^^^
+2 | a {b: color.alpha(cd)}
+  |       ^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/unquoted_string/non_identifier_before_equals/input.scss
-a {b: alpha(unquote("1=c"))}
+@use "sass:color";
+@use "sass:string";
+a {b: color.alpha(string.unquote("1=c"))}
 
 <===> error/unquoted_string/non_identifier_before_equals/error
 Error: $color: 1=c is not a color.
   ,
-1 | a {b: alpha(unquote("1=c"))}
-  |       ^^^^^^^^^^^^^^^^^^^^^
+3 | a {b: color.alpha(string.unquote("1=c"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 1:7  root stylesheet
+  input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
 <===> error/non_legacy/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.alpha(color(srgb 1 1 1))}
 
 <===> error/non_legacy/error

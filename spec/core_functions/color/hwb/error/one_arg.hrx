@@ -1,5 +1,5 @@
 <===> list/empty/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(())}
 
 <===> list/empty/error
@@ -13,7 +13,7 @@ Error: $channels: Color component list may not be empty.
 <===>
 ================================================================================
 <===> list/comma_separated/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb((0, 30%, 40%))}
 
 <===> list/comma_separated/error
@@ -27,7 +27,7 @@ Error: $channels: Expected a space- or slash-separated list, was (0, 30%, 40%)
 <===>
 ================================================================================
 <===> list/bracketed/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb([0 30% 40%])}
 
 <===> list/bracketed/error
@@ -41,7 +41,7 @@ Error: $channels: Expected an unbracketed list, was [0 30% 40%]
 <===>
 ================================================================================
 <===> list/one_element/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0)}
 
 <===> list/one_element/error
@@ -55,7 +55,7 @@ Error: $channels: The hwb color space has 3 channels but 0 has 1.
 <===>
 ================================================================================
 <===> list/two_elements/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30%)}
 
 <===> list/two_elements/error
@@ -69,7 +69,7 @@ Error: $channels: The hwb color space has 3 channels but (0 30%) has 2.
 <===>
 ================================================================================
 <===> list/four_elements/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30% 40% 0.4)}
 
 <===> list/four_elements/error
@@ -83,7 +83,7 @@ Error: $channels: The hwb color space has 3 channels but (0 30% 40% 0.4) has 4.
 <===>
 ================================================================================
 <===> hue/type/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb("foo" 30% 40%)}
 
 <===> hue/type/error
@@ -97,7 +97,7 @@ Error: $channels: Expected hue channel to be a number, was "foo".
 <===>
 ================================================================================
 <===> whiteness/type/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 "foo" 40%)}
 
 <===> whiteness/type/error
@@ -111,7 +111,7 @@ Error: $channels: Expected whiteness channel to be a number, was "foo".
 <===>
 ================================================================================
 <===> whiteness/unit/none/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30 40%)}
 
 <===> whiteness/unit/none/error
@@ -125,7 +125,7 @@ Error: $whiteness: Expected 30 to have unit "%".
 <===>
 ================================================================================
 <===> whiteness/unit/wrong/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30px 40%)}
 
 <===> whiteness/unit/wrong/error
@@ -139,7 +139,7 @@ Error: $whiteness: Expected 30px to have unit "%".
 <===>
 ================================================================================
 <===> blackness/type/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30% "foo")}
 
 <===> blackness/type/error
@@ -153,7 +153,7 @@ Error: $channels: Expected blackness channel to be a number, was "foo".
 <===>
 ================================================================================
 <===> blackness/unit/none/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30% 40)}
 
 <===> blackness/unit/none/error
@@ -167,7 +167,7 @@ Error: $blackness: Expected 40 to have unit "%".
 <===>
 ================================================================================
 <===> blackness/unit/wrong/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30% 40px)}
 
 <===> blackness/unit/wrong/error
@@ -181,7 +181,7 @@ Error: $blackness: Expected 40px to have unit "%".
 <===>
 ================================================================================
 <===> alpha/unit/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 0% 0% / 0.5px)}
 
 <===> alpha/unit/error
@@ -195,7 +195,7 @@ Error: $alpha: Expected 0.5px to have unit "%" or no units.
 <===>
 ================================================================================
 <===> quoted_var_slash/input.scss
-@use 'sass:color';
+@use "sass:color";
 a {b: color.hwb(0 30% "var(--foo) / 0.4")}
 
 <===> quoted_var_slash/error

@@ -1,4 +1,5 @@
 <===> input.scss
+@use "sass:color";
 $base-text-color: #666;
 
 @function calcNavbarTextColor ($base-text-color) {
@@ -8,23 +9,9 @@ $base-text-color: #666;
 $header-text-color: calcNavbarTextColor($base-text-color);
 
 .test_class {
-        color: lighten($header-text-color, 20%);
+        color: color.adjust($header-text-color, $lightness: 20%);
 }
 <===> output.css
 .test_class {
   color: #999999;
 }
-
-<===> warning
-DEPRECATION WARNING: lighten() is deprecated. Suggestions:
-
-color.scale($color, $lightness: 33.3333333333%)
-color.adjust($color, $lightness: 20%)
-
-More info: https://sass-lang.com/d/color-functions
-
-   ,
-10 |         color: lighten($header-text-color, 20%);
-   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 10:16  root stylesheet
