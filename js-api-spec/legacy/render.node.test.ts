@@ -531,6 +531,90 @@ describe('options', () => {
     });
   });
 
+  describe('fatalDeprecations', () => {
+    it('makes specified deprecations fatal', () => {
+      expect(() =>
+        sass.renderSync({
+          data: '$_: 1/2;',
+          fatalDeprecations: ['slash-div'],
+        })
+      ).toThrowLegacyException({includes: 'math.div'});
+    });
+
+    it('leaves other deprecations as warnings', () => {
+      const stdio = captureStdio(() =>
+        sass.renderSync({
+          data: '$_: 1/2;',
+          fatalDeprecations: ['call-string'],
+        })
+      );
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).toContain('math.div');
+    });
+  });
+
+  describe('futureDeprecations', () => {
+    it('opts into future deprecation early', () => {
+      sandbox(dir => {
+        dir.write({
+          'test.scss': '@import "other";',
+          '_other.scss': '',
+        });
+
+        const stdio = captureStdio(() =>
+          sass.renderSync({
+            file: dir('test.scss'),
+            // data: '@import "other"',
+            futureDeprecations: ['import'],
+          })
+        );
+        expect(stdio.out).toBeEmptyString();
+        expect(stdio.err).toContain('@import rule');
+      });
+    });
+
+    it('emits no warning when not set', () => {
+      sandbox(dir => {
+        dir.write({
+          'test.scss': '@import "other";',
+          '_other.scss': '',
+        });
+
+        const stdio = captureStdio(() =>
+          sass.renderSync({
+            file: dir('test.scss'),
+          })
+        );
+        expect(stdio.out).toBeEmptyString();
+        expect(stdio.err).toBeEmptyString();
+      });
+    });
+  });
+
+  describe('silenceDeprecations', () => {
+    it('hides specified deprecation warnings', () => {
+      const stdio = captureStdio(() =>
+        sass.renderSync({
+          data: '$_: 1/2;',
+          silenceDeprecations: ['slash-div'],
+        })
+      );
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).toBeEmptyString();
+    });
+
+    it('emits other deprecation warnings', () => {
+      const stdio = captureStdio(() =>
+        sass.renderSync({
+          data: '$_: 1/2;',
+          silenceDeprecations: ['call-string'],
+        })
+      );
+      expect(stdio.out).toBeEmptyString();
+      expect(stdio.err).toContain('math.div');
+    });
+  });
+
   describe('verbose', () => {
     const data = `
       $_: call("inspect", null);
