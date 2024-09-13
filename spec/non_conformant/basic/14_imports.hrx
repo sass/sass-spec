@@ -56,23 +56,3 @@ foo blux {
   hey: another thing;
   ho: will this work;
 }
-
-<===> warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,--> input.scss
-8 |       hello: world;
-  |       ^^^^^^^^^^^^ declaration
-  '
-  ,--> d.scss
-1 | / d {
-2 | |   inside: d now;
-3 | | }
-  | '--- nested rule
-  '
-    input.scss 8:5  root stylesheet
