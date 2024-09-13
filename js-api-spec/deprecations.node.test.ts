@@ -4,7 +4,32 @@
 
 import fs from 'fs';
 import yaml from 'js-yaml';
-import {deprecations, Deprecation, Version} from 'sass';
+import {deprecations, renderSync, Deprecation, Version} from 'sass';
+import {captureStdio} from './utils';
+
+describe('a warning from the JS API', () => {
+  it('is emitted with no flags', done => {
+    renderSync({
+      data: 'a { b: c; }',
+      logger: {
+        warn(message: string) {
+          expect(message).toContain('legacy JS API is deprecated');
+          done();
+        },
+      },
+    });
+  });
+
+  it('is not emitted when deprecation silenced', () => {
+    const stdio = captureStdio(() => {
+      renderSync({
+        data: 'a { b: c; }',
+        silenceDeprecations: [deprecations['legacy-js-api']],
+      });
+    });
+    expect(stdio.err).toBe('');
+  });
+});
 
 describe('deprecation type', () => {
   const deprecationsMap = deprecations as unknown as {
