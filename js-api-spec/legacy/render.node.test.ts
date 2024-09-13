@@ -586,6 +586,7 @@ describe('options', () => {
         const stdio = captureStdio(() =>
           sass.renderSync({
             file: dir('test.scss'),
+            silenceDeprecations: ['legacy-js-api'],
           })
         );
         expect(stdio.out).toBeEmptyString();
@@ -599,7 +600,7 @@ describe('options', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
           data: '$_: 1/2;',
-          silenceDeprecations: ['slash-div'],
+          silenceDeprecations: ['slash-div', 'legacy-js-api'],
         })
       );
       expect(stdio.out).toBeEmptyString();
