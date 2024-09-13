@@ -19,70 +19,234 @@ a {
 
 <===>
 ================================================================================
-<===> declaration/interleaved/before_nested_rule/input.scss
-a {
+<===> declaration/interleaved/before_style_rule/input.scss
+.a {
   b: c;
-  d {e: f}
+  .d {e: f}
 }
 
-<===> declaration/interleaved/before_nested_rule/output.css
-a {
+<===> declaration/interleaved/before_style_rule/output.css
+.a {
   b: c;
 }
-a d {
+.a .d {
   e: f;
 }
 
 <===>
 ================================================================================
-<===> declaration/interleaved/after_nested_rule/input.scss
-a {
-  b {c: d}
-  e: f
+<===> declaration/interleaved/around_style_rule/input.scss
+.a {
+  b: c;
+  .d {e: f}
+  g: h;
 }
 
-<===> declaration/interleaved/after_nested_rule/output.css
-a {
+<===> declaration/interleaved/around_style_rule/output.css
+.a {
+  b: c;
+  g: h;
+}
+.a .d {
   e: f;
 }
-a b {
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_style_rule/higher_specificity/input.scss
+.a {
+  .b {c: d}
+  e: f;
+}
+
+<===> declaration/interleaved/after_style_rule/higher_specificity/output.css
+.a {
+  e: f;
+}
+.a .b {
   c: d;
 }
 
 <===>
 ================================================================================
-<===> declaration/interleaved/around_nested_rule/input.scss
-a {
-  b: c;
-  d {e: f}
-  g: h;
-}
-
-<===> declaration/interleaved/around_nested_rule/output.css
-a {
-  b: c;
-  g: h;
-}
-a d {
+<===> declaration/interleaved/after_style_rule/same_specificity/input.scss
+.a {
+  :where(.b) {c: d}
   e: f;
 }
+
+<===> declaration/interleaved/after_style_rule/same_specificity/output.css
+.a {
+  e: f;
+}
+.a :where(.b) {
+  c: d;
+}
+
+<===> declaration/interleaved/after_style_rule/same_specificity/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   :where(.b) {c: d}
+  |   ================= nested rule
+3 |   e: f;
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_style_rule/mixed_specificity_parent/input.scss
+.a, :where(.a) {
+  .b {c: d}
+  e: f;
+}
+
+<===> declaration/interleaved/after_style_rule/mixed_specificity_parent/output.css
+.a, :where(.a) {
+  e: f;
+}
+.a .b, :where(.a) .b {
+  c: d;
+}
+
+<===> declaration/interleaved/after_style_rule/mixed_specificity_parent/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   .b {c: d}
+  |   ========= nested rule
+3 |   e: f;
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_style_rule/mixed_specificity_child/input.scss
+.a {
+  .b, :where(.b) {c: d}
+  e: f;
+}
+
+<===> declaration/interleaved/after_style_rule/mixed_specificity_child/output.css
+.a {
+  e: f;
+}
+.a .b, .a :where(.b) {
+  c: d;
+}
+
+<===> declaration/interleaved/after_style_rule/mixed_specificity_child/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   .b, :where(.b) {c: d}
+  |   ===================== nested rule
+3 |   e: f;
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_style_rule/extended_parent/input.scss
+.a {
+  .b {c: d}
+  e: f;
+}
+
+:where(.g) {@extend .a}
+
+<===> declaration/interleaved/after_style_rule/extended_parent/output.css
+.a, :where(.g) {
+  e: f;
+}
+.a .b, :where(.g) .b {
+  c: d;
+}
+
+<===> declaration/interleaved/after_style_rule/extended_parent/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   .b {c: d}
+  |   ========= nested rule
+3 |   e: f;
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/interleaved/after_style_rule/extended_child/input.scss
+.a {
+  .b {c: d}
+  e: f;
+}
+
+:where(.g) {@extend .b}
+
+<===> declaration/interleaved/after_style_rule/extended_child/output.css
+.a {
+  e: f;
+}
+.a .b, .a :where(.g) {
+  c: d;
+}
+
+<===> declaration/interleaved/after_style_rule/extended_child/warning
+DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
+rules will be changing to match the behavior specified by CSS in an upcoming
+version. To keep the existing behavior, move the declaration above the nested
+rule. To opt into the new behavior, wrap the declaration in `& {}`.
+
+More info: https://sass-lang.com/d/mixed-decls
+
+  ,
+2 |   .b {c: d}
+  |   ========= nested rule
+3 |   e: f;
+  |   ^^^^ declaration
+  '
+    input.scss 3:3  root stylesheet
 
 <===>
 ================================================================================
 <===> declaration/interleaved/in_at_rule/input.scss
 @a {
-  b {
-    c {d: e}
+  .b {
+    .c {d: e}
     f: g;
   }
 }
 
 <===> declaration/interleaved/in_at_rule/output.css
 @a {
-  b {
+  .b {
     f: g;
   }
-  b c {
+  .b .c {
     d: e;
   }
 }
@@ -90,17 +254,17 @@ a d {
 <===>
 ================================================================================
 <===> declaration/interleaved/in_bubbled_rule/input.scss
-a {
-  b {c: d}
+.a {
+  .b {c: d}
   @e {f: g}
 }
 
 <===> declaration/interleaved/in_bubbled_rule/output.css
-a b {
+.a .b {
   c: d;
 }
 @e {
-  a {
+  .a {
     f: g;
   }
 }
@@ -167,217 +331,3 @@ a {b: c //
 a {
   b: c;
 }
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/higher_specificity/input.scss
-a {
-  b {c: d}
-  e: f;
-}
-
-<===> declaration/mixed/after_style_rule/higher_specificity/output.css
-a {
-  e: f;
-}
-a b {
-  c: d;
-}
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/same_specificity/input.scss
-a {
-  :where(b) {c: d}
-  e: f;
-}
-
-<===> declaration/mixed/after_style_rule/same_specificity/output.css
-a {
-  e: f;
-}
-a :where(b) {
-  c: d;
-}
-
-<===> declaration/mixed/after_style_rule/same_specificity/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   :where(b) {c: d}
-  |   ================ nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/mixed_specificity_parent/input.scss
-a, :where(a) {
-  b {c: d}
-  e: f;
-}
-
-<===> declaration/mixed/after_style_rule/mixed_specificity_parent/output.css
-a, :where(a) {
-  e: f;
-}
-a b, :where(a) b {
-  c: d;
-}
-
-<===> declaration/mixed/after_style_rule/mixed_specificity_parent/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   b {c: d}
-  |   ======== nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/mixed_specificity_child/input.scss
-a {
-  b, :where(b) {c: d}
-  e: f;
-}
-
-<===> declaration/mixed/after_style_rule/mixed_specificity_child/output.css
-a {
-  e: f;
-}
-a b, a :where(b) {
-  c: d;
-}
-
-<===> declaration/mixed/after_style_rule/mixed_specificity_child/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   b, :where(b) {c: d}
-  |   =================== nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/extended_parent/input.scss
-a {
-  b {c: d}
-  e: f;
-}
-
-:where(g) {@extend a}
-
-<===> declaration/mixed/after_style_rule/extended_parent/output.css
-a, :where(g) {
-  e: f;
-}
-a b, :where(g) b {
-  c: d;
-}
-
-<===> declaration/mixed/after_style_rule/extended_parent/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   b {c: d}
-  |   ======== nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> declaration/mixed/after_style_rule/extended_child/input.scss
-a {
-  b {c: d}
-  e: f;
-}
-
-:where(g) {@extend b}
-
-<===> declaration/mixed/after_style_rule/extended_child/output.css
-a {
-  e: f;
-}
-a b, a :where(g) {
-  c: d;
-}
-
-<===> declaration/mixed/after_style_rule/extended_child/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   b {c: d}
-  |   ======== nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> declaration/mixed/after_at_rule/input.scss
-a {
-  @b {c: d}
-  e: f;
-}
-
-<===> declaration/mixed/after_at_rule/output.css
-a {
-  e: f;
-}
-@b {
-  a {
-    c: d;
-  }
-}
-
-<===> declaration/mixed/after_at_rule/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   @b {c: d}
-  |   ========= nested rule
-3 |   e: f;
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
