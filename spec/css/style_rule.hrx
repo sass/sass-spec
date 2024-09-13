@@ -49,22 +49,6 @@ a b {
   c: d;
 }
 
-<===> declaration/interleaved/after_nested_rule/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-2 |   b {c: d}
-  |   ======== nested rule
-3 |   e: f
-  |   ^^^^ declaration
-  '
-    input.scss 3:3  root stylesheet
-
 <===>
 ================================================================================
 <===> declaration/interleaved/around_nested_rule/input.scss
@@ -82,22 +66,6 @@ a {
 a d {
   e: f;
 }
-
-<===> declaration/interleaved/around_nested_rule/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-3 |   d {e: f}
-  |   ======== nested rule
-4 |   g: h;
-  |   ^^^^ declaration
-  '
-    input.scss 4:3  root stylesheet
 
 <===>
 ================================================================================
@@ -118,22 +86,6 @@ More info: https://sass-lang.com/d/mixed-decls
     d: e;
   }
 }
-
-<===> declaration/interleaved/in_at_rule/warning
-DEPRECATION WARNING: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-3 |     c {d: e}
-  |     ======== nested rule
-4 |     f: g;
-  |     ^^^^ declaration
-  '
-    input.scss 4:5  root stylesheet
 
 <===>
 ================================================================================
