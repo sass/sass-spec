@@ -5,6 +5,7 @@
 import {
   compileString,
   deprecations,
+  renderSync,
   Deprecation,
   Importer,
   Version,
@@ -86,6 +87,30 @@ describe('a warning', () => {
           done();
         },
       },
+    });
+  });
+
+  describe('from the JS API', () => {
+    it('is emitted with no flags', done => {
+      renderSync({
+        data: 'a { b: c; }',
+        logger: {
+          warn(message: string) {
+            expect(message).toContain('legacy JS API is deprecated');
+            done();
+          },
+        },
+      });
+    });
+
+    it('is not emitted when deprecation silenced', () => {
+      const stdio = captureStdio(() => {
+        renderSync({
+          data: 'a { b: c; }',
+          silenceDeprecations: [deprecations['legacy-js-api']],
+        });
+      });
+      expect(stdio.err).toBe('');
     });
   });
 });
