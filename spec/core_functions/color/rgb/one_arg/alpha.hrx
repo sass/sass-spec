@@ -59,77 +59,132 @@ a {
 
 <===>
 ================================================================================
-<===> clamped/README.md
-Channels that are out of bounds are clamped within bounds.
+<===> bounds/red/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(256 0 0));
 
-<===>
-================================================================================
-<===> clamped/red/input.scss
-a {b: rgb(256 0 0 / 0.5)}
-
-<===> clamped/red/output.css
+<===> bounds/red/above/output.css
 a {
-  b: rgba(255, 0, 0, 0.5);
+  value: rgb(255, 0, 0);
+  space: rgb;
+  channels: 255 0 0 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/green/input.scss
-a {b: rgb(0 -1 0 / 0.5)}
+<===> bounds/red/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(-1 0 0));
 
-<===> clamped/green/output.css
+<===> bounds/red/below/output.css
 a {
-  b: rgba(0, 0, 0, 0.5);
+  value: rgb(0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/blue/input.scss
-a {b: rgb(0 0 9999 / 0.5)}
+<===> bounds/green/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 500 0));
 
-<===> clamped/blue/output.css
+<===> bounds/green/above/output.css
 a {
-  b: rgba(0, 0, 255, 0.5);
+  value: rgb(0, 255, 0);
+  space: rgb;
+  channels: 0 255 0 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/alpha/above/input.scss
-a {b: rgb(0 0 0 / 1.1)}
+<===> bounds/green/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 -100 0));
 
-<===> clamped/alpha/above/output.css
+<===> bounds/green/below/output.css
 a {
-  b: rgb(0, 0, 0);
+  value: rgb(0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/alpha/below/input.scss
-a {b: rgb(0 0 0 / -0.1)}
+<===> bounds/blue/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 999));
 
-<===> clamped/alpha/below/output.css
+<===> bounds/blue/above/output.css
 a {
-  b: rgba(0, 0, 0, 0);
+  value: rgb(0, 0, 255);
+  space: rgb;
+  channels: 0 0 255 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/alpha/percent/above/input.scss
-a {b: rgb(0 0 0 / 250%)}
+<===> bounds/blue/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 -500));
 
-<===> clamped/alpha/percent/above/output.css
+<===> bounds/blue/below/output.css
 a {
-  b: rgb(0, 0, 0);
+  value: rgb(0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 1;
 }
 
 <===>
 ================================================================================
-<===> clamped/alpha/percent/below/input.scss
-a {b: rgb(0 0 0 / -10%)}
+<===> bounds/alpha/unitless/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 0 / 1.1));
 
-<===> clamped/alpha/percent/below/output.css
+<===> bounds/alpha/unitless/above/output.css
 a {
-  b: rgba(0, 0, 0, 0);
+  value: rgb(0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 1;
+}
+
+<===>
+================================================================================
+<===> bounds/alpha/unitless/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 0 / -0.1));
+
+<===> bounds/alpha/unitless/below/output.css
+a {
+  value: rgba(0, 0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 0;
+}
+
+<===>
+================================================================================
+<===> bounds/alpha/percent/above/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 0 / 250%));
+
+<===> bounds/alpha/percent/above/output.css
+a {
+  value: rgb(0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 1;
+}
+
+<===>
+================================================================================
+<===> bounds/alpha/percent/below/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(rgb(0 0 0 / -10%));
+
+<===> bounds/alpha/percent/below/output.css
+a {
+  value: rgba(0, 0, 0, 0);
+  space: rgb;
+  channels: 0 0 0 / 0;
 }
 
 <===>
@@ -141,4 +196,25 @@ a {b: rgb(list.slash(0 255 127, 0))}
 <===> slash_list/output.css
 a {
   b: rgba(0, 255, 127, 0);
+}
+
+<===>
+================================================================================
+<===> missing/slash/input.scss
+a {b: rgb(0 255 127 / none)}
+
+<===> missing/slash/output.css
+a {
+  b: rgb(0 255 127 / none);
+}
+
+<===>
+================================================================================
+<===> missing/slash_list/input.scss
+@use 'sass:list';
+a {b: rgb(list.slash(0 255 127, none))}
+
+<===> missing/slash_list/output.css
+a {
+  b: rgb(0 255 127 / none);
 }

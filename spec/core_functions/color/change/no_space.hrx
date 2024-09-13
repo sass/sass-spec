@@ -1,0 +1,142 @@
+<===> positional/input.scss
+@use "sass:color";
+a {b: color.change(red)}
+
+<===> positional/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {b: color.change($color: red)}
+
+<===> named/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> non_legacy/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 50 50))}
+
+<===> non_legacy/output.css
+a {
+  b: lab(50% 50 50);
+}
+
+<===>
+================================================================================
+<===> alpha/max/input.scss
+@use "sass:color";
+a {b: color.change(rgba(red, 0.5), $alpha: 1)}
+
+<===> alpha/max/output.css
+a {
+  b: red;
+}
+
+<===>
+================================================================================
+<===> alpha/min/input.scss
+@use "sass:color";
+a {b: color.change(rgba(red, 0.5), $alpha: 0)}
+
+<===> alpha/min/output.css
+a {
+  b: rgba(255, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/high/input.scss
+@use "sass:color";
+a {b: color.change(rgba(red, 0.5), $alpha: 0.72)}
+
+<===> alpha/high/output.css
+a {
+  b: rgba(255, 0, 0, 0.72);
+}
+
+<===>
+================================================================================
+<===> alpha/low/input.scss
+@use "sass:color";
+a {b: color.change(rgba(red, 0.5), $alpha: 0.36)}
+
+<===> alpha/low/output.css
+a {
+  b: rgba(255, 0, 0, 0.36);
+}
+
+<===>
+================================================================================
+<===> alpha/non_legacy/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 50 50), $alpha: 0.36)}
+
+<===> alpha/non_legacy/output.css
+a {
+  b: lab(50% 50 50 / 0.36);
+}
+
+<===>
+================================================================================
+<===> alpha/units/unitless/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: 0.5)}
+
+<===> alpha/units/unitless/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/units/percent/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: 50%)}
+
+<===> alpha/units/percent/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/units/unknown/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: 0.5px)}
+
+<===> alpha/units/unknown/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===> alpha/units/unknown/warning
+DEPRECATION WARNING: $alpha: Passing a unit other than % (0.5px) is deprecated.
+
+To preserve current behavior: calc($alpha / 1px)
+
+See https://sass-lang.com/d/function-units
+
+  ,
+2 | a {b: color.change(red, $alpha: 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/none/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: none)}
+
+<===> alpha/none/output.css
+a {
+  b: rgb(255 0 0 / none);
+}

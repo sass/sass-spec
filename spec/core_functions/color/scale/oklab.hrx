@@ -1,0 +1,217 @@
+<===> lightness/max/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $lightness: 100%)}
+
+<===> lightness/max/output.css
+a {
+  b: oklab(100% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> lightness/min/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $lightness: -100%)}
+
+<===> lightness/min/output.css
+a {
+  b: oklab(0% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> lightness/zero/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $lightness: 0%)}
+
+<===> lightness/zero/output.css
+a {
+  b: oklab(70% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> lightness/low/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $lightness: -33%)}
+
+<===> lightness/low/output.css
+a {
+  b: oklab(46.9% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> lightness/high/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $lightness: 86%)}
+
+<===> lightness/high/output.css
+a {
+  b: oklab(95.8% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> a/max/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $a: 100%)}
+
+<===> a/max/output.css
+a {
+  b: oklab(70% 0.4 -0.25);
+}
+
+<===>
+================================================================================
+<===> a/min/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $a: -100%)}
+
+<===> a/min/output.css
+a {
+  b: oklab(70% -0.4 -0.25);
+}
+
+<===>
+================================================================================
+<===> a/zero/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $a: 0%)}
+
+<===> a/zero/output.css
+a {
+  b: oklab(70% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> a/low/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $a: -86%)}
+
+<===> a/low/output.css
+a {
+  b: oklab(70% -0.302 -0.25);
+}
+
+<===>
+================================================================================
+<===> a/high/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $a: 12%)}
+
+<===> a/high/output.css
+a {
+  b: oklab(70% 0.312 -0.25);
+}
+
+<===>
+================================================================================
+<===> b/max/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $b: 100%)}
+
+<===> b/max/output.css
+a {
+  b: oklab(70% 0.3 0.4);
+}
+
+<===>
+================================================================================
+<===> b/min/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $b: -100%)}
+
+<===> b/min/output.css
+a {
+  b: oklab(70% 0.3 -0.4);
+}
+
+<===>
+================================================================================
+<===> b/zero/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $b: 0%)}
+
+<===> b/zero/output.css
+a {
+  b: oklab(70% 0.3 -0.25);
+}
+
+<===>
+================================================================================
+<===> b/low/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $b: -16%)}
+
+<===> b/low/output.css
+a {
+  b: oklab(70% 0.3 -0.274);
+}
+
+<===>
+================================================================================
+<===> b/high/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(70% 0.3 -0.25), $b: 42%)}
+
+<===> b/high/output.css
+a {
+  b: oklab(70% 0.3 0.023);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use "sass:color";
+a {
+  b: color.scale(oklab(70% 0.3 -0.25), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> all/output.css
+a {
+  b: oklab(73.6% 0.324 0.062);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use "sass:color";
+a {
+  b: color.scale(oklab(70% 0.3 -0.25 / 0.3), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> alpha_input/output.css
+a {
+  b: oklab(73.6% 0.324 0.062 / 0.3);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use "sass:color";
+a {
+  b: color.scale(
+    oklab(70% 0.3 -0.25),
+    $lightness: 12%, $a: 24%, $b: 48%, $alpha: -70%
+  );
+}
+
+<===> alpha_arg/output.css
+a {
+  b: oklab(73.6% 0.324 0.062 / 0.3);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {
+  b: color.scale($color: oklab(70% 0.3 -0.25), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> named/output.css
+a {
+  b: oklab(73.6% 0.324 0.062);
+}

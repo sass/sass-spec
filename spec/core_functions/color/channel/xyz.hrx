@@ -1,0 +1,63 @@
+<===> local/x/input.scss
+@use "sass:color";
+a {b: color.channel(color(xyz-d65 -0.2 0.5 1.8), "x")}
+
+<===> local/x/output.css
+a {
+  b: -0.2;
+}
+
+<===>
+================================================================================
+<===> local/y/input.scss
+@use "sass:color";
+a {b: color.channel(color(xyz-d65 -0.2 0.5 1.8), "y")}
+
+<===> local/y/output.css
+a {
+  b: 0.5;
+}
+
+<===>
+================================================================================
+<===> local/z/input.scss
+@use "sass:color";
+a {b: color.channel(color(xyz-d65 -0.2 0.5 1.8), "z")}
+
+<===> local/z/output.css
+a {
+  b: 1.8;
+}
+
+<===>
+================================================================================
+<===> foreign/x/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "x", $space: xyz)}
+
+<===> foreign/x/output.css
+a {
+  b: 0.7086623629;
+}
+
+<===>
+================================================================================
+<===> foreign/y/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "y", $space: xyz)}
+
+<===> foreign/y/output.css
+a {
+  b: 0.6327286137;
+}
+
+<===>
+================================================================================
+<===> foreign/z/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "z", $space: xyz)}
+
+<===> foreign/z/output.css
+a {
+  b: 0.6498196913;
+}

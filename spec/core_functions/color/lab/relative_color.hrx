@@ -1,0 +1,140 @@
+<===> static/alpha/input.scss
+a {b: lab(from #aaa l a b / 25%)}
+
+<===> static/alpha/output.css
+a {
+  b: lab(from #aaa l a b/25%);
+}
+
+<===>
+================================================================================
+<===> static/no_alpha/input.scss
+a {b: lab(from #aaa l a b)}
+
+<===> static/no_alpha/output.css
+a {
+  b: lab(from #aaa l a b);
+}
+
+<===>
+================================================================================
+<===> calc/alpha/input.scss
+a {b: lab(from #aaa calc(l + 0.2) a b / 25%)}
+
+<===> calc/alpha/output.css
+a {
+  b: lab(from #aaa calc(l + 0.2) a b/25%);
+}
+
+<===>
+================================================================================
+<===> calc/no_alpha/input.scss
+a {b: lab(from #aaa calc(l + 0.2) a b)}
+
+<===> calc/no_alpha/output.css
+a {
+  b: lab(from #aaa calc(l + 0.2) a b);
+}
+
+<===>
+================================================================================
+<===> var/alpha/input.scss
+a {b: lab(from var(--c) l a b / 25%)}
+
+<===> var/alpha/output.css
+a {
+  b: lab(from var(--c) l a b/25%);
+}
+
+<===>
+================================================================================
+<===> var/no_alpha/input.scss
+a {b: lab(from var(--c) l a b)}
+
+<===> var/no_alpha/output.css
+a {
+  b: lab(from var(--c) l a b);
+}
+
+<===>
+================================================================================
+<===> different_case/alpha/input.scss
+a {b: lab(From #aaa l a b / 25%)}
+
+<===> different_case/alpha/output.css
+a {
+  b: lab(From #aaa l a b/25%);
+}
+
+<===>
+================================================================================
+<===> different_case/no_alpha/input.scss
+a {b: lab(From #aaa l a b)}
+
+<===> different_case/no_alpha/output.css
+a {
+  b: lab(From #aaa l a b);
+}
+
+<===>
+================================================================================
+<===> slash_list_alpha/input.scss
+@use "sass:list";
+a {b: lab(list.slash(from #aaa r g b, 25%))}
+
+<===> slash_list_alpha/output.css
+a {
+  b: lab(from #aaa r g b / 25%);
+}
+
+<===>
+================================================================================
+<===> error/quoted/alpha/input.scss
+a {b: lab("from" #aaa l a b / 25%)}
+
+<===> error/quoted/alpha/error
+Error: $channels: Expected lightness channel to be a number, was "from".
+  ,
+1 | a {b: lab("from" #aaa l a b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/quoted/no_alpha/input.scss
+a {b: lab("from" #aaa l a b)}
+
+<===> error/quoted/no_alpha/error
+Error: $channels: Expected lightness channel to be a number, was "from".
+  ,
+1 | a {b: lab("from" #aaa l a b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/wrong_keyword/alpha/input.scss
+a {b: lab(c #aaa l a b / 25%)}
+
+<===> error/wrong_keyword/alpha/error
+Error: $channels: Expected lightness channel to be a number, was c.
+  ,
+1 | a {b: lab(c #aaa l a b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/wrong_keyword/no_alpha/input.scss
+a {b: lab(c #aaa l a b)}
+
+<===> error/wrong_keyword/no_alpha/error
+Error: $channels: Expected lightness channel to be a number, was c.
+  ,
+1 | a {b: lab(c #aaa l a b)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

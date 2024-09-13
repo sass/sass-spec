@@ -4,7 +4,7 @@ a {
 }
 
 <===> list/empty/error
-Error: Missing element $hue.
+Error: $channels: Color component list may not be empty.
   ,
 2 |   b: hsl(());
   |      ^^^^^^^
@@ -19,7 +19,7 @@ a {
 }
 
 <===> list/comma_separated/error
-Error: $channels must be a space-separated list.
+Error: $channels: Expected a space- or slash-separated list, was (0, 100%, 50%)
   ,
 2 |   b: hsl((0, 100%, 50%));
   |      ^^^^^^^^^^^^^^^^^^^
@@ -34,7 +34,7 @@ a {
 }
 
 <===> list/bracketed/error
-Error: $channels must be an unbracketed list.
+Error: $channels: Expected an unbracketed list, was [0 100% 50%]
   ,
 2 |   b: hsl([0 100% 50%]);
   |      ^^^^^^^^^^^^^^^^^
@@ -49,7 +49,7 @@ a {
 }
 
 <===> list/one_element/error
-Error: Missing element $saturation.
+Error: $channels: The hsl color space has 3 channels but 0 has 1.
   ,
 2 |   b: hsl(0);
   |      ^^^^^^
@@ -64,7 +64,7 @@ a {
 }
 
 <===> list/two_elements/error
-Error: Missing element $lightness.
+Error: $channels: The hsl color space has 3 channels but (0 100%) has 2.
   ,
 2 |   b: hsl(0 100%);
   |      ^^^^^^^^^^^
@@ -79,7 +79,7 @@ a {
 }
 
 <===> list/four_elements/error
-Error: Only 3 elements allowed, but 4 were passed.
+Error: $channels: The hsl color space has 3 channels but (0 100% 50% 0.4) has 4.
   ,
 2 |   b: hsl(0 100% 50% 0.4);
   |      ^^^^^^^^^^^^^^^^^^^
@@ -94,7 +94,7 @@ a {
 }
 
 <===> type/hue/error
-Error: $hue: "foo" is not a number.
+Error: $channels: Expected hue channel to be a number, was "foo".
   ,
 2 |   b: hsl("foo" 100% 50%);
   |      ^^^^^^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@ a {
 }
 
 <===> type/saturation/error
-Error: $saturation: "foo" is not a number.
+Error: $channels: Expected saturation channel to be a number, was "foo".
   ,
 2 |   b: hsl(0 "foo" 50%);
   |      ^^^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ a {
 }
 
 <===> type/lightness/error
-Error: $lightness: "foo" is not a number.
+Error: $channels: Expected lightness channel to be a number, was "foo".
   ,
 2 |   b: hsl(0 100% "foo");
   |      ^^^^^^^^^^^^^^^^^
@@ -139,7 +139,7 @@ a {
 }
 
 <===> quoted_var_slash/error
-Error: $lightness: "var(--foo) / 0.4" is not a number.
+Error: $channels: Expected lightness channel to be a number, was "var(--foo) / 0.4".
   ,
 2 |   b: hsl(0 100% "var(--foo) / 0.4");
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -153,7 +153,7 @@ Error: $lightness: "var(--foo) / 0.4" is not a number.
 a {b: hsl(list.append((), 0 100% 100%, $separator: slash))}
 
 <===> slash_list/too_few_elements/error
-Error: Only 2 slash-separated elements allowed, but 1 was passed.
+Error: $channels: Only 2 slash-separated elements allowed, but 1 was passed.
   ,
 2 | a {b: hsl(list.append((), 0 100% 100%, $separator: slash))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -167,7 +167,7 @@ Error: Only 2 slash-separated elements allowed, but 1 was passed.
 a {b: hsl(list.slash(0 100% 100%, 0.4, 1))}
 
 <===> slash_list/too_many_elements/error
-Error: Only 2 slash-separated elements allowed, but 3 were passed.
+Error: $channels: Only 2 slash-separated elements allowed, but 3 were passed.
   ,
 2 | a {b: hsl(list.slash(0 100% 100%, 0.4, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -181,7 +181,7 @@ Error: Only 2 slash-separated elements allowed, but 3 were passed.
 a {b: hsl(list.slash((), 1))}
 
 <===> slash_list/channels/empty/error
-Error: Missing element $hue.
+Error: $channels: Color component list may not be empty.
   ,
 2 | a {b: hsl(list.slash((), 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -195,7 +195,7 @@ Error: Missing element $hue.
 a {b: hsl(list.slash((0, 100%, 50%), 1))}
 
 <===> slash_list/channels/comma_separated/error
-Error: $channels must be a space-separated list.
+Error: $channels: Expected a space-separated list, was (0, 100%, 50%)
   ,
 2 | a {b: hsl(list.slash((0, 100%, 50%), 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -209,7 +209,7 @@ Error: $channels must be a space-separated list.
 a {b: hsl(list.slash([0 100% 50%], 1))}
 
 <===> slash_list/channels/bracketed/error
-Error: $channels must be an unbracketed list.
+Error: $channels: Expected an unbracketed list, was [0 100% 50%]
   ,
 2 | a {b: hsl(list.slash([0 100% 50%], 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -223,7 +223,7 @@ Error: $channels must be an unbracketed list.
 a {b: hsl(list.slash(0, 1))}
 
 <===> slash_list/channels/one_element/error
-Error: Missing element $saturation.
+Error: $channels: The hsl color space has 3 channels but (0 / 1) has 1.
   ,
 2 | a {b: hsl(list.slash(0, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^
@@ -237,7 +237,7 @@ Error: Missing element $saturation.
 a {b: hsl(list.slash(0 100%, 1))}
 
 <===> slash_list/channels/two_elements/error
-Error: Missing element $lightness.
+Error: $channels: The hsl color space has 3 channels but (0 100% / 1) has 2.
   ,
 2 | a {b: hsl(list.slash(0 100%, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -251,7 +251,7 @@ Error: Missing element $lightness.
 a {b: hsl(list.slash(0 100% 50% 0.4, 1))}
 
 <===> slash_list/channels/four_elements/error
-Error: Only 3 elements allowed, but 4 were passed.
+Error: $channels: The hsl color space has 3 channels but (0 100% 50% 0.4 / 1) has 4.
   ,
 2 | a {b: hsl(list.slash(0 100% 50% 0.4, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

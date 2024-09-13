@@ -1,0 +1,142 @@
+<===> calculation/arg_1/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(calc(1px + 1%) 0.2 3deg));
+
+<===> calculation/arg_1/output.css
+a {
+  value: oklch(calc(1px + 1%) 0.2 3deg);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calculation/arg_2/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% calc(1px + 1%) 3deg));
+
+<===> calculation/arg_2/output.css
+a {
+  value: oklch(1% calc(1px + 1%) 3deg);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calculation/arg_3/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 calc(1px + 1%)));
+
+<===> calculation/arg_3/output.css
+a {
+  value: oklch(1% 0.2 calc(1px + 1%));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> calculation/arg_4/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / calc(1px + 1%)));
+
+<===> calculation/arg_4/output.css
+a {
+  value: oklch(1% 0.2 3deg/calc(1px + 1%));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_1/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(var(--foo) 0.2 3deg));
+
+<===> var/arg_1/output.css
+a {
+  value: oklch(var(--foo) 0.2 3deg);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_2/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% var(--foo) 3deg));
+
+<===> var/arg_2/output.css
+a {
+  value: oklch(1% var(--foo) 3deg);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_3/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 var(--foo)));
+
+<===> var/arg_3/output.css
+a {
+  value: oklch(1% 0.2 var(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> var/arg_4/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / var(--foo)));
+
+<===> var/arg_4/output.css
+a {
+  value: oklch(1% 0.2 3deg/var(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/1_of_2/input.scss
+// var() is substituted before parsing, so it may contain multiple arguments.
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(var(--foo) 2deg));
+
+<===> multi_argument_var/1_of_2/output.css
+a {
+  value: oklch(var(--foo) 2deg);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/2_of_2/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% var(--foo)));
+
+<===> multi_argument_var/2_of_2/output.css
+a {
+  value: oklch(1% var(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/1_of_1/no_alpha/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(var(--foo)));
+
+<===> multi_argument_var/1_of_1/no_alpha/output.css
+a {
+  value: oklch(var(--foo));
+  type: string;
+}
+
+<===>
+================================================================================
+<===> multi_argument_var/1_of_1/alpha/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(var(--foo) / 0.4));
+
+<===> multi_argument_var/1_of_1/alpha/output.css
+a {
+  value: oklch(var(--foo)/0.4);
+  type: string;
+}

@@ -1,0 +1,47 @@
+<===> README.md
+These used to be considered powerless by the CSS spec, but are no longer, so
+Sass shouldn't consdier them powerless either.
+
+<===>
+================================================================================
+<===> a/full_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(oklab(100% 0 0), "a")}
+
+<===> a/full_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> a/zero_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(oklab(0% 0 0), "a")}
+
+<===> a/zero_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> b/full_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(oklab(100% 0 0), "b")}
+
+<===> b/full_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> b/zero_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(oklab(0% 0 0), "b")}
+
+<===> b/zero_lightness/output.css
+a {
+  b: false;
+}

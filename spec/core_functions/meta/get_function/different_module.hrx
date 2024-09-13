@@ -1,23 +1,23 @@
 <===> defined/input.scss
+@use "sass:math";
 @use "sass:meta";
-@use "sass:color";
-a {b: meta.call(meta.get-function("red", $module: "color"), #abcdef)}
+a {b: meta.call(meta.get-function("round", $module: "math"), 0.6)}
 
 <===> defined/output.css
 a {
-  b: 171;
+  b: 1;
 }
 
 <===>
 ================================================================================
 <===> chosen_prefix/input.scss
 @use "sass:meta";
-@use "sass:color" as a;
-b {c: meta.call(meta.get-function("red", $module: "a"), #abcdef)}
+@use "sass:math" as a;
+b {c: meta.call(meta.get-function("round", $module: "a"), 0.6)}
 
 <===> chosen_prefix/output.css
 b {
-  c: 171;
+  c: 1;
 }
 
 <===>
@@ -115,16 +115,12 @@ a {
 
 <===>
 ================================================================================
-<===> named/options.yml
-:todo:
-  - libsass
-
 <===> named/input.scss
 @use "sass:meta";
-@use "sass:color";
-a {b: meta.call(meta.get-function($name: "red", $module: "color"), #abcdef)}
+@use "sass:math";
+a {b: meta.call(meta.get-function($name: "round", $module: "math"), 0.6)}
 
 <===> named/output.css
 a {
-  b: 171;
+  b: 1;
 }

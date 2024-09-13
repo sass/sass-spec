@@ -3,32 +3,122 @@ Channels that are out of bounds are clamped within bounds.
 
 <===>
 ================================================================================
-<===> red/input.scss
+<===> red/finite/input.scss
 a {b: rgb(256, 0, 0, 0.5)}
 
-<===> red/output.css
+<===> red/finite/output.css
 a {
   b: rgba(255, 0, 0, 0.5);
 }
 
 <===>
 ================================================================================
-<===> green/input.scss
-a {b: rgb(0, -1, 0, 0.5)}
+<===> red/degenerate/positive_infinity/input.scss
+a {b: rgb(calc(infinity), 0, 0, 0.5)}
 
-<===> green/output.css
+<===> red/degenerate/positive_infinity/output.css
+a {
+  b: rgba(255, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> red/degenerate/negative_infinity/input.scss
+a {b: rgb(calc(-infinity), 0, 0, 0.5)}
+
+<===> red/degenerate/negative_infinity/output.css
 a {
   b: rgba(0, 0, 0, 0.5);
 }
 
 <===>
 ================================================================================
-<===> blue/input.scss
+<===> red/degenerate/nan/input.scss
+a {b: rgb(calc(NaN), 0, 0, 0.5)}
+
+<===> red/degenerate/nan/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> green/finite/input.scss
+a {b: rgb(0, -1, 0, 0.5)}
+
+<===> green/finite/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> green/degenerate/positive_infinity/input.scss
+a {b: rgb(0, calc(infinity), 0, 0.5)}
+
+<===> green/degenerate/positive_infinity/output.css
+a {
+  b: rgba(0, 255, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> green/degenerate/negative_infinity/input.scss
+a {b: rgb(0, calc(-infinity), 0, 0.5)}
+
+<===> green/degenerate/negative_infinity/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> green/degenerate/nan/input.scss
+a {b: rgb(0, calc(NaN), 0, 0.5)}
+
+<===> green/degenerate/nan/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> blue/finite/input.scss
 a {b: rgb(0, 0, 9999, 0.5)}
 
-<===> blue/output.css
+<===> blue/finite/output.css
 a {
   b: rgba(0, 0, 255, 0.5);
+}
+
+<===>
+================================================================================
+<===> blue/degenerate/positive_infinity/input.scss
+a {b: rgb(0, 0, calc(infinity), 0.5)}
+
+<===> blue/degenerate/positive_infinity/output.css
+a {
+  b: rgba(0, 0, 255, 0.5);
+}
+
+<===>
+================================================================================
+<===> blue/degenerate/negative_infinity/input.scss
+a {b: rgb(0, 0, calc(-infinity), 0.5)}
+
+<===> blue/degenerate/negative_infinity/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
+}
+
+<===>
+================================================================================
+<===> blue/degenerate/nan/input.scss
+a {b: rgb(0, 0, calc(NaN), 0.5)}
+
+<===> blue/degenerate/nan/output.css
+a {
+  b: rgba(0, 0, 0, 0.5);
 }
 
 <===>
@@ -51,3 +141,32 @@ a {
   b: rgba(0, 0, 0, 0);
 }
 
+<===>
+================================================================================
+<===> alpha/degenerate/positive_infinity/input.scss
+a {b: rgb(0, 0, 0, calc(infinity))}
+
+<===> alpha/degenerate/positive_infinity/output.css
+a {
+  b: rgb(0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/negative_infinity/input.scss
+a {b: rgb(0, 0, 0, calc(-infinity))}
+
+<===> alpha/degenerate/negative_infinity/output.css
+a {
+  b: rgba(0, 0, 0, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/nan/input.scss
+a {b: rgb(0, 0, 0, calc(NaN))}
+
+<===> alpha/degenerate/nan/output.css
+a {
+  b: rgba(0, 0, 0, 0);
+}

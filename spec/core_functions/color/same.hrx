@@ -1,0 +1,244 @@
+<===> true/same_space/identical/input.scss
+@use "sass:color";
+a {b: color.same(#abcdef, #abcdef)}
+
+<===> true/same_space/identical/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/same_space/within_epsilon/input.scss
+@use "sass:color";
+a {
+  b: color.same(
+    lab(50.0000000000001 29.9999999999999 -20.0000000000001),
+    lab(50 30 -20)
+  );
+}
+
+<===> true/same_space/within_epsilon/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/same_space/with_alpha/input.scss
+@use "sass:color";
+a {b: color.same(oklch(50% 30% 120deg / 0.3), oklch(50% 30% 120deg / 0.3))}
+
+<===> true/same_space/with_alpha/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/same_space/out_of_gamut/input.scss
+@use "sass:color";
+a {b: color.same(color(srgb 2.3 -1 42), color(srgb 2.3 -1 42))}
+
+<===> true/same_space/out_of_gamut/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/same_space/none_and_zero/input.scss
+@use "sass:color";
+a {b: color.same(color(display-p3 0.1 0.3 none), color(display-p3 0.1 0.3 0))}
+
+<===> true/same_space/none_and_zero/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/same_space/both_none/input.scss
+@use "sass:color";
+a {
+  b: color.same(color(display-p3 0.1 0.3 none), color(display-p3 0.1 0.3 none));
+}
+
+<===> true/same_space/both_none/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/different_space/no_none/input.scss
+@use "sass:color";
+a {b: color.same(plum, hsl(300, 47.2868217054%, 74.7058823529%))}
+
+<===> true/different_space/no_none/output.css
+a {
+  b: true;
+}
+
+
+<===>
+================================================================================
+<===> true/different_space/one_none/input.scss
+@use "sass:color";
+a {
+  b: color.same(
+    color(rec2020 0.5 none 0.2),
+    oklab(44.668866707461% 0.236673642675 0.018728349677)
+  );
+}
+
+<===> true/different_space/one_none/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> true/different_space/both_none/input.scss
+@use "sass:color";
+a {
+  b: color.same(
+    color(srgb-linear none 0.9 0.8),
+    rgb(none 243.445228830895 231.114597102735)
+  );
+}
+
+<===> true/different_space/both_none/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> false/same_space/no_none/input.scss
+@use "sass:color";
+a {b: color.same(#abcdef, #fedcba)}
+
+<===> false/same_space/no_none/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/same_space/none_and_nonzero/input.scss
+@use "sass:color";
+a {
+  b: color.same(
+    color(prophoto-rgb 0.1 0.2 none),
+    color(prophoto-rgb 0.1 0.2 0.3)
+  );
+}
+
+<===> false/same_space/none_and_nonzero/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/different_space/no_none/input.scss
+@use "sass:color";
+a {b: color.same(color(srgb 0.1 0.2 0.3), color(srgb-linear 0.1 0.2 0.3))}
+
+<===> false/different_space/no_none/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> false/different_space/both_none/input.scss
+// This test verifies that none is converted to 0 *before* conversion to XYZ.
+@use "sass:color";
+a {
+  b: color.same(
+    color(rec2020 0.5 none 0.2),
+    color(xyz 0.174805932224126 none 0.058901333881161)
+  );
+}
+
+<===> false/different_space/both_none/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {b: color.same($color1: red, $color2: green)}
+
+<===> named/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+@use "sass:color";
+a {b: color.same(plum)}
+
+<===> error/too_few_args/error
+Error: Missing argument $color2.
+  ,--> input.scss
+2 | a {b: color.same(plum)}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function same($color1, $color2) {
+  |           ====================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+@use "sass:color";
+a {b: color.same(red, green, blue)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | a {b: color.same(red, green, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function same($color1, $color2) {
+  |           ====================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/color1/input.scss
+@use "sass:color";
+a {b: color.same(1, red)}
+
+<===> error/type/color1/error
+Error: $color1: 1 is not a color.
+  ,
+2 | a {b: color.same(1, red)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/color2/input.scss
+@use "sass:color";
+a {b: color.same(red, 1)}
+
+<===> error/type/color2/error
+Error: $color2: 1 is not a color.
+  ,
+2 | a {b: color.same(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

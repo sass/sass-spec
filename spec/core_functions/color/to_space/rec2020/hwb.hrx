@@ -1,0 +1,149 @@
+<===> black/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0 0 0), hwb));
+
+<===> black/output.css
+a {
+  value: black;
+  space: hwb;
+  channels: 0deg 0% 100% / 1;
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 1 1 1), hwb));
+
+<===> white/output.css
+a {
+  value: white;
+  space: hwb;
+  channels: 0deg 100% 0% / 1;
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0.5 0.5 0.5), hwb));
+
+<===> gray/output.css
+a {
+  value: hsl(0, 0%, 54.6583590878%);
+  space: hwb;
+  channels: 0deg 54.6583590878% 45.3416409122% / 1;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0.2 0.4 0.8), hwb));
+
+<===> middle/output.css
+a {
+  value: hsl(200.8128966593, 189.0732219315%, 29.5081773497%);
+  space: hwb;
+  channels: 200.8128966593deg -26.2838842987% 14.6997610019% / 1;
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 -1 0.4 2), hwb));
+
+<===> out_of_range/near/output.css
+a {
+  value: hsl(204.9795970204, 570.1567645938%, 29.20918492%);
+  space: hwb;
+  channels: 204.9795970204deg -137.3289587842% -95.7473286243% / 1;
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 -999999 0 0), hwb));
+
+<===> out_of_range/far/output.css
+a {
+  value: hsl(351.6022221471, 202.9643125658%, -14161586.907056702%);
+  space: hwb;
+  channels: 171.6022221471deg -42904554.421379425% -14581280.607266026% / 1;
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0.1 0.2 0.3 / 0.4), hwb));
+
+<===> alpha/partial/output.css
+a {
+  value: hsla(194.5479244469, 123.11735267%, 16.5168092719%, 0.4);
+  space: hwb;
+  channels: 194.5479244469deg -3.8182490492% 63.148132407% / 0.4;
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0.1 0.2 0.3 / 0.0), hwb));
+
+<===> alpha/transparent/output.css
+a {
+  value: hsla(194.5479244469, 123.11735267%, 16.5168092719%, 0);
+  space: hwb;
+  channels: 194.5479244469deg -3.8182490492% 63.148132407% / 0;
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 none 0.2 0.3), hwb));
+
+<===> missing/red/output.css
+a {
+  value: hsl(189.4362583411, 400.9276505087%, 7.3695655834%);
+  space: hwb;
+  channels: 189.4362583411deg -22.1770605629% 63.0838082703% / 1;
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(rec2020 0.1 none 0.3), hwb));
+
+<===> missing/green/output.css
+a {
+  value: hsl(273.3326815842, 128.5408000864%, 16.5048029077%);
+  space: hwb;
+  channels: 273.3326815842deg -4.7106028025% 62.2797913821% / 1;
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+a {b: color.to-space(color(rec2020 0.1 0.2 none), hwb)}
+
+<===> missing/blue/output.css
+a {
+  b: hsl(97.48398538, 169.4637013095%, 10.0907863158%);
+}

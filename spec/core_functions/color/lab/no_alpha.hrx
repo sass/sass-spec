@@ -1,0 +1,322 @@
+<===> unitless/ab/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 -3));
+
+<===> unitless/ab/in_range/output.css
+a {
+  value: lab(1% 2 -3);
+  space: lab;
+  channels: 1% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/ab/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 126 300));
+
+<===> unitless/ab/above_range/output.css
+a {
+  value: lab(1% 126 300);
+  space: lab;
+  channels: 1% 126 300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/ab/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% -126 -300));
+
+<===> unitless/ab/below_range/output.css
+a {
+  value: lab(1% -126 -300);
+  space: lab;
+  channels: 1% -126 -300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(infinity) -3));
+
+<===> unitless/a/degenerate/positive_infinity/output.css
+a {
+  value: lab(1% calc(infinity) -3);
+  space: lab;
+  channels: 1% calc(infinity) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(-infinity) -3));
+
+<===> unitless/a/degenerate/negative_infinity/output.css
+a {
+  value: lab(1% calc(-infinity) -3);
+  space: lab;
+  channels: 1% calc(-infinity) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% calc(NaN) -3));
+
+<===> unitless/a/degenerate/nan/output.css
+a {
+  value: lab(1% calc(NaN) -3);
+  space: lab;
+  channels: 1% calc(NaN) -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(infinity)));
+
+<===> unitless/b/degenerate/positive_infinity/output.css
+a {
+  value: lab(1% 2 calc(infinity));
+  space: lab;
+  channels: 1% 2 calc(infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(-infinity)));
+
+<===> unitless/b/degenerate/negative_infinity/output.css
+a {
+  value: lab(1% 2 calc(-infinity));
+  space: lab;
+  channels: 1% 2 calc(-infinity) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 calc(NaN)));
+
+<===> unitless/b/degenerate/nan/output.css
+a {
+  value: lab(1% 2 calc(NaN));
+  space: lab;
+  channels: 1% 2 calc(NaN) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(10 2 -3));
+
+<===> unitless/lightness/in_range/output.css
+a {
+  value: lab(10% 2 -3);
+  space: lab;
+  channels: 10% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(101 2 3));
+
+<===> unitless/lightness/above_range/output.css
+a {
+  value: lab(100% 2 3);
+  space: lab;
+  channels: 100% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(-1 2 3));
+
+<===> unitless/lightness/below_range/output.css
+a {
+  value: lab(0% 2 3);
+  space: lab;
+  channels: 0% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/positive_infinity/output.css
+a {
+  value: lab(100% 2 -3);
+  space: lab;
+  channels: 100% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(-infinity) 2 -3));
+
+<===> unitless/lightness/degenerate/negative_infinity/output.css
+a {
+  value: lab(0% 2 -3);
+  space: lab;
+  channels: 0% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(calc(NaN) 2 -3));
+
+<===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: lab(0% 2 -3);
+  space: lab;
+  channels: 0% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/ab/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2% -3%));
+
+<===> percent/ab/in_range/output.css
+a {
+  value: lab(1% 2.5 -3.75);
+  space: lab;
+  channels: 1% 2.5 -3.75 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/ab/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 101% 150%));
+
+<===> percent/ab/above_range/output.css
+a {
+  value: lab(1% 126.25 187.5);
+  space: lab;
+  channels: 1% 126.25 187.5 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/ab/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% -101% -150%));
+
+<===> percent/ab/below_range/output.css
+a {
+  value: lab(1% -126.25 -187.5);
+  space: lab;
+  channels: 1% -126.25 -187.5 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2% -3%));
+
+<===> percent/lightness/in_range/output.css
+a {
+  value: lab(1% 2.5 -3.75);
+  space: lab;
+  channels: 1% 2.5 -3.75 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(110% 2 3));
+
+<===> percent/lightness/above_range/output.css
+a {
+  value: lab(100% 2 3);
+  space: lab;
+  channels: 100% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(-1% 2 3));
+
+<===> percent/lightness/below_range/output.css
+a {
+  value: lab(0% 2 3);
+  space: lab;
+  channels: 0% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> none/lightness/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(none 2 3));
+
+<===> none/lightness/output.css
+a {
+  value: lab(none 2 3);
+  space: lab;
+  channels: none 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> none/a/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% none 3));
+
+<===> none/a/output.css
+a {
+  value: lab(1% none 3);
+  space: lab;
+  channels: 1% none 3 / 1;
+}
+
+<===>
+================================================================================
+<===> none/b/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 none));
+
+<===> none/b/output.css
+a {
+  value: lab(1% 2 none);
+  space: lab;
+  channels: 1% 2 none / 1;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab($channels: 1% 2 3));
+
+<===> named/output.css
+a {
+  value: lab(1% 2 3);
+  space: lab;
+  channels: 1% 2 3 / 1;
+}

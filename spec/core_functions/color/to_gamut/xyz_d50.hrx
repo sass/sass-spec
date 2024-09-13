@@ -1,0 +1,19 @@
+<===> clip/input.scss
+@use "sass:color";
+a {b: color.to-gamut(color(xyz-d50 123 -456 999999), $method: clip)}
+
+<===> clip/output.css
+a {
+  b: color(xyz-d50 123 -456 999999);
+}
+
+<===>
+================================================================================
+<===> local_minde/input.scss
+@use "sass:color";
+a {b: color.to-gamut(color(xyz-d50 123 -456 999999), $method: local-minde)}
+
+<===> local_minde/output.css
+a {
+  b: color(xyz-d50 123 -456 999999);
+}

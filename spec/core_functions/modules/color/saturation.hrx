@@ -1,0 +1,21 @@
+<===> input.scss
+@use "sass:color";
+a {b: color.saturation(#abcdef)}
+
+<===> output.css
+a {
+  b: 68%;
+}
+
+<===> warning
+DEPRECATION WARNING: color.saturation() is deprecated. Suggestion:
+
+color.channel($color, saturation)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.saturation(#abcdef)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet

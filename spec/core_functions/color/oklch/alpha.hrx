@@ -1,0 +1,169 @@
+<===> transparent/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / 0));
+
+<===> transparent/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0;
+}
+
+<===>
+================================================================================
+<===> opaque/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / 1));
+
+<===> opaque/output.css
+a {
+  value: oklch(1% 0.2 3deg);
+  space: oklch;
+  channels: 1% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> partial/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / 0.4));
+
+<===> partial/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0.4);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0.4;
+}
+
+<===>
+================================================================================
+<===> percent/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / 40%));
+
+<===> percent/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0.4);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0.4;
+}
+
+<===>
+================================================================================
+<===> degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / calc(infinity)));
+
+<===> degenerate/positive_infinity/output.css
+a {
+  value: oklch(1% 0.2 3deg);
+  space: oklch;
+  channels: 1% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / calc(-infinity)));
+
+<===> degenerate/negative_infinity/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0;
+}
+
+<===>
+================================================================================
+<===> degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / calc(NaN)));
+
+<===> degenerate/nan/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch($channels: 1% 0.2 3deg / 0.4));
+
+<===> named/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0.4);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0.4;
+}
+
+<===>
+================================================================================
+<===> slash_list/input.scss
+@use "sass:list";
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(list.slash(1% 0.2 3deg, 0.4)));
+
+<===> slash_list/output.css
+a {
+  value: oklch(1% 0.2 3deg / 0.4);
+  space: oklch;
+  channels: 1% 0.2 3deg / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/hue/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 none / 0.4));
+
+<===> none/slash/hue/output.css
+a {
+  value: oklch(1% 0.2 none / 0.4);
+  space: oklch;
+  channels: 1% 0.2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/alpha/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 3deg / none));
+
+<===> none/slash/alpha/output.css
+a {
+  value: oklch(1% 0.2 3deg / none);
+  space: oklch;
+  channels: 1% 0.2 3deg / none;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/hue/input.scss
+@use 'sass:list';
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(list.slash(1% 0.2 none, 0.4)));
+
+<===> none/slash_list/hue/output.css
+a {
+  value: oklch(1% 0.2 none / 0.4);
+  space: oklch;
+  channels: 1% 0.2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/alpha/input.scss
+@use 'sass:list';
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(list.slash(1% 0.2 3deg, none)));
+
+<===> none/slash_list/alpha/output.css
+a {
+  value: oklch(1% 0.2 3deg / none);
+  space: oklch;
+  channels: 1% 0.2 3deg / none;
+}

@@ -1,0 +1,30 @@
+<===> min_and_max/input.scss
+// Each channel becomes the average of 255 and 0, which is 128 = 0xAA.
+a {b: mix(#ff00ff, #00ff00)}
+
+<===> min_and_max/output.css
+a {
+  b: rgb(127.5, 127.5, 127.5);
+}
+
+<===>
+================================================================================
+<===> identical/input.scss
+// If two channels have the same values, they should be the same in the output.
+a {b: mix(#123456, #123456)}
+
+<===> identical/output.css
+a {
+  b: #123456;
+}
+
+<===>
+================================================================================
+<===> average/input.scss
+// All channels should be averaged across the two colors.
+a {b: mix(#91e16f, #0144bf)}
+
+<===> average/output.css
+a {
+  b: rgb(73, 146.5, 151);
+}

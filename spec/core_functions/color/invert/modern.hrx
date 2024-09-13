@@ -1,0 +1,140 @@
+<===> zero_min/input.scss
+@use "sass:color";
+a {b: color.invert(color(rec2020 0 0.4 1), $space: rec2020)}
+
+<===> zero_min/output.css
+a {
+  b: color(rec2020 1 0.6 0);
+}
+
+<===>
+================================================================================
+<===> negative_min/input.scss
+@use "sass:color";
+a {b: color.invert(lab(20% -30 110), $space: lab)}
+
+<===> negative_min/output.css
+a {
+  b: lab(80% 30 -110);
+}
+
+<===>
+================================================================================
+<===> polar/input.scss
+@use "sass:color";
+a {b: color.invert(lch(20% 80 50deg), $space: lch)}
+
+<===> polar/output.css
+a {
+  b: lch(80% 80 230deg);
+}
+
+<===>
+================================================================================
+<===> weight/min/input.scss
+@use "sass:color";
+a {b: color.invert(color(a98-rgb 0.1 0.4 0.8), 0%, $space: a98-rgb)}
+
+<===> weight/min/output.css
+a {
+  b: color(a98-rgb 0.1 0.4 0.8);
+}
+
+<===>
+================================================================================
+<===> weight/max/input.scss
+@use "sass:color";
+a {b: color.invert(color(a98-rgb 0.1 0.4 0.8), 100%, $space: a98-rgb)}
+
+<===> weight/max/output.css
+a {
+  b: color(a98-rgb 0.9 0.6 0.2);
+}
+
+<===>
+================================================================================
+<===> weight/middle/input.scss
+@use "sass:color";
+a {b: color.invert(color(a98-rgb 0.1 0.4 0.8), 50%, $space: a98-rgb)}
+
+<===> weight/middle/output.css
+a {
+  b: color(a98-rgb 0.5 0.5 0.5);
+}
+
+<===>
+================================================================================
+<===> weight/high/input.scss
+@use "sass:color";
+a {b: color.invert(color(a98-rgb 0.1 0.4 0.8), 60%, $space: a98-rgb)}
+
+<===> weight/high/output.css
+a {
+  b: color(a98-rgb 0.58 0.52 0.44);
+}
+
+<===>
+================================================================================
+<===> space/modern/input.scss
+@use "sass:color";
+a {b: color.invert(lch(20% 80 50deg), $space: xyz)}
+
+<===> space/modern/output.css
+a {
+  b: lch(98.9503159926% 3.6006542179 45.9089280707deg);
+}
+
+<===>
+================================================================================
+<===> space/legacy/input.scss
+@use "sass:color";
+a {b: color.invert(lch(20% 80 50deg), $space: rgb)}
+
+<===> space/legacy/output.css
+a {
+  b: color-mix(in lch, color(xyz 0.8040115061 1.0427791446 1.4858460828) 100%, black);
+}
+
+<===>
+================================================================================
+<===> space/case/input.scss
+@use "sass:color";
+a {b: color.invert(lch(20% 80 50deg), $space: DISPLAY-p3)}
+
+<===> space/case/output.css
+a {
+  b: lch(97.4036876937% 47.4823953357 211.8732507605deg);
+}
+
+<===>
+================================================================================
+<===> space/missing_converted/input.scss
+@use "sass:color";
+a {b: color.invert(color(rec2020 none none none), $space: lab)}
+
+<===> space/missing_converted/output.css
+a {
+  b: color(rec2020 1 1 1);
+}
+
+<===>
+================================================================================
+<===> space/powerless/same/input.scss
+@use "sass:color";
+a {b: color.invert(lch(40% 0% 120deg), $space: lch)}
+
+<===> space/powerless/same/output.css
+a {
+  b: lch(60% 0 300deg);
+}
+
+<===>
+================================================================================
+<===> space/powerless/different/input.scss
+@use "sass:color";
+a {b: color.invert(lch(40% 0% 120deg), $space: lab)}
+
+<===> space/powerless/different/output.css
+a {
+  b: lch(60% 0 none);
+}

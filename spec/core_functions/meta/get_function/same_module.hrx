@@ -33,13 +33,13 @@ a {
 ================================================================================
 <===> built_in/input.scss
 @use "sass:meta";
-$lighten-fn: meta.get-function(lighten);
+$round-fn: meta.get-function(round);
 
-a {b: meta.call($lighten-fn, red, 30%)}
+a {b: meta.call($round-fn, 0.6)}
 
 <===> built_in/output.css
 a {
-  b: #ff9999;
+  b: 1;
 }
 
 <===>
@@ -61,18 +61,18 @@ a {
 ================================================================================
 <===> plain_css/input.scss
 @use "sass:meta";
-$sass-fn: meta.get-function(lighten);
-$css-fn: meta.get-function(lighten, $css: true);
+$sass-fn: meta.get-function(round);
+$css-fn: meta.get-function(round, $css: true);
 
 a {
-  sass-fn: meta.call($sass-fn, red, 30%);
-  css-fn: meta.call($css-fn, red, 30%);
+  sass-fn: meta.call($sass-fn, 0.6);
+  css-fn: meta.call($css-fn, 0.6);
 }
 
 <===> plain_css/output.css
 a {
-  sass-fn: #ff9999;
-  css-fn: lighten(red, 30%);
+  sass-fn: 1;
+  css-fn: round(0.6);
 }
 
 <===>

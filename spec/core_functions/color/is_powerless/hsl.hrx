@@ -1,0 +1,84 @@
+<===> hue/positive_saturation/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 50% 50%), "hue")}
+
+<===> hue/positive_saturation/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> hue/zero_saturation/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 0% 50%), "hue")}
+
+<===> hue/zero_saturation/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/near_zero_saturation/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 0.000000000001% 50%), "hue")}
+
+<===> hue/near_zero_saturation/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/full_lightness/input.scss
+// These used to be considered powerless by the CSS spec, but are no longer, so
+// Sass shouldn't consdier it powerless either.
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 50% 100%), "hue")}
+
+<===> hue/full_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> hue/zero_lightness/input.scss
+// These used to be considered powerless by the CSS spec, but are no longer, so
+// Sass shouldn't consdier it powerless either.
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 50% 0%), "hue")}
+
+<===> hue/zero_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> saturation/README.md
+These used to be considered powerless by the CSS spec, but are no longer, so
+Sass shouldn't consdier them powerless either.
+
+<===>
+================================================================================
+<===> saturation/full_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 0% 100%), "saturation")}
+
+<===> saturation/full_lightness/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> saturation/zero_lightness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 0% 0%), "saturation")}
+
+<===> saturation/zero_lightness/output.css
+a {
+  b: false;
+}

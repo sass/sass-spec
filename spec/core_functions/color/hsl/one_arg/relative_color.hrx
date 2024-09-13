@@ -55,7 +55,6 @@ a {
   b: hsl(from var(--c) h s l);
 }
 
-
 <===>
 ================================================================================
 <===> different_case/alpha/input.scss
@@ -93,7 +92,7 @@ a {
 a {b: hsl("from" #aaa h s l / 25%)}
 
 <===> error/quoted/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hsl("from" #aaa h s l / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -106,7 +105,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hsl("from" #aaa h s l)}
 
 <===> error/quoted/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was "from".
   ,
 1 | a {b: hsl("from" #aaa h s l)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -119,7 +118,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hsl(c #aaa h s l / 25%)}
 
 <===> error/wrong_keyword/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hsl(c #aaa h s l / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -132,7 +131,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: hsl(c #aaa h s l)}
 
 <===> error/wrong_keyword/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected hue channel to be a number, was c.
   ,
 1 | a {b: hsl(c #aaa h s l)}
   |       ^^^^^^^^^^^^^^^^^

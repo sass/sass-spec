@@ -1,0 +1,235 @@
+<===> hue/degenerate/positive_infinity/input.scss
+a {b: hsl(calc(infinity), 100%, 50%)}
+
+<===> hue/degenerate/positive_infinity/output.css
+a {
+  b: hsl(calc(NaN), 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> hue/degenerate/negative_infinity/input.scss
+a {b: hsl(calc(-infinity), 100%, 50%)}
+
+<===> hue/degenerate/negative_infinity/output.css
+a {
+  b: hsl(calc(NaN), 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> hue/degenerate/nan/input.scss
+a {b: hsl(calc(NaN), 100%, 50%)}
+
+<===> hue/degenerate/nan/output.css
+a {
+  b: hsl(calc(NaN), 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> saturation/finite/input.scss
+a {b: hsl(0, -0.1%, 50%, 0.5)}
+
+<===> saturation/finite/output.css
+a {
+  b: hsla(0, 0%, 50%, 0.5);
+}
+
+<===>
+================================================================================
+<===> saturation/degenerate/positive_infinity/input.scss
+a {b: hsl(0, calc(infinity), 50%)}
+
+<===> saturation/degenerate/positive_infinity/output.css
+a {
+  b: hsl(0, calc(infinity * 1%), 50%);
+}
+
+<===> saturation/degenerate/positive_infinity/warning
+DEPRECATION WARNING: $saturation: Passing a number without unit % (calc(infinity)) is deprecated.
+
+To preserve current behavior: $saturation * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, calc(infinity), 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> saturation/degenerate/negative_infinity/input.scss
+a {b: hsl(0, calc(-infinity), 50%)}
+
+<===> saturation/degenerate/negative_infinity/output.css
+a {
+  b: hsl(0, 0%, 50%);
+}
+
+<===> saturation/degenerate/negative_infinity/warning
+DEPRECATION WARNING: $saturation: Passing a number without unit % (calc(-infinity)) is deprecated.
+
+To preserve current behavior: $saturation * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, calc(-infinity), 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> saturation/degenerate/nan/input.scss
+a {b: hsl(0, calc(NaN), 50%)}
+
+<===> saturation/degenerate/nan/output.css
+a {
+  b: hsl(0, 0%, 50%);
+}
+
+<===> saturation/degenerate/nan/warning
+DEPRECATION WARNING: $saturation: Passing a number without unit % (calc(NaN)) is deprecated.
+
+To preserve current behavior: $saturation * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, calc(NaN), 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> lightness/finite/input.scss
+a {b: hsl(0, 100%, 9999%, 0.5)}
+
+<===> lightness/finite/output.css
+a {
+  b: hsla(0, 100%, 9999%, 0.5);
+}
+
+<===>
+================================================================================
+<===> lightness/degenerate/positive_infinity/input.scss
+a {b: hsl(0, 100%, calc(infinity))}
+
+<===> lightness/degenerate/positive_infinity/output.css
+a {
+  b: hsl(0, 100%, calc(infinity * 1%));
+}
+
+<===> lightness/degenerate/positive_infinity/warning
+DEPRECATION WARNING: $lightness: Passing a number without unit % (calc(infinity)) is deprecated.
+
+To preserve current behavior: $lightness * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, 100%, calc(infinity))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> lightness/degenerate/negative_infinity/input.scss
+a {b: hsl(0, 100%, calc(-infinity))}
+
+<===> lightness/degenerate/negative_infinity/output.css
+a {
+  b: hsl(0, 100%, calc(-infinity * 1%));
+}
+
+<===> lightness/degenerate/negative_infinity/warning
+DEPRECATION WARNING: $lightness: Passing a number without unit % (calc(-infinity)) is deprecated.
+
+To preserve current behavior: $lightness * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, 100%, calc(-infinity))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> lightness/degenerate/nan/input.scss
+a {b: hsl(0, 100%, calc(NaN))}
+
+<===> lightness/degenerate/nan/output.css
+a {
+  b: hsl(0, 100%, calc(NaN * 1%));
+}
+
+<===> lightness/degenerate/nan/warning
+DEPRECATION WARNING: $lightness: Passing a number without unit % (calc(NaN)) is deprecated.
+
+To preserve current behavior: $lightness * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: hsl(0, 100%, calc(NaN))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/finite/above/input.scss
+a {b: hsl(0, 100%, 50%, 1.1)}
+
+<===> alpha/finite/above/output.css
+a {
+  b: hsl(0, 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> alpha/finite/below/input.scss
+a {b: hsla(0, 100%, 50%, -0.1)}
+
+<===> alpha/finite/below/output.css
+a {
+  b: hsla(0, 100%, 50%, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/positive_infinity/input.scss
+a {b: hsl(0, 100%, 50%, calc(infinity))}
+
+<===> alpha/degenerate/positive_infinity/output.css
+a {
+  b: hsl(0, 100%, 50%);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/negative_infinity/input.scss
+a {b: hsl(0, 100%, 50%, calc(-infinity))}
+
+<===> alpha/degenerate/negative_infinity/output.css
+a {
+  b: hsla(0, 100%, 50%, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/degenerate/nan/input.scss
+a {b: hsl(0, 100%, 50%, calc(NaN))}
+
+<===> alpha/degenerate/nan/output.css
+a {
+  b: hsla(0, 100%, 50%, 0);
+}

@@ -1,0 +1,217 @@
+<===> lightness/max/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $lightness: 100%)}
+
+<===> lightness/max/output.css
+a {
+  b: lab(100% 100 -60);
+}
+
+<===>
+================================================================================
+<===> lightness/min/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $lightness: -100%)}
+
+<===> lightness/min/output.css
+a {
+  b: lab(0% 100 -60);
+}
+
+<===>
+================================================================================
+<===> lightness/zero/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $lightness: 0%)}
+
+<===> lightness/zero/output.css
+a {
+  b: lab(70% 100 -60);
+}
+
+<===>
+================================================================================
+<===> lightness/low/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $lightness: -33%)}
+
+<===> lightness/low/output.css
+a {
+  b: lab(46.9% 100 -60);
+}
+
+<===>
+================================================================================
+<===> lightness/high/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $lightness: 86%)}
+
+<===> lightness/high/output.css
+a {
+  b: lab(95.8% 100 -60);
+}
+
+<===>
+================================================================================
+<===> a/max/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $a: 100%)}
+
+<===> a/max/output.css
+a {
+  b: lab(70% 125 -60);
+}
+
+<===>
+================================================================================
+<===> a/min/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $a: -100%)}
+
+<===> a/min/output.css
+a {
+  b: lab(70% -125 -60);
+}
+
+<===>
+================================================================================
+<===> a/zero/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $a: 0%)}
+
+<===> a/zero/output.css
+a {
+  b: lab(70% 100 -60);
+}
+
+<===>
+================================================================================
+<===> a/low/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $a: -86%)}
+
+<===> a/low/output.css
+a {
+  b: lab(70% -93.5 -60);
+}
+
+<===>
+================================================================================
+<===> a/high/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $a: 12%)}
+
+<===> a/high/output.css
+a {
+  b: lab(70% 103 -60);
+}
+
+<===>
+================================================================================
+<===> b/max/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $b: 100%)}
+
+<===> b/max/output.css
+a {
+  b: lab(70% 100 125);
+}
+
+<===>
+================================================================================
+<===> b/min/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $b: -100%)}
+
+<===> b/min/output.css
+a {
+  b: lab(70% 100 -125);
+}
+
+<===>
+================================================================================
+<===> b/zero/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $b: 0%)}
+
+<===> b/zero/output.css
+a {
+  b: lab(70% 100 -60);
+}
+
+<===>
+================================================================================
+<===> b/low/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $b: -16%)}
+
+<===> b/low/output.css
+a {
+  b: lab(70% 100 -70.4);
+}
+
+<===>
+================================================================================
+<===> b/high/input.scss
+@use "sass:color";
+a {b: color.scale(lab(70% 100 -60), $b: 42%)}
+
+<===> b/high/output.css
+a {
+  b: lab(70% 100 17.7);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use "sass:color";
+a {
+  b: color.scale(lab(70% 100 -60), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> all/output.css
+a {
+  b: lab(73.6% 106 28.8);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use "sass:color";
+a {
+  b: color.scale(lab(70% 100 -60 / 0.3), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> alpha_input/output.css
+a {
+  b: lab(73.6% 106 28.8 / 0.3);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use "sass:color";
+a {
+  b: color.scale(
+    lab(70% 100 -60),
+    $lightness: 12%, $a: 24%, $b: 48%, $alpha: -70%
+  );
+}
+
+<===> alpha_arg/output.css
+a {
+  b: lab(73.6% 106 28.8 / 0.3);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {
+  b: color.scale($color: lab(70% 100 -60), $lightness: 12%, $a: 24%, $b: 48%);
+}
+
+<===> named/output.css
+a {
+  b: lab(73.6% 106 28.8);
+}

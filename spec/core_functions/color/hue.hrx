@@ -7,6 +7,19 @@ a {
   b: 359deg;
 }
 
+<===> max/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(359, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> above_max/input.scss
@@ -17,6 +30,19 @@ a {b: color.hue(hsl(540, 50%, 50%))}
 a {
   b: 180deg;
 }
+
+<===> above_max/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(540, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -29,6 +55,19 @@ a {
   b: 0deg;
 }
 
+<===> min/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(0, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> negative/input.scss
@@ -39,6 +78,19 @@ a {b: color.hue(hsl(-180, 50%, 50%))}
 a {
   b: 180deg;
 }
+
+<===> negative/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(-180, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -51,6 +103,19 @@ a {
   b: 123deg;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(123, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> fraction/input.scss
@@ -62,6 +127,19 @@ a {
   b: 0.5deg;
 }
 
+<===> fraction/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue(hsl(0.5, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -72,6 +150,19 @@ a {b: color.hue($color: hsl(234, 50%, 50%))}
 a {
   b: 234deg;
 }
+
+<===> named/warning
+DEPRECATION WARNING: color.hue() is deprecated. Suggestion:
+
+color.channel($color, hue)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.hue($color: hsl(234, 50%, 50%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -120,5 +211,19 @@ Error: $color: 1 is not a color.
   ,
 2 | a {b: color.hue(1)}
   |       ^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+@use "sass:color";
+a {b: color.hue(lch(0% 0 0deg))}
+
+<===> error/non_legacy/error
+Error: color.hue() is only supported for legacy colors. Please use color.channel() instead with an explicit $space argument.
+  ,
+2 | a {b: color.hue(lch(0% 0 0deg))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

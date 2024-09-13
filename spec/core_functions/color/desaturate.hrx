@@ -1,0 +1,256 @@
+<===> max/input.scss
+a {b: desaturate(plum, 100%)}
+
+<===> max/output.css
+a {
+  b: rgb(190.5, 190.5, 190.5);
+}
+
+<===> max/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> max_remaining/input.scss
+a {b: desaturate(plum, 48%)}
+
+<===> max_remaining/output.css
+a {
+  b: rgb(190.5, 190.5, 190.5);
+}
+
+<===> max_remaining/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -48%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 48%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> min/input.scss
+a {b: desaturate(plum, 0%)}
+
+<===> min/output.css
+a {
+  b: plum;
+}
+
+<===> min/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestion:
+
+color.adjust($color, $saturation: 0%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 0%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> middle/input.scss
+a {b: desaturate(plum, 14%)}
+
+<===> middle/output.css
+a {
+  b: rgb(211.97, 169.03, 211.97);
+}
+
+<===> middle/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -29.606557377%)
+color.adjust($color, $saturation: -14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(plum, 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/input.scss
+a {b: desaturate(rgba(plum, 0.3), 100%)}
+
+<===> alpha/output.css
+a {
+  b: rgba(190.5, 190.5, 190.5, 0.3);
+}
+
+<===> alpha/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -100%)
+color.adjust($color, $saturation: -100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate(rgba(plum, 0.3), 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: desaturate($color: plum, $amount: 14%)}
+
+<===> named/output.css
+a {
+  b: rgb(211.97, 169.03, 211.97);
+}
+
+<===> named/warning
+DEPRECATION WARNING: desaturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: -29.606557377%)
+color.adjust($color, $saturation: -14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: desaturate($color: plum, $amount: 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: desaturate(plum)}
+
+<===> error/too_few_args/error
+Error: Missing argument $amount.
+  ,--> input.scss
+1 | a {b: desaturate(plum)}
+  |       ^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: desaturate(plum, 1%, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+1 | a {b: desaturate(plum, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/type/input.scss
+a {b: desaturate(red)}
+
+<===> error/one_arg/type/error
+Error: Missing argument $amount.
+  ,--> input.scss
+1 | a {b: desaturate(red)}
+  |       ^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function desaturate($color, $amount) {
+  |           =========================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/color/input.scss
+a {b: desaturate(1, 2)}
+
+<===> error/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: desaturate(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/lightness/input.scss
+a {b: desaturate(plum, blue)}
+
+<===> error/type/lightness/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: desaturate(plum, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/bounds/too_low/input.scss
+a {b: desaturate(plum, -0.001)}
+
+<===> error/bounds/too_low/error
+Error: $amount: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: desaturate(plum, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/bounds/too_high/input.scss
+a {b: desaturate(plum, 100.001)}
+
+<===> error/bounds/too_high/error
+Error: $amount: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: desaturate(plum, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+a {b: desaturate(color(srgb 1 1 1), 10%)}
+
+<===> error/non_legacy/error
+Error: desaturate() is only supported for legacy colors. Please use color.adjust() instead with an explicit $space argument.
+  ,
+1 | a {b: desaturate(color(srgb 1 1 1), 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

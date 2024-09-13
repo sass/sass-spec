@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0 0 0), lch)}
+
+<===> black/output.css
+a {
+  b: lch(0% 0 none);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 1 1 1), lch)}
+
+<===> white/output.css
+a {
+  b: lch(100% 0 none);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.5 0.5 0.5), lch)}
+
+<===> gray/output.css
+a {
+  b: lch(53.3889647411% 0 none);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.2 0.4 0.8), lch)}
+
+<===> middle/output.css
+a {
+  b: lch(44.1210142293% 60.0926108873 280.5032243387deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb -1 0.4 2), lch)}
+
+<===> out_of_range/near/output.css
+a {
+  b: lch(48.6432537296% 224.278166904 287.899080689deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb -999999 0 0), lch)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color-mix(in lch, color(xyz -91096581353071.64 -46971674760177.555 -4270152250925.3564) 100%, black);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.1 0.2 0.3 / 0.4), lch)}
+
+<===> alpha/partial/output.css
+a {
+  b: lch(20.2042266123% 19.2439038187 260.7069785652deg / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.1 0.2 0.3 / 0.0), lch)}
+
+<===> alpha/transparent/output.css
+a {
+  b: lch(20.2042266123% 19.2439038187 260.7069785652deg / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb none 0.2 0.3), lch)}
+
+<===> missing/red/output.css
+a {
+  b: lch(19.2964565453% 21.9002441782 249.3140373711deg);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.1 none 0.3), lch)}
+
+<===> missing/green/output.css
+a {
+  b: lch(6.0247531381% 51.1719976788 305.1505063293deg);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb 0.1 0.2 none), lch)}
+
+<===> missing/blue/output.css
+a {
+  b: lch(18.3483752329% 30.8320028773 124.8397077198deg);
+}

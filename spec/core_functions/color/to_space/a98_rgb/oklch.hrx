@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0 0 0), oklch)}
+
+<===> black/output.css
+a {
+  b: oklch(0% 0 none);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 1 1 1), oklch)}
+
+<===> white/output.css
+a {
+  b: oklch(99.9999993474% 0.0000000373 89.8755630959deg);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.5 0.5 0.5), oklch)}
+
+<===> gray/output.css
+a {
+  b: oklch(60.1621101182% 0.0000000224 89.8755628523deg);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.2 0.4 0.8), oklch)}
+
+<===> middle/output.css
+a {
+  b: oklch(52.1495256905% 0.1865672696 254.0214147055deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb -1 0.4 2), oklch)}
+
+<===> out_of_range/near/output.css
+a {
+  b: oklch(38.583187128% 2.3625557042 195.9945889447deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb -999999 0 0), oklch)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color-mix(in oklch, color(xyz -9041452038524.746 -4661998707364.325 -423818064305.8496) 100%, black);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.1 0.2 0.3 / 0.4), oklch)}
+
+<===> alpha/partial/output.css
+a {
+  b: oklch(29.182543438% 0.0741281994 238.8825662829deg / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.1 0.2 0.3 / 0.0), oklch)}
+
+<===> alpha/transparent/output.css
+a {
+  b: oklch(29.182543438% 0.0741281994 238.8825662829deg / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb none 0.2 0.3), oklch)}
+
+<===> missing/red/output.css
+a {
+  b: oklch(28.2216457589% 0.0902076638 228.9502345148deg);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.1 none 0.3), oklch)}
+
+<===> missing/green/output.css
+a {
+  b: oklch(20.9471844335% 0.1234157477 283.7668356322deg);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+a {b: color.to-space(color(a98-rgb 0.1 0.2 none), oklch)}
+
+<===> missing/blue/output.css
+a {
+  b: oklch(26.2341469735% 0.1003383295 143.5990619106deg);
+}

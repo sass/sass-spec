@@ -1,0 +1,21 @@
+<===> input.scss
+a {b: transparentize(rgba(red, 0.5), 0.3)}
+
+<===> output.css
+a {
+  b: rgba(255, 0, 0, 0.2);
+}
+
+<===> warning
+DEPRECATION WARNING: transparentize() is deprecated. Suggestions:
+
+color.scale($color, $alpha: -60%)
+color.adjust($color, $alpha: -0.3)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: transparentize(rgba(red, 0.5), 0.3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

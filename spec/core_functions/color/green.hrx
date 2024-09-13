@@ -7,6 +7,19 @@ a {
   b: 255;
 }
 
+<===> max/warning
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.green(rgb(0, 255, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> min/input.scss
@@ -17,6 +30,19 @@ a {b: color.green(rgb(0, 0, 0))}
 a {
   b: 0;
 }
+
+<===> min/warning
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.green(rgb(0, 0, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -29,6 +55,19 @@ a {
   b: 123;
 }
 
+<===> middle/warning
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.green(rgb(0, 123, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -39,6 +78,19 @@ a {b: color.green($color: rgb(0, 234, 0))}
 a {
   b: 234;
 }
+
+<===> named/warning
+DEPRECATION WARNING: color.green() is deprecated. Suggestion:
+
+color.channel($color, green)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+2 | a {b: color.green($color: rgb(0, 234, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -87,5 +139,19 @@ Error: $color: 1 is not a color.
   ,
 2 | a {b: color.green(1)}
   |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+@use "sass:color";
+a {b: color.green(color(srgb 1 1 1))}
+
+<===> error/non_legacy/error
+Error: color.green() is only supported for legacy colors. Please use color.channel() instead with an explicit $space argument.
+  ,
+2 | a {b: color.green(color(srgb 1 1 1))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

@@ -1,0 +1,39 @@
+<===> red/input.scss
+@use "sass:color";
+a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $x: 0.5px)}
+
+<===> red/error
+Error: $x: Expected 0.5px to have unit "%" or no units.
+  ,
+2 | a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $x: 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> green/input.scss
+@use "sass:color";
+a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $y: 0.5px)}
+
+<===> green/error
+Error: $y: Expected 0.5px to have unit "%" or no units.
+  ,
+2 | a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $y: 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> blue/input.scss
+@use "sass:color";
+a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $z: 0.5px)}
+
+<===> blue/error
+Error: $z: Expected 0.5px to have unit "%" or no units.
+  ,
+2 | a {b: color.adjust(color(xyz-d50 0.2 0.5 0.7), $z: 0.5px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
