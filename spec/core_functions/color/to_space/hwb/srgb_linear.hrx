@@ -1,0 +1,129 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 0% 100%), srgb-linear)}
+
+<===> black/output.css
+a {
+  b: color(srgb-linear 0 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 100% 0%), srgb-linear)}
+
+<===> white/output.css
+a {
+  b: color(srgb-linear 1 1 1);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 50% 50%), srgb-linear)}
+
+<===> gray/output.css
+a {
+  b: color(srgb-linear 0.2140411405 0.2140411405 0.2140411405);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(80deg 20% 40%), srgb-linear)}
+
+<===> middle/output.css
+a {
+  b: color(srgb-linear 0.1844749945 0.3185467781 0.0331047666);
+}
+
+<===>
+================================================================================
+<===> float/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20.123456789deg 30.987654321% 40.192837465%), srgb-linear)}
+
+<===> float/output.css
+a {
+  b: color(srgb-linear 0.316300627 0.1374941598 0.0782247825);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20deg 200% -125%), srgb-linear)}
+
+<===> out_of_range/near/output.css
+a {
+  b: color(srgb-linear 6.5253577732 5.4497310669 4.9538457516);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20deg 999999% -999950%), srgb-linear)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color(srgb-linear 3501482364.2479005 3501196665.942984 3501053821.890021);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% 30% / 0.4), srgb-linear)}
+
+<===> alpha/partial/output.css
+a {
+  b: color(srgb-linear 0.4479884124 0.0652561709 0.0331047666 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% 30% / 0.0), srgb-linear)}
+
+<===> alpha/transparent/output.css
+a {
+  b: color(srgb-linear 0.4479884124 0.0652561709 0.0331047666 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none 20% 30%), srgb-linear)}
+
+<===> missing/hue/output.css
+a {
+  b: color(srgb-linear 0.4479884124 0.0331047666 0.0331047666);
+}
+
+<===>
+================================================================================
+<===> missing/whiteness/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none 30%), srgb-linear)}
+
+<===> missing/whiteness/output.css
+a {
+  b: color(srgb-linear 0.4479884124 0.0128067943 0);
+}
+
+<===>
+================================================================================
+<===> missing/blackness/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% none), srgb-linear)}
+
+<===> missing/blackness/output.css
+a {
+  b: color(srgb-linear 1 0.0908417112 0.0331047666);
+}

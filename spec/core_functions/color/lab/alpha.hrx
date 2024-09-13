@@ -1,0 +1,196 @@
+<===> transparent/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(0 255 127 / 0));
+
+<===> transparent/output.css
+a {
+  value: lab(0% 255 127 / 0);
+  space: lab;
+  channels: 0% 255 127 / 0;
+}
+
+<===>
+================================================================================
+<===> opaque/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 3 / 1));
+
+<===> opaque/output.css
+a {
+  value: lab(1% 2 3);
+  space: lab;
+  channels: 1% 2 3 / 1;
+}
+
+<===>
+================================================================================
+<===> partial/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 3 / 0.4));
+
+<===> partial/output.css
+a {
+  value: lab(1% 2 3 / 0.4);
+  space: lab;
+  channels: 1% 2 3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> percent/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 3 / 40%));
+
+<===> percent/output.css
+a {
+  value: lab(1% 2 3 / 0.4);
+  space: lab;
+  channels: 1% 2 3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 -3 / calc(infinity)));
+
+<===> degenerate/positive_infinity/output.css
+a {
+  value: lab(1% 2 -3);
+  space: lab;
+  channels: 1% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 -3 / calc(-infinity)));
+
+<===> degenerate/negative_infinity/output.css
+a {
+  value: lab(1% 2 -3 / 0);
+  space: lab;
+  channels: 1% 2 -3 / 0;
+}
+
+<===>
+================================================================================
+<===> degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 -3 / calc(NaN)));
+
+<===> degenerate/nan/output.css
+a {
+  value: lab(1% 2 -3 / 0);
+  space: lab;
+  channels: 1% 2 -3 / 0;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab($channels: 1% 2 3 / 0.4));
+
+<===> named/output.css
+a {
+  value: lab(1% 2 3 / 0.4);
+  space: lab;
+  channels: 1% 2 3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> slash_list/input.scss
+@use "sass:list";
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(list.slash(1% 2 3, 0.4)));
+
+<===> slash_list/output.css
+a {
+  value: lab(1% 2 3 / 0.4);
+  space: lab;
+  channels: 1% 2 3 / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/b/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 none / 0.4));
+
+<===> none/slash/b/output.css
+a {
+  value: lab(1% 2 none / 0.4);
+  space: lab;
+  channels: 1% 2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash/alpha/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 3 / none));
+
+<===> none/slash/alpha/output.css
+a {
+  value: lab(1% 2 3 / none);
+  space: lab;
+  channels: 1% 2 3 / none;
+}
+
+<===>
+================================================================================
+<===> none/slash/b_and_alpha/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 none / none));
+
+<===> none/slash/b_and_alpha/output.css
+a {
+  value: lab(1% 2 none / none);
+  space: lab;
+  channels: 1% 2 none / none;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/b/input.scss
+@use 'sass:list';
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(list.slash(1% 2 none, 0.4)));
+
+<===> none/slash_list/b/output.css
+a {
+  value: lab(1% 2 none / 0.4);
+  space: lab;
+  channels: 1% 2 none / 0.4;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/alpha/input.scss
+@use 'sass:list';
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(list.slash(1% 2 3, none)));
+
+<===> none/slash_list/alpha/output.css
+a {
+  value: lab(1% 2 3 / none);
+  space: lab;
+  channels: 1% 2 3 / none;
+}
+
+<===>
+================================================================================
+<===> none/slash_list/b_and_alpha/input.scss
+@use 'sass:list';
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(list.slash(1% 2 none, none)));
+
+<===> none/slash_list/b_and_alpha/output.css
+a {
+  value: lab(1% 2 none / none);
+  space: lab;
+  channels: 1% 2 none / none;
+}

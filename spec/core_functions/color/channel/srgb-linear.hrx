@@ -1,0 +1,63 @@
+<===> local/red/input.scss
+@use "sass:color";
+a {b: color.channel(color(srgb-linear 0.2 0.5 0.8), "red")}
+
+<===> local/red/output.css
+a {
+  b: 0.2;
+}
+
+<===>
+================================================================================
+<===> local/green/input.scss
+@use "sass:color";
+a {b: color.channel(color(srgb-linear 0.2 0.5 0.8), "green")}
+
+<===> local/green/output.css
+a {
+  b: 0.5;
+}
+
+<===>
+================================================================================
+<===> local/blue/input.scss
+@use "sass:color";
+a {b: color.channel(color(srgb-linear 0.2 0.5 0.8), "blue")}
+
+<===> local/blue/output.css
+a {
+  b: 0.8;
+}
+
+<===>
+================================================================================
+<===> foreign/red/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "red", $space: srgb-linear)}
+
+<===> foreign/red/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> foreign/green/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "green", $space: srgb-linear)}
+
+<===> foreign/green/output.css
+a {
+  b: 0.5271151257;
+}
+
+<===>
+================================================================================
+<===> foreign/blue/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "blue", $space: srgb-linear)}
+
+<===> foreign/blue/output.css
+a {
+  b: 0.5972017884;
+}

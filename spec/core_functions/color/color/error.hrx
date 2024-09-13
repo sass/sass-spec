@@ -1,0 +1,331 @@
+<===> unit/red/input.scss
+a {b: color(srgb 0.1px 0.2 0.3)}
+
+<===> unit/red/error
+Error: $red: Expected 0.1px to have unit "%" or no units.
+  ,
+1 | a {b: color(srgb 0.1px 0.2 0.3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/green/input.scss
+a {b: color(srgb 0.1 0.2px 0.3)}
+
+<===> unit/green/error
+Error: $green: Expected 0.2px to have unit "%" or no units.
+  ,
+1 | a {b: color(srgb 0.1 0.2px 0.3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/blue/input.scss
+a {b: color(srgb 0.1 0.2 0.3px)}
+
+<===> unit/blue/error
+Error: $blue: Expected 0.3px to have unit "%" or no units.
+  ,
+1 | a {b: color(srgb 0.1 0.2 0.3px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash/input.scss
+a {b: color(srgb 0.1 0.2 0.3/0.4px)}
+
+<===> unit/alpha/slash/error
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
+  ,
+1 | a {b: color(srgb 0.1 0.2 0.3/0.4px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unit/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: color(list.slash(srgb 0.1 0.2 0.3, 0.4px))}
+
+<===> unit/alpha/slash_list/error
+Error: $alpha: Expected 0.4px to have unit "%" or no units.
+  ,
+2 | a {b: color(list.slash(srgb 0.1 0.2 0.3, 0.4px))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/red/input.scss
+a {b: color(srgb c 0.2 0.3)}
+
+<===> type/red/error
+Error: $description: Expected red channel to be a number, was c.
+  ,
+1 | a {b: color(srgb c 0.2 0.3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/green/input.scss
+a {b: color(srgb 0.1 c 0.3)}
+
+<===> type/green/error
+Error: $description: Expected green channel to be a number, was c.
+  ,
+1 | a {b: color(srgb 0.1 c 0.3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/blue/input.scss
+a {b: color(srgb 0.1 0.2 c)}
+
+<===> type/blue/error
+Error: $description: Expected blue channel to be a number, was c.
+  ,
+1 | a {b: color(srgb 0.1 0.2 c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/alpha/slash_list/input.scss
+@use 'sass:list';
+a {b: color(list.slash(srgb 0.1 0.2 0.3, c))}
+
+<===> type/alpha/slash_list/error
+Error: $description: c is not a number.
+  ,
+2 | a {b: color(list.slash(srgb 0.1 0.2 0.3, c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/bracketed/input.scss
+a {b: color([srgb 0.1 0.2 0.3])}
+
+<===> list/bracketed/error
+Error: $description: Expected an unbracketed list, was [srgb 0.1 0.2 0.3]
+  ,
+1 | a {b: color([srgb 0.1 0.2 0.3])}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/comma/input.scss
+a {b: color((srgb, 0.1, 0.2, 0.3))}
+
+<===> list/comma/error
+Error: $description: Expected a space- or slash-separated list, was (srgb, 0.1, 0.2, 0.3)
+  ,
+1 | a {b: color((srgb, 0.1, 0.2, 0.3))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/three/input.scss
+@use 'sass:list';
+a {b: color(list.slash(srgb 0.1, 0.2, 0.3))}
+
+<===> list/slash/three/error
+Error: $description: Only 2 slash-separated elements allowed, but 3 were passed.
+  ,
+2 | a {b: color(list.slash(srgb 0.1, 0.2, 0.3))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/slash/one/input.scss
+@use 'sass:list';
+$single-arg-slash-separated: list.append((), srgb 0.1 0.2 0.3, $separator: slash);
+a {b: color($single-arg-slash-separated)}
+
+<===> list/slash/one/error
+Error: $description: Only 2 slash-separated elements allowed, but 1 was passed.
+  ,
+3 | a {b: color($single-arg-slash-separated)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/after_space/input.scss
+a {b: color(srgb (0.1 0.2 0.3))}
+
+<===> list/after_space/error
+Error: $description: Expected red channel to be a number, was (0.1 0.2 0.3).
+  ,
+1 | a {b: color(srgb (0.1 0.2 0.3))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_few_channels/input.scss
+a {b: color(srgb 0.1 0.2)}
+
+<===> list/too_few_channels/error
+Error: $description: The srgb color space has 3 channels but (srgb 0.1 0.2) has 2.
+  ,
+1 | a {b: color(srgb 0.1 0.2)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> list/too_many_channels/input.scss
+a {b: color(srgb 0.1 0.2 0.3 0.4)}
+
+<===> list/too_many_channels/error
+Error: $description: The srgb color space has 3 channels but (srgb 0.1 0.2 0.3 0.4) has 4.
+  ,
+1 | a {b: color(srgb 0.1 0.2 0.3 0.4)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/no_channels/input.scss
+a {b: color(srgb)}
+
+<===> too_few_args/no_channels/error
+Error: $description: The srgb color space has 3 channels but srgb has 0.
+  ,
+1 | a {b: color(srgb)}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/no_space/input.scss
+a {b: color(1 2 3)}
+
+<===> too_few_args/no_space/error
+Error: $description: 1 is not a string.
+  ,
+1 | a {b: color(1 2 3)}
+  |       ^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/none/input.scss
+a {b: color()}
+
+<===> too_few_args/none/error
+Error: Missing argument $description.
+  ,--> input.scss
+1 | a {b: color()}
+  |       ^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function color($description) {
+  |           =================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: color(srgb 0.1 0.2 0.3 0.4)}
+
+<===> too_many_args/error
+Error: $description: The srgb color space has 3 channels but (srgb 0.1 0.2 0.3 0.4) has 4.
+  ,
+1 | a {b: color(srgb 0.1 0.2 0.3 0.4)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> unknown_space/input.scss
+a {b: color(foo 1 2 3)}
+
+<===> unknown_space/error
+Error: $description: Unknown color space "foo".
+  ,
+1 | a {b: color(foo 1 2 3)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/quoted/alpha/input.scss
+a {b: color("from" #aaa srgb r g b / 25%)}
+
+<===> relative_color/quoted/alpha/error
+Error: $description: Expected "from" to be an unquoted string.
+  ,
+1 | a {b: color("from" #aaa srgb r g b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/quoted/no_alpha/input.scss
+a {b: color("from" #aaa srgb r g b)}
+
+<===> relative_color/quoted/no_alpha/error
+Error: $description: Expected "from" to be an unquoted string.
+  ,
+1 | a {b: color("from" #aaa srgb r g b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/wrong_keyword/alpha/input.scss
+a {b: color(c #aaa srgb r g b / 25%)}
+
+<===> relative_color/wrong_keyword/alpha/error
+Error: $description: Unknown color space "c".
+  ,
+1 | a {b: color(c #aaa srgb r g b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/wrong_keyword/no_alpha/input.scss
+a {b: color(c #aaa srgb r g b)}
+
+<===> relative_color/wrong_keyword/no_alpha/error
+Error: $description: Unknown color space "c".
+  ,
+1 | a {b: color(c #aaa srgb r g b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

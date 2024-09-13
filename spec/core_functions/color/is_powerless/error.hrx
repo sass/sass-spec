@@ -1,0 +1,159 @@
+<===> too_few_args/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black)}
+
+<===> too_few_args/error
+Error: Missing argument $channel.
+  ,--> input.scss
+2 | a {b: color.is-powerless(black)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-powerless($color, $channel, $space: null) {
+  |           ============================================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "red", rgb, c)}
+
+<===> too_many_args/error
+Error: Only 3 arguments allowed, but 4 were passed.
+  ,--> input.scss
+2 | a {b: color.is-powerless(black, "red", rgb, c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function is-powerless($color, $channel, $space: null) {
+  |           ============================================ declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color/input.scss
+@use "sass:color";
+a {b: color.is-powerless(c, "red")}
+
+<===> type/color/error
+Error: $color: c is not a color.
+  ,
+2 | a {b: color.is-powerless(c, "red")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/channel/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, 1)}
+
+<===> type/channel/error
+Error: $channel: 1 is not a string.
+  ,
+2 | a {b: color.is-powerless(black, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/space/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "red", $space: 1)}
+
+<===> type/space/error
+Error: $space: 1 is not a string.
+  ,
+2 | a {b: color.is-powerless(black, "red", $space: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/unquoted/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hsl(0deg 0% 0%), hue)}
+
+<===> channel/unquoted/error
+Error: $channel: Expected hue to be a quoted string.
+  ,
+2 | a {b: color.is-powerless(hsl(0deg 0% 0%), hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/unknown/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "c")}
+
+<===> channel/unknown/error
+Error: $channel: Color black doesn't have a channel named "c".
+  ,
+2 | a {b: color.is-powerless(black, "c")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/wrong_space/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "hue")}
+
+<===> channel/wrong_space/error
+Error: $channel: Color black doesn't have a channel named "hue".
+  ,
+2 | a {b: color.is-powerless(black, "hue")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> channel/wrong_case/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "RED")}
+
+<===> channel/wrong_case/error
+Error: $channel: Color black doesn't have a channel named "RED".
+  ,
+2 | a {b: color.is-powerless(black, "RED")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/quoted/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "red", $space: "rgb")}
+
+<===> space/quoted/error
+Error: $space: Expected "rgb" to be an unquoted string.
+  ,
+2 | a {b: color.is-powerless(black, "red", $space: "rgb")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> space/unknown/input.scss
+@use "sass:color";
+a {b: color.is-powerless(black, "red", $space: c)}
+
+<===> space/unknown/error
+Error: $space: Unknown color space "c".
+  ,
+2 | a {b: color.is-powerless(black, "red", $space: c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

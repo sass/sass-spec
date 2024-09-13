@@ -1,0 +1,129 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 0% 100%), a98-rgb)}
+
+<===> black/output.css
+a {
+  b: color(a98-rgb 0 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 100% 0%), a98-rgb)}
+
+<===> white/output.css
+a {
+  b: color(a98-rgb 1 1 1);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(0deg 50% 50%), a98-rgb)}
+
+<===> gray/output.css
+a {
+  b: color(a98-rgb 0.4961036984 0.4961036984 0.4961036984);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(80deg 20% 40%), a98-rgb)}
+
+<===> middle/output.css
+a {
+  b: color(a98-rgb 0.505098443 0.5944145344 0.24376153);
+}
+
+<===>
+================================================================================
+<===> float/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20.123456789deg 30.987654321% 40.192837465%), a98-rgb)}
+
+<===> float/output.css
+a {
+  b: color(a98-rgb 0.5470366266 0.4056690546 0.3183176738);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20deg 200% -125%), a98-rgb)}
+
+<===> out_of_range/near/output.css
+a {
+  b: color(a98-rgb 2.295663911 2.1618962385 2.073992407);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(20deg 999999% -999950%), a98-rgb)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color(a98-rgb 21869.1993352833 21868.6190794601 21868.2300804636);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% 30% / 0.4), a98-rgb)}
+
+<===> alpha/partial/output.css
+a {
+  b: color(a98-rgb 0.6114401635 0.2890681375 0.2161347988 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% 30% / 0.0), a98-rgb)}
+
+<===> alpha/transparent/output.css
+a {
+  b: color(a98-rgb 0.6114401635 0.2890681375 0.2161347988 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none 20% 30%), a98-rgb)}
+
+<===> missing/hue/output.css
+a {
+  b: color(a98-rgb 0.6038713799 0.2123166098 0.2123166098);
+}
+
+<===>
+================================================================================
+<===> missing/whiteness/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none 30%), a98-rgb)}
+
+<===> missing/whiteness/output.css
+a {
+  b: color(a98-rgb 0.5990338556 0.1378605656 0.0323177975);
+}
+
+<===>
+================================================================================
+<===> missing/blackness/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg 20% none), a98-rgb)}
+
+<===> missing/blackness/output.css
+a {
+  b: color(a98-rgb 0.8725825543 0.3359890414 0.2191164159);
+}

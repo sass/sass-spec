@@ -1,0 +1,85 @@
+<===> local/hue/input.scss
+@use "sass:color";
+a {b: color.channel(hwb(10 30% 40%), "hue")}
+
+<===> local/hue/output.css
+a {
+  b: 10deg;
+}
+
+<===>
+================================================================================
+<===> local/whiteness/input.scss
+@use "sass:color";
+a {b: color.channel(hwb(10deg 30% 40%), "whiteness")}
+
+<===> local/whiteness/output.css
+a {
+  b: 30%;
+}
+
+<===>
+================================================================================
+<===> local/blackness/input.scss
+@use "sass:color";
+a {b: color.channel(hwb(10deg 30% 40%), "blackness")}
+
+<===> local/blackness/output.css
+a {
+  b: 40%;
+}
+
+<===>
+================================================================================
+<===> local/normalized/whiteness/input.scss
+@use "sass:color";
+a {b: color.channel(hwb(10deg 70% 50%), "whiteness")}
+
+<===> local/normalized/whiteness/output.css
+a {
+  b: 58.3333333333%;
+}
+
+<===>
+================================================================================
+<===> local/normalized/blackness/input.scss
+@use "sass:color";
+a {b: color.channel(hwb(10deg 70% 50%), "blackness")}
+
+<===> local/normalized/blackness/output.css
+a {
+  b: 41.6666666667%;
+}
+
+<===>
+================================================================================
+<===> foreign/hue/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "hue", $space: hwb)}
+
+<===> foreign/hue/output.css
+a {
+  b: 349.5238095238deg;
+}
+
+<===>
+================================================================================
+<===> foreign/whiteness/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "whiteness", $space: hwb)}
+
+<===> foreign/whiteness/output.css
+a {
+  b: 75.2941176471%;
+}
+
+<===>
+================================================================================
+<===> foreign/blackness/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "blackness", $space: hwb)}
+
+<===> foreign/blackness/output.css
+a {
+  b: 0%;
+}

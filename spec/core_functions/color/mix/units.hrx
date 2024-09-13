@@ -1,0 +1,43 @@
+<===> weight/unitless/input.scss
+a {b: mix(#91e16f, #0144bf, 50)}
+
+<===> weight/unitless/output.css
+a {
+  b: rgb(73, 146.5, 151);
+}
+
+<===> weight/unitless/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (50) is deprecated.
+
+To preserve current behavior: $weight * 1%
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: mix(#91e16f, #0144bf, 50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> weight/unknown/input.scss
+a {b: mix(#91e16f, #0144bf, 50px)}
+
+<===> weight/unknown/output.css
+a {
+  b: rgb(73, 146.5, 151);
+}
+
+<===> weight/unknown/warning
+DEPRECATION WARNING: $weight: Passing a number without unit % (50px) is deprecated.
+
+To preserve current behavior: calc($weight / 1px * 1%)
+
+More info: https://sass-lang.com/d/function-units
+
+  ,
+1 | a {b: mix(#91e16f, #0144bf, 50px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

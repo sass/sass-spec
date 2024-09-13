@@ -1,0 +1,322 @@
+<===> unitless/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1 2 3deg));
+
+<===> unitless/in_range/output.css
+a {
+  value: lch(1% 2 3deg);
+  space: lch;
+  channels: 1% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(101 2 3deg));
+
+<===> unitless/lightness/above_range/output.css
+a {
+  value: lch(100% 2 3deg);
+  space: lch;
+  channels: 100% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(-1 2 3deg));
+
+<===> unitless/lightness/below_range/output.css
+a {
+  value: lch(0% 2 3deg);
+  space: lch;
+  channels: 0% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(calc(infinity) 2 3deg));
+
+<===> unitless/lightness/degenerate/positive_infinity/output.css
+a {
+  value: lch(100% 2 3deg);
+  space: lch;
+  channels: 100% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(calc(-infinity) 2 3deg));
+
+<===> unitless/lightness/degenerate/negative_infinity/output.css
+a {
+  value: lch(0% 2 3deg);
+  space: lch;
+  channels: 0% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(calc(NaN) 2 3deg));
+
+<===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: lch(0% 2 3deg);
+  space: lch;
+  channels: 0% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 0.5 3deg));
+
+<===> unitless/chroma/above_range/output.css
+a {
+  value: lch(1% 0.5 3deg);
+  space: lch;
+  channels: 1% 0.5 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% -0.1 3deg));
+
+<===> unitless/chroma/below_range/output.css
+a {
+  value: lch(1% 0 3deg);
+  space: lch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% calc(infinity) 3deg));
+
+<===> unitless/chroma/degenerate/positive_infinity/output.css
+a {
+  value: lch(1% calc(infinity) 3deg);
+  space: lch;
+  channels: 1% calc(infinity) 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% calc(-infinity) 3deg));
+
+<===> unitless/chroma/degenerate/negative_infinity/output.css
+a {
+  value: lch(1% 0 3deg);
+  space: lch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% calc(NaN) 3deg));
+
+<===> unitless/chroma/degenerate/nan/output.css
+a {
+  value: lch(1% 0 3deg);
+  space: lch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 361deg));
+
+<===> unitless/hue/above_range/output.css
+a {
+  value: lch(1% 2 1deg);
+  space: lch;
+  channels: 1% 2 1deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 -1deg));
+
+<===> unitless/hue/below_range/output.css
+a {
+  value: lch(1% 2 359deg);
+  space: lch;
+  channels: 1% 2 359deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 calc(infinity)));
+
+<===> unitless/hue/degenerate/positive_infinity/output.css
+a {
+  value: lch(1% 2 calc(NaN * 1deg));
+  space: lch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 calc(-infinity)));
+
+<===> unitless/hue/degenerate/negative_infinity/output.css
+a {
+  value: lch(1% 2 calc(NaN * 1deg));
+  space: lch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 calc(NaN)));
+
+<===> unitless/hue/degenerate/nan/output.css
+a {
+  value: lch(1% 2 calc(NaN * 1deg));
+  space: lch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> percent/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2% 3deg));
+
+<===> percent/in_range/output.css
+a {
+  value: lch(1% 3 3deg);
+  space: lch;
+  channels: 1% 3 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(110% 2 3deg));
+
+<===> percent/lightness/above_range/output.css
+a {
+  value: lch(100% 2 3deg);
+  space: lch;
+  channels: 100% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(-1% 2 3deg));
+
+<===> percent/lightness/below_range/output.css
+a {
+  value: lch(0% 2 3deg);
+  space: lch;
+  channels: 0% 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/chroma/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 101% 3deg));
+
+<===> percent/chroma/above_range/output.css
+a {
+  value: lch(1% 151.5 3deg);
+  space: lch;
+  channels: 1% 151.5 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/chroma/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% -1% 3deg));
+
+<===> percent/chroma/below_range/output.css
+a {
+  value: lch(1% 0 3deg);
+  space: lch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/lightness/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(none 2 3deg));
+
+<===> none/lightness/output.css
+a {
+  value: lch(none 2 3deg);
+  space: lch;
+  channels: none 2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/chroma/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% none 3deg));
+
+<===> none/chroma/output.css
+a {
+  value: lch(1% none 3deg);
+  space: lch;
+  channels: 1% none 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/hue/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 none));
+
+<===> none/hue/output.css
+a {
+  value: lch(1% 2 none);
+  space: lch;
+  channels: 1% 2 none / 1;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch($channels: 1% 2 3deg));
+
+<===> named/output.css
+a {
+  value: lch(1% 2 3deg);
+  space: lch;
+  channels: 1% 2 3deg / 1;
+}

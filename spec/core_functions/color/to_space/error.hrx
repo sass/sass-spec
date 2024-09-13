@@ -1,0 +1,89 @@
+<===> undefined_space/input.scss
+@use "sass:color";
+a {b: color.to-space(#abc, c)}
+
+<===> undefined_space/error
+Error: $space: Unknown color space "c".
+  ,
+2 | a {b: color.to-space(#abc, c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> quoted_space/input.scss
+@use "sass:color";
+a {b: color.to-space(#abc, "hsl")}
+
+<===> quoted_space/error
+Error: $space: Expected "hsl" to be an unquoted string.
+  ,
+2 | a {b: color.to-space(#abc, "hsl")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_few_args/input.scss
+@use "sass:color";
+a {b: color.to-space(#abc)}
+
+<===> too_few_args/error
+Error: Missing argument $space.
+  ,--> input.scss
+2 | a {b: color.to-space(#abc)}
+  |       ^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function to-space($color, $space) {
+  |           ======================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+@use "sass:color";
+a {b: color.to-space(#abc, rgb, hsl)}
+
+<===> too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | a {b: color.to-space(#abc, rgb, hsl)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function to-space($color, $space) {
+  |           ======================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color/input.scss
+@use "sass:color";
+a {b: color.to-space(1, rgb)}
+
+<===> type/color/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.to-space(1, rgb)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/space/input.scss
+@use "sass:color";
+a {b: color.to-space(#abc, #def)}
+
+<===> type/space/error
+Error: $space: #def is not a string.
+  ,
+2 | a {b: color.to-space(#abc, #def)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

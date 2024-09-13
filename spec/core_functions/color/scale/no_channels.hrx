@@ -1,0 +1,30 @@
+<===> identical/input.scss
+@use "sass:color";
+a {b: color.scale(oklch(50% 0.2 0deg), $space: lab)}
+
+<===> identical/output.css
+a {
+  b: oklch(50% 0.2 0deg);
+}
+
+<===>
+================================================================================
+<===> powerless/input.scss
+@use "sass:color";
+a {b: color.scale(oklch(50% 0 0deg), $space: lab)}
+
+<===> powerless/output.css
+a {
+  b: oklch(50% 0 none);
+}
+
+<===>
+================================================================================
+<===> missing/input.scss
+@use "sass:color";
+a {b: color.scale(rgb(none none none))}
+
+<===> missing/output.css
+a {
+  b: rgb(none none none);
+}

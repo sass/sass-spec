@@ -4,7 +4,7 @@ a {
 }
 
 <===> list/empty/error
-Error: Missing element $red.
+Error: $channels: Color component list may not be empty.
   ,
 2 |   b: rgb(());
   |      ^^^^^^^
@@ -19,7 +19,7 @@ a {
 }
 
 <===> list/one_element/error
-Error: Missing element $green.
+Error: $channels: The rgb color space has 3 channels but 1 has 1.
   ,
 2 |   b: rgb(1);
   |      ^^^^^^
@@ -34,7 +34,7 @@ a {
 }
 
 <===> list/two_elements/error
-Error: Missing element $blue.
+Error: $channels: The rgb color space has 3 channels but (1 2) has 2.
   ,
 2 |   b: rgb(1 2);
   |      ^^^^^^^^
@@ -49,7 +49,7 @@ a {
 }
 
 <===> list/four_elements/error
-Error: Only 3 elements allowed, but 4 were passed.
+Error: $channels: The rgb color space has 3 channels but (1 2 3 0.4) has 4.
   ,
 2 |   b: rgb(1 2 3 0.4);
   |      ^^^^^^^^^^^^^^
@@ -64,7 +64,7 @@ a {
 }
 
 <===> list/comma_separated/error
-Error: $channels must be a space-separated list.
+Error: $channels: Expected a space- or slash-separated list, was (1, 2, 3)
   ,
 2 |   b: rgb((1, 2, 3));
   |      ^^^^^^^^^^^^^^
@@ -79,7 +79,7 @@ a {
 }
 
 <===> list/bracketed/error
-Error: $channels must be an unbracketed list.
+Error: $channels: Expected an unbracketed list, was [1 2 3]
   ,
 2 |   b: rgb([1 2 3]);
   |      ^^^^^^^^^^^^
@@ -94,7 +94,7 @@ a {
 }
 
 <===> type/red/error
-Error: $red: "foo" is not a number.
+Error: $channels: Expected red channel to be a number, was "foo".
   ,
 2 |   b: rgb("foo" 2 3);
   |      ^^^^^^^^^^^^^^
@@ -109,7 +109,7 @@ a {
 }
 
 <===> type/green/error
-Error: $green: "foo" is not a number.
+Error: $channels: Expected green channel to be a number, was "foo".
   ,
 2 |   b: rgb(1 "foo" 3);
   |      ^^^^^^^^^^^^^^
@@ -124,7 +124,7 @@ a {
 }
 
 <===> type/blue/error
-Error: $blue: "foo" is not a number.
+Error: $channels: Expected blue channel to be a number, was "foo".
   ,
 2 |   b: rgb(1 2 "foo");
   |      ^^^^^^^^^^^^^^
@@ -139,7 +139,7 @@ a {
 }
 
 <===> quoted_var_slash/error
-Error: $blue: "var(--foo) / 0.4" is not a number.
+Error: $channels: Expected blue channel to be a number, was "var(--foo) / 0.4".
   ,
 2 |   b: rgb(1 2 "var(--foo) / 0.4");
   |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -153,7 +153,7 @@ Error: $blue: "var(--foo) / 0.4" is not a number.
 a {b: rgb(list.append((), 1 2 3, $separator: slash))}
 
 <===> slash_list/too_few_elements/error
-Error: Only 2 slash-separated elements allowed, but 1 was passed.
+Error: $channels: Only 2 slash-separated elements allowed, but 1 was passed.
   ,
 2 | a {b: rgb(list.append((), 1 2 3, $separator: slash))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -167,7 +167,7 @@ Error: Only 2 slash-separated elements allowed, but 1 was passed.
 a {b: rgb(list.slash(1 2 3, 0.4, 1))}
 
 <===> slash_list/too_many_elements/error
-Error: Only 2 slash-separated elements allowed, but 3 were passed.
+Error: $channels: Only 2 slash-separated elements allowed, but 3 were passed.
   ,
 2 | a {b: rgb(list.slash(1 2 3, 0.4, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -181,7 +181,7 @@ Error: Only 2 slash-separated elements allowed, but 3 were passed.
 a {b: rgb(list.slash((), 1))}
 
 <===> slash_list/channels/empty/error
-Error: Missing element $red.
+Error: $channels: Color component list may not be empty.
   ,
 2 | a {b: rgb(list.slash((), 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -195,7 +195,7 @@ Error: Missing element $red.
 a {b: rgb(list.slash((1, 2, 3), 1))}
 
 <===> slash_list/channels/comma_separated/error
-Error: $channels must be a space-separated list.
+Error: $channels: Expected a space-separated list, was (1, 2, 3)
   ,
 2 | a {b: rgb(list.slash((1, 2, 3), 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -209,7 +209,7 @@ Error: $channels must be a space-separated list.
 a {b: rgb(list.slash([1 2 3], 1))}
 
 <===> slash_list/channels/bracketed/error
-Error: $channels must be an unbracketed list.
+Error: $channels: Expected an unbracketed list, was [1 2 3]
   ,
 2 | a {b: rgb(list.slash([1 2 3], 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -223,7 +223,7 @@ Error: $channels must be an unbracketed list.
 a {b: rgb(list.slash(1, 1))}
 
 <===> slash_list/channels/one_element/error
-Error: Missing element $green.
+Error: $channels: The rgb color space has 3 channels but (1 / 1) has 1.
   ,
 2 | a {b: rgb(list.slash(1, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^
@@ -237,7 +237,7 @@ Error: Missing element $green.
 a {b: rgb(list.slash(1 2, 1))}
 
 <===> slash_list/channels/two_elements/error
-Error: Missing element $blue.
+Error: $channels: The rgb color space has 3 channels but (1 2 / 1) has 2.
   ,
 2 | a {b: rgb(list.slash(1 2, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -251,7 +251,7 @@ Error: Missing element $blue.
 a {b: rgb(list.slash(1 2 3 0.4, 1))}
 
 <===> slash_list/channels/four_elements/error
-Error: Only 3 elements allowed, but 4 were passed.
+Error: $channels: The rgb color space has 3 channels but (1 2 3 0.4 / 1) has 4.
   ,
 2 | a {b: rgb(list.slash(1 2 3 0.4, 1))}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -1,0 +1,48 @@
+<===> with_color/input.scss
+a {b: invert(#abcdef)}
+
+<===> with_color/output.css
+a {
+  b: #543210;
+}
+
+<===>
+================================================================================
+<===> with_number/input.scss
+a {b: invert(10%)}
+
+<===> with_number/output.css
+a {
+  b: invert(10%);
+}
+
+<===>
+================================================================================
+<===> with_css_var/input.scss
+a {b: invert(var(--c))}
+
+<===> with_css_var/output.css
+a {
+  b: invert(var(--c));
+}
+
+<===>
+================================================================================
+<===> with_calc/input.scss
+a {b: invert(calc(1 + 2))}
+
+<===> with_calc/output.css
+a {
+  b: invert(3);
+}
+
+<===>
+================================================================================
+<===> with_unquoted_calc/input.scss
+@use "sass:string";
+a {b: invert(string.unquote('calc(1)'))}
+
+<===> with_unquoted_calc/output.css
+a {
+  b: invert(calc(1));
+}

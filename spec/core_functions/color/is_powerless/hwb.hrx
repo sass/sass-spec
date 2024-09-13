@@ -1,0 +1,74 @@
+<===> hue/not_greyscale/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg 30% 40%), "hue")}
+
+<===> hue/not_greyscale/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> hue/full_whiteness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg 100% 0%), "hue")}
+
+<===> hue/full_whiteness/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/full_blackness/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg 0% 100%), "hue")}
+
+<===> hue/full_blackness/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/grey/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg 40% 60%), "hue")}
+
+<===> hue/grey/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/normalized_grey/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg 60% 80%), "hue")}
+
+<===> hue/normalized_grey/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> hue/out_of_gamut/colorful/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg -30% 50%), "hue")}
+
+<===> hue/out_of_gamut/colorful/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> hue/out_of_gamut/grey/input.scss
+@use "sass:color";
+a {b: color.is-powerless(hwb(0deg -30% 130%), "hue")}
+
+<===> hue/out_of_gamut/grey/output.css
+a {
+  b: true;
+}

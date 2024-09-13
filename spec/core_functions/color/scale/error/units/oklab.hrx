@@ -1,0 +1,81 @@
+<===> none/lightness/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $lightness: 1)}
+
+<===> none/lightness/error
+Error: $lightness: Expected 1 to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $lightness: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> none/a/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $a: 1)}
+
+<===> none/a/error
+Error: $a: Expected 1 to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $a: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> none/b/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $b: 1)}
+
+<===> none/b/error
+Error: $b: Expected 1 to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $b: 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong/lightness/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $lightness: 1px)}
+
+<===> wrong/lightness/error
+Error: $lightness: Expected 1px to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $lightness: 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong/a/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $a: 1px)}
+
+<===> wrong/a/error
+Error: $a: Expected 1px to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $a: 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> wrong/b/input.scss
+@use "sass:color";
+a {b: color.scale(oklab(50% 40% -20%), $b: 1px)}
+
+<===> wrong/b/error
+Error: $b: Expected 1px to have unit "%".
+  ,
+2 | a {b: color.scale(oklab(50% 40% -20%), $b: 1px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -1,0 +1,43 @@
+<===> too_few/input.scss
+@use "sass:color";
+a {b: color.adjust()}
+
+<===> too_few/error
+Error: Missing argument $color.
+  ,--> input.scss
+2 | a {b: color.adjust()}
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function adjust($color, $kwargs...) {
+  |           ========================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many/input.scss
+@use "sass:color";
+a {b: color.adjust(red, 1)}
+
+<===> too_many/error
+Error: Only one positional argument is allowed. All other arguments must be passed by name.
+  ,
+2 | a {b: color.adjust(red, 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> unknown/input.scss
+@use "sass:color";
+a {b: color.adjust(red, $ambience: 10%)}
+
+<===> unknown/error
+Error: $ambience: Color space rgb doesn't have a channel with this name.
+  ,
+2 | a {b: color.adjust(red, $ambience: 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

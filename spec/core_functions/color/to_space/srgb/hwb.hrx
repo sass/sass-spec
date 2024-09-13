@@ -1,0 +1,149 @@
+<===> black/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0 0 0), hwb));
+
+<===> black/output.css
+a {
+  value: black;
+  space: hwb;
+  channels: 0deg 0% 100% / 1;
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 1 1 1), hwb));
+
+<===> white/output.css
+a {
+  value: white;
+  space: hwb;
+  channels: 0deg 100% 0% / 1;
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0.5 0.5 0.5), hwb));
+
+<===> gray/output.css
+a {
+  value: hsl(0, 0%, 50%);
+  space: hwb;
+  channels: 0deg 50% 50% / 1;
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0.2 0.4 0.8), hwb));
+
+<===> middle/output.css
+a {
+  value: #3366cc;
+  space: hwb;
+  channels: 220deg 20% 20% / 1;
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb -1 0.4 2), hwb));
+
+<===> out_of_range/near/output.css
+a {
+  value: hsl(212, 300%, 50%);
+  space: hwb;
+  channels: 212deg -100% -100% / 1;
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb -999999 0 0), hwb));
+
+<===> out_of_range/far/output.css
+a {
+  value: hsl(0, 100%, -49999950%);
+  space: hwb;
+  channels: 180deg -99999900% 100% / 1;
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0.1 0.2 0.3 / 0.4), hwb));
+
+<===> alpha/partial/output.css
+a {
+  value: hsla(210, 50%, 20%, 0.4);
+  space: hwb;
+  channels: 210deg 10% 70% / 0.4;
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0.1 0.2 0.3 / 0.0), hwb));
+
+<===> alpha/transparent/output.css
+a {
+  value: hsla(210, 50%, 20%, 0);
+  space: hwb;
+  channels: 210deg 10% 70% / 0;
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb none 0.2 0.3), hwb));
+
+<===> missing/red/output.css
+a {
+  value: hsl(200, 100%, 15%);
+  space: hwb;
+  channels: 200deg 0% 70% / 1;
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+@include utils.inspect(color.to-space(color(srgb 0.1 none 0.3), hwb));
+
+<===> missing/green/output.css
+a {
+  value: hsl(260, 100%, 15%);
+  space: hwb;
+  channels: 260deg 0% 70% / 1;
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+@use 'core_functions/color/utils';
+a {b: color.to-space(color(srgb 0.1 0.2 none), hwb)}
+
+<===> missing/blue/output.css
+a {
+  b: hsl(90, 100%, 10%);
+}

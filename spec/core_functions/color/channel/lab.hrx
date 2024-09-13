@@ -1,0 +1,63 @@
+<===> local/lightness/input.scss
+@use "sass:color";
+a {b: color.channel(lab(50 -150 30), "lightness")}
+
+<===> local/lightness/output.css
+a {
+  b: 50%;
+}
+
+<===>
+================================================================================
+<===> local/a/input.scss
+@use "sass:color";
+a {b: color.channel(lab(50% -150 30), "a")}
+
+<===> local/a/output.css
+a {
+  b: -150;
+}
+
+<===>
+================================================================================
+<===> local/b/input.scss
+@use "sass:color";
+a {b: color.channel(lab(50% -150 30), "b")}
+
+<===> local/b/output.css
+a {
+  b: 30;
+}
+
+<===>
+================================================================================
+<===> foreign/lightness/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "lightness", $space: lab)}
+
+<===> foreign/lightness/output.css
+a {
+  b: 83.7872528656%;
+}
+
+<===>
+================================================================================
+<===> foreign/a/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "a", $space: lab)}
+
+<===> foreign/a/output.css
+a {
+  b: 24.4367702881;
+}
+
+<===>
+================================================================================
+<===> foreign/b/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "b", $space: lab)}
+
+<===> foreign/b/output.css
+a {
+  b: 3.7594237161;
+}

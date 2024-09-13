@@ -1,0 +1,17 @@
+<===> legacy/input.scss
+a {b: scale-color(pink, $blue: 20%)}
+
+<===> legacy/output.css
+a {
+  b: rgb(255, 192, 213.4);
+}
+
+<===>
+================================================================================
+<===> non_legacy/input.scss
+a {b: scale-color(pink, $chroma: -10%, $space: oklch)}
+
+<===> non_legacy/output.css
+a {
+  b: rgb(250.9720040643, 194.0861924561, 203.8303793932);
+}

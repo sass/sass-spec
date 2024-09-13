@@ -1,0 +1,63 @@
+<===> local/lightness/input.scss
+@use "sass:color";
+a {b: color.channel(oklch(0.3 80% 30), "lightness")}
+
+<===> local/lightness/output.css
+a {
+  b: 30%;
+}
+
+<===>
+================================================================================
+<===> local/a/input.scss
+@use "sass:color";
+a {b: color.channel(oklch(0.3 80% 30), "chroma")}
+
+<===> local/a/output.css
+a {
+  b: 0.32;
+}
+
+<===>
+================================================================================
+<===> local/b/input.scss
+@use "sass:color";
+a {b: color.channel(oklch(0.3 80% 30), "hue")}
+
+<===> local/b/output.css
+a {
+  b: 30deg;
+}
+
+<===>
+================================================================================
+<===> foreign/lightness/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "lightness", $space: oklch)}
+
+<===> foreign/lightness/output.css
+a {
+  b: 86.7738445294%;
+}
+
+<===>
+================================================================================
+<===> foreign/chroma/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "chroma", $space: oklch)}
+
+<===> foreign/chroma/output.css
+a {
+  b: 0.0735419986;
+}
+
+<===>
+================================================================================
+<===> foreign/hue/input.scss
+@use "sass:color";
+a {b: color.channel(pink, "hue", $space: oklch)}
+
+<===> foreign/hue/output.css
+a {
+  b: 7.0855142734deg;
+}

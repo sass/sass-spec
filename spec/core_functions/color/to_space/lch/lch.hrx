@@ -1,0 +1,52 @@
+<===> in_range/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(10% 20 30deg), lch)}
+
+<===> in_range/output.css
+a {
+  b: lch(10% 20 30deg);
+}
+
+<===>
+================================================================================
+<===> out_of_range/input.scss
+@use "sass:color";
+a {b: color.to-space(color.change(lch(0% 200 0deg), $lightness: -10%), lch)}
+
+<===> out_of_range/output.css
+a {
+  b: color-mix(in lch, color(xyz 0.0846054544 -0.0138950708 -0.0108304931) 100%, black);
+}
+
+<===>
+================================================================================
+<===> missing/lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none 20 30deg), lch)}
+
+<===> missing/lightness/output.css
+a {
+  b: lch(none 20 30deg);
+}
+
+<===>
+================================================================================
+<===> missing/chroma/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(10% none 30deg), lch)}
+
+<===> missing/chroma/output.css
+a {
+  b: lch(10% none 30deg);
+}
+
+<===>
+================================================================================
+<===> missing/hue/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(10% 20 none), lch)}
+
+<===> missing/hue/output.css
+a {
+  b: lch(10% 20 none);
+}

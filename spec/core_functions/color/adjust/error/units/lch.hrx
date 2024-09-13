@@ -1,0 +1,39 @@
+<===> lightness/input.scss
+@use "sass:color";
+a {b: color.adjust(lch(50% 30 50deg), $lightness: 30px)}
+
+<===> lightness/error
+Error: $lightness: Expected 30px to have unit "%" or no units.
+  ,
+2 | a {b: color.adjust(lch(50% 30 50deg), $lightness: 30px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> chroma/input.scss
+@use "sass:color";
+a {b: color.adjust(lch(50% 30 50deg), $chroma: 20px)}
+
+<===> chroma/error
+Error: $chroma: Expected 20px to have unit "%" or no units.
+  ,
+2 | a {b: color.adjust(lch(50% 30 50deg), $chroma: 20px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> hue/input.scss
+@use "sass:color";
+a {b: color.adjust(lch(50% 30 50deg), $hue: 20%)}
+
+<===> hue/error
+Error: $hue: Expected 20% to have an angle unit (deg, grad, rad, turn).
+  ,
+2 | a {b: color.adjust(lch(50% 30 50deg), $hue: 20%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

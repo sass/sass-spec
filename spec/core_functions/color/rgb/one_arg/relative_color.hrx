@@ -80,11 +80,11 @@ a {
 ================================================================================
 <===> slash_list_alpha/input.scss
 @use "sass:list";
-a {b: rgb(list.slash(from #aaa h s l, 25%))}
+a {b: rgb(list.slash(from #aaa r g b, 25%))}
 
 <===> slash_list_alpha/output.css
 a {
-  b: rgb(from #aaa h s l / 25%);
+  b: rgb(from #aaa r g b / 25%);
 }
 
 <===>
@@ -93,7 +93,7 @@ a {
 a {b: rgb("from" #aaa r g b / 25%)}
 
 <===> error/quoted/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected red channel to be a number, was "from".
   ,
 1 | a {b: rgb("from" #aaa r g b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -106,7 +106,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: rgb("from" #aaa r g b)}
 
 <===> error/quoted/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected red channel to be a number, was "from".
   ,
 1 | a {b: rgb("from" #aaa r g b)}
   |       ^^^^^^^^^^^^^^^^^^^^^^
@@ -119,7 +119,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: rgb(c #aaa r g b / 25%)}
 
 <===> error/wrong_keyword/alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected red channel to be a number, was c.
   ,
 1 | a {b: rgb(c #aaa r g b / 25%)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -132,7 +132,7 @@ Error: Only 3 elements allowed, but 5 were passed.
 a {b: rgb(c #aaa r g b)}
 
 <===> error/wrong_keyword/no_alpha/error
-Error: Only 3 elements allowed, but 5 were passed.
+Error: $channels: Expected red channel to be a number, was c.
   ,
 1 | a {b: rgb(c #aaa r g b)}
   |       ^^^^^^^^^^^^^^^^^

@@ -1,0 +1,129 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(#000, display-p3)}
+
+<===> black/output.css
+a {
+  b: color(display-p3 0 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(#fff, display-p3)}
+
+<===> white/output.css
+a {
+  b: color(display-p3 1 1 1);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(#aaa, display-p3)}
+
+<===> gray/output.css
+a {
+  b: color(display-p3 0.6666666667 0.6666666667 0.6666666667);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(#28d, display-p3)}
+
+<===> middle/output.css
+a {
+  b: color(display-p3 0.2644791221 0.525654809 0.8414340148);
+}
+
+<===>
+================================================================================
+<===> float/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(50.123456789 100.987654321 200.192837465), display-p3)}
+
+<===> float/output.css
+a {
+  b: color(display-p3 0.2464159945 0.3912935228 0.7592218197);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(color.change(rgb(0, 100, 0), $red: -50, $blue: 400), display-p3)}
+
+<===> out_of_range/near/output.css
+a {
+  b: color(display-p3 -0.0462648785 0.3843286419 1.5086360967);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(color.change(black, $red: -999999), display-p3)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color(display-p3 -3614.8515104566 -948.8907591358 -719.4436054746);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(10 20 30 / 0.4), display-p3)}
+
+<===> alpha/partial/output.css
+a {
+  b: color(display-p3 0.0477705982 0.0773808537 0.1142571507 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(10 20 30 / 0.0), display-p3)}
+
+<===> alpha/transparent/output.css
+a {
+  b: color(display-p3 0.0477705982 0.0773808537 0.1142571507 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(none 20 30), display-p3)}
+
+<===> missing/red/output.css
+a {
+  b: color(display-p3 none 0.0765677073 0.1139614092);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(10 none 30), display-p3)}
+
+<===> missing/green/output.css
+a {
+  b: color(display-p3 0.0322534105 none 0.1113368327);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(10 20 none), display-p3)}
+
+<===> missing/blue/output.css
+a {
+  b: color(display-p3 0.0477705982 0.0773808537 none);
+}

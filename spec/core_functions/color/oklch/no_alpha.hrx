@@ -1,0 +1,322 @@
+<===> unitless/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(0.1 0.2 3deg));
+
+<===> unitless/in_range/output.css
+a {
+  value: oklch(10% 0.2 3deg);
+  space: oklch;
+  channels: 10% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1.1 0.2 3deg));
+
+<===> unitless/lightness/above_range/output.css
+a {
+  value: oklch(100% 0.2 3deg);
+  space: oklch;
+  channels: 100% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(-0.1 0.2 3deg));
+
+<===> unitless/lightness/below_range/output.css
+a {
+  value: oklch(0% 0.2 3deg);
+  space: oklch;
+  channels: 0% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(calc(infinity) 0.2 3deg));
+
+<===> unitless/lightness/degenerate/positive_infinity/output.css
+a {
+  value: oklch(100% 0.2 3deg);
+  space: oklch;
+  channels: 100% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(calc(-infinity) 0.2 3deg));
+
+<===> unitless/lightness/degenerate/negative_infinity/output.css
+a {
+  value: oklch(0% 0.2 3deg);
+  space: oklch;
+  channels: 0% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(calc(NaN) 0.2 3deg));
+
+<===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: oklch(0% 0.2 3deg);
+  space: oklch;
+  channels: 0% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.5 3deg));
+
+<===> unitless/chroma/above_range/output.css
+a {
+  value: oklch(1% 0.5 3deg);
+  space: oklch;
+  channels: 1% 0.5 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% -0.1 3deg));
+
+<===> unitless/chroma/below_range/output.css
+a {
+  value: oklch(1% 0 3deg);
+  space: oklch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% calc(infinity) 3deg));
+
+<===> unitless/chroma/degenerate/positive_infinity/output.css
+a {
+  value: oklch(1% calc(infinity) 3deg);
+  space: oklch;
+  channels: 1% calc(infinity) 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% calc(-infinity) 3deg));
+
+<===> unitless/chroma/degenerate/negative_infinity/output.css
+a {
+  value: oklch(1% 0 3deg);
+  space: oklch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/chroma/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% calc(NaN) 3deg));
+
+<===> unitless/chroma/degenerate/nan/output.css
+a {
+  value: oklch(1% 0 3deg);
+  space: oklch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 361deg));
+
+<===> unitless/hue/above_range/output.css
+a {
+  value: oklch(1% 0.2 1deg);
+  space: oklch;
+  channels: 1% 0.2 1deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 -1deg));
+
+<===> unitless/hue/below_range/output.css
+a {
+  value: oklch(1% 0.2 359deg);
+  space: oklch;
+  channels: 1% 0.2 359deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/positive_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 2 calc(infinity)));
+
+<===> unitless/hue/degenerate/positive_infinity/output.css
+a {
+  value: oklch(1% 2 calc(NaN * 1deg));
+  space: oklch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/negative_infinity/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 2 calc(-infinity)));
+
+<===> unitless/hue/degenerate/negative_infinity/output.css
+a {
+  value: oklch(1% 2 calc(NaN * 1deg));
+  space: oklch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/degenerate/nan/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 2 calc(NaN)));
+
+<===> unitless/hue/degenerate/nan/output.css
+a {
+  value: oklch(1% 2 calc(NaN * 1deg));
+  space: oklch;
+  channels: 1% 2 calc(NaN * 1deg) / 1;
+}
+
+<===>
+================================================================================
+<===> percent/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 2% 3deg));
+
+<===> percent/in_range/output.css
+a {
+  value: oklch(1% 0.008 3deg);
+  space: oklch;
+  channels: 1% 0.008 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(110% 0.2 3deg));
+
+<===> percent/lightness/above_range/output.css
+a {
+  value: oklch(100% 0.2 3deg);
+  space: oklch;
+  channels: 100% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/lightness/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(-1% 0.2 3deg));
+
+<===> percent/lightness/below_range/output.css
+a {
+  value: oklch(0% 0.2 3deg);
+  space: oklch;
+  channels: 0% 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/chroma/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 101% 3deg));
+
+<===> percent/chroma/above_range/output.css
+a {
+  value: oklch(1% 0.404 3deg);
+  space: oklch;
+  channels: 1% 0.404 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> percent/chroma/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% -1% 3deg));
+
+<===> percent/chroma/below_range/output.css
+a {
+  value: oklch(1% 0 3deg);
+  space: oklch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/lightness/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(none 0.2 3deg));
+
+<===> none/lightness/output.css
+a {
+  value: oklch(none 0.2 3deg);
+  space: oklch;
+  channels: none 0.2 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/chroma/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% none 3deg));
+
+<===> none/chroma/output.css
+a {
+  value: oklch(1% none 3deg);
+  space: oklch;
+  channels: 1% none 3deg / 1;
+}
+
+<===>
+================================================================================
+<===> none/hue/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch(1% 0.2 none));
+
+<===> none/hue/output.css
+a {
+  value: oklch(1% 0.2 none);
+  space: oklch;
+  channels: 1% 0.2 none / 1;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklch($channels: 1% 0.2 3deg));
+
+<===> named/output.css
+a {
+  value: oklch(1% 0.2 3deg);
+  space: oklch;
+  channels: 1% 0.2 3deg / 1;
+}

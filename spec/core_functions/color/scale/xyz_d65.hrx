@@ -1,0 +1,217 @@
+<===> x/max/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: 100%)}
+
+<===> x/max/output.css
+a {
+  b: color(xyz 1 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/min/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: -100%)}
+
+<===> x/min/output.css
+a {
+  b: color(xyz 0 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/zero/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: 0%)}
+
+<===> x/zero/output.css
+a {
+  b: color(xyz 0.2 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/low/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: -33%)}
+
+<===> x/low/output.css
+a {
+  b: color(xyz 0.134 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> x/high/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: 86%)}
+
+<===> x/high/output.css
+a {
+  b: color(xyz 0.888 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> y/max/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $y: 100%)}
+
+<===> y/max/output.css
+a {
+  b: color(xyz 0.2 1 0.7);
+}
+
+<===>
+================================================================================
+<===> y/min/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $y: -100%)}
+
+<===> y/min/output.css
+a {
+  b: color(xyz 0.2 0 0.7);
+}
+
+<===>
+================================================================================
+<===> y/zero/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $y: 0%)}
+
+<===> y/zero/output.css
+a {
+  b: color(xyz 0.2 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> y/low/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $y: -86%)}
+
+<===> y/low/output.css
+a {
+  b: color(xyz 0.2 0.07 0.7);
+}
+
+<===>
+================================================================================
+<===> y/high/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $y: 12%)}
+
+<===> y/high/output.css
+a {
+  b: color(xyz 0.2 0.56 0.7);
+}
+
+<===>
+================================================================================
+<===> z/max/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $z: 100%)}
+
+<===> z/max/output.css
+a {
+  b: color(xyz 0.2 0.5 1);
+}
+
+<===>
+================================================================================
+<===> z/min/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $z: -100%)}
+
+<===> z/min/output.css
+a {
+  b: color(xyz 0.2 0.5 0);
+}
+
+<===>
+================================================================================
+<===> z/zero/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $z: 0%)}
+
+<===> z/zero/output.css
+a {
+  b: color(xyz 0.2 0.5 0.7);
+}
+
+<===>
+================================================================================
+<===> z/low/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $z: -16%)}
+
+<===> z/low/output.css
+a {
+  b: color(xyz 0.2 0.5 0.588);
+}
+
+<===>
+================================================================================
+<===> z/high/input.scss
+@use "sass:color";
+a {b: color.scale(color(xyz-d65 0.2 0.5 0.7), $z: 42%)}
+
+<===> z/high/output.css
+a {
+  b: color(xyz 0.2 0.5 0.826);
+}
+
+<===>
+================================================================================
+<===> all/input.scss
+@use "sass:color";
+a {
+  b: color.scale(color(xyz-d65 0.2 0.5 0.7), $x: 12%, $y: 24%, $z: 48%);
+}
+
+<===> all/output.css
+a {
+  b: color(xyz 0.296 0.62 0.844);
+}
+
+<===>
+================================================================================
+<===> alpha_input/input.scss
+@use "sass:color";
+a {
+  b: color.scale(color(xyz-d65 0.2 0.5 0.7 / 0.3), $x: 12%, $y: 24%, $z: 48%);
+}
+
+<===> alpha_input/output.css
+a {
+  b: color(xyz 0.296 0.62 0.844 / 0.3);
+}
+
+<===>
+================================================================================
+<===> alpha_arg/input.scss
+@use "sass:color";
+a {
+  b: color.scale(
+    color(xyz-d65 0.2 0.5 0.7),
+    $x: 12%, $y: 24%, $z: 48%, $alpha: -70%
+  );
+}
+
+<===> alpha_arg/output.css
+a {
+  b: color(xyz 0.296 0.62 0.844 / 0.3);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:color";
+a {
+  b: color.scale($color: color(xyz-d65 0.2 0.5 0.7), $x: 12%, $y: 24%, $z: 48%);
+}
+
+<===> named/output.css
+a {
+  b: color(xyz 0.296 0.62 0.844);
+}

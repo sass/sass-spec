@@ -1,0 +1,179 @@
+<===> unitless/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 0.2 0.3));
+
+<===> unitless/in_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/x/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 1.1 0.2 0.3));
+
+<===> unitless/x/above_range/output.css
+a {
+  value: color(xyz-d50 1.1 0.2 0.3);
+  space: xyz-d50;
+  channels: 1.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/x/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 -0.1 0.2 0.3));
+
+<===> unitless/x/below_range/output.css
+a {
+  value: color(xyz-d50 -0.1 0.2 0.3);
+  space: xyz-d50;
+  channels: -0.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/y/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 1.2 0.3));
+
+<===> unitless/y/above_range/output.css
+a {
+  value: color(xyz-d50 0.1 1.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 1.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/y/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 -0.2 0.3));
+
+<===> unitless/y/below_range/output.css
+a {
+  value: color(xyz-d50 0.1 -0.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 -0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/z/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 0.2 1.3));
+
+<===> unitless/z/above_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 1.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 1.3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/z/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 0.2 -0.3));
+
+<===> unitless/z/below_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 -0.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 -0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/in_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 10% 20% 30%));
+
+<===> percent/in_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/x/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 110% 0.2 0.3));
+
+<===> percent/x/above_range/output.css
+a {
+  value: color(xyz-d50 1.1 0.2 0.3);
+  space: xyz-d50;
+  channels: 1.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/x/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 -10% 0.2 0.3));
+
+<===> percent/x/below_range/output.css
+a {
+  value: color(xyz-d50 -0.1 0.2 0.3);
+  space: xyz-d50;
+  channels: -0.1 0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/y/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 120% 0.3));
+
+<===> percent/y/above_range/output.css
+a {
+  value: color(xyz-d50 0.1 1.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 1.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/y/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 -20% 0.3));
+
+<===> percent/y/below_range/output.css
+a {
+  value: color(xyz-d50 0.1 -0.2 0.3);
+  space: xyz-d50;
+  channels: 0.1 -0.2 0.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/z/above_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 0.2 130%));
+
+<===> percent/z/above_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 1.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 1.3 / 1;
+}
+
+<===>
+================================================================================
+<===> percent/z/below_range/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(color(xyz-d50 0.1 0.2 -30%));
+
+<===> percent/z/below_range/output.css
+a {
+  value: color(xyz-d50 0.1 0.2 -0.3);
+  space: xyz-d50;
+  channels: 0.1 0.2 -0.3 / 1;
+}

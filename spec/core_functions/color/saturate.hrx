@@ -74,3 +74,277 @@ a {b: saturate($amount: 50%)}
 a {
   b: saturate(50%);
 }
+
+<===>
+================================================================================
+<===> two_args/max/input.scss
+a {b: saturate(plum, 100%)}
+
+<===> two_args/max/output.css
+a {
+  b: #ff7eff;
+}
+
+<===> two_args/max/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> two_args/max_remaining/input.scss
+a {b: saturate(plum, 53%)}
+
+<===> two_args/max_remaining/output.css
+a {
+  b: #ff7eff;
+}
+
+<===> two_args/max_remaining/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 53%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 53%)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> two_args/min/input.scss
+a {b: saturate(plum, 0%)}
+
+<===> two_args/min/output.css
+a {
+  b: plum;
+}
+
+<===> two_args/min/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestion:
+
+color.adjust($color, $saturation: 0%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 0%)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> two_args/middle/input.scss
+a {b: saturate(plum, 14%)}
+
+<===> two_args/middle/output.css
+a {
+  b: rgb(230.03, 150.97, 230.03);
+}
+
+<===> two_args/middle/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 26.5588235294%)
+color.adjust($color, $saturation: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(plum, 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> two_args/alpha/input.scss
+a {b: saturate(rgba(plum, 0.5), 100%)}
+
+<===> two_args/alpha/output.css
+a {
+  b: rgba(255, 126, 255, 0.5);
+}
+
+<===> two_args/alpha/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 100%)
+color.adjust($color, $saturation: 100%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate(rgba(plum, 0.5), 100%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> two_args/named/input.scss
+a {b: saturate($color: plum, $amount: 14%)}
+
+<===> two_args/named/output.css
+a {
+  b: rgb(230.03, 150.97, 230.03);
+}
+
+<===> two_args/named/warning
+DEPRECATION WARNING: saturate() is deprecated. Suggestions:
+
+color.scale($color, $saturation: 26.5588235294%)
+color.adjust($color, $saturation: 14%)
+
+More info: https://sass-lang.com/d/color-functions
+
+  ,
+1 | a {b: saturate($color: plum, $amount: 14%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: saturate()}
+
+<===> error/too_few_args/error
+Error: Missing argument $amount.
+  ,--> input.scss
+1 | a {b: saturate()}
+  |       ^^^^^^^^^^ invocation
+  '
+  ,
+1 | @function saturate($amount) {
+  |           ================= declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: saturate(plum, 1%, 2)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+1 | a {b: saturate(plum, 1%, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,
+1 | @function saturate($color, $amount) {
+  |           ========================= declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/one_arg/type/input.scss
+a {b: saturate(red)}
+
+<===> error/one_arg/type/error
+Error: $amount: red is not a number.
+  ,
+1 | a {b: saturate(red)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/with_module/one_arg/type/input.scss
+@use "sass:color";
+a {b: color.saturate(var(--c))}
+
+<===> error/with_module/one_arg/type/error
+Error: Missing argument $amount.
+  ,--> input.scss
+2 | a {b: color.saturate(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function saturate($color, $amount) {
+  |           ========================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/type/color/input.scss
+a {b: saturate(1, 2)}
+
+<===> error/two_args/type/color/error
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: saturate(1, 2)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/type/lightness/input.scss
+a {b: saturate(plum, blue)}
+
+<===> error/two_args/type/lightness/error
+Error: $amount: blue is not a number.
+  ,
+1 | a {b: saturate(plum, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/bounds/too_low/input.scss
+a {b: saturate(plum, -0.001)}
+
+<===> error/two_args/bounds/too_low/error
+Error: $amount: Expected -0.001 to be within 0 and 100.
+  ,
+1 | a {b: saturate(plum, -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/two_args/bounds/too_high/input.scss
+a {b: saturate(plum, 100.001)}
+
+<===> error/two_args/bounds/too_high/error
+Error: $amount: Expected 100.001 to be within 0 and 100.
+  ,
+1 | a {b: saturate(plum, 100.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_legacy/input.scss
+a {b: saturate(color(srgb 1 1 1), 10%)}
+
+<===> error/non_legacy/error
+Error: saturate() is only supported for legacy colors. Please use color.adjust() instead with an explicit $space argument.
+  ,
+1 | a {b: saturate(color(srgb 1 1 1), 10%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

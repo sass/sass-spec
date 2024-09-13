@@ -1,0 +1,281 @@
+<===> alpha/in_gamut/transparent/input.scss
+a {b: hwb(180 30% 40% / 0)}
+
+<===> alpha/in_gamut/transparent/output.css
+a {
+  b: hsla(180, 33.3333333333%, 45%, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/opaque/input.scss
+a {b: hwb(180 30% 40% / 1)}
+
+<===> alpha/in_gamut/opaque/output.css
+a {
+  b: hsl(180, 33.3333333333%, 45%);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/partial/input.scss
+a {b: hwb(180 30% 40% / 0.5)}
+
+<===> alpha/in_gamut/partial/output.css
+a {
+  b: hsla(180, 33.3333333333%, 45%, 0.5);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/named/input.scss
+a {b: hwb($channels: 180 30% 40% / 0.4)}
+
+<===> alpha/in_gamut/named/output.css
+a {
+  b: hsla(180, 33.3333333333%, 45%, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/in_gamut/parenthesized/input.scss
+// Extra parens shouldn't cause the slash to be forced into division.
+a {b: (hwb(180 30% 40% / 0.4))}
+
+<===> alpha/in_gamut/parenthesized/output.css
+a {
+  b: hsla(180, 33.3333333333%, 45%, 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/above/input.scss
+a {b: hwb(0 30% 40% / 1.1)}
+
+<===> alpha/clamped/above/output.css
+a {
+  b: hsl(0, 33.3333333333%, 45%);
+}
+
+<===>
+================================================================================
+<===> alpha/clamped/below/input.scss
+a {b: hwb(0 30% 40% / -0.1)}
+
+<===> alpha/clamped/below/output.css
+a {
+  b: hsla(0, 33.3333333333%, 45%, 0);
+}
+
+<===>
+================================================================================
+<===> alpha/missing/slash/input.scss
+a {b: hwb(0 30% 40% / none)}
+
+<===> alpha/missing/slash/output.css
+a {
+  b: hwb(0deg 30% 40% / none);
+}
+
+<===>
+================================================================================
+<===> alpha/missing/slash_list/input.scss
+@use 'sass:list';
+a {b: hwb(list.slash(0 30% 40%, none))}
+
+<===> alpha/missing/slash_list/output.css
+a {
+  b: hwb(0deg 30% 40% / none);
+}
+
+<===>
+================================================================================
+<===> no_alpha/input.scss
+a {b: hwb(180 30% 40%)}
+
+<===> no_alpha/output.css
+a {
+  b: hsl(180, 33.3333333333%, 45%);
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+a {b: hwb($channels: 180 30% 40% / 0.4)}
+
+<===> named/output.css
+a {
+  b: hsla(180, 33.3333333333%, 45%, 0.4);
+}
+
+<===>
+================================================================================
+<===> missing/hue/input.scss
+a {b: hwb(none 30% 40%)}
+
+<===> missing/hue/output.css
+a {
+  b: hwb(none 30% 40%);
+}
+
+<===>
+================================================================================
+<===> missing/whiteness/input.scss
+a {b: hwb(0 none 40%)}
+
+<===> missing/whiteness/output.css
+a {
+  b: hwb(0deg none 40%);
+}
+
+<===>
+================================================================================
+<===> missing/blackness/input.scss
+a {b: hwb(0 30% none)}
+
+<===> missing/blackness/output.css
+a {
+  b: hwb(0deg 30% none);
+}
+
+<===>
+================================================================================
+<===> relative_color/static/alpha/input.scss
+a {b: hwb(from #aaa h w b / 25%)}
+
+<===> relative_color/static/alpha/output.css
+a {
+  b: hwb(from #aaa h w b/25%);
+}
+
+<===>
+================================================================================
+<===> relative_color/static/no_alpha/input.scss
+a {b: hwb(from #aaa h w b)}
+
+<===> relative_color/static/no_alpha/output.css
+a {
+  b: hwb(from #aaa h w b);
+}
+
+<===>
+================================================================================
+<===> relative_color/calc/alpha/input.scss
+a {b: hwb(from #aaa calc(h + 180deg) w b / 25%)}
+
+<===> relative_color/calc/alpha/output.css
+a {
+  b: hwb(from #aaa calc(h + 180deg) w b/25%);
+}
+
+<===>
+================================================================================
+<===> relative_color/calc/no_alpha/input.scss
+a {b: hwb(from #aaa calc(h + 180deg) w b)}
+
+<===> relative_color/calc/no_alpha/output.css
+a {
+  b: hwb(from #aaa calc(h + 180deg) w b);
+}
+
+<===>
+================================================================================
+<===> relative_color/var/alpha/input.scss
+a {b: hwb(from var(--c) h w b / 25%)}
+
+<===> relative_color/var/alpha/output.css
+a {
+  b: hwb(from var(--c) h w b/25%);
+}
+
+<===>
+================================================================================
+<===> relative_color/var/no_alpha/input.scss
+a {b: hwb(from var(--c) h w b)}
+<===> relative_color/var/no_alpha/output.css
+a {
+  b: hwb(from var(--c) h w b);
+}
+
+<===>
+================================================================================
+<===> relative_color/different_case/alpha/input.scss
+a {b: hwb(From #aaa h w b / 25%)}
+
+<===> relative_color/different_case/alpha/output.css
+a {
+  b: hwb(From #aaa h w b/25%);
+}
+
+<===>
+================================================================================
+<===> relative_color/different_case/no_alpha/input.scss
+a {b: hwb(From #aaa h w b)}
+
+<===> relative_color/different_case/no_alpha/output.css
+a {
+  b: hwb(From #aaa h w b);
+}
+
+<===>
+================================================================================
+<===> relative_color/slash_list_alpha/input.scss
+@use "sass:list";
+a {b: hwb(list.slash(from #aaa h w b, 25%))}
+
+<===> relative_color/slash_list_alpha/output.css
+a {
+  b: hwb(from #aaa h w b / 25%);
+}
+
+<===>
+================================================================================
+<===> relative_color/error/quoted/alpha/input.scss
+a {b: hwb("from" #aaa h w b / 25%)}
+
+<===> relative_color/error/quoted/alpha/error
+Error: $channels: Expected hue channel to be a number, was "from".
+  ,
+1 | a {b: hwb("from" #aaa h w b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/error/quoted/no_alpha/input.scss
+a {b: hwb("from" #aaa h w b)}
+
+<===> relative_color/error/quoted/no_alpha/error
+Error: $channels: Expected hue channel to be a number, was "from".
+  ,
+1 | a {b: hwb("from" #aaa h w b)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/error/wrong_keyword/alpha/input.scss
+a {b: hwb(c #aaa h w b / 25%)}
+
+<===> relative_color/error/wrong_keyword/alpha/error
+Error: $channels: Expected hue channel to be a number, was c.
+  ,
+1 | a {b: hwb(c #aaa h w b / 25%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> relative_color/error/wrong_keyword/no_alpha/input.scss
+a {b: hwb(c #aaa h w b)}
+
+<===> relative_color/error/wrong_keyword/no_alpha/error
+Error: $channels: Expected hue channel to be a number, was c.
+  ,
+1 | a {b: hwb(c #aaa h w b)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

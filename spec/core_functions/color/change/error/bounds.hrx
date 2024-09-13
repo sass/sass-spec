@@ -1,0 +1,39 @@
+<===> alpha/too_low/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: -0.001)}
+
+<===> alpha/too_low/error
+Error: $alpha: Expected -0.001 to be within 0 and 1.
+  ,
+2 | a {b: color.change(red, $alpha: -0.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/too_high/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: 1.001)}
+
+<===> alpha/too_high/error
+Error: $alpha: Expected 1.001 to be within 0 and 1.
+  ,
+2 | a {b: color.change(red, $alpha: 1.001)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> alpha/unit/input.scss
+@use "sass:color";
+a {b: color.change(red, $alpha: 150%)}
+
+<===> alpha/unit/error
+Error: $alpha: Expected 150% to be within 0% and 100%.
+  ,
+2 | a {b: color.change(red, $alpha: 150%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
