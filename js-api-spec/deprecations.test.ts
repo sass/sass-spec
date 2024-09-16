@@ -4,7 +4,6 @@
 
 import {
   compileString,
-  compileStringAsync,
   deprecations,
   Deprecation,
   Importer,
@@ -14,7 +13,7 @@ import {
   SassNumber,
 } from 'sass';
 
-import {captureStdio, captureStdioAsync, runOnlyForImpl, URL} from './utils';
+import {captureStdio, URL} from './utils';
 
 describe('a warning', () => {
   it('is emitted with no flags', done => {
