@@ -8,16 +8,13 @@ import {deprecations, renderSync, Deprecation, Version} from 'sass';
 import {captureStdio} from './utils';
 
 describe('a warning from the JS API', () => {
-  it('is emitted with no flags', done => {
-    renderSync({
-      data: 'a { b: c; }',
-      logger: {
-        warn(message: string) {
-          expect(message).toContain('legacy JS API is deprecated');
-          done();
-        },
-      },
+  it('is emitted with no flags', () => {
+    const stdio = captureStdio(() => {
+      renderSync({
+        data: 'a { b: c; }',
+      });
     });
+    expect(stdio.err).toContain('legacy-js-api');
   });
 
   it('is not emitted when deprecation silenced', () => {
