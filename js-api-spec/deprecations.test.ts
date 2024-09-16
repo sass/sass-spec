@@ -4,14 +4,17 @@
 
 import {
   compileString,
+  compileStringAsync,
   deprecations,
-  renderSync,
   Deprecation,
   Importer,
+  Value,
   Version,
+  SassColor,
+  SassNumber,
 } from 'sass';
 
-import {captureStdio, URL} from './utils';
+import {captureStdio, captureStdioAsync, runOnlyForImpl, URL} from './utils';
 
 describe('a warning', () => {
   it('is emitted with no flags', done => {
@@ -225,5 +228,51 @@ describe('for a future deprecation,', () => {
         },
       },
     });
+  });
+});
+
+describe('color deprecations', () => {
+  it('emit a warning outside of any compilation', () => {
+    const stdio = captureStdio(() => {
+      new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
+    });
+    expect(stdio.err).toContain('color-4-api');
+  });
+
+  it('emit a warning when compilation not silenced', () => {
+    const stdio = captureStdio(() => {
+      compileString('a { b: fn(red); }', {
+        functions: {
+          'fn($color)': (args: Value[]) =>
+            new SassNumber(args[0].assertColor().red),
+        },
+      });
+    });
+    expect(stdio.err).toContain('color-4-api');
+  });
+
+  it('emit no warning when silenced in current compilation', () => {
+    const stdio = captureStdio(() => {
+      compileString('a { b: fn(red); }', {
+        silenceDeprecations: ['color-4-api'],
+        functions: {
+          'fn($color)': (args: Value[]) =>
+            new SassNumber(args[0].assertColor().red),
+        },
+      });
+    });
+    expect(stdio.err).toEqual('');
+  });
+
+  it('throw an error when made fatal in current compilation', () => {
+    expect(() =>
+      compileString('a { b: fn(red); }', {
+        fatalDeprecations: ['color-4-api'],
+        functions: {
+          'fn($color)': (args: Value[]) =>
+            new SassNumber(args[0].assertColor().red),
+        },
+      })
+    ).toThrowError();
   });
 });
