@@ -14,7 +14,7 @@ describe('a warning from the JS API', () => {
         data: 'a { b: c; }',
       });
     });
-    expect(stdio.err).toContain('legacy-js-api');
+    expect(stdio.err).toContain('legacy JS API');
   });
 
   it('is not emitted when deprecation silenced', () => {
