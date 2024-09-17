@@ -505,6 +505,7 @@ describe('options', () => {
               file: dir('test.scss'),
               quietDeps: true,
               includePaths: [dir('dir')],
+              silenceDeprecations: ['legacy-js-api'],
             })
           );
           expect(stdio.out).toBeEmptyString();
@@ -523,6 +524,7 @@ describe('options', () => {
               file: dir('test.scss'),
               quietDeps: true,
               includePaths: [dir('dir')],
+              silenceDeprecations: ['legacy-js-api'],
             })
           );
           expect(stdio.out).toBeEmptyString();
@@ -566,6 +568,7 @@ describe('options', () => {
             file: dir('test.scss'),
             // data: '@import "other"',
             futureDeprecations: ['import'],
+            silenceDeprecations: ['legacy-js-api'],
           })
         );
         expect(stdio.out).toBeEmptyString();
@@ -583,6 +586,7 @@ describe('options', () => {
         const stdio = captureStdio(() =>
           sass.renderSync({
             file: dir('test.scss'),
+            silenceDeprecations: ['legacy-js-api'],
           })
         );
         expect(stdio.out).toBeEmptyString();
@@ -596,7 +600,7 @@ describe('options', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
           data: '$_: 1/2;',
-          silenceDeprecations: ['slash-div'],
+          silenceDeprecations: ['slash-div', 'legacy-js-api'],
         })
       );
       expect(stdio.out).toBeEmptyString();
@@ -691,6 +695,7 @@ describe('options', () => {
                     expect(message).toBe('heck debug');
                   },
                 },
+                silenceDeprecations: ['legacy-js-api'],
               },
               (err?: sass.LegacyException, result?: sass.LegacyResult) => {
                 if (err) {
