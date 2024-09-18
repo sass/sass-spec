@@ -53,6 +53,22 @@ a {
 
 <===>
 ================================================================================
+<===> multiple_pseudo_elements/first_argument/input.scss
+@use "sass:selector";
+a {b: selector.unify("::y::z", ".x")}
+
+<===> multiple_pseudo_elements/first_argument/output.css
+
+<===>
+================================================================================
+<===> multiple_pseudo_elements/second_argument/input.scss
+@use "sass:selector";
+a {b: selector.unify(".x", "::y::z")}
+
+<===> multiple_pseudo_elements/second_argument/output.css
+
+<===>
+================================================================================
 <===> order/preserved_by_default/input.scss
 @use "sass:selector";
 a {b: selector.unify(".c.d", ".e.f")}
