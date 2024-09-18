@@ -26,7 +26,7 @@ a {b: selector.unify(".c ~ .d", ".e ~ .f")}
 
 <===> and_sibling/distinct/output.css
 a {
-  b: .c ~ .e ~ .d.f, .e ~ .c ~ .d.f, .e.c ~ .d.f;
+  b: .c ~ .e ~ .d.f, .e ~ .c ~ .d.f, .c.e ~ .d.f;
 }
 
 <===>
@@ -59,7 +59,7 @@ a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c.s2-1 ~ .s2-2")}
 
 <===> and_sibling/overlap/output.css
 a {
-  b: .c.s1-1 ~ .c.s2-1 ~ .s1-2.s2-2, .c.s2-1 ~ .c.s1-1 ~ .s1-2.s2-2, .c.s2-1.s1-1 ~ .s1-2.s2-2;
+  b: .c.s1-1 ~ .c.s2-1 ~ .s1-2.s2-2, .c.s2-1 ~ .c.s1-1 ~ .s1-2.s2-2, .c.s1-1.s2-1 ~ .s1-2.s2-2;
 }
 
 <===>
@@ -81,7 +81,7 @@ a {b: selector.unify(".c ~ .d", ".e + .f")}
 
 <===> and_next_sibling/distinct/output.css
 a {
-  b: .c ~ .e + .d.f, .e.c + .d.f;
+  b: .c ~ .e + .d.f, .c.e + .d.f;
 }
 
 <===>
@@ -114,7 +114,7 @@ a {b: selector.unify(".c.s1-1 ~ .s1-2", ".c.s2-1 + .s2-2")}
 
 <===> and_next_sibling/overlap/output.css
 a {
-  b: .c.s1-1 ~ .c.s2-1 + .s1-2.s2-2, .c.s2-1.s1-1 + .s1-2.s2-2;
+  b: .c.s1-1 ~ .c.s2-1 + .s1-2.s2-2, .c.s1-1.s2-1 + .s1-2.s2-2;
 }
 
 <===>
