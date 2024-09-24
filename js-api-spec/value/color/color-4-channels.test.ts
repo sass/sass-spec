@@ -10,6 +10,7 @@ import {List} from 'immutable';
 
 import {spaces} from './spaces';
 import {channelCases, channelNames} from './utils';
+import {evaluateExpression} from '../../utils';
 
 const spaceNames = Object.keys(spaces) as KnownColorSpace[];
 
@@ -309,6 +310,25 @@ describe('Color 4 SassColor Channels', () => {
       checkPowerless(
         new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'oklch'})
       );
+    });
+  });
+
+  describe('parsed from Sass code', () => {
+    it('parses defined values', () => {
+      const color = evaluateExpression(
+        `color(display-p3 ${spaces['display-p3'].pink.join(' ')} / 0.5)`
+      ) as SassColor;
+      expect(color.channels).toFuzzyEqualList(spaces['display-p3'].pink);
+      expect(color.alpha).toFuzzyEqual(0.5);
+    });
+
+    // Regression test for sass/sass#3950
+    it('parses missing values', () => {
+      const color = evaluateExpression(
+        'color(display-p3 0 none 1 / none)'
+      ) as SassColor;
+      expect(color.channelsOrNull).toFuzzyEqualList([0, null, 1]);
+      expect(color.isChannelMissing('alpha')).toBeTrue();
     });
   });
 });
