@@ -128,15 +128,15 @@ export function evaluateExpression(expression: string): sass.Value {
   let value: sass.Value | undefined;
   sass.compileString(
     `
-    @use "sass:color";
-    @use "sass:list";
-    @use "sass:map";
-    @use "sass:math";
-    @use "sass:meta";
-    @use "sass:selector";
-    @use "sass:string";
-    $_: fn((${expression}));
-  `,
+      @use "sass:color";
+      @use "sass:list";
+      @use "sass:map";
+      @use "sass:math";
+      @use "sass:meta";
+      @use "sass:selector";
+      @use "sass:string";
+      $_: fn((${expression}));
+    `,
     {
       functions: {
         'fn($arg)': args => {
@@ -147,4 +147,12 @@ export function evaluateExpression(expression: string): sass.Value {
     }
   );
   return value!;
+}
+
+/** Converts {@link value} to its serialized Sass representation. */
+export function serializeValue(value: sass.Value): string {
+  const result = sass.compileString('a {b: fn()}', {
+    functions: {'fn()': () => value},
+  });
+  return result.css.match(/b: ?(.*);/)![1];
 }
