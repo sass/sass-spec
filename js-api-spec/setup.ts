@@ -356,11 +356,10 @@ const toLooselyEqual = (received: unknown, actual: number) => {
 };
 
 // The max distance two Sass numbers can be from each another before they're
-// considered different (2 decimals).
+// considered different (11 decimals).
 //
 // Uses ** instead of Math.pow() for constant folding.
-// TODO: Ideally this should be more precise, but ColorJS does not always match.
-const epsilon = 10 ** -2;
+const epsilon = 10 ** -11;
 
 const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
   function isSassColor(item: unknown): item is sass.SassColor {

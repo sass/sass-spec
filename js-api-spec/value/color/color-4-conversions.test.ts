@@ -245,7 +245,7 @@ describe('Color 4 SassColors Conversions', () => {
           new SassColor({red: 100, green: 200, blue: 50})
         )
       ).toLooselyEqualColor(
-        new SassColor({hue: 140, saturation: 80, lightness: 49.5098039216})
+        new SassColor({hue: 140, saturation: 80, lightness: 49.509803921568626})
       ));
   });
 });
