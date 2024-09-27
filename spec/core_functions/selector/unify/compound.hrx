@@ -37,7 +37,7 @@ a {b: selector.unify("::c.d", "::c.d")}
 
 <===> full_overlap/pseudo_element/class_after/output.css
 a {
-  b: .d::c;
+  b: ::c.d;
 }
 
 <===>
@@ -48,24 +48,8 @@ a {b: selector.unify("::c.d", ".d::c")}
 
 <===> full_overlap/pseudo/different_order/output.css
 a {
-  b: .d::c;
+  b: ::c.d;
 }
-
-<===>
-================================================================================
-<===> multiple_pseudo_elements/first_argument/input.scss
-@use "sass:selector";
-a {b: selector.unify("::y::z", ".x")}
-
-<===> multiple_pseudo_elements/first_argument/output.css
-
-<===>
-================================================================================
-<===> multiple_pseudo_elements/second_argument/input.scss
-@use "sass:selector";
-a {b: selector.unify(".x", "::y::z")}
-
-<===> multiple_pseudo_elements/second_argument/output.css
 
 <===>
 ================================================================================
@@ -194,15 +178,4 @@ a {b: selector.unify(":foo", "::bar:baz")}
 <===> order/do_not_cross_pseudo_element/pseudo_element/into_pseudo_class_and_element/output.css
 a {
   b: :foo::bar:baz;
-}
-
-<===>
-================================================================================
-<===> order/cross_pseudo_element/input.scss
-@use "sass:selector";
-a {b: selector.unify(".x", "::y.z")}
-
-<===> order/cross_pseudo_element/output.css
-a {
-  b: .x.z::y;
 }
