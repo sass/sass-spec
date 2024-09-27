@@ -31,24 +31,35 @@ a {
 
 <===>
 ================================================================================
-<===> full_overlap/pseudo_element/class_after/input.scss
+<===> full_overlap/pseudo_element/input.scss
 @use "sass:selector";
-a {b: selector.unify("::c.d", "::c.d")}
+a {b: selector.unify(".c::d", ".c::d")}
 
-<===> full_overlap/pseudo_element/class_after/output.css
+<===> full_overlap/pseudo_element/output.css
 a {
-  b: ::c.d;
+  b: .c::d;
 }
 
 <===>
 ================================================================================
-<===> full_overlap/pseudo/different_order/input.scss
+<===> full_overlap/pseudo_class/input.scss
 @use "sass:selector";
-a {b: selector.unify("::c.d", ".d::c")}
+a {b: selector.unify(".c:d", ".c:d")}
 
-<===> full_overlap/pseudo/different_order/output.css
+<===> full_overlap/pseudo_class/output.css
 a {
-  b: ::c.d;
+  b: .c:d;
+}
+
+<===>
+================================================================================
+<===> full_overlap/pseudo_selector_and_class/input.scss
+@use "sass:selector";
+a {b: selector.unify(".c:d::e", ".c:d::e")}
+
+<===> full_overlap/pseudo_selector_and_class/output.css
+a {
+  b: .c:d::e;
 }
 
 <===>
