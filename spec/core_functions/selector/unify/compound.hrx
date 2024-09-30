@@ -20,13 +20,46 @@ a {
 
 <===>
 ================================================================================
-<===> full_overlap/input.scss
+<===> full_overlap/class/input.scss
 @use "sass:selector";
 a {b: selector.unify(".c.d", ".c.d")}
 
-<===> full_overlap/output.css
+<===> full_overlap/class/output.css
 a {
   b: .c.d;
+}
+
+<===>
+================================================================================
+<===> full_overlap/pseudo_element/input.scss
+@use "sass:selector";
+a {b: selector.unify(".c::d", ".c::d")}
+
+<===> full_overlap/pseudo_element/output.css
+a {
+  b: .c::d;
+}
+
+<===>
+================================================================================
+<===> full_overlap/pseudo_class/input.scss
+@use "sass:selector";
+a {b: selector.unify(".c:d", ".c:d")}
+
+<===> full_overlap/pseudo_class/output.css
+a {
+  b: .c:d;
+}
+
+<===>
+================================================================================
+<===> full_overlap/pseudo_selector_and_class/input.scss
+@use "sass:selector";
+a {b: selector.unify(".c:d::e", ".c:d::e")}
+
+<===> full_overlap/pseudo_selector_and_class/output.css
+a {
+  b: .c:d::e;
 }
 
 <===>
@@ -93,4 +126,67 @@ a {b: selector.unify(":c", "::d")}
 <===> order/pseudo_element_after_pseudo_class/class_first/output.css
 a {
   b: :c::d;
+}
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_simple/input.scss
+@use "sass:selector";
+a {b: selector.unify(".x::scrollbar:horizontal", ".y")}
+
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_simple/output.css
+a {
+  b: .x.y::scrollbar:horizontal;
+}
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_pseudo_element/input.scss
+@use "sass:selector";
+a {b: selector.unify("::bar:baz", ":foo")}
+
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_pseudo_element/output.css
+a {
+  b: :foo::bar:baz;
+}
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_same_pseudo_element_and_different_pseudo_class/input.scss
+@use "sass:selector";
+a {b: selector.unify("::foo:bar", "::foo:baz")}
+
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_same_pseudo_element_and_different_pseudo_class/output.css
+a {
+  b: ::foo:bar:baz;
+}
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_different_pseudo_element_and_different_pseudo_class/input.scss
+@use "sass:selector";
+a {b: selector.unify("::foo:bar", "::other:baz")}
+
+<===> order/do_not_cross_pseudo_element/pseudo_class_and_element/into_different_pseudo_element_and_different_pseudo_class/output.css
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/simple/into_pseudo_class_and_element/input.scss
+@use "sass:selector";
+a {b: selector.unify(".x", ".y::scrollbar:horizontal")}
+
+<===> order/do_not_cross_pseudo_element/simple/into_pseudo_class_and_element/output.css
+a {
+  b: .x.y::scrollbar:horizontal;
+}
+
+<===>
+================================================================================
+<===> order/do_not_cross_pseudo_element/pseudo_element/into_pseudo_class_and_element/input.scss
+@use "sass:selector";
+a {b: selector.unify(":foo", "::bar:baz")}
+
+<===> order/do_not_cross_pseudo_element/pseudo_element/into_pseudo_class_and_element/output.css
+a {
+  b: :foo::bar:baz;
 }
