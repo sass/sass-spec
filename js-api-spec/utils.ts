@@ -4,13 +4,15 @@
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import {info} from 'sass';
+import * as sass from 'sass';
 
 /* Whether the tests are running in a browser context. */
 export const isBrowser = !global.process;
 
 /** The name of the implementation of Sass being tested. */
-export const sassImpl = info.split('\t')[0] as 'dart-sass' | 'sass-embedded';
+export const sassImpl = sass.info.split('\t')[0] as
+  | 'dart-sass'
+  | 'sass-embedded';
 
 type Implementation = 'dart-sass' | 'sass-embedded' | 'browser';
 
@@ -115,4 +117,42 @@ export async function captureStdioAsync(
   }
 
   return {out, err};
+}
+
+/**
+ * Parses {@link expression} as a Sass expression, evaluates it, and returns its
+ * value. The expression has access to all the built-in modules at their usual
+ * URLs.
+ */
+export function evaluateExpression(expression: string): sass.Value {
+  let value: sass.Value | undefined;
+  sass.compileString(
+    `
+      @use "sass:color";
+      @use "sass:list";
+      @use "sass:map";
+      @use "sass:math";
+      @use "sass:meta";
+      @use "sass:selector";
+      @use "sass:string";
+      $_: fn((${expression}));
+    `,
+    {
+      functions: {
+        'fn($arg)': args => {
+          value = args[0];
+          return sass.sassNull;
+        },
+      },
+    }
+  );
+  return value!;
+}
+
+/** Converts {@link value} to its serialized Sass representation. */
+export function serializeValue(value: sass.Value): string {
+  const result = sass.compileString('a {b: fn()}', {
+    functions: {'fn()': () => value},
+  });
+  return result.css.match(/b: ?(.*);/)![1];
 }
