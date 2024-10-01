@@ -228,4 +228,24 @@ describe('Color 4 SassColors Conversions', () => {
       });
     });
   });
+
+  describe('interpolate()', () => {
+    it('interpolates a rectangular space without options', () =>
+      expect(
+        new SassColor({red: 100, green: 200, blue: 50}).interpolate(
+          new SassColor({red: 255, green: 255, blue: 255})
+        )
+      ).toLooselyEqualColor(
+        new SassColor({red: 177.5, green: 227.5, blue: 152.5})
+      ));
+
+    it('interpolates a polar space without options', () =>
+      expect(
+        new SassColor({hue: 180, saturation: 100, lightness: 50}).interpolate(
+          new SassColor({red: 100, green: 200, blue: 50})
+        )
+      ).toLooselyEqualColor(
+        new SassColor({hue: 140, saturation: 80, lightness: 49.5098039216})
+      ));
+  });
 });
