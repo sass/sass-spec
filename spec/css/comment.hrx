@@ -144,6 +144,38 @@ a {
 
 <===>
 ================================================================================
+<===> block/loud/sass/trailing_whitespace/input.sass
+// Regression test for sass/dart-sass#2381
+/* */ 
+
+<===> block/loud/sass/trailing_whitespace/output.css
+/* */
+
+<===>
+================================================================================
+<===> block/loud/sass/content_after_close/loud_comment/input.sass
+/* */ /* */
+
+<===> block/loud/sass/content_after_close/loud_comment/output.css
+/* */
+
+<===>
+================================================================================
+<===> block/loud/sass/content_after_close/silent_comment/input.sass
+/* */ //
+
+<===> block/loud/sass/content_after_close/silent_comment/output.css
+/* */
+
+<===>
+================================================================================
+<===> block/loud/sass/end_of_file/input.sass
+/* */
+<===> block/loud/sass/end_of_file/output.css
+/* */
+
+<===>
+================================================================================
 <===> sourcemap/sourcemappingurl/input.scss
 a { b: c }
 /*# sourceMappingURL=whatever */
@@ -248,3 +280,35 @@ Error: Undefined variable.
   |      ^^^^^^^^^^
   '
   input.scss 1:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/loud/sass/content_after_close/single_line/input.sass
+/* */ a
+
+<===> error/loud/sass/content_after_close/single_line/error
+Error: Unexpected text after end of comment
+  ,
+1 | /* */ a
+  |       ^ extra text
+  | ===== comment
+  '
+  input.sass 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/loud/sass/content_after_close/multi_line/input.sass
+/*
+  */
+  a
+
+<===> error/loud/sass/content_after_close/multi_line/error
+Error: Unexpected text after end of comment
+  ,
+1 | / /*
+2 | |   */
+  | '--- comment
+3 |     a
+  |     ^ extra text
+  '
+  input.sass 3:3  root stylesheet
