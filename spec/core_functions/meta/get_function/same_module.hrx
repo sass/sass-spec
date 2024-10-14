@@ -42,6 +42,18 @@ a {
   b: 1;
 }
 
+<===> built_in/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.round instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 | a {b: meta.call($round-fn, 0.6)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> through_use/input.scss
@@ -71,6 +83,16 @@ a {
   b: 12;
 }
 
+<===> through_import/warning
+DEPRECATION WARNING on line 2, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 | @import "other";
+  |         ^^^^^^^
+  '
+
 <===>
 ================================================================================
 <===> plain_css/input.scss
@@ -88,6 +110,18 @@ a {
   sass-fn: 1;
   css-fn: round(0.6);
 }
+
+<===> plain_css/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.round instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+6 |   sass-fn: meta.call($sass-fn, 0.6);
+  |            ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 6:12  root stylesheet
 
 <===>
 ================================================================================

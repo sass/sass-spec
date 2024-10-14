@@ -31,12 +31,21 @@ $arg: join((), 5%);
 }
 
 <===> warning
-DEPRECATION WARNING: darken() is deprecated. Suggestions:
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.join instead.
 
-color.scale($color, $lightness: -39.84375%)
-color.adjust($color, $lightness: -5%)
+More info and automated migrator: https://sass-lang.com/d/import
 
-More info: https://sass-lang.com/d/color-functions
+   ,
+14 | $arg: join((), 5%);
+   |       ^^^^^^^^^^^^
+   '
+    input.scss 14:7  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
 
    ,
 17 |   direct: darken(#102030, 5%);
@@ -52,14 +61,60 @@ color.adjust($color, $lightness: -5%)
 More info: https://sass-lang.com/d/color-functions
 
    ,
+17 |   direct: darken(#102030, 5%);
+   |           ^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 17:11  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
 18 |   arg: darken(#102030, $arg...);
    |        ^^^^^^^^^^^^^^^^^^^^^^^^
    '
     input.scss 18:8  root stylesheet
 
+DEPRECATION WARNING: darken() is deprecated. Suggestions:
+
+color.scale($color, $lightness: -39.84375%)
+color.adjust($color, $lightness: -5%)
+
+More info: https://sass-lang.com/d/color-functions
+
+   ,
+18 |   arg: darken(#102030, $arg...);
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 18:8  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.call instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+19 |   call: call('darken', #102030, $arg...);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:9  root stylesheet
+
 DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
 
 Recommendation: call(get-function("darken"))
+
+   ,
+19 |   call: call('darken', #102030, $arg...);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 19:9  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
 
    ,
 19 |   call: call('darken', #102030, $arg...);
@@ -80,9 +135,33 @@ More info: https://sass-lang.com/d/color-functions
    '
     input.scss 19:9  root stylesheet
 
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.call instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+5 |   @return call('darken', $color, $args...);
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:11   dark()
+    input.scss 20:13  root stylesheet
+
 DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
 
 Recommendation: call(get-function("darken"))
+
+  ,
+5 |   @return call('darken', $color, $args...);
+  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 5:11   dark()
+    input.scss 20:13  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
 
   ,
 5 |   @return call('darken', $color, $args...);
@@ -105,9 +184,33 @@ More info: https://sass-lang.com/d/color-functions
     input.scss 5:11   dark()
     input.scss 20:13  root stylesheet
 
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.call instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+   ,
+11 |   @return call('darken', $args...);
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:11  dark2()
+    input.scss 21:14  root stylesheet
+
 DEPRECATION WARNING: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
 
 Recommendation: call(get-function("darken"))
+
+   ,
+11 |   @return call('darken', $args...);
+   |           ^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:11  dark2()
+    input.scss 21:14  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
 
    ,
 11 |   @return call('darken', $args...);

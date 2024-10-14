@@ -6,6 +6,18 @@ a {
   b: #cd0000;
 }
 
+<===> legacy/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: adjust-color(red, $red: -50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> non_legacy/input.scss
@@ -15,3 +27,15 @@ a {b: change-color(pink, $chroma: 0.01, $space: oklch)}
 a {
   b: rgb(217.7587741846, 208.8497862891, 210.1600712342);
 }
+
+<===> non_legacy/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.change instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: change-color(pink, $chroma: 0.01, $space: oklch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

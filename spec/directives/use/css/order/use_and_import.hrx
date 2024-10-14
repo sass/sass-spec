@@ -83,7 +83,6 @@ a {file: imported}
 @import "imported.css";
 @import "used.css";
 @import "input.css";
-
 a {
   file: imported;
 }
@@ -91,6 +90,16 @@ a {
 a {
   file: used;
 }
+
+<===> use_into_import/css_import_above_rule/warning
+DEPRECATION WARNING on line 1, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -115,7 +124,6 @@ a {file: imported}
 @import "imported.css";
 @import "used.css";
 @import "input.css";
-
 a {
   file: imported;
 }
@@ -123,6 +131,16 @@ a {
 a {
   file: used;
 }
+
+<===> use_into_import/css_import_below_rule/warning
+DEPRECATION WARNING on line 1, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -143,6 +161,16 @@ a {
 @import "used.css";
 @import "imported.css";
 @import "input.css";
+
+<===> use_into_import/sass_import_below_css_import/warning
+DEPRECATION WARNING on line 3, column 9 of _used.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+3 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -167,7 +195,6 @@ a {file: used}
 @import "used.css";
 @import "imported.css";
 @import "input.css";
-
 a {
   file: used;
 }
@@ -175,6 +202,16 @@ a {
 a {
   file: imported;
 }
+
+<===> import_into_use/css_import_above_rule/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -199,7 +236,6 @@ a {file: used}
 @import "used.css";
 @import "imported.css";
 @import "input.css";
-
 a {
   file: used;
 }
@@ -207,6 +243,16 @@ a {
 a {
   file: imported;
 }
+
+<===> import_into_use/css_import_below_rule/warning
+DEPRECATION WARNING on line 1, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+1 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
@@ -227,6 +273,16 @@ a {
 @import "input.css";
 @import "used.css";
 @import "imported.css";
+
+<===> import_into_use/sass_import_below_css_import/warning
+DEPRECATION WARNING on line 3, column 9 of input.scss: 
+Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+3 | @import "imported";
+  |         ^^^^^^^^^^
+  '
 
 <===>
 ================================================================================
