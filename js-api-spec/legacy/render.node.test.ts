@@ -555,7 +555,8 @@ describe('options', () => {
     });
   });
 
-  describe('futureDeprecations', () => {
+  // Disabled since there aren't any current future deprecations
+  xdescribe('futureDeprecations', () => {
     it('opts into future deprecation early', () => {
       sandbox(dir => {
         dir.write({
