@@ -1,5 +1,6 @@
 <===> srgb/input.scss
-a {b: mix(red, green, $method: xyz)}
+@use "sass:color";
+a {b: color.mix(red, green, $method: xyz)}
 
 <===> srgb/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> non_srgb/input.scss
-a {b: mix(lab(54.3 80.8 69.9), lch(46.3 68 134), $method: oklch)}
+@use "sass:color";
+a {b: color.mix(lab(54.3 80.8 69.9), lch(46.3 68 134), $method: oklch)}
 
 <===> non_srgb/output.css
 a {
@@ -19,9 +21,10 @@ a {
 <===>
 ================================================================================
 <===> previously_invalid/input.scss
+@use "sass:color";
 // An earlier draft of CSS Colors 4 didn't allow some spaces because they were
 // redundant with others, but they should be allowed now.
-a {b: mix(lab(54.3 80.8 69.9), lch(46.3 68 134), $method: display-p3)}
+a {b: color.mix(lab(54.3 80.8 69.9), lch(46.3 68 134), $method: display-p3)}
 
 <===> previously_invalid/output.css
 a {
@@ -31,7 +34,8 @@ a {
 <===>
 ================================================================================
 <===> weighted/input.scss
-a {b: mix(lab(54.3 80.8 69.9), lch(46.3 68 134), 30%, oklch)}
+@use "sass:color";
+a {b: color.mix(lab(54.3 80.8 69.9), lch(46.3 68 134), 30%, oklch)}
 
 <===> weighted/output.css
 a {

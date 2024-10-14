@@ -44,6 +44,20 @@ a {
 
 <===>
 ================================================================================
+<===> through_use/input.scss
+@use "sass:math";
+@use "sass:meta";
+$round-fn: meta.get-function(round, $module: math);
+
+a {b: meta.call($round-fn, 0.6)}
+
+<===> through_use/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
 <===> through_import/input.scss
 @use "sass:meta";
 @import "other";

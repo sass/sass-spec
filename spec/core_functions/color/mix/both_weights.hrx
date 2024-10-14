@@ -1,5 +1,6 @@
 <===> transparent/first/input.scss
-a {b: mix(transparent, #0144bf, 70%)}
+@use "sass:color";
+a {b: color.mix(transparent, #0144bf, 70%)}
 
 <===> transparent/first/output.css
 a {
@@ -9,7 +10,8 @@ a {
 <===>
 ================================================================================
 <===> transparent/last/input.scss
-a {b: mix(#91e16f, transparent, 70%)}
+@use "sass:color";
+a {b: color.mix(#91e16f, transparent, 70%)}
 
 <===> transparent/last/output.css
 a {
@@ -19,7 +21,8 @@ a {
 <===>
 ================================================================================
 <===> weighted/first/input.scss
-a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 100%)}
+@use "sass:color";
+a {b: color.mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 100%)}
 
 <===> weighted/first/output.css
 a {
@@ -29,7 +32,8 @@ a {
 <===>
 ================================================================================
 <===> weighted/last/input.scss
-a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 0%)}
+@use "sass:color";
+a {b: color.mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 0%)}
 
 <===> weighted/last/output.css
 a {
@@ -39,7 +43,8 @@ a {
 <===>
 ================================================================================
 <===> mixed/firstwards/input.scss
-a {b: mix(rgba(#91e16f, 0.8), rgba(#0144bf, 0.3), 63%)}
+@use "sass:color";
+a {b: color.mix(rgba(#91e16f, 0.8), rgba(#0144bf, 0.3), 63%)}
 
 <===> mixed/firstwards/output.css
 a {
@@ -49,7 +54,8 @@ a {
 <===>
 ================================================================================
 <===> mixed/lastwards/input.scss
-a {b: mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 42%)}
+@use "sass:color";
+a {b: color.mix(rgba(#91e16f, 0.2), rgba(#0144bf, 0.7), 42%)}
 
 <===> mixed/lastwards/output.css
 a {
@@ -59,10 +65,11 @@ a {
 <===>
 ================================================================================
 <===> contradiction/input.scss
+@use "sass:color";
 // When we weight entirely towards a transparent color, the formula for
 // computing the combined alpha would divide by zero, so we just return
 // transparent as a special case.
-a {b: mix(transparent, #0144bf, 100%)}
+a {b: color.mix(transparent, #0144bf, 100%)}
 
 <===> contradiction/output.css
 a {
