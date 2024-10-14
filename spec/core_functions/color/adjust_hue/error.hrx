@@ -1,0 +1,103 @@
+<===> too_few_args/input.scss
+a {b: adjust-hue(red)}
+
+<===> too_few_args/error
+Error: Missing argument $degrees.
+  ,--> input.scss
+1 | a {b: adjust-hue(red)}
+  |       ^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function adjust-hue($color, $degrees) {
+  |           ============================ declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> too_many_args/input.scss
+a {b: adjust-hue(red, 1, 2)}
+
+<===> too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+1 | a {b: adjust-hue(red, 1, 2)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:color
+1 | @function adjust-hue($color, $degrees) {
+  |           ============================ declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color/input.scss
+a {b: adjust-hue(1, 2)}
+
+<===> type/color/error
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: adjust-hue(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: $color: 1 is not a color.
+  ,
+1 | a {b: adjust-hue(1, 2)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/hue/input.scss
+a {b: adjust-hue(red, blue)}
+
+<===> type/hue/error
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: adjust-hue(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: $degrees: blue is not a number.
+  ,
+1 | a {b: adjust-hue(red, blue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> non_legacy/input.scss
+a {b: adjust-hue(lch(0% 0 0deg), 10deg)}
+
+<===> non_legacy/error
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: adjust-hue(lch(0% 0 0deg), 10deg)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: adjust-hue() is only supported for legacy colors. Please use color.adjust() instead with an explicit $space argument.
+  ,
+1 | a {b: adjust-hue(lch(0% 0 0deg), 10deg)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
