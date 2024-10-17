@@ -133,7 +133,9 @@ a {
 <===>
 ================================================================================
 <===> false/different_type/input.scss
-a {b: red == unquote("red")}
+@use "sass:string";
+
+a {b: red == string.unquote("red")}
 
 <===> false/different_type/output.css
 a {

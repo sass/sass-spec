@@ -6,6 +6,18 @@ a {
   b: ();
 }
 
+<===> inspect/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.inspect instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: inspect(())}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> feature_exists/input.scss
@@ -17,6 +29,17 @@ a {
 }
 
 <===> feature_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.feature-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: feature-exists(at-error)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 DEPRECATION WARNING: The feature-exists() function is deprecated.
 
 More info: https://sass-lang.com/d/feature-exists
@@ -37,6 +60,18 @@ a {
   b: false;
 }
 
+<===> variable_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.variable-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: variable-exists(c)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> global_variable_exists/input.scss
@@ -46,6 +81,18 @@ a {b: global-variable-exists(c)}
 a {
   b: false;
 }
+
+<===> global_variable_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.global-variable-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: global-variable-exists(c)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -57,6 +104,18 @@ a {
   b: false;
 }
 
+<===> function_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.function-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: function-exists(c)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> mixin_exists/input.scss
@@ -66,6 +125,18 @@ a {b: mixin-exists(c)}
 a {
   b: false;
 }
+
+<===> mixin_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.mixin-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: mixin-exists(c)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -78,6 +149,18 @@ a {
   b: get-function("rgb");
 }
 
+<===> get_function/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.get-function instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | a {b: meta.inspect(get-function(rgb))}
+  |                    ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:20  root stylesheet
+
 <===>
 ================================================================================
 <===> type_of/input.scss
@@ -87,6 +170,18 @@ a {b: type-of(())}
 a {
   b: list;
 }
+
+<===> type_of/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.type-of instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: type-of(())}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -98,6 +193,18 @@ a {b: call(meta.get-function("rgb"), 1, 2, 3)}
 a {
   b: rgb(1, 2, 3);
 }
+
+<===> call/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.call instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | a {b: call(meta.get-function("rgb"), 1, 2, 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -112,6 +219,19 @@ a {
 a {
   b: false;
 }
+
+<===> content_exists/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.content-exists instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |   a {b: content-exists()}
+  |         ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  print-content-exists()
+    input.scss 5:1  root stylesheet
 
 <===>
 ================================================================================
@@ -128,3 +248,16 @@ a {b: meta.inspect(helper($c: d))}
 a {
   b: (c: d);
 }
+
+<===> keywords/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use meta.keywords instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 |   @return keywords($args);
+  |           ^^^^^^^^^^^^^^^
+  '
+    input.scss 4:11  helper()
+    input.scss 7:20  root stylesheet

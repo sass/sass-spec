@@ -134,8 +134,8 @@ describe('an error', () => {
   });
 });
 
-// TODO(jathak): Disable these tests when there aren't any future deprecations.
-describe('for a future deprecation,', () => {
+// Excluding these tests since there aren't any future deprecations currently.
+xdescribe('for a future deprecation,', () => {
   let importer: Importer;
   beforeEach(() => {
     importer = {

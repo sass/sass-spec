@@ -6,6 +6,18 @@ a {
   b: aqua;
 }
 
+<===> legacy/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(red)}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> modern/input.scss
@@ -15,6 +27,18 @@ a {b: invert(color(srgb 0 0.4 1), $space: srgb)}
 a {
   b: color(srgb 1 0.6 0);
 }
+
+<===> modern/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(color(srgb 0 0.4 1), $space: srgb)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -26,6 +50,18 @@ a {
   b: invert(10%);
 }
 
+<===> number/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(10%)}
+  |       ^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> with_css_var/input.scss
@@ -35,6 +71,18 @@ a {b: invert(var(--c))}
 a {
   b: invert(var(--c));
 }
+
+<===> with_css_var/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(var(--c))}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -46,6 +94,18 @@ a {
   b: invert(3);
 }
 
+<===> with_calc/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(calc(1 + 2))}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> with_unquoted_calc/input.scss
@@ -55,3 +115,26 @@ a {b: invert(unquote('calc(1)'))}
 a {
   b: invert(calc(1));
 }
+
+<===> with_unquoted_calc/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use string.unquote instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(unquote('calc(1)'))}
+  |              ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:14  root stylesheet
+
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.invert instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: invert(unquote('calc(1)'))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet

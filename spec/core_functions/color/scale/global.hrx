@@ -6,6 +6,18 @@ a {
   b: rgb(255, 192, 213.4);
 }
 
+<===> legacy/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.scale instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: scale-color(pink, $blue: 20%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> non_legacy/input.scss
@@ -15,3 +27,15 @@ a {b: scale-color(pink, $chroma: -10%, $space: oklch)}
 a {
   b: rgb(250.9720047847, 194.0861924112, 203.8303770998);
 }
+
+<===> non_legacy/warning
+DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.scale instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: scale-color(pink, $chroma: -10%, $space: oklch)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
