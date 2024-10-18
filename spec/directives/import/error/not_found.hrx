@@ -5,14 +5,15 @@
 a {b: c}
 
 <===> no_extension/error
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "other";
   |         ^^^^^^^
   '
+    input.scss 1:9  root stylesheet
 
 Error: Can't find stylesheet to import.
   ,
@@ -32,14 +33,15 @@ Error: Can't find stylesheet to import.
 a {b: c}
 
 <===> directory_dot_import/error
-DEPRECATION WARNING on line 3, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 3 | @import "other";
   |         ^^^^^^^
   '
+    input.scss 3:9  root stylesheet
 
 Error: Can't find stylesheet to import.
   ,
@@ -63,23 +65,26 @@ a {b: ""}
 @import "sibling"
 
 <===> parent_relative/error
-DEPRECATION WARNING on line 4, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 4 | @import "dir/child"
   |         ^^^^^^^^^^^
   '
+    input.scss 4:9  root stylesheet
 
-DEPRECATION WARNING on line 1, column 9 of dir/child.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "sibling"
   |         ^^^^^^^^^
   '
+    dir/child.scss 1:9  @import
+    input.scss 4:9      root stylesheet
 
 Error: Can't find stylesheet to import.
   ,
