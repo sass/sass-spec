@@ -175,8 +175,7 @@ foo {
 }
 
 <===> warning
-DEPRECATION WARNING on line 3, column 11 of input.scss: 
-This operation is parsed as:
+DEPRECATION WARNING: This operation is parsed as:
 
     10 + 10
 
@@ -189,13 +188,14 @@ it in parentheses to make it a unary operation. This will be an error in future
 versions of Sass.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
+
   ,
 3 |   test-2: 10 +10;
   |           ^^^^^^
   '
+    input.scss 3:11  root stylesheet
 
-DEPRECATION WARNING on line 7, column 11 of input.scss: 
-This operation is parsed as:
+DEPRECATION WARNING: This operation is parsed as:
 
     10 + 10px
 
@@ -208,13 +208,14 @@ it in parentheses to make it a unary operation. This will be an error in future
 versions of Sass.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
+
   ,
 7 |   test-6: 10 +10px;
   |           ^^^^^^^^
   '
+    input.scss 7:11  root stylesheet
 
-DEPRECATION WARNING on line 11, column 12 of input.scss: 
-This operation is parsed as:
+DEPRECATION WARNING: This operation is parsed as:
 
     10 + #{10}px
 
@@ -227,13 +228,14 @@ it in parentheses to make it a unary operation. This will be an error in future
 versions of Sass.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
+
    ,
 11 |   test-10: 10 +#{10}px;
    |            ^^^^^^^^^^^
    '
+    input.scss 11:12  root stylesheet
 
-DEPRECATION WARNING on line 15, column 12 of input.scss: 
-This operation is parsed as:
+DEPRECATION WARNING: This operation is parsed as:
 
     10 + 1
 
@@ -246,13 +248,14 @@ it in parentheses to make it a unary operation. This will be an error in future
 versions of Sass.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
+
    ,
 15 |   test-14: 10 +1#{0}px;
    |            ^^^^^
    '
+    input.scss 15:12  root stylesheet
 
-DEPRECATION WARNING on line 19, column 12 of input.scss: 
-This operation is parsed as:
+DEPRECATION WARNING: This operation is parsed as:
 
     10 + 10
 
@@ -265,7 +268,329 @@ it in parentheses to make it a unary operation. This will be an error in future
 versions of Sass.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
+
    ,
 19 |   test-18: 10 +10#{px};
    |            ^^^^^^
    '
+    input.scss 19:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10 + 10
+
+but you may have intended it to mean:
+
+    10 (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+23 |   test-22: 10 +10#{p}x;
+   |            ^^^^^^
+   '
+    input.scss 23:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10px + 10px
+
+but you may have intended it to mean:
+
+    10px (+10px)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+27 |   test-26: 10px +10px;
+   |            ^^^^^^^^^^
+   '
+    input.scss 27:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10px + #{10}px
+
+but you may have intended it to mean:
+
+    10px (+#{10}px)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+31 |   test-30: 10px +#{10}px;
+   |            ^^^^^^^^^^^^^
+   '
+    input.scss 31:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10px + 1
+
+but you may have intended it to mean:
+
+    10px (+1)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+35 |   test-34: 10px +1#{0}px;
+   |            ^^^^^^^
+   '
+    input.scss 35:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10px + 10
+
+but you may have intended it to mean:
+
+    10px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+39 |   test-38: 10px +10#{px};
+   |            ^^^^^^^^
+   '
+    input.scss 39:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    10px + 10
+
+but you may have intended it to mean:
+
+    10px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+43 |   test-42: 10px +10#{p}x;
+   |            ^^^^^^^^
+   '
+    input.scss 43:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{10}px + #{10}px
+
+but you may have intended it to mean:
+
+    #{10}px (+#{10}px)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+47 |   test-46: #{10}px +#{10}px;
+   |            ^^^^^^^^^^^^^^^^
+   '
+    input.scss 47:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{10}px + 1
+
+but you may have intended it to mean:
+
+    #{10}px (+1)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+51 |   test-50: #{10}px +1#{0}px;
+   |            ^^^^^^^^^^
+   '
+    input.scss 51:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{10}px + 10
+
+but you may have intended it to mean:
+
+    #{10}px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+55 |   test-54: #{10}px +10#{px};
+   |            ^^^^^^^^^^^
+   '
+    input.scss 55:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{10}px + 10
+
+but you may have intended it to mean:
+
+    #{10}px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+59 |   test-58: #{10}px +10#{p}x;
+   |            ^^^^^^^^^^^
+   '
+    input.scss 59:12  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{0}px + 1
+
+but you may have intended it to mean:
+
+    #{0}px (+1)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+63 |   test-62: 1#{0}px +1#{0}px;
+   |             ^^^^^^^^^
+   '
+    input.scss 63:13  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{0}px + 10
+
+but you may have intended it to mean:
+
+    #{0}px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+67 |   test-66: 1#{0}px +10#{px};
+   |             ^^^^^^^^^^
+   '
+    input.scss 67:13  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{0}px + 10
+
+but you may have intended it to mean:
+
+    #{0}px (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+71 |   test-70: 1#{0}px +10#{p}x;
+   |             ^^^^^^^^^^
+   '
+    input.scss 71:13  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{px} + 10
+
+but you may have intended it to mean:
+
+    #{px} (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+75 |   test-74: 10#{px} +10#{px};
+   |              ^^^^^^^^^
+   '
+    input.scss 75:14  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{px} + 10
+
+but you may have intended it to mean:
+
+    #{px} (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+79 |   test-78: 10#{px} +10#{p}x;
+   |              ^^^^^^^^^
+   '
+    input.scss 79:14  root stylesheet
+
+DEPRECATION WARNING: This operation is parsed as:
+
+    #{p}x + 10
+
+but you may have intended it to mean:
+
+    #{p}x (+10)
+
+Add a space after + to clarify that it's meant to be a binary operation, or wrap
+it in parentheses to make it a unary operation. This will be an error in future
+versions of Sass.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+
+   ,
+83 |   test-82: 10#{p}x +10#{p}x;
+   |              ^^^^^^^^^
+   '
+    input.scss 83:14  root stylesheet

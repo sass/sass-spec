@@ -206,14 +206,16 @@ Error: Module loop: this module is already being loaded.
 @import "input";
 
 <===> loop/use_to_import/error
-DEPRECATION WARNING on line 1, column 9 of other.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "input";
   |         ^^^^^^^
   '
+    other.scss 1:9  @use
+    input.scss 1:1  root stylesheet
 
 Error: This file is already being loaded.
   ,
@@ -232,14 +234,15 @@ Error: This file is already being loaded.
 @use "input";
 
 <===> loop/import_to_use/error
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "other";
   |         ^^^^^^^
   '
+    input.scss 1:9  root stylesheet
 
 Error: Module loop: this module is already being loaded.
   ,
