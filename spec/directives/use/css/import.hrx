@@ -25,14 +25,16 @@ in-input {
 }
 
 <===> use_into_import/warning
-DEPRECATION WARNING on line 1, column 9 of _used.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported";
   |         ^^^^^^^^^^
   '
+    _used.scss 1:9  @use
+    input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -72,14 +74,16 @@ in-input {
 }
 
 <===> use_into_import_into_use/warning
-DEPRECATION WARNING on line 1, column 9 of _used-downstream.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported";
   |         ^^^^^^^^^^
   '
+    _used-downstream.scss 1:9  @use
+    input.scss 1:1             root stylesheet
 
 <===>
 ================================================================================
@@ -107,14 +111,15 @@ a {
 }
 
 <===> use_and_import_same/warning
-DEPRECATION WARNING on line 5, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 5 | @import "other";
   |         ^^^^^^^
   '
+    input.scss 5:9  root stylesheet
 
 _other.scss:3 DEBUG: evaluating other
 _other.scss:3 DEBUG: evaluating other
@@ -147,14 +152,15 @@ a {
 }
 
 <===> use_module_used_by_import/warning
-DEPRECATION WARNING on line 2, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 2 | @import "imported";
   |         ^^^^^^^^^^
   '
+    input.scss 2:9  root stylesheet
 
 _shared.scss:3 DEBUG: evaluating shared
 
@@ -187,14 +193,15 @@ in-input {
 }
 
 <===> import_into_use/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported";
   |         ^^^^^^^^^^
   '
+    input.scss 1:9  root stylesheet
 
 <===>
 ================================================================================
@@ -223,14 +230,15 @@ outer in-imported {
 }
 
 <===> nested_import_into_use/warning
-DEPRECATION WARNING on line 1, column 16 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | outer {@import "imported"}
   |                ^^^^^^^^^^
   '
+    input.scss 1:16  root stylesheet
 
 <===>
 ================================================================================
@@ -270,23 +278,27 @@ in-input {
 }
 
 <===> import_into_use_into_import/warning
-DEPRECATION WARNING on line 1, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported-downstream";
   |         ^^^^^^^^^^^^^^^^^^^^^
   '
+    input.scss 1:9  root stylesheet
 
-DEPRECATION WARNING on line 1, column 9 of _used.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported-upstream";
   |         ^^^^^^^^^^^^^^^^^^^
   '
+    _used.scss 1:9                 @use
+    _imported-downstream.scss 1:1  @import
+    input.scss 1:9                 root stylesheet
 
 <===>
 ================================================================================
@@ -314,23 +326,26 @@ a {
 }
 
 <===> import_module_imported_by_use/warning
-DEPRECATION WARNING on line 2, column 9 of input.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 2 | @import "shared";
   |         ^^^^^^^^
   '
+    input.scss 2:9  root stylesheet
 
-DEPRECATION WARNING on line 1, column 9 of _used.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "shared";
   |         ^^^^^^^^
   '
+    _used.scss 1:9  @use
+    input.scss 1:1  root stylesheet
 
 _shared.scss:3 DEBUG: evaluating shared
 _shared.scss:3 DEBUG: evaluating shared

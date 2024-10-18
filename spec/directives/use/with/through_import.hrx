@@ -14,14 +14,16 @@ b {
 }
 
 <===> direct/warning
-DEPRECATION WARNING on line 1, column 9 of _used.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "imported";
   |         ^^^^^^^^^^
   '
+    _used.scss 1:9  @use
+    input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -44,20 +46,25 @@ b {
 }
 
 <===> transitive/warning
-DEPRECATION WARNING on line 1, column 9 of _used.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "midstream";
   |         ^^^^^^^^^^^
   '
+    _used.scss 1:9  @use
+    input.scss 1:1  root stylesheet
 
-DEPRECATION WARNING on line 1, column 9 of _midstream.scss: 
-Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
 1 | @import "upstream";
   |         ^^^^^^^^^^
   '
+    _midstream.scss 1:9  @import
+    _used.scss 1:9       @use
+    input.scss 1:1       root stylesheet
