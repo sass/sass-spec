@@ -1,0 +1,33 @@
+<===> custom-properties/no-interpolation/input.sass
+$b: 1
+a
+  --key: $b
+
+<===> custom-properties/no-interpolation/output.css
+a {
+  --key: $b;
+}
+
+<===>
+================================================================================
+<===> custom-properties/interpolation/input.sass
+$b: 1
+a
+  --key: #{$b}
+
+<===> custom-properties/interpolation/output.css
+a {
+  --key: 1;
+}
+
+<===>
+================================================================================
+<===> custom-properties/interpolation-mix/input.sass
+$b: 1
+a
+  --key: $b #{$b}
+
+<===> custom-properties/interpolation-mix/output.css
+a {
+  --key: $b 1;
+}

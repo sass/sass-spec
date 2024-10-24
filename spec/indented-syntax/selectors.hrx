@@ -1,0 +1,36 @@
+<===> selectors/inline/input.sass
+a .b, .c .d
+    value: 1
+
+<===> selectors/inline/output.css
+a .b, .c .d {
+  value: 1;
+}
+
+<===>
+================================================================================
+<===> selectors/multiline/input.sass
+// Line breaks in selectors after a comma is ignored
+a .b,
+.c .d
+  value: 1
+
+<===> selectors/multiline/output.css
+a .b,
+.c .d {
+  value: 1;
+}
+
+<===>
+================================================================================
+<===> selectors/whitespace/input.sass
+// Whitespace in selectors after a comma is ignored
+a .b,
+        .c .d
+  value: 1
+
+<===> selectors/whitespace/output.css
+a .b,
+.c .d {
+  value: 1;
+}
