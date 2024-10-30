@@ -1,24 +1,24 @@
-<===> new-line/escaped/input.scss
+<===> new-line/scss/escaped/input.scss
 a {
   b: 'line1 \
       line2';
 }
 
-<===> new-line/escaped/output.css
+<===> new-line/scss/escaped/output.css
 a {
   b: "line1       line2";
 }
 
 <===>
 ================================================================================
-<===> new-line/raw/input.scss
+<===> new-line/scss/raw/input.scss
 @mixin a($b) { b: $b }
 a {
   b: 'line1
       line2';
 }
 
-<===> new-line/raw/error
+<===> new-line/scss/raw/error
 Error: Expected '.
   ,
 3 |   b: 'line1
@@ -28,13 +28,14 @@ Error: Expected '.
 
 <===>
 ================================================================================
-<===> new-line/cr/input.scss
+<===> new-line/scss/cr/input.scss
 @mixin a($b) { b: $b }
 a {
-  b: 'line1      line2';
+  b: 'line1
+      line2';
 }
 
-<===> new-line/cr/error
+<===> new-line/scss/cr/error
 Error: Expected '.
   ,
 3 |   b: 'line1
@@ -44,16 +45,44 @@ Error: Expected '.
 
 <===>
 ================================================================================
-<===> new-line/ff/input.scss
+<===> new-line/scss/ff/input.scss
 @mixin a($b) { b: $b }
 a {
   b: 'line1line2';
 
 
-<===> new-line/ff/error
+<===> new-line/scss/ff/error
 Error: Expected '.
   ,
 3 |   b: 'line1line2';
   |            ^
   '
   input.scss 3:12  root stylesheet
+
+<===>
+================================================================================
+<===> new-line/sass/escaped/input.sass
+a 
+  b: 'line1 \
+      line2'
+
+
+<===> new-line/sass/escaped/output.css
+a {
+  b: "line1       line2";
+}
+
+<===>
+================================================================================
+<===> new-line/sass/raw/input.sass
+a
+  b: 'line1
+      line2'
+
+<===> new-line/sass/raw/error
+Error: Expected '.
+  ,
+2 |   b: 'line1
+  |            ^
+  '
+  input.sass 2:12  root stylesheet

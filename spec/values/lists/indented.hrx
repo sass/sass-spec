@@ -1,0 +1,123 @@
+<===> inline/comma/input.sass
+a
+  b: c, d
+
+<===> inline/comma/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> inline/wrapped/input.sass
+a
+  b: (c, d)
+
+<===> inline/wrapped/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> inline/trailing-comma/input.sass
+a
+  b: c, d,
+
+<===> inline/trailing-comma/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> error/paren/no-indent/input.sass
+a
+  value: (
+b,
+c
+)
+
+<===> error/paren/no-indent/error
+Error: expected ")".
+  ,
+2 |   value: (
+  |           ^
+  '
+  input.sass 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/paren/indented-under/input.sass
+a
+  value: (
+    b,
+    c
+)
+
+<===> error/paren/indented-under/error
+Error: expected ")".
+  ,
+2 |   value: (
+  |           ^
+  '
+  input.sass 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/paren/value-aligned/input.sass
+a
+  b: ( c
+       d
+       e
+  )
+
+<===> error/paren/value-aligned/error
+Error: expected ")".
+  ,
+2 |   b: ( c
+  |         ^
+  '
+  input.sass 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> error/paren/trailing-comma/input.sass
+
+a
+  b: (
+    c,
+    d,
+  )
+
+<===> error/paren/trailing-comma/error
+Error: expected ")".
+  ,
+3 |   b: (
+  |       ^
+  '
+  input.sass 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/no-parens/input.sass
+a
+  b: c,
+     d
+
+<===> error/no-parens/trailing-comma/input.sass
+a
+  b: c,
+     d,
+
+<===> error/no-parens/trailing-comma/error
+
+
+
+<===> error/no-parens/error
+Error: expected ":".
+  ,
+3 |      d
+  |       ^
+  '
+  input.sass 3:7  root stylesheet

@@ -55,3 +55,57 @@ Error: Positional arguments must come before keyword arguments.
   |              ^
   '
   input.scss 3:14  root stylesheet
+
+<===>
+================================================================================
+<===> function/error/multi-line-arguments/declaration/input.sass
+@function a(
+  $b, 
+  $c
+)
+  @return d
+
+e
+  f: a(g, h)
+
+<===> function/error/multi-line-arguments/declaration/error
+Error: expected ")".
+  ,
+1 | @function a(
+  |             ^
+  '
+  input.sass 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> function/error/multi-line-arguments/invocation/input.sass
+@function a($b, $c)
+  @return d
+
+e
+  f: a(
+    g, 
+    h
+  )
+
+<===> function/error/multi-line-arguments/invocation/error
+Error: expected ")".
+  ,
+5 |   f: a(
+  |        ^
+  '
+  input.sass 5:8  root stylesheet
+
+<===>
+================================================================================
+<===> function/arguments/input.sass
+@function a($b, $c)
+  @return d
+
+e
+  f: a(g, h)
+
+<===> function/arguments/output.css
+e {
+  f: d;
+}

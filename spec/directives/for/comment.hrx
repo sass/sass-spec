@@ -1,0 +1,216 @@
+<===> before_var/loud/scss/input.scss
+@for /**/ $i from 1 through 10 {}
+
+<===> before_var/loud/scss/output.css
+
+<===>
+================================================================================
+<===> before_var/loud/indented/input.sass
+@for /**/ $i from 1 through 10
+
+
+<===> before_var/loud/indented/output.css
+
+<===>
+================================================================================
+<===> before_var/silent/scss/input.scss
+@for //
+  $i from 1 through 10 {}
+
+<===> before_var/silent/scss/output.css
+
+<===>
+================================================================================
+<===> error/before_var/silent/indented/input.sass
+@for //
+  $i from 1 through 10
+
+<===> error/before_var/silent/indented/error
+Error: expected "$".
+  ,
+1 | @for //
+  |        ^
+  '
+  input.sass 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_from/silent/indented/input.sass
+@for $i //
+  from 1 through 10
+
+<===> error/before_from/silent/indented/error
+Error: Expected "from".
+  ,
+1 | @for $i //
+  |           ^
+  '
+  input.sass 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/after_from/silent/indented/input.sass
+@for $i from //
+  1 through 10
+
+
+<===> error/after_from/silent/indented/error
+Error: Expected expression.
+  ,
+1 | @for $i from //
+  |              ^^
+  '
+  input.sass 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_through/silent/indented/input.sass
+@for $i from 1 //
+  through 10
+
+
+<===> error/before_through/silent/indented/error
+Error: Expected "to" or "through".
+  ,
+1 | @for $i from 1 //
+  |                ^^
+  '
+  input.sass 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> error/after_through/silent/indented/input.sass
+@for $i from 1 through //
+  10
+
+
+<===> error/after_through/silent/indented/error
+Error: Expected expression.
+  ,
+1 | @for $i from 1 through //
+  |                        ^^
+  '
+  input.sass 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> before_from/loud/scss/input.scss
+@for $i /**/ from 1 through 10 {}
+
+<===> before_from/loud/scss/output.css
+
+<===>
+================================================================================
+<===> before_from/loud/indented/input.sass
+@for $i /**/ from 1 through 10
+
+
+<===> before_from/loud/indented/output.css
+
+<===>
+================================================================================
+<===> before_from/silent/scss/input.scss
+@for $i //
+  from 1 through 10 {}
+
+<===> before_from/silent/scss/output.css
+
+<===>
+================================================================================
+<===> after_from/loud/scss/input.scss
+@for $i from /**/ 1 through 10 {}
+
+<===> after_from/loud/scss/output.css
+
+<===>
+================================================================================
+<===> after_from/loud/indented/input.sass
+@for $i from /**/ 1 through 10
+
+
+<===> after_from/loud/indented/output.css
+
+<===>
+================================================================================
+<===> after_from/silent/scss/input.scss
+@for $i from //
+  1 through 10 {}
+
+<===> after_from/silent/scss/output.css
+
+<===>
+================================================================================
+<===> before_through/loud/scss/input.scss
+@for $i from 1 /**/ through 10 {}
+
+<===> before_through/loud/scss/output.css
+
+<===>
+================================================================================
+<===> before_through/loud/indented/input.sass
+@for $i from 1 /**/ through 10
+
+
+<===> before_through/loud/indented/output.css
+
+<===>
+================================================================================
+<===> before_through/silent/scss/input.scss
+@for $i from 1 //
+  through 10 {}
+
+<===> before_through/silent/scss/output.css
+
+<===>
+================================================================================
+<===> after_through/loud/scss/input.scss
+@for $i from 1 through /**/ 10 {}
+
+<===> after_through/loud/scss/indented/input.sass
+@for $i from 1 through /**/ 10
+
+
+<===> after_through/loud/scss/output.css
+
+<===>
+================================================================================
+<===> after_through/loud/indented/output.css
+
+<===>
+================================================================================
+<===> after_through/silent/scss/input.scss
+@for $i from 1 through //
+  10 {}
+
+<===> after_through/silent/scss/output.css
+
+<===>
+================================================================================
+<===> before_block/loud/scss/input.scss
+@for $i from 1 through 10 /**/ {}
+
+<===> before_block/loud/scss/output.css
+
+<===>
+================================================================================
+<===> before_block/loud/indented/input.sass
+@for $i from 1 through 10 /**/
+
+
+<===> before_block/loud/indented/output.css
+
+<===>
+================================================================================
+<===> before_block/silent/scss/input.scss
+@for $i from 1 through 10 //
+  {}
+
+<===> before_block/silent/scss/output.css
+
+<===>
+================================================================================
+<===> before_block/silent/indented/input.sass
+@for $i from 1 through 10 //
+  
+
+<===> before_block/silent/indented/output.css

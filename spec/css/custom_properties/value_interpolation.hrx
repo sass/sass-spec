@@ -1,4 +1,4 @@
-<===> input.scss
+<===> scss/input.scss
 .value-interpolation {
   // Interpolation is the only Sass construct that's supported in custom
   // variables.
@@ -9,7 +9,19 @@
   --in-uri: uri(foo#{1 + 2}bar);
 }
 
-<===> output.css
+<===> scss/linebreak-interpolation/input.scss
+.a{
+  --b: #{1 
+    + 
+    2};
+}
+
+<===> scss/linebreak-interpolation/output.css
+.a {
+  --b: 3;
+}
+
+<===> scss/output.css
 .value-interpolation {
   --alone: 3;
   --in-list: a 3 c;
@@ -17,3 +29,41 @@
   --in-string: "foo3bar";
   --in-uri: uri(foo3bar);
 }
+
+<===>
+================================================================================
+<===> sass/input.sass
+.value-interpolation
+  --alone: #{1 + 2}
+  --in-list: a #{1 + 2} c
+  --in-ident: foo#{1 + 2}bar
+  --in-string: "foo#{1 + 2}bar"
+  --in-uri: uri(foo#{1 + 2}bar)
+
+<===> sass/linebreak-interpolation/output.css
+
+<===> sass/output.css
+.value-interpolation {
+  --alone: 3;
+  --in-list: a 3 c;
+  --in-ident: foo3bar;
+  --in-string: "foo3bar";
+  --in-uri: uri(foo3bar);
+}
+
+<===>
+================================================================================
+<===> error/sass/linebreak-interpolation/input.sass
+.a
+  --b: #{1 
+    + 
+    2}
+
+
+<===> error/sass/linebreak-interpolation/error
+Error: expected "}".
+  ,
+2 |   --b: #{1 
+  |            ^
+  '
+  input.sass 2:12  root stylesheet

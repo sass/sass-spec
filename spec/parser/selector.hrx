@@ -23,3 +23,40 @@ Error: Expected identifier.
   |  ^
   '
   input.scss 1:2  root stylesheet
+
+<===>
+================================================================================
+<===> inline/input.sass
+a, b
+    c: d
+
+<===> inline/output.css
+a, b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> multiline/input.sass
+a,
+b
+  c: d
+
+<===> multiline/output.css
+a,
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> whitespace/input.sass
+a,
+        b
+  c: d
+
+<===> whitespace/output.css
+a,
+b {
+  c: d;
+}
