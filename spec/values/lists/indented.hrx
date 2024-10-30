@@ -100,24 +100,30 @@ Error: expected ")".
 
 <===>
 ================================================================================
-<===> error/no-parens/input.sass
+<===> error/no-parens/no-trailing-comma/input.sass
 a
   b: c,
      d
 
+<===> error/no-parens/no-trailing-comma/error
+Error: expected ":".
+  ,
+3 |      d
+  |       ^
+  '
+  input.sass 3:7  root stylesheet
+
+<===>
+================================================================================
 <===> error/no-parens/trailing-comma/input.sass
 a
   b: c,
      d,
 
 <===> error/no-parens/trailing-comma/error
-
-
-
-<===> error/no-parens/error
 Error: expected ":".
   ,
-3 |      d
+3 |      d,
   |       ^
   '
   input.sass 3:7  root stylesheet

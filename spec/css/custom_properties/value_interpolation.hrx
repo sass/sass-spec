@@ -1,4 +1,4 @@
-<===> scss/input.scss
+<===> scss/value-interpolation/input.scss
 .value-interpolation {
   // Interpolation is the only Sass construct that's supported in custom
   // variables.
@@ -9,6 +9,17 @@
   --in-uri: uri(foo#{1 + 2}bar);
 }
 
+<===> scss/value-interpolation/output.css
+.value-interpolation {
+  --alone: 3;
+  --in-list: a 3 c;
+  --in-ident: foo3bar;
+  --in-string: "foo3bar";
+  --in-uri: uri(foo3bar);
+}
+
+<===>
+================================================================================
 <===> scss/linebreak-interpolation/input.scss
 .a{
   --b: #{1 
@@ -19,15 +30,6 @@
 <===> scss/linebreak-interpolation/output.css
 .a {
   --b: 3;
-}
-
-<===> scss/output.css
-.value-interpolation {
-  --alone: 3;
-  --in-list: a 3 c;
-  --in-ident: foo3bar;
-  --in-string: "foo3bar";
-  --in-uri: uri(foo3bar);
 }
 
 <===>
