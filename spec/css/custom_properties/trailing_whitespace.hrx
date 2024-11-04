@@ -1,16 +1,101 @@
-<===> input.scss
-.trailing-whitespace {
-  --space: value ;
-  --tab: value	;
-  --newline: value
-;
-  --before-closing-brace: value
+<===> scss/space/input.scss
+a {
+  --b: c ;
 }
 
-<===> output.css
-.trailing-whitespace {
-  --space: value ;
-  --tab: value	;
-  --newline: value ;
-  --before-closing-brace: value ;
+<===> scss/space/output.css
+a {
+  --b: c ;
+}
+
+<===>
+================================================================================
+<===> scss/tab/input.scss
+a {
+  --b: c	;
+}
+
+<===> scss/tab/output.css
+a {
+  --b: c	;
+}
+
+<===>
+================================================================================
+<===> scss/newline/input.scss
+a {
+  --b: c
+;
+}
+
+<===> scss/newline/output.css
+a {
+  --b: c ;
+}
+
+<===>
+================================================================================
+<===> scss/before-closing-brace/input.scss
+a {
+  --b: c
+}
+
+<===> scss/before-closing-brace/output.css
+a {
+  --b: c ;
+}
+
+<===>
+================================================================================
+<===> sass/space/input.sass
+a
+  --b: c 
+
+<===> sass/space/output.css
+a {
+  --b: c;
+}
+
+<===>
+================================================================================
+<===> sass/tab/input.sass
+a
+  --b: c	
+
+<===> sass/tab/output.css
+a {
+  --b: c;
+}
+
+<===>
+================================================================================
+<===> sass/newline/input.sass
+a
+  --b: c
+
+  --d: e
+
+
+<===> sass/newline/output.css
+a {
+  --b: c;
+  --d: e;
+}
+
+<===>
+================================================================================
+<===> sass/before-block-end/input.sass
+a
+  --b: c
+
+d
+  --e: f
+
+<===> sass/before-block-end/output.css
+a {
+  --b: c;
+}
+
+d {
+  --e: f;
 }

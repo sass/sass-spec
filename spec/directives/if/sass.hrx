@@ -1,0 +1,74 @@
+<===> if/input.sass
+$b: true
+a
+  @if $b
+    value: 1
+
+<===> if/output.css
+a {
+  value: 1;
+}
+
+<===>
+================================================================================
+<===> if-statement/input.sass
+$b: c
+a
+  @if $b == c
+    value: 1
+
+<===> if-statement/output.css
+a {
+  value: 1;
+}
+
+<===>
+================================================================================
+<===> if-statement-wrapped/input.sass
+$b: c
+a
+  @if ($b == c)
+    d: e
+
+<===> if-statement-wrapped/output.css
+a {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> error/if-statement-wrapped-multiline/input.sass
+$a: b
+$c: d
+a
+  @if (
+    $a == b and
+    $c == d
+    )
+    e: f
+
+<===> error/if-statement-wrapped-multiline/error
+Error: expected ")".
+  ,
+4 |   @if (
+  |        ^
+  '
+  input.sass 4:8  root stylesheet
+
+<===>
+================================================================================
+<===> error/if-statement-unwrapped-multiline/input.sass
+$a: b
+$c: d
+a
+  @if 
+    $a == b and
+    $c == d
+    e: f
+<===> error/if-statement-unwrapped-multiline/error
+Error: Expected expression.
+  ,
+4 |   @if 
+  |       ^
+  '
+  input.sass 4:7  root stylesheet

@@ -14,3 +14,32 @@ a b {
 a e {
   f: g;
 }
+
+<===>
+================================================================================
+<===> error/mixed-syntax/block/input.sass
+a {
+  b: c
+}
+  
+<===> error/mixed-syntax/block/error
+Error: Expected newline.
+  ,
+1 | a {
+  |   ^
+  '
+  input.sass 1:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/mixed-syntax/semicolon/input.sass
+a
+  b: c;
+
+<===> error/mixed-syntax/semicolon/error
+Error: semicolons aren't allowed in the indented syntax.
+  ,
+2 |   b: c;
+  |       ^
+  '
+  input.sass 2:7  root stylesheet

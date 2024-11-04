@@ -1,4 +1,4 @@
-<===> input.scss
+<===> scss/value-interpolation/input.scss
 .value-interpolation {
   // Interpolation is the only Sass construct that's supported in custom
   // variables.
@@ -9,7 +9,7 @@
   --in-uri: uri(foo#{1 + 2}bar);
 }
 
-<===> output.css
+<===> scss/value-interpolation/output.css
 .value-interpolation {
   --alone: 3;
   --in-list: a 3 c;
@@ -17,3 +17,149 @@
   --in-string: "foo3bar";
   --in-uri: uri(foo3bar);
 }
+
+<===>
+================================================================================
+<===> scss/alone/input.scss
+a{
+  --b: #{1 + 2};
+}
+
+<===> scss/alone/output.css
+a {
+  --b: 3;
+}
+
+<===>
+================================================================================
+<===> scss/in-list/input.scss
+a{
+  --b: c #{1 + 2} d;
+}
+
+<===> scss/in-list/output.css
+a {
+  --b: c 3 d;
+}
+
+<===>
+================================================================================
+<===> scss/in-string/input.scss
+a{
+  --b: "c#{1 + 2}d";
+}
+
+<===> scss/in-string/output.css
+a {
+  --b: "c3d";
+}
+
+<===>
+================================================================================
+<===> scss/in-ident/input.scss
+a{
+  --b: c#{1 + 2}d;
+}
+
+<===> scss/in-ident/output.css
+a {
+  --b: c3d;
+}
+
+<===>
+================================================================================
+<===> scss/in-uri/input.scss
+a{
+  --b: uri(c#{1 + 2}d);
+}
+
+<===> scss/in-uri/output.css
+a {
+  --b: uri(c3d);
+}
+
+<===>
+================================================================================
+<===> scss/linebreak-interpolation/input.scss
+a{
+  --b: #{1 
+    + 
+    2};
+}
+
+<===> scss/linebreak-interpolation/output.css
+a {
+  --b: 3;
+}
+
+<===>
+================================================================================
+<===> sass/alone/input.sass
+a
+  --b: #{1 + 2}
+
+<===> sass/alone/output.css
+a {
+  --b: 3;
+}
+
+<===>
+================================================================================
+<===> sass/in-list/input.sass
+a
+  --b: c #{1 + 2} d
+
+<===> sass/in-list/output.css
+a {
+  --b: c 3 d;
+}
+
+<===>
+================================================================================
+<===> sass/in-string/input.sass
+a
+  --b: "c#{1 + 2}d"
+
+<===> sass/in-string/output.css
+a {
+  --b: "c3d";
+}
+
+<===>
+================================================================================
+<===> sass/in-ident/input.sass
+a
+  --b: c#{1 + 2}d
+
+<===> sass/in-ident/output.css
+a {
+  --b: c3d;
+}
+
+<===>
+================================================================================
+<===> sass/in-uri/input.sass
+a
+  --b: uri(c#{1 + 2}d)
+
+<===> sass/in-uri/output.css
+a {
+  --b: uri(c3d);
+}
+
+<===>
+================================================================================
+<===> error/sass/linebreak-interpolation/input.sass
+a
+  --b: #{1 
+    + 
+    2}
+
+
+<===> error/sass/linebreak-interpolation/error
+Error: expected "}".
+  ,
+2 |   --b: #{1 
+  |            ^
+  '
+  input.sass 2:12  root stylesheet

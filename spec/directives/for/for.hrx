@@ -1,9 +1,25 @@
-<===> inclusive_forward/input.scss
+<===> inclusive_forward/scss/input.scss
 a {
   @for $i from 1 through 5 {b: $i;}
 }
 
-<===> inclusive_forward/output.css
+<===> inclusive_forward/scss/output.css
+a {
+  b: 1;
+  b: 2;
+  b: 3;
+  b: 4;
+  b: 5;
+}
+
+<===>
+================================================================================
+<===> inclusive_forward/sass/input.sass
+a
+  @for $i from 1 through 5
+    b: $i
+
+<===> inclusive_forward/sass/output.css
 a {
   b: 1;
   b: 2;
@@ -30,12 +46,21 @@ a {
 
 <===>
 ================================================================================
-<===> empty/input.scss
+<===> empty/scss/input.scss
 a {
   @for $i from 1 to 1 {b: $i;}
 }
 
-<===> empty/output.css
+<===> empty/scss/output.css
+
+<===>
+================================================================================
+<===> empty/sass/input.sass
+a
+  @for $i from 1 to 1
+    b: $i
+
+<===> empty/sass/output.css
 
 <===>
 ================================================================================
@@ -54,12 +79,27 @@ a {
 
 <===>
 ================================================================================
-<===> exclusive_backward/input.scss
+<===> exclusive_backward/scss/input.scss
 a {
   @for $i from 5 to 1 {b: $i;}
 }
 
-<===> exclusive_backward/output.css
+<===> exclusive_backward/scss/output.css
+a {
+  b: 5;
+  b: 4;
+  b: 3;
+  b: 2;
+}
+
+<===>
+================================================================================
+<===> exclusive_backward/sass/input.sass
+a 
+  @for $i from 5 to 1
+    b: $i
+
+<===> exclusive_backward/sass/output.css
 a {
   b: 5;
   b: 4;
@@ -231,96 +271,6 @@ a {
   b: 9mm;
   b: 10mm;
 }
-
-<===>
-================================================================================
-<===> comment/before_var/loud/input.scss
-@for /**/ $i from 1 through 10 {}
-
-<===> comment/before_var/loud/output.css
-
-<===>
-================================================================================
-<===> comment/before_var/silent/input.scss
-@for //
-  $i from 1 through 10 {}
-
-<===> comment/before_var/silent/output.css
-
-<===>
-================================================================================
-<===> comment/before_from/loud/input.scss
-@for $i /**/ from 1 through 10 {}
-
-<===> comment/before_from/loud/output.css
-
-<===>
-================================================================================
-<===> comment/before_from/silent/input.scss
-@for $i //
-  from 1 through 10 {}
-
-<===> comment/before_from/silent/output.css
-
-<===>
-================================================================================
-<===> comment/after_from/loud/input.scss
-@for $i from /**/ 1 through 10 {}
-
-<===> comment/after_from/loud/output.css
-
-<===>
-================================================================================
-<===> comment/after_from/silent/input.scss
-@for $i from //
-  1 through 10 {}
-
-<===> comment/after_from/silent/output.css
-
-<===>
-================================================================================
-<===> comment/before_through/loud/input.scss
-@for $i from 1 /**/ through 10 {}
-
-<===> comment/before_through/loud/output.css
-
-<===>
-================================================================================
-<===> comment/before_through/silent/input.scss
-@for $i from 1 //
-  through 10 {}
-
-<===> comment/before_through/silent/output.css
-
-<===>
-================================================================================
-<===> comment/after_through/loud/input.scss
-@for $i from 1 through /**/ 10 {}
-
-<===> comment/after_through/loud/output.css
-
-<===>
-================================================================================
-<===> comment/after_through/silent/input.scss
-@for $i from 1 through //
-  10 {}
-
-<===> comment/after_through/silent/output.css
-
-<===>
-================================================================================
-<===> comment/before_block/loud/input.scss
-@for $i from 1 through 10 /**/ {}
-
-<===> comment/before_block/loud/output.css
-
-<===>
-================================================================================
-<===> comment/before_block/silent/input.scss
-@for $i from 1 through 10 //
-  {}
-
-<===> comment/before_block/silent/output.css
 
 <===>
 ================================================================================
