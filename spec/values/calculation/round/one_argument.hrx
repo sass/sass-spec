@@ -42,6 +42,17 @@ a {
   b: -2px;
 }
 
+<===> preserves_units/warning
+DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: round(-7px / 4em) * 1em}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> preserves_single_unit/input.scss
@@ -51,6 +62,27 @@ a {b: round(1 + 1px)}
 a {
   b: 2px;
 }
+
+<===> preserves_single_unit/warning
+DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as the CSS round() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.round() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: round(1 + 1px)}
+  |             ^^^^^^^
+  '
+    input.scss 1:13  root stylesheet
+
+DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: round(1 + 1px)}
+  |       ^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -127,4 +159,14 @@ a {b: round(1.1)}
 <===> overridden/output.css
 a {
   b: 1.1;
+}
+
+<===>
+================================================================================
+<===> unsimplifiable/input.scss
+a {b: round(1px + 2px - var(--c))}
+
+<===> unsimplifiable/output.css
+a {
+  b: round(3px - var(--c));
 }
