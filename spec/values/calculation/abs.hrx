@@ -64,6 +64,17 @@ a {
   b: 2px;
 }
 
+<===> preserves_single_unit/warning
+DEPRECATION WARNING: In future versions of Sass, abs() will be interpreted as the CSS abs() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.abs() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: abs(1 + 1px)}
+  |           ^^^^^^^
+  '
+    input.scss 1:11  root stylesheet
+
 <===>
 ================================================================================
 <===> sass_script/input.scss
