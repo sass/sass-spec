@@ -1,0 +1,233 @@
+<===> before_url/scss/input.scss
+@use
+  "other"
+
+<===> before_url/scss/other.scss
+
+<===> before_url/scss/output.css
+
+<===>
+================================================================================
+<===> before_url/sass/input.sass
+@use
+  "other"
+
+<===> before_url/sass/other.scss
+
+<===> before_url/sass/output.css
+
+<===>
+================================================================================
+<===> before_keyword/scss/input.scss
+@use "other"
+  as a
+
+<===> before_keyword/scss/other.scss
+
+<===> before_keyword/scss/output.css
+
+<===>
+================================================================================
+<===> error/before_keyword/sass/input.sass
+@use "other"
+  as a
+
+<===> error/before_keyword/sass/other.scss
+
+<===> error/before_keyword/sass/error
+Error: Nothing may be indented beneath a @use rule.
+  ,
+2 |   as a
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> after_keyword/scss/input.scss
+@use "other" as
+  a
+
+<===> after_keyword/scss/other.scss
+
+<===> after_keyword/scss/output.css
+
+<===>
+================================================================================
+<===> after_keyword/sass/input.sass
+@use "other" as
+  a
+
+<===> after_keyword/sass/other.scss
+
+<===> after_keyword/sass/output.css
+
+<===>
+================================================================================
+<===> after_with/scss/input.scss
+@use "other" with
+  ($a: b)
+
+<===> after_with/scss/other.scss
+$a: 1 !default
+
+<===> after_with/scss/output.css
+
+<===>
+================================================================================
+<===> after_with/sass/input.sass
+@use "other" with
+  ($a: b)
+
+<===> after_with/sass/other.scss
+$a: 1 !default
+
+<===> after_with/sass/output.css
+
+<===>
+================================================================================
+<===> after_paren/scss/input.scss
+@use "other" with (
+  $a: b)
+
+<===> after_paren/scss/other.scss
+$a: 1 !default
+
+<===> after_paren/scss/output.css
+
+<===>
+================================================================================
+<===> after_paren/sass/input.sass
+@use "other" with (
+  $a: b)
+
+<===> after_paren/sass/other.scss
+$a: 1 !default
+
+<===> after_paren/sass/output.css
+
+<===>
+================================================================================
+<===> before_colon/scss/input.scss
+@use "other" with ($a
+ : b)
+
+<===> before_colon/scss/other.scss
+$a: 1 !default
+
+<===> before_colon/scss/output.css
+
+<===>
+================================================================================
+<===> before_colon/sass/input.sass
+@use "other" with ($a
+  : b)
+
+<===> before_colon/sass/other.scss
+$a: 1 !default
+
+<===> before_colon/sass/output.css
+
+<===>
+================================================================================
+<===> after_colon/scss/input.scss
+@use "other" with ($a:
+  b)
+
+<===> after_colon/scss/other.scss
+$a: 1 !default
+
+<===> after_colon/scss/output.css
+
+<===>
+================================================================================
+<===> after_colon/sass/input.sass
+@use "other" with ($a:
+  b)
+
+<===> after_colon/sass/other.scss
+$a: 1 !default
+
+<===> after_colon/sass/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/scss/input.scss
+@use "other" with ($a: b
+  )
+
+<===> before_close_paren/scss/other.scss
+$a: 1 !default
+
+<===> before_close_paren/scss/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> before_close_paren/sass/input.sass
+@use "other" with ($a: b
+  )
+
+<===> before_close_paren/sass/other.scss
+$a: 1 !default
+
+<===> before_close_paren/sass/output.css
+
+<===>
+================================================================================
+<===> before_variable_comma/scss/input.scss
+@use "other" with ($a: b
+  , $c: d)
+
+<===> before_variable_comma/scss/other.scss
+$a: 1 !default;
+$c: 1 !default
+
+<===> before_variable_comma/scss/output.css
+
+<===>
+================================================================================
+<===> before_variable_comma/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> before_variable_comma/sass/input.sass
+@use "other" with ($a: b
+  , $c: d)
+
+<===> before_variable_comma/sass/other.scss
+$a: 1 !default
+$c: 1 !default
+
+<===> before_variable_comma/sass/output.css
+
+<===>
+================================================================================
+<===> after_variable_comma/scss/input.scss
+@use "other" with ($a: b,
+  $c: d)
+
+<===> after_variable_comma/scss/other.scss
+$a: 1 !default;
+$c: 1 !default
+
+<===> after_variable_comma/scss/output.css
+
+<===>
+================================================================================
+<===> after_variable_comma/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> after_variable_comma/sass/input.sass
+@use "other" with ($a: b,
+  $c: d)
+
+<===> after_variable_comma/sass/other.scss
+$a: 1 !default
+$c: 1 !default
+
+<===> after_variable_comma/sass/output.css
