@@ -1,0 +1,335 @@
+<===> before_query/scss/input.scss
+@supports
+  (a: b) {c {d: e}}
+
+<===> before_query/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> error/before_query/sass/input.sass
+@supports
+  (a: b)
+    c
+      d: e
+
+<===> error/before_query/sass/error
+Error: expected "(".
+  ,
+1 | @supports
+  |          ^
+  '
+  input.sass 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_open_paren/scss/input.scss
+@supports (
+  a: b) {c {d: e}}
+
+<===> declaration/normal_prop/after_open_paren/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_open_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> declaration/normal_prop/after_open_paren/sass/input.sass
+@supports (
+  a: b)
+    c
+      d: e
+
+<===> declaration/normal_prop/after_open_paren/sass/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_colon/scss/input.scss
+@supports (a 
+  : b) {c {d: e}}
+
+<===> declaration/normal_prop/before_colon/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_colon/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> declaration/normal_prop/before_colon/sass/input.sass
+@supports (a
+  : b)
+    c
+      d: e
+
+<===> declaration/normal_prop/before_colon/sass/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_colon/scss/input.scss
+@supports (a:
+  b) {c {d: e}}
+
+<===> declaration/normal_prop/after_colon/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/after_colon/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> declaration/normal_prop/after_colon/sass/input.sass
+@supports (a:
+  b)
+    c
+      d: e
+
+<===> declaration/normal_prop/after_colon/sass/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_close_paren/scss/input.scss
+@supports (a: b
+  ) {c {d: e}}
+
+<===> declaration/normal_prop/before_close_paren/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> declaration/normal_prop/before_close_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> declaration/normal_prop/before_close_paren/sass/input.sass
+@supports (a: b
+  )
+    c
+      d: e
+
+<===> declaration/normal_prop/before_close_paren/sass/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/after_open_paren/scss/input.scss
+@supports a(
+  b) {c {d: e}}
+
+<===> function/after_open_paren/scss/output.css
+@supports a(
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/after_open_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> function/after_open_paren/sass/input.sass
+@supports a(
+  b)
+    c
+      d: e
+
+<===> function/after_open_paren/sass/output.css
+@supports a(
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/before_close_paren/scss/input.scss
+@supports a(b 
+  ) {c {d: e}}
+
+<===> function/before_close_paren/scss/output.css
+@supports a(b
+  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> function/before_close_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> function/before_close_paren/sass/input.sass
+@supports a(b
+  )
+  c
+      d: e
+
+<===> function/before_close_paren/sass/output.css
+@supports a(b 
+  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_open_paren/scss/input.scss
+@supports (
+  a b) {c {d: e}}
+
+<===> anything/after_open_paren/scss/output.css
+@supports (a b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_open_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> anything/after_open_paren/sass/input.sass
+@supports (
+  a b)
+    c
+      d: e
+
+<===> anything/after_open_paren/sass/output.css
+@supports (a b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_ident/scss/input.scss
+@supports (a
+  b) {c {d: e}}
+
+<===> anything/after_ident/scss/output.css
+@supports (a
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/after_ident/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> anything/after_ident/sass/input.sass
+@supports (a
+  b)
+    c
+      d: e
+
+<===> anything/after_ident/sass/output.css
+@supports (a 
+  b) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/before_close_paren/scss/input.scss
+@supports (a b
+  ) {c {d: e}}
+
+<===> anything/before_close_paren/scss/output.css
+@supports (a b
+  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> anything/before_close_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> anything/before_close_paren/sass/input.sass
+@supports (a b
+  ) 
+    c
+      d: e
+
+<===> anything/before_close_paren/sass/output.css
+@supports (a b 
+  ) {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> after_query/scss/input.scss
+@supports (a: b)
+  {c {d: e}}
+
+<===> after_query/scss/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}

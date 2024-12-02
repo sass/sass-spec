@@ -1,0 +1,51 @@
+<===> before_arg/scss/input.scss
+@-moz-document
+  url-prefix(a) {}
+
+<===> before_arg/scss/output.css
+@-moz-document url-prefix(a) {}
+
+<===> before_arg/scss/warning
+DEPRECATION WARNING: @-moz-document is deprecated and support will be removed in Dart Sass 2.0.0.
+
+For details, see https://sass-lang.com/d/moz-document.
+
+  ,
+1 | / @-moz-document
+2 | \   url-prefix(a) {}
+  '
+    input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_arg/sass/input.sass
+@-moz-document
+  url-prefix(a)
+
+<===> error/before_arg/sass/error
+Error: Expected identifier.
+  ,
+1 | @-moz-document
+  |               ^
+  '
+  input.sass 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> after_arg/scss/input.scss
+@-moz-document url-prefix(a)
+  {}
+
+<===> after_arg/scss/output.css
+@-moz-document url-prefix(a) {}
+
+<===> after_arg/scss/warning
+DEPRECATION WARNING: @-moz-document is deprecated and support will be removed in Dart Sass 2.0.0.
+
+For details, see https://sass-lang.com/d/moz-document.
+
+  ,
+1 | / @-moz-document url-prefix(a)
+2 | \   {}
+  '
+    input.scss 1:1  root stylesheet
