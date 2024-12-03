@@ -1,0 +1,139 @@
+<===> if/before_condition/scss/input.scss
+@if
+  true {}
+
+<===> if/before_condition/scss/output.css
+
+<===>
+================================================================================
+<===> if/before_condition/sass/input.sass
+@if
+  true
+
+<===> if/before_condition/sass/output.css
+
+<===>
+================================================================================
+<===> else_if/before_if/scss/input.scss
+@if true {}
+@else 
+  if true {}
+
+<===> else_if/before_if/scss/output.css
+
+<===>
+================================================================================
+<===> else_if/before_if/sass/input.sass
+@if true
+@else
+  if true
+
+<===> else_if/before_if/sass/output.css
+
+<===>
+================================================================================
+<===> else_if/before_condition/scss/input.scss
+@if true {}
+@else if 
+  true {}
+
+<===> else_if/before_condition/scss/output.css
+
+<===>
+================================================================================
+<===> else_if/before_condition/sass/input.sass
+@if true
+@else if
+  true
+
+<===> else_if/before_condition/sass/output.css
+
+<===>
+================================================================================
+<===> else_if/after_condition/scss/input.scss
+@if true {}
+@else if true 
+  {}
+
+<===> else_if/after_condition/scss/output.css
+
+<===>
+================================================================================
+<===> else/before_block/scss/input.scss
+@if true {}
+@else
+  {}
+
+<===> else/before_block/scss/output.css
+
+<===>
+================================================================================
+<===> condition/before_and/scss/input.scss
+@if true 
+  and true{}
+
+<===> condition/before_and/scss/output.css
+
+<===>
+================================================================================
+<===> condition/after_and/scss/input.scss
+@if true and
+  true {}
+
+<===> condition/after_and/scss/output.css
+
+<===>
+================================================================================
+<===> condition/after_and/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> condition/after_and/sass/input.sass
+@if true and
+  true
+
+<===> condition/after_and/sass/output.css
+
+<===>
+================================================================================
+<===> error/condition/before_and/sass/input.sass
+@if true
+  and true
+
+<===> error/condition/before_and/sass/output.css
+
+<===> error/condition/before_and/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+2 |   and true
+  |   ^^^^^^^^
+  '
+    input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/top_level_else/sass/input.sass
+@else
+
+<===> error/top_level_else/sass/error
+Error: This at-rule is not allowed here.
+  ,
+1 | @else
+  | ^^^^^
+  '
+  input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/top_level_else_if/sass/input.sass
+@else
+if
+
+<===> error/top_level_else_if/sass/error
+Error: This at-rule is not allowed here.
+  ,
+1 | @else
+  | ^^^^^
+  '
+  input.sass 1:1  root stylesheet
