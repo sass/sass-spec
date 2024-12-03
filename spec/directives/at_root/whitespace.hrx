@@ -1,0 +1,128 @@
+<===> before_query/scss/input.scss
+@at-root
+  (without: media) {}
+
+<===> before_query/scss/output.css
+
+<===>
+================================================================================
+<===> before_query/sass/input.sass
+@at-root
+  (without: media)
+
+<===> before_query/sass/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+2 |   (without: media)
+  |   ^^^^^^^^^^^^^^^^
+  '
+    input.sass 2:3  root stylesheet
+
+Error: expected selector.
+  ,
+1 | @at-root
+  |         ^
+  '
+  input.sass 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> after_open_paren/scss/input.scss
+@at-root (
+  without: media) {}
+
+<===> after_open_paren/scss/output.css
+
+<===>
+================================================================================
+<===> after_open_paren/sass/input.sass
+@at-root (
+  without: media)
+
+<===> after_open_paren/sass/output.css
+
+<===>
+================================================================================
+<===> before_colon/scss/input.scss
+@at-root (without
+ : media) {}
+
+<===> before_colon/scss/output.css
+
+<===>
+================================================================================
+<===> before_colon/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> before_colon/sass/input.sass
+@at-root (without
+  : media)
+
+<===> before_colon/sass/output.css
+
+<===>
+================================================================================
+<===> after_colon/scss/input.scss
+@at-root (without: 
+  media) {}
+
+<===> after_colon/scss/output.css
+
+<===>
+================================================================================
+<===> after_colon/sass/input.sass
+@at-root (without:
+  media)
+
+<===> after_colon/sass/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/scss/input.scss
+@at-root (without: media
+  ) {}
+
+<===> before_close_paren/scss/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/sass/options.yml
+:todo:
+  - dart-sass
+
+<===> before_close_paren/sass/input.sass
+@at-root (without: media
+  )
+
+<===> before_close_paren/sass/output.css
+
+<===>
+================================================================================
+<===> after_query/scss/input.scss
+@at-root (without: media) 
+  {}
+
+<===> after_query/scss/output.css
+
+<===>
+================================================================================
+<===> no_query/scss/input.scss
+@at-root
+  {}
+
+<===> no_query/scss/output.css
+
+<===>
+================================================================================
+<===> no_query/sass/input.sass
+a
+  @at-root
+    b
+      c: d
+
+<===> no_query/sass/output.css
+b {
+  c: d;
+}
