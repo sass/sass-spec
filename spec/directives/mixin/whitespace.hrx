@@ -22,6 +22,17 @@
 
 <===>
 ================================================================================
+<===> mixin/equals/before_name/sass/input.sass
+=
+  a
+
+d
+  @include a
+
+<===> mixin/equals/before_name/sass/output.css
+
+<===>
+================================================================================
 <===> include/before_name/scss/input.scss
 @mixin a {}
 @include
@@ -109,3 +120,22 @@ Error: expected selector.
   input.sass 4:9  @content
   input.sass 2:3  a()
   input.sass 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/include/plus/before_name/sass/input.sass
+@mixin a
+b
+  +
+    a
+
+<===> error/include/plus/before_name/sass/output.css
+
+<===> error/include/plus/before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |     a
+  |     ^
+  '
+    input.sass 4:5  root stylesheet
