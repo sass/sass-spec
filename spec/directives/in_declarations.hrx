@@ -1,0 +1,161 @@
+<===> whitespace/debug/scss/input.scss
+a{@debug 
+    b}
+
+<===> whitespace/debug/scss/output.css
+
+<===> whitespace/debug/scss/warning
+input.scss:1 DEBUG: b
+
+<===>
+================================================================================
+<===> whitespace/each/scss/input.scss
+a {@each
+    $a in b{}
+}
+
+<===> whitespace/each/scss/output.css
+
+<===>
+================================================================================
+<===> whitespace/each/sass/input.sass
+a
+  @each
+    $a in b
+
+<===> whitespace/each/sass/output.css
+
+<===>
+================================================================================
+<===> whitespace/error/scss/input.scss
+a {@error 
+  b;
+}
+
+<===> whitespace/error/scss/error
+Error: b
+  ,
+1 |   a {@error 
+  | ,----^
+2 | |   b;
+  | '---^
+  '
+  input.scss 1:4  root stylesheet
+
+<===>
+================================================================================
+<===> whitespace/error/debug/sass/input.sass
+a
+  @debug 
+    b
+
+
+<===> whitespace/error/debug/sass/error
+Error: Expected expression.
+  ,
+2 |   @debug 
+  |          ^
+  '
+  input.sass 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> whitespace/error/error/sass/input.sass
+a
+  @error 
+    b
+
+
+<===> whitespace/error/error/sass/error
+Error: Expected expression.
+  ,
+2 |   @error 
+  |          ^
+  '
+  input.sass 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> whitespace/error/warn/sass/input.sass
+a
+  @warn 
+    b
+
+
+<===> whitespace/error/warn/sass/error
+Error: Expected expression.
+  ,
+2 |   @warn 
+  |         ^
+  '
+  input.sass 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> whitespace/for/scss/input.scss
+a {@for 
+    $i from 1 through 10 {}
+}
+
+<===> whitespace/for/scss/output.css
+
+<===>
+================================================================================
+<===> whitespace/for/sass/input.sass
+a
+  @for 
+    $i from 1 through 10
+
+
+<===> whitespace/for/sass/output.css
+
+<===>
+================================================================================
+<===> whitespace/if/scss/input.scss
+a {@if
+    true{}
+}
+
+<===> whitespace/if/scss/output.css
+
+<===>
+================================================================================
+<===> whitespace/if/sass/input.sass
+a
+  @if
+    true
+
+
+<===> whitespace/if/sass/output.css
+
+<===>
+================================================================================
+<===> whitespace/warn/scss/input.scss
+a {@warn 
+  b;
+}
+
+<===> whitespace/warn/scss/output.css
+
+<===> whitespace/warn/scss/warning
+WARNING: b
+    input.scss 1:4  root stylesheet
+
+<===>
+================================================================================
+<===> whitespace/while/scss/input.scss
+a {@while
+  false{}
+}
+
+<===> whitespace/while/scss/output.css
+
+<===>
+================================================================================
+<===> whitespace/while/sass/input.sass
+a
+  @while
+    false
+
+
+<===> whitespace/while/sass/output.css

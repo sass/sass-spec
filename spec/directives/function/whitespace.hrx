@@ -28,3 +28,155 @@
     b
 
 <===> return/before_value/sass/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/debug/scss/input.scss
+@function a() {@debug 
+  b;
+  @return null}
+
+<===> nested_at_rule/debug/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/each/scss/input.scss
+@function a() {@each
+  $a in b{}
+  @return null;
+}
+
+<===> nested_at_rule/each/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/each/sass/input.sass
+@function a()
+  @each
+    $a in b
+  @return null
+
+<===> nested_at_rule/each/sass/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/error/scss/input.scss
+@function a() {@error 
+  b;
+  @return null}
+
+<===> nested_at_rule/error/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/for/scss/input.scss
+@function a() {@for 
+  $i from 1 through 10 {}
+  @return null}
+
+<===> nested_at_rule/for/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/for/sass/input.sass
+@function a()
+  @for 
+    $i from 1 through 10
+  @return null
+
+<===> nested_at_rule/for/sass/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/if/scss/input.scss
+@function a() {@if
+  true{}
+  @return null}
+
+<===> nested_at_rule/if/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/if/sass/input.sass
+@function a()
+  @if
+    true
+  @return null
+
+<===> nested_at_rule/if/sass/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/warn/scss/input.scss
+@function a() {@warn 
+  b;
+  @return null}
+
+<===> nested_at_rule/warn/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/while/scss/input.scss
+@function a() {@while
+  false{}
+  @return null}
+
+<===> nested_at_rule/while/scss/output.css
+
+<===>
+================================================================================
+<===> nested_at_rule/while/sass/input.sass
+@function a()
+  @while
+    false
+  @return null
+
+<===> nested_at_rule/while/sass/output.css
+
+<===>
+================================================================================
+<===> error/nested_at_rule/debug/sass/input.sass
+@function a()
+  @debug 
+    b
+  @return null
+
+<===> error/nested_at_rule/debug/sass/error
+Error: Expected expression.
+  ,
+2 |   @debug 
+  |          ^
+  '
+  input.sass 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> error/nested_at_rule/error/sass/input.sass
+@function a()
+  @error 
+    b
+  @return null
+
+<===> error/nested_at_rule/error/sass/error
+Error: Expected expression.
+  ,
+2 |   @error 
+  |          ^
+  '
+  input.sass 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> error/nested_at_rule/warn/sass/input.sass
+@function a()
+  @warn 
+    b
+  @return null
+
+<===> error/nested_at_rule/warn/sass/error
+Error: Expected expression.
+  ,
+2 |   @warn 
+  |         ^
+  '
+  input.sass 2:9  root stylesheet
