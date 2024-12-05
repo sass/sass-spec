@@ -31,72 +31,33 @@ a {
 
 <===>
 ================================================================================
-<===> error/paren/no-indent/input.sass
-a
-  value: (
-b,
-c
-)
-
-<===> error/paren/no-indent/error
-Error: expected ")".
-  ,
-2 |   value: (
-  |           ^
-  '
-  input.sass 2:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/paren/indented-under/input.sass
-a
-  value: (
-    b,
-    c
-)
-
-<===> error/paren/indented-under/error
-Error: expected ")".
-  ,
-2 |   value: (
-  |           ^
-  '
-  input.sass 2:11  root stylesheet
-
-<===>
-================================================================================
-<===> error/paren/value-aligned/input.sass
-a
-  b: ( c
-       d
-       e
-  )
-
-<===> error/paren/value-aligned/error
-Error: expected ")".
-  ,
-2 |   b: ( c
-  |         ^
-  '
-  input.sass 2:9  root stylesheet
-
-<===>
-================================================================================
-<===> error/paren/trailing-comma/input.sass
-
+<===> error/paren/empty/whitespace/between/input.sass
 a
   b: (
-    c,
-    d,
   )
 
-<===> error/paren/trailing-comma/error
-Error: expected ")".
+<===> error/paren/empty/whitespace/between/error
+Error: () isn't a valid CSS value.
   ,
-3 |   b: (
-  |       ^
+2 |     b: (
+  | ,------^
+3 | \   )
   '
-  input.sass 3:7  root stylesheet
+  input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/paren/no-indent/input.sass
+a
+  b: (
+c,
+d
+)
+
+<===> error/paren/no-indent/output.css
+a {
+  b: c, d;
+}
 
 <===>
 ================================================================================
@@ -127,3 +88,57 @@ Error: expected ":".
   |       ^
   '
   input.sass 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> paren/indented-under/input.sass
+a
+  b: (
+    c,
+    d
+)
+
+<===> paren/indented-under/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> paren/value-aligned/input.sass
+a
+  b: ( c
+       d
+  )
+
+<===> paren/value-aligned/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> paren/trailing-comma/input.sass
+
+a
+  b: (
+    c,
+    d,
+  )
+
+<===> paren/trailing-comma/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> paren/whitespace/after_paren/input.sass
+a
+  b: (
+    c, d)
+
+<===> paren/whitespace/after_paren/output.css
+a {
+  b: c, d;
+}
