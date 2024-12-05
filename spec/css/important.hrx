@@ -9,3 +9,30 @@ Error: Expected "important".
   |        ^
   '
   input.scss 3:8  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/sass/multiline/after_prop/input.sass
+a
+  b: c
+    !important
+
+<===> syntax/sass/multiline/after_prop/error
+Error: Expected identifier.
+  ,
+2 |   b: c
+  |       ^
+  '
+  input.sass 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/sass/multiline/after_bang/input.sass
+a
+  b: c!
+    important
+
+<===> syntax/sass/multiline/after_bang/output.css
+a {
+  b: c !important;
+}
