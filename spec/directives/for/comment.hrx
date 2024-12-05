@@ -37,34 +37,11 @@
 
 <===>
 ================================================================================
-<===> after_from/silent/sass/input.sass
-@for $i from //
-  1 through 10
+<===> before_from/silent/scss/input.scss
+@for $i //
+  from 1 through 10 {}
 
-<===> after_from/silent/sass/output.css
-
-<===>
-================================================================================
-<===> error/before_through/silent/sass/input.sass
-@for $i from 1 //
-  through 10
-
-<===> error/before_through/silent/sass/error
-Error: Expected "to" or "through".
-  ,
-1 | @for $i from 1 //
-  |                ^^
-  '
-  input.sass 1:16  root stylesheet
-
-<===>
-================================================================================
-<===> after_through/silent/sass/input.sass
-@for $i from 1 through //
-  10
-
-
-<===> after_through/silent/sass/output.css
+<===> before_from/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -83,11 +60,19 @@ Error: Expected "to" or "through".
 
 <===>
 ================================================================================
-<===> before_from/silent/scss/input.scss
-@for $i //
-  from 1 through 10 {}
+<===> after_from/silent/sass/input.sass
+@for $i from //
+  1 through 10
 
-<===> before_from/silent/scss/output.css
+<===> after_from/silent/sass/output.css
+
+<===>
+================================================================================
+<===> after_from/silent/scss/input.scss
+@for $i from //
+  1 through 10 {}
+
+<===> after_from/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -106,11 +91,42 @@ Error: Expected "to" or "through".
 
 <===>
 ================================================================================
-<===> after_from/silent/scss/input.scss
-@for $i from //
-  1 through 10 {}
+<===> error/before_through/silent/sass/input.sass
+@for $i from 1 //
+  through 10
 
-<===> after_from/silent/scss/output.css
+<===> error/before_through/silent/sass/output.css
+
+<===>
+================================================================================
+<===> after_through/silent/sass/input.sass
+@for $i from 1 through //
+  10
+
+
+<===> after_through/silent/sass/output.css
+
+<===>
+================================================================================
+<===> after_through/silent/scss/input.scss
+@for $i from 1 through //
+  10 {}
+
+<===> after_through/silent/scss/output.css
+
+<===>
+================================================================================
+<===> after_through/loud/scss/input.scss
+@for $i from 1 through /**/ 10 {}
+
+<===> after_through/loud/scss/output.css
+
+<===>
+================================================================================
+<===> after_through/loud/sass/input.sass
+@for $i from 1 through /**/ 10
+
+<===> after_through/loud/sass/output.css
 
 <===>
 ================================================================================
@@ -134,28 +150,6 @@ Error: Expected "to" or "through".
   through 10 {}
 
 <===> before_through/silent/scss/output.css
-
-<===>
-================================================================================
-<===> after_through/loud/scss/input.scss
-@for $i from 1 through /**/ 10 {}
-
-<===> after_through/loud/scss/output.css
-
-<===>
-================================================================================
-<===> after_through/loud/sass/input.sass
-@for $i from 1 through /**/ 10
-
-<===> after_through/loud/sass/output.css
-
-<===>
-================================================================================
-<===> after_through/silent/scss/input.scss
-@for $i from 1 through //
-  10 {}
-
-<===> after_through/silent/scss/output.css
 
 <===>
 ================================================================================
