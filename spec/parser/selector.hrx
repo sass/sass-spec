@@ -50,6 +50,27 @@ b {
 
 <===>
 ================================================================================
+<===> multiline-no-comma/input.sass
+a
+b
+  c: d
+
+<===> multiline-no-comma/output.css
+b {
+  c: d;
+}
+
+<===> multiline-no-comma/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a
+  | ^
+  '
+    input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
 <===> whitespace/input.sass
 a,
         b
