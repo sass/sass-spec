@@ -146,3 +146,134 @@ Error: expected "]".
   |      ^
   '
   input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> sass/whitespace/after-lbracket/input.sass
+a[
+  b]
+  c: d
+
+<===> sass/whitespace/after-lbracket/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+2 |   b]
+  |   ^^
+  '
+    input.sass 2:3  root stylesheet
+
+Error: Expected identifier.
+  ,
+1 | a[
+  |   ^
+  '
+  input.sass 1:3  root stylesheet
+
+<===>
+================================================================================
+<===> sass/whitespace/after-lbracket-indented/input.sass
+a[
+  b]
+    c: d
+
+<===> sass/whitespace/after-lbracket-indented/error
+Error: Expected identifier.
+  ,
+1 | a[
+  |   ^
+  '
+  input.sass 1:3  root stylesheet
+
+<===>
+================================================================================
+<===> sass/whitespace/after-val/input.sass
+a[b
+  ]
+    c: d
+
+<===> sass/whitespace/after-val/error
+Error: expected more input.
+  ,
+1 | a[b
+  |    ^
+  '
+  input.sass 1:4  root stylesheet
+
+<===>
+================================================================================
+<===> sass/whitespace/before-operator/input.sass
+a[b
+  =c]
+    d: e
+
+<===> sass/whitespace/before-operator/error
+Error: Expected newline.
+  ,
+2 |   =c]
+  |     ^
+  '
+  input.sass 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> sass/whitespace/after-operator/input.sass
+a[b=
+  c]
+    d: e
+
+<===> sass/whitespace/after-operator/error
+Error: Expected identifier.
+  ,
+1 | a[b=
+  |     ^
+  '
+  input.sass 1:5  root stylesheet
+
+<===>
+================================================================================
+<===> scss/whitespace/after-lbracket/input.scss
+a[
+  b]
+  {c: d}
+
+<===> scss/whitespace/after-lbracket/output.css
+a[b] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> scss/whitespace/after-val/input.scss
+a[b
+  ]
+  {c: d}
+
+<===> scss/whitespace/after-val/output.css
+a[b] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> scss/whitespace/before-operator/input.scss
+a[b
+  =c]
+  {d: e}
+
+<===> scss/whitespace/before-operator/output.css
+a[b=c] {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> scss/whitespace/after-operator/input.scss
+a[b=
+  c]
+  {d: e}
+
+<===> scss/whitespace/after-operator/output.css
+a[b=c] {
+  d: e;
+}
