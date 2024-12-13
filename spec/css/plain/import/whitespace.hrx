@@ -1,0 +1,166 @@
+<===> error/supports/declaration/prop/after-open/scss/input.scss
+@import "a.css" supports(
+  a: b)
+
+<===> error/supports/declaration/prop/after-open/scss/error
+Error: Expected expression.
+  ,
+1 | @import "a.css" supports(
+  |                          ^
+  '
+  input.scss 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> error/supports/declaration/prop/after-open/sass/input.sass
+@import "a.css" supports(
+  a: b)
+
+<===> error/supports/declaration/prop/after-open/sass/error
+Error: Expected expression.
+  ,
+1 | @import "a.css" supports(
+  |                          ^
+  '
+  input.sass 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> error/supports/declaration/followed_by_import_arg/after-comma/sass/input.sass
+@import "a" supports(b: c),
+  "d.css"
+
+<===> error/supports/declaration/followed_by_import_arg/after-comma/sass/error
+Error: Nothing may be indented beneath a @import rule.
+  ,
+2 |   "d.css"
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/supports/condition_function/before_paren/sass/input.sass
+@import "a.css" supports(a
+  (b))
+
+<===> error/supports/condition_function/before_paren/sass/error
+Error: expected ":".
+  ,
+2 |   (b))
+  |      ^
+  '
+  input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/supports/condition_negation/before_not/sass/input.sass
+@import "a.css" supports(
+  not (a: b))
+
+<===> error/supports/condition_negation/before_not/sass/error
+Error: Expected expression.
+  ,
+1 | @import "a.css" supports(
+  |                          ^
+  '
+  input.sass 1:26  root stylesheet
+
+<===>
+================================================================================
+<===> error/media/before/sass/input.sass
+@import url("a.css") 
+  print
+
+<===> error/media/before/sass/error
+Error: Nothing may be indented beneath a @import rule.
+  ,
+2 |   print
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> supports/declaration/prop/after-key/sass/input.sass
+@import "a.css" supports(a
+  : b)
+
+<===> supports/declaration/prop/after-key/sass/output.css
+@import "a.css" supports(a: b);
+
+<===>
+================================================================================
+<===> supports/declaration/prop/after-color/sass/input.sass
+@import "a.css" supports(a:
+  b)
+
+<===> supports/declaration/prop/after-color/sass/output.css
+@import "a.css" supports(a: b);
+
+<===>
+================================================================================
+<===> supports/declaration/prop/after-value/sass/input.sass
+@import "a.css" supports(a: b
+  )
+
+<===> supports/declaration/prop/after-value/sass/output.css
+@import "a.css" supports(a: b);
+
+<===>
+================================================================================
+<===> supports/condition_and/before_and/sass/input.sass
+@import "a.css" supports((a: b) 
+  and (c: d))
+
+<===> supports/condition_and/before_and/sass/error
+Error: expected ")".
+  ,
+1 | @import "a.css" supports((a: b) 
+  |                                 ^
+  '
+  input.sass 1:33  root stylesheet
+
+<===>
+================================================================================
+<===> supports/condition_and/after_and/sass/input.sass
+@import "a.css" supports((a: b) and 
+  (c: d))
+
+<===> supports/condition_and/after_and/sass/output.css
+@import "a.css" supports((a: b) and (c: d));
+
+<===>
+================================================================================
+<===> supports/condition_function/after_paren/sass/input.sass
+@import "a.css" supports(a(
+  b))
+
+<===> supports/condition_function/after_paren/sass/output.css
+@import "a.css" supports(a( b));
+
+<===>
+================================================================================
+<===> supports/condition_function/before_end_paren/sass/input.sass
+@import "a.css" supports(a(b
+  ))
+
+<===> supports/condition_function/before_end_paren/sass/output.css
+@import "a.css" supports(a(b ));
+
+<===>
+================================================================================
+<===> supports/condition_negation/after_not/sass/input.sass
+@import "a.css" supports(not
+  (a: b))
+
+<===> supports/condition_negation/after_not/sass/output.css
+@import "a.css" supports(not (a: b));
+
+<===>
+================================================================================
+<===> supports/calc/sass/input.sass
+@import "a.css" supports(calc(1));
+
+<===> supports/calc/sass/output.css
+@import "a.css" supports(calc(1));
