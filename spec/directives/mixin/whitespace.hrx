@@ -51,6 +51,19 @@ d
 
 <===>
 ================================================================================
+<===> include/plus/none_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  +a
+
+<===> include/plus/none_before_name/sass/output.css
+d {
+  b: c;
+}
+
+<===>
+================================================================================
 <===> include/before_block/scss/input.scss
 @mixin a {@content}
 @include a()
@@ -97,6 +110,64 @@ d
 
 <===>
 ================================================================================
+<===> error/include/plus/space_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  + a
+
+<===> error/include/plus/space_before_name/sass/output.css
+
+<===> error/include/plus/space_before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |   + a
+  |   ^^^
+  '
+    input.sass 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/include/plus/newline_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  +
+    a
+
+<===> error/include/plus/newline_before_name/sass/output.css
+
+<===> error/include/plus/newline_before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+5 |     a
+  |     ^
+  '
+    input.sass 5:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/include/plus/before_name/sass/input.sass
+@mixin a
+b
+  +
+    a
+
+<===> error/include/plus/before_name/sass/output.css
+
+<===> error/include/plus/before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |     a
+  |     ^
+  '
+    input.sass 4:5  root stylesheet
+
+<===>
+================================================================================
 <===> error/include/before_using/sass/input.sass
 @mixin a 
   @content
@@ -120,22 +191,3 @@ Error: expected selector.
   input.sass 4:9  @content
   input.sass 2:3  a()
   input.sass 3:1  root stylesheet
-
-<===>
-================================================================================
-<===> error/include/plus/before_name/sass/input.sass
-@mixin a
-b
-  +
-    a
-
-<===> error/include/plus/before_name/sass/output.css
-
-<===> error/include/plus/before_name/sass/warning
-WARNING: This selector doesn't have any properties and won't be rendered.
-
-  ,
-4 |     a
-  |     ^
-  '
-    input.sass 4:5  root stylesheet
