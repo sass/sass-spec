@@ -61,7 +61,8 @@ should include their own tests for CR LF newlines.
 <===>
 ================================================================================
 <===> converts_newlines/scss/cr/input.scss
-/* foo * bar */
+/* foo
+ * bar */
 
 <===> converts_newlines/scss/cr/output.css
 /* foo
@@ -80,7 +81,8 @@ should include their own tests for CR LF newlines.
 ================================================================================
 <===> converts_newlines/sass/cr/input.sass
 /*
-  foo  bar
+  foo
+  bar
 
 <===> converts_newlines/sass/cr/output.css
 /* foo
@@ -242,12 +244,12 @@ Error: expected more input.
 
 <===>
 ================================================================================
-<===> error/loud/multi_line/sass/input.sass
+<===> loud/multi_line/sass/input.sass
 a
   b: c /* d
           e */ f
 
-<===> error/loud/multi_line/sass/output.css
+<===> loud/multi_line/sass/output.css
 a {
   b: c f;
 }
