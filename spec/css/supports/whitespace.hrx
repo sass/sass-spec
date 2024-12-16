@@ -11,19 +11,18 @@
 
 <===>
 ================================================================================
-<===> error/before_query/sass/input.sass
+<===> before_query/sass/input.sass
 @supports
   (a: b)
     c
       d: e
 
-<===> error/before_query/sass/error
-Error: expected "(".
-  ,
-1 | @supports
-  |          ^
-  '
-  input.sass 1:10  root stylesheet
+<===> before_query/sass/output.css
+@supports (a: b) {
+  c {
+    d: e;
+  }
+}
 
 <===>
 ================================================================================
@@ -345,13 +344,13 @@ Error: expected selector.
 
 <===>
 ================================================================================
-<===> multi_conditions/before_and/sass/input.sass
+<===> error/multi_conditions/before_and/sass/input.sass
 @supports (a)
  and (b)
     c
       d: e
 
-<===> multi_conditions/before_and/sass/error
+<===> error/multi_conditions/before_and/sass/error
 Error: expected selector.
   ,
 2 |  and (b)
@@ -412,12 +411,12 @@ Error: expected selector.
 
 <===>
 ================================================================================
-<===> interpolation/no_paren/after_second/input.sass
+<===> error/interpolation/no_paren/after_second/input.sass
 @supports #{"(a: b)"} and (c: d) 
   and (e: f)
     @d
 
-<===> interpolation/no_paren/after_second/error
+<===> error/interpolation/no_paren/after_second/error
 Error: expected selector.
   ,
 2 |   and (e: f)
