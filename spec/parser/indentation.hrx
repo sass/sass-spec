@@ -43,6 +43,42 @@ a {
 
 <===>
 ================================================================================
+<===> multiline_indent_level/none/input.sass
+a[
+b]
+  c: d;
+
+<===> multiline_indent_level/none/output.css
+a[b] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> multiline_indent_level/same/input.sass
+a[
+  b]
+  c: d
+
+<===> multiline_indent_level/same/output.css
+a[b] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> multiline_indent_level/more/input.sass
+a[
+    b]
+  c: d;
+
+<===> multiline_indent_level/more/output.css
+a[b] {
+  c: d;
+}
+
+<===>
+================================================================================
 <===> error/semicolon-multiple-same-line/input.sass
 a
   b: c; d: e;
