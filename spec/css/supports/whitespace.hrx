@@ -41,6 +41,37 @@ Error: expected selector.
 
 <===>
 ================================================================================
+<===> error/interpolation/no_paren/after_second/input.sass
+@supports #{"(a: b)"} and (c: d) 
+  and (e: f)
+    @d
+
+<===> error/interpolation/no_paren/after_second/error
+Error: expected selector.
+  ,
+2 |   and (e: f)
+  |       ^
+  '
+  input.sass 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/multi_conditions/before_and/sass/input.sass
+@supports (a)
+ and (b)
+    c
+      d: e
+
+<===> error/multi_conditions/before_and/sass/error
+Error: expected selector.
+  ,
+2 |  and (b)
+  |      ^
+  '
+  input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
 <===> declaration/normal_prop/after_open_paren/scss/input.scss
 @supports (
   a: b) {c {d: e}}
@@ -344,22 +375,6 @@ Error: expected selector.
 
 <===>
 ================================================================================
-<===> error/multi_conditions/before_and/sass/input.sass
-@supports (a)
- and (b)
-    c
-      d: e
-
-<===> error/multi_conditions/before_and/sass/error
-Error: expected selector.
-  ,
-2 |  and (b)
-  |      ^
-  '
-  input.sass 2:6  root stylesheet
-
-<===>
-================================================================================
 <===> multi_conditions/after_and/sass/input.sass
 @supports (a) and
   (b)
@@ -408,21 +423,6 @@ Error: expected selector.
 @supports (a: b) and (c: d) and (e: f) {
   @d;
 }
-
-<===>
-================================================================================
-<===> error/interpolation/no_paren/after_second/input.sass
-@supports #{"(a: b)"} and (c: d) 
-  and (e: f)
-    @d
-
-<===> error/interpolation/no_paren/after_second/error
-Error: expected selector.
-  ,
-2 |   and (e: f)
-  |       ^
-  '
-  input.sass 2:7  root stylesheet
 
 <===>
 ================================================================================

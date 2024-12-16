@@ -35,25 +35,6 @@ Error: Nothing may be indented beneath a @import rule.
 
 <===>
 ================================================================================
-<===> after_comma/sass/input.scss
-@import "a.css",
-  "b.css"
-
-<===> after_comma/sass/output.css
-@import "a.css";
-@import "b.css";
-
-<===>
-================================================================================
-<===> modifier/no_args/before/sass/input.scss
-@import "a.css"
-  b
-
-<===> modifier/no_args/before/sass/output.css
-@import "a.css" b;
-
-<===>
-================================================================================
 <===> error/modifier/args/before/sass/input.sass
 @import "a.css"
   b(c)
@@ -68,11 +49,11 @@ Error: Nothing may be indented beneath a @import rule.
 
 <===>
 ================================================================================
-<===> before_comma/scss/input.scss
-@import "a.css"
-  , "b.css"
+<===> after_comma/sass/input.scss
+@import "a.css",
+  "b.css"
 
-<===> before_comma/scss/output.css
+<===> after_comma/sass/output.css
 @import "a.css";
 @import "b.css";
 
@@ -85,6 +66,15 @@ Error: Nothing may be indented beneath a @import rule.
 <===> after_comma/scss/output.css
 @import "a.css";
 @import "b.css";
+
+<===>
+================================================================================
+<===> modifier/no_args/before/sass/input.scss
+@import "a.css"
+  b
+
+<===> modifier/no_args/before/sass/output.css
+@import "a.css" b;
 
 <===>
 ================================================================================
@@ -143,3 +133,13 @@ Error: Nothing may be indented beneath a @import rule.
 <===> modifier/args/before_close_paren/sass/output.css
 @import "a.css" b(c
   );
+
+<===>
+================================================================================
+<===> before_comma/scss/input.scss
+@import "a.css"
+  , "b.css"
+
+<===> before_comma/scss/output.css
+@import "a.css";
+@import "b.css";

@@ -104,6 +104,15 @@
 
 <===>
 ================================================================================
+<===> supports/condition_negation/before_not/sass/input.sass
+@import "a.css" supports(
+  not (a: b))
+
+<===> supports/condition_negation/before_not/sass/output.css
+@import "a.css" supports(not (a: b));
+
+<===>
+================================================================================
 <===> supports/calc/sass/input.sass
 @import "a.css" supports(calc(1));
 
@@ -137,15 +146,6 @@ Error: expected ":".
   |      ^
   '
   input.sass 2:6  root stylesheet
-
-<===>
-================================================================================
-<===> supports/condition_negation/before_not/sass/input.sass
-@import "a.css" supports(
-  not (a: b))
-
-<===> supports/condition_negation/before_not/sass/output.css
-@import "a.css" supports(not (a: b));
 
 <===>
 ================================================================================

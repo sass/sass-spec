@@ -32,6 +32,20 @@ Error: Expected newline.
 
 <===>
 ================================================================================
+<===> error/semicolon-multiple-same-line/input.sass
+a
+  b: c; d: e;
+
+<===> error/semicolon-multiple-same-line/error
+Error: multiple statements on one line are not supported in the indented syntax.
+  ,
+2 |   b: c; d: e;
+  |       ^
+  '
+  input.sass 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> mixed-syntax/semicolon/input.sass
 a
   b: c;
@@ -76,17 +90,3 @@ a[
 a[b] {
   c: d;
 }
-
-<===>
-================================================================================
-<===> error/semicolon-multiple-same-line/input.sass
-a
-  b: c; d: e;
-
-<===> error/semicolon-multiple-same-line/error
-Error: multiple statements on one line are not supported in the indented syntax.
-  ,
-2 |   b: c; d: e;
-  |       ^
-  '
-  input.sass 2:7  root stylesheet
