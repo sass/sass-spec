@@ -1,0 +1,60 @@
+<===> custom_ident_name/input.scss
+@mixin --a {b: c}
+d {@include --a}
+
+<===> custom_ident_name/output.css
+d {
+  b: c;
+}
+
+<===> custom_ident_name/warning
+DEPRECATION WARNING: Sass @mixin names beginning with -- are deprecated for forward-compatibility with plain CSS mixins.
+
+For details, see https://sass-lang.com/d/css-function-mixin
+
+  ,
+1 | @mixin --a {b: c}
+  |        ^^^
+  '
+    input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> double_underscore_name/input.scss
+@mixin __a() {b: c}
+d {@include __a}
+
+<===> double_underscore_name/output.css
+d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> custom_ident_include/input.scss
+@mixin __a() {b: c}
+d {@include --a}
+
+<===> custom_ident_include/output.css
+d {
+  b: c;
+}
+
+<===> custom_ident_include/warning
+DEPRECATION WARNING: Sass @mixin names beginning with -- are deprecated for forward-compatibility with plain CSS mixins.
+
+For details, see https://sass-lang.com/d/css-function-mixin
+
+  ,
+2 | d {@include --a}
+  |             ^^^
+  '
+    input.scss 2:13  root stylesheet
+
+<===>
+================================================================================
+<===> sass/content/semicolon/input.sass
+@mixin a
+  @content;
+
+<===> sass/content/semicolon/output.css

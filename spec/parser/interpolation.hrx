@@ -1,0 +1,110 @@
+<===> whitespace/expression/after_open/input.sass
+a
+  b: #{
+    c}
+
+  
+<===> whitespace/expression/after_open/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/expression/after_val/input.sass
+a
+  b: #{c
+    }
+
+  
+<===> whitespace/expression/after_val/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/expression/between_vals/input.sass
+a
+  b: #{c
+    d}
+
+<===> whitespace/expression/between_vals/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> whitespace/selector/after_open/input.sass
+#{
+  a}
+    b: c
+
+  
+<===> whitespace/selector/after_open/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/selector/after_val/input.sass
+#{a
+    }
+  b: c
+
+<===> whitespace/selector/after_val/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/selector/between_vals/input.sass
+#{a
+    b}
+  c: d
+
+<===> whitespace/selector/between_vals/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> whitespace/property/after_open/input.sass
+a
+  #{
+    b}: c
+
+  
+<===> whitespace/property/after_open/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/property/after_val/input.sass
+a
+  #{b
+    }: c
+
+<===> whitespace/property/after_val/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/property/between_vals/input.sass
+a
+  #{b
+    c}: d
+
+  
+<===> whitespace/property/between_vals/output.css
+a {
+  b c: d;
+}

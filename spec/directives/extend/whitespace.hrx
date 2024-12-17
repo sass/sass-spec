@@ -1,0 +1,51 @@
+<===> before_arg/scss/input.scss
+a {b: c}
+d {@extend
+  a}
+
+<===> before_arg/scss/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> before_arg/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+  e: f
+
+<===> before_arg/sass/output.css
+a, d {
+  b: c;
+}
+
+d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> before_optional/scss/input.scss
+a {@extend b 
+  !optional}
+
+<===> before_optional/scss/output.css
+
+<===>
+================================================================================
+<===> error/before_optional/sass/input.sass
+a
+  @extend b
+  !optional
+
+<===> error/before_optional/sass/error
+Error: Expected newline.
+  ,
+2 |   @extend b
+  |            ^
+  '
+  input.sass 2:12  root stylesheet

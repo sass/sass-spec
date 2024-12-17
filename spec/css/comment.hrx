@@ -61,7 +61,8 @@ should include their own tests for CR LF newlines.
 <===>
 ================================================================================
 <===> converts_newlines/scss/cr/input.scss
-/* foo * bar */
+/* foo
+ * bar */
 
 <===> converts_newlines/scss/cr/output.css
 /* foo
@@ -80,7 +81,8 @@ should include their own tests for CR LF newlines.
 ================================================================================
 <===> converts_newlines/sass/cr/input.sass
 /*
-  foo  bar
+  foo
+  bar
 
 <===> converts_newlines/sass/cr/output.css
 /* foo
@@ -233,22 +235,7 @@ a
   b: c /* d
 
 <===> error/loud/unterminated/sass/error
-Error: expected */.
-  ,
-2 |   b: c /* d
-  |            ^
-  '
-  input.sass 2:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/loud/multi_line/sass/input.sass
-a
-  b: c /* d
-          e */ f
-
-<===> error/loud/multi_line/sass/error
-Error: expected */.
+Error: expected more input.
   ,
 2 |   b: c /* d
   |            ^
@@ -312,3 +299,15 @@ Error: Unexpected text after end of comment
   |     ^ extra text
   '
   input.sass 3:3  root stylesheet
+
+<===>
+================================================================================
+<===> loud/multi_line/sass/input.sass
+a
+  b: c /* d
+          e */ f
+
+<===> loud/multi_line/sass/output.css
+a {
+  b: c f;
+}

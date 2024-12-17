@@ -8,3 +8,53 @@ a {
 a b:c, a > d {
   x: y;
 }
+
+<===>
+================================================================================
+<===> whitespace/sass/before_param/input.sass
+a:b(
+  c)
+  d: e
+
+<===> whitespace/sass/before_param/output.css
+a:b(c) {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> whitespace/sass/after_param/input.sass
+a:b(c
+  )
+  d: e
+
+<===> whitespace/sass/after_param/output.css
+a:b(c) {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> with_attribute/sass/input.sass
+a:b([c])
+  d: e
+
+<===> with_attribute/sass/output.css
+a:b([c]) {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> error/with_attribute_mismatched/sass/input.scss
+a:b([c)]{
+  d: e;
+}
+
+<===> error/with_attribute_mismatched/sass/error
+Error: expected "]".
+  ,
+1 | a:b([c)]{
+  |       ^
+  '
+  input.scss 1:7  root stylesheet

@@ -21,76 +21,27 @@
 
 <===>
 ================================================================================
-<===> error/before_var/silent/sass/input.sass
+<===> before_var/silent/sass/input.sass
 @for //
   $i from 1 through 10
 
-<===> error/before_var/silent/sass/error
-Error: expected "$".
-  ,
-1 | @for //
-  |        ^
-  '
-  input.sass 1:8  root stylesheet
+<===> before_var/silent/sass/output.css
 
 <===>
 ================================================================================
-<===> error/before_from/silent/sass/input.sass
+<===> before_from/silent/sass/input.sass
 @for $i //
   from 1 through 10
 
-<===> error/before_from/silent/sass/error
-Error: Expected "from".
-  ,
-1 | @for $i //
-  |           ^
-  '
-  input.sass 1:11  root stylesheet
+<===> before_from/silent/sass/output.css
 
 <===>
 ================================================================================
-<===> error/after_from/silent/sass/input.sass
-@for $i from //
-  1 through 10
+<===> before_from/silent/scss/input.scss
+@for $i //
+  from 1 through 10 {}
 
-
-<===> error/after_from/silent/sass/error
-Error: Expected expression.
-  ,
-1 | @for $i from //
-  |              ^^
-  '
-  input.sass 1:14  root stylesheet
-
-<===>
-================================================================================
-<===> error/before_through/silent/sass/input.sass
-@for $i from 1 //
-  through 10
-
-
-<===> error/before_through/silent/sass/error
-Error: Expected "to" or "through".
-  ,
-1 | @for $i from 1 //
-  |                ^^
-  '
-  input.sass 1:16  root stylesheet
-
-<===>
-================================================================================
-<===> error/after_through/silent/sass/input.sass
-@for $i from 1 through //
-  10
-
-
-<===> error/after_through/silent/sass/error
-Error: Expected expression.
-  ,
-1 | @for $i from 1 through //
-  |                        ^^
-  '
-  input.sass 1:24  root stylesheet
+<===> before_from/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -109,11 +60,19 @@ Error: Expected expression.
 
 <===>
 ================================================================================
-<===> before_from/silent/scss/input.scss
-@for $i //
-  from 1 through 10 {}
+<===> after_from/silent/sass/input.sass
+@for $i from //
+  1 through 10
 
-<===> before_from/silent/scss/output.css
+<===> after_from/silent/sass/output.css
+
+<===>
+================================================================================
+<===> after_from/silent/scss/input.scss
+@for $i from //
+  1 through 10 {}
+
+<===> after_from/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -132,11 +91,19 @@ Error: Expected expression.
 
 <===>
 ================================================================================
-<===> after_from/silent/scss/input.scss
-@for $i from //
-  1 through 10 {}
+<===> before_through/silent/sass/input.sass
+@for $i from 1 //
+  through 10
 
-<===> after_from/silent/scss/output.css
+<===> before_through/silent/sass/output.css
+
+<===>
+================================================================================
+<===> before_through/silent/scss/input.scss
+@for $i from 1 //
+  through 10 {}
+
+<===> before_through/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -155,11 +122,20 @@ Error: Expected expression.
 
 <===>
 ================================================================================
-<===> before_through/silent/scss/input.scss
-@for $i from 1 //
-  through 10 {}
+<===> after_through/silent/sass/input.sass
+@for $i from 1 through //
+  10
 
-<===> before_through/silent/scss/output.css
+
+<===> after_through/silent/sass/output.css
+
+<===>
+================================================================================
+<===> after_through/silent/scss/input.scss
+@for $i from 1 through //
+  10 {}
+
+<===> after_through/silent/scss/output.css
 
 <===>
 ================================================================================
@@ -174,14 +150,6 @@ Error: Expected expression.
 @for $i from 1 through /**/ 10
 
 <===> after_through/loud/sass/output.css
-
-<===>
-================================================================================
-<===> after_through/silent/scss/input.scss
-@for $i from 1 through //
-  10 {}
-
-<===> after_through/silent/scss/output.css
 
 <===>
 ================================================================================

@@ -1,0 +1,118 @@
+<===> before_colon/scss/input.scss
+$a
+  : b
+
+<===> before_colon/scss/output.css
+
+<===>
+================================================================================
+<===> before_colon/sass/input.sass
+$a
+  : b
+
+<===> before_colon/sass/output.css
+
+<===>
+================================================================================
+<===> after_colon/scss/input.scss
+$a:
+  b
+
+<===> after_colon/scss/output.css
+
+<===>
+================================================================================
+<===> after_colon/sass/input.sass
+$a:
+  b
+
+<===> after_colon/sass/output.css
+
+<===>
+================================================================================
+<===> before_default/scss/input.scss
+$a: b
+  !default;
+
+<===> before_default/scss/output.css
+
+<===>
+================================================================================
+<===> error/before_default/sass/input.sass
+$a: b
+  !default
+
+<===> error/before_default/sass/error
+Error: Nothing may be indented beneath a variable declaration.
+  ,
+2 |   !default
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/between_double_default/sass/input.sass
+$a: b !default
+  !default
+
+<===> error/between_double_default/sass/error
+Error: Nothing may be indented beneath a variable declaration.
+  ,
+2 |   !default
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_global/sass/input.sass
+$a: b
+  !global
+
+<===> error/before_global/sass/error
+Error: Nothing may be indented beneath a variable declaration.
+  ,
+2 |   !global
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> between_double_default/scss/input.scss
+$a: b !default
+  !default;
+
+<===> between_double_default/scss/output.css
+
+<===> between_double_default/scss/warning
+DEPRECATION WARNING: !default should only be written once for each variable.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 |   !default;
+  |   ^^^^^^^^
+  '
+    input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> before_global/scss/input.scss
+$a: b
+  !global;
+
+<===> before_global/scss/output.css
+
+<===> before_global/scss/warning
+DEPRECATION WARNING: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
+
+Since this assignment is at the root of the stylesheet, the !global flag is
+unnecessary and can safely be removed.
+
+  ,
+1 | / $a: b
+2 | |   !global;
+  | '---------^
+  '
+    input.scss 1:1  root stylesheet

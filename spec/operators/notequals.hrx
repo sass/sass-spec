@@ -1,0 +1,34 @@
+<===> error/whitespace/before/sass/input.sass
+$a: b
+!= c
+
+<===> error/whitespace/before/sass/error
+Error: Expected newline.
+  ,
+1 | $a: b
+  |      ^
+  '
+  input.sass 1:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/whitespace/before_indent/sass/input.sass
+$a: b 
+  != c
+
+<===> error/whitespace/before_indent/sass/error
+Error: Nothing may be indented beneath a variable declaration.
+  ,
+2 |   != c
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+
+<===>
+================================================================================
+<===> whitespace/after/sass/input.sass
+$a: b != 
+  c
+
+<===> whitespace/after/sass/output.css
