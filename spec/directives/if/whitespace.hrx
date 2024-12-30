@@ -14,12 +14,39 @@
 
 <===>
 ================================================================================
-<===> else_if/before_if/scss/input.scss
+<===> error/else_if/before_if/scss/input.scss
 @if true {}
 @else 
   if true {}
 
-<===> else_if/before_if/scss/output.css
+<===> error/else_if/before_if/scss/output.css
+
+<===>
+================================================================================
+<===> error/top_level_else/sass/input.sass
+@else
+
+<===> error/top_level_else/sass/error
+Error: This at-rule is not allowed here.
+  ,
+1 | @else
+  | ^^^^^
+  '
+  input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/top_level_else_if/sass/input.sass
+@else
+if
+
+<===> error/top_level_else_if/sass/error
+Error: This at-rule is not allowed here.
+  ,
+1 | @else
+  | ^^^^^
+  '
+  input.sass 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -29,6 +56,15 @@
   if true
 
 <===> else_if/before_if/sass/output.css
+
+<===> else_if/before_if/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+3 |   if true
+  |   ^^^^^^^
+  '
+    input.sass 3:3  root stylesheet
 
 <===>
 ================================================================================
@@ -106,30 +142,3 @@ WARNING: This selector doesn't have any properties and won't be rendered.
   true
 
 <===> condition/after_and/sass/output.css
-
-<===>
-================================================================================
-<===> error/top_level_else/sass/input.sass
-@else
-
-<===> error/top_level_else/sass/error
-Error: This at-rule is not allowed here.
-  ,
-1 | @else
-  | ^^^^^
-  '
-  input.sass 1:1  root stylesheet
-
-<===>
-================================================================================
-<===> error/top_level_else_if/sass/input.sass
-@else
-if
-
-<===> error/top_level_else_if/sass/error
-Error: This at-rule is not allowed here.
-  ,
-1 | @else
-  | ^^^^^
-  '
-  input.sass 1:1  root stylesheet

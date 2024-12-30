@@ -11,18 +11,19 @@
 
 <===>
 ================================================================================
-<===> before_query/sass/input.sass
+<===> error/before_query/sass/input.sass
 @supports
   (a: b)
     c
       d: e
 
-<===> before_query/sass/output.css
-@supports (a: b) {
-  c {
-    d: e;
-  }
-}
+<===> error/before_query/sass/error
+Error: expected "(".
+  ,
+1 | @supports
+  |          ^
+  '
+  input.sass 1:10  root stylesheet
 
 <===>
 ================================================================================
@@ -56,6 +57,21 @@ Error: expected selector.
 
 <===>
 ================================================================================
+<===> error/interpolation/no_paren/after_operator/input.sass
+@supports #{"(a: b)"} and
+  (c: d)
+    @d
+
+<===> error/interpolation/no_paren/after_operator/error
+Error: expected "(".
+  ,
+1 | @supports #{"(a: b)"} and
+  |                          ^
+  '
+  input.sass 1:26  root stylesheet
+
+<===>
+================================================================================
 <===> error/multi_conditions/before_and/sass/input.sass
 @supports (a)
  and (b)
@@ -69,6 +85,38 @@ Error: expected selector.
   |      ^
   '
   input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/multi_conditions/after_and/sass/input.sass
+@supports (a) and
+  (b)
+    c
+      d: e
+
+<===> error/multi_conditions/after_and/sass/error
+Error: expected "(".
+  ,
+1 | @supports (a) and
+  |                  ^
+  '
+  input.sass 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> error/negation/after_not/sass/input.sass
+@supports not
+ (a) 
+    b
+      c: d
+
+<===> error/negation/after_not/sass/error
+Error: expected "(".
+  ,
+1 | @supports not
+  |              ^
+  '
+  input.sass 1:14  root stylesheet
 
 <===>
 ================================================================================
@@ -360,13 +408,13 @@ Error: expected selector.
 
 <===>
 ================================================================================
-<===> negation/after_not/sass/input.sass
-@supports not
- (a) 
+<===> negation/after_not_in_paren/sass/input.sass
+@supports (not
+ (a)) 
     b
       c: d
 
-<===> negation/after_not/sass/output.css
+<===> negation/after_not_in_paren/sass/output.css
 @supports not (a) {
   b {
     c: d;
@@ -375,13 +423,13 @@ Error: expected selector.
 
 <===>
 ================================================================================
-<===> multi_conditions/after_and/sass/input.sass
-@supports (a) and
-  (b)
+<===> multi_conditions/after_and_in_paren/sass/input.sass
+@supports ((a) and
+  (b))
     c
       d: e
 
-<===> multi_conditions/after_and/sass/output.css
+<===> multi_conditions/after_and_in_paren/sass/output.css
 @supports (a) and (b) {
   c {
     d: e;
@@ -421,17 +469,5 @@ Error: expected selector.
 
 <===> interpolation/paren/after_second/output.css
 @supports (a: b) and (c: d) and (e: f) {
-  @d;
-}
-
-<===>
-================================================================================
-<===> interpolation/no_paren/after_operator/input.sass
-@supports #{"(a: b)"} and
-  (c: d)
-    @d
-
-<===> interpolation/no_paren/after_operator/output.css
-@supports (a: b) and (c: d) {
   @d;
 }
