@@ -31,58 +31,6 @@
 
 <===>
 ================================================================================
-<===> sass/destructured/multiline/after-first/input.sass
-@each $a
-  , $b in (c: d)
-  .#{$a}
-    e: $b
-
-<===> sass/destructured/multiline/after-first/output.css
-.c {
-  e: d;
-}
-
-<===>
-================================================================================
-<===> sass/destructured/multiline/after-comma/input.sass
-@each $a,
-  $b in (c: d)
-  .#{$a}
-    e: $b
-
-<===> sass/destructured/multiline/after-comma/output.css
-.c {
-  e: d;
-}
-
-<===>
-================================================================================
-<===> sass/destructured/multiline/after-second/input.sass
-@each $a, $b
-  in (c: d)
-  .#{$a}
-    e: $b
-
-<===> sass/destructured/multiline/after-second/output.css
-.c {
-  e: d;
-}
-
-<===>
-================================================================================
-<===> sass/destructured/multiline/before-third/input.sass
-@each $a, $b
-  ,$c in (d: e)
-  .#{$a}
-    f: $b
-
-<===> sass/destructured/multiline/before-third/output.css
-.d {
-  f: e;
-}
-
-<===>
-================================================================================
 <===> sass/multiline/after-variable/input.sass
 @each $a 
   in b, c
@@ -144,4 +92,56 @@ c .b {
 
 .c {
   d: c;
+}
+
+<===>
+================================================================================
+<===> sass/destructured/multiline/after-first/input.sass
+@each $a
+  , $b in (c: d)
+  .#{$a}
+    e: $b
+
+<===> sass/destructured/multiline/after-first/output.css
+.c {
+  e: d;
+}
+
+<===>
+================================================================================
+<===> sass/destructured/multiline/after-comma/input.sass
+@each $a,
+  $b in (c: d)
+  .#{$a}
+    e: $b
+
+<===> sass/destructured/multiline/after-comma/output.css
+.c {
+  e: d;
+}
+
+<===>
+================================================================================
+<===> sass/destructured/multiline/after-second/input.sass
+@each $a, $b
+  in (c: d)
+  .#{$a}
+    e: $b
+
+<===> sass/destructured/multiline/after-second/output.css
+.c {
+  e: d;
+}
+
+<===>
+================================================================================
+<===> sass/destructured/multiline/before-third/input.sass
+@each $a, $b
+  ,$c in (d: e)
+  .#{$a}
+    f: $b
+
+<===> sass/destructured/multiline/before-third/output.css
+.d {
+  f: e;
 }
