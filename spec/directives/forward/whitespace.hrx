@@ -217,3 +217,53 @@ $a: 1 !default
 $a: 1 !default
 
 <===> after_default/sass/output.css
+
+<===>
+================================================================================
+<===> show/after_show/sass/input.sass
+@forward "other" show
+  $a
+
+<===> show/after_show/sass/other.scss
+$a: 1 !default
+
+<===> show/after_show/sass/output.css
+
+<===>
+================================================================================
+<===> show/after_a/sass/input.sass
+@forward "other" show $a
+  , $b
+
+<===> show/after_a/sass/other.scss
+$a: 1 !default
+
+<===> show/after_a/sass/error
+Error: Nothing may be indented beneath a @forward rule.
+  ,
+2 |   , $b
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> show/after_comma/sass/input.sass
+@forward "other" show $a,
+  $b
+
+<===> show/after_comma/sass/other.scss
+$a: 1 !default
+
+<===> show/after_comma/sass/output.css
+
+<===>
+================================================================================
+<===> hide/after_hide/sass/input.sass
+@forward "other" hide
+  $a
+
+<===> hide/after_hide/sass/other.scss
+$a: 1 !default
+
+<===> hide/after_hide/sass/output.css
