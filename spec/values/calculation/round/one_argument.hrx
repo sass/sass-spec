@@ -43,7 +43,7 @@ a {
 }
 
 <===> preserves_units/warning
-DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
 
 See https://sass-lang.com/d/import
 
@@ -64,7 +64,7 @@ a {
 }
 
 <===> preserves_single_unit/warning
-DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as the CSS round() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.round() instead.
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, round() will be interpreted as the CSS round() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.round() instead.
 
 See https://sass-lang.com/d/import
 
@@ -74,7 +74,7 @@ See https://sass-lang.com/d/import
   '
     input.scss 1:13  root stylesheet
 
-DEPRECATION WARNING: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, round() will be interpreted as a CSS round() calculation. This requires an explicit modulus when rounding numbers with units. If you want to use the Sass function, call math.round() instead.
 
 See https://sass-lang.com/d/import
 
@@ -107,7 +107,7 @@ a {
 }
 
 <===> sass_script/warning
-DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use math.round instead.
 
 More info and automated migrator: https://sass-lang.com/d/import
@@ -131,9 +131,12 @@ b {
 }
 
 <===> math/slash_as_division/warning
-DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
 Recommendation: math.div(2px, round(1.5)) or calc(2px / round(1.5))
+
 More info and automated migrator: https://sass-lang.com/d/slash-div
+
   ,
 2 |   a: 2px / round(1.5);
   |      ^^^^^^^^^^^^^^^^
