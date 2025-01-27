@@ -35,17 +35,17 @@ b {
 
 <===>
 ================================================================================
-<===> whitespace/no_comma/input.sass
+<===> newline/no_comma/input.sass
 a
 b
   c: d
 
-<===> whitespace/no_comma/output.css
+<===> newline/no_comma/output.css
 b {
   c: d;
 }
 
-<===> whitespace/no_comma/warning
+<===> newline/no_comma/warning
 WARNING: This selector doesn't have any properties and won't be rendered.
 
   ,
@@ -56,16 +56,52 @@ WARNING: This selector doesn't have any properties and won't be rendered.
 
 <===>
 ================================================================================
-<===> whitespace/with_comma/input.sass
+<===> newline/after_comma/input.sass
 a,
-        b
+b
   c: d
 
-<===> whitespace/with_comma/output.css
+<===> newline/after_comma/output.css
 a,
 b {
   c: d;
 }
+
+<===>
+================================================================================
+<===> newline/after_comma_indented/input.sass
+a,
+    b
+  c: d
+
+<===> newline/after_comma_indented/output.css
+a,
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> error/newline/before_comma/input.sass
+a
+,b
+  c: d
+
+<===> error/newline/before_comma/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a
+  | ^
+  '
+    input.sass 1:1  root stylesheet
+
+Error: expected selector.
+  ,
+1 | a
+  |  ^
+  '
+  input.sass 1:2  root stylesheet
 
 <===>
 ================================================================================
