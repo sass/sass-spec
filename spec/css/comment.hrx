@@ -215,6 +215,18 @@ a {
 
 <===>
 ================================================================================
+<===> loud/multi_line/sass/input.sass
+a
+  b: c /* d
+          e */ f
+
+<===> loud/multi_line/sass/output.css
+a {
+  b: c f;
+}
+
+<===>
+================================================================================
 <===> error/loud/unterminated/scss/input.scss
 a {
   b: c /* d
@@ -299,15 +311,3 @@ Error: Unexpected text after end of comment
   |     ^ extra text
   '
   input.sass 3:3  root stylesheet
-
-<===>
-================================================================================
-<===> loud/multi_line/sass/input.sass
-a
-  b: c /* d
-          e */ f
-
-<===> loud/multi_line/sass/output.css
-a {
-  b: c f;
-}

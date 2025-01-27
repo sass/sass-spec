@@ -17,35 +17,6 @@ a e {
 
 <===>
 ================================================================================
-<===> error/mixed_syntax/block/input.sass
-a {
-  b: c
-}
-  
-<===> error/mixed_syntax/block/error
-Error: Expected newline.
-  ,
-1 | a {
-  |   ^
-  '
-  input.sass 1:3  root stylesheet
-
-<===>
-================================================================================
-<===> error/semicolon_multiple_same_line/input.sass
-a
-  b: c; d: e;
-
-<===> error/semicolon_multiple_same_line/error
-Error: multiple statements on one line are not supported in the indented syntax.
-  ,
-2 |   b: c; d: e;
-  |         ^
-  '
-  input.sass 2:9  root stylesheet
-
-<===>
-================================================================================
 <===> multiline_indent_level/none/input.sass
 a[
 b]
@@ -79,3 +50,33 @@ a[
 a[b] {
   c: d;
 }
+
+<===>
+================================================================================
+<===> error/mixed_syntax/block/input.sass
+a {
+  b: c
+}
+  
+<===> error/mixed_syntax/block/error
+Error: Expected newline.
+  ,
+1 | a {
+  |   ^
+  '
+  input.sass 1:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/semicolon_multiple_same_line/input.sass
+a
+  b: c; d: e;
+
+<===> error/semicolon_multiple_same_line/error
+Error: multiple statements on one line are not supported in the indented syntax.
+  ,
+2 |   b: c; d: e;
+  |         ^
+  '
+  input.sass 2:9  root stylesheet
+
