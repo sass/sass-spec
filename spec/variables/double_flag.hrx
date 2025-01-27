@@ -1,34 +1,14 @@
-<===> semi_global/in_local/double_nested/input.scss
-// Regression test for sass/dart-sass#1250
-$a: global;
-b {
-  @if true {
-    @if true {
-      $a: local;
-    }
-  }
-}
-
-c {d: $a}
-
-<===> semi_global/in_local/double_nested/output.css
-c {
-  d: global;
-}
-
-<===>
-================================================================================
-<===> double_flag/default/input.scss
+<===> default/input.scss
 $a: b !default !default;
 
 c {d: $a}
 
-<===> double_flag/default/output.css
+<===> default/output.css
 c {
   d: b;
 }
 
-<===> double_flag/default/warning
+<===> default/warning
 DEPRECATION WARNING [duplicate-var-flags]: !default should only be written once for each variable.
 This will be an error in Dart Sass 2.0.0.
 
@@ -40,19 +20,19 @@ This will be an error in Dart Sass 2.0.0.
 
 <===>
 ================================================================================
-<===> double_flag/global/input.scss
+<===> global/input.scss
 $a: b;
 c {
   $a: d !global !global;
   e: $a
 }
 
-<===> double_flag/global/output.css
+<===> global/output.css
 c {
   e: d;
 }
 
-<===> double_flag/global/warning
+<===> global/warning
 DEPRECATION WARNING [duplicate-var-flags]: !global should only be written once for each variable.
 This will be an error in Dart Sass 2.0.0.
 

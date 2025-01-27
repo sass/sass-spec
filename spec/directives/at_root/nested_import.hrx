@@ -1,0 +1,87 @@
+<===> with_no_use/input.scss
+a {
+  @import "other";
+}
+
+<===> with_no_use/other.scss
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> with_no_use/output.css
+b {
+  c: d;
+}
+
+<===> with_no_use/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |   @import "other";
+  |           ^^^^^^^
+  '
+    input.scss 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> with_builtin_use/input.scss
+a {
+  @import "other";
+}
+
+<===> with_builtin_use/other.scss
+@use "sass:math";
+
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> with_builtin_use/output.css
+b {
+  c: d;
+}
+
+<===> with_builtin_use/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |   @import "other";
+  |           ^^^^^^^
+  '
+    input.scss 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> with_user_use/options.yml
+:todo:
+  - sass/dart-sass#1347
+
+<===> with_user_use/input.scss
+a {
+  @import "other";
+}
+
+<===> with_user_use/other.scss
+@use "used";
+
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> with_user_use/used.scss
+// nothing
+
+<===> with_user_use/output.css
+b {
+  c: d;
+}
