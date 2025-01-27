@@ -343,3 +343,112 @@ a
 a {
   b: c;
 }
+
+<===>
+================================================================================
+<===> sass/multiple/cr/input.sass
+a
+  b: c;
+  d: e;
+
+<===> sass/multiple/cr/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/multiple/ff/input.sass
+a
+  b: c;
+  d: e;
+
+<===> sass/multiple/ff/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/trailing_whitespace/input.sass
+a
+  b: c; 
+  d: e;
+
+<===> sass/trailing_whitespace/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/preceding_whitespace/input.sass
+a
+  b: c ;
+  d: e;
+
+<===> sass/preceding_whitespace/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/trailing_comment/input.sass
+a
+  b: c; // f
+  d: e;
+
+<===> sass/trailing_comment/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/trailing_inline_comment/input.sass
+a
+  b: c; /* f */
+  d: e;
+
+<===> sass/trailing_inline_comment/output.css
+a {
+  b: c;
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/trailing_loud_comment/input.sass
+a
+  b: c;
+  /* f */
+  d: e;
+
+<===> sass/trailing_loud_comment/output.css
+a {
+  b: c;
+  /* f */
+  d: e;
+}
+
+<===>
+================================================================================
+<===> sass/nested/input.sass
+a
+  b: c;
+  d
+    e: f;
+
+<===> sass/nested/output.css
+a {
+  b: c;
+}
+a d {
+  e: f;
+}
