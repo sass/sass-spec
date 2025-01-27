@@ -92,39 +92,6 @@ a {
 
 <===>
 ================================================================================
-<===> hide/whitespace/input.sass
-@forward "upstream" hide 
-  a
-
-<===> hide/whitespace/_upstream.sass
-$a: b
-
-<===> hide/whitespace/output.css
-
-<===>
-================================================================================
-<===> hide/whitespace_between/output.css
-
-<===>
-================================================================================
-<===> hide/whitespace_between/error/input.sass
-@forward "upstream" hide a
-  c
-
-<===> hide/whitespace_between/error/_upstream.sass
-$a: b
-$c: d
-
-<===> hide/whitespace_between/error/error
-Error: Nothing may be indented beneath a @forward rule.
-  ,
-2 |   c
-  |   ^
-  '
-  input.sass 2:3  root stylesheet
-
-<===>
-================================================================================
 <===> show/mixin/input.scss
 @use "midstream";
 
@@ -180,32 +147,3 @@ $c: d;
 a {
   b: d;
 }
-
-<===>
-================================================================================
-<===> show/whitespace/input.sass
-@forward "upstream" show 
-  a
-
-<===> show/whitespace/_upstream.sass
-$a: b
-
-<===> show/whitespace/output.css
-
-<===>
-================================================================================
-<===> show/whitespace_between/error/input.sass
-@forward "upstream" show a
-  c
-
-<===> show/whitespace_between/error/_upstream.sass
-$a: b
-$c: d
-
-<===> show/whitespace_between/error/error
-Error: Nothing may be indented beneath a @forward rule.
-  ,
-2 |   c
-  |   ^
-  '
-  input.sass 2:3  root stylesheet

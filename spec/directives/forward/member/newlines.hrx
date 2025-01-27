@@ -1,0 +1,55 @@
+<===> hide/after/input.sass
+@forward "upstream" hide 
+  a
+
+<===> hide/after/_upstream.sass
+$a: b
+
+<===> hide/after/output.css
+
+<===>
+================================================================================
+<===> show/after/input.sass
+@forward "upstream" show 
+  a
+
+<===> show/after/_upstream.sass
+$a: b
+
+<===> show/after/output.css
+
+<===>
+================================================================================
+<===> error/hide/between/input.sass
+@forward "upstream" hide a
+  c
+
+<===> error/hide/whitespace_between/_upstream.sass
+$a: b
+$c: d
+
+<===> error/hide/between/error
+Error: Nothing may be indented beneath a @forward rule.
+  ,
+2 |   c
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/show/whitespace_between/input.sass
+@forward "upstream" show a
+  c
+
+<===> error/show/whitespace_between/_upstream.sass
+$a: b
+$c: d
+
+<===> error/show/whitespace_between/error
+Error: Nothing may be indented beneath a @forward rule.
+  ,
+2 |   c
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
