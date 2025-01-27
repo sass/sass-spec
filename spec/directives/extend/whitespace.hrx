@@ -49,3 +49,22 @@ Error: Expected newline.
   |            ^
   '
   input.sass 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/after_arg/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+    b
+  e: f
+
+<===> error/after_arg/sass/error
+Error: Nothing may be indented beneath a @extend rule.
+  ,
+6 |     b
+  |     ^
+  '
+  input.sass 6:5  root stylesheet
