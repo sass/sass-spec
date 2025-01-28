@@ -1,0 +1,122 @@
+<===> after_paren/input.sass
+a 
+  b: append(
+    c d, e)
+
+<===> after_paren/output.css
+a {
+  b: c d e;
+}
+
+<===> after_paren/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |     b: append(
+  | ,------^
+3 | \     c d, e)
+  '
+    input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> after_value/input.sass
+a 
+  b: append(c
+     d, e)
+
+<===> after_value/output.css
+a {
+  b: c d e;
+}
+
+<===> after_value/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |     b: append(c
+  | ,------^
+3 | \      d, e)
+  '
+    input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> before_comma/input.sass
+a 
+  b: append(c d
+     , e)
+
+<===> before_comma/output.css
+a {
+  b: c d e;
+}
+
+<===> before_comma/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |     b: append(c d
+  | ,------^
+3 | \      , e)
+  '
+    input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> after_comma/input.sass
+a 
+  b: append(c d,
+     e)
+
+<===> after_comma/output.css
+a {
+  b: c d e;
+}
+
+<===> after_comma/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |     b: append(c d,
+  | ,------^
+3 | \      e)
+  '
+    input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> before_paren/input.sass
+a 
+  b: append(c d, e
+     )
+
+<===> before_paren/output.css
+a {
+  b: c d e;
+}
+
+<===> before_paren/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use list.append instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 |     b: append(c d, e
+  | ,------^
+3 | \      )
+  '
+    input.sass 2:6  root stylesheet
