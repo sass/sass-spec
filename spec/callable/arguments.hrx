@@ -265,6 +265,20 @@ a {
 
 <===>
 ================================================================================
+<===> function/arguments/sass/input.sass
+@function a($b, $c)
+  @return d
+
+e
+  f: a(g, h)
+
+<===> function/arguments/sass/output.css
+e {
+  f: d;
+}
+
+<===>
+================================================================================
 <===> function/error/comma_only/input.scss
 @use 'callable/arguments/function/utils';
 a {b: utils.a( , )};
@@ -291,51 +305,3 @@ Error: Positional arguments must come before keyword arguments.
   |              ^
   '
   input.scss 3:14  root stylesheet
-
-<===>
-================================================================================
-<===> function/sass/multi_line_arguments/invocation/input.sass
-@function a($b, $c)
-  @return d
-
-e
-  f: a(
-    g, 
-    h
-  )
-
-<===> function/sass/multi_line_arguments/invocation/output.css
-e {
-  f: d;
-}
-
-<===>
-================================================================================
-<===> function/sass/multi_line_arguments/declaration/input.sass
-@function a(
-  $b, 
-  $c
-)
-  @return d
-
-e
-  f: a(g, h)
-
-<===> function/sass/multi_line_arguments/declaration/output.css
-e {
-  f: d;
-}
-
-<===>
-================================================================================
-<===> function/arguments/sass/input.sass
-@function a($b, $c)
-  @return d
-
-e
-  f: a(g, h)
-
-<===> function/arguments/sass/output.css
-e {
-  f: d;
-}
