@@ -38,42 +38,15 @@ a {
 
 <===>
 ================================================================================
-<===> syntax/whitespace/newline/after_percent/input.sass
+<===> error/syntax/whitespace/newline/after_percent/input.sass
 a
   b: 1%
     1
 
-<===> syntax/whitespace/newline/after_percent/error
+<===> error/syntax/whitespace/newline/after_percent/error
 Error: Expected identifier.
   ,
 2 |   b: 1%
   |        ^
   '
   input.sass 2:8  root stylesheet
-
-<===>
-================================================================================
-<===> syntax/whitespace/newline/after/input.sass
-a
-  b: 1 %
-    1
-
-<===> syntax/whitespace/newline/after/output.css
-a {
-  b: 0;
-}
-
-<===>
-================================================================================
-<===> error/syntax/whitespace/newline/before/input.sass
-a
-  b: 1
-    % 1
-
-<===> error/syntax/whitespace/newline/before/error
-Error: Expected identifier.
-  ,
-2 |   b: 1
-  |       ^
-  '
-  input.sass 2:7  root stylesheet

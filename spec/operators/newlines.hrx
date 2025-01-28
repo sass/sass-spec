@@ -1,0 +1,75 @@
+<===> binary/after/input.sass
+$a: b +
+c
+d
+  e: $a
+
+<===> binary/after/output.css
+d {
+  e: bc;
+}
+
+<===>
+================================================================================
+<===> binary/before/input.sass
+$a: b
++ c
+d
+  e: $a
+
+<===> binary/before/output.css
+d {
+  e: b;
+}
+
+<===> binary/before/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+2 | + c
+  | ^^^
+  '
+    input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> unary/after/input.sass
+$a: not
+b
+c
+  d: $a
+
+<===> unary/after/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> error/binary/before_indent/input.sass
+$a: b 
+  + c
+
+<===> error/binary/before_indent/error
+Error: Nothing may be indented beneath a variable declaration.
+  ,
+2 |   + c
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/unary/before/input.sass
+$a:
+not c
+
+<===> error/unary/before/output.css
+
+<===>
+================================================================================
+<===> error/unary/before_indent/input.sass
+$a:
+  not c
+
+<===> error/unary/before_indent/output.css

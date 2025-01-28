@@ -93,30 +93,3 @@ a {b: 1/ / /bar}
 a {
   b: 1///bar;
 }
-
-<===>
-================================================================================
-<===> syntax/whitespace/newline/after/input.sass
-a
-  b: c /
-    d
-
-<===> syntax/whitespace/newline/after/output.css
-a {
-  b: c/d;
-}
-
-<===>
-================================================================================
-<===> error/syntax/whitespace/newline/before/input.sass
-a
-  b: c
-    / d
-
-<===> error/syntax/whitespace/newline/before/error
-Error: Expected identifier.
-  ,
-2 |   b: c
-  |       ^
-  '
-  input.sass 2:7  root stylesheet
