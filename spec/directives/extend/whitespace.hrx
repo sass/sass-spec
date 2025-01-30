@@ -37,6 +37,26 @@ a {@extend b
 
 <===>
 ================================================================================
+<===> after_arg/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+b
+  e: f
+
+<===> after_arg/sass/output.css
+a, d {
+  b: c;
+}
+
+b {
+  e: f;
+}
+
+<===>
+================================================================================
 <===> error/before_optional/sass/input.sass
 a
   @extend b
@@ -52,7 +72,7 @@ Error: Expected newline.
 
 <===>
 ================================================================================
-<===> error/after_arg/sass/input.sass
+<===> error/after_arg_indented/sass/input.sass
 a
   b: c
 d
@@ -61,7 +81,7 @@ d
     b
   e: f
 
-<===> error/after_arg/sass/error
+<===> error/after_arg_indented/sass/error
 Error: Nothing may be indented beneath a @extend rule.
   ,
 6 |     b
