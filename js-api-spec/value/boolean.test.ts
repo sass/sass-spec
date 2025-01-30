@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, sassTrue, sassFalse} from 'sass';
+import {Value, sassTrue, sassFalse, SassBoolean} from 'sass';
 
 describe('Sass boolean', () => {
   describe('sassTrue', () => {
@@ -22,6 +22,10 @@ describe('Sass boolean', () => {
 
     it('is a boolean', () => {
       expect(value.assertBoolean()).toBe(sassTrue);
+    });
+
+    it('is a SassBoolean instance', () => {
+      expect(value).toBeInstanceOf(SassBoolean);
     });
 
     it("isn't any other type", () => {
@@ -53,6 +57,10 @@ describe('Sass boolean', () => {
 
     it('is a boolean', () => {
       expect(value.assertBoolean()).toBe(sassFalse);
+    });
+
+    it('is a SassBoolean instance', () => {
+      expect(value).toBeInstanceOf(SassBoolean);
     });
 
     it("isn't any other type", () => {
