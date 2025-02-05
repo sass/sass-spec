@@ -1,0 +1,37 @@
+<===> sass/semicolon/input.sass
+@error a;
+
+<===> sass/semicolon/error
+Error: a
+  ,
+1 | @error a;
+  | ^^^^^^^^
+  '
+  input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/semicolon_comment/input.sass
+@error a; // b
+
+<===> sass/semicolon_comment/error
+Error: a
+  ,
+1 | @error a; // b
+  | ^^^^^^^^
+  '
+  input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/multiline_after/input.sass
+@error
+a
+
+<===> sass/multiline_after/error
+Error: a
+  ,
+1 | / @error
+2 | \ a
+  '
+  input.sass 1:1  root stylesheet

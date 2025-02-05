@@ -1,0 +1,19 @@
+<===> input.scss
+@mixin __a() {b: c}
+d {@include --a}
+
+<===> output.css
+d {
+  b: c;
+}
+
+<===> warning
+DEPRECATION WARNING [css-function-mixin]: Sass @mixin names beginning with -- are deprecated for forward-compatibility with plain CSS mixins.
+
+For details, see https://sass-lang.com/d/css-function-mixin
+
+  ,
+2 | d {@include --a}
+  |             ^^^
+  '
+    input.scss 2:13  root stylesheet

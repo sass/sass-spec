@@ -213,6 +213,18 @@ a {
 
 <===>
 ================================================================================
+<===> loud/multi_line/sass/input.sass
+a
+  b: c /* d
+          e */ f
+
+<===> loud/multi_line/sass/output.css
+a {
+  b: c f;
+}
+
+<===>
+================================================================================
 <===> error/loud/unterminated/scss/input.scss
 a {
   b: c /* d
@@ -233,22 +245,7 @@ a
   b: c /* d
 
 <===> error/loud/unterminated/sass/error
-Error: expected */.
-  ,
-2 |   b: c /* d
-  |            ^
-  '
-  input.sass 2:12  root stylesheet
-
-<===>
-================================================================================
-<===> error/loud/multi_line/sass/input.sass
-a
-  b: c /* d
-          e */ f
-
-<===> error/loud/multi_line/sass/error
-Error: expected */.
+Error: expected more input.
   ,
 2 |   b: c /* d
   |            ^

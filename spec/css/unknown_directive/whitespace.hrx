@@ -1,0 +1,66 @@
+<===> no_children/before_value/scss/input.scss
+@a 
+  b
+
+<===> no_children/before_value/scss/output.css
+@a b;
+
+<===>
+================================================================================
+<===> no_children/before_value/sass/input.sass
+@a
+  b
+
+<===> no_children/before_value/sass/output.css
+@a {}
+
+<===> no_children/before_value/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+2 |   b
+  |   ^
+  '
+    input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> children/before_value/sass/input.sass
+@a
+  b
+   c: d
+
+<===> children/before_value/sass/output.css
+@a {
+  b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> children/before_value/scss/input.scss
+@a
+  b {}
+
+<===> children/before_value/scss/output.css
+@a b {}
+
+<===>
+================================================================================
+<===> children/no_value/scss/input.scss
+@a
+  {}
+
+<===> children/no_value/scss/output.css
+@a {}
+
+<===>
+================================================================================
+<===> children/no_value/sass/input.sass
+@a
+  c: d
+<===> children/no_value/sass/output.css
+@a {
+  c: d;
+}
