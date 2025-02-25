@@ -145,6 +145,31 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
+<===> calc_unsafe_in_binary_operator/input.scss
+// Regression test for sass/dart-sass#2523
+b {
+  a: round(-(1) + 2);
+}
+
+<===> calc_unsafe_in_binary_operator/output.css
+b {
+  a: 1;
+}
+
+<===> calc_unsafe_in_binary_operator/warning
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use math.round instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 |   a: round(-(1) + 2);
+  |      ^^^^^^^^^^^^^^^
+  '
+    input.scss 3:6  root stylesheet
+
+<===>
+================================================================================
 <===> case_insensitive/input.scss
 a {b: rOuNd(1)}
 
