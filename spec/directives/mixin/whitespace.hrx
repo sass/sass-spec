@@ -1,0 +1,193 @@
+<===> mixin/before_name/scss/input.scss
+@mixin
+  a {}
+
+<===> mixin/before_name/scss/output.css
+
+<===>
+================================================================================
+<===> mixin/before_name/sass/input.sass
+@mixin
+  a
+
+<===> mixin/before_name/sass/output.css
+
+<===>
+================================================================================
+<===> mixin/after_args/scss/input.scss
+@mixin a()
+  {}
+
+<===> mixin/after_args/scss/output.css
+
+<===>
+================================================================================
+<===> mixin/equals/before_name/sass/input.sass
+=
+  a
+
+d
+  @include a
+
+<===> mixin/equals/before_name/sass/output.css
+
+<===>
+================================================================================
+<===> include/before_name/scss/input.scss
+@mixin a {}
+@include
+  a
+
+<===> include/before_name/scss/output.css
+
+<===>
+================================================================================
+<===> include/before_name/sass/input.sass
+@mixin a
+@include
+  a
+
+<===> include/before_name/sass/output.css
+
+<===>
+================================================================================
+<===> include/plus/none_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  +a
+
+<===> include/plus/none_before_name/sass/output.css
+d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> include/plus/space_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  + a
+
+<===> include/plus/space_before_name/sass/output.css
+
+<===> include/plus/space_before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |   + a
+  |   ^^^
+  '
+    input.sass 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> include/plus/newline_before_name/sass/input.sass
+@mixin a
+  b: c
+d
+  +
+    a
+
+<===> include/plus/newline_before_name/sass/output.css
+
+<===> include/plus/newline_before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+5 |     a
+  |     ^
+  '
+    input.sass 5:5  root stylesheet
+
+<===>
+================================================================================
+<===> include/plus/before_name/sass/input.sass
+@mixin a
+b
+  +
+    a
+
+<===> include/plus/before_name/sass/output.css
+
+<===> include/plus/before_name/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |     a
+  |     ^
+  '
+    input.sass 4:5  root stylesheet
+
+<===>
+================================================================================
+<===> include/before_block/scss/input.scss
+@mixin a {@content}
+@include a()
+  {}
+
+<===> include/before_block/scss/output.css
+
+<===>
+================================================================================
+<===> include/before_using/scss/input.scss
+@mixin a {@content}
+@include a()
+  using () {}
+
+<===> include/before_using/scss/output.css
+
+<===>
+================================================================================
+<===> include/after_using/scss/input.scss
+@mixin a {@content}
+@include a() using
+  () {}
+
+<===> include/after_using/scss/output.css
+
+<===>
+================================================================================
+<===> include/after_using/sass/input.sass
+@mixin a
+  @content
+@include a() using
+  ()
+
+<===> include/after_using/sass/output.css
+
+<===>
+================================================================================
+<===> include/after_using_arglist/scss/input.scss
+@mixin a {@content}
+@include a() using ()
+  {}
+
+<===> include/after_using_arglist/scss/output.css
+
+<===>
+================================================================================
+<===> error/include/before_using/sass/input.sass
+@mixin a 
+  @content
+@include a()
+  using ()
+
+<===> error/include/before_using/sass/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+4 |   using ()
+  |   ^^^^^^^^
+  '
+    input.sass 4:3  root stylesheet
+
+Error: expected selector.
+  ,
+4 |   using ()
+  |         ^
+  '
+  input.sass 4:9  @content
+  input.sass 2:3  a()
+  input.sass 3:1  root stylesheet

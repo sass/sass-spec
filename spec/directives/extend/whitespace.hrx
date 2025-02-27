@@ -1,0 +1,150 @@
+<===> before_arg/scss/input.scss
+a {b: c}
+d {@extend
+  a}
+
+<===> before_arg/scss/output.css
+a, d {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> before_arg/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+  e: f
+
+<===> before_arg/sass/output.css
+a, d {
+  b: c;
+}
+
+d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> before_optional/scss/input.scss
+a {@extend b 
+  !optional}
+
+<===> before_optional/scss/output.css
+
+<===>
+================================================================================
+<===> after_arg/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+b
+  e: f
+
+<===> after_arg/sass/output.css
+a, d {
+  b: c;
+}
+
+b {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> multiple_selectors/newline/sass/input.sass
+a
+  b: c
+d
+  e: f
+
+g
+  @extend a
+  d
+
+<===> multiple_selectors/newline/sass/output.css
+a, g {
+  b: c;
+}
+
+d {
+  e: f;
+}
+
+<===> multiple_selectors/newline/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+8 |   d
+  |   ^
+  '
+    input.sass 8:3  root stylesheet
+
+<===>
+================================================================================
+<===> multiple_selectors/comma/sass/input.sass
+a
+  b: c
+d
+  e: f
+
+g
+  @extend a,
+  d
+
+<===> multiple_selectors/comma/sass/output.css
+a, g {
+  b: c;
+}
+
+d {
+  e: f;
+}
+
+<===> multiple_selectors/comma/sass/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+8 |   d
+  |   ^
+  '
+    input.sass 8:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/before_optional/sass/input.sass
+a
+  @extend b
+  !optional
+
+<===> error/before_optional/sass/error
+Error: Expected newline.
+  ,
+2 |   @extend b
+  |            ^
+  '
+  input.sass 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> error/after_arg_indented/sass/input.sass
+a
+  b: c
+d
+  @extend
+    a
+    b
+  e: f
+
+<===> error/after_arg_indented/sass/error
+Error: Nothing may be indented beneath a @extend rule.
+  ,
+6 |     b
+  |     ^
+  '
+  input.sass 6:5  root stylesheet

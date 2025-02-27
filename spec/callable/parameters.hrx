@@ -1,0 +1,219 @@
+<===> mixin/trailing_comma/no_default/input.scss
+@mixin a($b, ) {
+  c: $b;
+}
+
+d {@include a(1)}
+
+<===> mixin/trailing_comma/no_default/output.css
+d {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/default/alone/input.scss
+@mixin a($b: 1, ) {
+  c: $b;
+}
+
+d {@include a}
+
+<===> mixin/trailing_comma/default/alone/output.css
+d {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/default/after_no_default/input.scss
+@mixin a($b, $c: 1, ) {
+  d: $c;
+}
+
+e {@include a(2)}
+
+<===> mixin/trailing_comma/default/after_no_default/output.css
+e {
+  d: 1;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/rest/alone/input.scss
+@mixin a($b..., ) {
+  c: $b;
+}
+
+d {@include a(1)}
+
+<===> mixin/trailing_comma/rest/alone/output.css
+d {
+  c: 1;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/rest/after_no_default/input.scss
+@mixin a($b, $c..., ) {
+  d: $c;
+}
+
+e {@include a(1, 2)}
+
+<===> mixin/trailing_comma/rest/after_no_default/output.css
+e {
+  d: 2;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/rest/after_default/input.scss
+@mixin a($b: 1, $c..., ) {
+  d: $c;
+}
+
+e {@include a(2, 3)}
+
+<===> mixin/trailing_comma/rest/after_default/output.css
+e {
+  d: 3;
+}
+
+<===>
+================================================================================
+<===> mixin/trailing_comma/rest/after_both/input.scss
+@mixin a($b, $c: 1, $d..., ) {
+  d: $d;
+}
+
+e {@include a(2, 3, 4)}
+
+<===> mixin/trailing_comma/rest/after_both/output.css
+e {
+  d: 4;
+}
+
+<===>
+================================================================================
+<===> mixin/error/comma_only/input.scss
+@mixin a( , ) {}
+
+<===> mixin/error/comma_only/error
+Error: expected ")".
+  ,
+1 | @mixin a( , ) {}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> function/trailing_comma/no_default/input.scss
+@function a($b, ) {
+  @return $b;
+}
+
+c {d: a(e)}
+
+<===> function/trailing_comma/no_default/output.css
+c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/default/alone/input.scss
+@function a($b: 1, ) {
+  @return $b;
+}
+
+c {d: a()}
+
+<===> function/trailing_comma/default/alone/output.css
+c {
+  d: 1;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/default/after_no_default/input.scss
+@function a($b, $c: 1, ) {
+  @return $c;
+}
+
+d {e: a(2)}
+
+<===> function/trailing_comma/default/after_no_default/output.css
+d {
+  e: 1;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/rest/alone/input.scss
+@function a($b..., ) {
+  @return $b;
+}
+
+c {d: a(1)}
+
+<===> function/trailing_comma/rest/alone/output.css
+c {
+  d: 1;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/rest/after_no_default/input.scss
+@function a($b, $c..., ) {
+  @return $c;
+}
+
+d {e: a(1, 2)}
+
+<===> function/trailing_comma/rest/after_no_default/output.css
+d {
+  e: 2;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/rest/after_default/input.scss
+@function a($b: 1, $c..., ) {
+  @return $c;
+}
+
+d {e: a(2, 3)}
+
+<===> function/trailing_comma/rest/after_default/output.css
+d {
+  e: 3;
+}
+
+<===>
+================================================================================
+<===> function/trailing_comma/rest/after_both/input.scss
+@function a($b, $c: 1, $d..., ) {
+  @return $d;
+}
+
+e {f: a(2, 3, 4)}
+
+<===> function/trailing_comma/rest/after_both/output.css
+e {
+  f: 4;
+}
+
+<===>
+================================================================================
+<===> function/error/comma_only/input.scss
+@function a( , ) {}
+
+<===> function/error/comma_only/error
+Error: expected ")".
+  ,
+1 | @function a( , ) {}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet

@@ -20,69 +20,59 @@ a {
 
 <===>
 ================================================================================
-<===> inline/trailing-comma/input.sass
+<===> inline/trailing_comma/input.sass
 a
   b: c, d,
 
-<===> inline/trailing-comma/output.css
+<===> inline/trailing_comma/output.css
 a {
   b: c, d;
 }
 
 <===>
 ================================================================================
-<===> error/paren/no-indent/input.sass
+<===> paren/no_indent/input.sass
 a
-  value: (
-b,
-c
+  b: (
+c,
+d
 )
 
-<===> error/paren/no-indent/error
-Error: expected ")".
-  ,
-2 |   value: (
-  |           ^
-  '
-  input.sass 2:11  root stylesheet
+<===> paren/no_indent/output.css
+a {
+  b: c, d;
+}
 
 <===>
 ================================================================================
-<===> error/paren/indented-under/input.sass
+<===> paren/indented_under/input.sass
 a
-  value: (
-    b,
-    c
+  b: (
+    c,
+    d
 )
 
-<===> error/paren/indented-under/error
-Error: expected ")".
-  ,
-2 |   value: (
-  |           ^
-  '
-  input.sass 2:11  root stylesheet
+<===> paren/indented_under/output.css
+a {
+  b: c, d;
+}
 
 <===>
 ================================================================================
-<===> error/paren/value-aligned/input.sass
+<===> paren/value_aligned/input.sass
 a
   b: ( c
        d
-       e
   )
 
-<===> error/paren/value-aligned/error
-Error: expected ")".
-  ,
-2 |   b: ( c
-  |         ^
-  '
-  input.sass 2:9  root stylesheet
+<===> paren/value_aligned/output.css
+a {
+  b: c d;
+}
 
 <===>
 ================================================================================
-<===> error/paren/trailing-comma/input.sass
+<===> paren/trailing_comma/input.sass
 
 a
   b: (
@@ -90,22 +80,63 @@ a
     d,
   )
 
-<===> error/paren/trailing-comma/error
-Error: expected ")".
-  ,
-3 |   b: (
-  |       ^
-  '
-  input.sass 3:7  root stylesheet
+<===> paren/trailing_comma/output.css
+a {
+  b: c, d;
+}
 
 <===>
 ================================================================================
-<===> error/no-parens/no-trailing-comma/input.sass
+<===> paren/whitespace/after_paren/input.sass
+a
+  b: (
+    c, d)
+
+<===> paren/whitespace/after_paren/output.css
+a {
+  b: c, d;
+}
+
+<===>
+================================================================================
+<===> paren/whitespace/variable/input.sass
+$a: (b, e
+  )
+
+<===> paren/whitespace/variable/output.css
+
+<===>
+================================================================================
+<===> paren/whitespace/variable_nested/input.sass
+$a: (b c, e
+  )
+
+<===> paren/whitespace/variable_nested/output.css
+
+<===>
+================================================================================
+<===> error/paren/empty/whitespace/between/input.sass
+a
+  b: (
+  )
+
+<===> error/paren/empty/whitespace/between/error
+Error: () isn't a valid CSS value.
+  ,
+2 |     b: (
+  | ,------^
+3 | \   )
+  '
+  input.sass 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/no_parens/no_trailing_comma/input.sass
 a
   b: c,
      d
 
-<===> error/no-parens/no-trailing-comma/error
+<===> error/no_parens/no_trailing_comma/error
 Error: expected ":".
   ,
 3 |      d
@@ -115,12 +146,12 @@ Error: expected ":".
 
 <===>
 ================================================================================
-<===> error/no-parens/trailing-comma/input.sass
+<===> error/no_parens/trailing_comma/input.sass
 a
   b: c,
      d,
 
-<===> error/no-parens/trailing-comma/error
+<===> error/no_parens/trailing_comma/error
 Error: expected ":".
   ,
 3 |      d,

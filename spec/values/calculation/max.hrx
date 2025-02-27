@@ -211,6 +211,17 @@ a {
   b: 3.4px;
 }
 
+<===> simplified/operation/unitless_and_real/warning
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, max() will be interpreted as the CSS max() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.max() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: max(1px, 2.5 + 0.9px)}
+  |                ^^^^^^^^^^^
+  '
+    input.scss 1:16  root stylesheet
+
 <===>
 ================================================================================
 <===> preserved/math/first/input.scss
@@ -292,6 +303,17 @@ a {
   b: max(1%, 3.4px);
 }
 
+<===> preserved/operation/unitless_and_real/plus/warning
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, max() will be interpreted as the CSS max() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.max() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: max(1%, 2.5 + 0.9px)}
+  |               ^^^^^^^^^^^
+  '
+    input.scss 1:15  root stylesheet
+
 <===>
 ================================================================================
 <===> preserved/operation/unitless_and_real/minus/input.scss
@@ -302,6 +324,17 @@ a {
   b: max(1%, 1.6px);
 }
 
+<===> preserved/operation/unitless_and_real/minus/warning
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, max() will be interpreted as the CSS max() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.max() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: max(1%, 2.5 - 0.9px)}
+  |               ^^^^^^^^^^^
+  '
+    input.scss 1:15  root stylesheet
+
 <===>
 ================================================================================
 <===> preserved/operation/unitless_and_real/in_calc/input.scss
@@ -311,6 +344,17 @@ a {b: calc(max(1%, 2.5 + 0.9px))}
 a {
   b: max(1%, 3.4px);
 }
+
+<===> preserved/operation/unitless_and_real/in_calc/warning
+DEPRECATION WARNING [global-builtin]: In future versions of Sass, max() will be interpreted as the CSS max() calculation. This doesn't allow unitless numbers to be mixed with numbers with units. If you want to use the Sass function, call math.max() instead.
+
+See https://sass-lang.com/d/import
+
+  ,
+1 | a {b: calc(max(1%, 2.5 + 0.9px))}
+  |                    ^^^^^^^^^^^
+  '
+    input.scss 1:20  root stylesheet
 
 <===>
 ================================================================================
@@ -325,9 +369,12 @@ b {
 }
 
 <===> math/slash_as_division/warning
-DEPRECATION WARNING: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
+
 Recommendation: math.div(2px, max(1.5)) or calc(2px / max(1.5))
+
 More info and automated migrator: https://sass-lang.com/d/slash-div
+
   ,
 2 |   a: 2px / max(1.5);
   |      ^^^^^^^^^^^^^^
