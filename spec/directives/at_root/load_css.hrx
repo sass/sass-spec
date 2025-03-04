@@ -1,0 +1,18 @@
+<===> input.scss
+@use "sass:meta";
+
+a {
+  @include meta.load-css("other");
+}
+
+<===> other.scss
+@at-root {
+  b {
+    c: d;
+  }
+}
+
+<===> output.css
+a b {
+  c: d;
+}

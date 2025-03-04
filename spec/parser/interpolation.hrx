@@ -1,0 +1,92 @@
+<===> whitespace/after_open/input.sass
+a
+  b: #{
+    c}
+
+  
+<===> whitespace/after_open/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/after_val/input.sass
+a
+  b: #{c
+    }
+
+  
+<===> whitespace/after_val/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/between_vals/input.sass
+a
+  b: #{c
+    d}
+
+<===> whitespace/between_vals/output.css
+a {
+  b: c d;
+}
+
+<===>
+================================================================================
+<===> error/partial_bracket/scss/input.scss
+[a#{"]:is(b"}) {c:d}
+ 
+<===> error/partial_bracket/scss/error
+Error: expected "]".
+  ,
+1 | [a#{"]:is(b"}) {c:d}
+  |              ^
+  '
+  input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/partial_bracket/sass/input.sass
+[a#{"]:is(b"})
+  c: d
+ 
+<===> error/partial_bracket/sass/error
+Error: expected "]".
+  ,
+1 | [a#{"]:is(b"})
+  |              ^
+  '
+  input.sass 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector/unmatched_close_paren/input.sass
+a:is(b))
+  c: d
+
+  
+<===> error/selector/unmatched_close_paren/error
+Error: Unexpected ")".
+  ,
+1 | a:is(b))
+  |        ^
+  '
+  input.sass 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> error/selector/unmatched_close_bracket/input.sass
+a[b]]
+  c: d
+
+  
+<===> error/selector/unmatched_close_bracket/error
+Error: Unexpected "]".
+  ,
+1 | a[b]]
+  |     ^
+  '
+  input.sass 1:5  root stylesheet

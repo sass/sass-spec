@@ -11,21 +11,6 @@
 
 <===>
 ================================================================================
-<===> error/empty_placeholder/input.scss
-% {
-  a: b;
-}
-
-<===> error/empty_placeholder/error
-Error: Expected identifier.
-  ,
-1 | % {
-  |  ^
-  '
-  input.scss 1:2  root stylesheet
-
-<===>
-================================================================================
 <===> inline/input.sass
 a, b
     c: d
@@ -50,13 +35,85 @@ b {
 
 <===>
 ================================================================================
-<===> whitespace/input.sass
-a,
-        b
+<===> newline/no_comma/input.sass
+a
+b
   c: d
 
-<===> whitespace/output.css
+<===> newline/no_comma/output.css
+b {
+  c: d;
+}
+
+<===> newline/no_comma/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a
+  | ^
+  '
+    input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/after_comma/input.sass
+a,
+b
+  c: d
+
+<===> newline/after_comma/output.css
 a,
 b {
   c: d;
 }
+
+<===>
+================================================================================
+<===> newline/after_comma_indented/input.sass
+a,
+    b
+  c: d
+
+<===> newline/after_comma_indented/output.css
+a,
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> error/newline/before_comma/input.sass
+a
+,b
+  c: d
+
+<===> error/newline/before_comma/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a
+  | ^
+  '
+    input.sass 1:1  root stylesheet
+
+Error: expected selector.
+  ,
+1 | a
+  |  ^
+  '
+  input.sass 1:2  root stylesheet
+
+<===>
+================================================================================
+<===> error/empty_placeholder/input.scss
+% {
+  a: b;
+}
+
+<===> error/empty_placeholder/error
+Error: Expected identifier.
+  ,
+1 | % {
+  |  ^
+  '
+  input.scss 1:2  root stylesheet

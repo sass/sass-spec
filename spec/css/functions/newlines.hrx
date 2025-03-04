@@ -1,0 +1,105 @@
+<===> value/before/input.sass
+a
+  b: c(
+     d)
+
+<===> value/before/output.css
+a {
+  b: c(d);
+}
+
+<===>
+================================================================================
+<===> value/after/input.sass
+a
+  b: c(d
+      )
+
+<===> value/after/output.css
+a {
+  b: c(d);
+}
+
+<===>
+================================================================================
+<===> value/between/input.sass
+a
+  b: c(d
+      e)
+
+<===> value/between/output.css
+a {
+  b: c(d e);
+}
+
+<===>
+================================================================================
+<===> comma/before/input.sass
+a
+  b: c(d
+      ,e)
+
+<===> comma/before/output.css
+a {
+  b: c(d, e);
+}
+
+<===>
+================================================================================
+<===> comma/after/input.sass
+a
+  b: c(d,
+      e)
+
+<===> comma/after/output.css
+a {
+  b: c(d, e);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/before/input.sass
+a
+  b: c(d
+      ,)
+
+<===> trailing_comma/before/output.css
+a {
+  b: c(d);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/after/input.sass
+a
+  b: c(d,
+      )
+
+<===> trailing_comma/after/output.css
+a {
+  b: c(d);
+}
+
+<===>
+================================================================================
+<===> slash/before/input.sass
+a
+  b: c(d
+      / e)
+
+<===> slash/before/output.css
+a {
+  b: c(d/e);
+}
+
+<===>
+================================================================================
+<===> slash/after/input.sass
+a
+  b: c(d /
+      e)
+
+<===> slash/after/output.css
+a {
+  b: c(d/e);
+}

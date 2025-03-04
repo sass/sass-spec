@@ -1,0 +1,269 @@
+<===> before_url/scss/input.scss
+@forward
+  "other"
+
+<===> before_url/scss/other.scss
+
+<===> before_url/scss/output.css
+
+<===>
+================================================================================
+<===> before_url/sass/input.sass
+@forward
+  "other"
+
+<===> before_url/sass/other.scss
+
+<===> before_url/sass/output.css
+
+<===>
+================================================================================
+<===> before_keyword/scss/input.scss
+@forward "other"
+  as a-*
+
+<===> before_keyword/scss/other.scss
+
+<===> before_keyword/scss/output.css
+
+<===>
+================================================================================
+<===> error/before_keyword/sass/input.sass
+@forward "other"
+  as a-*
+
+<===> error/before_keyword/sass/other.scss
+
+<===> error/before_keyword/sass/error
+Error: Nothing may be indented beneath a @forward rule.
+  ,
+2 |   as a-*
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> after_keyword/scss/input.scss
+@forward "other" as
+  a-*
+
+<===> after_keyword/scss/other.scss
+
+<===> after_keyword/scss/output.css
+
+<===>
+================================================================================
+<===> after_keyword/sass/input.sass
+@forward "other" as
+  a-*
+
+<===> after_keyword/sass/other.scss
+
+<===> after_keyword/sass/output.css
+
+<===>
+================================================================================
+<===> after_open_paren/scss/input.scss
+@forward "other" with (
+  $a: b)
+
+<===> after_open_paren/scss/other.scss
+$a: 1 !default
+
+<===> after_open_paren/scss/output.css
+
+<===>
+================================================================================
+<===> after_paren/sass/input.sass
+@forward "other" with (
+  $a: b)
+
+<===> after_paren/sass/other.scss
+$a: 1 !default
+
+<===> after_paren/sass/output.css
+
+<===>
+================================================================================
+<===> before_colon/scss/input.scss
+@forward "other" with ($a
+  : b)
+
+<===> before_colon/scss/other.scss
+$a: 1 !default
+
+<===> before_colon/scss/output.css
+
+<===>
+================================================================================
+<===> before_colon/sass/input.sass
+@forward "other" with ($a
+  : b)
+
+<===> before_colon/sass/other.scss
+$a: 1 !default
+
+<===> before_colon/sass/output.css
+
+<===>
+================================================================================
+<===> after_colon/scss/input.scss
+@forward "other" with ($a:
+  b)
+
+<===> after_colon/scss/other.scss
+$a: 1 !default
+
+<===> after_colon/scss/output.css
+
+<===>
+================================================================================
+<===> after_colon/sass/input.sass
+@forward "other" with ($a:
+  b)
+
+<===> after_colon/sass/other.scss
+$a: 1 !default
+
+<===> after_colon/sass/output.css
+
+<===>
+================================================================================
+<===> after_variable_comma/scss/input.scss
+@forward "other" with ($a: b,
+  $c: d)
+
+<===> after_variable_comma/scss/other.scss
+$a: 1 !default;
+$c: 1 !default
+
+<===> after_variable_comma/scss/output.css
+
+<===>
+================================================================================
+<===> after_variable_comma/sass/input.sass
+@forward "other" with ($a: b,
+  $c: d)
+
+<===> after_variable_comma/sass/other.sass
+$a: 1 !default
+$c: 1 !default
+
+<===> after_variable_comma/sass/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/scss/input.scss
+@forward "other" with ($a: b
+  )
+
+<===> before_close_paren/scss/other.scss
+$a: 1 !default
+
+<===> before_close_paren/scss/output.css
+
+<===>
+================================================================================
+<===> before_close_paren/sass/input.sass
+@forward "other" with ($a: b
+  )
+
+<===> before_close_paren/sass/other.scss
+$a: 1 !default
+
+<===> before_close_paren/sass/output.css
+
+<===>
+================================================================================
+<===> before_default/scss/input.scss
+@forward "other" with ($a: b
+  !default)
+
+<===> before_default/scss/other.scss
+$a: 1 !default
+
+<===> before_default/scss/output.css
+
+<===>
+================================================================================
+<===> before_default/sass/input.sass
+@forward "other" with ($a: b
+  !default)
+
+<===> before_default/sass/other.scss
+$a: 1 !default
+
+<===> before_default/sass/output.css
+
+<===>
+================================================================================
+<===> after_default/scss/input.scss
+@forward "other" with ($a: b !default
+  )
+
+<===> after_default/scss/other.scss
+$a: 1 !default
+
+<===> after_default/scss/output.css
+
+<===>
+================================================================================
+<===> after_default/sass/input.sass
+@forward "other" with ($a: b !default
+  )
+
+<===> after_default/sass/other.scss
+$a: 1 !default
+
+<===> after_default/sass/output.css
+
+<===>
+================================================================================
+<===> show/after_show/sass/input.sass
+@forward "other" show
+  $a
+
+<===> show/after_show/sass/other.scss
+$a: 1 !default
+
+<===> show/after_show/sass/output.css
+
+<===>
+================================================================================
+<===> show/after_a/sass/input.sass
+@forward "other" show $a
+  , $b
+
+<===> show/after_a/sass/other.scss
+$a: 1 !default
+
+<===> show/after_a/sass/error
+Error: Nothing may be indented beneath a @forward rule.
+  ,
+2 |   , $b
+  |   ^
+  '
+  input.sass 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> show/after_comma/sass/input.sass
+@forward "other" show $a,
+  $b
+
+<===> show/after_comma/sass/other.scss
+$a: 1 !default
+
+<===> show/after_comma/sass/output.css
+
+<===>
+================================================================================
+<===> hide/after_hide/sass/input.sass
+@forward "other" hide
+  $a
+
+<===> hide/after_hide/sass/other.scss
+$a: 1 !default
+
+<===> hide/after_hide/sass/output.css

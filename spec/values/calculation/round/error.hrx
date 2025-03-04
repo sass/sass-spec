@@ -34,7 +34,7 @@ Error: Only 3 arguments allowed, but 4 were passed.
 a {b: round($number: var(--c))}
 
 <===> one_argument/sass_script/variable_named_argument/error
-DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use math.round instead.
 
 More info and automated migrator: https://sass-lang.com/d/import
@@ -54,24 +54,11 @@ Error: $number: var(--c) is not a number.
 
 <===>
 ================================================================================
-<===> one_argument/unsimplifiable/input.scss
-a {b: round(1px + 2px - var(--c))}
-
-<===> one_argument/unsimplifiable/error
-Error: Single argument 3px - var(--c) expected to be simplifiable.
-  ,
-1 | a {b: round(1px + 2px - var(--c))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
 <===> one_argument/type/input.scss
 a {b: round("0")}
 
 <===> one_argument/type/error
-DEPRECATION WARNING: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use math.round instead.
 
 More info and automated migrator: https://sass-lang.com/d/import

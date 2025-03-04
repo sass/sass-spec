@@ -1,0 +1,62 @@
+<===> after_paren/input.sass
+@use "sass:list";
+a 
+  b: list.append(
+    c d, e)
+
+<===> after_paren/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> after_value/input.sass
+@use "sass:list";
+a 
+  b: list.append(c
+     d, e)
+
+<===> after_value/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> before_comma/input.sass
+@use "sass:list";
+a 
+  b: list.append(c d
+     , e)
+
+<===> before_comma/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> after_comma/input.sass
+@use "sass:list";
+a 
+  b: list.append(c d,
+     e)
+
+<===> after_comma/output.css
+a {
+  b: c d e;
+}
+
+<===>
+================================================================================
+<===> before_paren/input.sass
+@use "sass:list";
+a 
+  b: list.append(c d, e
+     )
+
+<===> before_paren/output.css
+a {
+  b: c d e;
+}

@@ -1,0 +1,106 @@
+<===> README.md
+Most of the same behavior tested for `calc()` applies to `calc-size()`, but for
+terseness' sake isn't tested explicitly.
+
+<===>
+================================================================================
+<===> one_arg/input.scss
+a {b: calc-size(var(--foo))}
+
+<===> one_arg/output.css
+a {
+  b: calc-size(var(--foo));
+}
+
+<===>
+================================================================================
+<===> unsimplified/input.scss
+a {b: calc-size(auto, 5% - 20px + size)}
+
+<===> unsimplified/output.css
+a {
+  b: calc-size(auto, 5% - 20px + size);
+}
+
+<===>
+================================================================================
+<===> simplified/input.scss
+a {b: calc-size(auto, 100px - 20px + size)}
+
+<===> simplified/output.css
+a {
+  b: calc-size(auto, 80px + size);
+}
+
+<===>
+================================================================================
+<===> case_insensitive/input.scss
+a {b: CaLc-size(auto, size - 20px)}
+
+<===> case_insensitive/output.css
+a {
+  b: calc-size(auto, size - 20px);
+}
+
+<===>
+================================================================================
+<===> overridden/input.scss
+@function calc-size($arg) {@return $arg}
+a {b: calc-size(1)}
+
+<===> overridden/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/too_few_args/input.scss
+a {b: calc-size()}
+
+<===> error/too_few_args/error
+Error: Missing argument.
+  ,
+1 | a {b: calc-size()}
+  |       ^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/too_many_args/input.scss
+a {b: calc-size(auto, 0, 0)}
+
+<===> error/too_many_args/error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,
+1 | a {b: calc-size(auto, 0, 0)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/invalid_arg/input.scss
+a {b: calc-size(auto, $)}
+
+<===> error/syntax/invalid_arg/error
+Error: Expected identifier.
+  ,
+1 | a {b: calc-size(auto, $)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass_script/input.scss
+a {b: calc-size(auto, 7 % 3)}
+
+<===> error/sass_script/error
+Error: This operation can't be used in a calculation.
+  ,
+1 | a {b: calc-size(auto, 7 % 3)}
+  |                         ^
+  '
+  input.scss 1:25  root stylesheet
