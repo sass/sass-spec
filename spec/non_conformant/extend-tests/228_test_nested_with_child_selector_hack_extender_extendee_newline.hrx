@@ -3,32 +3,10 @@
 flip,
 > foo bar {@extend .foo}
 
-<===> output.css
-> .foo, > flip,
-> foo bar {
-  a: b;
-}
-
-<===> warning
-DEPRECATION WARNING [bogus-combinators]: The selector "> .foo" is invalid CSS.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
+<===> error
+Error: This selector is invalid CSS.
   ,
 1 | > .foo {a: b}
   | ^^^^^^
   '
-    input.scss 1:1  root stylesheet
-
-DEPRECATION WARNING [bogus-combinators]: The selector "> foo bar" is invalid CSS and shouldn't be an extender.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
-  ,
-3 | > foo bar {@extend .foo}
-  | ^^^^^^^^^ invalid selector
-  |            ============ @extend rule
-  '
-    input.scss 3:1  root stylesheet
+  input.scss 1:1  root stylesheet

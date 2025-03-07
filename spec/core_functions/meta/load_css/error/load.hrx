@@ -28,9 +28,13 @@ Error: Can't find stylesheet to import.
 
 <===> loop/error
 Error: Module loop: input.scss is already being loaded.
-  ,
+  ,--> _other.scss
 2 | @include meta.load-css("input");
-  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("other");
+  | =============================== invocation
   '
   _other.scss 2:1  load-css()
   input.scss 2:1   root stylesheet

@@ -13,18 +13,14 @@ ul > {
   @include odd( li, 5 ) { background: #ccc;  }
 }
 
-<===> output.css
-
-<===> warning
-DEPRECATION WARNING [bogus-combinators]: The selector "ul > + li + li:first-child + li + li" is invalid CSS and can't be an extender.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
-  ,
-7 |     #{$selector} { @extend %#{$placeholder}; }
-  |     ^^^^^^^^^^^^ invalid selector
-  |                    ======================== @extend rule
-  '
-    input.scss 7:5   odd()
-    input.scss 12:3  root stylesheet
+<===> error
+Error: The selector "ul > +" is invalid CSS.
+    ,
+6   |   #{$selector}:first-child {
+    |     ^^^^^^^^^ parent selector
+... |
+11  | ul > {
+    | ==== outer selector
+    '
+  input.scss 6:5   odd()
+  input.scss 12:3  root stylesheet

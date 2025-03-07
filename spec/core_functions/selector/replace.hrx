@@ -228,14 +228,13 @@ a {b: selector.replace("&", "c", "d")}
 Error: $selector: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("&", "c", "d")}
+  |       =============================== invocation
   '
   - 1:1  root stylesheet
-  ,
-2 | a {b: selector.replace("&", "c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -247,14 +246,13 @@ a {b: selector.replace("[c", "d", "e")}
 Error: $selector: expected more input.
   ,
 1 | [c
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("[c", "d", "e")}
+  |       ================================ invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.replace("[c", "d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -281,14 +279,13 @@ a {b: selector.replace("c", "&", "d")}
 Error: $original: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("c", "&", "d")}
+  |       =============================== invocation
   '
   - 1:1  root stylesheet
-  ,
-2 | a {b: selector.replace("c", "&", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -328,14 +325,13 @@ a {b: selector.replace("c", "[d", "e")}
 Error: $original: expected more input.
   ,
 1 | [d
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("c", "[d", "e")}
+  |       ================================ invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.replace("c", "[d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -362,14 +358,13 @@ a {b: selector.replace("c", "d", "&")}
 Error: $replacement: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("c", "d", "&")}
+  |       =============================== invocation
   '
   - 1:1  root stylesheet
-  ,
-2 | a {b: selector.replace("c", "d", "&")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -381,14 +376,13 @@ a {b: selector.replace("c", "d", "[e")}
 Error: $replacement: expected more input.
   ,
 1 | [e
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.replace("c", "d", "[e")}
+  |       ================================ invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.replace("c", "d", "[e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

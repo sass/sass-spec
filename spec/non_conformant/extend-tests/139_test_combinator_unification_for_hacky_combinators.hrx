@@ -2,28 +2,10 @@
 .a ~ > + .b > x {a: b}
 .c > + .d > y {@extend x}
 
-<===> output.css
-
-<===> warning
-DEPRECATION WARNING [bogus-combinators]: The selector ".a ~ > + .b > x" is invalid CSS. It will be omitted from the generated CSS.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
+<===> error
+Error: expected selector.
   ,
 1 | .a ~ > + .b > x {a: b}
-  | ^^^^^^^^^^^^^^^
+  |      ^
   '
-    input.scss 1:1  root stylesheet
-
-DEPRECATION WARNING [bogus-combinators]: The selector ".c > + .d > y" is invalid CSS and can't be an extender.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
-  ,
-2 | .c > + .d > y {@extend x}
-  | ^^^^^^^^^^^^^ invalid selector
-  |                ========= @extend rule
-  '
-    input.scss 2:1  root stylesheet
+  input.scss 1:6  root stylesheet

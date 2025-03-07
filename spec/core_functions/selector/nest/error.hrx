@@ -20,14 +20,13 @@ a {b: selector.nest("&")}
 Error: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("&")}
+  |       ================== invocation
   '
   - 1:1  root stylesheet
-  ,
-2 | a {b: selector.nest("&")}
-  |       ^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -39,14 +38,13 @@ a {b: selector.nest("c", "[d]&")}
 Error: "&" may only used at the beginning of a compound selector.
   ,
 1 | [d]&
-  |    ^
+  |    ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("c", "[d]&")}
+  |       ========================== invocation
   '
   - 1:4  root stylesheet
-  ,
-2 | a {b: selector.nest("c", "[d]&")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -58,14 +56,35 @@ a {b: selector.nest("c", "d&")}
 Error: "&" may only used at the beginning of a compound selector.
   ,
 1 | d&
-  |  ^
+  |  ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("c", "d&")}
+  |       ======================== invocation
   '
   - 1:2  root stylesheet
+
+<===>
+================================================================================
+<===> combinator/leading_and_trailing/input.scss
+@use "sass:selector";
+a {b: selector.nest("c +", "+ d")}
+
+<===> combinator/leading_and_trailing/error
+Error: The selector "c + + d" is invalid CSS.
   ,
-2 | a {b: selector.nest("c", "d&")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+1 | + d
+  | ^^^ inner selector
   '
-  input.scss 2:7  root stylesheet
+  ,
+1 | c +
+  | === outer selector
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("c +", "+ d")}
+  |       =========================== invocation
+  '
+  - 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -77,14 +96,13 @@ a {b: selector.nest("[c")}
 Error: expected more input.
   ,
 1 | [c
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("[c")}
+  |       =================== invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.nest("[c")}
-  |       ^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -96,14 +114,13 @@ a {b: selector.nest("c", "[d")}
 Error: expected more input.
   ,
 1 | [d
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.nest("c", "[d")}
+  |       ======================== invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.nest("c", "[d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

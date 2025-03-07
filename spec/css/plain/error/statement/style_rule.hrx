@@ -117,9 +117,13 @@ a {@include meta.load-css("plain")}
 
 <===> leading_combinator/through_load_css/error
 Error: Top-level leading combinators aren't allowed in plain CSS.
-  ,
+  ,--> plain.css
 1 | > b {c: d}
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+3 | a {@include meta.load-css("plain")}
+  |    =============================== invocation
   '
   plain.css 1:1   load-css()
   input.scss 3:4  root stylesheet
