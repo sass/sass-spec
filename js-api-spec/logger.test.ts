@@ -14,23 +14,11 @@ it('emits debug to stderr by default', () => {
   expect(stdio.err).not.toBe('');
 });
 
-describe('deprecation warning', () => {
-  // Regression test for sass/dart-sass#1790
-  it('passes the message and span to the logger', done => {
-    compileString('* > { --foo: bar }', {
-      logger: {
-        warn(message: string, {span}: {span?: SourceSpan}) {
-          expect(message).toContain('only valid for nesting');
-          expect(span?.start.line).toBe(0);
-          expect(span?.start.column).toBe(0);
-          expect(span?.end.line).toBe(0);
-          expect(span?.end.column).toBe(3);
-          done();
-        },
-      },
-    });
-  });
-});
+// TODO: Revive this test from Git history once we add new, post-2.0.0
+// deprecations.
+//
+// describe('deprecation warning', () => {
+// });
 
 describe('with @warn', () => {
   it('passes the message and stack trace to the logger', done => {

@@ -2,20 +2,11 @@
 .foo .bar {a: b}
 > foo bar {@extend .bar}
 
-<===> output.css
-.foo .bar, > .foo foo bar, > foo .foo bar {
-  a: b;
-}
-
-<===> warning
-DEPRECATION WARNING [bogus-combinators]: The selector "> foo bar" is invalid CSS and shouldn't be an extender.
-This will be an error in Dart Sass 2.0.0.
-
-More info: https://sass-lang.com/d/bogus-combinators
-
+<===> error
+Error: This selector is invalid CSS and can't be an extender.
   ,
 2 | > foo bar {@extend .bar}
   | ^^^^^^^^^ invalid selector
   |            ============ @extend rule
   '
-    input.scss 2:1  root stylesheet
+  input.scss 2:1  root stylesheet

@@ -306,38 +306,6 @@ a {
 
 <===>
 ================================================================================
-<===> complex/bogus/multiple/middle/input.scss
-@use "sass:selector";
-$result: selector.parse("b + ~ c");
-a {
-  result: $result;
-  structure: $result == (b "+" "~" c,);
-}
-
-<===> complex/bogus/multiple/middle/output.css
-a {
-  result: b + ~ c;
-  structure: true;
-}
-
-<===>
-================================================================================
-<===> complex/bogus/multiple/trailing/input.scss
-@use "sass:selector";
-$result: selector.parse("b ~~");
-a {
-  result: $result;
-  structure: $result == (b "~" "~",);
-}
-
-<===> complex/bogus/multiple/trailing/output.css
-a {
-  result: b ~ ~;
-  structure: true;
-}
-
-<===>
-================================================================================
 <===> complex/bogus/only/input.scss
 @use "sass:list";
 @use "sass:selector";

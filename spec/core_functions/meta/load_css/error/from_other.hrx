@@ -7,9 +7,13 @@ a {b: }
 
 <===> syntax/error
 Error: Expected expression.
-  ,
+  ,--> _other.scss
 1 | a {b: }
-  |       ^
+  |       ^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("other");
+  | =============================== invocation
   '
   _other.scss 1:7  load-css()
   input.scss 2:1   root stylesheet
@@ -25,9 +29,13 @@ a {b: 1px + 1em}
 
 <===> runtime/error
 Error: 1px and 1em have incompatible units.
-  ,
+  ,--> _other.scss
 1 | a {b: 1px + 1em}
-  |       ^^^^^^^^^
+  |       ^^^^^^^^^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("other");
+  | =============================== invocation
   '
   _other.scss 1:7  load-css()
   input.scss 2:1   root stylesheet
@@ -44,9 +52,13 @@ a {@extend missing}
 <===> extend/error
 Error: The target selector was not found.
 Use "@extend missing !optional" to avoid this error.
-  ,
+  ,--> _other.scss
 1 | a {@extend missing}
-  |    ^^^^^^^^^^^^^^^
+  |    ^^^^^^^^^^^^^^^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("other");
+  | =============================== invocation
   '
   _other.scss 1:4  load-css()
   input.scss 2:1   root stylesheet

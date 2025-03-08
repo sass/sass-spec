@@ -6,14 +6,49 @@ a {b: selector.extend("&", "c", "d")}
 Error: $selector: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("&", "c", "d")}
+  |       ============================== invocation
   '
   - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> selector/combinator_only/input.scss
+@use "sass:selector";
+a {b: selector.extend("+", ".c", ".d")}
+
+<===> selector/combinator_only/error
+Error: $selector: Selectors that aren't valid on their own aren't allowed in this function.
   ,
-2 | a {b: selector.extend("&", "c", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | +
+  | ^ 
   '
-  input.scss 2:7  root stylesheet
+  ,--> input.scss
+2 | a {b: selector.extend("+", ".c", ".d")}
+  |       ================================ invocation
+  '
+  - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> selector/trailing_combinator/input.scss
+@use "sass:selector";
+a {b: selector.extend(".a +", ".c", ".d")}
+
+<===> selector/trailing_combinator/error
+Error: $selector: Selectors that aren't valid on their own aren't allowed in this function.
+  ,
+1 | .a +
+  | ^^^^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend(".a +", ".c", ".d")}
+  |       =================================== invocation
+  '
+  - 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -25,14 +60,13 @@ a {b: selector.extend("[c", "d", "e")}
 Error: $selector: expected more input.
   ,
 1 | [c
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("[c", "d", "e")}
+  |       =============================== invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.extend("[c", "d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -59,14 +93,67 @@ a {b: selector.extend("c", "&", "d")}
 Error: $extendee: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("c", "&", "d")}
+  |       ============================== invocation
   '
   - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/combinator_only/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", ">", ".a")}
+
+<===> extendee/combinator_only/error
+Error: $extendee: Selectors that aren't valid on their own aren't allowed in this function.
   ,
-2 | a {b: selector.extend("c", "&", "d")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | >
+  | ^ 
   '
-  input.scss 2:7  root stylesheet
+  ,--> input.scss
+2 | a {b: selector.extend(".c", ">", ".a")}
+  |       ================================ invocation
+  '
+  - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/leading_combinator/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", "> .c", ".a")}
+
+<===> extendee/leading_combinator/error
+Error: $extendee: Selectors that aren't valid on their own aren't allowed in this function.
+  ,
+1 | > .c
+  | ^^^^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend(".c", "> .c", ".a")}
+  |       =================================== invocation
+  '
+  - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> extendee/trailing_combinator/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", ".c >", ".a")}
+
+<===> extendee/trailing_combinator/error
+Error: $extendee: Selectors that aren't valid on their own aren't allowed in this function.
+  ,
+1 | .c >
+  | ^^^^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend(".c", ".c >", ".a")}
+  |       =================================== invocation
+  '
+  - 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -106,14 +193,13 @@ a {b: selector.extend("c", "[d", "e")}
 Error: $extendee: expected more input.
   ,
 1 | [d
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("c", "[d", "e")}
+  |       =============================== invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.extend("c", "[d", "e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -140,14 +226,69 @@ a {b: selector.extend("c", "d", "&")}
 Error: $extender: Parent selectors aren't allowed here.
   ,
 1 | &
-  | ^
+  | ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("c", "d", "&")}
+  |       ============================== invocation
   '
   - 1:1  root stylesheet
+
+
+<===>
+================================================================================
+<===> extender/combinator_only/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", ".c", ">")}
+
+<===> extender/combinator_only/error
+Error: $extender: Selectors that aren't valid on their own aren't allowed in this function.
   ,
-2 | a {b: selector.extend("c", "d", "&")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | >
+  | ^ 
   '
-  input.scss 2:7  root stylesheet
+  ,--> input.scss
+2 | a {b: selector.extend(".c", ".c", ">")}
+  |       ================================ invocation
+  '
+  - 1:1  root stylesheet
+
+
+<===>
+================================================================================
+<===> extender/leading_combinator/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", ".c", "> .a")}
+
+<===> extender/leading_combinator/error
+Error: $extender: Selectors that aren't valid on their own aren't allowed in this function.
+  ,
+1 | > .a
+  | ^^^^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend(".c", ".c", "> .a")}
+  |       =================================== invocation
+  '
+  - 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> extender/trailing_combinator/input.scss
+@use "sass:selector";
+a {b: selector.extend(".c", ".c", ".a >")}
+
+<===> extender/trailing_combinator/error
+Error: $extender: Selectors that aren't valid on their own aren't allowed in this function.
+  ,
+1 | .a >
+  | ^^^^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend(".c", ".c", ".a >")}
+  |       =================================== invocation
+  '
+  - 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -159,14 +300,13 @@ a {b: selector.extend("c", "d", "[e")}
 Error: $extender: expected more input.
   ,
 1 | [e
-  |   ^
+  |   ^ 
+  '
+  ,--> input.scss
+2 | a {b: selector.extend("c", "d", "[e")}
+  |       =============================== invocation
   '
   - 1:3  root stylesheet
-  ,
-2 | a {b: selector.extend("c", "d", "[e")}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

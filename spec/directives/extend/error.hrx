@@ -37,6 +37,93 @@ See https://sass-lang.com/d/extend-compound for details.
 
 <===>
 ================================================================================
+<===> bogus/leading/input.scss
+a {b: c}
+> d {@extend a}
+
+<===> bogus/leading/error
+Error: This selector is invalid CSS and can't be an extender.
+  ,
+2 | > d {@extend a}
+  | ^^^ invalid selector
+  |      ========= @extend rule
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> bogus/trailing/input.scss
+a {b: c}
+d + {@extend a}
+
+<===> bogus/trailing/error
+Error: This selector is invalid CSS and can't be an extender.
+  ,
+2 | d + {@extend a}
+  | ^^^ invalid selector
+  |      ========= @extend rule
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> bogus/multi/leading/input.scss
+a {b: c}
++ ~ d {@extend a}
+
+<===> bogus/multi/leading/error
+Error: expected selector.
+  ,
+2 | + ~ d {@extend a}
+  |   ^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> bogus/multi/trailing/input.scss
+a {b: c}
+d > + {@extend a}
+
+<===> bogus/multi/trailing/error
+Error: expected selector.
+  ,
+2 | d > + {@extend a}
+  |     ^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> bogus/multi/middle/input.scss
+a {b: c}
+d ~ > c {@extend a}
+
+<===> bogus/multi/middle/error
+Error: expected selector.
+  ,
+2 | d ~ > c {@extend a}
+  |     ^
+  '
+  input.scss 2:5  root stylesheet
+
+<===>
+================================================================================
+<===> bogus/only/input.scss
+a {b: c}
++ {@extend a}
+
+<===> bogus/only/error
+Error: This selector is invalid CSS and can't be an extender.
+  ,
+2 | + {@extend a}
+  | ^ invalid selector
+  |    ========= @extend rule
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
 <===> no_selector/input.scss
 a {@extend}
 

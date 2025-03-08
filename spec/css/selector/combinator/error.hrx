@@ -1,0 +1,348 @@
+<===> leading/single/direct/input.scss
++ a {b: c}
+
+<===> leading/single/direct/error
+Error: This selector is invalid CSS.
+  ,
+1 | + a {b: c}
+  | ^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> leading/single/nested/input.scss
++ {
+  a {b: c}
+}
+
+<===> leading/single/nested/error
+Error: This selector is invalid CSS.
+  ,
+2 |   a {b: c}
+  |   ^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> leading/multiple/direct/input.scss
++ ~ a {b: c}
+
+<===> leading/multiple/direct/error
+Error: expected selector.
+  ,
+1 | + ~ a {b: c}
+  |   ^
+  '
+  input.scss 1:3  root stylesheet
+
+<===>
+================================================================================
+<===> leading/multiple/nested/input.scss
++ {
+  ~ a {b: c}
+}
+
+<===> leading/multiple/nested/error
+Error: The selector "+ ~ a" is invalid CSS.
+  ,
+1 | + {
+  | = outer selector
+2 |   ~ a {b: c}
+  |   ^^^ inner selector
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> trailing/single/direct/input.scss
+a + {b: c}
+
+<===> trailing/single/direct/error
+Error: This selector is only valid for nesting and shouldn't have children other than
+style rules.
+  ,
+1 | a + {b: c}
+  | ^^^ invalid selector
+  |      ==== this is not a style rule
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> trailing/single/nested/input.scss
+a {
+  + {b: c}
+}
+
+<===> trailing/single/nested/error
+Error: This selector is only valid for nesting and shouldn't have children other than
+style rules.
+  ,
+2 |   + {b: c}
+  |   ^ invalid selector
+  |      ==== this is not a style rule
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> trailing/multiple/direct/input.scss
+a > + {b: c}
+
+<===> trailing/multiple/direct/error
+Error: expected selector.
+  ,
+1 | a > + {b: c}
+  |     ^
+  '
+  input.scss 1:5  root stylesheet
+
+<===>
+================================================================================
+<===> trailing/multiple/nested/input.scss
+a > {
+  + {b: c}
+}
+
+<===> trailing/multiple/nested/error
+Error: The selector "a > +" is invalid CSS.
+  ,
+1 | a > {
+  | === outer selector
+2 |   + {b: c}
+  |   ^ inner selector
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> middle/multiple/direct/input.scss
+a > + b {c: d}
+
+<===> middle/multiple/direct/error
+Error: expected selector.
+  ,
+1 | a > + b {c: d}
+  |     ^
+  '
+  input.scss 1:5  root stylesheet
+
+<===>
+================================================================================
+<===> middle/multiple/nested/input.scss
+a > {
+  + b {c: d}
+}
+
+<===> middle/multiple/nested/error
+Error: The selector "a > + b" is invalid CSS.
+  ,
+1 | a > {
+  | === outer selector
+2 |   + b {c: d}
+  |   ^^^ inner selector
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> selector_pseudo/leading/input.scss
+:is(+ a) {b: c}
+
+<===> selector_pseudo/leading/error
+Error: expected selector.
+  ,
+1 | :is(+ a) {b: c}
+  |     ^
+  '
+  input.scss 1:5  root stylesheet
+
+<===>
+================================================================================
+<===> selector_pseudo/trailing/input.scss
+:is(a +) {b: c}
+
+<===> selector_pseudo/trailing/error
+Error: expected selector.
+  ,
+1 | :is(a +) {b: c}
+  |        ^
+  '
+  input.scss 1:8  root stylesheet
+
+<===>
+================================================================================
+<===> selector_pseudo/has/multiple/input.scss
+~ a {
+  :has(+ &) {b: c}
+}
+
+<===> selector_pseudo/has/multiple/error
+Error: The selector "+ ~ a" is invalid CSS.
+  ,
+1 | ~ a {
+  | === outer selector
+2 |   :has(+ &) {b: c}
+  |        ^^^ inner selector
+  '
+  input.scss 2:8  root stylesheet
+
+<===>
+================================================================================
+<===> selector_pseudo/has/trailing/input.scss
+:has(a +) {b: c}
+
+<===> selector_pseudo/has/trailing/error
+Error: expected selector.
+  ,
+1 | :has(a +) {b: c}
+  |         ^
+  '
+  input.scss 1:9  root stylesheet
+
+<===>
+================================================================================
+<===> only_one_bogus/input.scss
+a, + b {c: d}
+
+<===> only_one_bogus/error
+Error: This selector is invalid CSS.
+  ,
+1 | a, + b {c: d}
+  |    ^^^
+  '
+  input.scss 1:4  root stylesheet
+
+<===>
+================================================================================
+<===> newline/child/before/input.sass
+a 
+> b
+  c: d
+
+<===> newline/child/before/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a 
+  | ^^
+  '
+    input.sass 1:1  root stylesheet
+
+Error: This selector is invalid CSS.
+  ,
+2 | > b
+  | ^^^
+  '
+  input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/child/after/input.sass
+a >
+b
+  c: d
+
+<===> newline/child/after/output.css
+b {
+  c: d;
+}
+
+<===> newline/child/after/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a >
+  | ^^^
+  '
+    input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/next_sibling/before/input.sass
+a 
++ b
+  c: d
+
+<===> newline/next_sibling/before/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a 
+  | ^^
+  '
+    input.sass 1:1  root stylesheet
+
+Error: This selector is invalid CSS.
+  ,
+2 | + b
+  | ^^^
+  '
+  input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/next_sibling/after/input.sass
+a +
+b
+  c: d
+
+<===> newline/next_sibling/after/output.css
+b {
+  c: d;
+}
+
+<===> newline/next_sibling/after/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a +
+  | ^^^
+  '
+    input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/subsequent_sibling/before/input.sass
+a 
+~ b
+  c: d
+
+<===> newline/subsequent_sibling/before/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a 
+  | ^^
+  '
+    input.sass 1:1  root stylesheet
+
+Error: This selector is invalid CSS.
+  ,
+2 | ~ b
+  | ^^^
+  '
+  input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> newline/subsequent_sibling/after/input.sass
+a ~
+b
+  c: d
+
+<===> newline/subsequent_sibling/after/output.css
+b {
+  c: d;
+}
+
+<===> newline/subsequent_sibling/after/warning
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+1 | a ~
+  | ^^^
+  '
+    input.sass 1:1  root stylesheet
