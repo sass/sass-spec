@@ -80,3 +80,45 @@ describe('rejects a function signature that', () => {
   it('has no closing parenthesis', () => rejectsSignature('foo('));
   it('has a non-identifier name', () => rejectsSignature('$foo()'));
 });
+
+it('rejects a compiler function from a different compilation', () => {
+  let plusOne: Value | undefined;
+  compileString(
+    `
+    @use 'sass:meta';
+
+    @function plusOne($n) {@return $n + 1}
+    a {b: meta.call(foo(meta.get-function('plusOne')), 2)}
+  `,
+    {
+      functions: {
+        'foo($arg)': (args: Value[]) => {
+          plusOne = args[0];
+          return plusOne;
+        },
+      },
+    }
+  );
+
+  let plusTwo;
+  expect(() => {
+    compileString(
+      `
+      @use 'sass:meta';
+
+      @function plusTwo($n) {@return $n + 2}
+      a {b: meta.call(foo(meta.get-function('plusTwo')), 2)}
+    `,
+      {
+        functions: {
+          'foo($arg)': (args: Value[]) => {
+            plusTwo = args[0];
+            return plusOne!;
+          },
+        },
+      }
+    );
+  }).toThrowSassException({line: 4});
+
+  expect(plusOne).not.toEqual(plusTwo);
+});
