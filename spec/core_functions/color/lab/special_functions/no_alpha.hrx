@@ -145,6 +145,42 @@ a {
 
 <===>
 ================================================================================
+<===> attr/arg_1/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(attr(c, %) 2 3));
+
+<===> attr/arg_1/output.css
+a {
+  value: lab(attr(c, %) 2 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> attr/arg_2/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% attr(c, %) 3));
+
+<===> attr/arg_2/output.css
+a {
+  value: lab(1% attr(c, %) 3);
+  type: string;
+}
+
+<===>
+================================================================================
+<===> attr/arg_3/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lab(1% 2 attr(c, %)));
+
+<===> attr/arg_3/output.css
+a {
+  value: lab(1% 2 attr(c, %));
+  type: string;
+}
+
+<===>
+================================================================================
 <===> min/string/arg_1/input.scss
 @use "sass:string";
 @use 'core_functions/color/utils';
