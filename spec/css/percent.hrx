@@ -1,0 +1,87 @@
+<===> declaration/alone/input.scss
+a {b: %}
+
+<===> declaration/alone/output.css
+a {
+  b: %;
+}
+
+<===>
+================================================================================
+<===> declaration/before/input.scss
+a {b: % c}
+
+<===> declaration/before/output.css
+a {
+  b: % c;
+}
+
+<===>
+================================================================================
+<===> declaration/after/input.scss
+a {b: c %}
+
+<===> declaration/after/output.css
+a {
+  b: c %;
+}
+
+<===>
+================================================================================
+<===> function/alone/input.scss
+a {b: c(%)}
+
+<===> function/alone/output.css
+a {
+  b: c(%);
+}
+
+<===>
+================================================================================
+<===> function/before/input.scss
+a {b: c(% d)}
+
+<===> function/before/output.css
+a {
+  b: c(% d);
+}
+
+<===>
+================================================================================
+<===> function/after/input.scss
+a {b: c(d %)}
+
+<===> function/after/output.css
+a {
+  b: c(d %);
+}
+
+<===>
+================================================================================
+<===> indented/after/input.sass
+a
+  b: 3 %
+  2
+
+<===> indented/after/output.css
+a {
+  b: 1;
+}
+
+<===>
+================================================================================
+<===> error/indented/after/input.sass
+// This could potentially be parsed as a declaration followed by an empty style
+// rule, but this is forbidden by the spec to avoid parser backtracking.
+a
+  b: c %
+  d
+
+<===> error/indented/after/error
+Error: Undefined operation "c % d".
+  ,
+4 |     b: c %
+  | ,------^
+5 | \   d
+  '
+  input.sass 4:6  root stylesheet
