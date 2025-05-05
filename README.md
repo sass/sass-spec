@@ -297,7 +297,7 @@ In addition to the Sass language itself, the Sass specification describes a
 JavaScript. This repository also contains tests for the JavaScript API, located
 in the `js-api-spec` directory.
 
-[JavaScript API]: https://github.com/sass/sass/blob/main/spec/js-api/index.d.ts
+[JavaScript API]: https://github.com/sass/sass/blob/main/spec/js-api/index.d.ts.md
 
 ### Running JS API Specs
 
