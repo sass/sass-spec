@@ -85,11 +85,11 @@ it('rejects a compiler function from a different compilation', () => {
   let plusOne: Value | undefined;
   compileString(
     `
-    @use 'sass:meta';
+      @use 'sass:meta';
 
-    @function plusOne($n) {@return $n + 1}
-    a {b: meta.call(foo(meta.get-function('plusOne')), 2)}
-  `,
+      @function plusOne($n) {@return $n + 1}
+      a {b: meta.call(foo(meta.get-function('plusOne')), 2)}
+    `,
     {
       functions: {
         'foo($arg)': (args: Value[]) => {
