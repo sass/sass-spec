@@ -104,11 +104,11 @@ it('rejects a compiler function from a different compilation', () => {
   expect(() => {
     compileString(
       `
-      @use 'sass:meta';
+        @use 'sass:meta';
 
-      @function plusTwo($n) {@return $n + 2}
-      a {b: meta.call(foo(meta.get-function('plusTwo')), 2)}
-    `,
+        @function plusTwo($n) {@return $n + 2}
+        a {b: meta.call(foo(meta.get-function('plusTwo')), 2)}
+      `,
       {
         functions: {
           'foo($arg)': (args: Value[]) => {

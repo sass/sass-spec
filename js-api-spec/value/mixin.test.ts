@@ -49,16 +49,16 @@ it('rejects a compiler mixin from a different compilation', () => {
   let a: Value | undefined;
   compileString(
     `
-    @use 'sass:meta';
+      @use 'sass:meta';
 
-    @mixin a() {
-      a {
-        b: c;
+      @mixin a() {
+        a {
+          b: c;
+        }
       }
-    }
 
-    @include meta.apply(foo(meta.get-mixin('a')));
-  `,
+      @include meta.apply(foo(meta.get-mixin('a')));
+    `,
     {
       functions: {
         'foo($arg)': (args: Value[]) => {
@@ -73,15 +73,15 @@ it('rejects a compiler mixin from a different compilation', () => {
   expect(() => {
     compileString(
       `
-      @use 'sass:meta';
+        @use 'sass:meta';
 
-      @mixin b() {
-        c {
-          d: e;
+        @mixin b() {
+          c {
+            d: e;
+          }
         }
-      }
-      @include meta.apply(foo(meta.get-mixin('b')));
-    `,
+        @include meta.apply(foo(meta.get-mixin('b')));
+      `,
       {
         functions: {
           'foo($arg)': (args: Value[]) => {
