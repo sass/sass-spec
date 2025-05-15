@@ -206,6 +206,21 @@ describe('Node Package Importer', () => {
         });
       }));
 
+    it('allows multiple identical matching exported paths', () =>
+      testPackageImporter({
+        input: '@use "pkg:foo/src/sass/styles";',
+        output: 'a {b: c;}',
+        files: {
+          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+          'node_modules/foo/package.json': JSON.stringify({
+            exports: {
+              './*': {sass: './*'},
+              './src/*': {sass: './src/*'},
+            },
+          }),
+        },
+      }));
+
     it('throws if resolved path does not have a valid extension', () =>
       sandbox(dir => {
         dir.write({
