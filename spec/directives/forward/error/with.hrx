@@ -391,3 +391,31 @@ Error: This variable was not declared with !default in the @used module.
   |                            ^^^^^
   '
   input.scss 1:28  root stylesheet
+
+<===>
+================================================================================
+<===> already_configred_empty/input.scss
+// Regression test for sass/dart-sass#2598
+@use "upstream";
+@forward "midstream" with ($a: b);
+
+<===> already_configred_empty/_midstream.scss
+$a: c !default;
+@forward "upstream";
+
+<===> already_configred_empty/_upstream.scss
+
+<===> already_configred_empty/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> _midstream.scss
+2 | @forward "upstream";
+  | ^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+2 | @use "upstream";
+  | =============== original load
+3 | @forward "midstream" with ($a: b);
+  | ================================= configuration
+  '
+  _midstream.scss 2:1  @forward
+  input.scss 3:1       root stylesheet
