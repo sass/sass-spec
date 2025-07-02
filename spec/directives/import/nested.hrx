@@ -211,10 +211,10 @@ More info and automated migrator: https://sass-lang.com/d/import
 /* Y */
 
 <===> with_comment/_b.scss
-@import 'a'
+@import 'a';
 
 <===> with_comment/_c.scss
-@import 'a'
+@import 'a';
 
 <===> with_comment/output.css
 /* Y */
@@ -246,7 +246,7 @@ DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be remo
 More info and automated migrator: https://sass-lang.com/d/import
 
   ,
-1 | @import 'a'
+1 | @import 'a';
   |         ^^^
   '
     _b.scss 1:9     @import
@@ -257,8 +257,99 @@ DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be remo
 More info and automated migrator: https://sass-lang.com/d/import
 
   ,
-1 | @import 'a'
+1 | @import 'a';
   |         ^^^
   '
     _c.scss 1:9     @import
     input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/README.md
+These are regression tests for https://github.com/sass/dart-sass/issues/2588.
+
+<===>
+================================================================================
+<===> top_level_include_declaration/without_use/input.scss
+.a {
+  @import 'upstream';
+}
+
+<===> top_level_include_declaration/without_use/_upstream.scss
+@mixin a { b: c }
+@include a;
+
+<===> top_level_include_declaration/without_use/output.css
+.a {
+  b: c;
+}
+
+<===> top_level_include_declaration/without_use/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 |   @import 'upstream';
+  |           ^^^^^^^^^^
+  '
+    input.scss 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/with_use/input.scss
+.a {
+  @import 'upstream';
+}
+
+<===> top_level_include_declaration/with_use/_upstream.scss
+@use 'other';
+@mixin a { b: c }
+@include a;
+
+<===> top_level_include_declaration/with_use/other.scss
+// Intentionally empty.
+
+<===> top_level_include_declaration/with_use/output.css
+.a {
+  b: c;
+}
+
+<===> top_level_include_declaration/with_use/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 |   @import 'upstream';
+  |           ^^^^^^^^^^
+  '
+    input.scss 2:11  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/with_use/two_levels_deep/input.scss
+.a {
+  @import 'upstream1';
+}
+
+<===> top_level_include_declaration/with_use/two_levels_deep/_upstream1.scss
+@import 'upstream2';
+
+<===> top_level_include_declaration/with_use/two_levels_deep/_upstream2.scss
+@use 'other';
+@mixin a { b: c }
+@include a;
+
+<===> top_level_include_declaration/with_use/two_levels_deep/other.scss
+// Intentionally empty.
+
+<===> top_level_include_declaration/with_use/two_levels_deep/output.css
+.a {
+  b: c;
+}
+
+<===> top_level_include_declaration/with_use/two_levels_deep/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/import
+  ,
+2 |   @import 'upstream';
+  |           ^^^^^^^^^^
+  '
+    input.scss 2:11  root stylesheet
