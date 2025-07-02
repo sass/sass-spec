@@ -328,3 +328,21 @@ Error: There's already a module with namespace "other".
   | ^^^^^^^^^^^^^^^^^^^^^^ new @use
   '
   input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/input.scss
+@use "upstream";
+@include upstream.a;
+
+<===> top_level_include_declaration/_upstream.scss
+@mixin a { b: c }
+
+<===> top_level_include_declaration/error
+Error: Declarations may only be used within style rules.
+  ,
+1 | @mixin a { b: c }
+  |            ^^^^^
+  '
+  _upstream.scss 1:12  a()
+  input.scss 2:1       root stylesheet
