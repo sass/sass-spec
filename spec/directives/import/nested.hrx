@@ -324,28 +324,28 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===>
 ================================================================================
-<===> top_level_include_declaration/with_use/two_levels_deep/input.scss
+<===> top_level_include_declaration/with_use_two_levels_deep/input.scss
 .a {
   @import 'upstream1';
 }
 
-<===> top_level_include_declaration/with_use/two_levels_deep/_upstream1.scss
+<===> top_level_include_declaration/with_use_two_levels_deep/_upstream1.scss
 @import 'upstream2';
 
-<===> top_level_include_declaration/with_use/two_levels_deep/_upstream2.scss
+<===> top_level_include_declaration/with_use_two_levels_deep/_upstream2.scss
 @use 'other';
 @mixin a { b: c }
 @include a;
 
-<===> top_level_include_declaration/with_use/two_levels_deep/other.scss
+<===> top_level_include_declaration/with_use_two_levels_deep/other.scss
 // Intentionally empty.
 
-<===> top_level_include_declaration/with_use/two_levels_deep/output.css
+<===> top_level_include_declaration/with_use_two_levels_deep/output.css
 .a {
   b: c;
 }
 
-<===> top_level_include_declaration/with_use/two_levels_deep/warning
+<===> top_level_include_declaration/with_use_two_levels_deep/warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 More info and automated migrator: https://sass-lang.com/d/import
   ,
