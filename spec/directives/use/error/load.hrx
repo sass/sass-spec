@@ -328,3 +328,40 @@ Error: There's already a module with namespace "other".
   | ^^^^^^^^^^^^^^^^^^^^^^ new @use
   '
   input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/upstream_mixin/input.scss
+@use "upstream";
+@include upstream.a;
+
+<===> top_level_include_declaration/upstream_mixin/_upstream.scss
+@mixin a { b: c }
+
+<===> top_level_include_declaration/upstream_mixin/error
+Error: Declarations may only be used within style rules.
+  ,
+1 | @mixin a { b: c }
+  |            ^^^^^
+  '
+  _upstream.scss 1:12  a()
+  input.scss 2:1       root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/input_mixin/input.scss
+@use 'upstream';
+@mixin a { b: c }
+@include a;
+
+<===> top_level_include_declaration/input_mixin/_upstream.scss
+// Intentionally empty.
+
+<===> top_level_include_declaration/input_mixin/error
+Error: Declarations may only be used within style rules.
+  ,
+2 | @mixin a { b: c }
+  |            ^^^^^
+  '
+  input.scss 2:12  a()
+  input.scss 3:1   root stylesheet

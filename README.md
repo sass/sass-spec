@@ -277,7 +277,7 @@ X. Exit testing.
 
 [implementation-specific expectations]: #implementation-specific-expectations
 
-Any option can also be applied to all future occurences of that type of failure
+Any option can also be applied to all future occurrences of that type of failure
 by adding `!` after it. For example, if you want to mark *all* failing specs as
 `:todo` for the current implementation you'd type `I!`.
 
