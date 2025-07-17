@@ -277,7 +277,7 @@ These are regression tests for https://github.com/sass/dart-sass/issues/2588.
 
 <===> top_level_include_declaration/without_use/_upstream.scss
 @mixin b { c: d }
-@include a;
+@include b;
 
 <===> top_level_include_declaration/without_use/output.css
 .a {
@@ -305,7 +305,7 @@ More info and automated migrator: https://sass-lang.com/d/import
 @mixin b { c: d }
 @include b;
 
-<===> top_level_include_declaration/with_use/_other.scss
+<===> top_level_include_declaration/with_use/_upstream.scss
 // Intentionally empty.
 
 <===> top_level_include_declaration/with_use/output.css
@@ -315,10 +315,12 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===> top_level_include_declaration/with_use/warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
-2 |   @import 'upstream';
-  |           ^^^^^^^^^^
+2 |   @import 'midstream';
+  |           ^^^^^^^^^^^
   '
     input.scss 2:11  root stylesheet
 
@@ -326,18 +328,18 @@ More info and automated migrator: https://sass-lang.com/d/import
 ================================================================================
 <===> top_level_include_declaration/with_use_two_levels_deep/input.scss
 .a {
-  @import 'upstream1';
+  @import 'midstream1';
 }
 
-<===> top_level_include_declaration/with_use_two_levels_deep/_upstream1.scss
-@import 'upstream2';
+<===> top_level_include_declaration/with_use_two_levels_deep/_midstream1.scss
+@import 'midstream2';
 
-<===> top_level_include_declaration/with_use_two_levels_deep/_upstream2.scss
-@use 'other';
+<===> top_level_include_declaration/with_use_two_levels_deep/_midstream2.scss
+@use 'upstream';
 @mixin b { c: d }
 @include b;
 
-<===> top_level_include_declaration/with_use_two_levels_deep/other.scss
+<===> top_level_include_declaration/with_use_two_levels_deep/_upstream.scss
 // Intentionally empty.
 
 <===> top_level_include_declaration/with_use_two_levels_deep/output.css
@@ -347,18 +349,22 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===> top_level_include_declaration/with_use_two_levels_deep/warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
-2 |   @import 'upstream1';
-  |           ^^^^^^^^^^^
+2 |   @import 'midstream1';
+  |           ^^^^^^^^^^^^
   '
     input.scss 2:11  root stylesheet
 
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
 More info and automated migrator: https://sass-lang.com/d/import
+
   ,
-1 | @import 'upstream2';
-  |         ^^^^^^^^^^^
+1 | @import 'midstream2';
+  |         ^^^^^^^^^^^^
   '
-    _upstream1.scss 1:9  @import
-    input.scss 2:11      root stylesheet
+    _midstream1.scss 1:9  @import
+    input.scss 2:11       root stylesheet
