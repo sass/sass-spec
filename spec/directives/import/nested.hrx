@@ -276,12 +276,12 @@ These are regression tests for https://github.com/sass/dart-sass/issues/2588.
 }
 
 <===> top_level_include_declaration/without_use/_upstream.scss
-@mixin a { b: c }
+@mixin b { c: d }
 @include a;
 
 <===> top_level_include_declaration/without_use/output.css
 .a {
-  b: c;
+  c: d;
 }
 
 <===> top_level_include_declaration/without_use/warning
@@ -297,20 +297,20 @@ More info and automated migrator: https://sass-lang.com/d/import
 ================================================================================
 <===> top_level_include_declaration/with_use/input.scss
 .a {
-  @import 'upstream';
+  @import 'midstream';
 }
 
-<===> top_level_include_declaration/with_use/_upstream.scss
-@use 'other';
-@mixin a { b: c }
-@include a;
+<===> top_level_include_declaration/with_use/_midstream.scss
+@use 'upstream';
+@mixin b { c: d }
+@include b;
 
-<===> top_level_include_declaration/with_use/other.scss
+<===> top_level_include_declaration/with_use/_other.scss
 // Intentionally empty.
 
 <===> top_level_include_declaration/with_use/output.css
 .a {
-  b: c;
+  c: d;
 }
 
 <===> top_level_include_declaration/with_use/warning
@@ -334,15 +334,15 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===> top_level_include_declaration/with_use_two_levels_deep/_upstream2.scss
 @use 'other';
-@mixin a { b: c }
-@include a;
+@mixin b { c: d }
+@include b;
 
 <===> top_level_include_declaration/with_use_two_levels_deep/other.scss
 // Intentionally empty.
 
 <===> top_level_include_declaration/with_use_two_levels_deep/output.css
 .a {
-  b: c;
+  c: d;
 }
 
 <===> top_level_include_declaration/with_use_two_levels_deep/warning
