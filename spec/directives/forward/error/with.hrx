@@ -290,16 +290,16 @@ Error: This module was already loaded, so it can't be configured using "with".
 ================================================================================
 <===> multi_configuration/through_forward/input.scss
 @use "upstream";
-@forward "midstream" with ($a: b);
+@forward "midstream" with ($a: b, $c: d);
 
 <===> multi_configuration/through_forward/_midstream.scss
 @forward "upstream";
 
-$a: c !default;
+$a: e !default;
 
 <===> multi_configuration/through_forward/_upstream.scss
-// This file defines no variables, but it still may not be loaded both with and
-// without configuration.
+// This only throws an error because it defines a configurable variable.
+$c: f !default;
 
 <===> multi_configuration/through_forward/error
 Error: This module was already loaded, so it can't be configured using "with".
@@ -310,8 +310,8 @@ Error: This module was already loaded, so it can't be configured using "with".
   ,--> input.scss
 1 | @use "upstream";
   | =============== original load
-2 | @forward "midstream" with ($a: b);
-  | ================================= configuration
+2 | @forward "midstream" with ($a: b, $c: d);
+  | ======================================== configuration
   '
   _midstream.scss 1:1  @forward
   input.scss 2:1       root stylesheet
@@ -391,31 +391,3 @@ Error: This variable was not declared with !default in the @used module.
   |                            ^^^^^
   '
   input.scss 1:28  root stylesheet
-
-<===>
-================================================================================
-<===> already_configred_empty/input.scss
-// Regression test for sass/dart-sass#2598
-@use "upstream";
-@forward "midstream" with ($a: b);
-
-<===> already_configred_empty/_midstream.scss
-$a: c !default;
-@forward "upstream";
-
-<===> already_configred_empty/_upstream.scss
-
-<===> already_configred_empty/error
-Error: This module was already loaded, so it can't be configured using "with".
-  ,--> _midstream.scss
-2 | @forward "upstream";
-  | ^^^^^^^^^^^^^^^^^^^ new load
-  '
-  ,--> input.scss
-2 | @use "upstream";
-  | =============== original load
-3 | @forward "midstream" with ($a: b);
-  | ================================= configuration
-  '
-  _midstream.scss 2:1  @forward
-  input.scss 3:1       root stylesheet
