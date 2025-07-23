@@ -1,0 +1,120 @@
+<===> README.md
+If a module is first loaded with a configuration, future loads with no
+configuration will use the configured module.
+
+<===>
+================================================================================
+<===> use/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// We have to load this dynamically, because we can't have a `@use` after an
+// `@include`.
+@include meta.load-css("midstream");
+
+<===> use/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> use/_upstream.scss
+$a: original !default;
+
+<===> use/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> forward/input.scss
+// This indirection is necessary so that we can execute `meta.load-css()` before
+// we begin loading `used`.
+@use "loads";
+@use "midstream";
+
+b {c: midstream.$a}
+
+<===> forward/_loads.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+<===> forward/_midstream.scss
+@forward "upstream";
+
+<===> forward/_upstream.scss
+$a: original !default;
+
+<===> forward/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> through_forward/input.scss
+@use "sass:meta";
+@include meta.load-css("forwarded");
+@include meta.load-css("midstream", $with: (a: overridden));
+
+<===> through_forward/_midstream.scss
+@forward "forwarded";
+
+$a: default !default;
+b {
+  midstream: $a;
+}
+
+<===> through_forward/_forwarded.scss
+// This file defines no variables, so it's allowed to be loaded with and without
+// configuration.
+
+<===> through_forward/output.css
+b {
+  midstream: overridden;
+}
+
+<===>
+================================================================================
+<===> unused_configuration/double_load/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream", $with: (a: configured));
+
+// An empty configuration map counts as no configuration.
+@include meta.load-css("midstream", $with: ());
+
+<===> unused_configuration/double_load/_midstream.scss
+@use "upstream";
+b {c: upstream.$a}
+
+<===> unused_configuration/double_load/_upstream.scss
+$a: original !default;
+
+<===> unused_configuration/double_load/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> unused_configuration/use_and_load/input.scss
+@use "sass:meta";
+@use "forwarded";
+@include meta.load-css("midstream", $with: (a: overridden));
+
+<===> unused_configuration/use_and_load/_midstream.scss
+@forward "forwarded";
+
+$a: default !default;
+
+b {
+  midstream: $a;
+}
+
+<===> unused_configuration/use_and_load/_forwarded.scss
+// This file defines no variables, so it's allowed to be loaded with and without
+// configuration.
+
+<===> unused_configuration/use_and_load/output.css
+b {
+  midstream: overridden;
+}

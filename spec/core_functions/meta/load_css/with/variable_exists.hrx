@@ -1,0 +1,18 @@
+<===> input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: configured));
+
+<===> _other.scss
+@use "sass:meta";
+$before-declaration: meta.variable-exists(a);
+$a: original !default;
+b {
+  before-declaration: $before-declaration;
+  after-declaration: meta.variable-exists(a);
+}
+
+<===> output.css
+b {
+  before-declaration: false;
+  after-declaration: true;
+}

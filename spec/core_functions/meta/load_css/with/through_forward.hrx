@@ -1,0 +1,149 @@
+<===> bare/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> bare/_loaded.scss
+@forward "forwarded";
+
+<===> bare/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> bare/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> transitive/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> transitive/_loaded.scss
+@forward "midstream";
+
+<===> transitive/_midstream.scss
+@forward "upstream";
+
+<===> transitive/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> transitive/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> with/default/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: from input));
+
+<===> with/default/_loaded.scss
+@forward "forwarded" with ($a: from loaded !default);
+
+<===> with/default/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> with/default/output.css
+b {
+  c: from input;
+}
+
+<===>
+================================================================================
+<===> with/null/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: null));
+
+<===> with/null/_loaded.scss
+@forward "forwarded" with ($a: from loaded !default);
+
+<===> with/null/_forwarded.scss
+$a: from forwarded !default;
+b {c: $a}
+
+<===> with/null/output.css
+b {
+  c: from loaded;
+}
+
+<===>
+================================================================================
+<===> with/unconfigured/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: from input));
+
+<===> with/unconfigured/_loaded.scss
+@forward "forwarded" with ($b: from loaded);
+
+<===> with/unconfigured/_forwarded.scss
+$a: from forwarded !default;
+$b: from forwarded !default;
+c {
+  a: $a;
+  b: $b;
+}
+
+<===> with/unconfigured/output.css
+c {
+  a: from input;
+  b: from loaded;
+}
+
+<===>
+================================================================================
+<===> show/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> show/_loaded.scss
+@forward "forwarded" show $a;
+
+<===> show/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> show/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (a: configured));
+
+<===> hide/_loaded.scss
+@forward "forwarded" hide $b;
+
+<===> hide/_forwarded.scss
+$a: original !default;
+b {c: $a}
+
+<===> hide/output.css
+b {
+  c: configured;
+}
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "sass:meta";
+@include meta.load-css("loaded", $with: (b-a: configured));
+
+<===> as/_loaded.scss
+@forward "forwarded" as b-*;
+
+<===> as/_forwarded.scss
+$a: original !default;
+c {d: $a}
+
+<===> as/output.css
+c {
+  d: configured;
+}
