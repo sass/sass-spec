@@ -10,8 +10,7 @@
 import {execFileSync} from 'node:child_process';
 
 try {
-  execFileSync('node', ['--no-experimental-strip-types', '-e', ''], {
-    shell: process.platform === 'win32',
+  execFileSync(process.execPath, ['--no-experimental-strip-types', '-e', 'undefined'], {
     stdio: 'ignore',
   });
 
