@@ -138,16 +138,18 @@ if (argv.browser) {
     projectBaseDir: p.resolve('.'),
   });
   jasmine.env.clearReporters();
-  jasmine.env.addReporter(new SpecReporter({
-    spec: {
-      displayStacktrace: StacktraceOption.PRETTY,
-      displaySuccessful: false,
-    },
-    summary: {
-      displayStacktrace: StacktraceOption.PRETTY,
-      displaySuccessful: false,
-    },
-  }));
+  jasmine.env.addReporter(
+    new SpecReporter({
+      spec: {
+        displayStacktrace: StacktraceOption.PRETTY,
+        displaySuccessful: false,
+      },
+      summary: {
+        displayStacktrace: StacktraceOption.PRETTY,
+        displaySuccessful: false,
+      },
+    })
+  );
   jasmine.loadConfig({
     spec_dir: 'js-api-spec',
     spec_files: specsToRun.map(path => p.relative('js-api-spec', path)),
