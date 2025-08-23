@@ -165,6 +165,34 @@ Error: Duplicate argument.
 
 <===>
 ================================================================================
+<===> mixin/error/splat/before_positional/input.scss
+@mixin a($b, $args...) {}
+@include a([1, 2]..., 3);
+
+<===> mixin/error/splat/before_positional/error
+Error: Positional arguments must come before rest arguments.
+  ,
+2 | @include a([1, 2]..., 3);
+  |                       ^
+  '
+  input.scss 2:23  root stylesheet
+
+<===>
+================================================================================
+<===> mixin/error/splat/before_named/input.scss
+@mixin a($args...) {}
+@include a([1, 2]..., $b: 3);
+
+<===> mixin/error/splat/before_named/error
+Error: Named arguments must come before rest arguments.
+  ,
+2 | @include a([1, 2]..., $b: 3);
+  |                       ^^
+  '
+  input.scss 2:23  root stylesheet
+
+<===>
+================================================================================
 <===> function/_utils.scss
 @use 'sass:meta';
 
@@ -305,3 +333,29 @@ Error: Positional arguments must come before keyword arguments.
   |              ^
   '
   input.scss 3:14  root stylesheet
+
+<===>
+================================================================================
+<===> function/error/splat/before_positional/input.scss
+a {b: rgb([1, 2]..., 3)}
+
+<===> function/error/splat/before_positional/error
+Error: Positional arguments must come before rest arguments.
+  ,
+1 | a {b: rgb([1, 2]..., 3)}
+  |                      ^
+  '
+  input.scss 1:22  root stylesheet
+
+<===>
+================================================================================
+<===> function/error/splat/before_named/input.scss
+a {b: rgb([1, 2]..., $blue: 3)}
+
+<===> function/error/splat/before_named/error
+Error: Named arguments must come before rest arguments.
+  ,
+1 | a {b: rgb([1, 2]..., $blue: 3)}
+  |                      ^^^^^
+  '
+  input.scss 1:22  root stylesheet
