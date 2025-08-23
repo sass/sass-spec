@@ -166,30 +166,50 @@ Error: Duplicate argument.
 <===>
 ================================================================================
 <===> mixin/error/splat/before_positional/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
 @mixin a($b, $args...) {}
 @include a([1, 2]..., 3);
 
-<===> mixin/error/splat/before_positional/error
-Error: Positional arguments must come before rest arguments.
+<===> mixin/error/splat/before_positional/output.css
+
+<===> mixin/error/splat/before_positional/warning
+DEPRECATION WARNING [misplaced-rest]: Positional arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
   ,
 2 | @include a([1, 2]..., 3);
-  |                       ^
+  |                       ^ positional argument
+  |            ====== rest argument
   '
-  input.scss 2:23  root stylesheet
+    input.scss 2:23  root stylesheet
 
 <===>
 ================================================================================
 <===> mixin/error/splat/before_named/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
 @mixin a($args...) {}
 @include a([1, 2]..., $b: 3);
 
 <===> mixin/error/splat/before_named/error
-Error: Named arguments must come before rest arguments.
+DEPRECATION WARNING [misplaced-rest]: Named arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
   ,
 2 | @include a([1, 2]..., $b: 3);
-  |                       ^^
+  |                       ^^^^^ named argument
+  |            ====== rest argument
   '
-  input.scss 2:23  root stylesheet
+    input.scss 2:23  root stylesheet
+
+Error: No parameter named $b.
+  ,
+1 | @mixin a($args...) {}
+  |        =========== declaration
+2 | @include a([1, 2]..., $b: 3);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 2:1  a()
+  input.scss 2:1  root stylesheet
 
 <===>
 ================================================================================
@@ -337,25 +357,43 @@ Error: Positional arguments must come before keyword arguments.
 <===>
 ================================================================================
 <===> function/error/splat/before_positional/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
 a {b: rgb([1, 2]..., 3)}
 
-<===> function/error/splat/before_positional/error
-Error: Positional arguments must come before rest arguments.
+<===> function/error/splat/before_positional/output.css
+a {
+  b: rgb(3, 1, 2);
+}
+
+<===> function/error/splat/before_positional/warning
+DEPRECATION WARNING [misplaced-rest]: Positional arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
   ,
 1 | a {b: rgb([1, 2]..., 3)}
-  |                      ^
+  |                      ^ positional argument
+  |           ====== rest argument
   '
-  input.scss 1:22  root stylesheet
+    input.scss 1:22  root stylesheet
 
 <===>
 ================================================================================
 <===> function/error/splat/before_named/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
 a {b: rgb([1, 2]..., $blue: 3)}
 
-<===> function/error/splat/before_named/error
-Error: Named arguments must come before rest arguments.
+<===> function/error/splat/before_named/output.css
+a {
+  b: rgb(1, 2, 3);
+}
+
+<===> function/error/splat/before_named/warning
+DEPRECATION WARNING [misplaced-rest]: Named arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
   ,
 1 | a {b: rgb([1, 2]..., $blue: 3)}
-  |                      ^^^^^
+  |                      ^^^^^^^^ named argument
+  |           ====== rest argument
   '
-  input.scss 1:22  root stylesheet
+    input.scss 1:22  root stylesheet
