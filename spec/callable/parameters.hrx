@@ -109,6 +109,19 @@ Error: expected ")".
 
 <===>
 ================================================================================
+<===> mixin/error/splat/before_final/input.scss
+@mixin a($b..., $c) {}
+
+<===> mixin/error/splat/before_final/error
+Error: expected ")".
+  ,
+1 | @mixin a($b..., $c) {}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
 <===> function/trailing_comma/no_default/input.scss
 @function a($b, ) {
   @return $b;
@@ -217,3 +230,16 @@ Error: expected ")".
   |              ^
   '
   input.scss 1:14  root stylesheet
+
+<===>
+================================================================================
+<===> function/error/splat/before_final/input.scss
+@function a($b..., $c) {@return null}
+
+<===> function/error/splat/before_final/error
+Error: expected ")".
+  ,
+1 | @function a($b..., $c) {@return null}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
