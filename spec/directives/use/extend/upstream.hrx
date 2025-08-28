@@ -60,3 +60,42 @@ downstream {@extend upstream}
 upstream, downstream {
   a: b;
 }
+
+<===>
+================================================================================
+<===> compound_through_import/input.scss
+@import "downstream";
+
+<===> compound_through_import/README.md
+Regression test for https://github.com/sass/dart-sass/issues/2616
+
+<===> compound_through_import/_downstream.scss
+@use "midstream";
+
+<===> compound_through_import/_midstream.scss
+@use "upstream";
+
+.a {
+  @extend %b;
+}
+
+<===> compound_through_import/_upstream.scss
+%b.c {
+  d: e;
+}
+
+<===> compound_through_import/output.css
+.c.a {
+  d: e;
+}
+
+<===> compound_through_import/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "downstream";
+  |         ^^^^^^^^^^^^
+  '
+    input.scss 1:9  root stylesheet
