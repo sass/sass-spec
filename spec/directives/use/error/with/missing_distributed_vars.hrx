@@ -1,0 +1,103 @@
+<===> README.md
+A module may load different sets of variables across multiple files triggering
+validation of re-using the same module configuration multiple times.
+
+These tests verify the configuration is reused by opaque ID across multiple
+source files preventing unexpected behaviors when variables are declared on
+separate files with validations that occur when a module is used more than once.
+
+
+<===>
+================================================================================
+<===> single_use/input.scss
+@use 'module' with (
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
+);
+
+<===> single_use/module/_index.scss
+@forward './a/a';
+@forward './b/b';
+
+<===> single_use/module/a/_variables.scss
+$a: default !default;
+
+<===> single_use/module/a/a.scss
+@forward './variables';
+@use './variables' as *;
+
+.a {
+  content: #{$a};
+}
+
+<===> single_use/module/b/_variables.scss
+$b: default !default;
+
+<===> single_use/module/b/b.scss
+@forward './variables';
+@use './variables' as *;
+
+.b {
+  content: #{$b};
+}
+
+<===> single_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet
+
+<===>
+================================================================================
+<===> multi_use/input.scss
+@use 'module' with (
+  $a: 'a',
+  $b: 'b',
+  $missing: 'c',
+);
+
+<===> multi_use/module/_index.scss
+@forward './a/a1';
+@forward './a/a2';
+@forward './b/b';
+
+<===> multi_use/module/a/_variables.scss
+$a: default !default;
+
+<===> multi_use/module/a/a1.scss
+@forward './variables';
+@use './variables' as *;
+
+.a1 {
+  content: #{$a};
+}
+
+<===> multi_use/module/a/a2.scss
+@forward './variables';
+@use './variables' as *;
+
+.a2 {
+  content: #{$a};
+}
+
+<===> multi_use/module/b/_variables.scss
+$b: default !default;
+
+<===> multi_use/module/b/b.scss
+@forward './variables';
+@use './variables' as *;
+
+.b {
+  content: #{$b};
+}
+
+<===> multi_use/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+4 |   $missing: 'c',
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 4:3  root stylesheet
