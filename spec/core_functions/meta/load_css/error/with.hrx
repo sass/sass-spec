@@ -133,6 +133,86 @@ Error: Built-in module sass:color can't be configured.
 
 <===>
 ================================================================================
+<===> private/README.md
+These will be errors in Dart Sass 2.0.0.
+
+<===>
+================================================================================
+<===> private/matching/dash/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("-a": b));
+
+<===> private/matching/dash/_other.scss
+$-a: c !default;
+d {e: $-a}
+
+<===> private/matching/dash/output.css
+d {
+  e: b;
+}
+
+<===> private/matching/dash/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("-a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> private/matching/underscore/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("_a": b));
+
+<===> private/matching/underscore/_other.scss
+$_a: c !default;
+d {e: $_a}
+
+<===> private/matching/underscore/output.css
+d {
+  e: b;
+}
+
+<===> private/matching/underscore/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("_a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> private/different/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("-a": b));
+
+<===> private/different/_other.scss
+$_a: c !default;
+d {e: $_a}
+
+<===> private/different/output.css
+d {
+  e: b;
+}
+
+<===> private/different/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("-a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
 <===> multi_configuration/README.md
 The same file can't be configured multiple times, even if the configuration is
 identical.
