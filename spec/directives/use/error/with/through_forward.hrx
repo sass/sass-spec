@@ -1,0 +1,73 @@
+<===> show/input.scss
+@use "used" with ($a: b);
+
+<===> show/_used.scss
+@forward "forwarded" show $b;
+
+<===> show/_forwarded.scss
+$a: d !default;
+
+<===> show/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "used" with ($a: b);
+
+<===> hide/_used.scss
+@forward "forwarded" hide $a;
+
+<===> hide/_forwarded.scss
+$a: d !default;
+
+<===> hide/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "used" with ($a: b);
+
+<===> as/_used.scss
+@forward "forwarded" as c-*;
+
+<===> as/_forwarded.scss
+$a: d !default;
+
+<===> as/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> with/input.scss
+@use "used" with ($a: b);
+
+<===> with/_used.scss
+@forward "forwarded" with ($a: c);
+
+<===> with/_forwarded.scss
+$a: d !default;
+
+<===> with/error
+Error: This variable was not declared with !default in the @used module.
+  ,
+1 | @use "used" with ($a: b);
+  |                   ^^^^^
+  '
+  input.scss 1:19  root stylesheet

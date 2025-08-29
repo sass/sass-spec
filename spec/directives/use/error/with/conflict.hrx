@@ -1,0 +1,28 @@
+<===> input.scss
+@use "midstream" with ($a: b);
+
+<===> _midstream.scss
+@use "left" as *;
+@use "right" as *;
+
+$a: c !default;
+
+<===> _left.scss
+$a: left;
+
+<===> _right.scss
+$a: right;
+
+<===> error
+Error: This variable is available from multiple global modules.
+    ,
+1   | @use "left" as *;
+    | ================ includes variable
+2   | @use "right" as *;
+    | ================= includes variable
+... |
+4   | $a: c !default;
+    | ^^^^^^^^^^^^^^ variable use
+    '
+  _midstream.scss 4:1  @use
+  input.scss 1:1       root stylesheet

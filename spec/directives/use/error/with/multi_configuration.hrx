@@ -1,0 +1,99 @@
+<===> README.md
+The same file can't be configured multiple times, even if the configuration is
+identical.
+
+<===>
+================================================================================
+<===> one_file/input.scss
+@use "other" as o1 with ($a: b);
+@use "other" as o2 with ($a: b);
+
+<===> one_file/_other.scss
+$a: c !default;
+
+<===> one_file/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @use "other" as o1 with ($a: b);
+  | =============================== original load
+2 | @use "other" as o2 with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> multi_file/input.scss
+@use "left";
+@use "right";
+
+<===> multi_file/_left.scss
+@use "other" with ($a: b);
+
+<===> multi_file/_right.scss
+@use "other" with ($a: b);
+
+<===> multi_file/_other.scss
+$a: c !default;
+
+<===> multi_file/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> _right.scss
+1 | @use "other" with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> _left.scss
+1 | @use "other" with ($a: b);
+  | ========================= original load
+  '
+  _right.scss 1:1  @use
+  input.scss 2:1   root stylesheet
+
+<===>
+================================================================================
+<===> unconfigured_first/input.scss
+@use "other" as o1;
+@use "other" as o2 with ($a: b);
+
+<===> unconfigured_first/_other.scss
+$a: c !default;
+
+<===> unconfigured_first/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,
+1 | @use "other" as o1;
+  | ================== original load
+2 | @use "other" as o2 with ($a: b);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/input.scss
+@use "forwarded";
+@use "midstream" with ($a: b, $c: d);
+
+<===> through_forward/_midstream.scss
+@forward "forwarded";
+
+$a: e !default;
+
+<===> through_forward/_forwarded.scss
+// This only throws an error because it defines a configurable variable.
+$c: f !default;
+
+<===> through_forward/error
+Error: This module was already loaded, so it can't be configured using "with".
+  ,--> _midstream.scss
+1 | @forward "forwarded";
+  | ^^^^^^^^^^^^^^^^^^^^ new load
+  '
+  ,--> input.scss
+1 | @use "forwarded";
+  | ================ original load
+2 | @use "midstream" with ($a: b, $c: d);
+  | ==================================== configuration
+  '
+  _midstream.scss 1:1  @use
+  input.scss 2:1       root stylesheet
