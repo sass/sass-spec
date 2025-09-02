@@ -62,71 +62,10 @@ result {
   }
 }
 
-<===> output.css
-result {
-  continue_outer: true;
-  continue_inner: true;
-  check_implicit: initial;
-  check_explicit: inner;
-  check_default: initial;
-  root_default: initial;
-  root_implicit: initial;
-  root_explicit: inner;
-  local_explicit: inner;
-}
-
-<===> warning
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Since this assignment is at the root of the stylesheet, the !global flag is
-unnecessary and can safely be removed.
-
+<===> error
+Error: !global assignments may not declare new variables.
   ,
 6 | $root_explicit: initial !global;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:1  root stylesheet
-
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$local_explicit: null` at the stylesheet root.
-
-   ,
-14 |     $local_explicit: outer !global;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 14:5  fn()
-    input.scss 34:7  root stylesheet
-
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$check_implicit: null` at the stylesheet root.
-
-   ,
-27 |   $check_implicit: $root_implicit !global;
-   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 27:3  fn()
-    input.scss 34:7  root stylesheet
-
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$check_explicit: null` at the stylesheet root.
-
-   ,
-28 |   $check_explicit: $root_explicit !global;
-   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 28:3  fn()
-    input.scss 34:7  root stylesheet
-
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$check_default: null` at the stylesheet root.
-
-   ,
-29 |   $check_default: $root_default !global;
-   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 29:3  fn()
-    input.scss 34:7  root stylesheet
+  input.scss 6:1  root stylesheet

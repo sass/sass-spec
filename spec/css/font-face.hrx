@@ -47,27 +47,12 @@ d {
 a { b { c { @font-face { e: f } g: h; } } }
 
 <===> bubble/deeply-nested/output.css
-a b c {
-  g: h;
-}
 @font-face {
   e: f;
 }
-
-<===> bubble/deeply-nested/warning
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,
-1 | a { b { c { @font-face { e: f } g: h; } } }
-  |                                 ^^^^ declaration
-  |             =================== nested rule
-  '
-    input.scss 1:33  root stylesheet
+a b c {
+  g: h;
+}
 
 <===>
 ================================================================================
@@ -81,11 +66,11 @@ c {
 @font-face { a: b }
 
 <===> bubble/loaded/import/output.css
-c {
-  d: e;
-}
 @font-face {
   a: b;
+}
+c {
+  d: e;
 }
 
 <===> bubble/loaded/import/warning
@@ -98,23 +83,6 @@ More info and automated migrator: https://sass-lang.com/d/import
   |           ^^^^^^^^^^
   '
     input.scss 2:11  root stylesheet
-
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,--> input.scss
-3 |   d: e;
-  |   ^^^^ declaration
-  '
-  ,--> upstream.scss
-1 | @font-face { a: b }
-  | =================== nested rule
-  '
-    input.scss 3:3  root stylesheet
 
 <===>
 ================================================================================
@@ -130,27 +98,9 @@ c {
 @font-face { a: b }
 
 <===> bubble/loaded/meta-load-css/output.css
-c {
-  d: e;
-}
 @font-face {
   a: b;
 }
-
-<===> bubble/loaded/meta-load-css/warning
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-  ,--> input.scss
-5 |   d: e;
-  |   ^^^^ declaration
-  '
-  ,--> upstream.scss
-1 | @font-face { a: b }
-  | =================== nested rule
-  '
-    input.scss 5:3  root stylesheet
+c {
+  d: e;
+}

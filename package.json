@@ -71,12 +71,12 @@
     "yargs": "^17.2.1"
   },
   "scripts": {
-    "sass-spec": "ts-node sass-spec.ts",
-    "js-api-spec": "ts-node js-api-spec.ts",
+    "sass-spec": "node ts-node-wrapper.mjs sass-spec.ts",
+    "js-api-spec": "node ts-node-wrapper.mjs js-api-spec.ts",
     "test": "jest",
-    "lint-spec": "ts-node lint-spec.ts",
+    "lint-spec": "node ts-node-wrapper.mjs lint-spec.ts",
     "lint": "gts lint",
-    "migrate": "ts-node migrate.ts",
+    "migrate": "node ts-node-wrapper.mjs migrate.ts",
     "fix": "gts fix"
   },
   "engines": {

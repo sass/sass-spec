@@ -144,26 +144,32 @@ a b c {
   /* a */
   blee: blee;
   /* b */
-  /* c */
-  /* d */
-  blah: blah;
 }
 a b c d e f {
   blah: blah;
   bloo: bloo;
+}
+a b c {
+  /* c */
 }
 @media print and (foo: 1 2 3), (bar: 3px hux(muz)), not screen {
   a b c g h, a b c i j {
     /* aa */
     hey: ho;
     /* bb */
-    /* cc */
-    haa: hoo;
-    /* dd */
   }
   a b c g h k l m, a b c i j k l m {
     hee: fee;
   }
+  a b c g h, a b c i j {
+    /* cc */
+    haa: hoo;
+    /* dd */
+  }
+}
+a b c {
+  /* d */
+  blah: blah;
 }
 
 body {
@@ -206,30 +212,3 @@ div span {
     color: green;
   }
 }
-
-<===> warning
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-    ,
-39  | /     @media print and (foo: 1 2 3), (bar: 3px hux(muz)), not screen {
-40  | |       /* aa */
-41  | |       hey: ho;
-42  | |       /* bb */
-43  | |       k l m {
-44  | |         hee: fee;
-45  | |       }
-46  | |       /* cc */
-47  | |       haa: hoo;
-48  | |       /* dd */
-49  | |     }
-    | '--- nested rule
-... |
-52  |     blah: blah;
-    |     ^^^^^^^^^^ declaration
-    '
-    input.scss 52:3  root stylesheet

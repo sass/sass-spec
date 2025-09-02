@@ -73,3 +73,57 @@ b {
   midstream1: overridden 1;
   midstream2: overridden 2;
 }
+
+<===>
+================================================================================
+<===> through_forward/input.scss
+@use "downstream";
+
+b {
+  midstream: downstream.$a;
+}
+
+<===> through_forward/_downstream.scss
+@use "upstream";
+@forward "midstream" with ($a: overridden);
+
+<===> through_forward/_midstream.scss
+@forward "upstream";
+
+$a: default !default;
+
+<===> through_forward/_upstream.scss
+// This file defines no variables, so it's allowed to be loaded with and without
+// configuration.
+
+<===> through_forward/output.css
+b {
+  midstream: overridden;
+}
+
+<===>
+================================================================================
+<===> already_configred_empty/input.scss
+// Regression test for sass/dart-sass#2598
+@use "downstream";
+
+b {
+  midstream: downstream.$a;
+}
+
+<===> already_configred_empty/_downstream.scss
+@use "upstream";
+@forward "midstream" with ($a: overridden);
+
+<===> already_configred_empty/_midstream.scss
+$a: default !default;
+@forward "upstream";
+
+<===> already_configred_empty/_upstream.scss
+// This file defines no variables, so it's allowed to be loaded with and without
+// configuration.
+
+<===> already_configred_empty/output.css
+b {
+  midstream: overridden;
+}

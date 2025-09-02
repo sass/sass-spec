@@ -1,0 +1,12 @@
+<===> input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a_b: configured));
+
+<===> _other.scss
+$a-b: original !default;
+b {c: $a-b}
+
+<===> output.css
+b {
+  c: configured;
+}

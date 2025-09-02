@@ -1,5 +1,71 @@
-<===> sass/input.sass
+<===> top_level/sass/input.sass
 @a b;
 
-<===> sass/output.css
+<===> top_level/sass/output.css
 @a b;
+
+<===>
+================================================================================
+<===> nested/only/input.scss
+a {
+  @b c;
+}
+
+<===> nested/only/output.css
+a {
+  @b c;
+}
+
+<===>
+================================================================================
+<===> nested/interleaved/final/input.scss
+a {
+  b {c: d}
+  @e f;
+}
+
+<===> nested/interleaved/final/output.css
+a b {
+  c: d;
+}
+a {
+  @e f;
+}
+
+<===>
+================================================================================
+<===> nested/interleaved/before_rule/input.scss
+a {
+  b {c: d}
+  @e f;
+  g {h: i}
+}
+
+<===> nested/interleaved/before_rule/output.css
+a b {
+  c: d;
+}
+a {
+  @e f;
+}
+a g {
+  h: i;
+}
+
+<===>
+================================================================================
+<===> nested/interleaved/before_declaration/input.scss
+a {
+  b {c: d}
+  @e f;
+  g: h
+}
+
+<===> nested/interleaved/before_declaration/output.css
+a b {
+  c: d;
+}
+a {
+  @e f;
+  g: h;
+}

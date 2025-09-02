@@ -176,6 +176,72 @@ a {
 
 <===>
 ================================================================================
+<===> loud/interleaved/final/input.scss
+a {
+  b {c: d}
+  /* */
+}
+
+<===> loud/interleaved/final/output.css
+a b {
+  c: d;
+}
+a {
+  /* */
+}
+
+<===>
+================================================================================
+<===> loud/interleaved/before_rule/input.scss
+a {
+  b {c: d}
+  /* */
+  e {f: g}
+}
+
+<===> loud/interleaved/before_rule/output.css
+a b {
+  c: d;
+}
+a {
+  /* */
+}
+a e {
+  f: g;
+}
+
+<===>
+================================================================================
+<===> loud/interleaved/before_declaration/input.scss
+a {
+  b {c: d}
+  /* */
+  e: f;
+}
+
+<===> loud/interleaved/before_declaration/output.css
+a b {
+  c: d;
+}
+a {
+  /* */
+  e: f;
+}
+
+<===>
+================================================================================
+<===> loud/multi_line/sass/input.sass
+a
+  b: c /* d
+          e */ f
+
+<===> loud/multi_line/sass/output.css
+a {
+  b: c f;
+}
+
+<===>
+================================================================================
 <===> sourcemap/sourcemappingurl/input.scss
 a { b: c }
 /*# sourceMappingURL=whatever */
@@ -209,18 +275,6 @@ a { b: c }
 <===> sourcemap/sourceurl/output.css
 a {
   b: c;
-}
-
-<===>
-================================================================================
-<===> loud/multi_line/sass/input.sass
-a
-  b: c /* d
-          e */ f
-
-<===> loud/multi_line/sass/output.css
-a {
-  b: c f;
 }
 
 <===>

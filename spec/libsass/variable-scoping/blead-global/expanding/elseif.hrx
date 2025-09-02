@@ -42,32 +42,10 @@ result {
   }
 }
 
-<===> output.css
-result {
-  root_default: initial;
-  root_implicit: inner;
-  root_explicit: inner;
-  local_explicit: inner;
-}
-
-<===> warning
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Since this assignment is at the root of the stylesheet, the !global flag is
-unnecessary and can safely be removed.
-
+<===> error
+Error: !global assignments may not declare new variables.
   ,
 4 | $root_explicit: initial !global;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 4:1  root stylesheet
-
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$local_explicit: null` at the stylesheet root.
-
-   ,
-14 |   $local_explicit: outer !global;
-   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 14:3  root stylesheet
+  input.scss 4:1  root stylesheet

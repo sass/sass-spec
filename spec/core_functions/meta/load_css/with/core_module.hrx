@@ -1,0 +1,16 @@
+<===> indirect/input.scss
+// Regression test for sass/dart-sass#838.
+@use "sass:meta";
+@include meta.load-css("other", $with: (c: e));
+
+<===> indirect/_other.scss
+@use "sass:color";
+
+$c: d !default;
+
+a {b: $c}
+
+<===> indirect/output.css
+a {
+  b: e;
+}
