@@ -58,7 +58,6 @@ div {
 @fudge hux bloo;
 div {
   color: red;
-  height: 20px;
 }
 @fudge {
   div span {
@@ -67,6 +66,9 @@ div {
   div span a {
     font: whatever;
   }
+}
+div {
+  height: 20px;
 }
 @-webkit-keyframes SOMETHING {
   0% {
@@ -88,15 +90,15 @@ div {
   }
 }
 
+div span {
+  font: whatever;
+}
 div {
   border-upper-left: 10px;
   border-upper-right: 9px;
   border-lower-left: 8px;
   border-lower-right: 7px;
   background: gray;
-}
-div span {
-  font: whatever;
 }
 
 @fudge HEY, HOO, HA:first-child {
@@ -106,26 +108,3 @@ div span {
 @fudge foo {
   color: red;
 }
-
-<===> warning
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-   ,
-5  | /     @fudge {
-6  | |         span {
-7  | |             width: 10px;
-8  | |             a {
-9  | |                 font: whatever;
-10 | |             }
-11 | |         }
-12 | |     }
-   | '--- nested rule
-13 |       height: 20px;
-   |       ^^^^^^^^^^^^ declaration
-   '
-    input.scss 13:2  root stylesheet
