@@ -1,0 +1,115 @@
+<===> overwrites_top_level/global/input.scss
+$a: first;
+
+// There's no point to this !global but it is valid.
+$a: second !global;
+b {c: $a}
+
+<===> overwrites_top_level/global/output.css
+b {
+  c: second;
+}
+
+<===>
+================================================================================
+<===> overwrites_top_level/rule/input.scss
+$a: outer;
+b {$a: inner !global}
+c {d: $a}
+
+<===> overwrites_top_level/rule/output.css
+c {
+  d: inner;
+}
+
+<===>
+================================================================================
+<===> overwrites_top_level/mixin/input.scss
+$a: outer;
+@mixin b {$a: inner !global}
+@include b;
+c {d: $a}
+
+<===> overwrites_top_level/mixin/output.css
+c {
+  d: inner;
+}
+
+<===>
+================================================================================
+<===> overwrites_top_level/function/input.scss
+$a: outer;
+@function b() {
+  $a: inner !global;
+  @return null;
+}
+$_: b();
+c {d: $a}
+
+<===> overwrites_top_level/function/output.css
+c {
+  d: inner;
+}
+
+<===>
+================================================================================
+<===> error/first_declaration/top_level/input.scss
+$a: b !global;
+
+<===> error/first_declaration/top_level/error
+Error: !global assignments may not declare new variables.
+  ,
+1 | $a: b !global;
+  | ^^^^^^^^^^^^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/first_declaration/rule/input.scss
+a {
+  $b: c !global;
+}
+
+<===> error/first_declaration/rule/error
+Error: !global assignments may not declare new variables.
+  ,
+2 |   $b: c !global;
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/first_declaration/mixin/input.scss
+@mixin a {
+  $b: c !global;
+}
+@include a;
+
+<===> error/first_declaration/mixin/error
+Error: !global assignments may not declare new variables.
+  ,
+2 |   $b: c !global;
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 2:3  a()
+  input.scss 4:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/first_declaration/function/input.scss
+@function a() {
+  $b: c !global;
+  @return null;
+}
+$_: a();
+
+<===> error/first_declaration/function/error
+Error: !global assignments may not declare new variables.
+  ,
+2 |   $b: c !global;
+  |   ^^^^^^^^^^^^^
+  '
+  input.scss 2:3  a()
+  input.scss 5:5  root stylesheet

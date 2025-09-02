@@ -20,26 +20,10 @@ div {
   inner { foo: $foo; }
 }
 
-<===> output.css
-div inner {
-  foo: lexical;
-}
-
-outer {
-  foo: inner;
-}
-
-div inner {
-  foo: lexical;
-}
-
-<===> warning
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$foo: null` at the stylesheet root.
-
+<===> error
+Error: !global assignments may not declare new variables.
   ,
 2 |   $foo: null !default !global;
   |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 2:3  root stylesheet
+  input.scss 2:3  root stylesheet

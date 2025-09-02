@@ -30,41 +30,10 @@ div {
   qwe: $n;
   zap: $z;
 }
-<===> output.css
-div {
-  asd: 9;
-  qwe: 99;
-  zapf: 3;
-  ding: 84;
-}
-
-div {
-  foo: 42;
-  foo: 99;
-  foo: 999;
-  foo: 999;
-}
-div div {
-  bar: 9999;
-  bar: 999;
-}
-div {
-  baz: 9999;
-}
-
-div {
-  asd: 99;
-  qwe: 42;
-  zap: 3;
-}
-
-<===> warning
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Recommendation: add `$n: null` at the stylesheet root.
-
+<===> error
+Error: !global assignments may not declare new variables.
   ,
 6 |   $n: 42 !global;
   |   ^^^^^^^^^^^^^^
   '
-    input.scss 6:3  root stylesheet
+  input.scss 6:3  root stylesheet
