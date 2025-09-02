@@ -50,23 +50,11 @@ a {
 <===>
 ================================================================================
 <===> before_global/scss/input.scss
+$a: null;
 $a: b
   !global;
 
 <===> before_global/scss/output.css
-
-<===> before_global/scss/warning
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Since this assignment is at the root of the stylesheet, the !global flag is
-unnecessary and can safely be removed.
-
-  ,
-1 | / $a: b
-2 | |   !global;
-  | '---------^
-  '
-    input.scss 1:1  root stylesheet
 
 <===>
 ================================================================================
@@ -100,13 +88,14 @@ Error: Nothing may be indented beneath a variable declaration.
 <===>
 ================================================================================
 <===> error/before_global/sass/input.sass
+$a: null
 $a: b
   !global
 
 <===> error/before_global/sass/error
 Error: Nothing may be indented beneath a variable declaration.
   ,
-2 |   !global
+3 |   !global
   |   ^
   '
-  input.sass 2:3  root stylesheet
+  input.sass 3:3  root stylesheet
