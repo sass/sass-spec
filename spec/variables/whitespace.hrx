@@ -38,21 +38,14 @@ $a: b
 
 <===>
 ================================================================================
-<===> between_double_default/scss/input.scss
-$a: b !default
-  !default;
+<===> between_double_flag/scss/input.scss
+$b: null;
+a {
+  $b: c !default
+    !global;
+}
 
-<===> between_double_default/scss/output.css
-
-<===> between_double_default/scss/warning
-DEPRECATION WARNING [duplicate-var-flags]: !default should only be written once for each variable.
-This will be an error in Dart Sass 2.0.0.
-
-  ,
-2 |   !default;
-  |   ^^^^^^^^
-  '
-    input.scss 2:3  root stylesheet
+<===> between_double_flag/scss/output.css
 
 <===>
 ================================================================================
@@ -91,17 +84,18 @@ Error: Nothing may be indented beneath a variable declaration.
 
 <===>
 ================================================================================
-<===> error/between_double_default/sass/input.sass
-$a: b !default
-  !default
+<===> error/between_double_flag/sass/input.sass
+a
+  $b: c !default
+    !default
 
-<===> error/between_double_default/sass/error
+<===> error/between_double_flag/sass/error
 Error: Nothing may be indented beneath a variable declaration.
   ,
-2 |   !default
-  |   ^
+3 |     !default
+  |     ^
   '
-  input.sass 2:3  root stylesheet
+  input.sass 3:5  root stylesheet
 
 <===>
 ================================================================================
