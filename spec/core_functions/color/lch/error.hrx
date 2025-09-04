@@ -63,20 +63,6 @@ Error: $alpha: Expected 0.4px to have unit "%" or no units.
 
 <===>
 ================================================================================
-<===> unit/alpha/slash_list/input.scss
-@use 'sass:list';
-a {b: lch(list.slash(1% 2 3deg, 0.4px))}
-
-<===> unit/alpha/slash_list/error
-Error: $alpha: Expected 0.4px to have unit "%" or no units.
-  ,
-2 | a {b: lch(list.slash(1% 2 3deg, 0.4px))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> type/lightness/input.scss
 a {b: lch(c 2 3deg)}
 
@@ -116,17 +102,16 @@ Error: $channels: Expected hue channel to be a number, was c.
 
 <===>
 ================================================================================
-<===> type/alpha/slash_list/input.scss
-@use 'sass:list';
-a {b: lch(list.slash(1% 2 3deg, c))}
+<===> type/alpha/slash/input.scss
+a {b: lch(1% 2 3deg / c)}
 
-<===> type/alpha/slash_list/error
+<===> type/alpha/slash/error
 Error: $channels: c is not a number.
   ,
-2 | a {b: lch(list.slash(1% 2 3deg, c))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: lch(1% 2 3deg / c)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================
@@ -157,16 +142,15 @@ Error: $channels: Expected a space- or slash-separated list, was (1%, 2, 3deg)
 <===>
 ================================================================================
 <===> list/slash/three/input.scss
-@use 'sass:list';
-a {b: lch(list.slash(1%, 2, 3deg))}
+a {b: lch(1% / 2 / 3deg)}
 
 <===> list/slash/three/error
 Error: $channels: Only 2 slash-separated elements allowed, but 3 were passed.
   ,
-2 | a {b: lch(list.slash(1%, 2, 3deg))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1 | a {b: lch(1% / 2 / 3deg)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
-  input.scss 2:7  root stylesheet
+  input.scss 1:7  root stylesheet
 
 <===>
 ================================================================================

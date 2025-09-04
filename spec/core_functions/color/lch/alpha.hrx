@@ -102,20 +102,6 @@ a {
 
 <===>
 ================================================================================
-<===> slash_list/input.scss
-@use "sass:list";
-@use 'core_functions/color/utils';
-@include utils.inspect(lch(list.slash(1% 2 3deg, 0.4)));
-
-<===> slash_list/output.css
-a {
-  value: lch(1% 2 3deg / 0.4);
-  space: lch;
-  channels: 1% 2 3deg / 0.4;
-}
-
-<===>
-================================================================================
 <===> none/slash/hue/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lch(1% 2 none / 0.4));
@@ -134,34 +120,6 @@ a {
 @include utils.inspect(lch(1% 2 3deg / none));
 
 <===> none/slash/alpha/output.css
-a {
-  value: lch(1% 2 3deg / none);
-  space: lch;
-  channels: 1% 2 3deg / none;
-}
-
-<===>
-================================================================================
-<===> none/slash_list/hue/input.scss
-@use 'sass:list';
-@use 'core_functions/color/utils';
-@include utils.inspect(lch(list.slash(1% 2 none, 0.4)));
-
-<===> none/slash_list/hue/output.css
-a {
-  value: lch(1% 2 none / 0.4);
-  space: lch;
-  channels: 1% 2 none / 0.4;
-}
-
-<===>
-================================================================================
-<===> none/slash_list/alpha/input.scss
-@use 'sass:list';
-@use 'core_functions/color/utils';
-@include utils.inspect(lch(list.slash(1% 2 3deg, none)));
-
-<===> none/slash_list/alpha/output.css
 a {
   value: lch(1% 2 3deg / none);
   space: lch;

@@ -131,11 +131,11 @@ More info and automated migrator: https://sass-lang.com/d/strict-unary
 
 DEPRECATION WARNING [strict-unary]: This operation is parsed as:
 
-    #{a} + 5% / 2
+    #{a} + 5%
 
 but you may have intended it to mean:
 
-    #{a} (+5% / 2)
+    #{a} (+5%)
 
 Add a space after + to clarify that it's meant to be a binary operation, or wrap
 it in parentheses to make it a unary operation. This will be an error in future
@@ -145,7 +145,7 @@ More info and automated migrator: https://sass-lang.com/d/strict-unary
 
    ,
 18 |   c09: (#{a} +5.0% / 2);
-   |         ^^^^^^^^^^^^^^
+   |         ^^^^^^^^^^
    '
     input.scss 18:9  root stylesheet
 
@@ -211,11 +211,11 @@ More info and automated migrator: https://sass-lang.com/d/strict-unary
 
 DEPRECATION WARNING [strict-unary]: This operation is parsed as:
 
-    5% / 2 + #{a}
+    2 + #{a}
 
 but you may have intended it to mean:
 
-    5% / 2 (+#{a})
+    2 (+#{a})
 
 Add a space after + to clarify that it's meant to be a binary operation, or wrap
 it in parentheses to make it a unary operation. This will be an error in future
@@ -225,9 +225,9 @@ More info and automated migrator: https://sass-lang.com/d/strict-unary
 
    ,
 34 |   d09: (5% / 2.0 +#{a});
-   |         ^^^^^^^^^^^^^^
+   |              ^^^^^^^^^
    '
-    input.scss 34:9  root stylesheet
+    input.scss 34:14  root stylesheet
 
 DEPRECATION WARNING [strict-unary]: This operation is parsed as:
 

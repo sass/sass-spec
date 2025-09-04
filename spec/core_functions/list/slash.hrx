@@ -13,6 +13,17 @@ a {
   b: c / d;
 }
 
+<===> two_args/warning
+DEPRECATION WARNING [list-slash]: list.slash() is no longer necessary. Sass now supports slash-separated list literals.
+This function is deprecated and will be removed in Dart 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | a {b: list.slash(c, d)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> three_args/input.scss
@@ -23,6 +34,17 @@ a {b: list.slash(c, d, e)}
 a {
   b: c / d / e;
 }
+
+<===> three_args/warning
+DEPRECATION WARNING [list-slash]: list.slash() is no longer necessary. Sass now supports slash-separated list literals.
+This function is deprecated and will be removed in Dart 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | a {b: list.slash(c, d, e)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -35,6 +57,17 @@ a {
   b: c / d / e / f / g / h / i / j / k / l / m / n / o / p / q / r / s / t / u / v / w / x / y / z;
 }
 
+<===> many_args/warning
+DEPRECATION WARNING [list-slash]: list.slash() is no longer necessary. Sass now supports slash-separated list literals.
+This function is deprecated and will be removed in Dart 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | a {b: list.slash(c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> error/too_few_args/input.scss
@@ -42,6 +75,16 @@ a {
 a {b: list.slash(c)}
 
 <===> error/too_few_args/error
+DEPRECATION WARNING [list-slash]: list.slash() is no longer necessary. Sass now supports slash-separated list literals.
+This function is deprecated and will be removed in Dart 3.0.0.
+More info and automated migrator: https://sass-lang.com/d/slash-div
+
+  ,
+2 | a {b: list.slash(c)}
+  |       ^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 Error: At least two elements are required.
   ,
 2 | a {b: list.slash(c)}

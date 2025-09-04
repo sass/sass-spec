@@ -1,0 +1,27 @@
+<===> simplified/input.scss
+a {b: calc(1px * 2)}
+
+<===> simplified/output.css
+a {
+  b: 2px;
+}
+
+<===>
+================================================================================
+<===> preserved/input.scss
+a {b: calc(1px * var(--c))}
+
+<===> preserved/output.css
+a {
+  b: calc(1px * var(--c));
+}
+
+<===>
+================================================================================
+<===> no_whitespace/input.scss
+a {b: calc(1px*2)}
+
+<===> no_whitespace/output.css
+a {
+  b: 2px;
+}

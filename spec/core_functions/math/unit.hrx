@@ -39,109 +39,45 @@ a {
 ================================================================================
 <===> one_denominator/input.scss
 @use "sass:math";
-a {b: math.unit(1/1px)}
+a {b: math.unit(math.div(1, 1px))}
 
 <===> one_denominator/output.css
 a {
   b: "px^-1";
 }
 
-<===> one_denominator/warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(1, 1px)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.unit(1/1px)}
-  |                 ^^^^^
-  '
-    input.scss 2:17  root stylesheet
-
 <===>
 ================================================================================
 <===> multiple_denominators/input.scss
 @use "sass:math";
-a {b: math.unit(1 / 1px / 3em / 4rad)}
+a {b: math.unit(calc(1 / 1px / 3em / 4rad))}
 
 <===> multiple_denominators/output.css
 a {
   b: "(px*em*rad)^-1";
 }
 
-<===> multiple_denominators/warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(math.div(math.div(1, 1px), 3em), 4rad)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.unit(1 / 1px / 3em / 4rad)}
-  |                 ^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:17  root stylesheet
-
 <===>
 ================================================================================
 <===> numerator_and_denominator/single/input.scss
 @use "sass:math";
-a {b: math.unit(1px / 1em)}
+a {b: math.unit(math.div(1px, 1em))}
 
 <===> numerator_and_denominator/single/output.css
 a {
   b: "px/em";
 }
 
-<===> numerator_and_denominator/single/warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(1px, 1em)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.unit(1px / 1em)}
-  |                 ^^^^^^^^^
-  '
-    input.scss 2:17  root stylesheet
-
 <===>
 ================================================================================
 <===> numerator_and_denominator/multiple/input.scss
 @use "sass:math";
-a {b: math.unit(1px * 1em / 1rad / 1s)}
+a {b: math.unit(calc(1px * 1em / 1rad / 1s))}
 
 <===> numerator_and_denominator/multiple/output.css
 a {
   b: "px*em/(rad*s)";
 }
-
-<===> numerator_and_denominator/multiple/warning
-DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(1px * 1em, 1rad) or calc(1px * 1em / 1rad)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.unit(1px * 1em / 1rad / 1s)}
-  |                 ^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:17  root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(math.div(1px * 1em, 1rad), 1s) or calc(1px * 1em / 1rad / 1s)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.unit(1px * 1em / 1rad / 1s)}
-  |                 ^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:17  root stylesheet
 
 <===>
 ================================================================================

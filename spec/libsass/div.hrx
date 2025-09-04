@@ -17,60 +17,11 @@ div {
 <===> output.css
 div {
   /* $x: 3/4 */
-  a: 0.75;
-  b: hey 0.75 ho;
+  a: 3 / 4;
+  b: hey 3 / 4 ho;
   /* $xs: hey 3/4 ho */
-  c: hey 3/4 ho;
-  d: 0.75;
-  e: true;
-  f: number;
+  c: hey 3 / 4 ho;
+  d: 4 ho;
+  e: false;
+  f: list;
 }
-
-<===> warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(3, 4)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-3 | $x: 3/4;
-  |     ^^^
-  '
-    input.scss 3:5  root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(3, 4)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-12 |   d: list.nth($xs, 2);
-   |      ^^^^^^^^^^^^^^^^
-   '
-    input.scss 12:6  root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(3, 4)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-13 |   e: list.nth($xs, 2) == 0.75;
-   |      ^^^^^^^^^^^^^^^^
-   '
-    input.scss 13:6  root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(3, 4)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-14 |   f: meta.type-of(list.nth($xs, 2));
-   |                   ^^^^^^^^^^^^^^^^
-   '
-    input.scss 14:19  root stylesheet

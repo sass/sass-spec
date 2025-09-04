@@ -104,60 +104,6 @@ a {
 
 <===>
 ================================================================================
-<===> non_numeric/numerator/input.scss
-@use "sass:meta";
-@use "sass:math";
-a {
-  $result: math.div(b, 3);
-  value: $result;
-  type: meta.type-of($result);
-}
-
-<===> non_numeric/numerator/output.css
-a {
-  value: b/3;
-  type: string;
-}
-
-<===> non_numeric/numerator/warning
-WARNING: math.div() will only support number arguments in a future release.
-Use list.slash() instead for a slash separator.
-
-  ,
-4 |   $result: math.div(b, 3);
-  |            ^^^^^^^^^^^^^^
-  '
-    input.scss 4:12  root stylesheet
-
-<===>
-================================================================================
-<===> non_numeric/denominator/input.scss
-@use "sass:meta";
-@use "sass:math";
-a {
-  $result: math.div(6, b);
-  value: $result;
-  type: meta.type-of($result);
-}
-
-<===> non_numeric/denominator/output.css
-a {
-  value: 6/b;
-  type: string;
-}
-
-<===> non_numeric/denominator/warning
-WARNING: math.div() will only support number arguments in a future release.
-Use list.slash() instead for a slash separator.
-
-  ,
-4 |   $result: math.div(6, b);
-  |            ^^^^^^^^^^^^^^
-  '
-    input.scss 4:12  root stylesheet
-
-<===>
-================================================================================
 <===> error/too_few_args/input.scss
 @use "sass:math";
 a {b: math.div(6)}
@@ -189,5 +135,62 @@ Error: Only 2 arguments allowed, but 3 were passed.
   ,--> sass:math
 1 | @function div($number1, $number2) {
   |           ======================= declaration
+  '
+  input.scss 2:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/non_numeric/numerator/string/input.scss
+@use "sass:math";
+a {b: math.div(b, 3)}
+
+<===> error/non_numeric/numerator/string/error
+Error: $number1: b is not a number.
+  ,
+2 | a {b: math.div(b, 3)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_numeric/numerator/calculation/input.scss
+@use "sass:math";
+a {b: math.div(calc(1px + 1%), 3)}
+
+<===> error/non_numeric/numerator/calculation/error
+Error: $number1: calc(1px + 1%) is not a number.
+  ,
+2 | a {b: math.div(calc(1px + 1%), 3)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_numeric/denominator/string/input.scss
+@use "sass:math";
+a {b: math.div(6, b)}
+
+<===> error/non_numeric/denominator/string/error
+Error: $number2: b is not a number.
+  ,
+2 | a {b: math.div(6, b)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_numeric/denominator/calculation/input.scss
+@use "sass:math";
+a {b: math.div(6, calc(1px + 1%))}
+
+<===> error/non_numeric/denominator/calculation/error
+Error: $number2: calc(1px + 1%) is not a number.
+  ,
+2 | a {b: math.div(6, calc(1px + 1%))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
