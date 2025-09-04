@@ -60,13 +60,15 @@ div {
   hey: 4;
   ho: hello;
   hee: fudge;
-  fudge: walnut;
 }
 @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
   div {
     background-image: image-url("test@2x.png");
     -webkit-background-size: 100px 300px;
   }
+}
+div {
+  fudge: walnut;
 }
 
 span {
@@ -92,25 +94,3 @@ div {
   bar-y: default;
   blah: hello;
 }
-
-<===> warning
-DEPRECATION WARNING [mixed-decls]: Sass's behavior for declarations that appear after nested
-rules will be changing to match the behavior specified by CSS in an upcoming
-version. To keep the existing behavior, move the declaration above the nested
-rule. To opt into the new behavior, wrap the declaration in `& {}`.
-
-More info: https://sass-lang.com/d/mixed-decls
-
-    ,
-12  | /   @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
-13  | |     & {
-14  | |       background-image: image-url("#{$file}@2x.#{$type}");
-15  | |       -webkit-background-size: $width $height;
-16  | |     }
-17  | |   }
-    | '--- nested rule
-... |
-25  |     fudge: walnut;
-    |     ^^^^^^^^^^^^^ declaration
-    '
-    input.scss 25:3  root stylesheet

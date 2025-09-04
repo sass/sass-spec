@@ -70,3 +70,27 @@ b {
   midstream1: overridden 1;
   midstream2: overridden 2;
 }
+
+<===>
+================================================================================
+<===> unused_configuration/input.scss
+@use "forwarded";
+@use "midstream" with ($a: overridden);
+
+b {
+  midstream: midstream.$a;
+}
+
+<===> unused_configuration/_midstream.scss
+@forward "forwarded";
+
+$a: default !default;
+
+<===> unused_configuration/_forwarded.scss
+// This file defines no variables, so it's allowed to be loaded with and without
+// configuration.
+
+<===> unused_configuration/output.css
+b {
+  midstream: overridden;
+}

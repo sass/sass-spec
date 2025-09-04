@@ -80,50 +80,6 @@ b {
 
 <===>
 ================================================================================
-<===> special/type/lowercase/input.scss
-@function type() {@return 1}
-a {b: type()}
-
-<===> special/type/lowercase/output.css
-a {
-  b: 1;
-}
-
-<===> special/type/lowercase/warning
-DEPRECATION WARNING [type-function]: Sass @functions named "type" are deprecated for forward-compatibility with the plain CSS type() function.
-
-For details, see https://sass-lang.com/d/type-function
-
-  ,
-1 | @function type() {@return 1}
-  |           ^^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> special/type/uppercase/input.scss
-@function TYPE() {@return 1}
-a {b: TYPE()}
-
-<===> special/type/uppercase/output.css
-a {
-  b: 1;
-}
-
-<===> special/type/uppercase/warning
-DEPRECATION WARNING [type-function]: Sass @functions named "type" are deprecated for forward-compatibility with the plain CSS type() function.
-
-For details, see https://sass-lang.com/d/type-function
-
-  ,
-1 | @function TYPE() {@return 1}
-  |           ^^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
 <===> error/special/calc/input.scss
 @function calc() {@return 1}
 
@@ -225,3 +181,31 @@ Error: Invalid function name.
   | ^^^^^^^^^^^^^^^^^
   '
   input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/special/type/lowercase/input.scss
+@function type() {@return 1}
+a {b: type()}
+
+<===> error/special/type/lowercase/error
+Error: This name is reserved for the plain-CSS function.
+  ,
+1 | @function type() {@return 1}
+  |           ^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/special/type/uppercase/input.scss
+@function TYPE() {@return 1}
+a {b: TYPE()}
+
+<===> error/special/type/uppercase/error
+Error: This name is reserved for the plain-CSS function.
+  ,
+1 | @function TYPE() {@return 1}
+  |           ^^^^
+  '
+  input.scss 1:11  root stylesheet
