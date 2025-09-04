@@ -101,33 +101,31 @@ a list of strings, or a list of lists of strings.
 ================================================================================
 <===> slash_list/top_level/input.scss
 @use "sass:selector";
-@use "sass:list";
-a {b: selector.parse(list.slash(c d, e f))}
+a {b: selector.parse(c d / e f)}
 
 <===> slash_list/top_level/error
 Error: $selector: (c d / e f) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-3 | a {b: selector.parse(list.slash(c d, e f))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: selector.parse(c d / e f)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
 <===> slash_list/in_comma_list/input.scss
 @use "sass:selector";
-@use "sass:list";
-a {b: selector.parse((list.slash(c, d), list.slash(e, f)))}
+a {b: selector.parse((c / d, e / f))}
 
 <===> slash_list/in_comma_list/error
 Error: $selector: (c / d, e / f) is not a valid selector: it must be a string,
 a list of strings, or a list of lists of strings.
   ,
-3 | a {b: selector.parse((list.slash(c, d), list.slash(e, f)))}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2 | a {b: selector.parse((c / d, e / f))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-  input.scss 3:7  root stylesheet
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

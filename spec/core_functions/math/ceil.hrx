@@ -44,25 +44,12 @@ a {
 ================================================================================
 <===> preserves_units/input.scss
 @use "sass:math";
-a {b: math.ceil(7px / 4em) * 1em}
+a {b: math.ceil(math.div(7px, 4em)) * 1em}
 
 <===> preserves_units/output.css
 a {
   b: 2px;
 }
-
-<===> preserves_units/warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(7px, 4em)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.ceil(7px / 4em) * 1em}
-  |                 ^^^^^^^^^
-  '
-    input.scss 2:17  root stylesheet
 
 <===>
 ================================================================================

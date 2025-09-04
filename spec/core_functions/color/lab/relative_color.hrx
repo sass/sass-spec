@@ -3,7 +3,7 @@ a {b: lab(from #aaa l a b / 25%)}
 
 <===> static/alpha/output.css
 a {
-  b: lab(from #aaa l a b/25%);
+  b: lab(from #aaa l a b / 25%);
 }
 
 <===>
@@ -23,7 +23,7 @@ a {b: lab(from #aaa calc(l + 0.2) a b / 25%)}
 
 <===> calc/alpha/output.css
 a {
-  b: lab(from #aaa calc(l + 0.2) a b/25%);
+  b: lab(from #aaa calc(l + 0.2) a b / 25%);
 }
 
 <===>
@@ -43,7 +43,7 @@ a {b: lab(from var(--c) l a b / 25%)}
 
 <===> var/alpha/output.css
 a {
-  b: lab(from var(--c) l a b/25%);
+  b: lab(from var(--c) l a b / 25%);
 }
 
 <===>
@@ -63,7 +63,7 @@ a {b: lab(From #aaa l a b / 25%)}
 
 <===> different_case/alpha/output.css
 a {
-  b: lab(From #aaa l a b/25%);
+  b: lab(From #aaa l a b / 25%);
 }
 
 <===>
@@ -74,17 +74,6 @@ a {b: lab(From #aaa l a b)}
 <===> different_case/no_alpha/output.css
 a {
   b: lab(From #aaa l a b);
-}
-
-<===>
-================================================================================
-<===> slash_list_alpha/input.scss
-@use "sass:list";
-a {b: lab(list.slash(from #aaa r g b, 25%))}
-
-<===> slash_list_alpha/output.css
-a {
-  b: lab(from #aaa r g b / 25%);
 }
 
 <===>

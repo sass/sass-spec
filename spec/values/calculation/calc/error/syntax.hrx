@@ -50,6 +50,51 @@ Error: Expected expression.
 
 <===>
 ================================================================================
+<===> slash/README.md
+We have extra tests for slash because, unlike other operators, it's first parsed
+as a separator and then reinterpreted as division.
+
+<===>
+================================================================================
+<===> slash/initial/input.scss
+a {b: calc(/ 1px)}
+
+<===> slash/initial/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: calc(/ 1px)}
+  |            ^^^^^
+  '
+  input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> slash/final/input.scss
+a {b: calc(1px /)}
+
+<===> slash/final/error
+Error: Expected expression.
+  ,
+1 | a {b: calc(1px /)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> slash/double/input.scss
+a {b: calc(1px / / 2px)}
+
+<===> slash/double/error
+Error: This expression can't be used in a calculation.
+  ,
+1 | a {b: calc(1px / / 2px)}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
 <===> multiple_args/input.scss
 a {b: calc(1px, 2px)}
 
