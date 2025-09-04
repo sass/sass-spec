@@ -209,3 +209,25 @@ Error: This name is reserved for the plain-CSS function.
   |           ^^^^
   '
   input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> case-insensitive-reserved-function-name/EXPRESSION/input.scss
+@function EXPRESSION() {@return 1}
+a {b: EXPRESSION()}
+
+<===> case-insensitive-reserved-function-name/EXPRESSION/output.css
+a {
+  b: expression();
+}
+
+<===>
+================================================================================
+<===> case-insensitive-reserved-function-name/URL/input.scss
+@function URL() {@return 1}
+a {b: URL()}
+
+<===> case-insensitive-reserved-function-name/URL/output.css
+a {
+  b: url();
+}
