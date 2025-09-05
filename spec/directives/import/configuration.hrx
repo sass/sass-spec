@@ -87,26 +87,26 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===>
 ================================================================================
-<===> separate_file/input.scss
+<===> separate_file/direct/input.scss
 @import "config";
 @import "midstream";
 
-<===> separate_file/_config.scss
+<===> separate_file/direct/_config.scss
 $a: configured;
 
-<===> separate_file/_midstream.scss
+<===> separate_file/direct/_midstream.scss
 @forward "upstream";
 
-<===> separate_file/_upstream.scss
+<===> separate_file/direct/_upstream.scss
 $a: original !default;
 b {c: $a}
 
-<===> separate_file/output.css
+<===> separate_file/direct/output.css
 b {
   c: configured;
 }
 
-<===> separate_file/warning
+<===> separate_file/direct/warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
@@ -114,6 +114,51 @@ More info and automated migrator: https://sass-lang.com/d/import
   ,
 1 | @import "config";
   |         ^^^^^^^^
+  '
+    input.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> separate_file/through_forward/input.scss
+@import "config_wrapper";
+@import "midstream";
+
+<===> separate_file/through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> separate_file/through_forward/_config.scss
+$a: configured;
+
+<===> separate_file/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> separate_file/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> separate_file/through_forward/output.css
+b {
+  c: configured;
+}
+
+<===> separate_file/through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "config_wrapper";
+  |         ^^^^^^^^^^^^^^^^
   '
     input.scss 1:9  root stylesheet
 
