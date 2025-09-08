@@ -15,9 +15,15 @@ import {
 
 import {captureStdio, URL} from './utils';
 
+const emptyStylesheetImporter: Importer = {
+  canonicalize: () => new URL('noop:noop'),
+  load: () => ({contents: '', syntax: 'scss'}),
+};
+
 describe('a warning', () => {
   it('is emitted with no flags', done => {
-    compileString('a { $b: c !global; }', {
+    compileString('@import "other"', {
+      importers: [emptyStylesheetImporter],
       logger: {
         warn(
           message: string,
@@ -25,7 +31,7 @@ describe('a warning', () => {
             deprecationType,
           }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
-          expect(deprecationType).toEqual(deprecations['new-global']);
+          expect(deprecationType).toEqual(deprecations['import']);
           done();
         },
       },
@@ -33,7 +39,8 @@ describe('a warning', () => {
   });
 
   it('is emitted with different deprecation type silenced', done => {
-    compileString('a { $b: c !global; }', {
+    compileString('@import "other"', {
+      importers: [emptyStylesheetImporter],
       logger: {
         warn(
           message: string,
@@ -41,7 +48,7 @@ describe('a warning', () => {
             deprecationType,
           }: {deprecation: boolean; deprecationType?: Deprecation}
         ) {
-          expect(deprecationType).toEqual(deprecations['new-global']);
+          expect(deprecationType).toEqual(deprecations['import']);
           done();
         },
       },
@@ -51,8 +58,9 @@ describe('a warning', () => {
 
   it('is not emitted when deprecation silenced', () => {
     const stdio = captureStdio(() => {
-      compileString('a { $b: c !global; }', {
-        silenceDeprecations: [deprecations['new-global']],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        silenceDeprecations: [deprecations['import']],
       });
     });
     expect(stdio.err).toBe('');
@@ -60,8 +68,9 @@ describe('a warning', () => {
 
   it('is not emitted when deprecation id silenced', () => {
     const stdio = captureStdio(() => {
-      compileString('a { $b: c !global; }', {
-        silenceDeprecations: ['new-global'],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        silenceDeprecations: ['import'],
       });
     });
     expect(stdio.err).toBe('');
@@ -69,8 +78,9 @@ describe('a warning', () => {
 
   it('is emitted for making same deprecation fatal and silent', done => {
     compileString('a { b: c; }', {
-      fatalDeprecations: ['new-global'],
-      silenceDeprecations: ['new-global'],
+      importers: [emptyStylesheetImporter],
+      fatalDeprecations: ['import'],
+      silenceDeprecations: ['import'],
       logger: {
         warn(message: string) {
           expect(message).toContain('Ignoring setting to silence');
@@ -82,7 +92,8 @@ describe('a warning', () => {
 
   it('is emitted for enabling active deprecation', done => {
     compileString('a { b: c; }', {
-      futureDeprecations: ['new-global'],
+      importers: [emptyStylesheetImporter],
+      futureDeprecations: ['import'],
       logger: {
         warn(message: string) {
           expect(message).toContain('does not need to be explicitly enabled');
@@ -96,33 +107,37 @@ describe('a warning', () => {
 describe('an error', () => {
   it('is thrown when deprecation made fatal', () => {
     expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: [deprecations['new-global']],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        fatalDeprecations: [deprecations['import']],
       })
     ).toThrowError();
   });
 
   it('is thrown when deprecation id made fatal', () => {
     expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: [deprecations['new-global']],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        fatalDeprecations: [deprecations['import']],
       })
     ).toThrowError();
   });
 
   it('is thrown when version made fatal', () => {
     expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: [new Version(1, 17, 2)],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        fatalDeprecations: [new Version(1, 80, 0)],
       })
     ).toThrowError();
   });
 
   it('is thrown and warning emitted when both fatal and silenced', done => {
     expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: ['new-global'],
-        silenceDeprecations: ['new-global'],
+      compileString('@import "other"', {
+        importers: [emptyStylesheetImporter],
+        fatalDeprecations: ['import'],
+        silenceDeprecations: ['import'],
         logger: {
           warn(message: string) {
             expect(message).toContain('Ignoring setting to silence');
