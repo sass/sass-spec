@@ -3,20 +3,13 @@ $a: b !default !default;
 
 c {d: $a}
 
-<===> default/output.css
-c {
-  d: b;
-}
-
-<===> default/warning
-DEPRECATION WARNING [duplicate-var-flags]: !default should only be written once for each variable.
-This will be an error in Dart Sass 2.0.0.
-
+<===> default/error
+Error: Only one !default is allowed per declaration.
   ,
 1 | $a: b !default !default;
   |                ^^^^^^^^
   '
-    input.scss 1:16  root stylesheet
+  input.scss 1:16  root stylesheet
 
 <===>
 ================================================================================
@@ -27,17 +20,10 @@ c {
   e: $a
 }
 
-<===> global/output.css
-c {
-  e: d;
-}
-
-<===> global/warning
-DEPRECATION WARNING [duplicate-var-flags]: !global should only be written once for each variable.
-This will be an error in Dart Sass 2.0.0.
-
+<===> global/error
+Error: Only one !global is allowed per declaration.
   ,
 3 |   $a: d !global !global;
   |                 ^^^^^^^
   '
-    input.scss 3:17  root stylesheet
+  input.scss 3:17  root stylesheet
