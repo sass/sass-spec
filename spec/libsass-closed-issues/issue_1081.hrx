@@ -23,22 +23,7 @@ import-after {
   foo: $foo;
 }
 
-<===> output.css
-default {
-  foo: foo;
-}
-
-after import-before {
-  foo: bar;
-}
-after import-after {
-  foo: bar;
-}
-after {
-  foo: bar;
-}
-
-<===> warning
+<===> error
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
@@ -49,13 +34,9 @@ More info and automated migrator: https://sass-lang.com/d/import
    '
     input.scss 10:11  root stylesheet
 
-DEPRECATION WARNING [new-global]: As of Dart Sass 2.0.0, !global assignments won't be able to declare new variables.
-
-Since this assignment is at the root of the stylesheet, the !global flag is
-unnecessary and can safely be removed.
-
+Error: !global assignments may not declare new variables.
   ,
 1 | $foo: foo !global !default;
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 1:1  root stylesheet
+  input.scss 1:1  root stylesheet
