@@ -1,0 +1,525 @@
+<===> is/simple_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d")}
+
+<===> is/simple_target/single_extender/output.css
+a {
+  b: :is(.c, .d);
+}
+
+<===>
+================================================================================
+<===> is/simple_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d.e")}
+
+<===> is/simple_target/compound_extender/output.css
+a {
+  b: :is(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> is/simple_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d .e")}
+
+<===> is/simple_target/complex_extender/output.css
+a {
+  b: :is(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> is/simple_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ".d, .e")}
+
+<===> is/simple_target/list_extender/output.css
+a {
+  b: :is(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> is/compound_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c.d)", ".c", ".e")}
+
+<===> is/compound_target/single_extender/output.css
+a {
+  b: .d:is(.c, .e);
+}
+
+<===>
+================================================================================
+<===> is/compound_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c.d)", ".c", ".e.f")}
+
+<===> is/compound_target/compound_extender/output.css
+a {
+  b: .d:is(.c, .e.f);
+}
+
+<===>
+================================================================================
+<===> is/compound_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c.d)", ".c", ".e .f")}
+
+<===> is/compound_target/complex_extender/output.css
+a {
+  b: .d:is(.c, .e .f);
+}
+
+<===>
+================================================================================
+<===> is/compound_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c.d)", ".c", ".e, .f")}
+
+<===> is/compound_target/list_extender/output.css
+a {
+  b: .d:is(.c, .e, .f);
+}
+
+<===>
+================================================================================
+<===> is/complex_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c .d)", ".d", ".e")}
+
+<===> is/complex_target/single_extender/output.css
+a {
+  b: :is(.c :is(.d, .e));
+}
+
+<===>
+================================================================================
+<===> is/complex_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c .d)", ".d", ".e.f")}
+
+<===> is/complex_target/compound_extender/output.css
+a {
+  b: :is(.c :is(.d, .e.f));
+}
+
+<===>
+================================================================================
+<===> is/complex_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c .d)", ".d", ".e .f")}
+
+<===> is/complex_target/complex_extender/output.css
+a {
+  b: :is(.c :is(.d, .e .f));
+}
+
+<===>
+================================================================================
+<===> is/complex_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c .d)", ".d", ".e, .f")}
+
+<===> is/complex_target/list_extender/output.css
+a {
+  b: :is(.c :is(.d, .e, .f));
+}
+
+<===>
+================================================================================
+<===> is/list_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c, .d)", ".d", ".e")}
+
+<===> is/list_target/single_extender/output.css
+a {
+  b: :is(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> is/list_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c, .d)", ".d", ".e.f")}
+
+<===> is/list_target/compound_extender/output.css
+a {
+  b: :is(.c, .d, .e.f);
+}
+
+<===>
+================================================================================
+<===> is/list_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c, .d)", ".d", ".e .f")}
+
+<===> is/list_target/complex_extender/output.css
+a {
+  b: :is(.c, .d, .e .f);
+}
+
+<===>
+================================================================================
+<===> is/list_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c, .d)", ".d", ".e, .f")}
+
+<===> is/list_target/list_extender/output.css
+a {
+  b: :is(.c, .d, .e, .f);
+}
+
+<===>
+================================================================================
+<===> has/simple_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d")}
+
+<===> has/simple_target/single_extender/output.css
+a {
+  b: :has(.c, .d);
+}
+
+<===>
+================================================================================
+<===> has/simple_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d.e")}
+
+<===> has/simple_target/compound_extender/output.css
+a {
+  b: :has(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> has/simple_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d .e")}
+
+<===> has/simple_target/complex_extender/output.css
+a {
+  b: :has(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> has/simple_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d, .e")}
+
+<===> has/simple_target/list_extender/output.css
+a {
+  b: :has(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> has/compound_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e")}
+
+<===> has/compound_target/single_extender/output.css
+a {
+  b: .d:has(.c, .e);
+}
+
+<===>
+================================================================================
+<===> has/compound_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e.f")}
+
+<===> has/compound_target/compound_extender/output.css
+a {
+  b: .d:has(.c, .e.f);
+}
+
+<===>
+================================================================================
+<===> has/compound_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e .f")}
+
+<===> has/compound_target/complex_extender/output.css
+a {
+  b: .d:has(.c, .e .f);
+}
+
+<===>
+================================================================================
+<===> has/compound_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e, .f")}
+
+<===> has/compound_target/list_extender/output.css
+a {
+  b: .d:has(.c, .e, .f);
+}
+
+<===>
+================================================================================
+<===> has/complex_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e")}
+
+<===> has/complex_target/single_extender/output.css
+a {
+  b: :has(.c :has(.d, .e));
+}
+
+<===>
+================================================================================
+<===> has/complex_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e.f")}
+
+<===> has/complex_target/compound_extender/output.css
+a {
+  b: :has(.c :has(.d, .e.f));
+}
+
+<===>
+================================================================================
+<===> has/complex_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e .f")}
+
+<===> has/complex_target/complex_extender/output.css
+a {
+  b: :has(.c :has(.d, .e .f));
+}
+
+<===>
+================================================================================
+<===> has/complex_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e, .f")}
+
+<===> has/complex_target/list_extender/output.css
+a {
+  b: :has(.c :has(.d, .e, .f));
+}
+
+<===>
+================================================================================
+<===> has/list_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e")}
+
+<===> has/list_target/single_extender/output.css
+a {
+  b: :has(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> has/list_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e.f")}
+
+<===> has/list_target/compound_extender/output.css
+a {
+  b: :has(.c, .d, .e.f);
+}
+
+<===>
+================================================================================
+<===> has/list_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e .f")}
+
+<===> has/list_target/complex_extender/output.css
+a {
+  b: :has(.c, .d, .e .f);
+}
+
+<===>
+================================================================================
+<===> has/list_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e, .f")}
+
+<===> has/list_target/list_extender/output.css
+a {
+  b: :has(.c, .d, .e, .f);
+}
+
+<===>
+================================================================================
+<===> where/simple_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d")}
+
+<===> where/simple_target/single_extender/output.css
+a {
+  b: :where(.c, .d);
+}
+
+<===>
+================================================================================
+<===> where/simple_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d.e")}
+
+<===> where/simple_target/compound_extender/output.css
+a {
+  b: :where(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> where/simple_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d .e")}
+
+<===> where/simple_target/complex_extender/output.css
+a {
+  b: :where(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> where/simple_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d, .e")}
+
+<===> where/simple_target/list_extender/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> where/compound_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e")}
+
+<===> where/compound_target/single_extender/output.css
+a {
+  b: .d:where(.c, .e);
+}
+
+<===>
+================================================================================
+<===> where/compound_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e.f")}
+
+<===> where/compound_target/compound_extender/output.css
+a {
+  b: .d:where(.c, .e.f);
+}
+
+<===>
+================================================================================
+<===> where/compound_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e .f")}
+
+<===> where/compound_target/complex_extender/output.css
+a {
+  b: .d:where(.c, .e .f);
+}
+
+<===>
+================================================================================
+<===> where/compound_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e, .f")}
+
+<===> where/compound_target/list_extender/output.css
+a {
+  b: .d:where(.c, .e, .f);
+}
+
+<===>
+================================================================================
+<===> where/complex_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e")}
+
+<===> where/complex_target/single_extender/output.css
+a {
+  b: :where(.c :where(.d, .e));
+}
+
+<===>
+================================================================================
+<===> where/complex_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e.f")}
+
+<===> where/complex_target/compound_extender/output.css
+a {
+  b: :where(.c :where(.d, .e.f));
+}
+
+<===>
+================================================================================
+<===> where/complex_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e .f")}
+
+<===> where/complex_target/complex_extender/output.css
+a {
+  b: :where(.c :where(.d, .e .f));
+}
+
+<===>
+================================================================================
+<===> where/complex_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e, .f")}
+
+<===> where/complex_target/list_extender/output.css
+a {
+  b: :where(.c :where(.d, .e, .f));
+}
+
+<===>
+================================================================================
+<===> where/list_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e")}
+
+<===> where/list_target/single_extender/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> where/list_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e.f")}
+
+<===> where/list_target/compound_extender/output.css
+a {
+  b: :where(.c, .d, .e.f);
+}
+
+<===>
+================================================================================
+<===> where/list_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e .f")}
+
+<===> where/list_target/complex_extender/output.css
+a {
+  b: :where(.c, .d, .e .f);
+}
+
+<===>
+================================================================================
+<===> where/list_target/list_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e, .f")}
+
+<===> where/list_target/list_extender/output.css
+a {
+  b: :where(.c, .d, .e, .f);
+}

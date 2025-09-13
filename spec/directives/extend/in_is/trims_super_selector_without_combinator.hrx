@@ -1,0 +1,17 @@
+<===> input.scss
+a b {
+  @extend %c;
+}
+
+a > b {
+  @extend %c;
+}
+
+:is(%c) {
+  color: red;
+}
+
+<===> output.css
+:is(a b) {
+  color: red;
+}
