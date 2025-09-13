@@ -1,0 +1,173 @@
+<===> simple_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d")}
+
+<===> simple_target/single_extender/output.css
+a {
+  b: :has(.c, .d);
+}
+
+<===>
+================================================================================
+<===> simple_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d.e")}
+
+<===> simple_target/compound_extender/output.css
+a {
+  b: :has(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> simple_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d .e")}
+
+<===> simple_target/complex_extender/output.css
+a {
+  b: :has(.c, .d .e);
+}
+
+<===>
+================================================================================
+<===> simple_target/lhast_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c)", ".c", ".d, .e")}
+
+<===> simple_target/lhast_extender/output.css
+a {
+  b: :has(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> compound_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e")}
+
+<===> compound_target/single_extender/output.css
+a {
+  b: :has(.d:is(.c, .e));
+}
+
+<===>
+================================================================================
+<===> compound_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e.f")}
+
+<===> compound_target/compound_extender/output.css
+a {
+  b: :has(.d:is(.c, .e.f));
+}
+
+<===>
+================================================================================
+<===> compound_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e .f")}
+
+<===> compound_target/complex_extender/output.css
+a {
+  b: :has(.d:is(.c, .e .f));
+}
+
+<===>
+================================================================================
+<===> compound_target/lhast_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c.d)", ".c", ".e, .f")}
+
+<===> compound_target/lhast_extender/output.css
+a {
+  b: :has(.d:is(.c, .e, .f));
+}
+
+<===>
+================================================================================
+<===> complex_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e")}
+
+<===> complex_target/single_extender/output.css
+a {
+  b: :has(.c :is(.d, .e));
+}
+
+<===>
+================================================================================
+<===> complex_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e.f")}
+
+<===> complex_target/compound_extender/output.css
+a {
+  b: :has(.c :is(.d, .e.f));
+}
+
+<===>
+================================================================================
+<===> complex_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e .f")}
+
+<===> complex_target/complex_extender/output.css
+a {
+  b: :has(.c :is(.d, .e .f));
+}
+
+<===>
+================================================================================
+<===> complex_target/lhast_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c .d)", ".d", ".e, .f")}
+
+<===> complex_target/lhast_extender/output.css
+a {
+  b: :has(.c :is(.d, .e, .f));
+}
+
+<===>
+================================================================================
+<===> lhast_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e")}
+
+<===> lhast_target/single_extender/output.css
+a {
+  b: :has(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> lhast_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e.f")}
+
+<===> lhast_target/compound_extender/output.css
+a {
+  b: :has(.c, .d, .e.f);
+}
+
+<===>
+================================================================================
+<===> lhast_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e .f")}
+
+<===> lhast_target/complex_extender/output.css
+a {
+  b: :has(.c, .d, .e .f);
+}
+
+<===>
+================================================================================
+<===> lhast_target/lhast_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":has(.c, .d)", ".d", ".e, .f")}
+
+<===> lhast_target/lhast_extender/output.css
+a {
+  b: :has(.c, .d, .e, .f);
+}

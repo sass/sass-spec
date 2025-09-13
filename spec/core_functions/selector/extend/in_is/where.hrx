@@ -1,0 +1,173 @@
+<===> simple_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d")}
+
+<===> simple_target/single_extender/output.css
+a {
+  b: :where(.c, .d);
+}
+
+<===>
+================================================================================
+<===> simple_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d.e")}
+
+<===> simple_target/compound_extender/output.css
+a {
+  b: :where(.c, .d.e);
+}
+
+<===>
+================================================================================
+<===> simple_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d .e")}
+
+<===> simple_target/complex_extender/output.css
+a {
+  b: :where(.c, .d .e);
+}
+
+<===>
+================================================================================
+<===> simple_target/lwheret_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ".d, .e")}
+
+<===> simple_target/lwheret_extender/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> compound_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e")}
+
+<===> compound_target/single_extender/output.css
+a {
+  b: :where(.d:is(.c, .e));
+}
+
+<===>
+================================================================================
+<===> compound_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e.f")}
+
+<===> compound_target/compound_extender/output.css
+a {
+  b: :where(.d:is(.c, .e.f));
+}
+
+<===>
+================================================================================
+<===> compound_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e .f")}
+
+<===> compound_target/complex_extender/output.css
+a {
+  b: :where(.d:is(.c, .e .f));
+}
+
+<===>
+================================================================================
+<===> compound_target/lwheret_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c.d)", ".c", ".e, .f")}
+
+<===> compound_target/lwheret_extender/output.css
+a {
+  b: :where(.d:is(.c, .e, .f));
+}
+
+<===>
+================================================================================
+<===> complex_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e")}
+
+<===> complex_target/single_extender/output.css
+a {
+  b: :where(.c :is(.d, .e));
+}
+
+<===>
+================================================================================
+<===> complex_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e.f")}
+
+<===> complex_target/compound_extender/output.css
+a {
+  b: :where(.c :is(.d, .e.f));
+}
+
+<===>
+================================================================================
+<===> complex_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e .f")}
+
+<===> complex_target/complex_extender/output.css
+a {
+  b: :where(.c :is(.d, .e .f));
+}
+
+<===>
+================================================================================
+<===> complex_target/lwheret_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c .d)", ".d", ".e, .f")}
+
+<===> complex_target/lwheret_extender/output.css
+a {
+  b: :where(.c :is(.d, .e, .f));
+}
+
+<===>
+================================================================================
+<===> lwheret_target/single_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e")}
+
+<===> lwheret_target/single_extender/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> lwheret_target/compound_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e.f")}
+
+<===> lwheret_target/compound_extender/output.css
+a {
+  b: :where(.c, .d, .e.f);
+}
+
+<===>
+================================================================================
+<===> lwheret_target/complex_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e .f")}
+
+<===> lwheret_target/complex_extender/output.css
+a {
+  b: :where(.c, .d, .e .f);
+}
+
+<===>
+================================================================================
+<===> lwheret_target/lwheret_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c, .d)", ".d", ".e, .f")}
+
+<===> lwheret_target/lwheret_extender/output.css
+a {
+  b: :where(.c, .d, .e, .f);
+}
