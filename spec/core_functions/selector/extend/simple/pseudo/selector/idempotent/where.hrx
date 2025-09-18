@@ -22,9 +22,20 @@ a {
 ================================================================================
 <===> is_in_extender/input.scss
 @use "sass:selector";
-a {b: selector.extend(":where(.c)", ".c", ":where(.d, .e)")}
+a {b: selector.extend(":where(.c)", ".c", ":is(.d, .e)")}
 
 <===> is_in_extender/output.css
+a {
+  b: :where(.c, .d, .e);
+}
+
+<===>
+================================================================================
+<===> where_in_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":where(.c)", ".c", ":where(.d, .e)")}
+
+<===> where_in_extender/output.css
 a {
   b: :where(.c, .d, .e);
 }

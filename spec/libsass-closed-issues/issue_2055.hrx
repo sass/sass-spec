@@ -12,14 +12,14 @@
 }
 
 <===> output.css
-:not(.thing):not(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))) {
+:not(.thing):not(:not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled])))))) {
   color: red;
 }
 
-:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))):not([disabled]:has(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))):not([disabled]:has(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))))))) {
+:not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled]))))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled])))))):not([disabled]:has(:not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))), :not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))))))))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled]))))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled])))))):not([disabled]:has(:not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))), :not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled]))))))))))) {
   background: blue;
 }
 
-:has(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))):not([disabled]:has(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))):not([disabled]:has(:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled])))):not([disabled]:not(.thing[disabled]):not([disabled]:has(:not(.thing[disabled]):not([disabled]:not(.thing[disabled]))))))))) {
+:has(:not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))), :not(.thing[disabled]):not([disabled]:has(:not([disabled]:is(.thing, :not(.thing[disabled]))))), :has(:not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))), :not([disabled]:is(.thing, :has(:not([disabled]:is(.thing, :not(.thing[disabled])))))))))))) {
   background: blue;
 }

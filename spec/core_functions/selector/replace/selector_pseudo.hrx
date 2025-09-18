@@ -1,0 +1,41 @@
+<===> is/input.scss
+@use "sass:selector";
+a {b: selector.replace(":is(c)", "c", "d")}
+
+<===> is/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> where/input.scss
+@use "sass:selector";
+a {b: selector.replace(":where(c)", "c", "d")}
+
+<===> where/output.css
+a {
+  b: :where(d);
+}
+
+<===>
+================================================================================
+<===> matches/input.scss
+@use "sass:selector";
+a {b: selector.replace(":matches(c)", "c", "d")}
+
+<===> matches/output.css
+a {
+  b: :matches(d);
+}
+
+<===>
+================================================================================
+<===> not/input.scss
+@use "sass:selector";
+a {b: selector.replace(":not(c)", "c", "d")}
+
+<===> not/output.css
+a {
+  b: :not(d);
+}

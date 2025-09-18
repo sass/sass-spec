@@ -1,0 +1,192 @@
+<===> README.md
+These are tested here rather than in the extend functions because they exercise
+behavior relating to preserving the source specificity of various selectors
+(which is not tracked by functions) in order to comply with the second law of
+extend.
+
+<===>
+================================================================================
+<===> trimmable/context/input.scss
+// `:is(.b, .b.c)` can be reduced to `.b` because `.a` increases the total
+// specificity to 020, which is the minimum required by `.b.c`.
+:is(.a .b) {x: y}
+.b.c {@extend .b}
+
+<===> trimmable/context/output.css
+:is(.a .b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/sibling/input.scss
+// `:is(.c, .c.d)` can be reduced to `.c` because `.a.b` increases the total
+// specificity to 020, which is the minimum required by `.c.d`.
+:is(.a.b, .c) {x: y}
+.c.d {@extend .c}
+
+<===> trimmable/sibling/output.css
+:is(.a.b, .c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/where/parent/single/input.scss
+:where(.a) {x: y}
+.a.b {@extend .a}
+
+<===> trimmable/where/parent/single/output.css
+:where(.a) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/where/parent/sibling/input.scss
+:where(.a, .b) {x: y}
+.b.c {@extend .b}
+
+<===> trimmable/where/parent/sibling/output.css
+:where(.a, .b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/where/grandparent/single/input.scss
+:where(:is(.a)) {x: y}
+.a.b {@extend .a}
+
+<===> trimmable/where/grandparent/single/output.css
+:where(.a) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/where/grandparent/sibling/input.scss
+:where(:is(.a, .b)) {x: y}
+.b.c {@extend .b}
+
+<===> trimmable/where/grandparent/sibling/output.css
+:where(.a, .b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> trimmable/super_selector_with_combinator/input.scss
+a b {
+  @extend %c;
+}
+
+a > b {
+  @extend %c;
+}
+
+:is(%c) {
+  color: red;
+}
+
+<===> trimmable/super_selector_with_combinator/output.css
+:is(a b) {
+  color: red;
+}
+
+<===>
+================================================================================
+<===> untrimmable/single/input.scss
+:is(.a) {x: y}
+.a.b {@extend .a}
+
+<===> untrimmable/single/output.css
+:is(.a, .a.b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> untrimmable/sibling/input.scss
+:is(.a, .b) {x: y}
+.b.c {@extend .b}
+
+<===> untrimmable/sibling/output.css
+:is(.a, .b, .b.c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> untrimmable/preserves_source_specificity/input.scss
+// This will result in :is(.a, :is(.a:(.b, .a.b))), which will be trimmed down
+// to :is(.a, .a.b)
+:is(.a, :is(.a.b)) {x: y}
+.a.b {@extend .b}
+
+<===> untrimmable/preserves_source_specificity/output.css
+:is(.a, .a.b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> multiple_options/is/top_level/input.scss
+// This generates :is(.a, .a.b., .a.c) before trimming. One of the two latter
+// selectors can be trimmed without violating the second law of extend, but not
+// both, since that would reduce the specificity to 010.
+:is(.a) {x: y}
+.a.b {@extend .a}
+.a.c {@extend .a}
+
+<===> multiple_options/is/top_level/output.css
+:is(.a, .a.c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> multiple_options/is/nested/trimmable/input.scss
+:is(:is(.a), .b.c) {x: y}
+.a.d {@extend .a}
+.a.e {@extend .a}
+
+<===> multiple_options/is/nested/trimmable/output.css
+:is(.a, .b.c) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> multiple_options/is/nested/untrimmable/input.scss
+:is(:is(.a), .b) {x: y}
+.a.c {@extend .a}
+.a.d {@extend .a}
+
+<===> multiple_options/is/nested/untrimmable/output.css
+:is(.a, .a.d, .b) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> multiple_options/where/input.scss
+:where(.a) {x: y}
+.a.b {@extend .a}
+.a.c {@extend .a}
+
+<===> multiple_options/where/output.css
+:where(.a) {
+  x: y;
+}
+
+<===>
+================================================================================
+<===> identical/input.scss
+:is(.a) {x: y}
+.b, .b {@extend .a}
+
+<===> identical/output.css
+:is(.a, .b) {
+  x: y;
+}

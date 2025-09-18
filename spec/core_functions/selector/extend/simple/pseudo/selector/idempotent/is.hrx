@@ -28,3 +28,14 @@ a {b: selector.extend(":is(.c)", ".c", ":is(.d, .e)")}
 a {
   b: :is(.c, .d, .e);
 }
+
+<===>
+================================================================================
+<===> where_in_extender/input.scss
+@use "sass:selector";
+a {b: selector.extend(":is(.c)", ".c", ":where(.d, .e)")}
+
+<===> where_in_extender/output.css
+a {
+  b: :is(.c, :where(.d, .e));
+}
