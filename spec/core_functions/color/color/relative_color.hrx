@@ -3,7 +3,7 @@ a {b: color(from #aaa srgb r g b / 25%)}
 
 <===> static/alpha/output.css
 a {
-  b: color(from #aaa srgb r g b/25%);
+  b: color(from #aaa srgb r g b / 25%);
 }
 
 <===>
@@ -23,7 +23,7 @@ a {b: color(from #aaa srgb calc(l + 0.2) a b / 25%)}
 
 <===> calc/alpha/output.css
 a {
-  b: color(from #aaa srgb calc(l + 0.2) a b/25%);
+  b: color(from #aaa srgb calc(l + 0.2) a b / 25%);
 }
 
 <===>
@@ -43,7 +43,7 @@ a {b: color(from var(--c) srgb r g b / 25%)}
 
 <===> var/alpha/output.css
 a {
-  b: color(from var(--c) srgb r g b/25%);
+  b: color(from var(--c) srgb r g b / 25%);
 }
 
 <===>
@@ -63,7 +63,7 @@ a {b: color(From #aaa srgb r g b / 25%)}
 
 <===> different_case/alpha/output.css
 a {
-  b: color(From #aaa srgb r g b/25%);
+  b: color(From #aaa srgb r g b / 25%);
 }
 
 <===>
@@ -74,15 +74,4 @@ a {b: color(From #aaa srgb r g b)}
 <===> different_case/no_alpha/output.css
 a {
   b: color(From #aaa srgb r g b);
-}
-
-<===>
-================================================================================
-<===> slash_list_alpha/input.scss
-@use "sass:list";
-a {b: color(list.slash(from #aaa srgb r g b, 25%))}
-
-<===> slash_list_alpha/output.css
-a {
-  b: color(from #aaa srgb r g b / 25%);
 }

@@ -1,0 +1,68 @@
+<===> percent/and_known/input.scss
+a {b: calc(1% + 1px)}
+
+<===> percent/and_known/output.css
+a {
+  b: calc(1% + 1px);
+}
+
+<===>
+================================================================================
+<===> percent/and_unknown/input.scss
+a {b: calc(1% + 1unknown)}
+
+<===> percent/and_unknown/output.css
+a {
+  b: calc(1% + 1unknown);
+}
+
+<===>
+================================================================================
+<===> unknown/and_known/input.scss
+a {b: calc(1unknown + 1px)}
+
+<===> unknown/and_known/output.css
+a {
+  b: calc(1unknown + 1px);
+}
+
+<===>
+================================================================================
+<===> unknown/and_unknown/input.scss
+a {b: calc(1unknown + 1other)}
+
+<===> unknown/and_unknown/output.css
+a {
+  b: calc(1unknown + 1other);
+}
+
+<===>
+================================================================================
+<===> denominators/input.scss
+a {b: calc(1/2px + 1/4px) * 1px}
+
+<===> denominators/output.css
+a {
+  b: 0.75;
+}
+
+<===>
+================================================================================
+<===> multiplication/input.scss
+@use "sass:math";
+a {b: math.div(calc(2px * 3px), 4px)}
+
+<===> multiplication/output.css
+a {
+  b: 1.5px;
+}
+
+<===>
+================================================================================
+<===> division/input.scss
+a {b: calc(1px / 2px)}
+
+<===> division/output.css
+a {
+  b: 0.5;
+}

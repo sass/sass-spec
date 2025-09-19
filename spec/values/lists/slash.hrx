@@ -1,14 +1,6 @@
-<===> README.md
-These specs test how slash-separated lists are rendered, and verify that they
-behave like any other list once created. These lists are created using
-list.slash() for convenience, but the same principles apply no matter how the
-lists are created.
-
-<===>
-================================================================================
 <===> output/nested/in/space/input.scss
 @use "sass:list";
-a {b: list.slash(c, d) list.slash(e, f)}
+a {b: (c / d) (e / f)}
 
 <===> output/nested/in/space/output.css
 a {
@@ -19,18 +11,24 @@ a {
 ================================================================================
 <===> output/nested/in/comma/input.scss
 @use "sass:list";
-a {b: list.slash(c, d), list.slash(e, f)}
+@use "sass:meta";
+a {
+  $result: b / c, d / e;
+  value: $result;
+  inspect: meta.inspect($result);
+}
 
 <===> output/nested/in/comma/output.css
 a {
-  b: c / d, e / f;
+  value: b / c, d / e;
+  inspect: b / c, d / e;
 }
 
 <===>
 ================================================================================
 <===> output/nested/in/slash/input.scss
 @use "sass:list";
-a {b: list.slash(list.slash(c, d), list.slash(e, f))}
+a {b: (c / d) / (e / f)}
 
 <===> output/nested/in/slash/output.css
 a {
@@ -41,18 +39,24 @@ a {
 ================================================================================
 <===> output/nested/outside/space/input.scss
 @use "sass:list";
-a {b: list.slash(c d, e f)}
+@use "sass:meta";
+a {
+  $result: b c / d e;
+  value: $result;
+  inspect: meta.inspect($result);
+}
 
 <===> output/nested/outside/space/output.css
 a {
-  b: c d / e f;
+  value: b c / d e;
+  inspect: b c / d e;
 }
 
 <===>
 ================================================================================
 <===> output/nested/comma_in/slash/input.scss
 @use "sass:list";
-a {b: list.slash((c, d), (e, f))}
+a {b: (c, d) / (e, f)}
 
 <===> output/nested/comma_in/slash/output.css
 a {
@@ -65,7 +69,7 @@ a {
 @use "sass:list";
 // CSS doesn't use slash-separated bracketed lists, but Sass supports them in
 // case one day that changes.
-a {b: list.join(c d, e f, $separator: slash, $bracketed: true)}
+a {b: [c / d / e / f]}
 
 <===> output/bracketed_slash/output.css
 a {
@@ -76,7 +80,7 @@ a {
 ================================================================================
 <===> functions/length/input.scss
 @use "sass:list";
-a {b: list.length(list.slash(c, d, e, f, g))}
+a {b: list.length(c / d / e / f / g)}
 
 <===> functions/length/output.css
 a {
@@ -87,9 +91,226 @@ a {
 ================================================================================
 <===> functions/nth/input.scss
 @use "sass:list";
-a {b: list.nth(list.slash(c, d, e, f, g), 3)}
+a {b: list.nth(c / d / e / f / g, 3)}
 
 <===> functions/nth/output.css
 a {
   b: e;
 }
+
+<===>
+================================================================================
+<===> syntax/empty/single/input.scss
+a {b: c / / d}
+
+<===> syntax/empty/single/output.css
+a {
+  b: c / / d;
+}
+
+<===>
+================================================================================
+<===> syntax/empty/multiple/input.scss
+a {b: c / / / / d}
+
+<===> syntax/empty/multiple/output.css
+a {
+  b: c / / / / d;
+}
+
+<===>
+================================================================================
+<===> syntax/error/empty/unbracketed/single/final/input.scss
+a {
+  b: c /;
+}
+
+<===> syntax/error/empty/unbracketed/single/final/error
+Error: Expected expression.
+  ,
+2 |   b: c /;
+  |         ^
+  '
+  input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/unbracketed/single/both/input.scss
+a {
+  b: /;
+}
+
+<===> syntax/error/empty/unbracketed/single/both/error
+Error: Expected expression.
+  ,
+2 |   b: /;
+  |       ^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/unbracketed/comma/final/input.scss
+a {
+  b: c /, d;
+}
+
+<===> syntax/error/empty/unbracketed/comma/final/error
+Error: Expected expression.
+  ,
+2 |   b: c /, d;
+  |         ^
+  '
+  input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/unbracketed/comma/both/input.scss
+a {
+  b: /, c;
+}
+
+<===> syntax/error/empty/unbracketed/comma/both/error
+Error: Expected expression.
+  ,
+2 |   b: /, c;
+  |       ^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/bracketed/single/final/input.scss
+a {
+  b: [c /];
+}
+
+<===> syntax/error/empty/bracketed/single/final/error
+Error: Expected expression.
+  ,
+2 |   b: [c /];
+  |          ^
+  '
+  input.scss 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/bracketed/single/both/input.scss
+a {
+  b: [/];
+}
+
+<===> syntax/error/empty/bracketed/single/both/error
+Error: Expected expression.
+  ,
+2 |   b: [/];
+  |        ^
+  '
+  input.scss 2:8  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/bracketed/comma/final/input.scss
+a {
+  b: [c /, d];
+}
+
+<===> syntax/error/empty/bracketed/comma/final/error
+Error: Expected expression.
+  ,
+2 |   b: [c /, d];
+  |          ^
+  '
+  input.scss 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/bracketed/comma/both/input.scss
+a {
+  b: [/, c];
+}
+
+<===> syntax/error/empty/bracketed/comma/both/error
+Error: Expected expression.
+  ,
+2 |   b: [/, c];
+  |        ^
+  '
+  input.scss 2:8  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/parens/single/final/input.scss
+a {
+  b: (c /);
+}
+
+<===> syntax/error/empty/parens/single/final/error
+Error: Expected expression.
+  ,
+2 |   b: (c /);
+  |          ^
+  '
+  input.scss 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/parens/single/both/input.scss
+a {
+  b: (/);
+}
+
+<===> syntax/error/empty/parens/single/both/error
+Error: Expected expression.
+  ,
+2 |   b: (/);
+  |        ^
+  '
+  input.scss 2:8  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/parens/comma/final/input.scss
+a {
+  b: (c /, d);
+}
+
+<===> syntax/error/empty/parens/comma/final/error
+Error: Expected expression.
+  ,
+2 |   b: (c /, d);
+  |          ^
+  '
+  input.scss 2:10  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/parens/comma/both/input.scss
+a {
+  b: (/, c);
+}
+
+<===> syntax/error/empty/parens/comma/both/error
+Error: Expected expression.
+  ,
+2 |   b: (/, c);
+  |        ^
+  '
+  input.scss 2:8  root stylesheet
+
+<===>
+================================================================================
+<===> syntax/error/empty/no_whitespace/input.scss
+// This is parsed as a silent comment in SCSS, although it's allowed in plain
+// CSS.
+a {
+  b: [c // d];
+}
+
+<===> syntax/error/empty/no_whitespace/error
+Error: expected "]".
+  ,
+4 |   b: [c // d];
+  |               ^
+  '
+  input.scss 4:15  root stylesheet

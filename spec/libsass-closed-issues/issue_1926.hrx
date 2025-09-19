@@ -19,125 +19,98 @@ $columnName  : one two three four five six seven eight nine ten eleven twelve th
   +column-generator
 <===> output.css
 .grid [class*="one wide"] {
-  width: 6.25%;
+  width: 100% / 16;
 }
 .grid[class*="one column"] > .column:not(.row), .grid .row[class*="one column"] > .column:not(.row) {
-  width: 6.25% !important;
+  width: 100% / 16 !important;
 }
 .grid [class*="two wide"] {
-  width: 12.5%;
+  width: 100% / 32;
 }
 .grid[class*="two column"] > .column:not(.row), .grid .row[class*="two column"] > .column:not(.row) {
-  width: 12.5% !important;
+  width: 100% / 32 !important;
 }
 .grid [class*="three wide"] {
-  width: 18.75%;
+  width: 100% / 48;
 }
 .grid[class*="three column"] > .column:not(.row), .grid .row[class*="three column"] > .column:not(.row) {
-  width: 18.75% !important;
+  width: 100% / 48 !important;
 }
 .grid [class*="four wide"] {
-  width: 25%;
+  width: 100% / 64;
 }
 .grid[class*="four column"] > .column:not(.row), .grid .row[class*="four column"] > .column:not(.row) {
-  width: 25% !important;
+  width: 100% / 64 !important;
 }
 .grid [class*="five wide"] {
-  width: 31.25%;
+  width: 100% / 80;
 }
 .grid[class*="five column"] > .column:not(.row), .grid .row[class*="five column"] > .column:not(.row) {
-  width: 31.25% !important;
+  width: 100% / 80 !important;
 }
 .grid [class*="six wide"] {
-  width: 37.5%;
+  width: 100% / 96;
 }
 .grid[class*="six column"] > .column:not(.row), .grid .row[class*="six column"] > .column:not(.row) {
-  width: 37.5% !important;
+  width: 100% / 96 !important;
 }
 .grid [class*="seven wide"] {
-  width: 43.75%;
+  width: 100% / 112;
 }
 .grid[class*="seven column"] > .column:not(.row), .grid .row[class*="seven column"] > .column:not(.row) {
-  width: 43.75% !important;
+  width: 100% / 112 !important;
 }
 .grid [class*="eight wide"] {
-  width: 50%;
+  width: 100% / 128;
 }
 .grid[class*="eight column"] > .column:not(.row), .grid .row[class*="eight column"] > .column:not(.row) {
-  width: 50% !important;
+  width: 100% / 128 !important;
 }
 .grid [class*="nine wide"] {
-  width: 56.25%;
+  width: 100% / 144;
 }
 .grid[class*="nine column"] > .column:not(.row), .grid .row[class*="nine column"] > .column:not(.row) {
-  width: 56.25% !important;
+  width: 100% / 144 !important;
 }
 .grid [class*="ten wide"] {
-  width: 62.5%;
+  width: 100% / 160;
 }
 .grid[class*="ten column"] > .column:not(.row), .grid .row[class*="ten column"] > .column:not(.row) {
-  width: 62.5% !important;
+  width: 100% / 160 !important;
 }
 .grid [class*="eleven wide"] {
-  width: 68.75%;
+  width: 100% / 176;
 }
 .grid[class*="eleven column"] > .column:not(.row), .grid .row[class*="eleven column"] > .column:not(.row) {
-  width: 68.75% !important;
+  width: 100% / 176 !important;
 }
 .grid [class*="twelve wide"] {
-  width: 75%;
+  width: 100% / 192;
 }
 .grid[class*="twelve column"] > .column:not(.row), .grid .row[class*="twelve column"] > .column:not(.row) {
-  width: 75% !important;
+  width: 100% / 192 !important;
 }
 .grid [class*="thirteen wide"] {
-  width: 81.25%;
+  width: 100% / 208;
 }
 .grid[class*="thirteen column"] > .column:not(.row), .grid .row[class*="thirteen column"] > .column:not(.row) {
-  width: 81.25% !important;
+  width: 100% / 208 !important;
 }
 .grid [class*="fourteen wide"] {
-  width: 87.5%;
+  width: 100% / 224;
 }
 .grid[class*="fourteen column"] > .column:not(.row), .grid .row[class*="fourteen column"] > .column:not(.row) {
-  width: 87.5% !important;
+  width: 100% / 224 !important;
 }
 .grid [class*="fifteen wide"] {
-  width: 93.75%;
+  width: 100% / 240;
 }
 .grid[class*="fifteen column"] > .column:not(.row), .grid .row[class*="fifteen column"] > .column:not(.row) {
-  width: 93.75% !important;
+  width: 100% / 240 !important;
 }
 .grid [class*="sixteen wide"] {
-  width: 100%;
+  width: 100% / 256;
 }
 .grid[class*="sixteen column"] > .column:not(.row), .grid .row[class*="sixteen column"] > .column:not(.row) {
-  width: 100% !important;
+  width: 100% / 256 !important;
 }
-
-<===> warning
-DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(100%, $columnAmount) or calc(100% / $columnAmount)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-11 |       width: 100% / $columnAmount * $i 
-   |              ^^^^^^^^^^^^^^^^^^^^
-   '
-    input.sass 11:14  column-generator()
-    input.sass 18:3   root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division outside of calc() is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(100%, $columnAmount) or calc(100% / $columnAmount)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-15 |         width  : 100% / $columnAmount * $i !important
-   |                  ^^^^^^^^^^^^^^^^^^^^
-   '
-    input.sass 15:18  column-generator()
-    input.sass 18:3   root stylesheet

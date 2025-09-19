@@ -20,37 +20,11 @@ div {
 }
 <===> output.css
 div {
-  content: foobar(3 3/4 11, orange);
-  content: 3 2/3 11 orange;
-  content: 3 2/3 11;
-  content: number;
+  content: foobar(3 3 / 4 11, orange);
+  content: 3 2 / 3 11 / orange;
+  content: 3 2 / 3 11;
+  content: list;
   content: color;
-  content: 3 3/4 11;
-  bar-content: 0.75;
+  content: 3 3 / 4 11;
+  bar-content: 3 / 4;
 }
-
-<===> warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(2, 3)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-   ,
-15 |   content: meta.type-of(2/3);
-   |                         ^^^
-   '
-    input.scss 15:25  root stylesheet
-
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(3, 4)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-7 | @mixin bar($x: 3/4) {
-  |                ^^^
-  '
-    input.scss 7:16  bar()
-    input.scss 18:3  root stylesheet

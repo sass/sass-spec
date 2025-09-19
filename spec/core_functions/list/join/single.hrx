@@ -104,7 +104,7 @@ a {
 ================================================================================
 <===> first/undecided/and_slash/input.scss
 @use "sass:list";
-a {b: list.join([1], list.slash(2, 3, 4))}
+a {b: list.join([1], 2 / 3 / 4)}
 
 <===> first/undecided/and_slash/output.css
 a {
@@ -171,7 +171,7 @@ a {
 ================================================================================
 <===> second/undecided/slash/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(1, 2, 3), [4])}
+a {b: list.join(1 / 2 / 3, [4])}
 
 <===> second/undecided/slash/output.css
 a {
@@ -250,7 +250,7 @@ a {
 ================================================================================
 <===> non_list/first/slash/input.scss
 @use "sass:list";
-a {b: list.join(c, list.slash(d, e))}
+a {b: list.join(c, d / e)}
 
 <===> non_list/first/slash/output.css
 a {
@@ -305,7 +305,7 @@ a {
 ================================================================================
 <===> non_list/second/slash/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(c, d), e)}
+a {b: list.join(c / d, e)}
 
 <===> non_list/second/slash/output.css
 a {

@@ -89,32 +89,10 @@ a {
 
 <===>
 ================================================================================
-<===> slash_list/input.scss
-@use "sass:list";
-a {b: hsl(list.slash(180 60% 50%, 0))}
-
-<===> slash_list/output.css
-a {
-  b: hsla(180, 60%, 50%, 0);
-}
-
-<===>
-================================================================================
 <===> missing/slash/input.scss
 a {b: hsl(180 60% 50% / none)}
 
 <===> missing/slash/output.css
-a {
-  b: hsl(180deg 60% 50% / none);
-}
-
-<===>
-================================================================================
-<===> missing/slash_list/input.scss
-@use 'sass:list';
-a {b: hsl(list.slash(180 60% 50%, none))}
-
-<===> missing/slash_list/output.css
 a {
   b: hsl(180deg 60% 50% / none);
 }

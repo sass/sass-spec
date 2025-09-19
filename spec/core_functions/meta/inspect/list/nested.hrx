@@ -81,8 +81,7 @@ a {
 ================================================================================
 <===> empty/in_slash/unbracketed/input.scss
 @use "sass:meta";
-@use "sass:list";
-$result: meta.inspect(list.slash((), ()));
+$result: meta.inspect(() / ());
 a {
   value: $result;
   type: meta.type-of($result);
@@ -183,9 +182,8 @@ a {
 <===>
 ================================================================================
 <===> space/in_slash/bracketed/input.scss
-@use "sass:list";
 @use "sass:meta";
-$result: meta.inspect(list.join([1 2, 3 4], (), $separator: slash));
+$result: meta.inspect([1 2 / 3 4]);
 a {
   value: $result;
   type: meta.type-of($result);
@@ -201,8 +199,7 @@ a {
 ================================================================================
 <===> space/in_slash/unbracketed/input.scss
 @use "sass:meta";
-@use "sass:list";
-$result: meta.inspect(list.slash(1 2, 3 4));
+$result: meta.inspect(1 2 / 3 4);
 a {
   value: $result;
   type: meta.type-of($result);
@@ -299,8 +296,7 @@ a {
 ================================================================================
 <===> comma/in_slash/unbracketed/input.scss
 @use "sass:meta";
-@use "sass:list";
-$result: meta.inspect(list.slash((1, 2), (3, 4)));
+$result: meta.inspect((1, 2) / (3, 4));
 a {
   value: $result;
   type: meta.type-of($result);
@@ -398,7 +394,7 @@ a {
 <===> bracketed/in_slash/unbracketed/input.scss
 @use "sass:meta";
 @use "sass:list";
-$result: meta.inspect(list.slash([1, 2], [3, 4]));
+$result: meta.inspect([1, 2] / [3, 4]);
 a {
   value: $result;
   type: meta.type-of($result);

@@ -55,25 +55,12 @@ a {
 ================================================================================
 <===> unit/to_inverse/input.scss
 @use "sass:math";
-a {b: math.compatible(1px, 1/1px)}
+a {b: math.compatible(1px, math.div(1, 1px))}
 
 <===> unit/to_inverse/output.css
 a {
   b: false;
 }
-
-<===> unit/to_inverse/warning
-DEPRECATION WARNING [slash-div]: Using / for division is deprecated and will be removed in Dart Sass 2.0.0.
-
-Recommendation: math.div(1, 1px)
-
-More info and automated migrator: https://sass-lang.com/d/slash-div
-
-  ,
-2 | a {b: math.compatible(1px, 1/1px)}
-  |                            ^^^^^
-  '
-    input.scss 2:28  root stylesheet
 
 <===>
 ================================================================================
