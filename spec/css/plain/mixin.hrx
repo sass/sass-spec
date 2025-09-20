@@ -1,0 +1,67 @@
+<===> lowercase/parameter/input.css
+@mixin --a(--b <color>) {c: d}
+
+<===> lowercase/parameter/output.css
+@mixin --a(--b <color>) {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> lowercase/style_rule/input.css
+@mixin --a {
+  &.b {
+    .c {d: e}
+  }
+}
+
+<===> lowercase/style_rule/output.css
+@mixin --a {
+  &.b {
+    .c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> lowercase/contents/input.css
+@mixin --a {
+  @contents;
+}
+
+<===> lowercase/contents/output.css
+@mixin --a {
+  @contents;
+}
+
+<===>
+================================================================================
+<===> uppercase/style_rule/input.css
+@MIXIN --a {
+  &.b {
+    .c {d: e}
+  }
+}
+
+<===> uppercase/style_rule/output.css
+@MIXIN --a {
+  &.b {
+    .c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> uppercase/contents/input.css
+@MIXIN --a {
+  @contents;
+}
+
+<===> uppercase/contents/output.css
+@MIXIN --a {
+  @contents;
+}
