@@ -1,44 +1,8 @@
-<===> custom_ident/define/input.scss
-@function --a() {@return 1}
-b {c: --a()}
-
-<===> custom_ident/define/output.css
-b {
-  c: 1;
-}
-
-<===> custom_ident/define/warning
-DEPRECATION WARNING [css-function-mixin]: Sass @function names beginning with -- are deprecated for forward-compatibility with plain CSS functions.
-
-For details, see https://sass-lang.com/d/css-function-mixin
-
-  ,
-1 | @function --a() {@return 1}
-  |           ^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
 <===> custom_ident/call/input.scss
 @function __a() {@return 1}
 b {c: --a()}
 
-<===> custom_ident/call/output.css
-b {
-  c: 1;
-}
-
-<===> custom_ident/call/warning
-DEPRECATION WARNING [css-function-mixin]: Sass @function names beginning with -- are deprecated for forward-compatibility with plain CSS functions.
-
-For details, see https://sass-lang.com/d/css-function-mixin
-
-  ,
-2 | b {c: --a()}
-  |       ^^^
-  '
-    input.scss 2:7  root stylesheet
+<===> custom_ident/call/error
 
 <===>
 ================================================================================
