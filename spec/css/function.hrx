@@ -1,0 +1,120 @@
+<===> lowercase/parameter/input.scss
+@function --a(--b <color>) {result: c}
+
+<===> lowercase/parameter/output.css
+@function --a(--b <color>) {
+  result: c;
+}
+
+<===>
+================================================================================
+<===> lowercase/returns/input.scss
+@function --a() returns <ident> {result: b}
+
+<===> lowercase/returns/output.css
+@function --a() returns <ident> {
+  result: b;
+}
+
+<===>
+================================================================================
+<===> lowercase/interpolation/input.scss
+@function --#{a}() {result: b}
+
+<===> lowercase/interpolation/output.css
+@function --a() {
+  result: b;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/sass_script/input.scss
+@function --a() {
+  result: $b;
+}
+
+<===> lowercase/result/sass_script/output.css
+@function --a() {
+  result: $b;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/characters/input.scss
+@function --a() {
+  result: {}#&%^*;
+}
+
+<===> lowercase/result/characters/output.css
+@function --a() {
+  result: {}#&%^*;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/interpolation/input.scss
+@function --a() {
+  result: #{1 + 1};
+}
+
+<===> lowercase/result/interpolation/output.css
+@function --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/sass_script/input.scss
+@FUNCTION --a() {
+  result: $b;
+}
+
+<===> uppercase/result/sass_script/output.css
+@FUNCTION --a() {
+  result: $b;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/characters/input.scss
+@FUNCTION --a() {
+  result: {}#&%^*;
+}
+
+<===> uppercase/result/characters/output.css
+@FUNCTION --a() {
+  result: {}#&%^*;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/interpolation/input.scss
+@FUNCTION --a() {
+  result: #{1 + 1};
+}
+
+<===> uppercase/result/interpolation/output.css
+@FUNCTION --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> interpolated/result/sass_script/input.scss
+@#{function} --a() {
+  result: 1 + 1;
+}
+
+<===> interpolated/result/sass_script/output.css
+@function --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> interpolated/result/characters/input.scss
+@function --a() {
+  result: {}#&%^*;
+}
+
+<===> interpolated/result/characters/error
