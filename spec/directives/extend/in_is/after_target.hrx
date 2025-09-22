@@ -1,0 +1,20 @@
+<===> multiple_recursive/input.scss
+// Regression test for sass/dart-sass#1109.
+:is(.a .b) {
+  c: d;
+}
+
+.a.mod1, .a.mod2 {
+  @extend .a, .b;
+}
+.a.mod3, .a.mod4 {
+  @extend .a, .b;
+}
+.a.mod5, .a.mod6 {
+  @extend .a, .b;
+}
+
+<===> multiple_recursive/output.css
+:is(.a :is(.b, .a.mod5, .a.mod6, .mod3.a, .mod4.a, .mod1.a, .mod2.a)) {
+  c: d;
+}
