@@ -63,20 +63,6 @@ a {
 
 <===>
 ================================================================================
-<===> slash_list/input.scss
-@use "sass:list";
-@use 'core_functions/color/utils';
-@include utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, 0.4)));
-
-<===> slash_list/output.css
-a {
-  value: color(srgb 0.1 0.2 0.3 / 0.4);
-  space: srgb;
-  channels: 0.1 0.2 0.3 / 0.4;
-}
-
-<===>
-================================================================================
 <===> none/slash/blue/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(color(srgb 0.1 0.2 none / 0.4));
@@ -103,52 +89,11 @@ a {
 
 <===>
 ================================================================================
-<===> none/slash_list/blue/input.scss
-@use 'sass:list';
-@use 'core_functions/color/utils';
-@include utils.inspect(color(list.slash(srgb 0.1 0.2 none, 0.4)));
-
-<===> none/slash_list/blue/output.css
-a {
-  value: color(srgb 0.1 0.2 none / 0.4);
-  space: srgb;
-  channels: 0.1 0.2 none / 0.4;
-}
-
-<===>
-================================================================================
-<===> none/slash_list/alpha/input.scss
-@use 'sass:list';
-@use 'core_functions/color/utils';
-@include utils.inspect(color(list.slash(srgb 0.1 0.2 0.3, none)));
-
-<===> none/slash_list/alpha/output.css
-a {
-  value: color(srgb 0.1 0.2 0.3 / none);
-  space: srgb;
-  channels: 0.1 0.2 0.3 / none;
-}
-
-<===>
-================================================================================
 <===> relative_color/slash/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(color(from #aaa srgb r g b / 25%));
 
 <===> relative_color/slash/output.css
-a {
-  value: color(from #aaa srgb r g b/25%);
-  type: string;
-}
-
-<===>
-================================================================================
-<===> relative_color/slash_list/input.scss
-@use 'sass:list';
-@use 'core_functions/color/utils';
-@include utils.inspect(color(list.slash(from #aaa srgb r g b, 25%)));
-
-<===> relative_color/slash_list/output.css
 a {
   value: color(from #aaa srgb r g b / 25%);
   type: string;

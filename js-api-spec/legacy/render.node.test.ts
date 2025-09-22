@@ -537,21 +537,21 @@ describe('options', () => {
     it('makes specified deprecations fatal', () => {
       expect(() =>
         sass.renderSync({
-          data: '$_: 1/2;',
-          fatalDeprecations: ['slash-div'],
+          data: '$_: nth(a b c, 1);',
+          fatalDeprecations: ['global-builtin'],
         })
-      ).toThrowLegacyException({includes: 'math.div'});
+      ).toThrowLegacyException({includes: 'global-builtin'});
     });
 
     it('leaves other deprecations as warnings', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
-          data: '$_: 1/2;',
-          fatalDeprecations: ['call-string'],
+          data: '$_: nth(a b c, 1);',
+          fatalDeprecations: ['import'],
         })
       );
       expect(stdio.out).toBeEmptyString();
-      expect(stdio.err).toContain('math.div');
+      expect(stdio.err).toContain('[global-builtin]');
     });
   });
 
@@ -600,8 +600,8 @@ describe('options', () => {
     it('hides specified deprecation warnings', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
-          data: '$_: 1/2;',
-          silenceDeprecations: ['slash-div', 'legacy-js-api'],
+          data: '$_: nth(a b c, 1);',
+          silenceDeprecations: ['global-builtin', 'legacy-js-api'],
         })
       );
       expect(stdio.out).toBeEmptyString();
@@ -611,29 +611,23 @@ describe('options', () => {
     it('emits other deprecation warnings', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
-          data: '$_: 1/2;',
-          silenceDeprecations: ['call-string'],
+          data: '$_: nth(a b c, 1);',
+          silenceDeprecations: ['import'],
         })
       );
       expect(stdio.out).toBeEmptyString();
-      expect(stdio.err).toContain('math.div');
+      expect(stdio.err).toContain('[global-builtin]');
     });
   });
 
   describe('verbose', () => {
     const data = `
-      $_: call("inspect", null);
-      $_: call("rgb", 0, 0, 0);
-      $_: call("nth", null, 1);
-      $_: call("join", null, null);
-      $_: call("if", true, 1, 2);
-      $_: call("hsl", 0, 100%, 100%);
-      $_: 1/2;
-      $_: 1/3;
-      $_: 1/4;
-      $_: 1/5;
-      $_: 1/6;
-      $_: 1/7;
+      $_: nth(a b c d e f, 1);
+      $_: nth(a b c d e f, 2);
+      $_: nth(a b c d e f, 3);
+      $_: nth(a b c d e f, 4);
+      $_: nth(a b c d e f, 5);
+      $_: nth(a b c d e f, 6);
     `;
 
     it("when it's true, prints all deprecation warnings", () => {
@@ -644,8 +638,7 @@ describe('options', () => {
         })
       );
       expect(stdio.out).toBeEmptyString();
-      expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(6);
-      expect(stdio.err.match(/math\.div/g)).toBeArrayOfSize(6);
+      expect(stdio.err.match(/\[global-builtin\]/g)).toBeArrayOfSize(6);
     });
 
     it("when it's false, prints only five of each deprecation warning", () => {
@@ -655,8 +648,7 @@ describe('options', () => {
         })
       );
       expect(stdio.out).toBeEmptyString();
-      expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(5);
-      expect(stdio.err.match(/math\.div/g)).toBeArrayOfSize(5);
+      expect(stdio.err.match(/\[global-builtin\]/g)).toBeArrayOfSize(5);
     });
   });
 

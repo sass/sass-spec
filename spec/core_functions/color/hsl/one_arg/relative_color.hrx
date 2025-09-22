@@ -3,7 +3,7 @@ a {b: hsl(from #aaa h s l / 25%)}
 
 <===> static/alpha/output.css
 a {
-  b: hsl(from #aaa h s l/25%);
+  b: hsl(from #aaa h s l / 25%);
 }
 
 <===>
@@ -23,7 +23,7 @@ a {b: hsl(from #aaa calc(h + 180deg) s l / 25%)}
 
 <===> calc/alpha/output.css
 a {
-  b: hsl(from #aaa calc(h + 180deg) s l/25%);
+  b: hsl(from #aaa calc(h + 180deg) s l / 25%);
 }
 
 <===>
@@ -43,7 +43,7 @@ a {b: hsl(from var(--c) h s l / 25%)}
 
 <===> var/alpha/output.css
 a {
-  b: hsl(from var(--c) h s l/25%);
+  b: hsl(from var(--c) h s l / 25%);
 }
 
 <===>
@@ -62,7 +62,7 @@ a {b: hsl(From #aaa h s l / 25%)}
 
 <===> different_case/alpha/output.css
 a {
-  b: hsl(From #aaa h s l/25%);
+  b: hsl(From #aaa h s l / 25%);
 }
 
 <===>
@@ -73,17 +73,6 @@ a {b: hsl(From #aaa h s l)}
 <===> different_case/no_alpha/output.css
 a {
   b: hsl(From #aaa h s l);
-}
-
-<===>
-================================================================================
-<===> slash_list_alpha/input.scss
-@use "sass:list";
-a {b: hsl(list.slash(from #aaa h s l, 25%))}
-
-<===> slash_list_alpha/output.css
-a {
-  b: hsl(from #aaa h s l / 25%);
 }
 
 <===>

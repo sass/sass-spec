@@ -110,7 +110,7 @@ a {
 ================================================================================
 <===> slash/both/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(c, d), list.slash(e, f))}
+a {b: list.join(c / d, e / f)}
 
 <===> slash/both/output.css
 a {
@@ -121,7 +121,7 @@ a {
 ================================================================================
 <===> slash/first/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(c, d), e f)}
+a {b: list.join(c / d, e f)}
 
 <===> slash/first/output.css
 a {
@@ -132,7 +132,7 @@ a {
 ================================================================================
 <===> slash/second/input.scss
 @use "sass:list";
-a {b: list.join(c d, list.slash(e, f))}
+a {b: list.join(c d, e / f)}
 
 <===> slash/second/output.css
 a {
@@ -154,7 +154,7 @@ a {
 ================================================================================
 <===> slash/separator/forces_not_slash/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(c, d), list.slash(e, f), $separator: space)}
+a {b: list.join(c / d, e / f, $separator: space)}
 
 <===> slash/separator/forces_not_slash/output.css
 a {
@@ -298,7 +298,7 @@ a {
 ================================================================================
 <===> map/first/slash/input.scss
 @use "sass:list";
-a {b: list.join((c: d, e: f), list.slash(g, h))}
+a {b: list.join((c: d, e: f), g / h)}
 
 <===> map/first/slash/output.css
 a {
@@ -333,7 +333,7 @@ a {
 ================================================================================
 <===> map/second/slash/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(c, d), (e: f, g: h))}
+a {b: list.join(c / d, (e: f, g: h))}
 
 <===> map/second/slash/output.css
 a {

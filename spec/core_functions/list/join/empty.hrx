@@ -160,7 +160,7 @@ a {
 ================================================================================
 <===> first/undecided/and_slash/input.scss
 @use "sass:list";
-a {b: list.join((), list.slash(1, 2, 3))}
+a {b: list.join((), 1 / 2 / 3)}
 
 <===> first/undecided/and_slash/output.css
 a {
@@ -229,7 +229,7 @@ a {
 ================================================================================
 <===> second/undecided/slash/input.scss
 @use "sass:list";
-a {b: list.join(list.slash(1, 2, 3), ())}
+a {b: list.join(1 / 2 / 3, ())}
 
 <===> second/undecided/slash/output.css
 a {
@@ -320,7 +320,7 @@ a {
 <===> map/first/slash/input.scss
 @use "sass:list";
 @use "core_functions/list/utils";
-a {b: list.join(utils.$empty-map, list.slash(1, 2, 3))}
+a {b: list.join(utils.$empty-map, 1 / 2 / 3)}
 
 <===> map/first/slash/output.css
 a {
@@ -356,7 +356,7 @@ a {
 <===> map/second/slash/input.scss
 @use "sass:list";
 @use "core_functions/list/utils";
-a {b: list.join(list.slash(1, 2, 3), utils.$empty-map)}
+a {b: list.join(1 / 2 / 3, utils.$empty-map)}
 
 <===> map/second/slash/output.css
 a {
