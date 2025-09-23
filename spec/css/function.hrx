@@ -1,0 +1,309 @@
+<===> lowercase/parameter/input.scss
+@function --a(--b <color>) {result: c}
+
+<===> lowercase/parameter/output.css
+@function --a(--b <color>) {
+  result: c;
+}
+
+<===>
+================================================================================
+<===> lowercase/returns/input.scss
+@function --a() returns <ident> {result: b}
+
+<===> lowercase/returns/output.css
+@function --a() returns <ident> {
+  result: b;
+}
+
+<===>
+================================================================================
+<===> lowercase/interpolation/input.scss
+@function --#{a}() {result: b}
+
+<===> lowercase/interpolation/output.css
+@function --a() {
+  result: b;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/sass_script/input.scss
+@function --a() {
+  result: $b;
+}
+
+<===> lowercase/result/sass_script/output.css
+@function --a() {
+  result: $b;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/characters/input.scss
+@function --a() {
+  result: {}#&%^*;
+}
+
+<===> lowercase/result/characters/output.css
+@function --a() {
+  result: {}#&%^*;
+}
+
+<===>
+================================================================================
+<===> lowercase/result/interpolation/input.scss
+@function --a() {
+  result: #{1 + 1};
+}
+
+<===> lowercase/result/interpolation/output.css
+@function --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/sass_script/input.scss
+@FUNCTION --a() {
+  result: $b;
+}
+
+<===> uppercase/result/sass_script/output.css
+@FUNCTION --a() {
+  result: $b;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/characters/input.scss
+@FUNCTION --a() {
+  result: {}#&%^*;
+}
+
+<===> uppercase/result/characters/output.css
+@FUNCTION --a() {
+  result: {}#&%^*;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/interpolation/input.scss
+@FUNCTION --a() {
+  result: #{1 + 1};
+}
+
+<===> uppercase/result/interpolation/output.css
+@FUNCTION --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> uppercase/result/nesting/input.scss
+@function --a() {
+  RESULT: {b: c};
+}
+
+<===> uppercase/result/nesting/output.css
+@function --a() {
+  RESULT: {b: c};
+}
+
+<===>
+================================================================================
+<===> interpolated/result/sass_script/input.scss
+@#{function} --a() {
+  result: 1 + 1;
+}
+
+<===> interpolated/result/sass_script/output.css
+@function --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> interpolated/result/nested/input.sass
+@function --a()
+  #{result}:
+    b: c
+
+<===> interpolated/result/nested/output.css
+@function --a() {
+  result-b: c;
+}
+
+<===>
+================================================================================
+<===> result/uppercase/sass_script/input.scss
+@function --a() {
+  RESULT: $b;
+}
+
+<===> result/uppercase/sass_script/output.css
+@function --a() {
+  RESULT: $b;
+}
+
+<===>
+================================================================================
+<===> result/uppercase/characters/input.scss
+@function --a() {
+  RESULT: {}#&%^*;
+}
+
+<===> result/uppercase/characters/output.css
+@function --a() {
+  RESULT: {}#&%^*;
+}
+
+<===>
+================================================================================
+<===> result/uppercase/interpolation/input.scss
+@function --a() {
+  RESULT: #{1 + 1};
+}
+
+<===> result/uppercase/interpolation/output.css
+@function --a() {
+  RESULT: 2;
+}
+
+<===>
+================================================================================
+<===> result/interpolated/sass_script/input.scss
+@function --a() {
+  #{result}: 1 + 1;
+}
+
+<===> result/interpolated/sass_script/output.css
+@function --a() {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> result/interpolated/nested/input.sass
+@function --a()
+  #{result}:
+    b: c
+
+<===> result/interpolated/nested/output.css
+@function --a() {
+  result-b: c;
+}
+
+<===>
+================================================================================
+<===> result/style_rule/sass_script/input.scss
+.a {
+  result: 1 + 1;
+}
+
+<===> result/style_rule/sass_script/output.css
+.a {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> result/style_rule/interpolation/input.scss
+.a {
+  result: #{1 + 1};
+}
+
+<===> result/style_rule/interpolation/output.css
+.a {
+  result: 2;
+}
+
+<===>
+================================================================================
+<===> error/lowercase/result/nested/input.sass
+@function --a()
+  result:
+    b: c
+
+<===> error/lowercase/result/nested/error
+Error: Nothing may be indented beneath a @function result.
+  ,
+3 |     b: c
+  |     ^
+  '
+  input.sass 3:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/uppercase/result/nested/input.sass
+@FUNCTION --a()
+  result:
+    b: c
+
+<===> error/uppercase/result/nested/error
+Error: Nothing may be indented beneath a @function result.
+  ,
+3 |     b: c
+  |     ^
+  '
+  input.sass 3:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/interpolated/result/characters/input.scss
+@#{function} --a() {
+  result: {}#&%^*;
+}
+
+<===> error/interpolated/result/characters/error
+Error: expected "{".
+  ,
+2 |   result: {}#&%^*;
+  |                  ^
+  '
+  input.scss 2:18  root stylesheet
+
+<===>
+================================================================================
+<===> error/result/uppercase/nested/input.sass
+@function --a()
+  RESULT:
+    b: c
+
+<===> error/result/uppercase/nested/error
+Error: Nothing may be indented beneath a @function result.
+  ,
+3 |     b: c
+  |     ^
+  '
+  input.sass 3:5  root stylesheet
+
+<===>
+================================================================================
+<===> error/result/interpolated/characters/input.scss
+@function --a() {
+  #{result}: {}#&%^*;
+}
+
+<===> error/result/interpolated/characters/error
+Error: expected "{".
+  ,
+2 |   #{result}: {}#&%^*;
+  |                     ^
+  '
+  input.scss 2:21  root stylesheet
+
+<===>
+================================================================================
+<===> error/result/style_rule/characters/input.scss
+.a {
+  result: {}#&%^*;
+}
+
+<===> error/result/style_rule/characters/error
+Error: expected "{".
+  ,
+2 |   result: {}#&%^*;
+  |                  ^
+  '
+  input.scss 2:18  root stylesheet
