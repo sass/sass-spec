@@ -1,9 +1,9 @@
-<===> hue/type/input.scss
+<===> type/hue/input.scss
 a {
   b: hsl("foo", 100%, 50%);
 }
 
-<===> hue/type/error
+<===> type/hue/error
 Error: $hue: "foo" is not a number.
   ,
 2 |   b: hsl("foo", 100%, 50%);
@@ -13,12 +13,12 @@ Error: $hue: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> saturation/type/input.scss
+<===> type/saturation/input.scss
 a {
   b: hsl(0, "foo", 50%);
 }
 
-<===> saturation/type/error
+<===> type/saturation/error
 Error: $saturation: "foo" is not a number.
   ,
 2 |   b: hsl(0, "foo", 50%);
@@ -28,15 +28,80 @@ Error: $saturation: "foo" is not a number.
 
 <===>
 ================================================================================
-<===> lightness/type/input.scss
+<===> type/lightness/input.scss
 a {
   b: hsl(0, 100%, "foo");
 }
 
-<===> lightness/type/error
+<===> type/lightness/error
 Error: $lightness: "foo" is not a number.
   ,
 2 |   b: hsl(0, 100%, "foo");
   |      ^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> units/hue/unknown/input.scss
+a {b: hsl(60in, 100%, 50%)}
+
+<===> units/hue/unknown/error
+Error: Expected 60in to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: hsl(60in, 100%, 50%)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/saturation/unitless/input.scss
+a {b: hsl(0, 50, 50%)}
+
+<===> units/saturation/unitless/error
+Error: $saturation: Expected 50 to have unit %.
+  ,
+1 | a {b: hsl(0, 50, 50%)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/saturation/unknown/input.scss
+a {b: hsl(0, 50in, 50%)}
+
+<===> units/saturation/unknown/error
+Error: $saturation: Expected 50in to have unit %.
+  ,
+1 | a {b: hsl(0, 50in, 50%)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/lightness/unitless/input.scss
+a {b: hsl(0, 100%, 50)}
+
+<===> units/lightness/unitless/error
+Error: $lightness: Expected 50 to have unit %.
+  ,
+1 | a {b: hsl(0, 100%, 50)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/lightness/unknown/input.scss
+a {b: hsl(0, 100%, 50in)}
+
+<===> units/lightness/unknown/error
+Error: $lightness: Expected 50in to have unit %.
+  ,
+1 | a {b: hsl(0, 100%, 50in)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

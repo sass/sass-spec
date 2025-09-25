@@ -433,6 +433,34 @@ Error: $weight: green is not a number.
 
 <===>
 ================================================================================
+<===> units/weight/unitless/input.scss
+@use "sass:color";
+a {b: color.mix(#91e16f, #0144bf, 50)}
+
+<===> units/weight/unitless/error
+Error: $weight: Expected 50 to have unit %.
+  ,
+2 | a {b: color.mix(#91e16f, #0144bf, 50)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/weight/unknown/input.scss
+@use "sass:color";
+a {b: color.mix(#91e16f, #0144bf, 50px)}
+
+<===> units/weight/unknown/error
+Error: $weight: Expected 50px to have unit %.
+  ,
+2 | a {b: color.mix(#91e16f, #0144bf, 50px)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
 <===> bounds/too_low/input.scss
 a {b: mix(red, blue, -0.001%)}
 

@@ -20,30 +20,6 @@ a {
 
 <===>
 ================================================================================
-<===> hue/unknown/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $hue: 60in)}
-
-<===> hue/unknown/output.css
-a {
-  b: yellow;
-}
-
-<===> hue/unknown/warning
-DEPRECATION WARNING [function-units]: $hue: Passing a unit other than deg (60in) is deprecated.
-
-To preserve current behavior: calc($hue / 1in)
-
-See https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $hue: 60in)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> hue/angle/input.scss
 @use "sass:color";
 a {b: color.adjust(red, $hue: 60rad)}
@@ -66,54 +42,6 @@ a {
 
 <===>
 ================================================================================
-<===> saturation/unitless/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $saturation: -10)}
-
-<===> saturation/unitless/output.css
-a {
-  b: rgb(242.25, 12.75, 12.75);
-}
-
-<===> saturation/unitless/warning
-DEPRECATION WARNING [function-units]: $saturation: Passing a number without unit % (-10) is deprecated.
-
-To preserve current behavior: $saturation * 1%
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $saturation: -10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> saturation/unknown/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $saturation: -10in)}
-
-<===> saturation/unknown/output.css
-a {
-  b: rgb(242.25, 12.75, 12.75);
-}
-
-<===> saturation/unknown/warning
-DEPRECATION WARNING [function-units]: $saturation: Passing a number without unit % (-10in) is deprecated.
-
-To preserve current behavior: calc($saturation / 1in * 1%)
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $saturation: -10in)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> lightness/percent/input.scss
 @use "sass:color";
 a {b: color.adjust(red, $lightness: 10%)}
@@ -122,54 +50,6 @@ a {b: color.adjust(red, $lightness: 10%)}
 a {
   b: #ff3333;
 }
-
-<===>
-================================================================================
-<===> lightness/unitless/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $lightness: 10)}
-
-<===> lightness/unitless/output.css
-a {
-  b: #ff3333;
-}
-
-<===> lightness/unitless/warning
-DEPRECATION WARNING [function-units]: $lightness: Passing a number without unit % (10) is deprecated.
-
-To preserve current behavior: $lightness * 1%
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $lightness: 10)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> lightness/unknown/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $lightness: 10in)}
-
-<===> lightness/unknown/output.css
-a {
-  b: #ff3333;
-}
-
-<===> lightness/unknown/warning
-DEPRECATION WARNING [function-units]: $lightness: Passing a number without unit % (10in) is deprecated.
-
-To preserve current behavior: calc($lightness / 1in * 1%)
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $lightness: 10in)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -186,46 +66,9 @@ a {
 ================================================================================
 <===> alpha/percent/input.scss
 @use "sass:color";
-a {b: color.adjust(red, $alpha: -0.3%)}
+a {b: color.adjust(red, $alpha: -30%)}
 
 <===> alpha/percent/output.css
 a {
   b: rgba(255, 0, 0, 0.7);
 }
-
-<===> alpha/percent/warning
-DEPRECATION WARNING [function-units]: $alpha: Passing a number with unit % is deprecated.
-
-To preserve current behavior: calc($alpha / 1%)
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $alpha: -0.3%)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
-<===> alpha/unknown/input.scss
-@use "sass:color";
-a {b: color.adjust(red, $alpha: -0.3px)}
-
-<===> alpha/unknown/output.css
-a {
-  b: rgba(255, 0, 0, 0.7);
-}
-
-<===> alpha/unknown/warning
-DEPRECATION WARNING [function-units]: $alpha: Passing a number with unit px is deprecated.
-
-To preserve current behavior: calc($alpha / 1px)
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: color.adjust(red, $alpha: -0.3px)}
-  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
