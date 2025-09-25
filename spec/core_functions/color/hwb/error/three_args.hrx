@@ -1,8 +1,8 @@
-<===> hue/type/input.scss
+<===> type/hue/input.scss
 @use "sass:color";
 a {b: color.hwb("foo", 100%, 50%)}
 
-<===> hue/type/error
+<===> type/hue/error
 Error: Expected hue channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb("foo", 100%, 50%)}
@@ -12,11 +12,11 @@ Error: Expected hue channel to be a number, was "foo".
 
 <===>
 ================================================================================
-<===> whiteness/type/input.scss
+<===> type/whiteness/input.scss
 @use "sass:color";
 a {b: color.hwb(0, "foo", 50%)}
 
-<===> whiteness/type/error
+<===> type/whiteness/error
 Error: Expected whiteness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0, "foo", 50%)}
@@ -26,14 +26,28 @@ Error: Expected whiteness channel to be a number, was "foo".
 
 <===>
 ================================================================================
-<===> blackness/type/input.scss
+<===> type/blackness/input.scss
 @use "sass:color";
 a {b: color.hwb(0, 100%, "foo")}
 
-<===> blackness/type/error
+<===> type/blackness/error
 Error: Expected blackness channel to be a number, was "foo".
   ,
 2 | a {b: color.hwb(0, 100%, "foo")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/hue/non_angle/input.scss
+@use "sass:color";
+a {b: color.hwb(1in, 30%, 40%)}
+
+<===> units/hue/non_angle/error
+Error: Expected 1in to have an angle unit (deg, grad, rad, turn).
+  ,
+2 | a {b: color.hwb(1in, 30%, 40%)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

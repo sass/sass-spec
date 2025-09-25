@@ -1,0 +1,21 @@
+<===> input.scss
+a {b: mix(red, blue, $method: srgb longer hue)}
+
+<===> error
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.mix instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: mix(red, blue, $method: srgb longer hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: $method: Hue interpolation method "HueInterpolationMethod.longer hue" may not be set for rectangular color space srgb.
+  ,
+1 | a {b: mix(red, blue, $method: srgb longer hue)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet

@@ -80,29 +80,14 @@ a {
 
 <===>
 ================================================================================
-<===> ignores_units/input.scss
+<===> units/input.scss
 @use "sass:math";
 a {b: math.random(1px)}
 
-<===> ignores_units/output.css
+<===> units/output.css
 a {
-  b: 1;
+  b: 1px;
 }
-
-<===> ignores_units/warning
-DEPRECATION WARNING [function-units]: math.random() will no longer ignore $limit units (1px) in a future release.
-
-Recommendation: math.random(math.div($limit, 1px)) * 1px
-
-To preserve current behavior: math.random(math.div($limit, 1px))
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: math.random(1px)}
-  |       ^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

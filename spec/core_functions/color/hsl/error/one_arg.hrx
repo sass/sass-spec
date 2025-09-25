@@ -131,6 +131,33 @@ Error: $channels: Expected lightness channel to be a number, was "foo".
   '
   input.scss 2:6  root stylesheet
 
+
+<===>
+================================================================================
+<===> units/saturation/unitless/input.scss
+a {b: hsl(0 50 50%)}
+
+<===> units/saturation/unitless/error
+Error: $saturation: Expected 50 to have unit %.
+  ,
+1 | a {b: hsl(0 50 50%)}
+  |       ^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> units/lightness/unitless/input.scss
+a {b: hsl(0 100% 50)}
+
+<===> units/lightness/unitless/error
+Error: $lightness: Expected 50 to have unit %.
+  ,
+1 | a {b: hsl(0 100% 50)}
+  |       ^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quoted_var_slash/input.scss
