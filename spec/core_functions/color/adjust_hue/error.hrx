@@ -80,6 +80,30 @@ Error: $degrees: blue is not a number.
 
 <===>
 ================================================================================
+<===> units/unknown/input.scss
+a {b: adjust-hue(red, 60in)}
+
+<===> units/unknown/error
+DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
+Use color.adjust instead.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {b: adjust-hue(red, 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: Expected 60in to have an angle unit (deg, grad, rad, turn).
+  ,
+1 | a {b: adjust-hue(red, 60in)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
 <===> non_legacy/input.scss
 a {b: adjust-hue(lch(0% 0 0deg), 10deg)}
 

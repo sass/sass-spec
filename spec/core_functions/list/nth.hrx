@@ -130,30 +130,6 @@ a {
 
 <===>
 ================================================================================
-<===> units/input.scss
-@use "sass:list";
-a {b: list.nth(c d, 1px)}
-
-<===> units/output.css
-a {
-  b: c;
-}
-
-<===> units/warning
-DEPRECATION WARNING [function-units]: $n: Passing a number with unit px is deprecated.
-
-To preserve current behavior: calc($n / 1px)
-
-More info: https://sass-lang.com/d/function-units
-
-  ,
-2 | a {b: list.nth(c d, 1px)}
-  |       ^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> error/type/input.scss
 @use "sass:list";
 a {b: list.nth(c d, e)}
@@ -163,6 +139,20 @@ Error: $n: e is not a number.
   ,
 2 | a {b: list.nth(c d, e)}
   |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/units/input.scss
+@use "sass:list";
+a {b: list.nth(c d, 1px)}
+
+<===> error/units/error
+Error: $n: Expected 1px to have no units.
+  ,
+2 | a {b: list.nth(c d, 1px)}
+  |       ^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
 
