@@ -1,0 +1,75 @@
+<===> through_import/input.scss
+$a: configured;
+@import "midstream";
+
+<===> through_import/_midstream.scss
+@import "upstream";
+
+<===> through_import/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_import/_upstream.import.scss
+@forward "upstream";
+
+<===> through_import/output.css
+b {
+  c: configured;
+}
+
+<===> through_import/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "upstream";
+  |         ^^^^^^^^^^
+  '
+    _midstream.scss 1:9  @import
+    input.scss 2:9       root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/input.scss
+$a: configured;
+@import "midstream";
+
+<===> through_forward/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/_midstream.import.scss
+@forward "midstream";
+
+<===> through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/_upstream.import.scss
+@forward "upstream";
+
+<===> through_forward/output.css
+b {
+  c: configured;
+}
+
+<===> through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
