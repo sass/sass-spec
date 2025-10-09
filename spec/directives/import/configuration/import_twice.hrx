@@ -1,0 +1,138 @@
+<===> no_change/input.scss
+$a: configured;
+@import "other";
+@import "other";
+
+<===> no_change/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> no_change/_other.import.scss
+@forward "other";
+
+<===> no_change/output.css
+b {
+  c: configured;
+}
+
+b {
+  c: configured;
+}
+
+<===> no_change/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> with_change/input.scss
+$a: configured;
+@import "other";
+$a: changed; // This should be ignored
+@import "other";
+
+<===> with_change/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> with_change/_other.import.scss
+@forward "other";
+
+<===> with_change/output.css
+b {
+  c: configured;
+}
+
+b {
+  c: configured;
+}
+
+<===> with_change/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 4:9  root stylesheet
+
+<===>
+================================================================================
+<===> still_changes_in_same_file/input.scss
+@import "other";
+$a: changed;
+@import "other";
+
+d {
+  e: $a;
+}
+
+<===> still_changes_in_same_file/_other.scss
+$a: original !default;
+b {c: $a}
+
+<===> still_changes_in_same_file/_other.import.scss
+@forward "other";
+
+<===> still_changes_in_same_file/output.css
+b {
+  c: original;
+}
+
+b {
+  c: original;
+}
+
+d {
+  e: changed;
+}
+
+<===> still_changes_in_same_file/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
