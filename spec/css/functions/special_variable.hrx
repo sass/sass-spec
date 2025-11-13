@@ -1,0 +1,40 @@
+<===> README.md
+There are numerous places in Sass where special variable strings are handled
+specially or allowed to take the place of multiple arguments. We don't
+explicitly test all types of special variable strings in all those locations
+because doing so would cause a combinatorial explosion; instead, we generally
+test `var()` everywhere and validate here that at least `rgb()` accepts all
+special variable strings.
+
+Implementations are still expected to support all special variable strings
+everywhere that `var()` is accepted, as indicated by the Sass spec.
+
+<===>
+================================================================================
+<===> var/input.scss
+a {b: rgb(var(--c))}
+
+<===> var/output.css
+a {
+  b: rgb(var(--c));
+}
+
+<===>
+================================================================================
+<===> attr/input.scss
+a {b: rgb(attr(c))}
+
+<===> attr/output.css
+a {
+  b: rgb(attr(c));
+}
+
+<===>
+================================================================================
+<===> if/input.scss
+a {b: rgb(if(css(): c))}
+
+<===> if/output.css
+a {
+  b: rgb(if(css(): c));
+}

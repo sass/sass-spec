@@ -21,3 +21,28 @@ div {
   blah: url(hello-world.png);
   blah: url("assets/fudge/budge.png");
 }
+
+<===> warning
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(true): "red.png"; else: "blue.png")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+11 |   blah: url(if(true, "red.png", "blue.png"));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 11:13  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($x): fudge("#{$file-1x}"); else: "#{$file-1x}")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+13 |   blah: url(if($x, fudge("#{$file-1x}"), "#{$file-1x}"));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 13:13  root stylesheet
