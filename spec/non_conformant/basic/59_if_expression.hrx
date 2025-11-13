@@ -16,3 +16,58 @@ div {
   foo: x is zero;
   foo: whatever;
 }
+
+<===> warning
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+6 |   foo: if($if-true: hey, $if-false: ho, $condition: true);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 6:8  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+7 |   foo: if($if-true: hey, $if-false: ho, $condition: false);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 7:8  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($x): true; else: false)
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+8 |   foo: if($x != 0, if($x, true, false), string.unquote("x is zero"));
+  |                    ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 8:20  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($x != 0): if($x, true, false); else: string.unquote("x is zero"))
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+8 |   foo: if($x != 0, if($x, true, false), string.unquote("x is zero"));
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 8:8  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+9 |   foo: if(false, 1/0, $if-false: $if-false);
+  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 9:8  root stylesheet

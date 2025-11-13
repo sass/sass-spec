@@ -1,0 +1,892 @@
+<===> empty/input.scss
+a {b: if()}
+
+<===> empty/error
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+1 | a {b: if()}
+  |       ^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: Missing argument $condition.
+  ,--> input.scss
+1 | a {b: if()}
+  |       ^^^^ invocation
+  '
+  ,
+1 | @function if($condition, $if-true, $if-false) {
+  |           =================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> semicolon/multiple/middle/input.scss
+a {b: if(css(1): c;; css(2): d)}
+
+<===> semicolon/multiple/middle/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(1): c;; css(2): d)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> semicolon/multiple/end/input.scss
+a {b: if(css(): c;;)}
+
+<===> semicolon/multiple/end/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(): c;;)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> semicolon/comma/input.scss
+a {b: if(css(1): c, css(2): d)}
+
+<===> semicolon/comma/error
+Error: expected ")".
+  ,
+1 | a {b: if(css(1): c, css(2): d)}
+  |                           ^
+  '
+  input.scss 1:27  root stylesheet
+
+<===>
+================================================================================
+<===> missing_whitepsace/after_not/input.scss
+a {b: if(not(css()): d)}
+
+<===> missing_whitepsace/after_not/error
+Error: Whitespace is required between "not" and "("
+  ,
+1 | a {b: if(not(css()): d)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> missing_whitepsace/after_and/full/input.scss
+a {b: if(css(1) and(css(2)): d)}
+
+<===> missing_whitepsace/after_and/full/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(css(1) and(css(2)): d)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> missing_whitepsace/after_and/raw/input.scss
+a {b: if(var(--clause-and) css(1) and(css(2)): d)}
+
+<===> missing_whitepsace/after_and/raw/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(var(--clause-and) css(1) and(css(2)): d)}
+  |                                      ^
+  '
+  input.scss 1:38  root stylesheet
+
+<===>
+================================================================================
+<===> missing_whitepsace/after_or/full/input.scss
+a {b: if(css(1) or(css(2)): d)}
+
+<===> missing_whitepsace/after_or/full/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(css(1) or(css(2)): d)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> missing_whitepsace/after_or/raw/input.scss
+a {b: if(var(--clause-or) css(1) or(css(2)): d)}
+
+<===> missing_whitepsace/after_or/raw/error
+Error: Whitespace is required between "or" and "("
+  ,
+1 | a {b: if(var(--clause-or) css(1) or(css(2)): d)}
+  |                                    ^
+  '
+  input.scss 1:36  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/not/lowercase/input.scss
+a {b: if(not not(): d)}
+
+<===> invalid_function_name/not/lowercase/error
+Error: Whitespace is required between "not" and "("
+  ,
+1 | a {b: if(not not(): d)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/not/uppercase/input.scss
+a {b: if(not NOT(): d)}
+
+<===> invalid_function_name/not/uppercase/error
+Error: Whitespace is required between "NOT" and "("
+  ,
+1 | a {b: if(not NOT(): d)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/and/lowercase/input.scss
+a {b: if(not and(): d)}
+
+<===> invalid_function_name/and/lowercase/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(not and(): d)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/and/uppercase/input.scss
+a {b: if(not AND(): d)}
+
+<===> invalid_function_name/and/uppercase/error
+Error: Whitespace is required between "AND" and "("
+  ,
+1 | a {b: if(not AND(): d)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/or/lowercase/input.scss
+a {b: if(not or(): d)}
+
+<===> invalid_function_name/or/lowercase/error
+Error: Whitespace is required between "or" and "("
+  ,
+1 | a {b: if(not or(): d)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_function_name/or/uppercase/input.scss
+a {b: if(not OR(): d)}
+
+<===> invalid_function_name/or/uppercase/error
+Error: Whitespace is required between "OR" and "("
+  ,
+1 | a {b: if(not OR(): d)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> missing/condition/input.scss
+a {b: if(c)}
+
+<===> missing/condition/error
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+1 | a {b: if(c)}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: Missing argument $if-true.
+  ,--> input.scss
+1 | a {b: if(c)}
+  |       ^^^^^ invocation
+  '
+  ,
+1 | @function if($condition, $if-true, $if-false) {
+  |           =================================== declaration
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> not/empty/input.scss
+a {b: if(not: c)}
+
+<===> not/empty/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(not: c)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> not/not/input.scss
+a {b: if(not not css(): c)}
+
+<===> not/not/error
+Error: expected "(".
+  ,
+1 | a {b: if(not not css(): c)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> not/and/input.scss
+a {b: if(not css(1) and css(2): c)}
+
+<===> not/and/error
+Error: expected ":".
+  ,
+1 | a {b: if(not css(1) and css(2): c)}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> not/or/input.scss
+a {b: if(not css(1) or css(2): c)}
+
+<===> not/or/error
+Error: expected ":".
+  ,
+1 | a {b: if(not css(1) or css(2): c)}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> not/else/input.scss
+a {b: if(not else: c)}
+
+<===> not/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(not else: c)}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> and/empty/input.scss
+a {b: if(css(1) and: c)}
+
+<===> and/empty/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(1) and: c)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> and/or/input.scss
+a {b: if(css(1) and css(2) or css(3): c)}
+
+<===> and/or/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) and css(2) or css(3): c)}
+  |                            ^
+  '
+  input.scss 1:28  root stylesheet
+
+<===>
+================================================================================
+<===> and/not/input.scss
+a {b: if(css(1) and not css(2): c)}
+
+<===> and/not/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) and not css(2): c)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> and/else/input.scss
+a {b: if(css() and else: c)}
+
+<===> and/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(css() and else: c)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> or/empty/input.scss
+a {b: if(css(1) or: c)}
+
+<===> or/empty/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(1) or: c)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> or/and/input.scss
+a {b: if(css(1) or css(2) and css(3): c)}
+
+<===> or/and/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) or css(2) and css(3): c)}
+  |                           ^
+  '
+  input.scss 1:27  root stylesheet
+
+<===>
+================================================================================
+<===> or/not/input.scss
+a {b: if(css(1) or not css(2): c)}
+
+<===> or/not/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) or not css(2): c)}
+  |                       ^
+  '
+  input.scss 1:23  root stylesheet
+
+<===>
+================================================================================
+<===> or/else/input.scss
+a {b: if(css(1) or else: c)}
+
+<===> or/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) or else: c)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> paren/empty/input.scss
+a {b: if((): c)}
+
+<===> paren/empty/error
+Error: Expected identifier.
+  ,
+1 | a {b: if((): c)}
+  |           ^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> paren/else/input.scss
+a {b: if((else): c)}
+
+<===> paren/else/error
+Error: expected "(".
+  ,
+1 | a {b: if((else): c)}
+  |               ^
+  '
+  input.scss 1:15  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/before/direct/input.scss
+a {b: if(sass(true) var(--and-clause): c)}
+
+<===> raw/with_sass/adjacent/before/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(sass(true) var(--and-clause): c)}
+  |                     ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |          ========== sass() expression
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/before/nested/input.scss
+a {b: if((sass(true)) var(--and-clause): c)}
+
+<===> raw/with_sass/adjacent/before/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if((sass(true)) var(--and-clause): c)}
+  |                       ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |           ========== sass() expression
+  '
+  input.scss 1:23  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/after/1/direct/input.scss
+a {b: if(var(--not) sass(true): c)}
+
+<===> raw/with_sass/adjacent/after/1/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(var(--not) sass(true): c)}
+  |          ^^^^^^^^^^ arbitrary substitution
+  |                     ========== sass() expression
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/after/1/nested/input.scss
+a {b: if(var(--not) (sass(true)): c)}
+
+<===> raw/with_sass/adjacent/after/1/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(var(--not) (sass(true)): c)}
+  |          ^^^^^^^^^^ arbitrary substitution
+  |                      ========== sass() expression
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/after/2/direct/input.scss
+a {b: if(var(--clause) var(--and) sass(true): c)}
+
+<===> raw/with_sass/adjacent/after/2/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(var(--clause) var(--and) sass(true): c)}
+  |          ^^^^^^^^^^^^^ arbitrary substitution
+  |                                   ========== sass() expression
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/adjacent/after/2/nested/input.scss
+a {b: if(var(--clause) var(--and) (sass(true)): c)}
+
+<===> raw/with_sass/adjacent/after/2/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(var(--clause) var(--and) (sass(true)): c)}
+  |          ^^^^^^^^^^^^^ arbitrary substitution
+  |                                    ========== sass() expression
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/before/operator/direct/input.scss
+a {b: if(sass(true) and css(1) var(--and) css(2): c)}
+
+<===> raw/with_sass/and/before/operator/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(sass(true) and css(1) var(--and) css(2): c)}
+  |                                ^^^^^^^^^^ arbitrary substitution
+  |          ========== sass() expression
+  '
+  input.scss 1:32  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/before/operator/nested/input.scss
+a {b: if((sass(true)) and css(1) var(--and) css(2): c)}
+
+<===> raw/with_sass/and/before/operator/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if((sass(true)) and css(1) var(--and) css(2): c)}
+  |                                  ^^^^^^^^^^ arbitrary substitution
+  |           ========== sass() expression
+  '
+  input.scss 1:34  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/before/clause/direct/input.scss
+a {b: if(sass(true) and css(1) var(--and-clause): c)}
+
+<===> raw/with_sass/and/before/clause/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(sass(true) and css(1) var(--and-clause): c)}
+  |                                ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |          ========== sass() expression
+  '
+  input.scss 1:32  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/before/clause/nested/input.scss
+a {b: if((sass(true)) and css(1) var(--and-clause): c)}
+
+<===> raw/with_sass/and/before/clause/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if((sass(true)) and css(1) var(--and-clause): c)}
+  |                                  ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |           ========== sass() expression
+  '
+  input.scss 1:34  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/after/operator/direct/input.scss
+a {b: if(css(1) and css(2) var(--and) sass(true): c)}
+
+<===> raw/with_sass/and/after/operator/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) and css(2) var(--and) sass(true): c)}
+  |                            ^^^^^^^^^^ arbitrary substitution
+  |                                       ========== sass() expression
+  '
+  input.scss 1:28  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/after/operator/nested/input.scss
+a {b: if(css(1) and css(2) var(--and) (sass(true)): c)}
+
+<===> raw/with_sass/and/after/operator/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) and css(2) var(--and) (sass(true)): c)}
+  |                            ^^^^^^^^^^ arbitrary substitution
+  |                                        ========== sass() expression
+  '
+  input.scss 1:28  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/after/clause/direct/input.scss
+a {b: if(css(1) and var(--clause-and) sass(true): c)}
+
+<===> raw/with_sass/and/after/clause/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) and var(--clause-and) sass(true): c)}
+  |                     ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |                                       ========== sass() expression
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/and/after/clause/nested/input.scss
+a {b: if(css(1) and var(--clause-and) (sass(true)): c)}
+
+<===> raw/with_sass/and/after/clause/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) and var(--clause-and) (sass(true)): c)}
+  |                     ^^^^^^^^^^^^^^^^^ arbitrary substitution
+  |                                        ========== sass() expression
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/before/operator/direct/input.scss
+a {b: if(sass(true) or css(1) var(--or) css(2): c)}
+
+<===> raw/with_sass/or/before/operator/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(sass(true) or css(1) var(--or) css(2): c)}
+  |                               ^^^^^^^^^ arbitrary substitution
+  |          ========== sass() expression
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/before/operator/nested/input.scss
+a {b: if((sass(true)) or css(1) var(--or) css(2): c)}
+
+<===> raw/with_sass/or/before/operator/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if((sass(true)) or css(1) var(--or) css(2): c)}
+  |                                 ^^^^^^^^^ arbitrary substitution
+  |           ========== sass() expression
+  '
+  input.scss 1:33  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/before/clause/direct/input.scss
+a {b: if(sass(true) or css(1) var(--or-clause): c)}
+
+<===> raw/with_sass/or/before/clause/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(sass(true) or css(1) var(--or-clause): c)}
+  |                               ^^^^^^^^^^^^^^^^ arbitrary substitution
+  |          ========== sass() expression
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/before/clause/nested/input.scss
+a {b: if((sass(true)) or css(1) var(--or-clause): c)}
+
+<===> raw/with_sass/or/before/clause/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if((sass(true)) or css(1) var(--or-clause): c)}
+  |                                 ^^^^^^^^^^^^^^^^ arbitrary substitution
+  |           ========== sass() expression
+  '
+  input.scss 1:33  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/after/operator/direct/input.scss
+a {b: if(css(1) or css(2) var(--or) sass(true): c)}
+
+<===> raw/with_sass/or/after/operator/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) or css(2) var(--or) sass(true): c)}
+  |                           ^^^^^^^^^ arbitrary substitution
+  |                                     ========== sass() expression
+  '
+  input.scss 1:27  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/after/operator/nested/input.scss
+a {b: if(css(1) or css(2) var(--or) (sass(true)): c)}
+
+<===> raw/with_sass/or/after/operator/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) or css(2) var(--or) (sass(true)): c)}
+  |                           ^^^^^^^^^ arbitrary substitution
+  |                                      ========== sass() expression
+  '
+  input.scss 1:27  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/after/clause/direct/input.scss
+a {b: if(css(1) or var(--clause-or) sass(true): c)}
+
+<===> raw/with_sass/or/after/clause/direct/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) or var(--clause-or) sass(true): c)}
+  |                    ^^^^^^^^^^^^^^^^ arbitrary substitution
+  |                                     ========== sass() expression
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> raw/with_sass/or/after/clause/nested/input.scss
+a {b: if(css(1) or var(--clause-or) (sass(true)): c)}
+
+<===> raw/with_sass/or/after/clause/nested/error
+Error: if() conditions with arbitrary substitutions may not contain sass() expressions.
+  ,
+1 | a {b: if(css(1) or var(--clause-or) (sass(true)): c)}
+  |                    ^^^^^^^^^^^^^^^^ arbitrary substitution
+  |                                      ========== sass() expression
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> raw/not/not/input.scss
+a {b: if(not var(--not) css(): c)}
+
+<===> raw/not/not/error
+Error: expected ":".
+  ,
+1 | a {b: if(not var(--not) css(): c)}
+  |                         ^
+  '
+  input.scss 1:25  root stylesheet
+
+<===>
+================================================================================
+<===> raw/not/operator/input.scss
+a {b: if(not css(1) var(--and) css(2): c)}
+
+<===> raw/not/operator/error
+Error: expected ":".
+  ,
+1 | a {b: if(not css(1) var(--and) css(2): c)}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> raw/not/else/input.scss
+a {b: if(var(--not) else: c)}
+
+<===> raw/not/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(var(--not) else: c)}
+  |                         ^
+  '
+  input.scss 1:25  root stylesheet
+
+<===>
+================================================================================
+<===> raw/and/or/input.scss
+a {b: if(css(1) and css(2) var(--and) vss(3) or css(4): c)}
+
+<===> raw/and/or/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) and css(2) var(--and) vss(3) or css(4): c)}
+  |                                              ^
+  '
+  input.scss 1:46  root stylesheet
+
+<===>
+================================================================================
+<===> raw/and/not/input.scss
+a {b: if(css(1) var(--and) not css(2): c)}
+
+<===> raw/and/not/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) var(--and) not css(2): c)}
+  |                               ^
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> raw/and/else/input.scss
+a {b: if(css() var(--and) else: c)}
+
+<===> raw/and/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(css() var(--and) else: c)}
+  |                               ^
+  '
+  input.scss 1:31  root stylesheet
+
+<===>
+================================================================================
+<===> raw/or/and/input.scss
+a {b: if(css(1) or css(2) var(--or) vss(3) and css(4): c)}
+
+<===> raw/or/and/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) or css(2) var(--or) vss(3) and css(4): c)}
+  |                                            ^
+  '
+  input.scss 1:44  root stylesheet
+
+<===>
+================================================================================
+<===> raw/or/not/input.scss
+a {b: if(css(1) var(--or) not css(2): c)}
+
+<===> raw/or/not/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) var(--or) not css(2): c)}
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet
+
+<===>
+================================================================================
+<===> raw/or/else/input.scss
+a {b: if(css() var(--or) else: c)}
+
+<===> raw/or/else/error
+Error: expected "(".
+  ,
+1 | a {b: if(css() var(--or) else: c)}
+  |                              ^
+  '
+  input.scss 1:30  root stylesheet
+
+<===>
+================================================================================
+<===> raw/paren/not/input.scss
+a {b: if((var(--not)) css(): c)}
+
+<===> raw/paren/not/error
+Error: expected ":".
+  ,
+1 | a {b: if((var(--not)) css(): c)}
+  |                       ^
+  '
+  input.scss 1:23  root stylesheet
+
+<===>
+================================================================================
+<===> raw/paren/operator/input.scss
+a {b: if(css(1) (var(--and)) css(2): c)}
+
+<===> raw/paren/operator/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) (var(--and)) css(2): c)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet
+
+<===>
+================================================================================
+<===> raw/paren/clause/input.scss
+a {b: if(css(1) (var(--and-clause)): c)}
+
+<===> raw/paren/clause/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) (var(--and-clause)): c)}
+  |                 ^
+  '
+  input.scss 1:17  root stylesheet

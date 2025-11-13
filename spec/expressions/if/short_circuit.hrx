@@ -1,0 +1,78 @@
+<===> clause/sass/input.scss
+a {b: if(sass(true): c; sass($undefined): d)}
+
+<===> clause/sass/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/interp/input.scss
+a {b: if(sass(true): c; #{$undefined}: d)}
+
+<===> clause/interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/css/input.scss
+a {b: if(sass(true): c; css(#{$undefined}): d)}
+
+<===> clause/css/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and/sass/input.scss
+a {b: if(sass(false) and sass($undefined): c)}
+
+<===> and/sass/output.css
+
+<===>
+================================================================================
+<===> and/interp/input.scss
+a {b: if(sass(false) and #{$undefined}: c)}
+
+<===> and/interp/output.css
+
+<===>
+================================================================================
+<===> and/css/input.scss
+a {b: if(sass(false) and css(#{$undefined}): c)}
+
+<===> and/css/output.css
+
+<===>
+================================================================================
+<===> or/sass/input.scss
+a {b: if(sass(true) or sass($undefined): c)}
+
+<===> or/sass/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/interp/input.scss
+a {b: if(sass(true) or #{$undefined}: c)}
+
+<===> or/interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/css/input.scss
+a {b: if(sass(true) or css(#{$undefined}): c)}
+
+<===> or/css/output.css
+a {
+  b: c;
+}

@@ -1,0 +1,373 @@
+<===> trailing_semi/input.scss
+a {b: if(else: c;)}
+
+<===> trailing_semi/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/after_open_paren/input.scss
+a {b: if( else: c)}
+
+<===> whitespace/after_open_paren/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/before_colon/input.scss
+a {b: if(else : c)}
+
+<===> whitespace/before_colon/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/none_after_colon/input.scss
+a {b: if(else:c)}
+
+<===> whitespace/none_after_colon/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/before_close_paren/input.scss
+a {b: if(else: c )}
+
+<===> whitespace/before_close_paren/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> whitespace/before_semi/input.scss
+a {b: if(css(): c ; else: d)}
+
+<===> whitespace/before_semi/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> whitespace/none_after_semi/input.scss
+a {b: if(css(): c;else: d)}
+
+<===> whitespace/none_after_semi/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> whitespace/before_trailing_semi/input.scss
+a {b: if(css(): c; else: d ;)}
+
+<===> whitespace/before_trailing_semi/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> whitespace/after_trailing_semi/input.scss
+a {b: if(css(): c; else: d; )}
+
+<===> whitespace/after_trailing_semi/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> whitespace/and/none_before/input.scss
+a {b: if(css(1)and css(2): c)}
+
+<===> whitespace/and/none_before/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> whitespace/or/none_before/input.scss
+a {b: if(css(1)or css(2): c)}
+
+<===> whitespace/or/none_before/output.css
+a {
+  b: if(css(1) or css(2): c);
+}
+
+<===>
+================================================================================
+<===> whitespace/parens/after_open/input.scss
+a {b: if(( css()): c)}
+
+<===> whitespace/parens/after_open/output.css
+a {
+  b: if((css()): c);
+}
+
+<===>
+================================================================================
+<===> whitespace/parens/before_close/input.scss
+a {b: if((css() ): c)}
+
+<===> whitespace/parens/before_close/output.css
+a {
+  b: if((css()): c);
+}
+
+<===>
+================================================================================
+<===> case/not/input.scss
+a {b: if(NOT sass(false): c)}
+
+<===> case/not/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> case/and/input.scss
+a {b: if(sass(true) AND sass(true): c)}
+
+<===> case/and/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> case/or/input.scss
+a {b: if(sass(true) OR sass(false): c)}
+
+<===> case/or/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> newline/after_open_paren/input.sass
+a
+  b: if(
+css(): c)
+
+<===> newline/after_open_paren/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/before_colon/input.sass
+a
+  b: if(css()
+: c)
+
+<===> newline/before_colon/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/after_colon/input.sass
+a
+  b: if(css():
+c)
+
+<===> newline/after_colon/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/before_close_paren/input.sass
+a
+  b: if(css(): c
+)
+
+<===> newline/before_close_paren/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/before_semicolon/input.sass
+a
+  b: if(css(): c
+; else: d)
+
+<===> newline/before_semicolon/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> newline/after_semicolon/input.sass
+a
+  b: if(css(): c;
+else: d)
+
+<===> newline/after_semicolon/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> newline/before_trailing_semicolon/input.sass
+a
+  b: if(css(): c; else: d
+;)
+
+<===> newline/before_trailing_semicolon/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> newline/after_trailing_semicolon/input.sass
+a
+  b: if(css(): c; else: d;
+)
+
+<===> newline/after_trailing_semicolon/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> newline/in_css_function/input.sass
+a
+  b: if(css(
+): c)
+
+<===> newline/in_css_function/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/sass/before_expression/input.sass
+a
+  b: if(sass(
+true): c)
+
+<===> newline/sass/before_expression/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> newline/sass/after_expression/input.sass
+a
+  b: if(sass(true
+): c)
+
+<===> newline/sass/after_expression/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> newline/after_not/input.sass
+a
+  b: if(not
+css(): c)
+
+<===> newline/after_not/output.css
+a {
+  b: if(not css(): c);
+}
+
+<===>
+================================================================================
+<===> newline/and/before/input.sass
+a
+  b: if(css(1)
+and css(2): c)
+
+<===> newline/and/before/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> newline/and/after/input.sass
+a
+  b: if(css(1) and
+css(2): c)
+
+<===> newline/and/after/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> newline/or/before/input.sass
+a
+  b: if(css(1)
+or css(2): c)
+
+<===> newline/or/before/output.css
+a {
+  b: if(css(1) or css(2): c);
+}
+
+<===>
+================================================================================
+<===> newline/or/after/input.sass
+a
+  b: if(css(1) or
+css(2): c)
+
+<===> newline/or/after/output.css
+a {
+  b: if(css(1) or css(2): c);
+}
+
+<===>
+================================================================================
+<===> newline/parens/after_open/input.sass
+a
+  b: if((
+css()): c)
+
+<===> newline/parens/after_open/output.css
+a {
+  b: if((css()): c);
+}
+
+<===>
+================================================================================
+<===> newline/parens/before_close/input.sass
+a
+  b: if((css()
+): c)
+
+<===> newline/parens/before_close/output.css
+a {
+  b: if((css()): c);
+}

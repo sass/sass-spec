@@ -2492,6 +2492,174 @@ More info and automated migrator: https://sass-lang.com/d/import
     lib/_bourbon.scss 59:9  @import
     input.scss 2:9          root stylesheet
 
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos == left): right)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+57 |  @return if($pos == left, right, null)
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/helpers/_linear-positions-parser.scss 57:10  @import
+    lib/_bourbon.scss 4:9                            @import
+    input.scss 2:9                                   root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos == right): left)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+58 |          if($pos == right, left, null)
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/helpers/_linear-positions-parser.scss 58:10  @import
+    lib/_bourbon.scss 4:9                            @import
+    input.scss 2:9                                   root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos == top): bottom)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+59 |          if($pos == top, bottom, null)
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/helpers/_linear-positions-parser.scss 59:10  @import
+    lib/_bourbon.scss 4:9                            @import
+    input.scss 2:9                                   root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos == bottom): top)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+60 |          if($pos == bottom, top, null);
+   |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/helpers/_linear-positions-parser.scss 60:10  @import
+    lib/_bourbon.scss 4:9                            @import
+    input.scss 2:9                                   root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(index($value, at)): index($value, at); else: false)
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+9 |       $spec-at-index: if(index($value, at), index($value, at), false);
+  |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/helpers/_radial-arg-parser.scss 9:23  @import
+    lib/_bourbon.scss 5:9                     @import
+    input.scss 2:9                            root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos): "#{$pos}, ")
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+6 |   $pre-spec: unquote(if($pos, "#{$pos}, ", null))
+  |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/helpers/_radial-positions-parser.scss 6:22  @import
+    lib/_bourbon.scss 6:9                           @import
+    input.scss 2:9                                  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($shape-size): "#{$shape-size},")
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+7 |              unquote(if($shape-size, "#{$shape-size},", null));
+  |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/helpers/_radial-positions-parser.scss 7:22  @import
+    lib/_bourbon.scss 6:9                           @import
+    input.scss 2:9                                  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos): "at #{$pos}")
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+8 |   $pos-spec: if($pos, "at #{$pos}", null);
+  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    lib/helpers/_radial-positions-parser.scss 8:14  @import
+    lib/_bourbon.scss 6:9                           @import
+    input.scss 2:9                                  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($shape-size): "#{$shape-size}, ")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+35 |   $shape-size: if($shape-size, '#{$shape-size}, ', null);
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_radial-gradient.scss 35:16  @import
+    lib/_bourbon.scss 39:9                @import
+    input.scss 2:9                        root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos): "#{$pos}, ")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+36 |   $pos:        if($pos, '#{$pos}, ', null);
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_radial-gradient.scss 36:16  @import
+    lib/_bourbon.scss 39:9                @import
+    input.scss 2:9                        root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass($pos): "at #{$pos}")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+37 |   $pos-spec:   if($pos, 'at #{$pos}', null);
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_radial-gradient.scss 37:16  @import
+    lib/_bourbon.scss 39:9                @import
+    input.scss 2:9                        root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(($shape-size-spec != " ") and ($pos == null)): "#{$shape-size-spec}, "; else: "#{$shape-size-spec} ")
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+38 |   $shape-size-spec: if(($shape-size-spec != ' ') and ($pos == null), '#{$shape-size-spec}, ', '#{$shape-size-spec} ');
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    lib/css3/_radial-gradient.scss 38:21  @import
+    lib/_bourbon.scss 39:9                @import
+    input.scss 2:9                        root stylesheet
+
 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use string.unquote instead.
 
