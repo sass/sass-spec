@@ -6,10 +6,7 @@ foo {
   bar: #{($foo*$bar)};
 }
 
-<===> error
-Error: calc(10px * 1in) isn't a valid CSS value.
-  ,
-5 |   bar: #{($foo*$bar)};
-  |          ^^^^^^^^^^^
-  '
-  input.scss 5:10  root stylesheet
+<===> output.css
+foo {
+  bar: calc(10px * 1in);
+}
