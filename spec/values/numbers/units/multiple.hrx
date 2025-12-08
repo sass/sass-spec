@@ -1,0 +1,229 @@
+<===> multiple_denominators/input.scss
+a {
+  b: calc(1 / 1px / 1rad);
+}
+
+<===> multiple_denominators/output.css
+a {
+  b: calc(1 / 1px / 1rad);
+}
+
+<===>
+================================================================================
+<===> multiple_numerators/input.scss
+a {
+  b: calc(1px * 1rad);
+}
+
+<===> multiple_numerators/output.css
+a {
+  b: calc(1px * 1rad);
+}
+
+<===>
+================================================================================
+<===> division/by/multiple_denominators/input.scss
+a {
+  b: calc(1 / (1 / 1px / 1rad));
+}
+
+<===> division/by/multiple_denominators/output.css
+a {
+  b: calc(1px * 1rad);
+}
+
+<===>
+================================================================================
+<===> division/by/multiple_numerators/input.scss
+a {
+  b: calc(1 / (1px * 1rad));
+}
+
+<===> division/by/multiple_numerators/output.css
+a {
+  b: calc(1 / 1px / 1rad);
+}
+
+<===>
+================================================================================
+<===> division/cancels/denominator/once/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / (1 / 1ms));
+}
+
+<===> division/cancels/denominator/once/output.css
+a {
+  b: calc(1px * 1rad / 1Hz);
+}
+
+<===>
+================================================================================
+<===> division/cancels/denominator/twice/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / (1 / 1ms / 1Hz));
+}
+
+<===> division/cancels/denominator/twice/output.css
+a {
+  b: calc(1px * 1rad);
+}
+
+<===>
+================================================================================
+<===> division/cancels/numerator/once/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / 1px);
+}
+
+<===> division/cancels/numerator/once/output.css
+a {
+  b: calc(1rad / 1ms / 1Hz);
+}
+
+<===>
+================================================================================
+<===> division/cancels/numerator/twice/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / (1px * 1rad));
+}
+
+<===> division/cancels/numerator/twice/output.css
+a {
+  b: calc(1 / 1ms / 1Hz);
+}
+
+<===>
+================================================================================
+<===> division/cancels/both/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / (1px / 1ms));
+}
+
+<===> division/cancels/both/output.css
+a {
+  b: calc(1rad / 1Hz);
+}
+
+<===>
+================================================================================
+<===> division/cancels/compatible/input.scss
+$number: calc(96px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number / 1in);
+}
+
+<===> division/cancels/compatible/output.css
+a {
+  b: calc(1rad / 1ms / 1Hz);
+}
+
+<===>
+================================================================================
+<===> division/cancels/unknown/input.scss
+// Units cancel even if they're totally unknown to Sass.
+$number: calc(1foo * 1bar / 1baz / 1qux);
+a {
+  b: calc($number / 1foo);
+}
+
+<===> division/cancels/unknown/output.css
+a {
+  b: calc(1bar / 1baz / 1qux);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/denominator/once/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * 1ms);
+}
+
+<===> multiplication/cancels/denominator/once/output.css
+a {
+  b: calc(1px * 1rad / 1Hz);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/denominator/twice/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * (1ms * 1Hz));
+}
+
+<===> multiplication/cancels/denominator/twice/output.css
+a {
+  b: calc(1px * 1rad);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/numerator/once/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * (1 / 1px));
+}
+
+<===> multiplication/cancels/numerator/once/output.css
+a {
+  b: calc(1rad / 1ms / 1Hz);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/numerator/twice/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * (1 / 1px / 1rad));
+}
+
+<===> multiplication/cancels/numerator/twice/output.css
+a {
+  b: calc(1 / 1ms / 1Hz);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/both/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * (1ms / 1px));
+}
+
+<===> multiplication/cancels/both/output.css
+a {
+  b: calc(1rad / 1Hz);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/compatible/input.scss
+$number: calc(1px * 1rad / 1ms / 1Hz);
+a {
+  b: calc($number * 1s);
+}
+
+<===> multiplication/cancels/compatible/output.css
+a {
+  b: calc(1000px * 1rad / 1Hz);
+}
+
+<===>
+================================================================================
+<===> multiplication/cancels/unknown/input.scss
+// Units cancel even if they're totally unknown to Sass.
+$number: calc(1foo * 1bar / 1baz / 1qux);
+a {
+  b: calc($number * 1baz);
+}
+
+<===> multiplication/cancels/unknown/output.css
+a {
+  b: calc(1foo * 1bar / 1qux);
+}
