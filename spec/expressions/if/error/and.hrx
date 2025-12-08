@@ -1,0 +1,49 @@
+<===> empty/input.scss
+a {b: if(css(1) and: c)}
+
+<===> empty/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(1) and: c)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> or/input.scss
+a {b: if(css(1) and css(2) or css(3): c)}
+
+<===> or/error
+Error: expected ":".
+  ,
+1 | a {b: if(css(1) and css(2) or css(3): c)}
+  |                            ^
+  '
+  input.scss 1:28  root stylesheet
+
+<===>
+================================================================================
+<===> not/input.scss
+a {b: if(css(1) and not css(2): c)}
+
+<===> not/error
+Error: expected "(".
+  ,
+1 | a {b: if(css(1) and not css(2): c)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> else/input.scss
+a {b: if(css() and else: c)}
+
+<===> else/error
+Error: expected "(".
+  ,
+1 | a {b: if(css() and else: c)}
+  |                        ^
+  '
+  input.scss 1:24  root stylesheet
