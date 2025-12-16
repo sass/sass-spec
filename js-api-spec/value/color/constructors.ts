@@ -144,6 +144,15 @@ export const displayP3: Constructor = function (
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'display-p3'});
 };
+/** A utility function for creating an display-p3-linear color. */
+export const displayP3Linear: Constructor = function (
+  red: number | null,
+  green: number | null,
+  blue: number | null,
+  alpha?: number | null
+): SassColor {
+  return new SassColor({red, green, blue, alpha, space: 'display-p3-linear'});
+};
 /** A utility function for creating an a98-rgb color. */
 export const a98Rgb: Constructor = function (
   red: number | null,
