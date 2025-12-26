@@ -1,0 +1,278 @@
+<===> direct/input.scss
+@import "config";
+@import "midstream";
+
+<===> direct/_config.scss
+$a: configured;
+
+<===> direct/_midstream.scss
+@forward "upstream";
+
+<===> direct/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> direct/output.css
+b {
+  c: configured;
+}
+
+<===> direct/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "config";
+  |         ^^^^^^^^
+  '
+    input.scss 1:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> through_forward/input.scss
+// Regression test for sass/dart-sass#2641
+@import "config_wrapper";
+@import "midstream";
+
+<===> through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> through_forward/_config.scss
+$a: configured;
+
+<===> through_forward/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> through_forward/output.css
+b {
+  c: configured;
+}
+
+<===> through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "config_wrapper";
+  |         ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
+
+<===>
+================================================================================
+<===> nested/through_forward/input.scss
+// Regression test for sass/dart-sass#2641
+a {
+  @import "config_wrapper";
+  @import "midstream";
+}
+
+<===> nested/through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> nested/through_forward/_config.scss
+$a: configured;
+
+<===> nested/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> nested/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> nested/through_forward/output.css
+a b {
+  c: configured;
+}
+
+<===> nested/through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 |   @import "config_wrapper";
+  |           ^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:11  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 |   @import "midstream";
+  |           ^^^^^^^^^^^
+  '
+    input.scss 4:11  root stylesheet
+
+<===>
+================================================================================
+<===> shadowing/through_forward/input.scss
+// Regression test for sass/dart-sass#2641
+$a: shadowed;
+@import "config_wrapper";
+@import "midstream";
+
+<===> shadowing/through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> shadowing/through_forward/_config.scss
+$a: configured;
+
+<===> shadowing/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> shadowing/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> shadowing/through_forward/output.css
+b {
+  c: configured;
+}
+
+<===> shadowing/through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+3 | @import "config_wrapper";
+  |         ^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 4:9  root stylesheet
+
+<===>
+================================================================================
+<===> shadowing/nested/global/through_forward/input.scss
+// Regression test for sass/dart-sass#2641
+$a: shadowed;
+a {
+  @import "config_wrapper";
+  @import "midstream";
+}
+
+<===> shadowing/nested/global/through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> shadowing/nested/global/through_forward/_config.scss
+$a: configured;
+
+<===> shadowing/nested/global/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> shadowing/nested/global/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> shadowing/nested/global/through_forward/output.css
+a b {
+  c: configured;
+}
+
+<===> shadowing/nested/global/through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 |   @import "config_wrapper";
+  |           ^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:11  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+5 |   @import "midstream";
+  |           ^^^^^^^^^^^
+  '
+    input.scss 5:11  root stylesheet
+
+<===>
+================================================================================
+<===> shadowing/nested/local/through_forward/input.scss
+// Regression test for sass/dart-sass#2641
+a {
+  $a: shadowed;
+  @import "config_wrapper";
+  @import "midstream";
+}
+
+<===> shadowing/nested/local/through_forward/_config_wrapper.scss
+@forward "config";
+
+<===> shadowing/nested/local/through_forward/_config.scss
+$a: configured;
+
+<===> shadowing/nested/local/through_forward/_midstream.scss
+@forward "upstream";
+
+<===> shadowing/nested/local/through_forward/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> shadowing/nested/local/through_forward/output.css
+a b {
+  c: configured;
+}
+
+<===> shadowing/nested/local/through_forward/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+4 |   @import "config_wrapper";
+  |           ^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:11  root stylesheet
+
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+5 |   @import "midstream";
+  |           ^^^^^^^^^^^
+  '
+    input.scss 5:11  root stylesheet

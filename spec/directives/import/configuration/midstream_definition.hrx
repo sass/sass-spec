@@ -1,0 +1,56 @@
+<===> with_config/input.scss
+$a: configured;
+@import "midstream";
+
+<===> with_config/_midstream.scss
+$a: midstream;
+@forward "upstream";
+
+<===> with_config/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> with_config/output.css
+b {
+  c: configured;
+}
+
+<===> with_config/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> no_config/input.scss
+@import "midstream";
+
+<===> no_config/_midstream.scss
+$a: midstream;
+@forward "upstream";
+
+<===> no_config/_upstream.scss
+$a: original !default;
+b {c: $a}
+
+<===> no_config/output.css
+b {
+  c: original;
+}
+
+<===> no_config/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | @import "midstream";
+  |         ^^^^^^^^^^^
+  '
+    input.scss 1:9  root stylesheet
