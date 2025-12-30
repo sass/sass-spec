@@ -38,3 +38,83 @@ Error: Module loop: input.scss is already being loaded.
   '
   _other.scss 2:1  load-css()
   input.scss 2:1   root stylesheet
+
+<===>
+================================================================================
+<===> top_level_include_declaration/input.scss
+@use "sass:meta";
+@include meta.load-css("upstream");
+
+<===> top_level_include_declaration/_upstream.scss
+@mixin a { b: c }
+@include a;
+
+<===> top_level_include_declaration/error
+Error: Declarations may only be used within style rules.
+  ,--> _upstream.scss
+1 | @mixin a { b: c }
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("upstream");
+  | ================================== invocation
+  '
+  _upstream.scss 1:12  a()
+  _upstream.scss 2:1   load-css()
+  input.scss 2:1       root stylesheet
+
+<===>
+================================================================================
+<===> nested/without_use/input.scss
+@use 'sass:meta';
+.a {
+  @include meta.load-css('upstream');
+}
+
+<===> nested/without_use/_upstream.scss
+@mixin b { c: d }
+@include b;
+
+<===> nested/without_use/error
+Error: Declarations may only be used within style rules.
+  ,--> _upstream.scss
+1 | @mixin b { c: d }
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+3 |   @include meta.load-css('upstream');
+  |   ================================== invocation
+  '
+  _upstream.scss 1:12  b()
+  _upstream.scss 2:1   load-css()
+  input.scss 3:3       root stylesheet
+
+<===>
+================================================================================
+<===> nested/with_use/input.scss
+@use 'sass:meta';
+.a {
+  @include meta.load-css('midstream');
+}
+
+<===> nested/with_use/_midstream.scss
+@use 'upstream';
+@mixin b { c: d }
+@include b;
+
+<===> nested/with_use/_upstream.scss
+// Intentionally empty.
+
+<===> nested/with_use/error
+Error: Declarations may only be used within style rules.
+  ,--> _midstream.scss
+2 | @mixin b { c: d }
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+3 |   @include meta.load-css('midstream');
+  |   =================================== invocation
+  '
+  _midstream.scss 2:12  b()
+  _midstream.scss 3:1   load-css()
+  input.scss 3:3        root stylesheet

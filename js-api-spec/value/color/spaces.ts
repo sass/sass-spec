@@ -183,6 +183,24 @@ export const spaces: {
       [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
     ],
   },
+  'display-p3-linear': {
+    constructor: constructors.displayP3Linear,
+    name: 'display-p3-linear',
+    isLegacy: false,
+    isPolar: false,
+    pink: [0.8922032202231888, 0.41319596748178294, 0.5332670876259182],
+    blue: [0.038379047373520256, 0.12284965133685266, 0.18097273332077757],
+    channels: ['red', 'green', 'blue'] as ChannelNameRgb[],
+    ranges: [
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ],
+    hasOutOfGamut: true,
+    gamutExamples: [
+      [[0.5, 2, 2], {clip: [0.5, 1, 1], 'local-minde': [1, 1, 1]}],
+    ],
+  },
   'a98-rgb': {
     constructor: constructors.a98Rgb,
     name: 'a98-rgb',

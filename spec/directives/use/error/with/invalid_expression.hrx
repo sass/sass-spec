@@ -1,0 +1,50 @@
+<===> error/input.scss
+@use "other" with ($a: 1px + 1em);
+
+<===> error/_other.scss
+$a: c !default;
+
+<===> error/error
+Error: 1px and 1em have incompatible units.
+  ,
+1 | @use "other" with ($a: 1px + 1em);
+  |                        ^^^^^^^^^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> variable_defined_later/input.scss
+@use "other" with ($a: $b);
+$b: c;
+
+<===> variable_defined_later/_other.scss
+$a: d !default;
+
+<===> variable_defined_later/error
+Error: Undefined variable.
+  ,
+1 | @use "other" with ($a: $b);
+  |                        ^^
+  '
+  input.scss 1:24  root stylesheet
+
+<===>
+================================================================================
+<===> module_loaded_later/input.scss
+@use "configured" with ($a: other.$b);
+@use "other";
+
+<===> module_loaded_later/_configured.scss
+$a: c !default;
+
+<===> module_loaded_later/_other.scss
+$b: d;
+
+<===> module_loaded_later/error
+Error: There is no module with the namespace "other".
+  ,
+1 | @use "configured" with ($a: other.$b);
+  |                             ^^^^^^^^
+  '
+  input.scss 1:29  root stylesheet

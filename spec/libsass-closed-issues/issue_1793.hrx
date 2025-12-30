@@ -3,10 +3,9 @@
   foo { bar: baz; }
 }
 
-<===> error
-Error: calc(10px * 1in) isn't a valid CSS value.
-  ,
-1 | @media (max-width: (2px*5in)) {
-  |                    ^^^^^^^^^
-  '
-  input.scss 1:20  root stylesheet
+<===> output.css
+@media (max-width: calc(10px * 1in)) {
+  foo {
+    bar: baz;
+  }
+}

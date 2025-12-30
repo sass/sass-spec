@@ -1,0 +1,118 @@
+<===> black/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0 0 0), display-p3-linear)}
+
+<===> black/output.css
+a {
+  b: color(display-p3-linear 0 0 0);
+}
+
+<===>
+================================================================================
+<===> white/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 1 1 1), display-p3-linear)}
+
+<===> white/output.css
+a {
+  b: color(display-p3-linear 1 1 1);
+}
+
+<===>
+================================================================================
+<===> gray/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.5 0.5 0.5), display-p3-linear)}
+
+<===> gray/output.css
+a {
+  b: color(display-p3-linear 0.2871745887 0.2871745887 0.2871745887);
+}
+
+<===>
+================================================================================
+<===> middle/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.2 0.4 0.8), display-p3-linear)}
+
+<===> middle/output.css
+a {
+  b: color(display-p3-linear -0.1520627404 0.2070330332 0.6927886175);
+}
+
+<===>
+================================================================================
+<===> out_of_range/near/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb -1 0.4 2), display-p3-linear)}
+
+<===> out_of_range/near/output.css
+a {
+  b: color(display-p3-linear -2.5858747083 0.3326410939 3.6422553118);
+}
+
+<===>
+================================================================================
+<===> out_of_range/far/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb -999999 0 0), display-p3-linear)}
+
+<===> out_of_range/far/output.css
+a {
+  b: color(display-p3-linear -103008371657.95668 9697822314.33923 -655765110.1322829);
+}
+
+<===>
+================================================================================
+<===> alpha/partial/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.4), display-p3-linear)}
+
+<===> alpha/partial/output.css
+a {
+  b: color(display-p3-linear -0.0240316151 0.0604645878 0.1172033968 / 0.4);
+}
+
+<===>
+================================================================================
+<===> alpha/transparent/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 0.3 / 0.0), display-p3-linear)}
+
+<===> alpha/transparent/output.css
+a {
+  b: color(display-p3-linear -0.0240316151 0.0604645878 0.1172033968 / 0);
+}
+
+<===>
+================================================================================
+<===> missing/red/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb none 0.2 0.3), display-p3-linear)}
+
+<===> missing/red/output.css
+a {
+  b: color(display-p3-linear none 0.062900575 0.1170386757);
+}
+
+<===>
+================================================================================
+<===> missing/green/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.1 none 0.3), display-p3-linear)}
+
+<===> missing/green/output.css
+a {
+  b: color(display-p3-linear -0.0030723285 none 0.1206696813);
+}
+
+<===>
+================================================================================
+<===> missing/blue/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb 0.1 0.2 none), display-p3-linear)}
+
+<===> missing/blue/output.css
+a {
+  b: color(display-p3-linear 0.004915293 0.0619533772 none);
+}

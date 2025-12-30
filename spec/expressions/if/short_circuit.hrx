@@ -1,0 +1,99 @@
+<===> clause/root/sass/input.scss
+a {b: if(sass(true): c; sass($undefined): d)}
+
+<===> clause/root/sass/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/root/interp/input.scss
+a {b: if(sass(true): c; #{$undefined}: d)}
+
+<===> clause/root/interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/root/css/input.scss
+a {b: if(sass(true): c; css(#{$undefined}): d)}
+
+<===> clause/root/css/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/and/sass/input.scss
+a {b: if(sass(false) and sass($undefined): c)}
+
+<===> clause/and/sass/output.css
+
+<===>
+================================================================================
+<===> clause/and/interp/input.scss
+a {b: if(sass(false) and #{$undefined}: c)}
+
+<===> clause/and/interp/output.css
+
+<===>
+================================================================================
+<===> clause/and/css/input.scss
+a {b: if(sass(false) and css(#{$undefined}): c)}
+
+<===> clause/and/css/output.css
+
+<===>
+================================================================================
+<===> clause/or/sass/input.scss
+a {b: if(sass(true) or sass($undefined): c)}
+
+<===> clause/or/sass/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/or/interp/input.scss
+a {b: if(sass(true) or #{$undefined}: c)}
+
+<===> clause/or/interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> clause/or/css/input.scss
+a {b: if(sass(true) or css(#{$undefined}): c)}
+
+<===> clause/or/css/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> value/unmatched/input.scss
+a {b: if(sass(false): $undefined; else: c)}
+
+<===> value/unmatched/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> value/after_matched/input.scss
+a {b: if(sass(true): c; else: $undefined)}
+
+<===> value/after_matched/output.css
+a {
+  b: c;
+}
+

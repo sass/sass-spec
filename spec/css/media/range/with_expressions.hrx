@@ -25,64 +25,66 @@ $width: width;
     dynamic: left;
   }
 }
-
 @media (width < 600px) {
   a {
     dynamic: right;
   }
 }
-
 @media (width < 600px) {
   a {
     dynamic: both;
   }
 }
-
 @media (width = 600px) {
   a {
     separator: equals;
   }
 }
-
 @media (100px < width < 600px) {
   a {
     dynamic: left;
   }
 }
-
 @media (100px < width < 600px) {
   a {
     dynamic: middle;
   }
 }
-
 @media (100px < width < 600px) {
   a {
     dynamic: right;
   }
 }
-
 @media (100px < width < 600px) {
   a {
     dynamic: all;
   }
 }
-
 @media (width < true) {
   a {
     comparison: in-operator;
   }
 }
-
 @media (width < 500px) {
   a {
     comparison: in-function;
   }
 }
-
 @media (width < [true]) {
   a {
     comparison: in-square-brackets;
   }
 }
 
+<===> warning
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(1 < 2): 500px; else: 600px)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+18 | @media (width < if(1 < 2, 500px, 600px)) {a {comparison: in-function}}
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 18:17  root stylesheet
