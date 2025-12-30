@@ -51,9 +51,13 @@ Error: Module loop: input.scss is already being loaded.
 
 <===> top_level_include_declaration/error
 Error: Declarations may only be used within style rules.
-  ,
+  ,--> _upstream.scss
 1 | @mixin a { b: c }
-  |            ^^^^^
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+2 | @include meta.load-css("upstream");
+  | ================================== invocation
   '
   _upstream.scss 1:12  a()
   _upstream.scss 2:1   load-css()
@@ -73,9 +77,13 @@ Error: Declarations may only be used within style rules.
 
 <===> nested/without_use/error
 Error: Declarations may only be used within style rules.
-  ,
+  ,--> _upstream.scss
 1 | @mixin b { c: d }
-  |            ^^^^^
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+3 |   @include meta.load-css('upstream');
+  |   ================================== invocation
   '
   _upstream.scss 1:12  b()
   _upstream.scss 2:1   load-css()
@@ -99,9 +107,13 @@ Error: Declarations may only be used within style rules.
 
 <===> nested/with_use/error
 Error: Declarations may only be used within style rules.
-  ,
+  ,--> _midstream.scss
 2 | @mixin b { c: d }
-  |            ^^^^^
+  |            ^^^^^ 
+  '
+  ,--> input.scss
+3 |   @include meta.load-css('midstream');
+  |   =================================== invocation
   '
   _midstream.scss 2:12  b()
   _midstream.scss 3:1   load-css()
