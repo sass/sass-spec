@@ -1,0 +1,477 @@
+<===> var/adjacent/before/input.scss
+a {b: if(var(--not) css(): c)}
+
+<===> var/adjacent/before/output.css
+a {
+  b: if(var(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> var/adjacent/after/input.scss
+a {b: if(css() var(--and-clause): c)}
+
+<===> var/adjacent/after/output.css
+a {
+  b: if(css() var(--and-clause): c);
+}
+
+<===>
+================================================================================
+<===> var/adjacent/between/1/input.scss
+a {b: if(css(1) var(--and) css(2): c)}
+
+<===> var/adjacent/between/1/output.css
+a {
+  b: if(css(1) var(--and) css(2): c);
+}
+
+<===>
+================================================================================
+<===> var/adjacent/between/2/input.scss
+a {b: if(css(1) var(--and) css(2) var(--and) css(3): c)}
+
+<===> var/adjacent/between/2/output.css
+a {
+  b: if(css(1) var(--and) css(2) var(--and) css(3): c);
+}
+
+<===>
+================================================================================
+<===> var/and/and/input.scss
+a {b: if(css(1) and css(2) var(--and) css(3): c)}
+
+<===> var/and/and/output.css
+a {
+  b: if(css(1) and css(2) var(--and) css(3): c);
+}
+
+<===>
+================================================================================
+<===> var/and/clause_and/input.scss
+a {b: if(css(1) and var(--clause-and) css(2): c)}
+
+<===> var/and/clause_and/output.css
+a {
+  b: if(css(1) and var(--clause-and) css(2): c);
+}
+
+<===>
+================================================================================
+<===> var/and/and_clause/input.scss
+a {b: if(css(1) and css(2) var(--and-clause): c)}
+
+<===> var/and/and_clause/output.css
+a {
+  b: if(css(1) and css(2) var(--and-clause): c);
+}
+
+<===>
+================================================================================
+<===> var/or/or/input.scss
+a {b: if(css(1) or css(2) var(--or) css(3): c)}
+
+<===> var/or/or/output.css
+a {
+  b: if(css(1) or css(2) var(--or) css(3): c);
+}
+
+<===>
+================================================================================
+<===> var/or/clause_or/input.scss
+a {b: if(css(1) or var(--clause-or) css(2): c)}
+
+<===> var/or/clause_or/output.css
+a {
+  b: if(css(1) or var(--clause-or) css(2): c);
+}
+
+<===>
+================================================================================
+<===> var/or/or_clause/input.scss
+a {b: if(css(1) or css(2) var(--or-clause): c)}
+
+<===> var/or/or_clause/output.css
+a {
+  b: if(css(1) or css(2) var(--or-clause): c);
+}
+
+<===>
+================================================================================
+<===> var/with_sass/before/input.scss
+a {b: if(sass(true) and (var(--not) css()): c)}
+
+<===> var/with_sass/before/output.css
+a {
+  b: if(var(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> var/with_sass/after/input.scss
+a {b: if((var(--not) css()) and sass(true): c)}
+
+<===> var/with_sass/after/output.css
+a {
+  b: if(var(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> attr/adjacent/before/input.scss
+a {b: if(attr(--not) css(): c)}
+
+<===> attr/adjacent/before/output.css
+a {
+  b: if(attr(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> attr/adjacent/after/input.scss
+a {b: if(css() attr(--and-clause): c)}
+
+<===> attr/adjacent/after/output.css
+a {
+  b: if(css() attr(--and-clause): c);
+}
+
+<===>
+================================================================================
+<===> attr/adjacent/between/1/input.scss
+a {b: if(css(1) attr(--and) css(2): c)}
+
+<===> attr/adjacent/between/1/output.css
+a {
+  b: if(css(1) attr(--and) css(2): c);
+}
+
+<===>
+================================================================================
+<===> attr/adjacent/between/2/input.scss
+a {b: if(css(1) attr(--and) css(2) attr(--and) css(3): c)}
+
+<===> attr/adjacent/between/2/output.css
+a {
+  b: if(css(1) attr(--and) css(2) attr(--and) css(3): c);
+}
+
+<===>
+================================================================================
+<===> attr/and/and/input.scss
+a {b: if(css(1) and css(2) attr(--and) css(3): c)}
+
+<===> attr/and/and/output.css
+a {
+  b: if(css(1) and css(2) attr(--and) css(3): c);
+}
+
+<===>
+================================================================================
+<===> attr/and/clause_and/input.scss
+a {b: if(css(1) and attr(--clause-and) css(2): c)}
+
+<===> attr/and/clause_and/output.css
+a {
+  b: if(css(1) and attr(--clause-and) css(2): c);
+}
+
+<===>
+================================================================================
+<===> attr/and/and_clause/input.scss
+a {b: if(css(1) and css(2) attr(--and-clause): c)}
+
+<===> attr/and/and_clause/output.css
+a {
+  b: if(css(1) and css(2) attr(--and-clause): c);
+}
+
+<===>
+================================================================================
+<===> attr/or/or/input.scss
+a {b: if(css(1) or css(2) attr(--or) css(3): c)}
+
+<===> attr/or/or/output.css
+a {
+  b: if(css(1) or css(2) attr(--or) css(3): c);
+}
+
+<===>
+================================================================================
+<===> attr/or/clause_or/input.scss
+a {b: if(css(1) or attr(--clause-or) css(2): c)}
+
+<===> attr/or/clause_or/output.css
+a {
+  b: if(css(1) or attr(--clause-or) css(2): c);
+}
+
+<===>
+================================================================================
+<===> attr/or/or_clause/input.scss
+a {b: if(css(1) or css(2) attr(--or-clause): c)}
+
+<===> attr/or/or_clause/output.css
+a {
+  b: if(css(1) or css(2) attr(--or-clause): c);
+}
+
+<===>
+================================================================================
+<===> attr/with_sass/before/input.scss
+a {b: if(sass(true) and (attr(--not) css()): c)}
+
+<===> attr/with_sass/before/output.css
+a {
+  b: if(attr(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> attr/with_sass/after/input.scss
+a {b: if((attr(--not) css()) and sass(true): c)}
+
+<===> attr/with_sass/after/output.css
+a {
+  b: if(attr(--not) css(): c);
+}
+
+<===>
+================================================================================
+<===> if/adjacent/before/input.scss
+a {b: if(if(else: var(--not)) css(): c)}
+
+<===> if/adjacent/before/output.css
+a {
+  b: if(if(else: var(--not)) css(): c);
+}
+
+<===>
+================================================================================
+<===> if/adjacent/after/input.scss
+a {b: if(css() if(else: var(--and-clause)): c)}
+
+<===> if/adjacent/after/output.css
+a {
+  b: if(css() if(else: var(--and-clause)): c);
+}
+
+<===>
+================================================================================
+<===> if/adjacent/between/1/input.scss
+a {b: if(css(1) if(else: var(--and)) css(2): c)}
+
+<===> if/adjacent/between/1/output.css
+a {
+  b: if(css(1) if(else: var(--and)) css(2): c);
+}
+
+<===>
+================================================================================
+<===> if/adjacent/between/2/input.scss
+a {b: if(css(1) if(else: var(--and)) css(2) if(else: var(--and)) css(3): c)}
+
+<===> if/adjacent/between/2/output.css
+a {
+  b: if(css(1) if(else: var(--and)) css(2) if(else: var(--and)) css(3): c);
+}
+
+<===>
+================================================================================
+<===> if/and/and/input.scss
+a {b: if(css(1) and css(2) if(else: var(--and)) css(3): c)}
+
+<===> if/and/and/output.css
+a {
+  b: if(css(1) and css(2) if(else: var(--and)) css(3): c);
+}
+
+<===>
+================================================================================
+<===> if/and/clause_and/input.scss
+a {b: if(css(1) and if(else: var(--clause-and)) css(2): c)}
+
+<===> if/and/clause_and/output.css
+a {
+  b: if(css(1) and if(else: var(--clause-and)) css(2): c);
+}
+
+<===>
+================================================================================
+<===> if/and/and_clause/input.scss
+a {b: if(css(1) and css(2) if(else: var(--and-clause)): c)}
+
+<===> if/and/and_clause/output.css
+a {
+  b: if(css(1) and css(2) if(else: var(--and-clause)): c);
+}
+
+<===>
+================================================================================
+<===> if/or/or/input.scss
+a {b: if(css(1) or css(2) if(else: var(--or)) css(3): c)}
+
+<===> if/or/or/output.css
+a {
+  b: if(css(1) or css(2) if(else: var(--or)) css(3): c);
+}
+
+<===>
+================================================================================
+<===> if/or/clause_or/input.scss
+a {b: if(css(1) or if(else: var(--clause-or)) css(2): c)}
+
+<===> if/or/clause_or/output.css
+a {
+  b: if(css(1) or if(else: var(--clause-or)) css(2): c);
+}
+
+<===>
+================================================================================
+<===> if/or/or_clause/input.scss
+a {b: if(css(1) or css(2) if(else: var(--or-clause)): c)}
+
+<===> if/or/or_clause/output.css
+a {
+  b: if(css(1) or css(2) if(else: var(--or-clause)): c);
+}
+
+<===>
+================================================================================
+<===> if/with_sass/before/input.scss
+a {b: if(sass(true) and (if(else: var(--not)) css()): c)}
+
+<===> if/with_sass/before/output.css
+a {
+  b: if(if(else: var(--not)) css(): c);
+}
+
+<===>
+================================================================================
+<===> if/with_sass/after/input.scss
+a {b: if((if(else: var(--not)) css()) and sass(true): c)}
+
+<===> if/with_sass/after/output.css
+a {
+  b: if(if(else: var(--not)) css(): c);
+}
+
+<===>
+================================================================================
+<===> interp/adjacent/before/input.scss
+a {b: if(#{"not"} css(): c)}
+
+<===> interp/adjacent/before/output.css
+a {
+  b: if(not css(): c);
+}
+
+<===>
+================================================================================
+<===> interp/adjacent/after/input.scss
+a {b: if(css(1) #{"and css(2)"}: c)}
+
+<===> interp/adjacent/after/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> interp/adjacent/between/1/input.scss
+a {b: if(css(1) #{"and"} css(2): c)}
+
+<===> interp/adjacent/between/1/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> interp/adjacent/between/2/input.scss
+a {b: if(css(1) #{"and"} css(2) #{"and"} css(3): c)}
+
+<===> interp/adjacent/between/2/output.css
+a {
+  b: if(css(1) and css(2) and css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/and/and/input.scss
+a {b: if(css(1) and css(2) and css(3): c)}
+
+<===> interp/and/and/output.css
+a {
+  b: if(css(1) and css(2) and css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/and/clause_and/input.scss
+a {b: if(css(1) and #{"css(2) and"} css(3): c)}
+
+<===> interp/and/clause_and/output.css
+a {
+  b: if(css(1) and css(2) and css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/and/and_clause/input.scss
+a {b: if(css(1) and css(2) #{"and css(3)"}: c)}
+
+<===> interp/and/and_clause/output.css
+a {
+  b: if(css(1) and css(2) and css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/or/or/input.scss
+a {b: if(css(1) or css(2) #{"or"} css(3): c)}
+
+<===> interp/or/or/output.css
+a {
+  b: if(css(1) or css(2) or css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/or/clause_or/input.scss
+a {b: if(css(1) or #{"css(2) or"} css(3): c)}
+
+<===> interp/or/clause_or/output.css
+a {
+  b: if(css(1) or css(2) or css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/or/or_clause/input.scss
+a {b: if(css(1) or css(2) #{"or css(3)"}: c)}
+
+<===> interp/or/or_clause/output.css
+a {
+  b: if(css(1) or css(2) or css(3): c);
+}
+
+<===>
+================================================================================
+<===> interp/with_sass/before/input.scss
+a {b: if(sass(true) and (#{"not"} css()): c)}
+
+<===> interp/with_sass/before/output.css
+a {
+  b: if(not css(): c);
+}
+
+<===>
+================================================================================
+<===> interp/with_sass/after/input.scss
+a {b: if((#{"not"} css()) and sass(true): c)}
+
+<===> interp/with_sass/after/output.css
+a {
+  b: if(not css(): c);
+}

@@ -1,0 +1,62 @@
+<===> after_not/input.scss
+a {b: if(not(css()): d)}
+
+<===> after_not/error
+Error: Whitespace is required between "not" and "("
+  ,
+1 | a {b: if(not(css()): d)}
+  |             ^
+  '
+  input.scss 1:13  root stylesheet
+
+<===>
+================================================================================
+<===> after_and/full/input.scss
+a {b: if(css(1) and(css(2)): d)}
+
+<===> after_and/full/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(css(1) and(css(2)): d)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> after_and/raw/input.scss
+a {b: if(var(--clause-and) css(1) and(css(2)): d)}
+
+<===> after_and/raw/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(var(--clause-and) css(1) and(css(2)): d)}
+  |                                      ^
+  '
+  input.scss 1:38  root stylesheet
+
+<===>
+================================================================================
+<===> after_or/full/input.scss
+a {b: if(css(1) or(css(2)): d)}
+
+<===> after_or/full/error
+Error: Whitespace is required between "and" and "("
+  ,
+1 | a {b: if(css(1) or(css(2)): d)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> after_or/raw/input.scss
+a {b: if(var(--clause-or) css(1) or(css(2)): d)}
+
+<===> after_or/raw/error
+Error: Whitespace is required between "or" and "("
+  ,
+1 | a {b: if(var(--clause-or) css(1) or(css(2)): d)}
+  |                                    ^
+  '
+  input.scss 1:36  root stylesheet

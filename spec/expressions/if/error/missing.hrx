@@ -1,0 +1,24 @@
+<===> condition/input.scss
+a {b: if(c)}
+
+<===> condition/error
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+More info: https://sass-lang.com/d/if-function
+
+  ,
+1 | a {b: if(c)}
+  |       ^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+Error: Missing argument $if-true.
+  ,--> input.scss
+1 | a {b: if(c)}
+  |       ^^^^^ invocation
+  '
+  ,
+1 | @function if($condition, $if-true, $if-false) {
+  |           =================================== declaration
+  '
+  input.scss 1:7  root stylesheet

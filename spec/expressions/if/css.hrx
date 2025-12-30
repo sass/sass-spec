@@ -1,0 +1,187 @@
+<===> alone/argument/input.scss
+a {b: if(css(!@#$%^&*(){}[]_-+=|:;''""<>,./?): c)}
+
+<===> alone/argument/output.css
+a {
+  b: if(css(!@#$%^&*(){}[]_-+=|:;''""<>,./?): c);
+}
+
+<===>
+================================================================================
+<===> alone/no_else/input.scss
+a {b: if(css(): c)}
+
+<===> alone/no_else/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> alone/else/input.scss
+a {b: if(css(): c; else: d)}
+
+<===> alone/else/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> not/direct/input.scss
+a {b: if(not css(): c)}
+
+<===> not/direct/output.css
+a {
+  b: if(not css(): c);
+}
+
+<===>
+================================================================================
+<===> not/paren/input.scss
+a {b: if(not (css()): c)}
+
+<===> not/paren/output.css
+a {
+  b: if(not (css()): c);
+}
+
+<===>
+================================================================================
+<===> and/2/css/input.scss
+a {b: if(css(1) and css(2): c)}
+
+<===> and/2/css/output.css
+a {
+  b: if(css(1) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> and/2/and_paren/input.scss
+a {b: if(css(1) and (css(2)): c)}
+
+<===> and/2/and_paren/output.css
+a {
+  b: if(css(1) and (css(2)): c);
+}
+
+<===>
+================================================================================
+<===> and/2/paren_and/input.scss
+a {b: if((css(1)) and css(2): c)}
+
+<===> and/2/paren_and/output.css
+a {
+  b: if((css(1)) and css(2): c);
+}
+
+<===>
+================================================================================
+<===> and/3/input.scss
+a {b: if(css(1) and css(2) and css(3): c)}
+
+<===> and/3/output.css
+a {
+  b: if(css(1) and css(2) and css(3): c);
+}
+
+<===>
+================================================================================
+<===> or/2/css/input.scss
+a {b: if(css(1) or css(2): c)}
+
+<===> or/2/css/output.css
+a {
+  b: if(css(1) or css(2): c);
+}
+
+<===>
+================================================================================
+<===> or/2/or_paren/input.scss
+a {b: if(css(1) or (css(2)): c)}
+
+<===> or/2/or_paren/output.css
+a {
+  b: if(css(1) or (css(2)): c);
+}
+
+<===>
+================================================================================
+<===> or/2/paren_or/input.scss
+a {b: if((css(1)) or css(2): c)}
+
+<===> or/2/paren_or/output.css
+a {
+  b: if((css(1)) or css(2): c);
+}
+
+<===>
+================================================================================
+<===> or/3/input.scss
+a {b: if(css(1) or css(2) or css(3): c)}
+
+<===> or/3/output.css
+a {
+  b: if(css(1) or css(2) or css(3): c);
+}
+
+<===>
+================================================================================
+<===> paren/clause/input.scss
+a {b: if((css()): c)}
+
+<===> paren/clause/output.css
+a {
+  b: if((css()): c);
+}
+
+<===>
+================================================================================
+<===> paren/not/input.scss
+a {b: if((not css()): c)}
+
+<===> paren/not/output.css
+a {
+  b: if((not css()): c);
+}
+
+<===>
+================================================================================
+<===> paren/and/input.scss
+a {b: if((css(1) and css(2)): c)}
+
+<===> paren/and/output.css
+a {
+  b: if((css(1) and css(2)): c);
+}
+
+<===>
+================================================================================
+<===> paren/or/input.scss
+a {b: if((css(1) or css(2)): c)}
+
+<===> paren/or/output.css
+a {
+  b: if((css(1) or css(2)): c);
+}
+
+<===>
+================================================================================
+<===> interpolation/name/input.scss
+a {b: if(#{css}(): c)}
+
+<===> interpolation/name/output.css
+a {
+  b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> interpolation/argument/input.scss
+a {b: if(css(#{argument}): c)}
+
+<===> interpolation/argument/output.css
+a {
+  b: if(css(argument): c);
+}

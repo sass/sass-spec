@@ -75,6 +75,17 @@ a {
 
 <===>
 ================================================================================
+<===> display-p3-linear/input.scss
+@use "sass:color";
+a {b: color.is-in-gamut(color(display-p3-linear 0 2 0))}
+
+<===> display-p3-linear/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> a98-rgb/input.scss
 @use "sass:color";
 a {b: color.is-in-gamut(color(a98-rgb 0 1 -1))}

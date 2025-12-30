@@ -1,0 +1,167 @@
+<===> sass/direct/input.scss
+@use "plain";
+
+<===> sass/direct/plain.css
+a {b: if(sass(true): c)}
+
+<===> sass/direct/error
+Error: sass() conditions aren't allowed in plain CSS
+  ,
+1 | a {b: if(sass(true): c)}
+  |          ^^^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/not/input.scss
+@use "plain";
+
+<===> sass/not/plain.css
+a {b: if(not sass(true): c)}
+
+<===> sass/not/error
+Error: sass() conditions aren't allowed in plain CSS
+  ,
+1 | a {b: if(not sass(true): c)}
+  |              ^^^^^^^^^^
+  '
+  plain.css 1:14  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/and/input.scss
+@use "plain";
+
+<===> sass/and/plain.css
+a {b: if(sass(true) and css(): c)}
+
+<===> sass/and/error
+Error: sass() conditions aren't allowed in plain CSS
+  ,
+1 | a {b: if(sass(true) and css(): c)}
+  |          ^^^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/or/input.scss
+@use "plain";
+
+<===> sass/or/plain.css
+a {b: if(sass(true) or css(): c)}
+
+<===> sass/or/error
+Error: sass() conditions aren't allowed in plain CSS
+  ,
+1 | a {b: if(sass(true) or css(): c)}
+  |          ^^^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> sass/paren/input.scss
+@use "plain";
+
+<===> sass/paren/plain.css
+a {b: if((sass(true)): c)}
+
+<===> sass/paren/error
+Error: sass() conditions aren't allowed in plain CSS
+  ,
+1 | a {b: if((sass(true)): c)}
+  |           ^^^^^^^^^^
+  '
+  plain.css 1:11  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interp/direct/input.scss
+@use "plain";
+
+<===> interp/direct/plain.css
+a {b: if(#{css()}: c)}
+
+<===> interp/direct/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: if(#{css()}: c)}
+  |          ^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interp/not/input.scss
+@use "plain";
+
+<===> interp/not/plain.css
+a {b: if(not #{css()}: c)}
+
+<===> interp/not/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: if(not #{css()}: c)}
+  |              ^^^^^^^^
+  '
+  plain.css 1:14  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interp/and/input.scss
+@use "plain";
+
+<===> interp/and/plain.css
+a {b: if(#{css(1)} and css(2): c)}
+
+<===> interp/and/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: if(#{css(1)} and css(2): c)}
+  |          ^^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interp/or/input.scss
+@use "plain";
+
+<===> interp/or/plain.css
+a {b: if(#{css(1)} or css(2): c)}
+
+<===> interp/or/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: if(#{css(1)} or css(2): c)}
+  |          ^^^^^^^^^
+  '
+  plain.css 1:10  @use
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> interp/paren/input.scss
+@use "plain";
+
+<===> interp/paren/plain.css
+a {b: if((#{css()}): c)}
+
+<===> interp/paren/error
+Error: Interpolation isn't allowed in plain CSS.
+  ,
+1 | a {b: if((#{css()}): c)}
+  |           ^^^^^^^^
+  '
+  plain.css 1:11  @use
+  input.scss 1:1  root stylesheet
