@@ -18,102 +18,6 @@ a {
 
 <===>
 ================================================================================
-<===> syntax/whitespace/left/space/input.scss
-a {b: c +d}
-
-<===> syntax/whitespace/left/space/output.css
-a {
-  b: cd;
-}
-
-<===> syntax/whitespace/left/space/warning
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
-
-    c + d
-
-but you may have intended it to mean:
-
-    c (+d)
-
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
-
-More info and automated migrator: https://sass-lang.com/d/strict-unary
-
-  ,
-1 | a {b: c +d}
-  |       ^^^^
-  '
-    input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> syntax/whitespace/left/tab/input.scss
-a {b: c	+d}
-
-<===> syntax/whitespace/left/tab/output.css
-a {
-  b: cd;
-}
-
-<===> syntax/whitespace/left/tab/warning
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
-
-    c + d
-
-but you may have intended it to mean:
-
-    c (+d)
-
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
-
-More info and automated migrator: https://sass-lang.com/d/strict-unary
-
-  ,
-1 | a {b: c    +d}
-  |       ^^^^^^^
-  '
-    input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
-<===> syntax/whitespace/left/newline/input.scss
-a {b: c
-+d}
-
-<===> syntax/whitespace/left/newline/output.css
-a {
-  b: cd;
-}
-
-<===> syntax/whitespace/left/newline/warning
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
-
-    c + d
-
-but you may have intended it to mean:
-
-    c (+d)
-
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
-
-More info and automated migrator: https://sass-lang.com/d/strict-unary
-
-  ,
-1 |   a {b: c
-  | ,-------^
-2 | | +d}
-  | '--^
-  '
-    input.scss 1:7  root stylesheet
-
-<===>
-================================================================================
 <===> syntax/whitespace/right/input.scss
 a {b: c+ d}
 
@@ -151,3 +55,78 @@ a {b: c+/**/d}
 a {
   b: cd;
 }
+
+<===>
+================================================================================
+<===> error/syntax/whitespace/left/space/input.scss
+a {b: c +d}
+
+<===> error/syntax/whitespace/left/space/error
+Error: This operation could either be parsed as:
+
+    c + d
+
+or:
+
+    c (+d)
+
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 | a {b: c +d}
+  |       ^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/whitespace/left/tab/input.scss
+a {b: c	+d}
+
+<===> error/syntax/whitespace/left/tab/error
+Error: This operation could either be parsed as:
+
+    c + d
+
+or:
+
+    c (+d)
+
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 | a {b: c    +d}
+  |       ^^^^^^^
+  '
+  input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/syntax/whitespace/left/newline/input.scss
+a {b: c
++d}
+
+<===> error/syntax/whitespace/left/newline/error
+Error: This operation could either be parsed as:
+
+    c + d
+
+or:
+
+    c (+d)
+
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
+
+More info and automated migrator: https://sass-lang.com/d/strict-unary
+  ,
+1 |   a {b: c
+  | ,-------^
+2 | | +d}
+  | '--^
+  '
+  input.scss 1:7  root stylesheet

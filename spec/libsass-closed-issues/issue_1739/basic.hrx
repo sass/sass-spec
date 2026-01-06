@@ -33,59 +33,21 @@ mod {
   baz: 2  %3;
   baz: 2  %  3;
 }
-<===> output.css
-div {
-  baz: 2 / 3;
-  baz: 2 / 3;
-  baz: 2 / 3;
-  baz: 2 / 3;
-}
-
-add {
-  baz: 5;
-  baz: 5;
-  baz: 5;
-  baz: 5;
-}
-
-sub {
-  baz: -1;
-  baz: -1;
-  baz: 2 -3;
-  baz: -1;
-}
-
-mul {
-  baz: 6;
-  baz: 6;
-  baz: 6;
-  baz: 6;
-}
-
-mod {
-  baz: 2% 3;
-  baz: 2% 3;
-  baz: 2;
-  baz: 2;
-}
-
-<===> warning
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
+<===> error
+Error: This operation could either be parsed as:
 
     2 + 3
 
-but you may have intended it to mean:
+or:
 
     2 (+3)
 
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
-
    ,
 11 |   baz: 2  +3;
    |        ^^^^^
    '
-    input.scss 11:8  root stylesheet
+  input.scss 11:8  root stylesheet

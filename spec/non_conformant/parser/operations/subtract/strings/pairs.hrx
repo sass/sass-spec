@@ -62,107 +62,21 @@ foo {
   test-60: #{litlp}_rschema - #{litlp}_rschema;
 }
 
-<===> output.css
-foo {
-  test-1: literal-literal;
-  test-2: literal -literal;
-  test-3: literal- literal;
-  test-4: literal-literal;
-  test-5: literal- "quoted";
-  test-6: literal-"quoted";
-  test-7: literal- "quoted";
-  test-8: literal-"quoted";
-  test-9: literal-interpolant;
-  test-10: literal -interpolant;
-  test-11: literal- interpolant;
-  test-12: literal-interpolant;
-  test-13: literal-lschema_ritlp;
-  test-14: literal -lschema_ritlp;
-  test-15: literal- lschema_ritlp;
-  test-16: literal-lschema_ritlp;
-  test-17: literal-litlp_rschema;
-  test-18: literal -litlp_rschema;
-  test-19: literal- litlp_rschema;
-  test-20: literal-litlp_rschema;
-  test-21: "quoted"-"quoted";
-  test-22: "quoted"-"quoted";
-  test-23: "quoted"-"quoted";
-  test-24: "quoted"-"quoted";
-  test-25: "quoted" -interpolant;
-  test-26: "quoted" -interpolant;
-  test-27: "quoted"-interpolant;
-  test-28: "quoted"-interpolant;
-  test-29: "quoted" -lschema_ritlp;
-  test-30: "quoted" -lschema_ritlp;
-  test-31: "quoted"-lschema_ritlp;
-  test-32: "quoted"-lschema_ritlp;
-  test-33: "quoted" -litlp_rschema;
-  test-34: "quoted" -litlp_rschema;
-  test-35: "quoted"-litlp_rschema;
-  test-36: "quoted"-litlp_rschema;
-  test-37: interpolant-interpolant;
-  test-38: interpolant -interpolant;
-  test-39: interpolant- interpolant;
-  test-40: interpolant-interpolant;
-  test-41: interpolant-lschema_ritlp;
-  test-42: interpolant -lschema_ritlp;
-  test-43: interpolant- lschema_ritlp;
-  test-44: interpolant-lschema_ritlp;
-  test-45: interpolant-litlp_rschema;
-  test-46: interpolant -litlp_rschema;
-  test-47: interpolant- litlp_rschema;
-  test-48: interpolant-litlp_rschema;
-  test-49: lschema_ritlp-lschema_ritlp;
-  test-50: lschema_ritlp -lschema_ritlp;
-  test-51: lschema_ritlp- lschema_ritlp;
-  test-52: lschema_ritlp-lschema_ritlp;
-  test-53: lschema_ritlp-litlp_rschema;
-  test-54: lschema_ritlp -litlp_rschema;
-  test-55: lschema_ritlp- litlp_rschema;
-  test-56: lschema_ritlp-litlp_rschema;
-  test-57: litlp_rschema-litlp_rschema;
-  test-58: litlp_rschema -litlp_rschema;
-  test-59: litlp_rschema- litlp_rschema;
-  test-60: litlp_rschema-litlp_rschema;
-}
-
-<===> warning
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
+<===> error
+Error: This operation could either be parsed as:
 
     literal - "quoted"
 
-but you may have intended it to mean:
+or:
 
     literal (-"quoted")
 
-Add a space after - to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
+Add a space after - to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
-
   ,
 7 |   test-6: literal -"quoted";
   |           ^^^^^^^^^^^^^^^^^
   '
-    input.scss 7:11  root stylesheet
-
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
-
-    "quoted" - "quoted"
-
-but you may have intended it to mean:
-
-    "quoted" (-"quoted")
-
-Add a space after - to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
-
-More info and automated migrator: https://sass-lang.com/d/strict-unary
-
-   ,
-23 |   test-22: "quoted" -"quoted";
-   |            ^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 23:12  root stylesheet
+  input.scss 7:11  root stylesheet
