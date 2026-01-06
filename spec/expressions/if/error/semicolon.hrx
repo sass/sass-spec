@@ -1,0 +1,36 @@
+<===> multiple/middle/input.scss
+a {b: if(css(1): c;; css(2): d)}
+
+<===> multiple/middle/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(1): c;; css(2): d)}
+  |                    ^
+  '
+  input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> multiple/end/input.scss
+a {b: if(css(): c;;)}
+
+<===> multiple/end/error
+Error: Expected identifier.
+  ,
+1 | a {b: if(css(): c;;)}
+  |                   ^
+  '
+  input.scss 1:19  root stylesheet
+
+<===>
+================================================================================
+<===> comma/input.scss
+a {b: if(css(1): c, css(2): d)}
+
+<===> comma/error
+Error: expected ")".
+  ,
+1 | a {b: if(css(1): c, css(2): d)}
+  |                           ^
+  '
+  input.scss 1:27  root stylesheet

@@ -1,5 +1,5 @@
-These specs are for CSS files that are imported by Sass, using `@import "foo"`
-to import `foo.css`. These files should be parsed as plain CSS, and should not
+These specs are for CSS files that are imported by Sass, using `@use "foo"` to
+import `foo.css`. These files should be parsed as plain CSS, and should not
 allow any Sass-specific features.
 
 As a rule, anything in the plain CSS files that would be interpreted differently

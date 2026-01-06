@@ -153,6 +153,30 @@ h1:lang(en) {
 }
 
 <===> warning
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(red): yellow; else: not taken)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+55 |   trib: if(red, yellow, not taken);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 55:9  root stylesheet
+
+DEPRECATION WARNING [if-function]: The Sass if() syntax is deprecated in favor of the modern CSS syntax.
+
+Suggestion: if(sass(not (fudge)): not taken; else: here we are)
+
+More info: https://sass-lang.com/d/if-function
+
+   ,
+56 |   trub: if(not(fudge), not taken, here we are);
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   '
+    input.scss 56:9  root stylesheet
+
 DEPRECATION WARNING [function-units]: $n: Passing a number with unit px is deprecated.
 
 To preserve current behavior: calc($n / 1px)

@@ -1,0 +1,478 @@
+<===> alone/true/input.scss
+a {b: if(sass(true): c; else: d)}
+
+<===> alone/true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> alone/false/else/input.scss
+a {b: if(sass(false): c; else: d)}
+
+<===> alone/false/else/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> alone/false/no_else/input.scss
+a {b: if(sass(false): c) == null}
+
+<===> alone/false/no_else/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> alone/expression/input.scss
+$a: true;
+b {c: if(sass($a): d; else: e)}
+
+<===> alone/expression/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> not/true/input.scss
+a {b: if(not sass(true): c; else: d)}
+
+<===> not/true/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> not/false/input.scss
+a {b: if(not sass(false): c; else: d)}
+
+<===> not/false/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> not/paren/input.scss
+a {b: if(not (sass(true)): c; else: d)}
+
+<===> not/paren/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/true_and_true/input.scss
+a {b: if(sass(true) and sass(true): c; else: d)}
+
+<===> and/2/true_and_true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and/2/true_and_false/input.scss
+a {b: if(sass(true) and sass(false): c; else: d)}
+
+<===> and/2/true_and_false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/false_and_true/input.scss
+a {b: if(sass(false) and sass(true): c; else: d)}
+
+<===> and/2/false_and_true/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/false_and_false/input.scss
+a {b: if(sass(false) and sass(false): c; else: d)}
+
+<===> and/2/false_and_false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/true_and_css/input.scss
+a {b: if(sass(true) and css(): c; else: d)}
+
+<===> and/2/true_and_css/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/2/false_and_css/input.scss
+a {b: if(sass(false) and css(): c; else: d)}
+
+<===> and/2/false_and_css/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/css_and_true/input.scss
+a {b: if(css() and sass(true): c; else: d)}
+
+<===> and/2/css_and_true/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/2/css_and_false/input.scss
+a {b: if(css() and sass(false): c; else: d)}
+
+<===> and/2/css_and_false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/true_and_interp/input.scss
+a {b: if(sass(true) and #{css()}: c; else: d)}
+
+<===> and/2/true_and_interp/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/2/false_and_interp/input.scss
+a {b: if(sass(true) and #{css()}: c; else: d)}
+
+<===> and/2/false_and_interp/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/2/interp_and_true/input.scss
+a {b: if(#{css()} and sass(true): c; else: d)}
+
+<===> and/2/interp_and_true/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/2/interp_and_false/input.scss
+a {b: if(#{css()} and sass(false): c; else: d)}
+
+<===> and/2/interp_and_false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/2/and_paren/input.scss
+a {b: if(sass(true) and (sass(true)): c; else: d)}
+
+<===> and/2/and_paren/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and/2/paren_and/input.scss
+a {b: if((sass(true)) and sass(true): c; else: d)}
+
+<===> and/2/paren_and/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and/3/css_and_true_and_css/input.scss
+a {b: if(css(1) and sass(true) and css(2): c; else: d)}
+
+<===> and/3/css_and_true_and_css/output.css
+a {
+  b: if(css(1) and css(2): c; else: d);
+}
+
+<===>
+================================================================================
+<===> and/3/css_and_false_and_css/input.scss
+a {b: if(css(1) and sass(false) and css(2): c; else: d)}
+
+<===> and/3/css_and_false_and_css/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> and/4/true/input.scss
+a {b: if(sass(true) and sass(true) and sass(true) and sass(true): c; else: d)}
+
+<===> and/4/true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> and/4/false/input.scss
+a {b: if(sass(true) and sass(true) and sass(false) and sass(true): c; else: d)}
+
+<===> and/4/false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> or/2/true_or_true/input.scss
+a {b: if(sass(true) or sass(true): c; else: d)}
+
+<===> or/2/true_or_true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/true_or_false/input.scss
+a {b: if(sass(true) or sass(false): c; else: d)}
+
+<===> or/2/true_or_false/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/false_or_true/input.scss
+a {b: if(sass(false) or sass(true): c; else: d)}
+
+<===> or/2/false_or_true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/false_or_false/input.scss
+a {b: if(sass(false) or sass(false): c; else: d)}
+
+<===> or/2/false_or_false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> or/2/true_or_css/input.scss
+a {b: if(sass(true) or css(): c; else: d)}
+
+<===> or/2/true_or_css/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/false_or_css/input.scss
+a {b: if(sass(false) or css(): c; else: d)}
+
+<===> or/2/false_or_css/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> or/2/css_or_true/input.scss
+a {b: if(css() or sass(true): c; else: d)}
+
+<===> or/2/css_or_true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/css_or_false/input.scss
+a {b: if(css() or sass(false): c; else: d)}
+
+<===> or/2/css_or_false/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> or/2/true_or_interp/input.scss
+a {b: if(sass(true) or #{css()}: c; else: d)}
+
+<===> or/2/true_or_interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/false_or_interp/input.scss
+a {b: if(sass(true) or #{css()}: c; else: d)}
+
+<===> or/2/false_or_interp/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/interp_or_true/input.scss
+a {b: if(#{css()} or sass(true): c; else: d)}
+
+<===> or/2/interp_or_true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/interp_or_false/input.scss
+a {b: if(#{css()} or sass(false): c; else: d)}
+
+<===> or/2/interp_or_false/output.css
+a {
+  b: if(css(): c; else: d);
+}
+
+<===>
+================================================================================
+<===> or/2/or_paren/input.scss
+a {b: if(sass(true) or (sass(true)): c; else: d)}
+
+<===> or/2/or_paren/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/2/paren_or/input.scss
+a {b: if((sass(true)) or sass(true): c; else: d)}
+
+<===> or/2/paren_or/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/3/css_or_true_or_css/input.scss
+a {b: if(css(1) or sass(true) or css(2): c; else: d)}
+
+<===> or/3/css_or_true_or_css/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/3/css_or_false_or_css/input.scss
+a {b: if(css(1) or sass(false) or css(2): c; else: d)}
+
+<===> or/3/css_or_false_or_css/output.css
+a {
+  b: if(css(1) or css(2): c; else: d);
+}
+
+<===>
+================================================================================
+<===> or/4/true/input.scss
+a {b: if(sass(false) or sass(false) or sass(true) or sass(false): c; else: d)}
+
+<===> or/4/true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> or/4/false/input.scss
+a {b: if(sass(false) or sass(false) or sass(false) or sass(false): c; else: d)}
+
+<===> or/4/false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> paren/true/input.scss
+a {b: if((sass(true)): c; else: d)}
+
+<===> paren/true/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> paren/false/input.scss
+a {b: if((sass(false)): c; else: d)}
+
+<===> paren/false/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> paren/not/input.scss
+a {b: if((not sass(true)): c; else: d)}
+
+<===> paren/not/output.css
+a {
+  b: d;
+}
+
+<===>
+================================================================================
+<===> paren/and/input.scss
+a {b: if((sass(true) and sass(true)): c; else: d)}
+
+<===> paren/and/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> paren/or/input.scss
+a {b: if((sass(true) or sass(true)): c; else: d)}
+
+<===> paren/or/output.css
+a {
+  b: c;
+}
