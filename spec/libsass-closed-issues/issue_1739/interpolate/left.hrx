@@ -34,49 +34,20 @@ mod {
   baz: #{1  %  2}  %  3;
 }
 <===> error
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
+Error: This operation could either be parsed as:
 
     1 + 2
 
-but you may have intended it to mean:
+or:
 
     1 (+2)
 
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
-
    ,
 11 |   baz: #{1  +2}  +3;
    |          ^^^^^
    '
-    input.scss 11:10  root stylesheet
-
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
-
-    #{1 + 2} + 3
-
-but you may have intended it to mean:
-
-    #{1 + 2} (+3)
-
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
-
-More info and automated migrator: https://sass-lang.com/d/strict-unary
-
-   ,
-11 |   baz: #{1  +2}  +3;
-   |        ^^^^^^^^^^^^
-   '
-    input.scss 11:8  root stylesheet
-
-Error: Undefined operation "2 * 3".
-   ,
-23 |   baz: #{1*2}*3;
-   |        ^^^^^^^^
-   '
-  input.scss 23:8  root stylesheet
+  input.scss 11:10  root stylesheet

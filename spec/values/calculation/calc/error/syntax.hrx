@@ -192,32 +192,23 @@ Error: "+" and "-" must be surrounded by whitespace in calculations.
 a {b: calc(1 +1)}
 
 <===> no_whitespace/plus/after/error
-DEPRECATION WARNING [strict-unary]: This operation is parsed as:
+Error: This operation could either be parsed as:
 
     1 + 1
 
-but you may have intended it to mean:
+or:
 
     1 (+1)
 
-Add a space after + to clarify that it's meant to be a binary operation, or wrap
-it in parentheses to make it a unary operation. This will be an error in future
-versions of Sass.
+Add a space after + to make it a binary operation or wrap it in parentheses to
+make it a unary operation.
 
 More info and automated migrator: https://sass-lang.com/d/strict-unary
-
   ,
 1 | a {b: calc(1 +1)}
   |            ^^^^
   '
-    input.scss 1:12  root stylesheet
-
-Error: "+" and "-" must be surrounded by whitespace in calculations.
-  ,
-1 | a {b: calc(1 +1)}
-  |              ^
-  '
-  input.scss 1:14  root stylesheet
+  input.scss 1:12  root stylesheet
 
 <===>
 ================================================================================
