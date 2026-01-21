@@ -1,0 +1,56 @@
+<===> before/input.scss
+@use "plain";
+
+<===> before/plain.css
+a {
+  b: c;
+  d {e: f}
+}
+
+<===> before/output.css
+a {
+  b: c;
+  d {
+    e: f;
+  }
+}
+
+<===>
+================================================================================
+<===> after/input.scss
+@use "plain";
+
+<===> after/plain.css
+a {
+  b {c: d}
+  e: f;
+}
+
+<===> after/output.css
+a {
+  b {
+    c: d;
+  }
+  e: f;
+}
+
+<===>
+================================================================================
+<===> both/input.scss
+@use "plain";
+
+<===> both/plain.css
+a {
+  b: c;
+  d {e: f}
+  g: h;
+}
+
+<===> both/output.css
+a {
+  b: c;
+  d {
+    e: f;
+  }
+  g: h;
+}
