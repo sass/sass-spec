@@ -1,0 +1,75 @@
+<===> one_level/input.scss
+a {@import "plain"}
+
+<===> one_level/plain.css
+b {c: d}
+
+<===> one_level/output.css
+a b {
+  c: d;
+}
+
+<===> one_level/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {@import "plain"}
+  |            ^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> two_levels/input.scss
+a {@import "plain"}
+
+<===> two_levels/plain.css
+b {c {d: e}}
+
+<===> two_levels/output.css
+a b {
+  c {
+    d: e;
+  }
+}
+
+<===> two_levels/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {@import "plain"}
+  |            ^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
+
+<===>
+================================================================================
+<===> top_level_parent/input.scss
+a {@import "plain"}
+
+<===> top_level_parent/plain.css
+& {b {c: d}}
+
+<===> top_level_parent/output.css
+a {
+  & {
+    b {
+      c: d;
+    }
+  }
+}
+
+<===> top_level_parent/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+1 | a {@import "plain"}
+  |            ^^^^^^^
+  '
+    input.scss 1:12  root stylesheet
