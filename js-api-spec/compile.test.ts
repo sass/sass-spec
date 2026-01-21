@@ -67,6 +67,30 @@ describe('compileString', () => {
         expect(sourceMap.sourcesContent!).toBeArray();
         expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
       });
+
+      it('includes one with source content if sourceMapIncludeSources is "always"', () => {
+        const result = compileString('a {b: c}', {
+          sourceMap: true,
+          sourceMapIncludeSources: 'always',
+        });
+        expect(result).toHaveMember('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveMember('sourcesContent');
+        expect(sourceMap.sourcesContent!).toBeArray();
+        expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
+      });
+
+      it('includes no source content if sourceMapIncludeSources is "never"', () => {
+        const result = compileString('a {b: c}', {
+          sourceMap: true,
+          sourceMapIncludeSources: 'never',
+        });
+        expect(result).toHaveMember('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).not.toHaveMember('sourcesContent');
+      });
     });
 
     describe('charset', () => {
