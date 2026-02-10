@@ -227,6 +227,7 @@ describe('SassCalculation', () => {
       ).toBe('a {\n  b: 3;\n}');
     });
 
+    // Regression test for sass/dart-sass#2735.
     it('calc() with incompatible units', () => {
       const fn = () =>
         SassCalculation.calc(
