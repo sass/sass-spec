@@ -227,6 +227,23 @@ describe('SassCalculation', () => {
       ).toBe('a {\n  b: 3;\n}');
     });
 
+    it('calc() with incompatible units', () => {
+      const fn = () =>
+        SassCalculation.calc(
+          new CalculationOperation(
+            '+',
+            new SassNumber(1, 'px'),
+            new SassNumber(2, '%')
+          )
+        );
+
+      expect(
+        compileString('a {b: foo()}', {
+          functions: {'foo()': fn},
+        }).css
+      ).toBe('a {\n  b: calc(1px + 2%);\n}');
+    });
+
     it('clamp()', () => {
       const fn = () =>
         SassCalculation.clamp(
