@@ -1,0 +1,75 @@
+<===> one_level/input.scss
+@use "plain";
+
+<===> one_level/plain.css
+a {@media b {c: d}}
+
+<===> one_level/output.css
+@media b {
+  a {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> two_levels/input.scss
+@use "plain";
+
+<===> two_levels/plain.css
+a { b {@media c {d: e}}}
+
+<===> two_levels/output.css
+a {
+  b {
+    @media c {
+      d: e;
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> merged/input.scss
+@use "plain";
+
+<===> merged/plain.css
+a { b {@media c {@media (d) {e: f}}}}
+
+<===> merged/output.css
+a {
+  b {
+    @media c {
+      @media (d) {
+        e: f;
+      }
+    }
+  }
+}
+
+<===>
+================================================================================
+<===> interleaved/input.scss
+@use "plain";
+
+<===> interleaved/plain.css
+a {
+  @media b {
+    c {
+      @media (d) {
+        e: f;
+      }
+    }
+  }
+}
+
+<===> interleaved/output.css
+@media b {
+  a {
+    c {
+      @media (d) {
+        e: f;
+      }
+    }
+  }
+}

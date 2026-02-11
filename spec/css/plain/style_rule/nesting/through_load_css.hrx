@@ -1,0 +1,48 @@
+<===> one_level/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> one_level/plain.css
+b {c: d}
+
+<===> one_level/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> two_levels/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> two_levels/plain.css
+b {c {d: e}}
+
+<===> two_levels/output.css
+a b {
+  c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> top_level_parent/input.scss
+@use "sass:meta";
+
+a {@include meta.load-css("plain")}
+
+<===> top_level_parent/plain.css
+& {b {c: d}}
+
+<===> top_level_parent/output.css
+a {
+  & {
+    b {
+      c: d;
+    }
+  }
+}
