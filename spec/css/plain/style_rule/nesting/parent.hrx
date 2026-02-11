@@ -1,0 +1,57 @@
+<===> only/input.scss
+@use "plain";
+
+<===> only/plain.css
+a {& {b: c}}
+
+<===> only/output.css
+a {
+  & {
+    b: c;
+  }
+}
+
+<===>
+================================================================================
+<===> start/input.scss
+@use "plain";
+
+<===> start/plain.css
+a {&.b {c: d}}
+
+<===> start/output.css
+a {
+  &.b {
+    c: d;
+  }
+}
+
+<===>
+================================================================================
+<===> mid/input.scss
+@use "plain";
+
+<===> mid/plain.css
+a {.b&.c {d: e}}
+
+<===> mid/output.css
+a {
+  .b&.c {
+    d: e;
+  }
+}
+
+<===>
+================================================================================
+<===> end/input.scss
+@use "plain";
+
+<===> end/plain.css
+a {.b& {c: d}}
+
+<===> end/output.css
+a {
+  .b& {
+    c: d;
+  }
+}
