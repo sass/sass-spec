@@ -50,13 +50,7 @@ b {
 <===> error/special/calc/input.scss
 @function calc() {@return 1}
 
-<===> error/special/calc/error
-Error: Invalid function name.
-  ,
-1 | @function calc() {@return 1}
-  | ^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:1  root stylesheet
+<===> error/special/calc/output.css
 
 <===>
 ================================================================================
@@ -141,13 +135,7 @@ Error: Invalid function name.
 <===> error/special/clamp/input.scss
 @function clamp() {@return 1}
 
-<===> error/special/clamp/error
-Error: Invalid function name.
-  ,
-1 | @function clamp() {@return 1}
-  | ^^^^^^^^^^^^^^^^^
-  '
-  input.scss 1:1  root stylesheet
+<===> error/special/clamp/output.css
 
 <===>
 ================================================================================
@@ -176,3 +164,77 @@ Error: This name is reserved for the plain-CSS function.
   |           ^^^^
   '
   input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> warning/special/url/functioncase/input.scss
+@function Url() {@return 1}
+a {b: Url()}
+
+<===> warning/special/url/functioncase/output.css
+a {
+  b: url();
+}
+
+<===> warning/special/url/functioncase/warning
+DEPRECATION WARNING [function-case]: Uppercase reserved function names are now deprecated.
+
+  ,
+1 | @function Url() {@return 1}
+  |           ^^^
+  '
+    input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> warning/special/expression/functioncase/input.scss
+@function Expression() {@return 1}
+a {b: Url()}
+
+<===> warning/special/expression/functioncase/output.css
+a {
+  b: url();
+}
+
+<===> warning/special/expression/functioncase/warning
+DEPRECATION WARNING [function-case]: Uppercase reserved function names are now deprecated.
+
+  ,
+1 | @function Expression() {@return 1}
+  |           ^^^^^^^^^^
+  '
+    input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> warning/special/type/functioncase/input.scss
+@function Type() {@return 1}
+a {b: Type()}
+
+<===> warning/special/type/functioncase/error
+Error: This name is reserved for the plain-CSS function.
+  ,
+1 | @function Type() {@return 1}
+  |           ^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> warning/special/element/functioncase/input.scss
+@function Element() {@return 1}
+a {b: Element()}
+
+<===> warning/special/element/functioncase/output.css
+a {
+  b: element();
+}
+
+<===> warning/special/element/functioncase/warning
+DEPRECATION WARNING [function-case]: Uppercase reserved function names are now deprecated.
+
+  ,
+1 | @function Element() {@return 1}
+  |           ^^^^^^^
+  '
+    input.scss 1:11  root stylesheet
