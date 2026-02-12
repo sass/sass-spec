@@ -228,20 +228,13 @@ These will be errors in Dart Sass 2.0.0.
 $-a: c !default;
 d {e: $-a}
 
-<===> private/matching/dash/output.css
-d {
-  e: b;
-}
-
-<===> private/matching/dash/warning
-DEPRECATION WARNING [with-private]: Configuring private variables is deprecated.
-This will be an error in Dart Sass 2.0.0.
-
+<===> private/matching/dash/error
+Error: Private variables can't be configured.
   ,
 1 | @forward "other" with ($-a: b);
   |                        ^^^
   '
-    input.scss 1:24  root stylesheet
+  input.scss 1:24  root stylesheet
 
 <===>
 ================================================================================
@@ -252,20 +245,13 @@ This will be an error in Dart Sass 2.0.0.
 $_a: c !default;
 d {e: $_a}
 
-<===> private/matching/underscore/output.css
-d {
-  e: b;
-}
-
-<===> private/matching/underscore/warning
-DEPRECATION WARNING [with-private]: Configuring private variables is deprecated.
-This will be an error in Dart Sass 2.0.0.
-
+<===> private/matching/underscore/error
+Error: Private variables can't be configured.
   ,
 1 | @forward "other" with ($_a: b);
   |                        ^^^
   '
-    input.scss 1:24  root stylesheet
+  input.scss 1:24  root stylesheet
 
 <===>
 ================================================================================
@@ -276,20 +262,13 @@ This will be an error in Dart Sass 2.0.0.
 $_a: c !default;
 d {e: $_a}
 
-<===> private/different/output.css
-d {
-  e: b;
-}
-
-<===> private/different/warning
-DEPRECATION WARNING [with-private]: Configuring private variables is deprecated.
-This will be an error in Dart Sass 2.0.0.
-
+<===> private/different/error
+Error: Private variables can't be configured.
   ,
 1 | @forward "other" with ($-a: b);
   |                        ^^^
   '
-    input.scss 1:24  root stylesheet
+  input.scss 1:24  root stylesheet
 
 <===>
 ================================================================================
