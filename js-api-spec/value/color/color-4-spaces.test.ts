@@ -84,13 +84,27 @@ describe('Color 4 SassColors Spaces', () => {
         }
       });
 
-      it('throws on invalid alpha', () => {
-        expect(() => {
-          space.constructor(...space.pink, -1);
-        }).toThrow();
-        expect(() => {
-          space.constructor(...space.pink, 1.1);
-        }).toThrow();
+      describe('alpha', () => {
+        it('throws on invalid', () => {
+          expect(() => {
+            space.constructor(...space.pink, -1);
+          }).toThrow();
+          expect(() => {
+            space.constructor(...space.pink, 1.1);
+          }).toThrow();
+        });
+
+        it('treats null as missing', () => {
+          const color = space.constructor(...space.pink, null);
+          expect(color.alpha).toBe(0);
+          expect(color.isChannelMissing('alpha')).toBeTrue();
+        });
+
+        it('treats undefined as 1', () => {
+          const color = space.constructor(...space.pink, undefined);
+          expect(color.alpha).toEqual(1);
+          expect(color.isChannelMissing('alpha')).toBeFalse();
+        });
       });
 
       it(`returns name for ${space.name}`, () => {
