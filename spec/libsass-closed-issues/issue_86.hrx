@@ -11,97 +11,14 @@
 	test-1: math.compatible(color.lightness(red), 1%);
 	test-2: math.compatible(color.saturation(red), 1%);
 }
-<===> output.css
-.color-functions {
-  hue: 0deg;
-  hue-type: number;
-  hue-unit: "deg";
-  hue-comparable: true;
-  test-1: true;
-  test-2: true;
-}
-
-<===> warning
-DEPRECATION WARNING [color-functions]: color.hue() is deprecated. Suggestion:
+<===> error
+Error: color.hue() is no longer supported. Suggestion:
 
 color.channel($color, "hue", $space: hsl)
 
 More info: https://sass-lang.com/d/color-functions
-
   ,
 6 |     hue: color.hue($color);
   |          ^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:10  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.hue() is deprecated. Suggestion:
-
-color.channel($color, "hue", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-7 |     hue-type: meta.type-of(color.hue($color));
-  |                            ^^^^^^^^^^^^^^^^^
-  '
-    input.scss 7:28  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.hue() is deprecated. Suggestion:
-
-color.channel($color, "hue", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-8 |     hue-unit: math.unit(color.hue($color));
-  |                         ^^^^^^^^^^^^^^^^^
-  '
-    input.scss 8:25  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.hue() is deprecated. Suggestion:
-
-color.channel($color, "hue", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-9 |     hue-comparable: math.compatible(color.hue($color), color.hue($color));
-  |                                     ^^^^^^^^^^^^^^^^^
-  '
-    input.scss 9:37  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.hue() is deprecated. Suggestion:
-
-color.channel($color, "hue", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-9 |     hue-comparable: math.compatible(color.hue($color), color.hue($color));
-  |                                                        ^^^^^^^^^^^^^^^^^
-  '
-    input.scss 9:56  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.lightness() is deprecated. Suggestion:
-
-color.channel($color, "lightness", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-   ,
-10 |     test-1: math.compatible(color.lightness(red), 1%);
-   |                             ^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 10:26  root stylesheet
-
-DEPRECATION WARNING [color-functions]: color.saturation() is deprecated. Suggestion:
-
-color.channel($color, "saturation", $space: hsl)
-
-More info: https://sass-lang.com/d/color-functions
-
-   ,
-11 |     test-2: math.compatible(color.saturation(red), 1%);
-   |                             ^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 11:26  root stylesheet
+  input.scss 6:10  root stylesheet

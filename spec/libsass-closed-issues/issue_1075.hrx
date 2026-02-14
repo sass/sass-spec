@@ -6,12 +6,7 @@ foo {
   bar: meta.call($name, $args...);
 }
 
-<===> output.css
-foo {
-  bar: #ff3333;
-}
-
-<===> warning
+<===> error
 DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
 
 Recommendation: call(get-function("lighten"))
@@ -22,26 +17,9 @@ Recommendation: call(get-function("lighten"))
   '
     input.scss 5:8  root stylesheet
 
-DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
-Use color.adjust instead.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
+Error: Plain CSS functions don't support keyword arguments.
   ,
 5 |   bar: meta.call($name, $args...);
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 5:8  root stylesheet
-
-DEPRECATION WARNING [color-functions]: lighten() is deprecated. Suggestions:
-
-color.scale($color, $lightness: 20%)
-color.adjust($color, $lightness: 10%)
-
-More info: https://sass-lang.com/d/color-functions
-
-  ,
-5 |   bar: meta.call($name, $args...);
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 5:8  root stylesheet
+  input.scss 5:8  root stylesheet
