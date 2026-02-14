@@ -1,7 +1,7 @@
 <===> same_value/input.scss
 @use "sass:meta";
-$lighten-fn: meta.get-function(lighten);
-a {b: $lighten-fn == $lighten-fn}
+$rgb-fn: meta.get-function(rgb);
+a {b: $rgb-fn == $rgb-fn}
 
 <===> same_value/output.css
 a {
@@ -12,7 +12,7 @@ a {
 ================================================================================
 <===> built_in/same/input.scss
 @use "sass:meta";
-a {b: meta.get-function(lighten) == meta.get-function(lighten)}
+a {b: meta.get-function(rgb) == meta.get-function(rgb)}
 
 <===> built_in/same/output.css
 a {
@@ -23,7 +23,7 @@ a {
 ================================================================================
 <===> built_in/different/input.scss
 @use "sass:meta";
-a {b: meta.get-function(lighten) == meta.get-function(darken)}
+a {b: meta.get-function(rgb) == meta.get-function(hsl)}
 
 <===> built_in/different/output.css
 a {
