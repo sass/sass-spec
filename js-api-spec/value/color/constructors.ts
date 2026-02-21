@@ -12,11 +12,11 @@ export type Constructor = (
 ) => SassColor;
 
 /** A utility function for creating an RGB color without specifying a space. */
-export function legacyRGB(
+export function legacyRgb(
   red: number,
   green: number,
   blue: number,
-  alpha?: number
+  alpha?: number | null
 ): SassColor {
   return new SassColor({red, green, blue, alpha});
 }
@@ -36,7 +36,7 @@ export function legacyHsl(
   hue: number,
   saturation: number,
   lightness: number,
-  alpha?: number
+  alpha?: number | null
 ): SassColor {
   return new SassColor({hue, saturation, lightness, alpha});
 }

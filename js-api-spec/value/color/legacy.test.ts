@@ -3,15 +3,14 @@
 // https://opensource.org/licenses/MIT.
 
 import {Value, SassColor} from 'sass';
-import {captureStdio} from '../../utils';
-import {legacyRGB, legacyHsl, legacyHwb} from './constructors';
+import {legacyRgb, legacyHsl, legacyHwb} from './constructors';
 
 describe('Legacy SassColor', () => {
   describe('construction', () => {
     describe('type', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = legacyRGB(18, 52, 86);
+        color = legacyRgb(18, 52, 86);
       });
 
       it('is a value', () => {
@@ -37,79 +36,91 @@ describe('Legacy SassColor', () => {
 
     describe('rgb()', () => {
       it('allows valid values', () => {
-        expect(() => legacyRGB(0, 0, 0, 0)).not.toThrow();
-        expect(() => legacyRGB(255, 255, 255, 1)).not.toThrow();
-      });
-
-      it('disallows invalid alpha values', () => {
-        expect(() => legacyRGB(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyRGB(0, 0, 0, 1.1)).toThrow();
+        expect(() => legacyRgb(0, 0, 0, 0)).not.toThrow();
+        expect(() => legacyRgb(255, 255, 255, 1)).not.toThrow();
       });
 
       it('allows out-of-gamut values which were invalid before color 4', () => {
-        expect(() => legacyRGB(-1, 0, 0, 0)).not.toThrow();
-        expect(() => legacyRGB(0, -1, 0, 0)).not.toThrow();
-        expect(() => legacyRGB(0, 0, -1, 0)).not.toThrow();
-        expect(() => legacyRGB(256, 0, 0, 0)).not.toThrow();
-        expect(() => legacyRGB(0, 256, 0, 0)).not.toThrow();
-        expect(() => legacyRGB(0, 0, 256, 0)).not.toThrow();
+        expect(() => legacyRgb(-1, 0, 0, 0)).not.toThrow();
+        expect(() => legacyRgb(0, -1, 0, 0)).not.toThrow();
+        expect(() => legacyRgb(0, 0, -1, 0)).not.toThrow();
+        expect(() => legacyRgb(256, 0, 0, 0)).not.toThrow();
+        expect(() => legacyRgb(0, 256, 0, 0)).not.toThrow();
+        expect(() => legacyRgb(0, 0, 256, 0)).not.toThrow();
       });
 
       it('does not round channels to the nearest integer', () => {
-        expect(legacyRGB(0.1, 50.4, 90.3).channels).toFuzzyEqualList([
+        expect(legacyRgb(0.1, 50.4, 90.3).channels).toFuzzyEqualList([
           0.1, 50.4, 90.3,
         ]);
-        expect(legacyRGB(-0.1, 50.5, 90.7).channels).toFuzzyEqualList([
+        expect(legacyRgb(-0.1, 50.5, 90.7).channels).toFuzzyEqualList([
           -0.1, 50.5, 90.7,
         ]);
       });
 
-      describe('deprecations', () => {
-        it('warns with null alpha and no space', () => {
-          const stdio = captureStdio(() => {
-            new SassColor({red: 1, green: 1, blue: 1, alpha: null});
+      describe('alpha', () => {
+        describe('without space', () => {
+          it('throws on invalid', () => {
+            expect(() => legacyRgb(0, 0, 0, -0.1)).toThrow();
+            expect(() => legacyRgb(0, 0, 0, 1.1)).toThrow();
           });
-          expect(stdio.err).toMatch('null-alpha');
+
+          it('treats null as missing', () => {
+            const color = legacyRgb(0, 0, 0, null);
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
+          });
+
+          it('treats undefined as 1', () => {
+            const color = legacyRgb(0, 0, 0, undefined);
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({red: 0, green: 0, blue: 0});
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
         });
 
-        it("doesn't warn for undefined alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({red: 1, green: 1, blue: 1, alpha: undefined});
+        describe('with space', () => {
+          it('throws on invalid', () => {
+            expect(
+              () => new SassColor({red: 0, green: 0, blue: 0, alpha: -0.1})
+            ).toThrow();
+            expect(
+              () => new SassColor({red: 0, green: 0, blue: 0, alpha: 1.1})
+            ).toThrow();
           });
-          expect(stdio.err).toBeEmptyString();
-        });
 
-        it("doesn't warn for no alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({red: 1, green: 1, blue: 1});
-          });
-          expect(stdio.err).toBeEmptyString();
-        });
-
-        it("doesn't warn for undefined alpha and undefined space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              red: 1,
-              green: 1,
-              blue: 1,
-              alpha: undefined,
-              space: undefined,
-            });
-          });
-          expect(stdio.err).toBeEmptyString();
-        });
-
-        it("doesn't warn for null alpha with space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              red: 1,
-              green: 1,
-              blue: 1,
+          it('treats null as missing', () => {
+            const color = new SassColor({
+              red: 0,
+              green: 0,
+              blue: 0,
               alpha: null,
-              space: 'rgb',
             });
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
           });
-          expect(stdio.err).toBeEmptyString();
+
+          it('treats undefined as 1', () => {
+            const color = new SassColor({
+              red: 0,
+              green: 0,
+              blue: 0,
+              alpha: undefined,
+            });
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({red: 0, green: 0, blue: 0});
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
         });
       });
     });
@@ -124,62 +135,89 @@ describe('Legacy SassColor', () => {
         expect(() => legacyHsl(0, 0, 100.1, 0)).not.toThrow();
       });
 
-      it('disallows invalid alpha values', () => {
-        expect(() => legacyHsl(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyHsl(0, 0, 0, 1.1)).toThrow();
-      });
-
-      describe('deprecations', () => {
-        it('warns with null alpha and no space', () => {
-          const stdio = captureStdio(() => {
-            new SassColor({hue: 1, saturation: 1, lightness: 1, alpha: null});
+      describe('alpha', () => {
+        describe('without space', () => {
+          it('throws on invalid', () => {
+            expect(() => legacyHsl(0, 0, 0, -0.1)).toThrow();
+            expect(() => legacyHsl(0, 0, 0, 1.1)).toThrow();
           });
-          expect(stdio.err).toMatch('null-alpha');
-        });
 
-        it("doesn't warn for undefined alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              saturation: 1,
-              lightness: 1,
-              alpha: undefined,
+          it('treats null as missing', () => {
+            const color = legacyHsl(0, 0, 0, null);
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
+          });
+
+          it('treats undefined as 1', () => {
+            const color = legacyHsl(0, 0, 0, undefined);
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({
+              hue: 0,
+              saturation: 0,
+              lightness: 0,
             });
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
           });
-          expect(stdio.err).toBeEmptyString();
         });
 
-        it("doesn't warn for no alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({hue: 1, saturation: 1, lightness: 1});
+        describe('with space', () => {
+          it('throws on invalid', () => {
+            expect(
+              () =>
+                new SassColor({
+                  hue: 0,
+                  saturation: 0,
+                  lightness: 0,
+                  alpha: -0.1,
+                })
+            ).toThrow();
+            expect(
+              () =>
+                new SassColor({
+                  hue: 0,
+                  saturation: 0,
+                  lightness: 0,
+                  alpha: 1.1,
+                })
+            ).toThrow();
           });
-          expect(stdio.err).toBeEmptyString();
-        });
 
-        it("doesn't warn for undefined alpha and undefined space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              saturation: 1,
-              lightness: 1,
-              alpha: undefined,
-              space: undefined,
-            });
-          });
-          expect(stdio.err).toBeEmptyString();
-        });
-
-        it("doesn't warn for null alpha with space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              saturation: 1,
-              lightness: 1,
+          it('treats null as missing', () => {
+            const color = new SassColor({
+              hue: 0,
+              saturation: 0,
+              lightness: 0,
               alpha: null,
-              space: 'hsl',
             });
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
           });
-          expect(stdio.err).toBeEmptyString();
+
+          it('treats undefined as 1', () => {
+            const color = new SassColor({
+              hue: 0,
+              saturation: 0,
+              lightness: 0,
+              alpha: undefined,
+            });
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({
+              hue: 0,
+              saturation: 0,
+              lightness: 0,
+            });
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
         });
       });
     });
@@ -194,62 +232,81 @@ describe('Legacy SassColor', () => {
         expect(() => legacyHwb(0, 0, 100.1, 0)).not.toThrow();
       });
 
-      it('disallows invalid alpha values', () => {
-        expect(() => legacyHwb(0, 0, 0, -0.1)).toThrow();
-        expect(() => legacyHwb(0, 0, 0, 1.1)).toThrow();
-      });
-
-      describe('deprecations', () => {
-        it('warns with null alpha and no space', () => {
-          const stdio = captureStdio(() => {
-            new SassColor({hue: 1, whiteness: 1, blackness: 1, alpha: null});
+      describe('alpha', () => {
+        describe('without space', () => {
+          it('throws on invalid', () => {
+            expect(() => legacyHwb(0, 0, 0, -0.1)).toThrow();
+            expect(() => legacyHwb(0, 0, 0, 1.1)).toThrow();
           });
-          expect(stdio.err).toMatch('null-alpha');
+
+          it('treats null as missing', () => {
+            const color = legacyHwb(0, 0, 0, null);
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
+          });
+
+          it('treats undefined as 1', () => {
+            const color = legacyHwb(0, 0, 0, undefined);
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({hue: 0, whiteness: 0, blackness: 0});
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
         });
 
-        it("doesn't warn for undefined alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              whiteness: 1,
-              blackness: 1,
-              alpha: undefined,
-            });
+        describe('with space', () => {
+          it('throws on invalid', () => {
+            expect(
+              () =>
+                new SassColor({
+                  hue: 0,
+                  whiteness: 0,
+                  blackness: 0,
+                  alpha: -0.1,
+                })
+            ).toThrow();
+            expect(
+              () =>
+                new SassColor({
+                  hue: 0,
+                  whiteness: 0,
+                  blackness: 0,
+                  alpha: 1.1,
+                })
+            ).toThrow();
           });
-          expect(stdio.err).toBeEmptyString();
-        });
 
-        it("doesn't warn for no alpha and no space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({hue: 1, whiteness: 1, blackness: 1});
-          });
-          expect(stdio.err).toBeEmptyString();
-        });
-
-        it("doesn't warn for undefined alpha and undefined space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              whiteness: 1,
-              blackness: 1,
-              alpha: undefined,
-              space: undefined,
-            });
-          });
-          expect(stdio.err).toBeEmptyString();
-        });
-
-        it("doesn't warn for null alpha with space", () => {
-          const stdio = captureStdio(() => {
-            new SassColor({
-              hue: 1,
-              whiteness: 1,
-              blackness: 1,
+          it('treats null as missing', () => {
+            const color = new SassColor({
+              hue: 0,
+              whiteness: 0,
+              blackness: 0,
               alpha: null,
-              space: 'hwb',
             });
+            expect(color.alpha).toBe(0);
+            expect(color.isChannelMissing('alpha')).toBeTrue();
           });
-          expect(stdio.err).toBeEmptyString();
+
+          it('treats undefined as 1', () => {
+            const color = new SassColor({
+              hue: 0,
+              whiteness: 0,
+              blackness: 0,
+              alpha: undefined,
+            });
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
+
+          it('treats unpassed as 1', () => {
+            const color = new SassColor({hue: 0, whiteness: 0, blackness: 0});
+            expect(color.alpha).toBe(1);
+            expect(color.isChannelMissing('alpha')).toBeFalse();
+          });
         });
       });
     });
@@ -258,34 +315,7 @@ describe('Legacy SassColor', () => {
   describe('an RGB color', () => {
     let color: SassColor;
     beforeEach(() => {
-      color = legacyRGB(18, 52, 86);
-    });
-
-    it('has RGB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.red).toFuzzyEqual(18);
-        expect(color.green).toFuzzyEqual(52);
-        expect(color.blue).toFuzzyEqual(86);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HSL channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(210);
-        expect(color.saturation).toFuzzyEqual(65.3846153846154);
-        expect(color.lightness).toFuzzyEqual(20.392156862745097);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HWB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(210);
-        expect(color.whiteness).toFuzzyEqual(7.0588235294117645);
-        expect(color.blackness).toFuzzyEqual(66.27450980392157);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
+      color = legacyRgb(18, 52, 86);
     });
 
     it('has an alpha channel', () => {
@@ -293,7 +323,7 @@ describe('Legacy SassColor', () => {
     });
 
     it('equals the same color even in a different color space', () => {
-      expect(color).toEqualWithHash(legacyRGB(18, 52, 86));
+      expect(color).toEqualWithHash(legacyRgb(18, 52, 86));
       expect(color).toEqualWithHash(
         legacyHsl(210, 65.3846153846154, 20.392156862745097)
       );
@@ -309,39 +339,12 @@ describe('Legacy SassColor', () => {
       color = legacyHsl(120, 42, 42);
     });
 
-    it('has RGB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.red).toFuzzyEqual(62);
-        expect(color.green).toFuzzyEqual(152);
-        expect(color.blue).toFuzzyEqual(62);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HSL channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(120);
-        expect(color.saturation).toFuzzyEqual(42);
-        expect(color.lightness).toFuzzyEqual(42);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HWB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(120);
-        expect(color.whiteness).toFuzzyEqual(24.360000000000003);
-        expect(color.blackness).toFuzzyEqual(40.36000000000001);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
     it('has an alpha channel', () => {
       expect(color.alpha).toBe(1);
     });
 
     it('equals the same color even in a different color space', () => {
-      expect(color).toEqualWithHash(legacyRGB(62.118, 152.082, 62.118));
+      expect(color).toEqualWithHash(legacyRgb(62.118, 152.082, 62.118));
       expect(color).toEqualWithHash(legacyHsl(120, 42, 42));
       expect(color).toEqualWithHash(legacyHwb(120, 24.36, 40.36));
     });
@@ -358,39 +361,12 @@ describe('Legacy SassColor', () => {
       color = legacyHwb(120, 42, 42);
     });
 
-    it('has RGB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.red).toFuzzyEqual(107);
-        expect(color.green).toFuzzyEqual(148);
-        expect(color.blue).toFuzzyEqual(107);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HSL channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(120);
-        expect(color.saturation).toFuzzyEqual(16.000000000000007);
-        expect(color.lightness).toFuzzyEqual(50);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
-    it('has HWB channels', () => {
-      const stdio = captureStdio(() => {
-        expect(color.hue).toFuzzyEqual(120);
-        expect(color.whiteness).toFuzzyEqual(42);
-        expect(color.blackness).toFuzzyEqual(42);
-      });
-      expect(stdio.err.match(/use `channel`/g)).toBeArrayOfSize(3);
-    });
-
     it('has an alpha channel', () => {
       expect(color.alpha).toBe(1);
     });
 
     it('equals the same color even in a different color space', () => {
-      expect(color).toEqualWithHash(legacyRGB(107.1, 147.9, 107.1));
+      expect(color).toEqualWithHash(legacyRgb(107.1, 147.9, 107.1));
       expect(color).toEqualWithHash(legacyHsl(120, 16, 50));
       expect(color).toEqualWithHash(legacyHwb(120, 42, 42));
     });
@@ -405,19 +381,19 @@ describe('Legacy SassColor', () => {
     describe('change() for RGB', () => {
       let color: SassColor;
       beforeEach(() => {
-        color = legacyRGB(18, 52, 86);
+        color = legacyRgb(18, 52, 86);
       });
 
       it('changes RGB values', () => {
-        expect(color.change({red: 0})).toEqualWithHash(legacyRGB(0, 52, 86));
-        expect(color.change({green: 0})).toEqualWithHash(legacyRGB(18, 0, 86));
-        expect(color.change({blue: 0})).toEqualWithHash(legacyRGB(18, 52, 0));
+        expect(color.change({red: 0})).toEqualWithHash(legacyRgb(0, 52, 86));
+        expect(color.change({green: 0})).toEqualWithHash(legacyRgb(18, 0, 86));
+        expect(color.change({blue: 0})).toEqualWithHash(legacyRgb(18, 52, 0));
         expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyRGB(18, 52, 86, 0.5)
+          legacyRgb(18, 52, 86, 0.5)
         );
         expect(
           color.change({red: 0, green: 0, blue: 0, alpha: 0.5})
-        ).toEqualWithHash(legacyRGB(0, 0, 0, 0.5));
+        ).toEqualWithHash(legacyRgb(0, 0, 0, 0.5));
       });
 
       it('allows valid values', () => {
@@ -455,24 +431,19 @@ describe('Legacy SassColor', () => {
         ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
       });
 
-      it('emits deprecation for null values', () => {
-        const stdio = captureStdio(() => {
-          color.change({red: null});
-          color.change({green: null});
-          color.change({blue: null});
-          color.change({alpha: null});
-        });
-        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`red: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`green: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`blue: null`/g)).toBeArrayOfSize(1);
+      it('explicit null sets channel to missing', () => {
+        expect(color.change({red: null}).isChannelMissing('red')).toBeTrue();
+        expect(
+          color.change({green: null}).isChannelMissing('green')
+        ).toBeTrue();
+        expect(color.change({blue: null}).isChannelMissing('blue')).toBeTrue();
+        expect(
+          color.change({alpha: null}).isChannelMissing('alpha')
+        ).toBeTrue();
       });
 
-      it('emits deprecation for channels from unspecified space', () => {
-        const stdio = captureStdio(() => {
-          color.change({hue: 1});
-        });
-        expect(stdio.err).toMatch('color-4-api');
+      it('throws an error for channels from unspecified space', () => {
+        expect(() => color.change({hue: 1})).toThrow();
       });
     });
 
@@ -507,10 +478,6 @@ describe('Legacy SassColor', () => {
           })
         ).toEqualWithHash(legacyHsl(120, 42, 42, 0.5));
         expect(color.change({hue: undefined})).toEqualWithHash(color);
-        // Emits deprecation warning which is tested elsewhere
-        captureStdio(() => {
-          expect(color.change({hue: null})).toEqualWithHash(color);
-        });
       });
 
       it('allows valid values', () => {
@@ -520,8 +487,10 @@ describe('Legacy SassColor', () => {
         expect(color.change({lightness: 100}).channel('lightness')).toBe(100);
         expect(color.change({alpha: 0}).alpha).toBe(0);
         expect(color.change({alpha: 1}).alpha).toBe(1);
-        expect(color.change({lightness: -0.1}).lightness).toBe(-0.1);
-        expect(color.change({lightness: 100.1}).lightness).toBe(100.1);
+        expect(color.change({lightness: -0.1}).channel('lightness')).toBe(-0.1);
+        expect(color.change({lightness: 100.1}).channel('lightness')).toBe(
+          100.1
+        );
         expect(color.change({hue: undefined}).channel('hue')).toBe(210);
       });
 
@@ -530,24 +499,21 @@ describe('Legacy SassColor', () => {
         expect(() => color.change({alpha: 1.1})).toThrow();
       });
 
-      it('emits deprecation for null values', () => {
-        const stdio = captureStdio(() => {
-          color.change({hue: null});
-          color.change({saturation: null});
-          color.change({lightness: null});
-          color.change({alpha: null});
-        });
-        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`hue: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`saturation: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`lightness: null`/g)).toBeArrayOfSize(1);
+      it('explicit null sets channel to missing', () => {
+        expect(color.change({hue: null}).isChannelMissing('hue')).toBeTrue();
+        expect(
+          color.change({saturation: null}).isChannelMissing('saturation')
+        ).toBeTrue();
+        expect(
+          color.change({lightness: null}).isChannelMissing('lightness')
+        ).toBeTrue();
+        expect(
+          color.change({alpha: null}).isChannelMissing('alpha')
+        ).toBeTrue();
       });
 
-      it('emits deprecation for channels from unspecified space', () => {
-        const stdio = captureStdio(() => {
-          color.change({red: 1});
-        });
-        expect(stdio.err).toMatch('color-4-api');
+      it('throws an error for channels from unspecified space', () => {
+        expect(() => color.change({red: 1})).toThrow();
       });
     });
 
@@ -601,47 +567,21 @@ describe('Legacy SassColor', () => {
         expect(() => color.change({alpha: 1.1})).toThrow();
       });
 
-      it('emits deprecation for null values', () => {
-        const stdio = captureStdio(() => {
-          color.change({hue: null});
-          color.change({whiteness: null});
-          color.change({blackness: null});
-          color.change({alpha: null});
-        });
-        expect(stdio.err.match(/`alpha: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`hue: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`whiteness: null`/g)).toBeArrayOfSize(1);
-        expect(stdio.err.match(/`blackness: null`/g)).toBeArrayOfSize(1);
+      it('explicit null sets channel to missing', () => {
+        expect(color.change({hue: null}).isChannelMissing('hue')).toBeTrue();
+        expect(
+          color.change({whiteness: null}).isChannelMissing('whiteness')
+        ).toBeTrue();
+        expect(
+          color.change({blackness: null}).isChannelMissing('blackness')
+        ).toBeTrue();
+        expect(
+          color.change({alpha: null}).isChannelMissing('alpha')
+        ).toBeTrue();
       });
 
-      it('emits deprecation for channels from unspecified space', () => {
-        const stdio = captureStdio(() => {
-          color.change({red: 1});
-        });
-        expect(stdio.err).toMatch('color-4-api');
-      });
-    });
-
-    describe('changeAlpha()', () => {
-      let color: SassColor;
-      beforeEach(() => {
-        color = legacyRGB(18, 52, 86);
-      });
-
-      it('changes the alpha value', () => {
-        expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyRGB(18, 52, 86, 0.5)
-        );
-      });
-
-      it('allows valid alphas', () => {
-        expect(color.change({alpha: 0}).alpha).toBe(0);
-        expect(color.change({alpha: 1}).alpha).toBe(1);
-      });
-
-      it('rejects invalid alphas', () => {
-        expect(() => color.change({alpha: -0.1})).toThrow();
-        expect(() => color.change({alpha: 1.1})).toThrow();
+      it('throws an error for channels from unspecified space', () => {
+        expect(() => color.change({red: 1})).toThrow();
       });
     });
   });

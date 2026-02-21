@@ -87,8 +87,6 @@ describe('Color 4 SassColors Conversions', () => {
         });
 
         it('explicit null sets channel to missing', () => {
-          // Explicitly set space to avoid legacy null-alpha behavior, which is
-          // tested in Legacy suite.
           space.channels.forEach((channelName, index) => {
             const expectedChannels = [
               space.pink[0],
@@ -96,18 +94,15 @@ describe('Color 4 SassColors Conversions', () => {
               space.pink[2],
             ] as [number | null, number | null, number | null];
             expectedChannels[index] = null;
-            const changed = color.change({
-              [channelName]: null,
-              space: space.name as 'xyz',
-            });
+            const changed = color.change({[channelName]: null});
             expect(changed).toLooselyEqualColor(
               space.constructor(...expectedChannels)
             );
             expect(changed.isChannelMissing(channelName)).toBeTrue();
           });
-          expect(
-            color.change({alpha: null, space: space.name as 'xyz'})
-          ).toLooselyEqualColor(space.constructor(...space.pink, null));
+          expect(color.change({alpha: null})).toLooselyEqualColor(
+            space.constructor(...space.pink, null)
+          );
         });
 
         describe('allows out-of-range channel values', () => {
