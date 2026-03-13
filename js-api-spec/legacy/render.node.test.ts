@@ -710,7 +710,8 @@ describe('options', () => {
         });
 
         expect(stdio.out).toBeEmptyString();
-        expect(stdio.err).toBeEmptyString();
+        // Remove Node.js deprecation warnings.
+        expect(stdio.err.replaceAll(/^\(node:.*\n/, '')).toBeEmptyString();
       });
     });
   });
