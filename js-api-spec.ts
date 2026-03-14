@@ -130,7 +130,7 @@ if (argv.browser) {
     console.log('Karma has exited with ' + exitCode);
     process.exit(exitCode);
   });
-  server.start();
+  void server.start();
 } else {
   const jasmine = new Jasmine({
     projectBaseDir: p.resolve('.'),
@@ -153,5 +153,5 @@ if (argv.browser) {
     spec_files: specsToRun.map(path => p.relative('js-api-spec', path)),
     helpers: ['../node_modules/jasmine-expect/index.js', 'setup.ts'],
   });
-  jasmine.execute();
+  void jasmine.execute();
 }

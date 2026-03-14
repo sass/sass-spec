@@ -44,8 +44,9 @@ export const URL = isBrowser
   ? (global as unknown as any).URL
   : require('url').URL;
 
-export const spy = (fn: (...args: any[]) => any) =>
-  jasmine.createSpy().and.callFake(fn);
+export function spy(fn: (...args: any[]) => any): jasmine.Spy {
+  return jasmine.createSpy().and.callFake(fn);
+}
 
 /** Runs `block` and captures any stdout or stderr it emits. */
 export function captureStdio(block: () => void): {out: string; err: string} {

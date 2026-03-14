@@ -215,10 +215,11 @@ describe('SassCalculation', () => {
 
   describe('simplifies', () => {
     it('calc()', () => {
-      const fn = () =>
-        SassCalculation.calc(
+      function fn(): SassCalculation {
+        return SassCalculation.calc(
           new CalculationOperation('+', new SassNumber(1), new SassNumber(2)),
         );
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -229,14 +230,15 @@ describe('SassCalculation', () => {
 
     // Regression test for sass/dart-sass#2735.
     it('calc() with incompatible units', () => {
-      const fn = () =>
-        SassCalculation.calc(
+      function fn(): SassCalculation {
+        return SassCalculation.calc(
           new CalculationOperation(
             '+',
             new SassNumber(1, 'px'),
             new SassNumber(2, '%'),
           ),
         );
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -246,12 +248,13 @@ describe('SassCalculation', () => {
     });
 
     it('clamp()', () => {
-      const fn = () =>
-        SassCalculation.clamp(
+      function fn(): SassCalculation {
+        return SassCalculation.clamp(
           new SassNumber(1),
           new SassNumber(2),
           new SassNumber(3),
         );
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -261,8 +264,9 @@ describe('SassCalculation', () => {
     });
 
     it('min()', () => {
-      const fn = () =>
-        SassCalculation.min([new SassNumber(1), new SassNumber(2)]);
+      function fn(): SassCalculation {
+        return SassCalculation.min([new SassNumber(1), new SassNumber(2)]);
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -272,8 +276,9 @@ describe('SassCalculation', () => {
     });
 
     it('max()', () => {
-      const fn = () =>
-        SassCalculation.max([new SassNumber(1), new SassNumber(2)]);
+      function fn(): SassCalculation {
+        return SassCalculation.max([new SassNumber(1), new SassNumber(2)]);
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -283,8 +288,8 @@ describe('SassCalculation', () => {
     });
 
     it('operations', () => {
-      const fn = () =>
-        SassCalculation.calc(
+      function fn(): SassCalculation {
+        return SassCalculation.calc(
           new CalculationOperation(
             '+',
             SassCalculation.min([new SassNumber(3), new SassNumber(4)]),
@@ -303,6 +308,7 @@ describe('SassCalculation', () => {
             ),
           ),
         );
+      }
 
       expect(
         compileString('a {b: foo()}', {
@@ -312,10 +318,11 @@ describe('SassCalculation', () => {
     });
 
     it('asynchronously', async () => {
-      const fn = async () =>
-        SassCalculation.calc(
+      async function fn(): Promise<SassCalculation> {
+        return SassCalculation.calc(
           new CalculationOperation('+', new SassNumber(1), new SassNumber(2)),
         );
+      }
 
       const result = await compileStringAsync('a {b: foo()}', {
         functions: {'foo()': fn},
@@ -326,9 +333,13 @@ describe('SassCalculation', () => {
 
   describe('throws when simplifying', () => {
     it('calc() with more than one argument', () => {
-      const fn = () =>
-        // @ts-expect-error: Call `calc` with the wrong number of arguments
-        new SassCalculation('calc', new SassNumber(1), new SassNumber(2));
+      function fn(): SassCalculation {
+        return new SassCalculation(
+          'calc',
+          new SassNumber(1),
+          new SassNumber(2),
+        );
+      }
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
@@ -337,7 +348,9 @@ describe('SassCalculation', () => {
     });
 
     it('clamp() with the wrong argument', () => {
-      const fn = () => SassCalculation.clamp(new SassNumber(1));
+      function fn(): SassCalculation {
+        return SassCalculation.clamp(new SassNumber(1));
+      }
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
@@ -347,8 +360,8 @@ describe('SassCalculation', () => {
 
     it('an unknown calculation function', () => {
       const foo = SassCalculation.calc(new SassNumber(1));
-      // @ts-expect-error: Assign to read-only property
-      foo.name = 'foo';
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Assign to read-only property.
+      (foo as any).name = 'foo';
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': () => foo},

@@ -128,10 +128,10 @@ interface ToThrowSassExceptionOptions {
   includes?: string;
 }
 
-const toThrowSassException = (
+function toThrowSassException(
   received: unknown,
   options: ToThrowSassExceptionOptions = {},
-) => {
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
   }
@@ -146,12 +146,12 @@ const toThrowSassException = (
     message: `expected ${received} to throw`,
     pass: false,
   };
-};
+}
 
-const toThrowSassExceptionAsync = (
+function toThrowSassExceptionAsync(
   received: unknown,
   options: ToThrowSassExceptionOptions = {},
-) => {
+): Promise<jasmine.CustomMatcherResult> {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
   }
@@ -166,14 +166,14 @@ const toThrowSassExceptionAsync = (
       (thrown: unknown) => verifyThrown(thrown, options),
     );
   } catch (thrown: unknown) {
-    return verifyThrown(thrown, options);
+    return Promise.resolve(verifyThrown(thrown, options));
   }
-};
+}
 
-const toThrowLegacyException = (
+function toThrowLegacyException(
   received: unknown,
   options: {line?: number; file?: string; includes?: string} = {},
-) => {
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
   }
@@ -271,9 +271,12 @@ const toThrowLegacyException = (
     message: `expected ${received} to throw`,
     pass: false,
   };
-};
+}
 
-const toEqualWithHash = (received: unknown, actual: immutable.ValueObject) => {
+function toEqualWithHash(
+  received: unknown,
+  actual: immutable.ValueObject,
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'object' || received === null) {
     return {
       message: `expected ${util.inspect(received)} to be an object`,
@@ -314,18 +317,23 @@ const toEqualWithHash = (received: unknown, actual: immutable.ValueObject) => {
       pass: true,
     };
   }
-};
+}
 
-const toBeNil = (received: unknown) => {
+function toBeNil(received: unknown): jasmine.CustomMatcherResult {
   return {
     message: `expected ${received} to be null or undefined`,
     pass: received === null || received === undefined,
   };
-};
+}
 
-const removeWhitespace = (str: string) => str.trim().replace(/\s+/g, '');
+function removeWhitespace(str: string): string {
+  return str.trim().replace(/\s+/g, '');
+}
 
-const toEqualIgnoringWhitespace = (received: unknown, actual: string) => {
+function toEqualIgnoringWhitespace(
+  received: unknown,
+  actual: string,
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'string') {
     throw new Error('Received value must be a string');
   }
@@ -333,9 +341,12 @@ const toEqualIgnoringWhitespace = (received: unknown, actual: string) => {
     message: `expected ${received} to equal ${actual} ignoring whitespace`,
     pass: removeWhitespace(actual) === removeWhitespace(received),
   };
-};
+}
 
-const toFuzzyEqual = (received: unknown, actual: number) => {
+function toFuzzyEqual(
+  received: unknown,
+  actual: number,
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'number') {
     throw new Error('Received value must be a number');
   }
@@ -343,9 +354,12 @@ const toFuzzyEqual = (received: unknown, actual: number) => {
     message: `expected ${received} to fuzzy equal ${actual}`,
     pass: new sass.SassNumber(received).equals(new sass.SassNumber(actual)),
   };
-};
+}
 
-const toLooselyEqual = (received: unknown, actual: number) => {
+function toLooselyEqual(
+  received: unknown,
+  actual: number,
+): jasmine.CustomMatcherResult {
   if (typeof received !== 'number') {
     throw new Error('Received value must be a number');
   }
@@ -353,7 +367,7 @@ const toLooselyEqual = (received: unknown, actual: number) => {
     message: `expected ${received} to loosely equal ${actual} to 5 decimal places`,
     pass: Math.round((received * 10) ^ 5) === Math.round((actual * 10) ^ 5),
   };
-};
+}
 
 // The max distance two Sass numbers can be from each another before they're
 // considered different (11 decimals).
@@ -361,7 +375,10 @@ const toLooselyEqual = (received: unknown, actual: number) => {
 // Uses ** instead of Math.pow() for constant folding.
 const epsilon = 10 ** -11;
 
-const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
+function toLooselyEqualColor(
+  received: unknown,
+  actual: sass.SassColor,
+): jasmine.CustomMatcherResult {
   function isSassColor(item: unknown): item is sass.SassColor {
     return !!(item as sass.SassColor).assertColor();
   }
@@ -388,9 +405,12 @@ const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
     message: `expected ${received} to loosely equal ${actual}, but channels at ${indexMessage} differ`,
     pass: unequalIndices.length === 0,
   };
-};
+}
 
-const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
+function toFuzzyEqualList(
+  received: unknown,
+  actual: unknown[],
+): jasmine.CustomMatcherResult {
   if (!immutable.List.isList(received)) {
     throw new Error('Received value must be an Immutuable List');
   }
@@ -425,7 +445,7 @@ const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
     message,
     pass,
   };
-};
+}
 
 // Add custom matchers to Jasmine
 beforeAll(() => {
@@ -476,7 +496,7 @@ function isSassException(thrown: unknown): thrown is sass.Exception {
 function verifyThrown(
   thrown: unknown,
   {line, url, noUrl, includes}: ToThrowSassExceptionOptions,
-) {
+): jasmine.CustomMatcherResult {
   if (!isSassException(thrown)) {
     return {
       message: `expected ${thrown} to be a sass.Exception`,

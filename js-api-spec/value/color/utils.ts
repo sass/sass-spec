@@ -5,7 +5,13 @@
 import type {ChannelName} from 'sass';
 // Given a series of channels, returns an array of channels with a variety of
 // nulls and alpha values.
-export function channelCases(ch1: number, ch2: number, ch3: number) {
+export function channelCases(
+  ch1: number,
+  ch2: number,
+  ch3: number,
+): Array<
+  [number | null, number | null, number | null, number | null | undefined]
+> {
   return [
     [ch1, ch2, ch3],
     [null, ch2, ch3],

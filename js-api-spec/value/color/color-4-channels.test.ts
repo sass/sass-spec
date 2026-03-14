@@ -142,7 +142,7 @@ describe('Color 4 SassColor Channels', () => {
 
       describe('alpha', () => {
         it('returns value if set', () => {
-          function colorWithAlpha(alpha: number | null) {
+          function colorWithAlpha(alpha: number | null): SassColor {
             return space.constructor(...space.pink, alpha);
           }
           expect(colorWithAlpha(0).alpha).toBe(0);

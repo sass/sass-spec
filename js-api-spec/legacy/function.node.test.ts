@@ -266,7 +266,7 @@ describe('this', () => {
   });
 
   it('includes the filename when rendering via file', () => {
-    sandbox(dir => {
+    return sandbox(dir => {
       dir.write({'test.scss': 'a {b: foo()}'});
 
       const fn = spy(function (this: sass.LegacyPluginThis) {
@@ -282,7 +282,7 @@ describe('this', () => {
   });
 
   it('includes other include paths', () => {
-    sandbox(dir => {
+    return sandbox(dir => {
       const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.includePaths).toBe(
           `${process.cwd()}${p.delimiter}${dir.root}`,
@@ -385,7 +385,7 @@ describe('this', () => {
     });
 
     it('a file entry', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({'test.scss': 'a {b: foo()}'});
 
         const fn = spy(function (this: sass.LegacyPluginThis) {

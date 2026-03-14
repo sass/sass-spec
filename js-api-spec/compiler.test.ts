@@ -34,7 +34,9 @@ export const asyncImporters: Array<Importer> = [
   },
 ];
 
-export const getLogger = () => ({debug: spy(() => {})});
+export function getLogger(): {debug: jasmine.Spy} {
+  return {debug: spy(() => {})};
+}
 
 /* A triggered importer that executes a callback after a trigger is called */
 export function getTriggeredImporter(callback: () => void): {
@@ -112,8 +114,7 @@ describe('Compiler', () => {
 
   it('errors if constructor invoked directly', () => {
     // Strip types to allow calling private constructor.
-    class Untyped {}
-    const UntypedCompiler = Compiler as unknown as typeof Untyped;
+    const UntypedCompiler = Compiler as unknown as new () => unknown;
     expect(() => new UntypedCompiler()).toThrowError(
       /Compiler can not be directly constructed/,
     );
@@ -196,8 +197,7 @@ describe('AsyncCompiler', () => {
 
   it('errors if constructor invoked directly', () => {
     // Strip types to allow calling private constructor.
-    class Untyped {}
-    const UntypedAsyncCompiler = AsyncCompiler as unknown as typeof Untyped;
+    const UntypedAsyncCompiler = AsyncCompiler as unknown as new () => unknown;
     expect(() => new UntypedAsyncCompiler()).toThrowError(
       /AsyncCompiler can not be directly constructed/,
     );

@@ -401,7 +401,7 @@ it(
   () =>
     sandbox(dir => {
       dir.write({'_other.scss': 'a {b: c}'});
-      const callback = () => {
+      function callback(): void {
         compileString('', {
           importers: [
             {
@@ -411,7 +411,7 @@ it(
             } as unknown as Importer<'sync'>,
           ],
         });
-      };
+      }
 
       expect(callback).toThrow();
       expect(callback).not.toThrowSassException();

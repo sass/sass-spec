@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import {fromRoot} from './lib/spec-directory';
 
-async function migrate() {
+async function migrate(): Promise<void> {
   const dirToMigrate = process.argv[2];
   const migratorCommand = process.argv[3];
   const migratorArgs = process.argv.slice(4);
@@ -48,4 +48,4 @@ async function migrate() {
   );
 }
 
-migrate();
+void migrate();

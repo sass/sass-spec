@@ -8,7 +8,7 @@ import {SpecDirectory, fromRoot} from './lib/spec-directory';
 import RealDirectory from './lib/spec-directory/real-directory';
 import VirtualDirectory from './lib/spec-directory/virtual-directory';
 
-async function lintAllTests(fix: boolean) {
+async function lintAllTests(fix: boolean): Promise<void> {
   try {
     const rootPath = p.resolve(process.cwd(), 'spec');
     const rootDir = (await fromRoot(rootPath)) as RealDirectory;
@@ -29,7 +29,7 @@ async function lintDirectory(
   directory: SpecDirectory,
   reporter: LintReporter,
   {canBeHrxRoot = false, fix = false},
-) {
+): Promise<void> {
   if (directory instanceof VirtualDirectory && canBeHrxRoot) {
     const hrxPath = directory.basePath + '.hrx';
     const actualSource = await fs.promises.readFile(hrxPath, {
@@ -84,7 +84,7 @@ async function lintNestedTestDirectories(
   directory: SpecDirectory,
   basePath: string,
   reporter: LintReporter,
-) {
+): Promise<void> {
   for (const subdir of await directory.subdirs()) {
     if (subdir.isTestDir()) {
       reporter.reportError(
@@ -228,7 +228,7 @@ async function lintHrxSize(
  * ```
  *
  */
-async function hrxToRealFiles(archive: VirtualDirectory) {
+async function hrxToRealFiles(archive: VirtualDirectory): Promise<void> {
   fs.mkdirSync(archive.path, {recursive: true});
 
   for (const file of await archive.listFiles()) {
@@ -294,4 +294,4 @@ async function bigHrx(
 
 const args = yargs(process.argv.slice(2)).boolean('fix');
 const argv = args.parseSync();
-lintAllTests(argv.fix ?? false);
+void lintAllTests(argv.fix ?? false);

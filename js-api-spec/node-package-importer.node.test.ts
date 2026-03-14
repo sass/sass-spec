@@ -19,7 +19,7 @@ import {spy} from './utils';
 
 import {fileURLToPath} from 'url';
 
-const testPackageImporter = ({
+function testPackageImporter({
   input,
   output,
   files,
@@ -29,8 +29,8 @@ const testPackageImporter = ({
   output: string;
   files: {[path: string]: string};
   entryPoint?: string;
-}) =>
-  sandbox(dir => {
+}): Promise<void> {
+  return sandbox(dir => {
     dir.write(files);
     return dir.chdir(() => {
       try {
@@ -45,6 +45,7 @@ const testPackageImporter = ({
       }
     });
   });
+}
 
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
@@ -558,7 +559,8 @@ describe('Node Package Importer', () => {
         expect(url).toStartWith('pkg:');
         return null;
       });
-      sandbox(dir => {
+
+      return sandbox(dir => {
         return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:bah";', {

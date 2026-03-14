@@ -4,7 +4,7 @@ import {CliArgs, parseArgs} from './lib/cli-args';
 import TestCase from './lib/test-case';
 import Tabulator from './lib/tabulator';
 
-async function runAllTests() {
+async function runAllTests(): Promise<void> {
   let args_: CliArgs | undefined;
   try {
     const interactor = new Interactor(process.stdin, process.stdout);
@@ -53,4 +53,4 @@ async function runAllTests() {
   }
 }
 
-runAllTests();
+void runAllTests();

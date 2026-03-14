@@ -558,7 +558,7 @@ describe('options', () => {
   // Disabled since there aren't any current future deprecations
   xdescribe('futureDeprecations', () => {
     it('opts into future deprecation early', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({
           'test.scss': '@import "other";',
           '_other.scss': '',
@@ -578,7 +578,7 @@ describe('options', () => {
     });
 
     it('emits no warning when not set', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({
           'test.scss': '@import "other";',
           '_other.scss': '',

@@ -233,7 +233,7 @@ xdescribe('for a future deprecation,', () => {
 describe('color deprecations', () => {
   it('emit a warning outside of any compilation', () => {
     const stdio = captureStdio(() => {
-      new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
+      void new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
     });
     expect(stdio.err).toContain('color-4-api');
   });
