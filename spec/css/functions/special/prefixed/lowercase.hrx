@@ -1,0 +1,276 @@
+<===> calc/number/input.scss
+a {b: -a-calc(0)}
+
+<===> calc/number/output.css
+a {
+  b: -a-calc(0);
+}
+
+<===>
+================================================================================
+<===> calc/punctuation/input.scss
+a {b: -a-calc(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> calc/punctuation/output.css
+a {
+  b: -a-calc(@#$%^&*({[]})_-+=|\\:""''<>,.?/);
+}
+
+<===>
+================================================================================
+<===> calc/script_like/input.scss
+a {b: -a-calc($c)}
+
+<===> calc/script_like/output.css
+a {
+  b: -a-calc($c);
+}
+
+<===>
+================================================================================
+<===> calc/interpolation/input.scss
+a {b: -a-calc(#{0})}
+
+<===> calc/interpolation/output.css
+a {
+  b: -a-calc(0);
+}
+
+<===>
+================================================================================
+<===> url/number/input.scss
+a {b: -c-url(0)}
+
+<===> url/number/output.css
+a {
+  b: url(0);
+}
+
+<===>
+================================================================================
+<===> url/punctuation/input.scss
+a {b: -c-url(http://d.e/f!g)}
+
+<===> url/punctuation/output.css
+a {
+  b: url(http://d.e/f!g);
+}
+
+<===>
+================================================================================
+<===> url/script_like/input.scss
+$a: b;
+c {d: -e-url($a)}
+
+<===> url/script_like/output.css
+c {
+  d: -e-url(b);
+}
+
+<===>
+================================================================================
+<===> url/interpolation/input.scss
+a {b: -c-url(#{0})}
+
+<===> url/interpolation/output.css
+a {
+  b: url(0);
+}
+
+<===>
+================================================================================
+<===> element/number/input.scss
+a {b: -c-element(0)}
+
+<===> element/number/output.css
+a {
+  b: -c-element(0);
+}
+
+<===>
+================================================================================
+<===> element/punctuation/input.scss
+a {b: -c-element(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> element/punctuation/output.css
+a {
+  b: -c-element(@#$%^&*({[]})_-+=|\\:""''<>,.?/);
+}
+
+<===>
+================================================================================
+<===> element/script_like/input.scss
+a {b: -c-element($d)}
+
+<===> element/script_like/output.css
+a {
+  b: -c-element($d);
+}
+
+<===>
+================================================================================
+<===> element/interpolation/input.scss
+a {b: -c-element(#{0})}
+
+<===> element/interpolation/output.css
+a {
+  b: -c-element(0);
+}
+
+<===>
+================================================================================
+<===> expression/number/input.scss
+a {b: -c-expression(0)}
+
+<===> expression/number/output.css
+a {
+  b: -c-expression(0);
+}
+
+<===>
+================================================================================
+<===> expression/punctuation/input.scss
+a {b: -c-expression(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> expression/punctuation/output.css
+a {
+  b: -c-expression(@#$%^&*({[]})_-+=|\\:""''<>,.?/);
+}
+
+<===> expression/punctuation/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed expression() functions will no longer have special parsing in a future release of Dart Sass. Once that happens, this argument will be parsed as SassScript. To preserve current behavior:
+
+-c-expression(#{"@#$%^&*({[]})_-+=|\\\\:\"\"''<>,.?/"})
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-expression(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> expression/script_like/input.scss
+a {b: -c-expression($d)}
+
+<===> expression/script_like/output.css
+a {
+  b: -c-expression($d);
+}
+
+<===> expression/script_like/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed expression() functions will no longer have special parsing in a future release of Dart Sass. Once that happens, this argument will no longer be valid syntax. To preserve current behavior:
+
+-c-expression(#{"$d"})
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-expression($d)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> expression/interpolation/input.scss
+a {b: -c-expression(#{0})}
+
+<===> expression/interpolation/output.css
+a {
+  b: -c-expression(0);
+}
+
+<===>
+================================================================================
+<===> progid/number/input.scss
+a {b: -c-progid:d(0)}
+
+<===> progid/number/output.css
+a {
+  b: -c-progid:d(0);
+}
+
+<===> progid/number/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed progid:...() functions will no longer be supported in a future release of Dart Sass. To preserve current behavior:
+
+#{"-c-progid:d(0)"}
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-progid:d(0)}
+  |       ^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> progid/punctuation/input.scss
+a {b: -c-progid:d(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> progid/punctuation/output.css
+a {
+  b: -c-progid:d(@#$%^&*({[]})_-+=|\\:""''<>,.?/);
+}
+
+<===> progid/punctuation/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed progid:...() functions will no longer be supported in a future release of Dart Sass. To preserve current behavior:
+
+#{"-c-progid:d(@#$%^&*({[]})_-+=|\\\\:\"\"''<>,.?/)"}
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-progid:d(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> progid/script_like/input.scss
+a {b: -c-progid:d($d)}
+
+<===> progid/script_like/output.css
+a {
+  b: -c-progid:d($d);
+}
+
+<===> progid/script_like/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed progid:...() functions will no longer be supported in a future release of Dart Sass. To preserve current behavior:
+
+#{"-c-progid:d($d)"}
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-progid:d($d)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
+
+<===>
+================================================================================
+<===> progid/interpolation/input.scss
+a {b: -c-progid:d(#{0})}
+
+<===> progid/interpolation/output.css
+a {
+  b: -c-progid:d(0);
+}
+
+<===> progid/interpolation/warning
+DEPRECATION WARNING [function-name]: Vendor-prefixed progid:...() functions will no longer be supported in a future release of Dart Sass. To preserve current behavior:
+
+#{"-c-progid:d(#{0})"}
+
+More info: https://sass-lang.com/d/function-name
+
+  ,
+1 | a {b: -c-progid:d(#{0})}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 1:7  root stylesheet
