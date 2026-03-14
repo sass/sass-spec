@@ -334,7 +334,8 @@ describe('SassCalculation', () => {
   describe('throws when simplifying', () => {
     it('calc() with more than one argument', () => {
       function fn(): SassCalculation {
-        return new SassCalculation(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Force access to a protected constructor to test invalid construction.
+        return new (SassCalculation as any)(
           'calc',
           new SassNumber(1),
           new SassNumber(2),
