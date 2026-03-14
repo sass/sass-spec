@@ -37,7 +37,7 @@ describe('Color 4 SassColor Channels', () => {
           pinkCases.forEach(channels => {
             const _color = space.constructor(...channels);
             expect(_color.channelsOrNull).toFuzzyEqualList(
-              channels.slice(0, 3)
+              channels.slice(0, 3),
             );
           });
         });
@@ -79,7 +79,7 @@ describe('Color 4 SassColor Channels', () => {
           it('throws an error if channel not in space', () => {
             const channelsNotInSpace = new Set(channelNames);
             space.channels.forEach(channel =>
-              channelsNotInSpace.delete(channel)
+              channelsNotInSpace.delete(channel),
             );
             channelsNotInSpace.forEach(channel => {
               expect(() => color.channel(channel)).toThrow();
@@ -108,13 +108,13 @@ describe('Color 4 SassColor Channels', () => {
               const destinationSpace = spaces[destinationSpaceId];
               const channelsNotInSpace = new Set(channelNames);
               destinationSpace.channels.forEach(channel =>
-                channelsNotInSpace.delete(channel)
+                channelsNotInSpace.delete(channel),
               );
               channelsNotInSpace.forEach(channel => {
                 expect(() =>
                   color.channel(channel as ChannelNameXyz, {
                     space: destinationSpace.name as ColorSpaceXyz,
-                  })
+                  }),
                 ).toThrow();
               });
             });
@@ -127,13 +127,13 @@ describe('Color 4 SassColor Channels', () => {
                 expect(
                   color.channel(channel as ChannelNameXyz, {
                     space: destinationSpace.name as ColorSpaceXyz,
-                  })
+                  }),
                 ).toLooselyEqual(destinationSpace.pink[index]);
               });
               expect(
                 color.channel('alpha' as ChannelNameXyz, {
                   space: destinationSpace.name as ColorSpaceXyz,
-                })
+                }),
               ).toEqual(1);
             });
           });
@@ -183,44 +183,44 @@ describe('Color 4 SassColor Channels', () => {
       // `100%`, then the `hue` channel is powerless.
       checkPowerless(
         new SassColor({hue: 0, whiteness: 0, blackness: 100, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, whiteness: 100, blackness: 0, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, whiteness: 50, blackness: 50, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, whiteness: 60, blackness: 60, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, whiteness: -100, blackness: 200, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, whiteness: 200, blackness: -100, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 100, whiteness: 0, blackness: 100, space: 'hwb'}),
-        [true, false, false]
+        [true, false, false],
       );
 
       checkPowerless(
-        new SassColor({hue: 0, whiteness: 0, blackness: 0, space: 'hwb'})
+        new SassColor({hue: 0, whiteness: 0, blackness: 0, space: 'hwb'}),
       );
       checkPowerless(
-        new SassColor({hue: 0, whiteness: 49, blackness: 50, space: 'hwb'})
+        new SassColor({hue: 0, whiteness: 49, blackness: 50, space: 'hwb'}),
       );
       checkPowerless(
-        new SassColor({hue: 0, whiteness: -1, blackness: 100, space: 'hwb'})
+        new SassColor({hue: 0, whiteness: -1, blackness: 100, space: 'hwb'}),
       );
       checkPowerless(
-        new SassColor({hue: 100, whiteness: 0, blackness: 0, space: 'hwb'})
+        new SassColor({hue: 100, whiteness: 0, blackness: 0, space: 'hwb'}),
       );
     });
 
@@ -229,28 +229,33 @@ describe('Color 4 SassColor Channels', () => {
       // powerless.
       checkPowerless(
         new SassColor({hue: 0, saturation: 0, lightness: 0, space: 'hsl'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 0, saturation: 0, lightness: 100, space: 'hsl'}),
-        [true, false, false]
+        [true, false, false],
       );
       checkPowerless(
         new SassColor({hue: 100, saturation: 0, lightness: 0, space: 'hsl'}),
-        [true, false, false]
+        [true, false, false],
       );
 
       checkPowerless(
-        new SassColor({hue: 0, saturation: 100, lightness: 0, space: 'hsl'})
+        new SassColor({hue: 0, saturation: 100, lightness: 0, space: 'hsl'}),
       );
       checkPowerless(
-        new SassColor({hue: 0, saturation: 100, lightness: 100, space: 'hsl'})
+        new SassColor({hue: 0, saturation: 100, lightness: 100, space: 'hsl'}),
       );
       checkPowerless(
-        new SassColor({hue: 100, saturation: 100, lightness: 100, space: 'hsl'})
+        new SassColor({
+          hue: 100,
+          saturation: 100,
+          lightness: 100,
+          space: 'hsl',
+        }),
       );
       checkPowerless(
-        new SassColor({hue: 100, saturation: 100, lightness: 0, space: 'hsl'})
+        new SassColor({hue: 100, saturation: 100, lightness: 0, space: 'hsl'}),
       );
     });
 
@@ -258,28 +263,28 @@ describe('Color 4 SassColor Channels', () => {
       // If the `chroma` value is 0%, then the `hue` channel is powerless.
       checkPowerless(
         new SassColor({lightness: 0, chroma: 0, hue: 0, space: 'lch'}),
-        [false, false, true]
+        [false, false, true],
       );
       checkPowerless(
         new SassColor({lightness: 0, chroma: 0, hue: 100, space: 'lch'}),
-        [false, false, true]
+        [false, false, true],
       );
       checkPowerless(
         new SassColor({lightness: 100, chroma: 0, hue: 0, space: 'lch'}),
-        [false, false, true]
+        [false, false, true],
       );
 
       checkPowerless(
-        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'lch'})
+        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'lch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'lch'})
+        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'lch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'lch'})
+        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'lch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'lch'})
+        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'lch'}),
       );
     });
 
@@ -287,28 +292,28 @@ describe('Color 4 SassColor Channels', () => {
       // If the `chroma` value is 0%, then the `hue` channel is powerless.
       checkPowerless(
         new SassColor({lightness: 0, chroma: 0, hue: 0, space: 'oklch'}),
-        [false, false, true]
+        [false, false, true],
       );
       checkPowerless(
         new SassColor({lightness: 0, chroma: 0, hue: 100, space: 'oklch'}),
-        [false, false, true]
+        [false, false, true],
       );
       checkPowerless(
         new SassColor({lightness: 100, chroma: 0, hue: 0, space: 'oklch'}),
-        [false, false, true]
+        [false, false, true],
       );
 
       checkPowerless(
-        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'oklch'})
+        new SassColor({lightness: 0, chroma: 100, hue: 0, space: 'oklch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'oklch'})
+        new SassColor({lightness: 0, chroma: 100, hue: 100, space: 'oklch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'oklch'})
+        new SassColor({lightness: 100, chroma: 100, hue: 100, space: 'oklch'}),
       );
       checkPowerless(
-        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'oklch'})
+        new SassColor({lightness: 100, chroma: 100, hue: 0, space: 'oklch'}),
       );
     });
   });
@@ -316,7 +321,7 @@ describe('Color 4 SassColor Channels', () => {
   describe('parsed from Sass code', () => {
     it('parses defined values', () => {
       const color = evaluateExpression(
-        `color(display-p3 ${spaces['display-p3'].pink.join(' ')} / 0.5)`
+        `color(display-p3 ${spaces['display-p3'].pink.join(' ')} / 0.5)`,
       ) as SassColor;
       expect(color.channels).toFuzzyEqualList(spaces['display-p3'].pink);
       expect(color.alpha).toFuzzyEqual(0.5);
@@ -325,7 +330,7 @@ describe('Color 4 SassColor Channels', () => {
     // Regression test for sass/sass#3950
     it('parses missing values', () => {
       const color = evaluateExpression(
-        'color(display-p3 0 none 1 / none)'
+        'color(display-p3 0 none 1 / none)',
       ) as SassColor;
       expect(color.channelsOrNull).toFuzzyEqualList([0, null, 1]);
       expect(color.isChannelMissing('alpha')).toBeTrue();
@@ -338,10 +343,10 @@ describe('Color 4 SassColor Channels', () => {
         serializeValue(
           spaces['display-p3']
             .constructor(...spaces['display-p3'].pink)
-            .change({alpha: 0.5})
-        )
+            .change({alpha: 0.5}),
+        ),
       ).toEqual(
-        'color(display-p3 0.9510333334 0.6749909746 0.7568568354 / 0.5)'
+        'color(display-p3 0.9510333334 0.6749909746 0.7568568354 / 0.5)',
       ));
 
     // Regression test for sass/sass#3950
@@ -354,8 +359,8 @@ describe('Color 4 SassColor Channels', () => {
             blue: 1,
             alpha: null,
             space: 'display-p3',
-          })
-        )
+          }),
+        ),
       ).toEqual('color(display-p3 0 none 1 / none)'));
   });
 });
@@ -366,7 +371,7 @@ describe('Color 4 SassColor Channels', () => {
  */
 function checkPowerless(
   color: SassColor,
-  powerless = [false, false, false]
+  powerless = [false, false, false],
 ): void {
   it(`${color}: ${powerless}`, () => {
     const space = spaces[color.space]!;

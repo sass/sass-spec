@@ -1,6 +1,6 @@
 import {fromRoot} from './lib/spec-directory';
 import {Interactor} from './lib/interactor';
-import {parseArgs, CliArgs} from './lib/cli-args';
+import {CliArgs, parseArgs} from './lib/cli-args';
 import TestCase from './lib/test-case';
 import Tabulator from './lib/tabulator';
 
@@ -31,7 +31,7 @@ async function runAllTests() {
           trimErrors: args.trimErrors,
           skipWarning: args.skipWarning,
           ignoreErrorDiffs: args.ignoreErrorDiffs,
-        }
+        },
       );
       if (test.result().type === 'fail' && args.interactive) {
         await interactor.prompt(test);

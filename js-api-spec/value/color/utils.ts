@@ -22,7 +22,7 @@ export function channelCases(ch1: number, ch2: number, ch3: number) {
     [...channels, 0.5],
     [...channels, null],
   ]) as [
-    [number | null, number | null, number | null, number | null | undefined]
+    [number | null, number | null, number | null, number | null | undefined],
   ];
 }
 

@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {SassMixin, compileString, Value} from 'sass';
+import {SassMixin, Value, compileString} from 'sass';
 
 import {spy} from '../utils';
 
@@ -38,8 +38,8 @@ it('can round-trip a mixin reference from Sass', () => {
     `,
       {
         functions: {'foo($arg)': fn},
-      }
-    ).css
+      },
+    ).css,
   ).toBe('a {\n  b: c;\n}');
 
   expect(fn).toHaveBeenCalled();
@@ -66,7 +66,7 @@ it('rejects a compiler mixin from a different compilation', () => {
           return a;
         },
       },
-    }
+    },
   );
 
   let b;
@@ -89,7 +89,7 @@ it('rejects a compiler mixin from a different compilation', () => {
             return a!;
           },
         },
-      }
+      },
     );
   }).toThrowSassException({line: 8});
 

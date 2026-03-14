@@ -4,14 +4,14 @@
 
 import type {CompileResult, Importer} from 'sass';
 import {
-  initAsyncCompiler,
-  initCompiler,
-  SassString,
   AsyncCompiler,
   Compiler,
+  SassString,
+  initAsyncCompiler,
+  initCompiler,
 } from 'sass';
 
-import {spy, URL} from './utils';
+import {URL, spy} from './utils';
 
 export const functions = {
   'foo($args)': (args: unknown) => new SassString(`${args}`),
@@ -74,10 +74,10 @@ describe('Compiler', () => {
       const logger = getLogger();
       const result = compiler.compileString(
         '@use "bar"; .fn {value: foo(baz)}',
-        {importers, functions, logger}
+        {importers, functions, logger},
       );
       expect(result.css).toEqualIgnoringWhitespace(
-        '.import {value: bar;} .fn {value: "baz";}'
+        '.import {value: bar;} .fn {value: "baz";}',
       );
       expect(logger.debug).toHaveBeenCalledTimes(1);
     });
@@ -115,7 +115,7 @@ describe('Compiler', () => {
     class Untyped {}
     const UntypedCompiler = Compiler as unknown as typeof Untyped;
     expect(() => new UntypedCompiler()).toThrowError(
-      /Compiler can not be directly constructed/
+      /Compiler can not be directly constructed/,
     );
   });
 });
@@ -144,14 +144,14 @@ describe('AsyncCompiler', () => {
               importers: asyncImporters,
               functions,
               logger,
-            }
-          )
+            },
+          ),
         );
       Array.from(await Promise.all(compilations))
         .map((result: CompileResult) => result.css)
         .forEach((result, i) => {
           expect(result).toEqualIgnoringWhitespace(
-            `.import {value: ${i};} .fn {value: "${i}";}`
+            `.import {value: ${i};} .fn {value: "${i}";}`,
           );
         });
       expect(logger.debug).toHaveBeenCalledTimes(runs);
@@ -160,14 +160,14 @@ describe('AsyncCompiler', () => {
     it('throws after being disposed', async () => {
       await compiler.dispose();
       expect(() =>
-        compiler.compileStringAsync('$a: b; c {d: $a}')
+        compiler.compileStringAsync('$a: b; c {d: $a}'),
       ).toThrowError();
     });
 
     it('waits for compilations to finish before disposing', async () => {
       let completed = false;
       const {importer, triggerComplete} = getTriggeredImporter(
-        () => (completed = true)
+        () => (completed = true),
       );
       const compilation = compiler.compileStringAsync('@use "slow"', {
         importers: [importer],
@@ -184,7 +184,7 @@ describe('AsyncCompiler', () => {
 
     it('succeeds after a compilation failure', async () => {
       expectAsync(
-        async () => await compiler.compileStringAsync('a')
+        async () => await compiler.compileStringAsync('a'),
       ).toThrowSassException({
         includes: 'expected "{"',
       });
@@ -199,7 +199,7 @@ describe('AsyncCompiler', () => {
     class Untyped {}
     const UntypedAsyncCompiler = AsyncCompiler as unknown as typeof Untyped;
     expect(() => new UntypedAsyncCompiler()).toThrowError(
-      /AsyncCompiler can not be directly constructed/
+      /AsyncCompiler can not be directly constructed/,
     );
   });
 });

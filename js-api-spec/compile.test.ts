@@ -14,26 +14,26 @@ describe('compileString', () => {
 
       it('compiles SCSS with explicit syntax', () => {
         expect(compileString('$a: b; c {d: $a}', {syntax: 'scss'}).css).toBe(
-          'c {\n  d: b;\n}'
+          'c {\n  d: b;\n}',
         );
       });
 
       it('compiles indented syntax with explicit syntax', () => {
         expect(compileString('a\n  b: c', {syntax: 'indented'}).css).toBe(
-          'a {\n  b: c;\n}'
+          'a {\n  b: c;\n}',
         );
       });
 
       it('compiles plain CSS with explicit syntax', () => {
         expect(compileString('a {b: c}', {syntax: 'css'}).css).toBe(
-          'a {\n  b: c;\n}'
+          'a {\n  b: c;\n}',
         );
       });
     });
 
     it('recognizes the expanded output style', () => {
       expect(compileString('a {b: c}', {style: 'expanded'}).css).toBe(
-        'a {\n  b: c;\n}'
+        'a {\n  b: c;\n}',
       );
     });
 
@@ -72,13 +72,13 @@ describe('compileString', () => {
     describe('charset', () => {
       it('emits @charset "UTF-8" or BOM for non-ASCII CSS by default', () => {
         expect(compileString('a {b: あ;}').css).toBe(
-          '@charset "UTF-8";\na {\n  b: あ;\n}'
+          '@charset "UTF-8";\na {\n  b: あ;\n}',
         );
       });
 
       it("doesn't emit @charset or BOM if charset is false", () => {
         expect(compileString('a {b: あ;}', {charset: false}).css).toBe(
-          'a {\n  b: あ;\n}'
+          'a {\n  b: あ;\n}',
         );
       });
     });
@@ -87,7 +87,7 @@ describe('compileString', () => {
   describe('error', () => {
     it('requires plain CSS with explicit syntax', () => {
       expect(() =>
-        compileString('$a: b; c {d: $a}', {syntax: 'css'})
+        compileString('$a: b; c {d: $a}', {syntax: 'css'}),
       ).toThrowSassException({line: 0, noUrl: true});
     });
 
@@ -95,7 +95,7 @@ describe('compileString', () => {
       expect(() =>
         compileString('a {b: c}', {
           style: 'unrecognized style' as OutputStyle,
-        })
+        }),
       ).toThrowError();
     });
 
@@ -103,7 +103,7 @@ describe('compileString', () => {
       expect(() =>
         compileString('a {b: c}', {
           style: 'unrecognized style' as OutputStyle,
-        })
+        }),
       ).not.toThrowSassException();
     });
 
@@ -122,13 +122,13 @@ describe('compileStringAsync returns a promise that', () => {
   describe('fails when compilation fails', () => {
     it('with a syntax error', async () => {
       await expectAsync(() => compileStringAsync('a {b:')).toThrowSassException(
-        {line: 0}
+        {line: 0},
       );
     });
 
     it('with a runtime error', async () => {
       await expectAsync(() =>
-        compileStringAsync('@error "oh no";')
+        compileStringAsync('@error "oh no";'),
       ).toThrowSassException({line: 0});
     });
   });

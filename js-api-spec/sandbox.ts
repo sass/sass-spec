@@ -20,15 +20,15 @@ export async function sandbox(
   options?: {
     // Directories to put in the SASS_PATH env variable before running test.
     sassPathDirs?: string[];
-  }
+  },
 ): Promise<void> {
   const testDir = p.resolve(
-    p.join('spec', 'sandbox', `${Math.random()}`.slice(2))
+    p.join('spec', 'sandbox', `${Math.random()}`.slice(2)),
   );
   fs.mkdirSync(testDir, {recursive: true});
   if (options?.sassPathDirs) {
     process.env.SASS_PATH = options.sassPathDirs.join(
-      process.platform === 'win32' ? ';' : ':'
+      process.platform === 'win32' ? ';' : ':',
     );
   }
   try {
@@ -51,7 +51,7 @@ export async function sandbox(
         },
         chdir: async (
           callback: () => unknown,
-          options?: {entryPoint: string}
+          options?: {entryPoint: string},
         ) => {
           const oldPath = process.cwd();
           process.chdir(testDir);
@@ -67,7 +67,7 @@ export async function sandbox(
             if (oldEntryPoint) require.main!.filename = oldEntryPoint;
           }
         },
-      })
+      }),
     );
   } finally {
     if (options?.sassPathDirs) process.env.SASS_PATH = undefined;

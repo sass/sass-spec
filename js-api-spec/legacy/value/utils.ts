@@ -13,7 +13,7 @@ import {spy} from '../../utils';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseValue<T extends new (...args: any[]) => any>(
   source: string,
-  constructor: T
+  constructor: T,
 ): InstanceType<T> {
   let value: InstanceType<T> | undefined;
 

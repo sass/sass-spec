@@ -44,7 +44,7 @@ describe('from a parameter', () => {
             }) as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: rgba(11, 22, 33, 0.5); c: #abc; }'));
 
   it('channels are clamped to the valid range', () => {
@@ -116,6 +116,6 @@ describe('from a constructor', () => {
 
   it('has a useful .constructor.name', () =>
     expect(new sass.types.Color(11, 12, 13).constructor.name).toBe(
-      'sass.types.Color'
+      'sass.types.Color',
     ));
 });

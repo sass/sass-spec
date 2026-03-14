@@ -1,12 +1,12 @@
 import type {SpecDirectory} from '../spec-directory';
 import {Compiler} from '../compiler';
 import {
-  failures,
+  SassResult,
   TestResult,
+  TodoMode,
+  failures,
   getExpectedFiles,
   overwriteResults,
-  SassResult,
-  TodoMode,
 } from './util';
 import {CompareOptions, compareResults} from './compare';
 import {getExpectedResult} from './expected';
@@ -32,7 +32,7 @@ export default class TestCase {
     impl: string,
     compiler: Compiler,
     todoMode: TodoMode,
-    private compareOpts?: CompareOptions
+    private compareOpts?: CompareOptions,
   ) {
     this.dir = dir;
     this.impl = impl;
@@ -48,7 +48,7 @@ export default class TestCase {
     impl: string,
     compiler: Compiler,
     todoMode?: TodoMode,
-    compareOpts?: CompareOptions
+    compareOpts?: CompareOptions,
   ): Promise<TestCase> {
     const testCase = new TestCase(dir, impl, compiler, todoMode, compareOpts);
     try {
@@ -88,7 +88,7 @@ export default class TestCase {
 
     const {stdout, stderr, status} = await this.compiler.compile(
       this.dir.path,
-      cmdArgs
+      cmdArgs,
     );
 
     // stderr can contain extra trailing newlines which just clog up the HRX
@@ -173,7 +173,9 @@ export default class TestCase {
     await overwriteResults(this.dir, this.actual());
     // delete any override files for this impl
     await Promise.all(
-      getExpectedFiles(this.impl).map(filename => this.dir.removeFile(filename))
+      getExpectedFiles(this.impl).map(filename =>
+        this.dir.removeFile(filename),
+      ),
     );
     await this.dir.removeOptionForImpl(this.impl, ':todo');
     this._result = {type: 'pass'};

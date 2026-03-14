@@ -17,10 +17,10 @@ describe('result comparison', () => {
 
     it('collapses input paths', () => {
       expect(normalizeOutput('Error at /long-dir/input.scss')).toEqual(
-        'Error at input.scss'
+        'Error at input.scss',
       );
       expect(normalizeOutput('Error at /long-dir/input.sass')).toEqual(
-        'Error at input.sass'
+        'Error at input.sass',
       );
     });
   });
@@ -35,7 +35,7 @@ Error: ordinal arguments must precede named arguments
    ------------------^
    `;
       expect(extractErrorMessage(input)).toEqual(
-        'Error: ordinal arguments must precede named arguments'
+        'Error: ordinal arguments must precede named arguments',
       );
     });
 
@@ -60,7 +60,7 @@ a #b is not a string in (a #b: d).
   input.scss 1:14  root stylesheet
       `;
       expect(extractErrorMessage(input1)).not.toEqual(
-        extractErrorMessage(input2)
+        extractErrorMessage(input2),
       );
     });
   });

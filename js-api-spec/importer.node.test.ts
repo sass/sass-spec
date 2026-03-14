@@ -4,11 +4,11 @@
 
 import {URL} from 'url';
 import {
+  CanonicalizeContext,
+  Importer,
   compile,
   compileString,
   compileStringAsync,
-  CanonicalizeContext,
-  Importer,
 } from 'sass';
 
 import {sandbox} from './sandbox';
@@ -296,7 +296,7 @@ describe('FileImporter', () => {
             {
               findFileUrl: (url: string, context: CanonicalizeContext) => {
                 expect(context.containingUrl).toEqual(
-                  new URL('x:original.scss')
+                  new URL('x:original.scss'),
                 );
                 return dir.url('other');
               },
@@ -315,7 +315,7 @@ describe('FileImporter', () => {
             {
               findFileUrl: (url: string, context: CanonicalizeContext) => {
                 expect(context.containingUrl).toEqual(
-                  new URL('x:original.scss')
+                  new URL('x:original.scss'),
                 );
                 return dir.url('other');
               },
@@ -365,7 +365,7 @@ describe('FileImporter', () => {
               findFileUrl: () => Promise.reject('this import is bad actually'),
             },
           ],
-        })
+        }),
       ).toThrowSassException({line: 0});
     });
   });
@@ -388,7 +388,7 @@ describe('FileImporter', () => {
       expect(
         compile(dir('main.scss'), {
           importers: [{findFileUrl}],
-        }).css.toString()
+        }).css.toString(),
       ).toEqualIgnoringWhitespace('x { from: sub1; } x { from: sub2; }');
 
       expect(findFileUrl).toHaveBeenCalledTimes(2);
@@ -415,5 +415,5 @@ it(
 
       expect(callback).toThrow();
       expect(callback).not.toThrowSassException();
-    })
+    }),
 );

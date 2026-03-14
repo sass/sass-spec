@@ -31,7 +31,7 @@ describe('from a constant', () => {
 describe('the constructor throws', () => {
   it('with a parameter', () =>
     expect(
-      () => new (sass.types.Boolean as new (value: boolean) => unknown)(true)
+      () => new (sass.types.Boolean as new (value: boolean) => unknown)(true),
     ).toThrow());
 
   it('with no parameters', () =>

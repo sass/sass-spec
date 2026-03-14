@@ -3,13 +3,13 @@
 // https://opensource.org/licenses/MIT.
 
 import {
-  Value,
+  CalculationInterpolation,
+  CalculationOperation,
+  CalculationOperator,
   SassCalculation,
   SassNumber,
   SassString,
-  CalculationOperation,
-  CalculationOperator,
-  CalculationInterpolation,
+  Value,
   compileString,
   compileStringAsync,
 } from 'sass';
@@ -82,7 +82,7 @@ describe('SassCalculation', () => {
       ]);
       expect(result.name).toBe('min');
       expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2)])
+        List([new SassNumber(1), new SassNumber(2)]),
       );
     });
 
@@ -96,10 +96,10 @@ describe('SassCalculation', () => {
     it('accepts valid arguments', () => {
       for (const value of validCalculationValues) {
         expect(() =>
-          SassCalculation.min([value, new SassNumber(2)])
+          SassCalculation.min([value, new SassNumber(2)]),
         ).not.toThrow();
         expect(() =>
-          SassCalculation.min([new SassNumber(1), value])
+          SassCalculation.min([new SassNumber(1), value]),
         ).not.toThrow();
       }
     });
@@ -113,7 +113,7 @@ describe('SassCalculation', () => {
       ]);
       expect(result.name).toBe('max');
       expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2)])
+        List([new SassNumber(1), new SassNumber(2)]),
       );
     });
 
@@ -127,10 +127,10 @@ describe('SassCalculation', () => {
     it('accepts valid arguments', () => {
       for (const value of validCalculationValues) {
         expect(() =>
-          SassCalculation.max([value, new SassNumber(2)])
+          SassCalculation.max([value, new SassNumber(2)]),
         ).not.toThrow();
         expect(() =>
-          SassCalculation.max([new SassNumber(1), value])
+          SassCalculation.max([new SassNumber(1), value]),
         ).not.toThrow();
       }
     });
@@ -141,24 +141,24 @@ describe('SassCalculation', () => {
       const result = SassCalculation.clamp(
         new SassNumber(1),
         new SassNumber(2),
-        new SassNumber(3)
+        new SassNumber(3),
       );
       expect(result.name).toBe('clamp');
       expect(result.arguments).toEqualWithHash(
-        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)])
+        List([new SassNumber(1), new SassNumber(2), new SassNumber(3)]),
       );
     });
 
     it('rejects invalid arguments', () => {
       for (const value of invalidCalculationValues) {
         expect(() =>
-          SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3))
+          SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3)),
         ).toThrow();
         expect(() =>
-          SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3))
+          SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3)),
         ).toThrow();
         expect(() =>
-          SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
+          SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value),
         ).toThrow();
       }
     });
@@ -166,13 +166,13 @@ describe('SassCalculation', () => {
     it('accepts valid arguments', () => {
       for (const value of validCalculationValues) {
         expect(() =>
-          SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3))
+          SassCalculation.clamp(value, new SassNumber(2), new SassNumber(3)),
         ).not.toThrow();
         expect(() =>
-          SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3))
+          SassCalculation.clamp(new SassNumber(1), value, new SassNumber(3)),
         ).not.toThrow();
         expect(() =>
-          SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value)
+          SassCalculation.clamp(new SassNumber(1), new SassNumber(2), value),
         ).not.toThrow();
       }
     });
@@ -217,13 +217,13 @@ describe('SassCalculation', () => {
     it('calc()', () => {
       const fn = () =>
         SassCalculation.calc(
-          new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+          new CalculationOperation('+', new SassNumber(1), new SassNumber(2)),
         );
 
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: 3;\n}');
     });
 
@@ -234,14 +234,14 @@ describe('SassCalculation', () => {
           new CalculationOperation(
             '+',
             new SassNumber(1, 'px'),
-            new SassNumber(2, '%')
-          )
+            new SassNumber(2, '%'),
+          ),
         );
 
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: calc(1px + 2%);\n}');
     });
 
@@ -250,13 +250,13 @@ describe('SassCalculation', () => {
         SassCalculation.clamp(
           new SassNumber(1),
           new SassNumber(2),
-          new SassNumber(3)
+          new SassNumber(3),
         );
 
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: 2;\n}');
     });
 
@@ -267,7 +267,7 @@ describe('SassCalculation', () => {
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: 1;\n}');
     });
 
@@ -278,7 +278,7 @@ describe('SassCalculation', () => {
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: 2;\n}');
     });
 
@@ -297,24 +297,24 @@ describe('SassCalculation', () => {
                 new CalculationOperation(
                   '/',
                   new SassNumber(4),
-                  new SassNumber(5)
-                )
-              )
-            )
-          )
+                  new SassNumber(5),
+                ),
+              ),
+            ),
+          ),
         );
 
       expect(
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        }).css
+        }).css,
       ).toBe('a {\n  b: 16.2;\n}');
     });
 
     it('asynchronously', async () => {
       const fn = async () =>
         SassCalculation.calc(
-          new CalculationOperation('+', new SassNumber(1), new SassNumber(2))
+          new CalculationOperation('+', new SassNumber(1), new SassNumber(2)),
         );
 
       const result = await compileStringAsync('a {b: foo()}', {
@@ -332,7 +332,7 @@ describe('SassCalculation', () => {
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        })
+        }),
       ).toThrow();
     });
 
@@ -341,7 +341,7 @@ describe('SassCalculation', () => {
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': fn},
-        })
+        }),
       ).toThrowError(/SassString or CalculationInterpolation/);
     });
 
@@ -352,7 +352,7 @@ describe('SassCalculation', () => {
       expect(() =>
         compileString('a {b: foo()}', {
           functions: {'foo()': () => foo},
-        })
+        }),
       ).toThrowError(/"foo" is not a recognized calculation type/);
     });
   });
@@ -370,8 +370,8 @@ describe('CalculationOperation', () => {
             new CalculationOperation(
               operator as CalculationOperator,
               new SassNumber(1),
-              new SassNumber(2)
-            )
+              new SassNumber(2),
+            ),
         ).toThrow();
       }
     });
@@ -383,8 +383,8 @@ describe('CalculationOperation', () => {
             new CalculationOperation(
               operator as CalculationOperator,
               new SassNumber(1),
-              new SassNumber(2)
-            )
+              new SassNumber(2),
+            ),
         ).not.toThrow();
       }
     });
@@ -392,10 +392,10 @@ describe('CalculationOperation', () => {
     it('rejects invalid operands', () => {
       for (const operand of invalidCalculationValues) {
         expect(
-          () => new CalculationOperation('+', operand, new SassNumber(1))
+          () => new CalculationOperation('+', operand, new SassNumber(1)),
         ).toThrow();
         expect(
-          () => new CalculationOperation('+', new SassNumber(1), operand)
+          () => new CalculationOperation('+', new SassNumber(1), operand),
         ).toThrow();
       }
     });
@@ -403,10 +403,10 @@ describe('CalculationOperation', () => {
     it('accepts valid operands', () => {
       for (const operand of validCalculationValues) {
         expect(
-          () => new CalculationOperation('+', operand, new SassNumber(1))
+          () => new CalculationOperation('+', operand, new SassNumber(1)),
         ).not.toThrow();
         expect(
-          () => new CalculationOperation('+', new SassNumber(1), operand)
+          () => new CalculationOperation('+', new SassNumber(1), operand),
         ).not.toThrow();
       }
     });
@@ -418,7 +418,7 @@ describe('CalculationOperation', () => {
       operation = new CalculationOperation(
         '+',
         new SassNumber(1),
-        new SassNumber(2)
+        new SassNumber(2),
       );
     });
 

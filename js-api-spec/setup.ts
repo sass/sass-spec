@@ -130,7 +130,7 @@ interface ToThrowSassExceptionOptions {
 
 const toThrowSassException = (
   received: unknown,
-  options: ToThrowSassExceptionOptions = {}
+  options: ToThrowSassExceptionOptions = {},
 ) => {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
@@ -150,7 +150,7 @@ const toThrowSassException = (
 
 const toThrowSassExceptionAsync = (
   received: unknown,
-  options: ToThrowSassExceptionOptions = {}
+  options: ToThrowSassExceptionOptions = {},
 ) => {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
@@ -163,7 +163,7 @@ const toThrowSassExceptionAsync = (
         message: `expected ${received} to throw`,
         pass: false,
       }),
-      (thrown: unknown) => verifyThrown(thrown, options)
+      (thrown: unknown) => verifyThrown(thrown, options),
     );
   } catch (thrown: unknown) {
     return verifyThrown(thrown, options);
@@ -172,7 +172,7 @@ const toThrowSassExceptionAsync = (
 
 const toThrowLegacyException = (
   received: unknown,
-  options: {line?: number; file?: string; includes?: string} = {}
+  options: {line?: number; file?: string; includes?: string} = {},
 ) => {
   if (typeof received !== 'function') {
     throw new Error('Received value must be a function');
@@ -382,7 +382,7 @@ const toLooselyEqualColor = (received: unknown, actual: sass.SassColor) => {
   });
   const plural = unequalIndices.length !== 1;
   const indexMessage = `${plural ? 'indices' : 'index'} ${unequalIndices.join(
-    ','
+    ',',
   )}`;
   return {
     message: `expected ${received} to loosely equal ${actual}, but channels at ${indexMessage} differ`,
@@ -413,7 +413,7 @@ const toFuzzyEqualList = (received: unknown, actual: unknown[]) => {
     }
     if (typeof receivedItem === 'number' && typeof actualItem === 'number') {
       pass = new sass.SassNumber(receivedItem).equals(
-        new sass.SassNumber(actualItem)
+        new sass.SassNumber(actualItem),
       );
       message = `expected ${receivedItem} to fuzzy equal ${actual[index]} at index ${index}`;
     } else {
@@ -475,7 +475,7 @@ function isSassException(thrown: unknown): thrown is sass.Exception {
  */
 function verifyThrown(
   thrown: unknown,
-  {line, url, noUrl, includes}: ToThrowSassExceptionOptions
+  {line, url, noUrl, includes}: ToThrowSassExceptionOptions,
 ) {
   if (!isSassException(thrown)) {
     return {

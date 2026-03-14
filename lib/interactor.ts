@@ -53,7 +53,7 @@ const options: InteractorOption[] = [
     },
     resolve(test) {
       const actual = test.actual();
-      return actual.isSuccess ? actual.warning ?? '' : actual.error;
+      return actual.isSuccess ? (actual.warning ?? '') : actual.error;
     },
   },
   {

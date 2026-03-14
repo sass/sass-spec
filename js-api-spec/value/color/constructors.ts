@@ -8,7 +8,7 @@ export type Constructor = (
   channel1: number | null,
   channel2: number | null,
   channel3: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ) => SassColor;
 
 /** A utility function for creating an RGB color without specifying a space. */
@@ -16,7 +16,7 @@ export function legacyRGB(
   red: number,
   green: number,
   blue: number,
-  alpha?: number
+  alpha?: number,
 ): SassColor {
   return new SassColor({red, green, blue, alpha});
 }
@@ -26,7 +26,7 @@ export function rgb(
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'rgb'});
 }
@@ -36,7 +36,7 @@ export function legacyHsl(
   hue: number,
   saturation: number,
   lightness: number,
-  alpha?: number
+  alpha?: number,
 ): SassColor {
   return new SassColor({hue, saturation, lightness, alpha});
 }
@@ -46,7 +46,7 @@ export const hsl: Constructor = function (
   hue: number | null,
   saturation: number | null,
   lightness: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({hue, saturation, lightness, alpha, space: 'hsl'});
 };
@@ -56,7 +56,7 @@ export const legacyHwb: Constructor = function (
   hue: number | null,
   whiteness: number | null,
   blackness: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha});
 };
@@ -66,7 +66,7 @@ export const hwb: Constructor = function (
   hue: number | null,
   whiteness: number | null,
   blackness: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({hue, whiteness, blackness, alpha, space: 'hwb'});
 };
@@ -76,7 +76,7 @@ export const lab: Constructor = function (
   lightness: number | null,
   a: number | null,
   b: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'lab'});
 };
@@ -85,7 +85,7 @@ export const oklab: Constructor = function (
   lightness: number | null,
   a: number | null,
   b: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({lightness, a, b, alpha, space: 'oklab'});
 };
@@ -94,7 +94,7 @@ export const lch: Constructor = function (
   lightness: number | null,
   chroma: number | null,
   hue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'lch'});
 };
@@ -103,7 +103,7 @@ export const oklch: Constructor = function (
   lightness: number | null,
   chroma: number | null,
   hue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({lightness, chroma, hue, alpha, space: 'oklch'});
 };
@@ -113,7 +113,7 @@ export const srgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb'});
 };
@@ -122,7 +122,7 @@ export const srgbLinear: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'srgb-linear'});
 };
@@ -131,7 +131,7 @@ export const rec2020: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'rec2020'});
 };
@@ -140,7 +140,7 @@ export const displayP3: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'display-p3'});
 };
@@ -149,7 +149,7 @@ export const displayP3Linear: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'display-p3-linear'});
 };
@@ -158,7 +158,7 @@ export const a98Rgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'a98-rgb'});
 };
@@ -167,7 +167,7 @@ export const prophotoRgb: Constructor = function (
   red: number | null,
   green: number | null,
   blue: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({red, green, blue, alpha, space: 'prophoto-rgb'});
 };
@@ -177,7 +177,7 @@ export const xyz: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz'});
 };
@@ -187,7 +187,7 @@ export const xyzD50: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d50'});
 };
@@ -197,7 +197,7 @@ export const xyzD65: Constructor = function (
   x: number | null,
   y: number | null,
   z: number | null,
-  alpha?: number | null
+  alpha?: number | null,
 ): SassColor {
   return new SassColor({x, y, z, alpha, space: 'xyz-d65'});
 };
