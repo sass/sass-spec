@@ -36,7 +36,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: bar; c: foo; }'));
 
   it('a quoted string becomes unquoted when its value is set', () =>
@@ -52,7 +52,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: bar; }'));
 
   it('has a useful .constructor.name', () =>
@@ -75,11 +75,11 @@ describe('from a constructor', () => {
             'foo()': () => new sass.types.String('foo'),
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: foo; }'));
 
   it('has a useful .constructor.name', () =>
     expect(new sass.types.String('foo').constructor.name).toBe(
-      'sass.types.String'
+      'sass.types.String',
     ));
 });

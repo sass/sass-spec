@@ -22,7 +22,7 @@ describe('from a parameter', () => {
 
   it('a complex unit number returns its full units', () =>
     expect(
-      parseValue('calc(1px*1ms/1rad/1dpi)', sass.types.Number).getUnit()
+      parseValue('calc(1px*1ms/1rad/1dpi)', sass.types.Number).getUnit(),
     ).toBe('px*ms/rad*dpi'));
 
   it('a denominator-only unit starts with /', () =>
@@ -47,7 +47,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 42px; c: 1px; }'));
 
   it('the unit can be set without affecting the underlying number', () =>
@@ -69,7 +69,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1em; c: 1px; }'));
 
   it('the unit can be set to a complex unit', () =>
@@ -85,7 +85,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1px; }'));
 
   it('the unit can be set to denominator-only', () =>
@@ -101,7 +101,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1; }'));
 
   it('the unit can be unset', () =>
@@ -117,7 +117,7 @@ describe('from a parameter', () => {
             },
           } as Record<string, sass.LegacySyncFunction>,
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: true; }'));
 
   it('rejects invalid unit formats', () => {
@@ -158,11 +158,11 @@ describe('from a constructor', () => {
             },
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1px; }'));
 
   it('has a useful .constructor.name', () =>
     expect(new sass.types.Number(123).constructor.name).toBe(
-      'sass.types.Number'
+      'sass.types.Number',
     ));
 });

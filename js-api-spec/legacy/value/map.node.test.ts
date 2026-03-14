@@ -55,7 +55,7 @@ describe('from a parameter', () => {
             }) as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1; c: d; }'));
 
   it('keys can be set without affecting the underlying map', () =>
@@ -77,7 +77,7 @@ describe('from a parameter', () => {
             }) as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: d; }'));
 
   it('rejects a duplicate key', () =>

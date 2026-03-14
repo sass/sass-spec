@@ -15,7 +15,7 @@ describe('compileString', () => {
       it("doesn't take its syntax from the URL's extension", () => {
         // Shouldn't parse the file as the indented syntax.
         expect(
-          compileString('a {b: c}', {url: new URL('file:///foo.sass')}).css
+          compileString('a {b: c}', {url: new URL('file:///foo.sass')}).css,
         ).toBe('a {\n  b: c;\n}');
       });
     });
@@ -64,7 +64,7 @@ describe('compileString', () => {
               '_upstream.scss': 'a {b: c}',
             });
             expect(
-              compileString('@use "left"; @use "right"', {url}).loadedUrls
+              compileString('@use "left"; @use "right"', {url}).loadedUrls,
             ).toEqual([
               url,
               dir.url('_left.scss'),
@@ -86,7 +86,7 @@ describe('compileString', () => {
                 url,
                 // TODO(jathak): Add this once import deprecation is active
                 // silenceDeprecations: ['import'],
-              }).loadedUrls
+              }).loadedUrls,
             ).toEqual([
               url,
               dir.url('_left.scss'),
@@ -104,7 +104,7 @@ describe('compileString', () => {
         expect(
           compileString('@use "other";', {
             url: dir.url('foo/bar/style.scss'),
-          }).css
+          }).css,
         ).toBe('a {\n  b: c;\n}');
       }));
 
@@ -116,7 +116,7 @@ describe('compileString', () => {
           expect(
             compileString('@use "other";', {
               loadPaths: [dir('foo/bar')],
-            }).css
+            }).css,
           ).toBe('a {\n  b: c;\n}');
         }));
 
@@ -127,7 +127,7 @@ describe('compileString', () => {
           expect(
             compileString('@use "bar/other";', {
               loadPaths: [dir('foo')],
-            }).css
+            }).css,
           ).toBe('a {\n  b: c;\n}');
         }));
 
@@ -138,7 +138,7 @@ describe('compileString', () => {
           expect(
             compileString('@use "other";', {
               loadPaths: [dir('foo'), dir('bar'), dir('baz')],
-            }).css
+            }).css,
           ).toBe('a {\n  b: c;\n}');
         }));
 
@@ -153,7 +153,7 @@ describe('compileString', () => {
             compileString('@use "other";', {
               loadPaths: [dir('load-path')],
               url: dir.url('url/input.scss'),
-            }).css
+            }).css,
           ).toBe('a {\n  b: url;\n}');
         }));
 
@@ -167,7 +167,7 @@ describe('compileString', () => {
           expect(
             compileString('@use "other";', {
               loadPaths: [dir('earlier'), dir('later')],
-            }).css
+            }).css,
           ).toBe('a {\n  b: earlier;\n}');
         }));
     });
@@ -179,7 +179,7 @@ describe('compileString', () => {
         dir.write({'_other.scss': 'a {b: c}'});
 
         expect(() =>
-          compileString(`@use "${dir.relativeUrl('other')}";`)
+          compileString(`@use "${dir.relativeUrl('other')}";`),
         ).toThrowSassException({
           line: 0,
           noUrl: true,
@@ -193,7 +193,7 @@ describe('compileString', () => {
         expect(() =>
           compileString(`@use "${dir.relativeUrl('other')}";`, {
             url: new URL('unknown:style.scss'),
-          })
+          }),
         ).toThrowSassException({
           line: 0,
           url: 'unknown:style.scss',
@@ -214,7 +214,7 @@ describe('compileString', () => {
         sandbox(dir => {
           const url = dir.url('foo.scss');
           expect(() =>
-            compileString('@error "oh no"', {url})
+            compileString('@error "oh no"', {url}),
           ).toThrowSassException({line: 0, url});
         }));
 
@@ -222,7 +222,7 @@ describe('compileString', () => {
         sandbox(dir => {
           const url = dir.url('foo.scss');
           expect(() =>
-            compileString('@use "sass:math"; @use "sass:math"', {url})
+            compileString('@use "sass:math"; @use "sass:math"', {url}),
           ).toThrowSassException({line: 0, url});
         }));
     });
@@ -303,7 +303,7 @@ describe('compile', () => {
           });
 
           expect(
-            compile(dir('input.scss'), {loadPaths: [dir('foo/bar')]}).css
+            compile(dir('input.scss'), {loadPaths: [dir('foo/bar')]}).css,
           ).toBe('a {\n  b: c;\n}');
         }));
 
@@ -316,7 +316,7 @@ describe('compile', () => {
           });
 
           expect(
-            compile(dir('url/input.scss'), {loadPaths: [dir('load-path')]}).css
+            compile(dir('url/input.scss'), {loadPaths: [dir('load-path')]}).css,
           ).toBe('a {\n  b: url;\n}');
         }));
     });
@@ -367,7 +367,7 @@ describe('compileAsync returns a promise that', () => {
       sandbox(async dir => {
         dir.write({'input.scss': 'a {b:'});
         await expectAsync(() =>
-          compileAsync(dir('input.scss'))
+          compileAsync(dir('input.scss')),
         ).toThrowSassException({
           line: 0,
         });
@@ -377,7 +377,7 @@ describe('compileAsync returns a promise that', () => {
       sandbox(async dir => {
         dir.write({'input.scss': '@error "oh no";'});
         await expectAsync(() =>
-          compileAsync(dir('input.scss'))
+          compileAsync(dir('input.scss')),
         ).toThrowSassException({
           line: 0,
         });

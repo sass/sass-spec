@@ -10,7 +10,7 @@ describe('SpecDirectory options', () => {
 :ignore_for:
   - libsass
 :precision: 3
-`.trimStart()
+`.trimStart(),
     );
     const options = await dir.options();
     expect(options.getMode('dart-sass')).toEqual('todo');
@@ -35,7 +35,7 @@ describe('SpecDirectory options', () => {
 :warning_todo:
   - libsass
 :precision: 4
-`.trimStart()
+`.trimStart(),
     );
     const childDir = await dir.atPath('child');
     const options = await childDir.options();
@@ -52,7 +52,7 @@ describe('SpecDirectory options', () => {
 :precision: 3
 <===> deep/child/options.yml
 :precision: 4
-`.trimStart()
+`.trimStart(),
     );
     const noOptsChild = await dir.atPath('deep');
     expect((await noOptsChild.options()).precision()).toEqual(3);
@@ -69,7 +69,7 @@ describe('SpecDirectory options', () => {
 :ignore_for:
   - libsass
 :precision: 3
-`.trimStart()
+`.trimStart(),
     );
     const options = await dir.options();
 
@@ -80,7 +80,7 @@ describe('SpecDirectory options', () => {
 :ignore_for:
   - libsass
 :precision: 3
-`.trimStart()
+`.trimStart(),
     );
   });
 });

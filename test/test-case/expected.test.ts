@@ -125,7 +125,7 @@ WARNING`);
   describe('thrown errors', () => {
     async function expectToThrow(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart());
-      expect(async () => {
+      await expect(async () => {
         await getExpectedResult(dir, 'sass-mock');
       }).rejects.toThrow();
     }

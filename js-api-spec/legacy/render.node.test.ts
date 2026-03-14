@@ -12,7 +12,7 @@ import {captureStdio, captureStdioAsync} from '../utils';
 describe('renderSync()', () => {
   it('one of data and file must be set', () => {
     expect(() =>
-      sass.renderSync({} as sass.LegacyOptions<'sync'>)
+      sass.renderSync({} as sass.LegacyOptions<'sync'>),
     ).toThrowLegacyException();
   });
 
@@ -21,7 +21,7 @@ describe('renderSync()', () => {
       sandbox(dir => {
         dir.write({'test.scss': 'a {b: c}'});
         expect(
-          sass.renderSync({file: dir('test.scss')}).css.toString()
+          sass.renderSync({file: dir('test.scss')}).css.toString(),
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
 
@@ -30,7 +30,7 @@ describe('renderSync()', () => {
         dir.write({'test.scss': 'a {b: c}'});
         dir.chdir(() => {
           expect(
-            sass.renderSync({file: 'test.scss'}).css.toString()
+            sass.renderSync({file: 'test.scss'}).css.toString(),
           ).toEqualIgnoringWhitespace('a { b: c; }');
         });
       }));
@@ -39,7 +39,7 @@ describe('renderSync()', () => {
       sandbox(dir => {
         dir.write({'test.sass': 'a\n  b: c'});
         expect(
-          sass.renderSync({file: dir('test.sass')}).css.toString()
+          sass.renderSync({file: dir('test.sass')}).css.toString(),
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
 
@@ -51,7 +51,7 @@ describe('renderSync()', () => {
             'importer.scss': '@use "other";',
           });
           expect(
-            sass.renderSync({file: dir('importer.scss')}).css.toString()
+            sass.renderSync({file: dir('importer.scss')}).css.toString(),
           ).toEqualIgnoringWhitespace('a { b: c; }');
         }));
 
@@ -64,7 +64,7 @@ describe('renderSync()', () => {
           });
           dir.chdir(() => {
             expect(
-              sass.renderSync({file: 'subdir/importer.scss'}).css.toString()
+              sass.renderSync({file: 'subdir/importer.scss'}).css.toString(),
             ).toEqualIgnoringWhitespace('a { b: c; }');
           });
         }));
@@ -77,11 +77,11 @@ describe('renderSync()', () => {
             // path should work here.
             'importer.scss': `@import "${dir('_other.scss').replace(
               /\\/g,
-              '\\\\'
+              '\\\\',
             )}";`,
           });
           expect(
-            sass.renderSync({file: dir('importer.scss')}).css.toString()
+            sass.renderSync({file: dir('importer.scss')}).css.toString(),
           ).toEqualIgnoringWhitespace('a { b: c; }');
         }));
 
@@ -93,7 +93,7 @@ describe('renderSync()', () => {
             'importer.scss': '@import "other";',
           });
           expect(
-            sass.renderSync({file: dir('importer.scss')}).css.toString()
+            sass.renderSync({file: dir('importer.scss')}).css.toString(),
           ).toEqualIgnoringWhitespace('a { b: import-only; }');
         }));
 
@@ -105,9 +105,9 @@ describe('renderSync()', () => {
             'importer.scss': '@use "other"; @import "other";',
           });
           expect(
-            sass.renderSync({file: dir('importer.scss')}).css.toString()
+            sass.renderSync({file: dir('importer.scss')}).css.toString(),
           ).toEqualIgnoringWhitespace(
-            'a { b: regular; } a { b: import-only; }'
+            'a { b: regular; } a { b: import-only; }',
           );
         }));
     });
@@ -116,7 +116,7 @@ describe('renderSync()', () => {
   describe('with data:', () => {
     it('renders a string', () =>
       expect(
-        sass.renderSync({data: 'a {b: c}'}).css.toString()
+        sass.renderSync({data: 'a {b: c}'}).css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }'));
 
     describe('loads', () => {
@@ -126,7 +126,7 @@ describe('renderSync()', () => {
           expect(
             sass
               .renderSync({data: '@use "test"', includePaths: [dir.root]})
-              .css.toString()
+              .css.toString(),
           ).toEqualIgnoringWhitespace('a { b: c; }');
         }));
 
@@ -141,8 +141,8 @@ describe('renderSync()', () => {
             expect(
               sass
                 .renderSync({data: '@use "test1"; @use "test2"'})
-                .css.toString()
-            ).toEqualIgnoringWhitespace('a { b: c; } x { y: z; }')
+                .css.toString(),
+            ).toEqualIgnoringWhitespace('a { b: c; } x { y: z; }'),
           );
         }));
 
@@ -160,8 +160,8 @@ describe('renderSync()', () => {
                   data: '@use "test"',
                   includePaths: [dir('dir2')],
                 })
-                .css.toString()
-            ).toEqualIgnoringWhitespace('x { y: z; }')
+                .css.toString(),
+            ).toEqualIgnoringWhitespace('x { y: z; }'),
           );
         }));
 
@@ -179,7 +179,7 @@ describe('renderSync()', () => {
                 data: '@use "sub/midstream"',
                 includePaths: [p.relative(process.cwd(), dir.root)],
               })
-              .css.toString()
+              .css.toString(),
           ).toEqualIgnoringWhitespace('a { b: c; }');
         }));
     });
@@ -192,7 +192,7 @@ describe('renderSync()', () => {
         expect(
           sass
             .renderSync({file: dir('test.scss'), data: 'x {y: z}'})
-            .css.toString()
+            .css.toString(),
         ).toEqualIgnoringWhitespace('x { y: z; }');
       }));
 
@@ -201,7 +201,7 @@ describe('renderSync()', () => {
         expect(
           sass
             .renderSync({file: dir('non-existent.scss'), data: 'a {b: c}'})
-            .css.toString()
+            .css.toString(),
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
 
@@ -211,7 +211,7 @@ describe('renderSync()', () => {
         expect(
           sass
             .renderSync({file: dir('test.scss'), data: '@use "other"'})
-            .css.toString()
+            .css.toString(),
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
   });
@@ -235,7 +235,7 @@ describe('renderSync()', () => {
         `,
       });
       expect(
-        sass.renderSync({file: dir('downstream.scss')}).css.toString()
+        sass.renderSync({file: dir('downstream.scss')}).css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 });
@@ -248,7 +248,7 @@ describe('render()', () => {
         expect(err).toBeFalsy();
         expect(result!.css.toString()).toBe('a {\n  b: c;\n}');
         done();
-      }
+      },
     );
   });
 
@@ -264,7 +264,7 @@ describe('render()', () => {
         expect(error.status).toBeNumber();
         expect(error.file).toBe('stdin');
         done();
-      }
+      },
     );
   });
 });
@@ -289,7 +289,7 @@ describe('options', () => {
       expect(
         sass
           .renderSync({data: 'a\n  b: c', indentedSyntax: true})
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }'));
 
     it('takes precedence over the file extension', () =>
@@ -298,7 +298,7 @@ describe('options', () => {
         expect(
           sass
             .renderSync({file: dir('test.scss'), indentedSyntax: true})
-            .css.toString()
+            .css.toString(),
         ).toEqualIgnoringWhitespace('a { b: c; }');
       }));
   });
@@ -308,14 +308,14 @@ describe('options', () => {
       expect(
         sass
           .renderSync({data: 'a {b: c}', outputStyle: 'expanded'})
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a {\n  b: c;\n}'));
 
     it('supports the compressed output style', () =>
       expect(
         sass
           .renderSync({data: 'a {b: c}', outputStyle: 'compressed'})
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a{b:c}'));
 
     it("doesn't support unknown output styles", () =>
@@ -323,7 +323,7 @@ describe('options', () => {
         sass.renderSync({
           data: 'a {b: c}',
           outputStyle: 'abcd' as sass.OutputStyle,
-        })
+        }),
       ).toThrowLegacyException());
   });
 
@@ -331,14 +331,14 @@ describe('options', () => {
     describe('indentType', () => {
       it('allows tab indentation', () =>
         expect(
-          sass.renderSync({data: 'a {b: c}', indentType: 'tab'}).css.toString()
+          sass.renderSync({data: 'a {b: c}', indentType: 'tab'}).css.toString(),
         ).toBe('a {\n\t\tb: c;\n}'));
 
       it('allows unknown indentation names', () =>
         expect(
           sass
             .renderSync({data: 'a {b: c}', indentType: 'abcd' as 'space'})
-            .css.toString()
+            .css.toString(),
         ).toBe('a {\n  b: c;\n}'));
     });
 
@@ -346,43 +346,43 @@ describe('options', () => {
     describe('charset', () => {
       it('adds a @charset by default for non-ASCII stylesheets', () =>
         expect(
-          sass.renderSync({data: 'a {b: é}'}).css.toString()
+          sass.renderSync({data: 'a {b: é}'}).css.toString(),
         ).toEqualIgnoringWhitespace('@charset "UTF-8"; a { b: é; }'));
 
       it("doesn't add a @charset if charset is false", () =>
         expect(
-          sass.renderSync({data: 'a {b: é}', charset: false}).css.toString()
+          sass.renderSync({data: 'a {b: é}', charset: false}).css.toString(),
         ).toEqualIgnoringWhitespace('a { b: é; }'));
     });
 
     describe('linefeed', () => {
       it('supports cr', () =>
         expect(
-          sass.renderSync({data: 'a {b: c}', linefeed: 'cr'}).css.toString()
+          sass.renderSync({data: 'a {b: c}', linefeed: 'cr'}).css.toString(),
         ).toBe('a {\r  b: c;\r}'));
 
       it('supports crlf', () =>
         expect(
-          sass.renderSync({data: 'a {b: c}', linefeed: 'crlf'}).css.toString()
+          sass.renderSync({data: 'a {b: c}', linefeed: 'crlf'}).css.toString(),
         ).toBe('a {\r\n  b: c;\r\n}'));
 
       it('supports lfcr', () =>
         expect(
-          sass.renderSync({data: 'a {b: c}', linefeed: 'lfcr'}).css.toString()
+          sass.renderSync({data: 'a {b: c}', linefeed: 'lfcr'}).css.toString(),
         ).toBe('a {\n\r  b: c;\n\r}'));
 
       it('supports unknown names', () =>
         expect(
           sass
             .renderSync({data: 'a {b: c}', linefeed: 'abcd' as 'cr'})
-            .css.toString()
+            .css.toString(),
         ).toBe('a {\n  b: c;\n}'));
     });
 
     describe('indentWidth', () => {
       it('allows a number', () =>
         expect(
-          sass.renderSync({data: 'a {b: c}', indentWidth: 10}).css.toString()
+          sass.renderSync({data: 'a {b: c}', indentWidth: 10}).css.toString(),
         ).toBe('a {\n          b: c;\n}'));
 
       it('allows a string', () =>
@@ -392,7 +392,7 @@ describe('options', () => {
               data: 'a {b: c}',
               indentWidth: '1' as unknown as number,
             })
-            .css.toString()
+            .css.toString(),
         ).toBe('a {\n b: c;\n}'));
     });
   });
@@ -407,7 +407,7 @@ describe('options', () => {
           });
 
           const stdio = captureStdio(() =>
-            sass.renderSync({file: dir('test.scss'), quietDeps: true})
+            sass.renderSync({file: dir('test.scss'), quietDeps: true}),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
@@ -421,7 +421,7 @@ describe('options', () => {
           });
 
           const stdio = captureStdio(() =>
-            sass.renderSync({file: dir('test.scss'), quietDeps: true})
+            sass.renderSync({file: dir('test.scss'), quietDeps: true}),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
@@ -435,7 +435,7 @@ describe('options', () => {
           });
 
           const stdio = captureStdio(() =>
-            sass.renderSync({file: dir('test.scss'), quietDeps: true})
+            sass.renderSync({file: dir('test.scss'), quietDeps: true}),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('&&');
@@ -449,7 +449,7 @@ describe('options', () => {
           });
 
           const stdio = captureStdio(() =>
-            sass.renderSync({file: dir('test.scss'), quietDeps: true})
+            sass.renderSync({file: dir('test.scss'), quietDeps: true}),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('blue');
@@ -469,7 +469,7 @@ describe('options', () => {
               file: dir('test.scss'),
               quietDeps: true,
               includePaths: [dir('dir')],
-            })
+            }),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
@@ -487,7 +487,7 @@ describe('options', () => {
               file: dir('test.scss'),
               quietDeps: true,
               includePaths: [dir('dir')],
-            })
+            }),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toContain('heck');
@@ -506,7 +506,7 @@ describe('options', () => {
               quietDeps: true,
               includePaths: [dir('dir')],
               silenceDeprecations: ['legacy-js-api'],
-            })
+            }),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toBeEmptyString();
@@ -525,7 +525,7 @@ describe('options', () => {
               quietDeps: true,
               includePaths: [dir('dir')],
               silenceDeprecations: ['legacy-js-api'],
-            })
+            }),
           );
           expect(stdio.out).toBeEmptyString();
           expect(stdio.err).toBeEmptyString();
@@ -539,7 +539,7 @@ describe('options', () => {
         sass.renderSync({
           data: '$_: 1/2;',
           fatalDeprecations: ['slash-div'],
-        })
+        }),
       ).toThrowLegacyException({includes: 'math.div'});
     });
 
@@ -548,7 +548,7 @@ describe('options', () => {
         sass.renderSync({
           data: '$_: 1/2;',
           fatalDeprecations: ['call-string'],
-        })
+        }),
       );
       expect(stdio.out).toBeEmptyString();
       expect(stdio.err).toContain('math.div');
@@ -558,7 +558,7 @@ describe('options', () => {
   // Disabled since there aren't any current future deprecations
   xdescribe('futureDeprecations', () => {
     it('opts into future deprecation early', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({
           'test.scss': '@import "other";',
           '_other.scss': '',
@@ -570,7 +570,7 @@ describe('options', () => {
             // data: '@import "other"',
             futureDeprecations: ['import'],
             silenceDeprecations: ['legacy-js-api'],
-          })
+          }),
         );
         expect(stdio.out).toBeEmptyString();
         expect(stdio.err).toContain('@import rule');
@@ -578,7 +578,7 @@ describe('options', () => {
     });
 
     it('emits no warning when not set', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({
           'test.scss': '@import "other";',
           '_other.scss': '',
@@ -588,7 +588,7 @@ describe('options', () => {
           sass.renderSync({
             file: dir('test.scss'),
             silenceDeprecations: ['legacy-js-api'],
-          })
+          }),
         );
         expect(stdio.out).toBeEmptyString();
         expect(stdio.err).toBeEmptyString();
@@ -602,7 +602,7 @@ describe('options', () => {
         sass.renderSync({
           data: '$_: 1/2;',
           silenceDeprecations: ['slash-div', 'legacy-js-api'],
-        })
+        }),
       );
       expect(stdio.out).toBeEmptyString();
       expect(stdio.err).toBeEmptyString();
@@ -613,7 +613,7 @@ describe('options', () => {
         sass.renderSync({
           data: '$_: 1/2;',
           silenceDeprecations: ['call-string'],
-        })
+        }),
       );
       expect(stdio.out).toBeEmptyString();
       expect(stdio.err).toContain('math.div');
@@ -641,7 +641,7 @@ describe('options', () => {
         sass.renderSync({
           data,
           verbose: true,
-        })
+        }),
       );
       expect(stdio.out).toBeEmptyString();
       expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(6);
@@ -652,7 +652,7 @@ describe('options', () => {
       const stdio = captureStdio(() =>
         sass.renderSync({
           data,
-        })
+        }),
       );
       expect(stdio.out).toBeEmptyString();
       expect(stdio.err.match(/call\(\)/g)).toBeArrayOfSize(5);
@@ -673,7 +673,7 @@ describe('options', () => {
                 } else {
                   resolve(result);
                 }
-              }
+              },
             );
           });
         });
@@ -704,14 +704,14 @@ describe('options', () => {
                 } else {
                   resolve(result);
                 }
-              }
+              },
             );
           });
         });
 
         expect(stdio.out).toBeEmptyString();
         // Remove Node.js deprecation warnings.
-        expect(stdio.err.replaceAll(/^\(node:.*\n/, '')).toBeEmptyString();
+        expect(stdio.err.replace(/^\(node:.*\n/g, '')).toBeEmptyString();
       });
     });
   });
@@ -722,7 +722,7 @@ describe('the result object', () => {
     sandbox(dir => {
       dir.write({'test.scss': 'a {b: c}'});
       expect(sass.renderSync({file: dir('test.scss')}).stats.entry).toBe(
-        dir('test.scss')
+        dir('test.scss'),
       );
     }));
 
@@ -742,13 +742,13 @@ describe('the result object', () => {
       sandbox(dir => {
         dir.write({'test.scss': 'a {b: c}'});
         expect(
-          sass.renderSync({file: dir('test.scss')}).stats.includedFiles
+          sass.renderSync({file: dir('test.scss')}).stats.includedFiles,
         ).toContain(p.resolve(dir('test.scss')));
       }));
 
     it("doesn't contain the root path with a data: parameter", () =>
       expect(
-        sass.renderSync({data: 'a {b: c}'}).stats.includedFiles
+        sass.renderSync({data: 'a {b: c}'}).stats.includedFiles,
       ).toBeEmptyArray());
 
     it('contains imported paths', () =>
@@ -758,7 +758,7 @@ describe('the result object', () => {
           'test.scss': '@use "other"',
         });
         expect(
-          sass.renderSync({file: dir('test.scss')}).stats.includedFiles
+          sass.renderSync({file: dir('test.scss')}).stats.includedFiles,
         ).toContain(p.resolve(dir('_other.scss')));
       }));
 
@@ -772,8 +772,8 @@ describe('the result object', () => {
           sass
             .renderSync({file: dir('test.scss')})
             .stats.includedFiles.filter(
-              (path: string) => path === p.resolve(dir('_other.scss'))
-            )
+              (path: string) => path === p.resolve(dir('_other.scss')),
+            ),
         ).toBeArrayOfSize(1);
       }));
   });
@@ -784,26 +784,26 @@ describe('throws a LegacyException', () => {
     sandbox(dir => {
       dir.write({'test.scss': 'a {b: }'});
       expect(
-        () => sass.renderSync({file: dir('test.scss')}).stats.includedFiles
+        () => sass.renderSync({file: dir('test.scss')}).stats.includedFiles,
       ).toThrowLegacyException({line: 1, file: p.resolve(dir('test.scss'))});
     }));
 
   it('for a parse error in a string', () =>
     expect(
-      () => sass.renderSync({data: 'a {b: }'}).stats.includedFiles
+      () => sass.renderSync({data: 'a {b: }'}).stats.includedFiles,
     ).toThrowLegacyException({line: 1, file: 'stdin'}));
 
   it('for a runtime error in a file', () =>
     sandbox(dir => {
       dir.write({'test.scss': 'a {b: 1 % a}'});
       expect(
-        () => sass.renderSync({file: dir('test.scss')}).stats.includedFiles
+        () => sass.renderSync({file: dir('test.scss')}).stats.includedFiles,
       ).toThrowLegacyException({line: 1, file: p.resolve(dir('test.scss'))});
     }));
 
   it('for a runtime error in a string', () =>
     expect(
-      () => sass.renderSync({data: 'a {b: 1 % a}'}).stats.includedFiles
+      () => sass.renderSync({data: 'a {b: 1 % a}'}).stats.includedFiles,
     ).toThrowLegacyException({line: 1, file: 'stdin'}));
 });
 

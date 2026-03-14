@@ -17,7 +17,7 @@ describe('an argument list', () => {
           return sass.types.Null.NULL;
         }) as sass.LegacySyncFunction,
       },
-    })
+    }),
   );
 
   it('provides access to the list attributes', () => {
@@ -76,7 +76,7 @@ describe('a list', () => {
               }) as sass.LegacySyncFunction,
             },
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: 1 3; c: 1 2 3; }'));
 
     it('the separator can be set without affecting the underlying list', () =>
@@ -98,7 +98,7 @@ describe('a list', () => {
               }) as sass.LegacySyncFunction,
             },
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: 1, 2, 3; c: 1 2 3; }'));
 
     it(
@@ -107,9 +107,9 @@ describe('a list', () => {
       () => {
         expect(parseValue('()', sass.types.List).getSeparator()).toBeFalse();
         expect(
-          parseValue('join((), 1px)', sass.types.List).getSeparator()
+          parseValue('join((), 1px)', sass.types.List).getSeparator(),
         ).toBeFalse();
-      }
+      },
     );
 
     it('has a useful .constructor.name', () =>

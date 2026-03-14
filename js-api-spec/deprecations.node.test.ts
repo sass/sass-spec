@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 import yaml from 'js-yaml';
-import {deprecations, renderSync, Deprecation, Version} from 'sass';
+import {Deprecation, Version, deprecations, renderSync} from 'sass';
 import {captureStdio} from './utils';
 
 describe('a warning from the JS API', () => {
@@ -36,7 +36,7 @@ describe('deprecation type', () => {
   const activeDeprecations: {[key: string]: string} = {};
   const futureDeprecations: Set<string> = new Set();
   const data = yaml.load(
-    fs.readFileSync('js-api-spec/node_modules/sass/deprecations.yaml', 'utf8')
+    fs.readFileSync('js-api-spec/node_modules/sass/deprecations.yaml', 'utf8'),
   ) as {
     [key: string]: {
       'dart-sass':

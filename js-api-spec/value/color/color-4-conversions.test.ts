@@ -36,7 +36,7 @@ describe('Color 4 SassColors Conversions', () => {
             expect(res.space).toBe(destinationSpace.name);
 
             const expected = destinationSpace.constructor(
-              ...destinationSpace.pink
+              ...destinationSpace.pink,
             );
             expect(res).toLooselyEqualColor(expected);
           });
@@ -67,22 +67,22 @@ describe('Color 4 SassColors Conversions', () => {
             ] as [number, number, number];
             expectedChannels[index] = 0;
             expect(color.change({[channelName]: 0})).toLooselyEqualColor(
-              space.constructor(...expectedChannels)
+              space.constructor(...expectedChannels),
             );
           });
           expect(color.change({alpha: 0})).toLooselyEqualColor(
-            space.constructor(...space.pink, 0)
+            space.constructor(...space.pink, 0),
           );
         });
 
         it('change with explicit undefined makes no change', () => {
           space.channels.forEach(channelName => {
             expect(
-              color.change({[channelName]: undefined})
+              color.change({[channelName]: undefined}),
             ).toLooselyEqualColor(space.constructor(...space.pink));
           });
           expect(color.change({alpha: undefined})).toLooselyEqualColor(
-            space.constructor(...space.pink, 1)
+            space.constructor(...space.pink, 1),
           );
         });
 
@@ -101,12 +101,12 @@ describe('Color 4 SassColors Conversions', () => {
               space: space.name as 'xyz',
             });
             expect(changed).toLooselyEqualColor(
-              space.constructor(...expectedChannels)
+              space.constructor(...expectedChannels),
             );
             expect(changed.isChannelMissing(channelName)).toBeTrue();
           });
           expect(
-            color.change({alpha: null, space: space.name as 'xyz'})
+            color.change({alpha: null, space: space.name as 'xyz'}),
           ).toLooselyEqualColor(space.constructor(...space.pink, null));
         });
 
@@ -114,7 +114,7 @@ describe('Color 4 SassColors Conversions', () => {
           const baseColor = space.constructor(
             (space.ranges[0][0] + space.ranges[0][1]) / 2,
             (space.ranges[1][0] + space.ranges[1][1]) / 2,
-            (space.ranges[2][0] + space.ranges[2][1]) / 2
+            (space.ranges[2][0] + space.ranges[2][1]) / 2,
           );
           for (let i = 0; i < 3; i++) {
             const channel = space.channels[i];
@@ -132,14 +132,14 @@ describe('Color 4 SassColors Conversions', () => {
                 case 'saturation':
                   expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
                   expect(below.channels.get(0)).toEqual(
-                    (baseColor.channels.get(0) + 180) % 360
+                    (baseColor.channels.get(0) + 180) % 360,
                   );
                   break;
 
                 case 'chroma':
                   expect(below.channels.get(i)).toEqual(Math.abs(belowRange));
                   expect(below.channels.get(2)).toEqual(
-                    (baseColor.channels.get(2) + 180) % 360
+                    (baseColor.channels.get(2) + 180) % 360,
                   );
                   break;
 
@@ -176,7 +176,7 @@ describe('Color 4 SassColors Conversions', () => {
                 color.change({
                   [channel]: channelValue,
                   space: destinationSpace.name as ColorSpaceXyz,
-                })
+                }),
               ).toLooselyEqualColor(expected);
             });
           });
@@ -233,19 +233,23 @@ describe('Color 4 SassColors Conversions', () => {
     it('interpolates a rectangular space without options', () =>
       expect(
         new SassColor({red: 100, green: 200, blue: 50}).interpolate(
-          new SassColor({red: 255, green: 255, blue: 255})
-        )
+          new SassColor({red: 255, green: 255, blue: 255}),
+        ),
       ).toLooselyEqualColor(
-        new SassColor({red: 177.5, green: 227.5, blue: 152.5})
+        new SassColor({red: 177.5, green: 227.5, blue: 152.5}),
       ));
 
     it('interpolates a polar space without options', () =>
       expect(
         new SassColor({hue: 180, saturation: 100, lightness: 50}).interpolate(
-          new SassColor({red: 100, green: 200, blue: 50})
-        )
+          new SassColor({red: 100, green: 200, blue: 50}),
+        ),
       ).toLooselyEqualColor(
-        new SassColor({hue: 140, saturation: 80, lightness: 49.509803921568626})
+        new SassColor({
+          hue: 140,
+          saturation: 80,
+          lightness: 49.509803921568626,
+        }),
       ));
   });
 });

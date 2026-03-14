@@ -4,7 +4,7 @@ import path from 'path';
 import {Readable} from 'stream';
 import RealDirectory from './real-directory';
 import SpecDirectory, {SpecIteratee} from './spec-directory';
-import {archiveFromStream, Directory as HrxDirectory} from 'node-hrx';
+import {Directory as HrxDirectory, archiveFromStream} from 'node-hrx';
 import {withAsyncCleanup} from './cleanup';
 import {normalizeSpecPath} from './spec-path';
 
@@ -85,7 +85,7 @@ export default class VirtualDirectory extends SpecDirectory {
    */
   static async fromArchive(
     hrxPath: string,
-    parent?: RealDirectory
+    parent?: RealDirectory,
   ): Promise<VirtualDirectory> {
     const stream = fs.createReadStream(hrxPath, {encoding: 'utf-8'});
     let archive;
@@ -181,7 +181,7 @@ export default class VirtualDirectory extends SpecDirectory {
         await fs.promises.writeFile(filepath, await this.readFile(filename), {
           encoding: 'utf-8',
         });
-      })
+      }),
     );
   }
 
@@ -199,8 +199,8 @@ export default class VirtualDirectory extends SpecDirectory {
     const subdirsNeedCleanup = await Promise.all(
       subdirs.map(
         subdir =>
-          subdir instanceof VirtualDirectory && subdir.hasModifications()
-      )
+          subdir instanceof VirtualDirectory && subdir.hasModifications(),
+      ),
     );
     return this.modified || subdirsNeedCleanup.some(value => value);
   }
@@ -225,7 +225,7 @@ export default class VirtualDirectory extends SpecDirectory {
         () => this.cleanup(),
         async () => {
           await super.forEachTest(iteratee, only);
-        }
+        },
       );
     } else {
       await super.forEachTest(iteratee, only);

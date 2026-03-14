@@ -7,14 +7,14 @@ import {TodoMode} from '../../lib/test-case/util';
 describe('TestCase::result()', () => {
   async function runTestCase(
     content: string,
-    opts: {todoMode?: TodoMode} = {}
+    opts: {todoMode?: TodoMode} = {},
   ): Promise<TestResult> {
     const dir = await fromContents(content.trimLeft());
     const test = await TestCase.create(
       dir,
       'sass-mock',
       mockCompiler(dir),
-      opts.todoMode
+      opts.todoMode,
     );
     return test.result();
   }

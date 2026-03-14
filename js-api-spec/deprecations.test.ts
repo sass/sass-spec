@@ -3,17 +3,17 @@
 // https://opensource.org/licenses/MIT.
 
 import {
-  compileString,
-  deprecations,
   Deprecation,
   Importer,
-  Value,
-  Version,
   SassColor,
   SassNumber,
+  Value,
+  Version,
+  compileString,
+  deprecations,
 } from 'sass';
 
-import {captureStdio, URL} from './utils';
+import {URL, captureStdio} from './utils';
 
 describe('a warning', () => {
   it('is emitted with no flags', done => {
@@ -23,7 +23,7 @@ describe('a warning', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations['new-global']);
           done();
@@ -39,7 +39,7 @@ describe('a warning', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations['new-global']);
           done();
@@ -98,7 +98,7 @@ describe('an error', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [deprecations['new-global']],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -106,7 +106,7 @@ describe('an error', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [deprecations['new-global']],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -114,7 +114,7 @@ describe('an error', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [new Version(1, 17, 2)],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -129,7 +129,7 @@ describe('an error', () => {
             done();
           },
         },
-      })
+      }),
     ).toThrowError();
   });
 });
@@ -162,7 +162,7 @@ xdescribe('for a future deprecation,', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
@@ -180,7 +180,7 @@ xdescribe('for a future deprecation,', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
@@ -233,7 +233,7 @@ xdescribe('for a future deprecation,', () => {
 describe('color deprecations', () => {
   it('emit a warning outside of any compilation', () => {
     const stdio = captureStdio(() => {
-      new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
+      void new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
     });
     expect(stdio.err).toContain('color-4-api');
   });
@@ -271,7 +271,7 @@ describe('color deprecations', () => {
           'fn($color)': (args: Value[]) =>
             new SassNumber(args[0].assertColor().red),
         },
-      })
+      }),
     ).toThrowError();
   });
 });

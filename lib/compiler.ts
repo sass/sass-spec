@@ -3,7 +3,7 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import child_process, {ChildProcessWithoutNullStreams} from 'child_process';
-import {Writable, Readable} from 'stream';
+import {Readable, Writable} from 'stream';
 
 export interface Stdio {
   stdout: string;
@@ -29,7 +29,7 @@ export abstract class Compiler {
 export class ExecutableCompiler extends Compiler {
   constructor(
     private readonly command: string,
-    private readonly initArgs: string[] = []
+    private readonly initArgs: string[] = [],
   ) {
     super();
   }
@@ -42,7 +42,7 @@ export class ExecutableCompiler extends Compiler {
         cwd: path,
         encoding: 'utf-8',
         stdio: ['ignore', 'pipe', 'pipe'],
-      }
+      },
     );
     if (error) {
       throw new Error(`Failed to run executable compiler: ${error}`);
@@ -58,7 +58,7 @@ export class DartCompiler implements Compiler {
     private readonly dart: ChildProcessWithoutNullStreams,
     private readonly stdout: AsyncGenerator<string>,
     private readonly stderr: AsyncGenerator<string>,
-    private readonly initArgs: string[] = []
+    private readonly initArgs: string[] = [],
   ) {
     this.stdin = dart.stdin;
   }
@@ -68,7 +68,7 @@ export class DartCompiler implements Compiler {
    */
   static async fromRepo(
     path: string,
-    initArgs: string[] = []
+    initArgs: string[] = [],
   ): Promise<DartCompiler> {
     const dart = await this.createProcess(path);
     const stdout = DartCompiler.toChunks(dart.stdout);
@@ -106,7 +106,7 @@ export class DartCompiler implements Compiler {
     };
   }
 
-  shutdown() {
+  shutdown(): void {
     this.dart.kill();
   }
 
@@ -115,7 +115,7 @@ export class DartCompiler implements Compiler {
    * and compiles the files piped to stdin.
    */
   private static async createProcess(
-    repoPath: string
+    repoPath: string,
   ): Promise<ChildProcessWithoutNullStreams> {
     if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`);
@@ -218,7 +218,7 @@ main() async {
   // Consume the remaining text in `generator` and emit it as-is, with break
   // characters converted to newlines.
   private static async readRest(
-    generator: AsyncGenerator<string>
+    generator: AsyncGenerator<string>,
   ): Promise<string> {
     let text = '';
     const first = true;

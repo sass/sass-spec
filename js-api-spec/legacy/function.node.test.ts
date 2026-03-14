@@ -14,13 +14,13 @@ describe('rejects a signature', () => {
       sass.renderSync({
         data: '',
         functions: {'foo(': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException();
   });
 
   it("that's an empty string", () => {
     expect(() =>
-      sass.renderSync({data: '', functions: {'': () => sass.types.Null.NULL}})
+      sass.renderSync({data: '', functions: {'': () => sass.types.Null.NULL}}),
     ).toThrowLegacyException();
   });
 
@@ -29,7 +29,7 @@ describe('rejects a signature', () => {
       sass.renderSync({
         data: '',
         functions: {'($var)': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException();
   });
 
@@ -38,7 +38,7 @@ describe('rejects a signature', () => {
       sass.renderSync({
         data: '',
         functions: {'~~~': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException();
   });
 
@@ -47,7 +47,7 @@ describe('rejects a signature', () => {
       sass.renderSync({
         data: '',
         functions: {'foo ()': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException();
   });
 
@@ -56,7 +56,7 @@ describe('rejects a signature', () => {
       sass.renderSync({
         data: '',
         functions: {'foo() ': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException();
   });
 });
@@ -71,7 +71,7 @@ describe('allows a signature', () => {
             foo: () => new sass.types.Number(12),
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 
@@ -84,7 +84,7 @@ describe('allows a signature', () => {
             'foo()': () => new sass.types.Number(12),
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 
@@ -95,7 +95,7 @@ describe('allows a signature', () => {
           data: 'a {b: foo()}',
           functions: {' foo()': () => new sass.types.Number(12)},
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 });
@@ -110,7 +110,7 @@ describe('are dash-normalized', () => {
             'foo-bar': () => new sass.types.Number(12),
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 
@@ -123,7 +123,7 @@ describe('are dash-normalized', () => {
             foo_bar: () => new sass.types.Number(12),
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 12; }');
   });
 });
@@ -134,7 +134,7 @@ describe('rejects function calls that', () => {
       sass.renderSync({
         data: 'a {b: foo()}',
         functions: {'foo($var)': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 
@@ -143,7 +143,7 @@ describe('rejects function calls that', () => {
       sass.renderSync({
         data: 'a {b: foo(1, 2)}',
         functions: {'foo($var)': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 
@@ -152,7 +152,7 @@ describe('rejects function calls that', () => {
       sass.renderSync({
         data: 'a {b: foo($var: 1)}',
         functions: {'foo()': () => sass.types.Null.NULL},
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 });
@@ -168,7 +168,7 @@ describe('passes arguments', () => {
               value2 as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 2em; }');
   });
 
@@ -182,7 +182,7 @@ describe('passes arguments', () => {
               value2 as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 1px; }');
   });
 
@@ -196,7 +196,7 @@ describe('passes arguments', () => {
               value2 as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 2em; }');
   });
 
@@ -211,7 +211,7 @@ describe('passes arguments', () => {
             }) as sass.LegacySyncFunction,
           },
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: 2em; }');
   });
 });
@@ -222,7 +222,7 @@ describe('rejects a return value that', () => {
       sass.renderSync({
         data: 'a {b: foo()}',
         functions: {foo: () => 10 as unknown as sass.LegacyValue},
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 
@@ -231,7 +231,7 @@ describe('rejects a return value that', () => {
       sass.renderSync({
         data: 'a {b: foo()}',
         functions: {foo: () => null as unknown as sass.LegacyValue},
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 });
@@ -266,7 +266,7 @@ describe('this', () => {
   });
 
   it('includes the filename when rendering via file', () => {
-    sandbox(dir => {
+    return sandbox(dir => {
       dir.write({'test.scss': 'a {b: foo()}'});
 
       const fn = spy(function (this: sass.LegacyPluginThis) {
@@ -282,10 +282,10 @@ describe('this', () => {
   });
 
   it('includes other include paths', () => {
-    sandbox(dir => {
+    return sandbox(dir => {
       const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.includePaths).toBe(
-          `${process.cwd()}${p.delimiter}${dir.root}`
+          `${process.cwd()}${p.delimiter}${dir.root}`,
         );
         return sass.types.Null.NULL;
       });
@@ -365,7 +365,7 @@ describe('this', () => {
 
       const fn = spy(function (this: sass.LegacyPluginThis) {
         expect(this.options.result.stats.start).toBeGreaterThanOrEqual(
-          start.getTime()
+          start.getTime(),
         );
         return sass.types.Null.NULL;
       });
@@ -385,7 +385,7 @@ describe('this', () => {
     });
 
     it('a file entry', () => {
-      sandbox(dir => {
+      return sandbox(dir => {
         dir.write({'test.scss': 'a {b: foo()}'});
 
         const fn = spy(function (this: sass.LegacyPluginThis) {
@@ -409,7 +409,7 @@ it('gracefully handles an error from the function', () => {
           throw 'aw beans';
         },
       },
-    })
+    }),
   ).toThrowLegacyException({line: 1, includes: 'aw beans'});
 });
 
@@ -426,7 +426,7 @@ describe('render()', () => {
         expect(err).toBeNil();
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: 1; }');
         done();
-      }
+      },
     );
   });
 
@@ -444,7 +444,7 @@ describe('render()', () => {
         expect(err).toBeNil();
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: 1; }');
         done();
-      }
+      },
     );
   });
 
@@ -461,7 +461,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
-      }
+      },
     );
   });
 
@@ -478,7 +478,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
-      }
+      },
     );
   });
 
@@ -495,7 +495,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(`${err}`).toContain('aw beans');
         done();
-      }
+      },
     );
   });
 
@@ -512,7 +512,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(typeof err).toBe('object');
         done();
-      }
+      },
     );
   });
 
@@ -529,7 +529,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(typeof err).toBe('object');
         done();
-      }
+      },
     );
   });
 });
@@ -545,6 +545,6 @@ it('a function is passed through as-is', () => {
           'id($value)': (value: unknown) => value as sass.LegacySyncFunction,
         },
       })
-      .css.toString()
+      .css.toString(),
   ).toEqualIgnoringWhitespace('a { b: 3; }');
 });
