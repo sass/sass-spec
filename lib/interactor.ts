@@ -122,12 +122,16 @@ export function optionsFor(test: TestCaseArg): InteractorOption[] {
 
 export class Interactor {
   private memory: Record<string, InteractorOption> = {};
-  private input: NodeJS.ReadableStream;
-  private output: NodeJS.WritableStream;
 
-  constructor(input: NodeJS.ReadableStream, output: NodeJS.WritableStream) {
-    this.input = input;
-    this.output = output;
+  private rl: AsyncIterator<string>;
+
+  constructor(
+    private readonly input: NodeJS.ReadableStream,
+    private readonly output: NodeJS.WritableStream,
+  ) {
+    this.rl = readline
+      .createInterface(this.input, this.output)
+      [Symbol.asyncIterator]();
   }
 
   private printLine(line = ''): void {
@@ -157,21 +161,18 @@ export class Interactor {
    * Run the interactor prompt on the given test case.
    */
   async prompt(test: TestCase): Promise<void> {
-    const rl = readline.createInterface(this.input, this.output);
+    const question = async (prompt: string): Promise<string> => {
+      this.output.write(prompt);
+      const result = await this.rl.next();
+      return result.value ?? '';
+    };
 
-    function question(prompt: string): Promise<string> {
-      return new Promise(resolve => {
-        rl.question(prompt, resolve);
-      });
-    }
-
-    const type = test.result().failureType || '';
+    const type = test.result().failureType ?? '';
 
     // If a repeated choice is chosen for a given failure type, run that choice
     if (this.memory[type]) {
       const choice = this.memory[type];
       await choice.resolve(test);
-      rl.close();
       return;
     }
 
@@ -202,7 +203,6 @@ export class Interactor {
         if (repeat) {
           this.memory[type] = choice;
         }
-        rl.close();
         return;
       }
     }

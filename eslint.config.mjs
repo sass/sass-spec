@@ -3,7 +3,11 @@ import gts from 'gts';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
-  globalIgnores(['**/*.js']),
+  globalIgnores([
+    '**/*.js',
+    // Ignored because it's not in tsconfig.json.
+    'js-api-spec.ts',
+  ]),
   {
     extends: [tseslint.configs.recommended, gts],
     rules: {
