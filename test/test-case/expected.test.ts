@@ -123,6 +123,12 @@ WARNING`);
   });
 
   describe('thrown errors', () => {
+    async function expectMissing(contents: string): Promise<void> {
+      const dir = await fromContents(contents.trimStart());
+      const result = await getExpectedResult(dir, 'sass-mock');
+      expect(result.isSuccess).toBeNull();
+    }
+
     async function expectToThrow(contents: string): Promise<void> {
       const dir = await fromContents(contents.trimStart());
       await expect(async () => {
@@ -130,8 +136,8 @@ WARNING`);
       }).rejects.toThrow();
     }
 
-    it('throws if no output or error files are detected', async () => {
-      await expectToThrow(`
+    it('returns {isSuccess:null} if no output or error files are detected', async () => {
+      await expectMissing(`
 <===> README.md
 no outputs or errors here
       `);
