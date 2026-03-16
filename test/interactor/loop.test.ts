@@ -1,3 +1,4 @@
+import readline from 'readline';
 import {Interactor} from '../../lib/interactor';
 import {Readable, Writable} from 'stream';
 import {fromContents} from '../../lib/spec-directory';
@@ -44,9 +45,11 @@ async function runInteractor(
 }> {
   const input = makeInputStream(inputs);
   const output = new MemoryWritable();
-  const interactor = new Interactor(input, output);
+  const rl = readline.createInterface(input, output);
+  const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
   const test = await makeTestCase(contents, options);
   await interactor.prompt(test);
+  rl.close();
   return {test, output: output.contents()};
 }
 
@@ -289,9 +292,11 @@ OUTPUT
     `;
       const test1 = await makeTestCase(content);
       const test2 = await makeTestCase(content);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       expect(test2.dir.hasFile('error')).toBeTruthy();
     });
 
@@ -307,9 +312,11 @@ OUTPUT
     `;
       const test1 = await makeTestCase(content);
       const test2 = await makeTestCase(content);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       // Make sure the second test has a prompt
       const contents = output.contents();
       const prompts = contents
@@ -338,9 +345,11 @@ status: 0
 <===> output.css
 OTHER OUTPUT
       `);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       const prompts = output
         .contents()
         .split('\n')

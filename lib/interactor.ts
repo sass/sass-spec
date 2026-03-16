@@ -1,4 +1,3 @@
-import readline from 'readline';
 import TestCase from './test-case';
 
 // Select properties of the test case that can be used in requirements
@@ -123,16 +122,10 @@ export function optionsFor(test: TestCaseArg): InteractorOption[] {
 export class Interactor {
   private memory: Record<string, InteractorOption> = {};
 
-  private rl: AsyncIterator<string>;
-
   constructor(
-    private readonly input: NodeJS.ReadableStream,
+    private readonly rlIterator: AsyncIterator<string>,
     private readonly output: NodeJS.WritableStream,
-  ) {
-    this.rl = readline
-      .createInterface(this.input, this.output)
-      [Symbol.asyncIterator]();
-  }
+  ) {}
 
   private printLine(line = ''): void {
     this.output.write(`${line}\n`);
@@ -163,7 +156,7 @@ export class Interactor {
   async prompt(test: TestCase): Promise<void> {
     const question = async (prompt: string): Promise<string> => {
       this.output.write(prompt);
-      const result = await this.rl.next();
+      const result = await this.rlIterator.next();
       return result.value ?? '';
     };
 
