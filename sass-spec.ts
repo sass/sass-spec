@@ -7,11 +7,13 @@ import Tabulator from './lib/tabulator';
 
 async function runAllTests(): Promise<void> {
   let args_: CliArgs | undefined;
-  let interactor: Interactor | undefined;
   let rl: readline.Interface | undefined;
   try {
     rl = readline.createInterface(process.stdin, process.stdout);
-    interactor = new Interactor(rl[Symbol.asyncIterator](), process.stdout);
+    const interactor = new Interactor(
+      rl[Symbol.asyncIterator](),
+      process.stdout,
+    );
     const start = Date.now();
     const args = (args_ = await parseArgs(process.argv.slice(2)));
     const rootPath = args.root;
@@ -38,7 +40,7 @@ async function runAllTests(): Promise<void> {
         },
       );
       if (test.result().type === 'fail' && args.interactive) {
-        await interactor?.prompt(test);
+        await interactor.prompt(test);
       }
       tabulator.tabulate(test);
     }, dirsToTest);

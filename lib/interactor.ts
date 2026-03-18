@@ -52,7 +52,7 @@ const options: InteractorOption[] = [
     },
     resolve(test) {
       const actual = test.actual();
-      return actual.isSuccess ? (actual.warning ?? '') : actual.error;
+      return actual.isSuccess ? actual.warning ?? '' : actual.error;
     },
   },
   {
@@ -123,7 +123,7 @@ export class Interactor {
   private memory: Record<string, InteractorOption> = {};
 
   constructor(
-    private readonly rlIterator: AsyncIterator<string>,
+    private readonly readlineIterator: AsyncIterator<string>,
     private readonly output: NodeJS.WritableStream,
   ) {}
 
@@ -156,7 +156,7 @@ export class Interactor {
   async prompt(test: TestCase): Promise<void> {
     const question = async (prompt: string): Promise<string> => {
       this.output.write(prompt);
-      const result = await this.rlIterator.next();
+      const result = await this.readlineIterator.next();
       return result.value ?? '';
     };
 
