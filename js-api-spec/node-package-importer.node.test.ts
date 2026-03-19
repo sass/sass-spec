@@ -3,15 +3,15 @@
 // https://opensource.org/licenses/MIT.
 
 import {
+  LegacyException,
+  LegacyResult,
+  NodePackageImporter,
   compile,
   compileAsync,
   compileString,
   compileStringAsync,
   render,
   renderSync,
-  NodePackageImporter,
-  LegacyException,
-  LegacyResult,
 } from 'sass';
 
 import {sandbox} from './sandbox';
@@ -19,7 +19,7 @@ import {spy} from './utils';
 
 import {fileURLToPath} from 'url';
 
-const testPackageImporter = ({
+function testPackageImporter({
   input,
   output,
   files,
@@ -29,8 +29,8 @@ const testPackageImporter = ({
   output: string;
   files: {[path: string]: string};
   entryPoint?: string;
-}) =>
-  sandbox(dir => {
+}): Promise<void> {
+  return sandbox(dir => {
     dir.write(files);
     return dir.chdir(() => {
       try {
@@ -45,6 +45,7 @@ const testPackageImporter = ({
       }
     });
   });
+}
 
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
@@ -199,7 +200,7 @@ describe('Node Package Importer', () => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
-            })
+            }),
           ).toThrowSassException({
             includes: 'multiple potential resolutions',
           });
@@ -235,7 +236,7 @@ describe('Node Package Importer', () => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
-            })
+            }),
           ).toThrowSassException({
             includes: "_styles.txt', which is not a '.scss'",
           });
@@ -317,7 +318,7 @@ describe('Node Package Importer', () => {
               () =>
                 compileString('@use "pkg:foo/styles";', {
                   importers: [new NodePackageImporter()],
-                }).css
+                }).css,
             ).toThrowSassException({
               includes: 'multiple potential resolutions',
             });
@@ -335,7 +336,7 @@ describe('Node Package Importer', () => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
-          })
+          }),
         ).toThrowSassException({
           includes: 'Failed to parse',
         });
@@ -378,7 +379,7 @@ describe('Node Package Importer', () => {
               'node_modules/foo/package.json': JSON.stringify({}),
             },
           }));
-      }
+      },
     );
 
     ['index.sass', '_index.sass'].forEach(fileName => {
@@ -492,7 +493,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar-sub/index.scss': 'a {b: c}',
           'node_modules/bah/node_modules/bar-sub/package.json': JSON.stringify(
-            {}
+            {},
           ),
         },
       }));
@@ -510,7 +511,7 @@ describe('Node Package Importer', () => {
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint: 'deeply/nested/file/'}
+          {entryPoint: 'deeply/nested/file/'},
         );
       }));
 
@@ -558,7 +559,8 @@ describe('Node Package Importer', () => {
         expect(url).toStartWith('pkg:');
         return null;
       });
-      sandbox(dir => {
+
+      return sandbox(dir => {
         return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:bah";', {
@@ -569,7 +571,7 @@ describe('Node Package Importer', () => {
                   load: () => null,
                 },
               ],
-            })
+            }),
           ).toThrowSassException({
             includes: "Can't find stylesheet to import",
           });
@@ -586,7 +588,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:foo";', {
           importers: [Symbol() as unknown as NodePackageImporter],
-        })
+        }),
       ).toThrow();
     }));
 
@@ -607,7 +609,7 @@ describe('Node Package Importer', () => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
-          })
+          }),
         ).toThrowSassException({
           includes: 'can not have both conditions and paths',
         });
@@ -758,10 +760,10 @@ describe('Node Package Importer', () => {
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
                 expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                  'a { b: c; }'
+                  'a { b: c; }',
                 );
                 resolve(undefined);
-              }
+              },
             );
           });
         });
@@ -784,10 +786,10 @@ describe('Node Package Importer', () => {
               (err?: LegacyException, result?: LegacyResult) => {
                 expect(err).toBeFalsy();
                 expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                  'a { b: c; }'
+                  'a { b: c; }',
                 );
                 resolve(undefined);
-              }
+              },
             );
           });
         });
@@ -830,7 +832,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:/absolute";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not begin with /'});
     });
 
@@ -838,7 +840,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://host/library";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -848,7 +850,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://user:password@library/path" as library;', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -858,7 +860,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://host:8080/library";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -870,7 +872,7 @@ describe('Node Package Importer', () => {
         // the `as` clause.
         compileString('@use "pkg:" as pkg;', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have an empty path'});
     });
 
@@ -878,7 +880,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:library?query";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
 
@@ -886,7 +888,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:library#fragment";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
   });
@@ -905,7 +907,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });
@@ -923,7 +925,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });
@@ -941,7 +943,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });

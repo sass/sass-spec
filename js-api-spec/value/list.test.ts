@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, SassList, SassMap, SassNumber, SassString} from 'sass';
+import {SassList, SassMap, SassNumber, SassString, Value} from 'sass';
 import {List} from 'immutable';
 
 describe('SassList', () => {
@@ -11,7 +11,7 @@ describe('SassList', () => {
     beforeEach(() => {
       list = new SassList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: ','}
+        {separator: ','},
       );
     });
 
@@ -37,7 +37,7 @@ describe('SassList', () => {
 
     it('returns its contents as a list', () => {
       expect(list.asList).toEqualWithHash(
-        List([new SassString('a'), new SassString('b'), new SassString('c')])
+        List([new SassString('a'), new SassString('b'), new SassString('c')]),
       );
     });
   });
@@ -47,7 +47,7 @@ describe('SassList', () => {
     beforeEach(() => {
       list = new SassList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: ','}
+        {separator: ','},
       );
     });
 
@@ -55,8 +55,8 @@ describe('SassList', () => {
       expect(list).toEqualWithHash(
         new SassList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {separator: ','}
-        )
+          {separator: ','},
+        ),
       );
     });
 
@@ -64,8 +64,8 @@ describe('SassList', () => {
       expect(list).not.toEqualWithHash(
         new SassList(
           [new SassString('c'), new SassString('b'), new SassString('a')],
-          {separator: ','}
-        )
+          {separator: ','},
+        ),
       );
     });
 
@@ -73,15 +73,15 @@ describe('SassList', () => {
       expect(list).not.toEqualWithHash(
         new SassList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {separator: ' '}
-        )
+          {separator: ' '},
+        ),
       );
 
       expect(list).not.toEqualWithHash(
         new SassList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {separator: ',', brackets: true}
-        )
+          {separator: ',', brackets: true},
+        ),
       );
     });
 
@@ -89,8 +89,8 @@ describe('SassList', () => {
       expect(list).not.toEqualWithHash(
         new SassList(
           [new SassString('a'), new SassString('x'), new SassString('c')],
-          {separator: ','}
-        )
+          {separator: ','},
+        ),
       );
     });
 
@@ -98,7 +98,7 @@ describe('SassList', () => {
       expect(list).not.toEqualWithHash(
         new SassList([new SassString('a'), new SassString('b')], {
           separator: ',',
-        })
+        }),
       );
     });
 
@@ -111,8 +111,8 @@ describe('SassList', () => {
             new SassString('c'),
             new SassString('d'),
           ],
-          {separator: ','}
-        )
+          {separator: ','},
+        ),
       );
     });
   });
@@ -178,14 +178,14 @@ describe('SassList', () => {
         () =>
           new SassList([new SassString('a'), new SassString('b')], {
             separator: null,
-          })
+          }),
       ).toThrow();
     });
 
     it('supports space separators', () => {
       const list = new SassList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: ' '}
+        {separator: ' '},
       );
       expect(list.separator).toBe(' ');
     });
@@ -193,7 +193,7 @@ describe('SassList', () => {
     it('supports slash separators', () => {
       const list = new SassList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {separator: '/'}
+        {separator: '/'},
       );
       expect(list.separator).toBe('/');
     });
@@ -201,7 +201,7 @@ describe('SassList', () => {
     it('supports brackets', () => {
       const list = new SassList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {brackets: true}
+        {brackets: true},
       );
       expect(list.hasBrackets).toBe(true);
     });

@@ -20,7 +20,7 @@ it('imports cascade through importers', () =>
           (url: string) => (url === 'baz' ? {contents: 'a {b: c}'} : null),
         ],
       })
-      .css.toString()
+      .css.toString(),
   ).toEqualIgnoringWhitespace('a { b: c; }'));
 
 it('an empty object means an empty file', () =>
@@ -28,9 +28,9 @@ it('an empty object means an empty file', () =>
     sass
       .renderSync({
         data: "@use 'foo'",
-        importer: () => ({} as sass.LegacyImporterResult),
+        importer: () => ({}) as sass.LegacyImporterResult,
       })
-      .css.toString()
+      .css.toString(),
   ).toEqualIgnoringWhitespace(''));
 
 describe('import precedence:', () => {
@@ -49,8 +49,8 @@ describe('import precedence:', () => {
                 file: dir('sub/base.scss'),
                 importer: () => ({contents: 'a {from: importer}'}),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: relative; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: relative; }'),
         );
       }));
 
@@ -65,8 +65,8 @@ describe('import precedence:', () => {
                 data: '@use "test"',
                 importer: () => ({contents: 'a {from: importer}'}),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: importer; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: importer; }'),
         );
       }));
 
@@ -84,8 +84,8 @@ describe('import precedence:', () => {
                 data: '@use "test"',
                 includePaths: [dir('sub')],
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: cwd; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: cwd; }'),
         );
       }));
 
@@ -103,8 +103,8 @@ describe('import precedence:', () => {
               .renderSync({
                 file: dir('sub/base.scss'),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: cwd; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: cwd; }'),
         );
       }));
 
@@ -122,7 +122,7 @@ describe('import precedence:', () => {
               includePaths: [dir.root],
               importer: [],
             })
-            .css.toString()
+            .css.toString(),
         ).toEqualIgnoringWhitespace('a { from: load path; }');
       }));
   });
@@ -136,7 +136,7 @@ describe('with contents', () => {
           data: '@use "foo"',
           importer: () => ({contents: 'a {b: c}'}),
         })
-        .css.toString()
+        .css.toString(),
     ).toEqualIgnoringWhitespace('a { b: c; }'));
 
   it('contents take precedence over file name', () =>
@@ -152,7 +152,7 @@ describe('with contents', () => {
               file: dir('test.scss'),
             }),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { from: contents; }');
     }));
 
@@ -164,7 +164,7 @@ describe('with contents', () => {
           contents: '',
           file: 'bar',
         }),
-      }).stats.includedFiles
+      }).stats.includedFiles,
     ).toContain('bar'));
 
   // Regression test for sass/dart-sass#1410.
@@ -176,7 +176,7 @@ describe('with contents', () => {
           contents: '',
           file: p.resolve('bar'),
         }),
-      }).stats.includedFiles
+      }).stats.includedFiles,
     ).toContain(p.resolve('bar')));
 
   // Regression test for sass/dart-sass#2208.
@@ -203,7 +203,7 @@ describe('with contents', () => {
             file: dir('main.scss'),
             importer,
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('x { from: sub1; } x { from: sub2; }');
 
       expect(importer).toHaveBeenCalledTimes(2);
@@ -221,7 +221,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"',
             importer: () => ({file: dir('test.scss')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -235,7 +235,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"',
             importer: () => ({file: dir('test.sass')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -250,7 +250,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"',
             importer: () => ({file: dir('test.css')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('@import "bar";');
     }));
 
@@ -264,7 +264,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"',
             importer: () => ({file: dir('target.scss')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -281,7 +281,7 @@ describe('with a file redirect', () => {
             data: '@import "foo"',
             importer: () => ({file: dir('target.scss')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: import-only; }');
     }));
 
@@ -298,7 +298,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"; @import "foo"',
             importer: () => ({file: dir('target.scss')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: regular; } a { b: import-only; }');
     }));
 
@@ -312,7 +312,7 @@ describe('with a file redirect', () => {
             data: '@use "foo"',
             importer: () => ({file: dir('test')}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -329,7 +329,7 @@ describe('with a file redirect', () => {
             file: dir('test.scss'),
             importer: () => ({file: '_other.scss'}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -362,7 +362,7 @@ describe('with a file redirect', () => {
             includePaths: [dir.root],
             importer: () => ({file: 'test.scss'}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { b: c; }');
     }));
 
@@ -381,7 +381,7 @@ describe('with a file redirect', () => {
             includePaths: [dir('sub')],
             importer: () => ({file: '_other.scss'}),
           })
-          .css.toString()
+          .css.toString(),
       ).toEqualIgnoringWhitespace('a { from: relative; }');
     }));
 
@@ -397,8 +397,8 @@ describe('with a file redirect', () => {
                 data: '@use "foo"',
                 importer: () => ({file: 'test.scss'}),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { b: c; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { b: c; }'),
         );
       }));
 
@@ -417,8 +417,8 @@ describe('with a file redirect', () => {
                 file: dir('sub/test.scss'),
                 importer: () => ({file: '_other.scss'}),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: relative; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: relative; }'),
         );
       }));
 
@@ -438,8 +438,8 @@ describe('with a file redirect', () => {
                 includePaths: [dir('sub')],
                 importer: () => ({file: '_other.scss'}),
               })
-              .css.toString()
-          ).toEqualIgnoringWhitespace('a { from: cwd; }')
+              .css.toString(),
+          ).toEqualIgnoringWhitespace('a { from: cwd; }'),
         );
       }));
   });
@@ -565,7 +565,7 @@ describe('the previous URL', () => {
 
   it('is the imported string for imports from importers', () => {
     const importer1 = spy((url: string) =>
-      url === 'foo' ? {contents: '@use "bar"'} : null
+      url === 'foo' ? {contents: '@use "bar"'} : null,
     );
 
     const importer2 = spy((url, prev) => {
@@ -600,7 +600,7 @@ describe('the previous URL', () => {
       });
 
       expect(
-        sass.renderSync({file: dir('test.scss'), importer}).css.toString()
+        sass.renderSync({file: dir('test.scss'), importer}).css.toString(),
       ).toEqualIgnoringWhitespace('a { b: relative; } a { b: importer; }');
       expect(importer).toHaveBeenCalledTimes(1);
     }));
@@ -660,7 +660,7 @@ describe('this', () => {
     sandbox(dir => {
       const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.options.includePaths).toContain(
-          `${process.cwd()}${p.delimiter}${dir.root}`
+          `${process.cwd()}${p.delimiter}${dir.root}`,
         );
         return {contents: ''};
       });
@@ -722,7 +722,7 @@ describe('this', () => {
       const start = new Date();
       const importer = spy(function (this: sass.LegacyImporterThis) {
         expect(this.options.result.stats.start).toBeGreaterThanOrEqual(
-          start.getTime()
+          start.getTime(),
         );
         return {contents: ''};
       });
@@ -807,7 +807,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => ({file: '_does_not_exist'}),
-      })
+      }),
     ).toThrowLegacyException({line: 1}));
 
   it('an error is returned', () =>
@@ -815,7 +815,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => new Error('oh no'),
-      })
+      }),
     ).toThrowLegacyException({line: 1}));
 
   it('a subclass of error is returned', () => {
@@ -825,7 +825,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => new MyError('oh no'),
-      })
+      }),
     ).toThrowLegacyException({line: 1});
   });
 
@@ -834,7 +834,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => null,
-      })
+      }),
     ).toThrowLegacyException({line: 1}));
 
   it('undefined is returned', () =>
@@ -842,7 +842,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => undefined as unknown as sass.LegacyImporterResult,
-      })
+      }),
     ).toThrowLegacyException({line: 1}));
 
   it('an unrecognized value is returned', () =>
@@ -850,7 +850,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo"',
         importer: () => 10 as unknown as sass.LegacyImporterResult,
-      })
+      }),
     ).toThrowLegacyException({line: 1}));
 
   it('it occurs in a file with a custom URL scheme', () =>
@@ -858,7 +858,7 @@ describe('gracefully handles an error when', () => {
       sass.renderSync({
         data: '@use "foo:bar"',
         importer: () => ({contents: '@error "oh no"'}),
-      })
+      }),
     ).toThrowLegacyException({line: 1, file: 'foo:bar'}));
 });
 
@@ -870,7 +870,7 @@ describe('render()', () => {
         importer: ((
           _: string,
           __: string,
-          done: (...args: unknown[]) => void
+          done: (...args: unknown[]) => void,
         ) => {
           setTimeout(() => done({contents: 'a {b: c}'}));
         }) as sass.LegacySyncImporter,
@@ -878,7 +878,7 @@ describe('render()', () => {
       (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: c; }');
         done();
-      }
+      },
     ));
 
   it('supports asynchronous errors', done =>
@@ -888,7 +888,7 @@ describe('render()', () => {
         importer: ((
           _: string,
           __: string,
-          done: (...args: unknown[]) => void
+          done: (...args: unknown[]) => void,
         ) => {
           setTimeout(() => done(new Error('oh no')));
         }) as sass.LegacySyncImporter,
@@ -896,7 +896,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(typeof err).toBe('object');
         done();
-      }
+      },
     ));
 
   it('supports synchronous importers', done =>
@@ -908,7 +908,7 @@ describe('render()', () => {
       (err?: sass.LegacyException, result?: sass.LegacyResult) => {
         expect(result!.css.toString()).toEqualIgnoringWhitespace('a { b: c; }');
         done();
-      }
+      },
     ));
 
   it('supports synchronous null returns', done =>
@@ -917,7 +917,7 @@ describe('render()', () => {
       (err?: sass.LegacyException) => {
         expect(typeof err).toBe('object');
         done();
-      }
+      },
     ));
 });
 
@@ -962,7 +962,7 @@ describe('when importer returns non-string contents', () => {
           includes: 'Invalid argument (contents): must be a string but was',
         });
         done();
-      }
+      },
     );
   });
 });

@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {compileString, compileStringAsync, Logger, SourceSpan} from 'sass';
+import {Logger, SourceSpan, compileString, compileStringAsync} from 'sass';
 
 import {captureStdio, captureStdioAsync} from './utils';
 
@@ -47,7 +47,7 @@ describe('with @warn', () => {
               deprecation,
               span,
               stack,
-            }: {deprecation: boolean; span?: SourceSpan; stack?: string}
+            }: {deprecation: boolean; span?: SourceSpan; stack?: string},
           ) {
             expect(message).toBe('heck');
             expect(span).toBeUndefined();
@@ -56,7 +56,7 @@ describe('with @warn', () => {
             done();
           },
         },
-      }
+      },
     );
   });
 

@@ -4,7 +4,7 @@
 
 type InterpolationExample = [
   {weight: number; method?: string},
-  [number, number, number]
+  [number, number, number],
 ];
 
 // These interpolations are the result of mixing `pink` as the primary color

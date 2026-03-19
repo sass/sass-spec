@@ -2,9 +2,9 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, SassColor} from 'sass';
+import {SassColor, Value} from 'sass';
 import {captureStdio} from '../../utils';
-import {legacyRGB, legacyHsl, legacyHwb} from './constructors';
+import {legacyHsl, legacyHwb, legacyRGB} from './constructors';
 
 describe('Legacy SassColor', () => {
   describe('construction', () => {
@@ -295,10 +295,10 @@ describe('Legacy SassColor', () => {
     it('equals the same color even in a different color space', () => {
       expect(color).toEqualWithHash(legacyRGB(18, 52, 86));
       expect(color).toEqualWithHash(
-        legacyHsl(210, 65.3846153846154, 20.392156862745097)
+        legacyHsl(210, 65.3846153846154, 20.392156862745097),
       );
       expect(color).toEqualWithHash(
-        legacyHwb(210, 7.0588235294117645, 66.27450980392157)
+        legacyHwb(210, 7.0588235294117645, 66.27450980392157),
       );
     });
   });
@@ -413,10 +413,10 @@ describe('Legacy SassColor', () => {
         expect(color.change({green: 0})).toEqualWithHash(legacyRGB(18, 0, 86));
         expect(color.change({blue: 0})).toEqualWithHash(legacyRGB(18, 52, 0));
         expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyRGB(18, 52, 86, 0.5)
+          legacyRGB(18, 52, 86, 0.5),
         );
         expect(
-          color.change({red: 0, green: 0, blue: 0, alpha: 0.5})
+          color.change({red: 0, green: 0, blue: 0, alpha: 0.5}),
         ).toEqualWithHash(legacyRGB(0, 0, 0, 0.5));
       });
 
@@ -448,10 +448,10 @@ describe('Legacy SassColor', () => {
 
       it('does not round channels to the nearest integer', () => {
         expect(
-          color.change({red: 0.1, green: 50.4, blue: 90.3}).channels
+          color.change({red: 0.1, green: 50.4, blue: 90.3}).channels,
         ).toFuzzyEqualList([0.1, 50.4, 90.3]);
         expect(
-          color.change({red: -0.1, green: 50.5, blue: 90.9}).channels
+          color.change({red: -0.1, green: 50.5, blue: 90.9}).channels,
         ).toFuzzyEqualList([-0.1, 50.5, 90.9]);
       });
 
@@ -484,19 +484,19 @@ describe('Legacy SassColor', () => {
 
       it('changes HSL values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
-          legacyHsl(120, 65.3846153846154, 20.392156862745097)
+          legacyHsl(120, 65.3846153846154, 20.392156862745097),
         );
         expect(color.change({hue: -120})).toEqualWithHash(
-          legacyHsl(240, 65.3846153846154, 20.392156862745097)
+          legacyHsl(240, 65.3846153846154, 20.392156862745097),
         );
         expect(color.change({saturation: 42})).toEqualWithHash(
-          legacyHsl(210, 42, 20.392156862745097)
+          legacyHsl(210, 42, 20.392156862745097),
         );
         expect(color.change({lightness: 42})).toEqualWithHash(
-          legacyHsl(210, 65.3846153846154, 42)
+          legacyHsl(210, 65.3846153846154, 42),
         );
         expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyHsl(210, 65.3846153846154, 20.392156862745097, 0.5)
+          legacyHsl(210, 65.3846153846154, 20.392156862745097, 0.5),
         );
         expect(
           color.change({
@@ -504,7 +504,7 @@ describe('Legacy SassColor', () => {
             saturation: 42,
             lightness: 42,
             alpha: 0.5,
-          })
+          }),
         ).toEqualWithHash(legacyHsl(120, 42, 42, 0.5));
         expect(color.change({hue: undefined})).toEqualWithHash(color);
         // Emits deprecation warning which is tested elsewhere
@@ -559,22 +559,22 @@ describe('Legacy SassColor', () => {
 
       it('changes HWB values', () => {
         expect(color.change({hue: 120})).toEqualWithHash(
-          legacyHwb(120, 7.0588235294117645, 66.27450980392157)
+          legacyHwb(120, 7.0588235294117645, 66.27450980392157),
         );
         expect(color.change({hue: -120})).toEqualWithHash(
-          legacyHwb(240, 7.0588235294117645, 66.27450980392157)
+          legacyHwb(240, 7.0588235294117645, 66.27450980392157),
         );
         expect(color.change({whiteness: 42})).toEqualWithHash(
-          legacyHwb(210, 42, 66.27450980392157)
+          legacyHwb(210, 42, 66.27450980392157),
         );
         expect(color.change({whiteness: 50})).toEqualWithHash(
-          legacyHwb(210, 50, 66.27450980392157)
+          legacyHwb(210, 50, 66.27450980392157),
         );
         expect(color.change({blackness: 42})).toEqualWithHash(
-          legacyHwb(210, 7.0588235294117645, 42)
+          legacyHwb(210, 7.0588235294117645, 42),
         );
         expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyHwb(210, 7.0588235294117645, 66.27450980392157, 0.5)
+          legacyHwb(210, 7.0588235294117645, 66.27450980392157, 0.5),
         );
         expect(
           color.change({
@@ -582,7 +582,7 @@ describe('Legacy SassColor', () => {
             whiteness: 42,
             blackness: 42,
             alpha: 0.5,
-          })
+          }),
         ).toEqualWithHash(legacyHwb(120, 42, 42, 0.5));
       });
 
@@ -630,7 +630,7 @@ describe('Legacy SassColor', () => {
 
       it('changes the alpha value', () => {
         expect(color.change({alpha: 0.5})).toEqualWithHash(
-          legacyRGB(18, 52, 86, 0.5)
+          legacyRGB(18, 52, 86, 0.5),
         );
       });
 

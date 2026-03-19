@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, sassTrue, sassFalse, SassBoolean} from 'sass';
+import {SassBoolean, Value, sassFalse, sassTrue} from 'sass';
 
 describe('Sass boolean', () => {
   describe('sassTrue', () => {

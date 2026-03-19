@@ -19,7 +19,7 @@ type Implementation = 'dart-sass' | 'sass-embedded' | 'browser';
 /** Skips the `block` of tests when running against the given `impl`. */
 export function skipForImpl(
   impl: Implementation | Implementation[],
-  block: () => void
+  block: () => void,
 ): void {
   impl = Array.isArray(impl) ? impl : [impl];
   if (impl.includes(sassImpl) || (impl.includes('browser') && isBrowser)) {
@@ -35,7 +35,7 @@ export function runOnlyForImpl(impl: Implementation, block: () => void): void {
   } else {
     xdescribe(
       `[skipped for ${sassImpl}${isBrowser ? ' in browser' : ''}]`,
-      block
+      block,
     );
   }
 }
@@ -44,8 +44,9 @@ export const URL = isBrowser
   ? (global as unknown as any).URL
   : require('url').URL;
 
-export const spy = (fn: (...args: any[]) => any) =>
-  jasmine.createSpy().and.callFake(fn);
+export function spy(fn: (...args: any[]) => any): jasmine.Spy {
+  return jasmine.createSpy().and.callFake(fn);
+}
 
 /** Runs `block` and captures any stdout or stderr it emits. */
 export function captureStdio(block: () => void): {out: string; err: string} {
@@ -69,7 +70,7 @@ export function captureStdio(block: () => void): {out: string; err: string} {
       (chunk: string) => {
         err += chunk;
         return '';
-      }
+      },
     );
 
     try {
@@ -84,7 +85,7 @@ export function captureStdio(block: () => void): {out: string; err: string} {
 
 /** Like `captureStdio` but asynchronous. */
 export async function captureStdioAsync(
-  block: () => Promise<void>
+  block: () => Promise<void>,
 ): Promise<{out: string; err: string}> {
   let out = '';
   let err = '';
@@ -106,7 +107,7 @@ export async function captureStdioAsync(
       (chunk: string) => {
         err += chunk;
         return '';
-      }
+      },
     );
 
     try {
@@ -144,7 +145,7 @@ export function evaluateExpression(expression: string): sass.Value {
           return sass.sassNull;
         },
       },
-    }
+    },
   );
   return value!;
 }

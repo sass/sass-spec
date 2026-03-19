@@ -9,7 +9,7 @@ const HRX_SECTION_SEPARATOR = `
 async function getFilesHrx(
   dir: SpecDirectory,
   root: string,
-  filenames: string[]
+  filenames: string[],
 ): Promise<string> {
   const fileSections = await Promise.all(
     filenames.map(async filename => {
@@ -17,14 +17,14 @@ async function getFilesHrx(
       const fullPath = path.resolve(dir.path, filename);
       const relPath = path.relative(root, fullPath);
       return `<===> ${relPath}\n${contents}`;
-    })
+    }),
   );
   return fileSections.join('\n');
 }
 
 async function getSubdirsHrx(
   dir: SpecDirectory,
-  root: string
+  root: string,
 ): Promise<string[]> {
   let sections: string[] = [];
   for (const subdir of await dir.subdirs()) {
@@ -35,7 +35,7 @@ async function getSubdirsHrx(
 
 async function getDirectFileHrx(
   dir: SpecDirectory,
-  root: string
+  root: string,
 ): Promise<string> {
   return await getFilesHrx(dir, root, await dir.listFiles());
 }
@@ -47,7 +47,7 @@ async function getDirectFileHrx(
  */
 async function getNormalDirHrx(
   dir: SpecDirectory,
-  root: string
+  root: string,
 ): Promise<string[]> {
   const directFiles = await getDirectFileHrx(dir, root);
   const subdirSections = await getSubdirsHrx(dir, root);
@@ -70,11 +70,11 @@ async function getNormalDirHrx(
  */
 async function getTestDirHrx(
   dir: SpecDirectory,
-  root: string
+  root: string,
 ): Promise<string> {
   const filenames = await dir.listFiles();
   const inputFile = filenames.find(filename =>
-    /input\.s[ca]ss/.test(filename)
+    /input\.s[ca]ss/.test(filename),
   )!;
   // TODO instead of sorting, just make sure the base output is written first
   const outputFiles = filenames
@@ -109,7 +109,7 @@ async function getTestDirHrx(
 
 async function getHrxSections(
   dir: SpecDirectory,
-  root: string
+  root: string,
 ): Promise<string[]> {
   if (dir.isTestDir()) {
     return [await getTestDirHrx(dir, root)];

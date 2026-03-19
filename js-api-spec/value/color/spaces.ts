@@ -38,7 +38,7 @@ export const spaces: {
         (
           | [number, number, number]
           | Record<GamutMapMethod, [number, number, number]>
-        )
+        ),
       ]
     >;
   };

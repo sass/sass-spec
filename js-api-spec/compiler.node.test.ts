@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import type {AsyncCompiler, Compiler, CompileResult, Importer} from 'sass';
+import type {AsyncCompiler, CompileResult, Compiler, Importer} from 'sass';
 import {initAsyncCompiler, initCompiler} from 'sass';
 
 import {
@@ -37,7 +37,7 @@ describe('Compiler', () => {
           logger,
         });
         expect(result.css).toEqualIgnoringWhitespace(
-          '.import {value: bar;} .fn {value: "bar";}'
+          '.import {value: bar;} .fn {value: "bar";}',
         );
         expect(logger.debug).toHaveBeenCalledTimes(1);
       }));
@@ -103,12 +103,12 @@ describe('AsyncCompiler', () => {
             .map((result: CompileResult) => result.css)
             .forEach((result, i) => {
               expect(result).toEqualIgnoringWhitespace(
-                `.import {value: ${i};} .fn {value: "${i}";}`
+                `.import {value: ${i};} .fn {value: "${i}";}`,
               );
             });
           expect(logger.debug).toHaveBeenCalledTimes(runs);
         }),
-      40_000 // Increase timeout for slow CI
+      40_000, // Increase timeout for slow CI
     );
 
     it('throws after being disposed', () =>
@@ -123,7 +123,7 @@ describe('AsyncCompiler', () => {
         let completed = false;
         dir.write({'input.scss': '@use "slow"'});
         const {importer, triggerComplete} = getTriggeredImporter(
-          () => (completed = true)
+          () => (completed = true),
         );
         const compilation = compiler.compileAsync(dir('input.scss'), {
           importers: [importer],

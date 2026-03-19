@@ -4,7 +4,7 @@ import {toHrx} from '../../lib/spec-directory/hrx';
 describe('toHrx', () => {
   async function expectHrx(
     input: string,
-    expected: string = input
+    expected: string = input,
   ): Promise<void> {
     input = input.trimLeft();
     expected = expected.trimLeft();

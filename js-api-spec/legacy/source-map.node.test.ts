@@ -163,7 +163,7 @@ describe("doesn't emit the source map", () => {
 describe('with a string sourceMap and no outFile', () => {
   it('emits a source map', () =>
     expect(
-      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).sources
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).sources,
     ).toEqual(['stdin']));
 
   it('derives the target URL from the input file', () =>
@@ -174,7 +174,7 @@ describe('with a string sourceMap and no outFile', () => {
         renderSourceMap({
           file: dir('test.scss'),
           sourceMap: 'out.css.map',
-        }).file
+        }).file,
       ).toEqual(pathToFileURL(dir('test.css')).toString());
     }));
 
@@ -186,13 +186,13 @@ describe('with a string sourceMap and no outFile', () => {
         renderSourceMap({
           file: dir('test'),
           sourceMap: 'out.css.map',
-        }).file
+        }).file,
       ).toEqual(pathToFileURL(dir('test.css')).toString());
     }));
 
   it('derives the target URL from stdin', () =>
     expect(
-      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).file
+      renderSourceMap({data: 'a {b: c}', sourceMap: 'out.css.map'}).file,
     ).toEqual('stdin.css'));
 
   // Regression test for sass/dart-sass#922
@@ -206,7 +206,7 @@ describe('with a string sourceMap and no outFile', () => {
         importer: () => ({contents: 'x {y: z}'}),
         sourceMap: p.resolve('out.css.map'),
         outFile: 'out.css',
-      }).sources
+      }).sources,
     ).toEqual(['other', 'stdin']));
 });
 
@@ -240,7 +240,7 @@ describe('with a string sourceMap', () => {
     });
     expect(result.map).not.toBeNil();
     expect(result.css.toString()).toEndWith(
-      '\n\n/*# sourceMappingURL=../map */'
+      '\n\n/*# sourceMappingURL=../map */',
     );
   });
 
@@ -250,7 +250,7 @@ describe('with a string sourceMap', () => {
         data: 'a {b: c}',
         sourceMap: 'dir/map',
         outFile: 'out.css',
-      }).file
+      }).file,
     ).toEqual('../out.css'));
 
   it('makes the source map comment relative even if the path is absolute', () => {
@@ -272,7 +272,7 @@ describe('with a string sourceMap', () => {
           file: dir('test.scss'),
           sourceMap: dir('map'),
           outFile: 'out.css',
-        }).sources
+        }).sources,
       ).toEqual(['test.scss']);
     }));
 });
@@ -285,7 +285,7 @@ describe('with sourceMapContents', () => {
         sourceMap: true,
         outFile: 'out.css',
         sourceMapContents: true,
-      }).sourcesContent
+      }).sourcesContent,
     ).toEqual(['a {b: c}']));
 
   it("includes an imported file's contents in the source map", () =>
@@ -302,7 +302,7 @@ describe('with sourceMapContents', () => {
           sourceMap: true,
           outFile: 'out.css',
           sourceMapContents: true,
-        }).sourcesContent
+        }).sourcesContent,
       ).toEqual(['x {y: z}', scss]);
     }));
 });
@@ -327,7 +327,7 @@ describe('with sourceMapRoot', () => {
         sourceMap: true,
         outFile: 'out.css',
         sourceMapRoot: 'some random string',
-      }).sourceRoot
+      }).sourceRoot,
     ).toEqual('some random string'));
 
   it("doesn't modify the source URLs", () =>

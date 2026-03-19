@@ -1,4 +1,3 @@
-import readline from 'readline';
 import TestCase from './test-case';
 
 // Select properties of the test case that can be used in requirements
@@ -53,7 +52,7 @@ const options: InteractorOption[] = [
     },
     resolve(test) {
       const actual = test.actual();
-      return actual.isSuccess ? actual.warning ?? '' : actual.error;
+      return actual.isSuccess ? (actual.warning ?? '') : actual.error;
     },
   },
   {
@@ -122,13 +121,11 @@ export function optionsFor(test: TestCaseArg): InteractorOption[] {
 
 export class Interactor {
   private memory: Record<string, InteractorOption> = {};
-  private input: NodeJS.ReadableStream;
-  private output: NodeJS.WritableStream;
 
-  constructor(input: NodeJS.ReadableStream, output: NodeJS.WritableStream) {
-    this.input = input;
-    this.output = output;
-  }
+  constructor(
+    private readonly readlineIterator: AsyncIterator<string>,
+    private readonly output: NodeJS.WritableStream,
+  ) {}
 
   private printLine(line = ''): void {
     this.output.write(`${line}\n`);
@@ -157,21 +154,18 @@ export class Interactor {
    * Run the interactor prompt on the given test case.
    */
   async prompt(test: TestCase): Promise<void> {
-    const rl = readline.createInterface(this.input, this.output);
+    const question = async (prompt: string): Promise<string> => {
+      this.output.write(prompt);
+      const result = await this.readlineIterator.next();
+      return result.value ?? '';
+    };
 
-    function question(prompt: string): Promise<string> {
-      return new Promise(resolve => {
-        rl.question(prompt, resolve);
-      });
-    }
-
-    const type = test.result().failureType || '';
+    const type = test.result().failureType ?? '';
 
     // If a repeated choice is chosen for a given failure type, run that choice
     if (this.memory[type]) {
       const choice = this.memory[type];
       await choice.resolve(test);
-      rl.close();
       return;
     }
 
@@ -202,7 +196,6 @@ export class Interactor {
         if (repeat) {
           this.memory[type] = choice;
         }
-        rl.close();
         return;
       }
     }

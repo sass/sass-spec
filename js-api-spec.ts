@@ -1,11 +1,9 @@
-/* eslint-disable no-process-exit */
-
 import * as p from 'path';
 
 import * as del from 'del';
 import * as fs from 'fs-extra';
 import Jasmine from 'jasmine';
-import {config, Server} from 'karma';
+import {Server, config} from 'karma';
 import * as tmp from 'tmp';
 import yargs from 'yargs/yargs';
 import {SpecReporter, StacktraceOption} from 'jasmine-spec-reporter';
@@ -65,7 +63,7 @@ const packageRequire = argv.browser
   : p.resolve(argv.sassPackage);
 fs.writeFileSync(
   `${sassPackagePath}/index.js`,
-  `module.exports = require(${JSON.stringify(packageRequire)});`
+  `module.exports = require(${JSON.stringify(packageRequire)});`,
 );
 
 // Load the APIs from the doc folder, since it uses plain .d.ts files instead of
@@ -85,7 +83,7 @@ fs.copySync(p.resolve(specPath), p.join(sassPackagePath, 'js-api'));
 // Copy deprecations YAML so we can test against it.
 fs.copySync(
   p.resolve(p.join(argv.sassSassRepo, 'spec/deprecations.yaml')),
-  p.join(sassPackagePath, 'deprecations.yaml')
+  p.join(sassPackagePath, 'deprecations.yaml'),
 );
 
 fs.writeFileSync(
@@ -93,13 +91,13 @@ fs.writeFileSync(
   JSON.stringify({
     name: 'sass',
     types: 'js-api/index.d.ts',
-  })
+  }),
 );
 
 del.sync(p.join('js-api-spec', 'node_modules'));
 fs.symlinkSync(
   p.resolve(p.join(dir, 'node_modules')),
-  p.join('js-api-spec', 'node_modules')
+  p.join('js-api-spec', 'node_modules'),
 );
 
 process.on('exit', () => {
@@ -110,7 +108,7 @@ process.on('exit', () => {
 const specsToRun =
   argv._.length > 0
     ? argv._.map(arg => arg.toString()).map(path =>
-        path.endsWith('.test.ts') ? path : '$path/**/*.test.ts'
+        path.endsWith('.test.ts') ? path : '$path/**/*.test.ts',
       )
     : ['js-api-spec/**/*.test.ts'];
 
@@ -122,17 +120,17 @@ if (argv.browser) {
       files: [
         'js-api-spec/setup.ts',
         ...specsToRun.map(path =>
-          path.replace('*.test.ts', '!(*.node).test.ts')
+          path.replace('*.test.ts', '!(*.node).test.ts'),
         ),
       ],
     },
-    {throwErrors: true}
+    {throwErrors: true},
   );
   const server = new Server(karmaConfig, exitCode => {
     console.log('Karma has exited with ' + exitCode);
     process.exit(exitCode);
   });
-  server.start();
+  void server.start();
 } else {
   const jasmine = new Jasmine({
     projectBaseDir: p.resolve('.'),
@@ -148,12 +146,12 @@ if (argv.browser) {
         displayStacktrace: StacktraceOption.PRETTY,
         displaySuccessful: false,
       },
-    })
+    }),
   );
   jasmine.loadConfig({
     spec_dir: 'js-api-spec',
     spec_files: specsToRun.map(path => p.relative('js-api-spec', path)),
     helpers: ['../node_modules/jasmine-expect/index.js', 'setup.ts'],
   });
-  jasmine.execute();
+  void jasmine.execute();
 }

@@ -4,11 +4,11 @@ import p from 'path';
 import yargs from 'yargs/yargs';
 
 import {LintReporter} from './lib/lint-reporter';
-import {fromRoot, SpecDirectory} from './lib/spec-directory';
+import {SpecDirectory, fromRoot} from './lib/spec-directory';
 import RealDirectory from './lib/spec-directory/real-directory';
 import VirtualDirectory from './lib/spec-directory/virtual-directory';
 
-async function lintAllTests(fix: boolean) {
+async function lintAllTests(fix: boolean): Promise<void> {
   try {
     const rootPath = p.resolve(process.cwd(), 'spec');
     const rootDir = (await fromRoot(rootPath)) as RealDirectory;
@@ -28,8 +28,8 @@ async function lintAllTests(fix: boolean) {
 async function lintDirectory(
   directory: SpecDirectory,
   reporter: LintReporter,
-  {canBeHrxRoot = false, fix = false}
-) {
+  {canBeHrxRoot = false, fix = false},
+): Promise<void> {
   if (directory instanceof VirtualDirectory && canBeHrxRoot) {
     const hrxPath = directory.basePath + '.hrx';
     const actualSource = await fs.promises.readFile(hrxPath, {
@@ -46,7 +46,7 @@ async function lintDirectory(
         reporter.reportError(
           'The file does not match the formatting of the styleguide.',
           getRelativePath(hrxPath),
-          true
+          true,
         );
       }
     }
@@ -57,16 +57,16 @@ async function lintDirectory(
     if (directory.hasFile('input.sass') && directory.hasFile('input.scss')) {
       reporter.reportError(
         `The test directory "${getRelativePath(
-          directory.path
+          directory.path,
         )}" cannot have both input.sass and input.scss`,
-        getReportedInputLocation(directory)
+        getReportedInputLocation(directory),
       );
     }
 
     await lintNestedTestDirectories(
       directory,
       getRelativePath(directory.path),
-      reporter
+      reporter,
     );
 
     await lintNonHrxTestDir(directory, reporter, {fix});
@@ -83,15 +83,15 @@ async function lintDirectory(
 async function lintNestedTestDirectories(
   directory: SpecDirectory,
   basePath: string,
-  reporter: LintReporter
-) {
+  reporter: LintReporter,
+): Promise<void> {
   for (const subdir of await directory.subdirs()) {
     if (subdir.isTestDir()) {
       reporter.reportError(
         `The test directory "${getRelativePath(
-          subdir.path
+          subdir.path,
         )}" cannot be nested in the test directory "${basePath}".`,
-        getReportedInputLocation(directory)
+        getReportedInputLocation(directory),
       );
     } else {
       await lintNestedTestDirectories(subdir, basePath, reporter);
@@ -129,8 +129,8 @@ function getRelativePath(filepath: string): string {
 async function lintNonHrxTestDir(
   directory: SpecDirectory,
   reporter: LintReporter,
-  {fix = false}
-) {
+  {fix = false},
+): Promise<void> {
   if (!directory.isTestDir()) return;
 
   if (directory instanceof VirtualDirectory) return;
@@ -146,9 +146,9 @@ async function lintNonHrxTestDir(
   if (!fix) {
     reporter.reportError(
       `The test directory "${getRelativePath(
-        directory.path
+        directory.path,
       )}" must use the HRX format.`,
-      getReportedInputLocation(directory)
+      getReportedInputLocation(directory),
     );
   } else {
     fs.writeFileSync(`${directory.path}.hrx`, await directory.asArchive());
@@ -170,8 +170,8 @@ const LINE_THRESHOLD = 500;
 async function lintHrxSize(
   dir: RealDirectory,
   reporter: LintReporter,
-  {fix = false}
-) {
+  {fix = false},
+): Promise<void> {
   const tooBig = await bigHrx(dir, reporter);
 
   // No Errors.
@@ -182,7 +182,7 @@ async function lintHrxSize(
       reporter.reportError(
         `HRX file exceeds ${LINE_THRESHOLD} lines`,
         getRelativePath(dir.path),
-        true
+        true,
       );
     }
   } else {
@@ -192,7 +192,7 @@ async function lintHrxSize(
       await lintHrxSize(
         (await dir.atPath(p.relative(dir.path, archive.path))) as RealDirectory,
         reporter,
-        {fix}
+        {fix},
       );
     }
   }
@@ -228,7 +228,7 @@ async function lintHrxSize(
  * ```
  *
  */
-async function hrxToRealFiles(archive: VirtualDirectory) {
+async function hrxToRealFiles(archive: VirtualDirectory): Promise<void> {
   fs.mkdirSync(archive.path, {recursive: true});
 
   for (const file of await archive.listFiles()) {
@@ -266,7 +266,7 @@ async function hrxToRealFiles(archive: VirtualDirectory) {
  */
 async function bigHrx(
   dir: RealDirectory,
-  reporter: LintReporter
+  reporter: LintReporter,
 ): Promise<VirtualDirectory[]> {
   const tooBig: VirtualDirectory[] = [];
   for (const subdir of await dir.subdirs()) {
@@ -294,4 +294,4 @@ async function bigHrx(
 
 const args = yargs(process.argv.slice(2)).boolean('fix');
 const argv = args.parseSync();
-lintAllTests(argv.fix ?? false);
+void lintAllTests(argv.fix ?? false);

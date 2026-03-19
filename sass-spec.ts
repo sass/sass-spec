@@ -1,13 +1,19 @@
+import readline from 'readline';
 import {fromRoot} from './lib/spec-directory';
 import {Interactor} from './lib/interactor';
-import {parseArgs, CliArgs} from './lib/cli-args';
+import {CliArgs, parseArgs} from './lib/cli-args';
 import TestCase from './lib/test-case';
 import Tabulator from './lib/tabulator';
 
-async function runAllTests() {
+async function runAllTests(): Promise<void> {
   let args_: CliArgs | undefined;
+  let rl: readline.Interface | undefined;
   try {
-    const interactor = new Interactor(process.stdin, process.stdout);
+    rl = readline.createInterface(process.stdin, process.stdout);
+    const interactor = new Interactor(
+      rl[Symbol.asyncIterator](),
+      process.stdout,
+    );
     const start = Date.now();
     const args = (args_ = await parseArgs(process.argv.slice(2)));
     const rootPath = args.root;
@@ -31,7 +37,7 @@ async function runAllTests() {
           trimErrors: args.trimErrors,
           skipWarning: args.skipWarning,
           ignoreErrorDiffs: args.ignoreErrorDiffs,
-        }
+        },
       );
       if (test.result().type === 'fail' && args.interactive) {
         await interactor.prompt(test);
@@ -50,7 +56,8 @@ async function runAllTests() {
     process.exitCode = 255;
   } finally {
     args_?.compiler?.shutdown();
+    rl?.close();
   }
 }
 
-runAllTests();
+void runAllTests();
