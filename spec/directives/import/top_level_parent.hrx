@@ -1,24 +1,21 @@
-<===> input.scss
-@import "include.scss";
-<===> include.scss
+<===> top_level_parent/input.scss
+@import 'other';
+
+<===> top_level_parent/_other.scss
+& {a: b}
+
+<===> top_level_parent/output.css
 & {
-  foo {
-    bar: baz;
-  }
+  a: b;
 }
 
-<===> output.css
-& foo {
-  bar: baz;
-}
-
-<===> warning
+<===> top_level_parent/warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
 
   ,
-1 | @import "include.scss";
-  |         ^^^^^^^^^^^^^^
+1 | @import 'other';
+  |         ^^^^^^^
   '
     input.scss 1:9  root stylesheet

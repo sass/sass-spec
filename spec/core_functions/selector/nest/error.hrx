@@ -12,22 +12,17 @@ Error: Undefined function.
 
 <===>
 ================================================================================
-<===> parent/first_arg/input.scss
+<===> parent/first_arg_suffix/input.scss
 @use "sass:selector";
-a {b: selector.nest("&")}
+a {b: selector.nest("&c")}
 
-<===> parent/first_arg/error
-Error: Parent selectors aren't allowed here.
+<===> parent/first_arg_suffix/error
+Error: A top-level selector may not contain a parent selector with a suffix.
   ,
-1 | &
-  | ^
+1 | &c
+  | ^^
   '
   - 1:1  root stylesheet
-  ,
-2 | a {b: selector.nest("&")}
-  |       ^^^^^^^^^^^^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
