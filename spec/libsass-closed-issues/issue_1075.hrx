@@ -7,17 +7,8 @@ foo {
 }
 
 <===> error
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("lighten"))
-
-  ,
-5 |   bar: meta.call($name, $args...);
-  |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 5:8  root stylesheet
-
-Error: Plain CSS functions don't support keyword arguments.
+Error: $function: "lighten" is not a function reference.
+Call meta.get-function() to get a reference for a function name.
   ,
 5 |   bar: meta.call($name, $args...);
   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^

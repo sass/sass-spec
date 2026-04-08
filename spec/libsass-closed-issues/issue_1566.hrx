@@ -12,19 +12,12 @@ test {
   test: foo(1 2 3);
 }
 
-<===> output.css
-test {
-  test: list;
-}
-
-<===> warning
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("bar"))
-
+<===> error
+Error: $function: "bar" is not a function reference.
+Call meta.get-function() to get a reference for a function name.
   ,
 3 |   @return meta.call('bar', $predicate);
   |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 3:11  foo()
-    input.scss 11:9  root stylesheet
+  input.scss 3:11  foo()
+  input.scss 11:9  root stylesheet

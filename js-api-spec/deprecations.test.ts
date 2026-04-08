@@ -35,22 +35,23 @@ describe('a warning', () => {
     });
   });
 
-  it('is emitted with different deprecation type silenced', done => {
-    compileString('@import "other"', {
-      importers: [emptyStylesheetImporter],
-      logger: {
-        warn(
-          message: string,
-          {
-            deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
-        ) {
-          expect(deprecationType).toEqual(deprecations['import']);
-          done();
-        },
-      },
-      silenceDeprecations: ['call-string'],
-    });
+  // Excluding this test until we add post-2.0.0 deprecations.
+  xit('is emitted with different deprecation type silenced', done => {
+    // compileString('@import "other"', {
+    //   importers: [emptyStylesheetImporter],
+    //   logger: {
+    //     warn(
+    //       message: string,
+    //       {
+    //         deprecationType,
+    //       }: {deprecation: boolean; deprecationType?: Deprecation}
+    //     ) {
+    //       expect(deprecationType).toEqual(deprecations['import']);
+    //       done();
+    //     },
+    //   },
+    //   silenceDeprecations: ['call-string'],
+    // });
   });
 
   it('is not emitted when deprecation silenced', () => {

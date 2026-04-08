@@ -4,29 +4,11 @@
     content: meta.call('unquote', 'foo', ()...);
 }
 
-<===> output.css
-.foo {
-  content: foo;
-}
-
-<===> warning
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("unquote"))
-
+<===> error
+Error: $function: "unquote" is not a function reference.
+Call meta.get-function() to get a reference for a function name.
   ,
 3 |     content: meta.call('unquote', 'foo', ()...);
   |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 3:14  root stylesheet
-
-DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
-Use string.unquote instead.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
-  ,
-3 |     content: meta.call('unquote', 'foo', ()...);
-  |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 3:14  root stylesheet
+  input.scss 3:14  root stylesheet
