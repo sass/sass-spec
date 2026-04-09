@@ -14,19 +14,12 @@ $empty-list: ();
 test {
   test: foo($empty-list);
 }
-<===> output.css
-test {
-  test: 0;
-}
-
-<===> warning
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function(bar))
-
+<===> error
+Error: $function: bar is not a function reference.
+Call meta.get-function() to get a reference for a function name.
   ,
 6 |     @return meta.call(bar, $args...);
   |             ^^^^^^^^^^^^^^^^^^^^^^^^
   '
-    input.scss 6:13  foo()
-    input.scss 14:9  root stylesheet
+  input.scss 6:13  foo()
+  input.scss 14:9  root stylesheet

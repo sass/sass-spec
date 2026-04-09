@@ -21,16 +21,7 @@ $arg: join((), 5%);
   function: dark(#102030, 5%);
   function2: dark2(#102030, 5%);
 }
-<===> output.css
-.single {
-  direct: darken(#102030, 5%);
-  arg: darken(#102030, 5%);
-  call: darken(#102030 5%);
-  function: darken(#102030, 5%);
-  function2: darken(#102030, 5%);
-}
-
-<===> warning
+<===> error
 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use list.join instead.
 
@@ -53,58 +44,10 @@ More info and automated migrator: https://sass-lang.com/d/import
    '
     input.scss 19:9  root stylesheet
 
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("darken"))
-
+Error: $function: "darken" is not a function reference.
+Call meta.get-function() to get a reference for a function name.
    ,
 19 |   call: call('darken', #102030, $arg...);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 19:9  root stylesheet
-
-DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
-Use meta.call instead.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
-  ,
-5 |   @return call('darken', $color, $args...);
-  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 5:11   dark()
-    input.scss 20:13  root stylesheet
-
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("darken"))
-
-  ,
-5 |   @return call('darken', $color, $args...);
-  |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 5:11   dark()
-    input.scss 20:13  root stylesheet
-
-DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
-Use meta.call instead.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
-   ,
-11 |   @return call('darken', $args...);
-   |           ^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 11:11  dark2()
-    input.scss 21:14  root stylesheet
-
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("darken"))
-
-   ,
-11 |   @return call('darken', $args...);
-   |           ^^^^^^^^^^^^^^^^^^^^^^^^
-   '
-    input.scss 11:11  dark2()
-    input.scss 21:14  root stylesheet
+  input.scss 19:9  root stylesheet

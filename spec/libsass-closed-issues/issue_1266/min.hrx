@@ -6,28 +6,8 @@ foo {
 }
 
 <===> error
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function(min))
-
-  ,
-4 |   bar: meta.call(min, $foo...);
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 4:8  root stylesheet
-
-DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
-Use math.min instead.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
-  ,
-4 |   bar: meta.call(min, $foo...);
-  |        ^^^^^^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 4:8  root stylesheet
-
-Error: blah is not a number.
+Error: $function: min is not a function reference.
+Call meta.get-function() to get a reference for a function name.
   ,
 4 |   bar: meta.call(min, $foo...);
   |        ^^^^^^^^^^^^^^^^^^^^^^^

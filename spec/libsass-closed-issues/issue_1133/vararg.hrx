@@ -18,24 +18,11 @@ b {
   }
 }
 
-<===> output.css
-a {
-  this: is;
-  my: map;
-}
-
-b {
-  this: is;
-  my: map;
-}
-
-<===> warning
-DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
-
-Recommendation: call(get-function("foo"))
-
+<===> error
+Error: $function: "foo" is not a function reference.
+Call meta.get-function() to get a reference for a function name.
    ,
 14 |   $map: meta.call("foo", (this: is, my: map)...);
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    '
-    input.scss 14:9  root stylesheet
+  input.scss 14:9  root stylesheet
