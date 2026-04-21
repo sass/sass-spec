@@ -127,3 +127,30 @@ a {b: color.to-space(hsl(10deg 20% none), oklch)}
 a {
   b: oklch(none 0 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), oklch)}
+
+<===> missing/non_hue/output.css
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), oklch)}
+
+<===> missing/non_lightness/output.css
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
+}

@@ -127,3 +127,30 @@ a {b: color.to-space(hsl(10deg 20% none), srgb-linear)}
 a {
   b: color(srgb-linear 0 0 0);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), srgb-linear)}
+
+<===> missing/non_hue/output.css
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), srgb-linear)}
+
+<===> missing/non_lightness/output.css
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), srgb-linear)}
+
+<===> missing/all/output.css
+a {
+  b: color(srgb-linear none none none);
+}

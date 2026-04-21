@@ -116,3 +116,14 @@ a {b: color.to-space(color(display-p3 0.1 0.2 none), oklab)}
 a {
   b: oklab(28.5078225669% -0.0706258683 0.0690953537);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(display-p3 none none none), oklab)}
+
+<===> missing/all/output.css
+a {
+  b: oklab(none none none);
+}

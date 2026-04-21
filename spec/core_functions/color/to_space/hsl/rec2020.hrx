@@ -127,3 +127,30 @@ a {b: color.to-space(hsl(10deg 20% none), rec2020)}
 a {
   b: color(rec2020 0 0 0);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), rec2020)}
+
+<===> missing/non_hue/output.css
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), rec2020)}
+
+<===> missing/non_lightness/output.css
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), rec2020)}
+
+<===> missing/all/output.css
+a {
+  b: color(rec2020 none none none);
+}

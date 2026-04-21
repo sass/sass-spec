@@ -82,40 +82,106 @@ a {
 
 <===>
 ================================================================================
-<===> explicit/analogous/legacy/color1/input.scss
+<===> explicit/analogous/legacy/color1/single/input.scss
 @use "sass:color";
 a {b: color.mix(rgb(none 100 200), rgb(200 100 0), $method: rec2020)}
 
-<===> explicit/analogous/legacy/color1/output.css
+<===> explicit/analogous/legacy/color1/single/output.css
 a {
   b: rgb(199.7671172587, 91.8239078594, 117.7284104313);
 }
 
 <===>
 ================================================================================
-<===> explicit/analogous/legacy/color2/input.scss
+<===> explicit/analogous/legacy/color1/set/input.scss
+@use "sass:color";
+a {b: color.mix(hsl(none none 50%), lab(80% 10% 20%), $method: oklch)}
+
+<===> explicit/analogous/legacy/color1/set/output.css
+a {
+  b: hsl(27.6264349345, 39.5108871342%, 61.2332568327%);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/legacy/color1/all/input.scss
+@use "sass:color";
+a {b: color.mix(rgb(none none none), rgb(200 100 0), $method: rec2020)}
+
+<===> explicit/analogous/legacy/color1/all/output.css
+a {
+  b: #c86400;
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/legacy/color2/single/input.scss
 @use "sass:color";
 a {b: color.mix(rgb(0 100 200), rgb(200 none 0), $method: rec2020)}
 
-<===> explicit/analogous/legacy/color2/output.css
+<===> explicit/analogous/legacy/color2/single/output.css
 a {
   b: rgb(128.6114294932, 95.678836923, 112.8090426091);
 }
 
 <===>
 ================================================================================
-<===> explicit/analogous/legacy/both/input.scss
+<===> explicit/analogous/legacy/color2/set/input.scss
+@use "sass:color";
+a {b: color.mix(hsl(120deg 10% 20%), lab(50% none none), $method: oklch)}
+
+<===> explicit/analogous/legacy/color2/set/output.css
+a {
+  b: hsl(119.669130857, 6.6488786052%, 32.4911149973%);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/legacy/color2/all/input.scss
+@use "sass:color";
+a {b: color.mix(rgb(200 100 0), rgb(none none none), $method: rec2020)}
+
+<===> explicit/analogous/legacy/color2/all/output.css
+a {
+  b: #c86400;
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/legacy/both/single/input.scss
 @use "sass:color";
 a {b: color.mix(rgb(0 none 200), rgb(200 none 0), $method: rec2020)}
 
-<===> explicit/analogous/legacy/both/output.css
+<===> explicit/analogous/legacy/both/single/output.css
 a {
   b: rgb(129.0248146672, 0, 115.9531222724);
 }
 
 <===>
 ================================================================================
-<===> explicit/analogous/modern/color1/input.scss
+<===> explicit/analogous/legacy/both/set/input.scss
+@use "sass:color";
+a {b: color.mix(hsl(none none 50%), lab(80% none none), $method: rec2020)}
+
+<===> explicit/analogous/legacy/both/set/output.css
+a {
+  b: hsl(0, 0%, 63.9997640279%);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/legacy/both/all/input.scss
+@use "sass:color";
+a {b: color.mix(rgb(none none none), rgb(none none none), $method: rec2020)}
+
+<===> explicit/analogous/legacy/both/all/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/modern/color1/single/input.scss
 @use "sass:color";
 a {
   b: color.mix(
@@ -125,9 +191,43 @@ a {
   );
 }
 
-<===> explicit/analogous/modern/color1/output.css
+<===> explicit/analogous/modern/color1/single/output.css
 a {
   b: color(srgb 0.146201736 0.1492595622 0.2497768167);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/modern/color1/set/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    lch(50% none none),
+    lab(80% 10% 20%),
+    $method: oklch
+  );
+}
+
+<===> explicit/analogous/modern/color1/set/output.css
+a {
+  b: lch(64.9034695294% 28.3412220859 63.2701468478deg);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/modern/color1/all/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    color(srgb none none none),
+    color(srgb 0.1 0.2 0.3),
+    $method: rec2020
+  );
+}
+
+<===> explicit/analogous/modern/color1/all/output.css
+a {
+  b: color(srgb 0.1 0.2 0.3);
 }
 
 <===>
@@ -142,6 +242,33 @@ a {
   );
 }
 
+<===> explicit/analogous/modern/color2/set/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    lab(80% 10% 20%),
+    lch(50% none none),
+    $method: oklch
+  );
+}
+
+<===> explicit/analogous/modern/color2/set/output.css
+
+<===> explicit/analogous/modern/color2/all/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    color(srgb 0.1 0.2 0.3),
+    color(srgb none none none),
+    $method: rec2020
+  );
+}
+
+<===> explicit/analogous/modern/color2/all/output.css
+a {
+  b: color(srgb 0.1 0.2 0.3);
+}
+
 <===> explicit/analogous/modern/color2/output.css
 a {
   b: color(srgb 0.0134568276 0.2030946777 0.2456679982);
@@ -149,7 +276,7 @@ a {
 
 <===>
 ================================================================================
-<===> explicit/analogous/modern/both/input.scss
+<===> explicit/analogous/modern/both/single/input.scss
 @use "sass:color";
 a {
   b: color.mix(
@@ -159,9 +286,43 @@ a {
   );
 }
 
-<===> explicit/analogous/modern/both/output.css
+<===> explicit/analogous/modern/both/single/output.css
 a {
   b: color(srgb 0.2110804397 0.2012136757 none);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/modern/both/set/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    lab(20% none none),
+    lch(50% none none),
+    $method: oklch
+  );
+}
+
+<===> explicit/analogous/modern/both/set/output.css
+a {
+  b: lab(35% none none);
+}
+
+<===>
+================================================================================
+<===> explicit/analogous/modern/both/all/input.scss
+@use "sass:color";
+a {
+  b: color.mix(
+    color(srgb none none none),
+    color(srgb none none none),
+    $method: rec2020
+  );
+}
+
+<===> explicit/analogous/modern/both/all/output.css
+a {
+  b: color(srgb none none none);
 }
 
 <===>

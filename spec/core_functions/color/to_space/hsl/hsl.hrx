@@ -50,3 +50,36 @@ a {b: color.to-space(hsl(10deg 20% none), hsl)}
 a {
   b: hsl(10deg 20% none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), hsl)}
+
+<===> missing/non_hue/output.css
+a {
+  b: hsl(10deg none none)
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), hsl)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: hsl(none none 50%)
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(none none none);
+}

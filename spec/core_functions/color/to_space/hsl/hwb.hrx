@@ -127,3 +127,36 @@ a {b: color.to-space(hsl(10deg 20% none), hwb)}
 a {
   b: black;
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), hwb)}
+
+<===> missing/non_hue/output.css
+a {
+  b: hwb(10deg none none);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), hwb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: hwb(none 0% 0%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), hwb)}
+
+<===> missing/all/output.css
+a {
+  b: hwb(none none none);
+}
