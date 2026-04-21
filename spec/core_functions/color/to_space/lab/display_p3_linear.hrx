@@ -116,3 +116,25 @@ a {b: color.to-space(lab(10% 20 none), display-p3-linear)}
 a {
   b: color(display-p3-linear 0.0278772897 0.0054380443 0.0115933369);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(10% none none), display-p3-linear)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(display-p3-linear 0.0112601993 0.0112601993 0.0112601993);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(none none none), display-p3-linear)}
+
+<===> missing/all/output.css
+a {
+  b: color(display-p3-linear none none none);
+}

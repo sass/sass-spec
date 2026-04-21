@@ -127,3 +127,36 @@ a {b: color.to-space(lch(10% 20 none), rec2020)}
 a {
   b: color(rec2020 0.2063393882 0.1229873357 0.1553854471);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none 10deg), rec2020)}
+
+<===> missing/non_hue/output.css
+a {
+  b: color(rec2020 0 0 0);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(50% none none), rec2020)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(rec2020 0.4941484448 0.4941484448 0.4941484448);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none none), rec2020)}
+
+<===> missing/all/output.css
+a {
+  b: color(rec2020 none none none);
+}

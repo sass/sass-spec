@@ -86,33 +86,44 @@ a {
 
 <===>
 ================================================================================
-<===> missing/red/input.scss
+<===> missing/x/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz none 0.2 0.3), oklab)}
 
-<===> missing/red/output.css
+<===> missing/x/output.css
 a {
   b: oklab(52.6994311398% -0.4922232483 -0.0409679567);
 }
 
 <===>
 ================================================================================
-<===> missing/green/input.scss
+<===> missing/y/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 none 0.3), oklab)}
 
-<===> missing/green/output.css
+<===> missing/y/output.css
 a {
   b: oklab(26.3423255262% 0.3682063802 -0.2704617674);
 }
 
 <===>
 ================================================================================
-<===> missing/blue/input.scss
+<===> missing/z/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 0.2 none), oklab)}
 
-<===> missing/blue/output.css
+<===> missing/z/output.css
 a {
   b: oklab(56.6867662885% -0.1591393729 0.1508075356);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(xyz none none none), oklab)}
+
+<===> missing/all/output.css
+a {
+  b: oklab(none none none);
 }

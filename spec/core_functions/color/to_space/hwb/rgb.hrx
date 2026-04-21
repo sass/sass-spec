@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), rgb)}
 a {
   b: #ff5533;
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), rgb)}
+
+<===> missing/non_hue/output.css
+a {
+  b: rgb(100%, 16.6666666667%, 0%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), rgb)}
+
+<===> missing/all/output.css
+a {
+  b: black;
+}
