@@ -1,0 +1,46 @@
+<===> stylesheet/input.scss
+[a]b {c: d}
+
+<===> stylesheet/output.css
+[a] b {
+  c: d;
+}
+
+<===> stylesheet/warning
+DEPRECATION WARNING [adjacent-compounds] on line 1, column 1 of input.scss: 
+Adjacent compound selectors must be separated by whitespace. This will be an error in Dart Sass 2.0.0. Suggestion:
+
+[a] b
+
+More info: https://sass-lang.com/d/adjacent-compounds
+  ,
+1 | [a]b {c: d}
+  | ^^^^
+  '
+
+<===>
+================================================================================
+<===> function/input.scss
+@use 'sass:selector';
+
+a {
+  b: selector.parse("[c]d");
+}
+
+<===> function/output.css
+a {
+  b: [c] d;
+}
+
+<===> function/warning
+DEPRECATION WARNING [adjacent-compounds]: Adjacent compound selectors must be separated by whitespace. This will be an error in Dart Sass 2.0.0. Suggestion:
+
+[c] d
+
+More info: https://sass-lang.com/d/adjacent-compounds
+
+  ,
+4 |   b: selector.parse("[c]d");
+  |      ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:6  root stylesheet
