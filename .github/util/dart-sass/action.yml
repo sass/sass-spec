@@ -12,8 +12,9 @@ runs:
         sdk: "${{ inputs.dart-sdk }}"
         architecture: "${{ inputs.architecture }}"
 
-    - uses: bufbuild/buf-setup-action@v1.13.1
-      with: {github_token: "${{ inputs.github-token }}"}
+    - uses: bufbuild/buf-action@v1
+      with:
+        setup_only: true
 
     - uses: sass/clone-linked-repo@v1
       with: {repo: sass/dart-sass, path: dart-sass}
