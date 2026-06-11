@@ -150,28 +150,6 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===>
 ================================================================================
-<===> number/input.scss
-@use "sass:color";
-a {b: color.grayscale(1)}
-
-<===> number/output.css
-a {
-  b: grayscale(1);
-}
-
-<===> number/warning
-DEPRECATION WARNING [color-module-compat]: Passing a number (1) to color.grayscale() is deprecated.
-
-Recommendation: grayscale(1)
-
-  ,
-2 | a {b: color.grayscale(1)}
-  |       ^^^^^^^^^^^^^^^^^^
-  '
-    input.scss 2:7  root stylesheet
-
-<===>
-================================================================================
 <===> named/input.scss
 @use "sass:color";
 a {b: color.grayscale($color: white)}
@@ -274,14 +252,28 @@ Error: Only 1 argument allowed, but 2 were passed.
 
 <===>
 ================================================================================
-<===> error/type/input.scss
+<===> error/type/string/input.scss
 @use "sass:color";
 a {b: color.grayscale(c)}
 
-<===> error/type/error
+<===> error/type/string/error
 Error: $color: c is not a color.
   ,
 2 | a {b: color.grayscale(c)}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/type/number/input.scss
+@use "sass:color";
+a {b: color.grayscale(1)}
+
+<===> error/type/number/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.grayscale(1)}
   |       ^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet

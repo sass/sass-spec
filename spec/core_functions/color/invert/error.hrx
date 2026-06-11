@@ -263,14 +263,28 @@ Error: $hue: Because the CSS working group is still deciding on the best behavio
 
 <===>
 ================================================================================
-<===> type/color/input.scss
+<===> type/color/string/input.scss
 @use "sass:color";
 a {b: color.invert(c)}
 
-<===> type/color/error
+<===> type/color/string/error
 Error: $color: c is not a color.
   ,
 2 | a {b: color.invert(c)}
+  |       ^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> type/color/number/input.scss
+@use "sass:color";
+a {b: color.invert(1)}
+
+<===> type/color/number/error
+Error: $color: 1 is not a color.
+  ,
+2 | a {b: color.invert(1)}
   |       ^^^^^^^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
