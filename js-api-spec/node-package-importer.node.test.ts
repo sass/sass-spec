@@ -7,11 +7,7 @@ import {
   compileAsync,
   compileString,
   compileStringAsync,
-  render,
-  renderSync,
   NodePackageImporter,
-  LegacyException,
-  LegacyResult,
 } from 'sass';
 
 import {sandbox} from './sandbox';
@@ -739,88 +735,6 @@ describe('Node Package Importer', () => {
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           return result;
-        });
-      }));
-
-    it('render string', () =>
-      sandbox(dir => {
-        dir.write({
-          'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': JSON.stringify({}),
-        });
-        return dir.chdir(async () => {
-          return await new Promise(resolve => {
-            render(
-              {
-                data: '@use "pkg:bah"',
-                pkgImporter: new NodePackageImporter(),
-              },
-              (err?: LegacyException, result?: LegacyResult) => {
-                expect(err).toBeFalsy();
-                expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                  'a { b: c; }'
-                );
-                resolve(undefined);
-              }
-            );
-          });
-        });
-      }));
-
-    it('render file', () =>
-      sandbox(dir => {
-        dir.write({
-          'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': JSON.stringify({}),
-          'index.scss': '@use "pkg:bah";',
-        });
-        return dir.chdir(async () => {
-          return await new Promise(resolve => {
-            render(
-              {
-                file: 'index.scss',
-                pkgImporter: new NodePackageImporter(),
-              },
-              (err?: LegacyException, result?: LegacyResult) => {
-                expect(err).toBeFalsy();
-                expect(result!.css.toString()).toEqualIgnoringWhitespace(
-                  'a { b: c; }'
-                );
-                resolve(undefined);
-              }
-            );
-          });
-        });
-      }));
-
-    it('renderSync file', () =>
-      sandbox(dir => {
-        dir.write({
-          'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': JSON.stringify({}),
-          'index.scss': '@use "pkg:bah";',
-        });
-        return dir.chdir(() => {
-          const result = renderSync({
-            file: 'index.scss',
-            pkgImporter: new NodePackageImporter(),
-          }).css.toString();
-          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
-        });
-      }));
-
-    it('renderSync data', () =>
-      sandbox(dir => {
-        dir.write({
-          'node_modules/bah/index.scss': 'a {b: c}',
-          'node_modules/bah/package.json': JSON.stringify({}),
-        });
-        return dir.chdir(() => {
-          const result = renderSync({
-            data: '@use "pkg:bah"',
-            pkgImporter: new NodePackageImporter(),
-          }).css.toString();
-          expect(result).toEqualIgnoringWhitespace('a { b: c;}');
         });
       }));
   });

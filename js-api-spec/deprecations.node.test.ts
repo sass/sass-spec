@@ -4,29 +4,10 @@
 
 import fs from 'fs';
 import yaml from 'js-yaml';
-import {deprecations, renderSync, Deprecation, Version} from 'sass';
-import {captureStdio} from './utils';
+import {deprecations, Deprecation, Version} from 'sass';
 
-describe('a warning from the JS API', () => {
-  it('is emitted with no flags', () => {
-    const stdio = captureStdio(() => {
-      renderSync({
-        data: 'a { b: c; }',
-      });
-    });
-    expect(stdio.err).toContain('legacy JS API');
-  });
-
-  it('is not emitted when deprecation silenced', () => {
-    const stdio = captureStdio(() => {
-      renderSync({
-        data: 'a { b: c; }',
-        silenceDeprecations: [deprecations['legacy-js-api']],
-      });
-    });
-    expect(stdio.err).toBe('');
-  });
-});
+// TODO: Test warnings from the JS API once some exist that will last past Dart
+// Sass 2.0.0.
 
 describe('deprecation type', () => {
   const deprecationsMap = deprecations as unknown as {
