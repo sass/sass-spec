@@ -6,7 +6,6 @@ import Jasmine from 'jasmine';
 import {Server, config} from 'karma';
 import * as tmp from 'tmp';
 import yargs from 'yargs/yargs';
-import {SpecReporter, StacktraceOption} from 'jasmine-spec-reporter';
 
 const args = yargs(process.argv.slice(2))
   .parserConfiguration({'unknown-options-as-args': true})
@@ -135,19 +134,6 @@ if (argv.browser) {
   const jasmine = new Jasmine({
     projectBaseDir: p.resolve('.'),
   });
-  jasmine.env.clearReporters();
-  jasmine.env.addReporter(
-    new SpecReporter({
-      spec: {
-        displayStacktrace: StacktraceOption.PRETTY,
-        displaySuccessful: false,
-      },
-      summary: {
-        displayStacktrace: StacktraceOption.PRETTY,
-        displaySuccessful: false,
-      },
-    }),
-  );
   jasmine.loadConfig({
     spec_dir: 'js-api-spec',
     spec_files: specsToRun.map(path => p.relative('js-api-spec', path)),

@@ -8,6 +8,8 @@ import * as p from 'path';
 import {URL, pathToFileURL} from 'url';
 import {PromiseOr} from 'sass';
 
+import {finallyOr} from './utils';
+
 /**
  * Runs `test` within a sandbox directory. This directory is made available via
  * the `dir` parameter, which provides various utilities for working with it.
@@ -49,8 +51,8 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
-        chdir: async (
-          callback: () => unknown,
+        chdir: <T, sync extends 'sync' | 'async'>(
+          callback: () => PromiseOr<T, sync>,
           options?: {entryPoint: string},
         ) => {
           const oldPath = process.cwd();
@@ -60,12 +62,11 @@ export async function sandbox(
             const filename = options?.entryPoint || p.basename(oldEntryPoint);
             require.main!.filename = `${testDir}/${filename}`;
           }
-          try {
-            return await callback();
-          } finally {
+
+          return finallyOr(callback, () => {
             process.chdir(oldPath);
             if (oldEntryPoint) require.main!.filename = oldEntryPoint;
-          }
+          });
         },
       }),
     );
@@ -108,5 +109,8 @@ export interface SandboxDirectory {
    * as the filename within the directory, otherwise it uses the basename of the
    * original `require.main.filename`.
    * */
-  chdir<T>(callback: () => T, options?: {entryPoint: string}): void;
+  chdir<T, sync extends 'sync' | 'async' = 'sync'>(
+    callback: () => PromiseOr<T, sync>,
+    options?: {entryPoint: string},
+  ): PromiseOr<T, sync>;
 }

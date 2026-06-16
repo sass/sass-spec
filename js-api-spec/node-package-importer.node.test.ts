@@ -645,7 +645,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-above/index.scss': 'a {b: c}',
           'node_modules/bar-above/package.json': JSON.stringify({}),
         });
-        return dir.chdir(
+        dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-above";', {
               importers: [new NodePackageImporter()],
@@ -663,7 +663,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
         const entryPoint = fileURLToPath(dir.url());
-        return dir.chdir(() => {
+        dir.chdir(() => {
           const result = compileString('@use "pkg:bar-abs";', {
             importers: [new NodePackageImporter(entryPoint)],
           });
@@ -866,7 +866,6 @@ describe('Node Package Importer', () => {
             ],
           });
           expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
-          return result;
         });
       }));
 
@@ -881,7 +880,6 @@ describe('Node Package Importer', () => {
             importers: [new NodePackageImporter()],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          return result;
         });
       }));
 
@@ -892,7 +890,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
         });
         return dir.chdir(async () => {
-          return await new Promise(resolve => {
+          await new Promise(resolve => {
             render(
               {
                 data: '@use "pkg:bah"',
@@ -918,7 +916,7 @@ describe('Node Package Importer', () => {
           'index.scss': '@use "pkg:bah";',
         });
         return dir.chdir(async () => {
-          return await new Promise(resolve => {
+          await new Promise(resolve => {
             render(
               {
                 file: 'index.scss',
