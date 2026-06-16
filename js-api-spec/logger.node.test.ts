@@ -72,3 +72,33 @@ describe('compileAsync', () => {
       expect(stdio.err).toBeEmptyString();
     }));
 });
+
+describe('sassStack', () => {
+  it('is not ambiguous for relative import and load path import', () =>
+    sandbox(dir => {
+      dir.write({
+        'style.scss': '@use "component";',
+        'loadpath/component.scss': '@warn heck warn;',
+      });
+
+      const stdio1 = captureStdio(() => {
+        compile(dir('style.scss'), {
+          loadPaths: [dir('loadpath')],
+        });
+      });
+      expect(stdio1.out).toBeEmptyString();
+      expect(stdio1.err).not.toBeEmptyString();
+
+      dir.write({
+        'component.scss': '@warn heck warn;',
+      });
+
+      const stdio2 = captureStdio(() => {
+        compile(dir('style.scss'));
+      });
+      expect(stdio2.out).toBeEmptyString();
+      expect(stdio2.err).not.toBeEmptyString();
+
+      expect(stdio1!.err).not.toEqual(stdio2!.err);
+    }));
+});
