@@ -81,11 +81,16 @@ describe('sassStack', () => {
         'loadpath/component.scss': '@warn heck warn;',
       });
 
-      const stdio1 = captureStdio(() => {
-        compile(dir('style.scss'), {
-          loadPaths: [dir('loadpath')],
-        });
-      });
+      // Run the compilation in the sandbox directory so that the human-friendly
+      // relative path to `<sandbox>/component.scss` is the same as the load
+      // path.
+      const stdio1 = dir.chdir(() =>
+        captureStdio(() => {
+          compile(dir('style.scss'), {
+            loadPaths: [dir('loadpath')],
+          });
+        }),
+      );
       expect(stdio1.out).toBeEmptyString();
       expect(stdio1.err).not.toBeEmptyString();
 
@@ -93,12 +98,15 @@ describe('sassStack', () => {
         'component.scss': '@warn heck warn;',
       });
 
-      const stdio2 = captureStdio(() => {
-        compile(dir('style.scss'));
-      });
+      const stdio2 = dir.chdir(() =>
+        captureStdio(() => {
+          compile(dir('style.scss'));
+        }),
+      );
       expect(stdio2.out).toBeEmptyString();
       expect(stdio2.err).not.toBeEmptyString();
 
+      console.log({stdio1, stdio2});
       expect(stdio1!.err).not.toEqual(stdio2!.err);
     }));
 });

@@ -157,3 +157,41 @@ export function serializeValue(value: sass.Value): string {
   });
   return result.css.match(/b: ?(.*);/)![1];
 }
+
+/**
+ * The equivalent of `Promise.then()`, except that if the first argument is a
+ * plain value it synchronously invokes `callback()` and returns its result.
+ */
+export function thenOr<T, V, sync extends 'sync' | 'async'>(
+  promiseOrValue: sass.PromiseOr<T, sync>,
+  callback: (value: T) => sass.PromiseOr<V, sync>,
+): sass.PromiseOr<V, sync> {
+  return promiseOrValue instanceof Promise
+    ? (promiseOrValue.then(callback) as sass.PromiseOr<V, sync>)
+    : callback(promiseOrValue as T);
+}
+
+/**
+ * The equivalent of `Promise.catch()`, except that if the first argument returns
+ * synchronously it synchronously invokes `callback()`.
+ */
+export function finallyOr<T, sync extends 'sync' | 'async'>(
+  promiseOrValueCallback: () => sass.PromiseOr<T, sync>,
+  callback: () => sass.PromiseOr<void, sync>,
+): sass.PromiseOr<T, sync> {
+  let result: sass.PromiseOr<T, sync>;
+  try {
+    result = promiseOrValueCallback();
+  } catch (error: unknown) {
+    return thenOr(callback, () => {
+      throw error;
+    });
+  }
+
+  if (result instanceof Promise) {
+    return result.finally(callback) as sass.PromiseOr<T, sync>;
+  } else {
+    callback();
+    return result;
+  }
+}
