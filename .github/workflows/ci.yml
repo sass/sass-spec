@@ -45,13 +45,22 @@ jobs:
       - run: npm run lint-spec
 
   dart_sass_language:
-    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }}"
+    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }} | ${{ matrix.os }}"
     runs-on: ubuntu-latest
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
       matrix:
-        dart_channel: [stable, dev]
+        # We expect language test results not to vary from OS to OS. In most
+        # cases, this is trivial, but for operations on very high-precision
+        # floating-point numbers there are cases where float rounding can differ
+        # (see sass/sass-spec#2156). To ensure we don't include these in our
+        # test cases, we test against Windows and MacOS as well.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dart_channel: [stable]
+        include:
+        - os: ubuntu-latest
+          dart_channel: dev
 
     steps:
       - uses: actions/checkout@v3
