@@ -100,6 +100,7 @@ export class DartCompiler implements Compiler {
       this.stdout.next(),
       this.stdout.next(),
     ]);
+
     return {
       stdout: stdout.value,
       stderr: stderr.value,
