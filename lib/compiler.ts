@@ -2,6 +2,7 @@ import events from 'events';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import url from 'url';
 import child_process, {ChildProcessWithoutNullStreams} from 'child_process';
 import {Readable, Writable} from 'stream';
 
@@ -120,11 +121,13 @@ export class DartCompiler implements Compiler {
     if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`);
     }
+
+    const sassRepoUrl = url.pathToFileURL(repoPath);
     const dartFile = `
 import "dart:convert";
 import "dart:io";
 
-import "${repoPath}/bin/sass.dart" as sass;
+import "${sassRepoUrl}/bin/sass.dart" as sass;
 
 main() async {
   // Emit an initial signal that the process has started and is ready for input.
