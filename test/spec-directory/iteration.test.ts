@@ -13,12 +13,14 @@ describe('SpecDirectory iteration', () => {
       await dir.forEachTest(async subdir => {
         testCases.push(subdir.relPath());
       });
-      expect(testCases).toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
+      expect(testCases).toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
       // counts directories with input.sass as valid
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
       // does not iterate through directories without an input file
-      expect(testCases).not.toContain('iterate/archive/no-input');
+      expect(testCases).not.toContain(
+        path.join('iterate', 'archive', 'no-input'),
+      );
     });
 
     it('works when passed in a single path argument', async () => {
@@ -29,9 +31,9 @@ describe('SpecDirectory iteration', () => {
         },
         ['iterate/archive'],
       );
-      expect(testCases).not.toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).not.toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
     });
 
     it('works when passed in multiple path arguments', async () => {
@@ -42,9 +44,11 @@ describe('SpecDirectory iteration', () => {
         },
         ['iterate/physical', 'iterate/archive/scss'],
       );
-      expect(testCases).toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).not.toContain('iterate/archive/indented');
+      expect(testCases).toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).not.toContain(
+        path.join('iterate', 'archive', 'indented'),
+      );
     });
 
     it('works when one path is under another', async () => {
@@ -55,9 +59,9 @@ describe('SpecDirectory iteration', () => {
         },
         ['iterate/archive', 'iterate/archive/scss'],
       );
-      expect(testCases).not.toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).not.toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
     });
 
     it('throws when an unknown path is passed', async () => {
@@ -95,7 +99,10 @@ describe('SpecDirectory iteration', () => {
           await dir.forEachTest(async subdir => {
             testCases.push(subdir.relPath());
           });
-          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+          expect(testCases).toEqual([
+            path.join('archive', 'scss'),
+            path.join('archive', 'indented'),
+          ]);
         });
       });
 
@@ -108,7 +115,7 @@ describe('SpecDirectory iteration', () => {
             },
             ['iterate/physical/'],
           );
-          expect(testCases).toEqual(['iterate/physical']);
+          expect(testCases).toEqual([path.join('iterate', 'physical')]);
         });
 
         it('for an HRX archive', async () => {
@@ -120,8 +127,8 @@ describe('SpecDirectory iteration', () => {
             ['iterate/archive/'],
           );
           expect(testCases).toEqual([
-            'iterate/archive/scss',
-            'iterate/archive/indented',
+            path.join('iterate', 'archive', 'scss'),
+            path.join('iterate', 'archive', 'indented'),
           ]);
         });
       });
@@ -150,7 +157,10 @@ describe('SpecDirectory iteration', () => {
           await dir.forEachTest(async subdir => {
             testCases.push(subdir.relPath());
           });
-          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+          expect(testCases).toEqual([
+            path.join('archive', 'scss'),
+            path.join('archive', 'indented'),
+          ]);
         });
       });
 
@@ -163,7 +173,7 @@ describe('SpecDirectory iteration', () => {
             },
             ['iterate/physical.hrx'],
           );
-          expect(testCases).toEqual(['iterate/physical']);
+          expect(testCases).toEqual([path.join('iterate', 'physical')]);
         });
 
         it('for an HRX archive', async () => {
@@ -175,8 +185,8 @@ describe('SpecDirectory iteration', () => {
             ['iterate/archive.hrx'],
           );
           expect(testCases).toEqual([
-            'iterate/archive/scss',
-            'iterate/archive/indented',
+            path.join('iterate', 'archive', 'scss'),
+            path.join('iterate', 'archive', 'indented'),
           ]);
         });
       });

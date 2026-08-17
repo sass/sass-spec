@@ -164,7 +164,7 @@ export default abstract class SpecDirectory {
    * @throws {Error} if `only` contains any paths that aren't in this directory
    */
   async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
-    const relPath = this.relPath();
+    const relPath = normalizeSpecPath(this.relPath());
     if (
       only === undefined ||
       only.some(path => normalizeSpecPath(path) === relPath)
