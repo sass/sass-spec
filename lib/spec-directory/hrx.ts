@@ -15,7 +15,7 @@ async function getFilesHrx(
     filenames.map(async filename => {
       const contents = await dir.readFile(filename);
       const fullPath = path.resolve(dir.path, filename);
-      const relPath = path.relative(root, fullPath);
+      const relPath = path.relative(root, fullPath).replaceAll('\\', '/');
       return `<===> ${relPath}\n${contents}`;
     }),
   );

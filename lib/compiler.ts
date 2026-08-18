@@ -2,6 +2,7 @@ import events from 'events';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import url from 'url';
 import child_process, {ChildProcessWithoutNullStreams} from 'child_process';
 import {Readable, Writable} from 'stream';
 
@@ -92,6 +93,8 @@ export class DartCompiler implements Compiler {
 
   async compile(path: string, opts: string[]): Promise<Stdio> {
     this.stdin.write(`!cd ${path}\n`);
+    await this.stdout.next();
+
     this.stdin.write([...this.initArgs, ...opts].join(' ') + '\n');
 
     const [stderr, stdout, status] = await Promise.all([
@@ -99,6 +102,13 @@ export class DartCompiler implements Compiler {
       this.stdout.next(),
       this.stdout.next(),
     ]);
+
+    // Make sure the process is out of the directory before reporting the result
+    // so that it doesn't hold a lock on the directory in Windows when it's time
+    // to delete it.
+    this.stdin.write(`!cd ${process.cwd()}\n`);
+    await this.stdout.next();
+
     return {
       stdout: stdout.value,
       stderr: stderr.value,
@@ -120,11 +130,13 @@ export class DartCompiler implements Compiler {
     if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`);
     }
+
+    const sassRepoUrl = url.pathToFileURL(repoPath);
     const dartFile = `
 import "dart:convert";
 import "dart:io";
 
-import "${repoPath}/bin/sass.dart" as sass;
+import "${sassRepoUrl}/bin/sass.dart" as sass;
 
 main() async {
   // Emit an initial signal that the process has started and is ready for input.
@@ -133,6 +145,7 @@ main() async {
   await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
     if (line.startsWith("!cd ")) {
       Directory.current = line.substring("!cd ".length);
+      stdout.add([0xFF]);
       continue;
     }
 

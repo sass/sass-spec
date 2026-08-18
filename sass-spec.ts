@@ -52,7 +52,10 @@ async function runAllTests(): Promise<void> {
     console.log(`Finished in ${time}s`);
     process.exitCode = tabulator.exitCode();
   } catch (error) {
-    console.log(`${error}`);
+    console.log();
+    console.log(
+      `Unexpected error: ${error instanceof Error ? error.stack : error}`,
+    );
     process.exitCode = 255;
   } finally {
     args_?.compiler?.shutdown();
