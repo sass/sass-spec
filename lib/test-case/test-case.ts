@@ -93,7 +93,15 @@ export default class TestCase {
 
     // stderr can contain extra trailing newlines which just clog up the HRX
     // files without any particular purpose.
-    const normalizedStderr = stderr.replace(/(\r?\n)+$/, '\n');
+    let normalizedStderr = stderr.replace(/(\r?\n)+$/, '\n');
+
+    if (process.platform === 'win32') {
+      // Normalize paths on Windows. Checking for leading spaces is a heuristic
+      // to identify backtraces.
+      normalizedStderr = normalizedStderr.replace(/^ {2}.+/gm, match =>
+        match.replace(/\\/g, '/'),
+      );
+    }
 
     if (status === 0) {
       return {isSuccess: true, output: stdout, warning: normalizedStderr};
