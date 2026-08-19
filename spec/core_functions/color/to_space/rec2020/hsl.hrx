@@ -116,3 +116,14 @@ a {b: color.to-space(color(rec2020 0.1 0.2 none), hsl)}
 a {
   b: hsl(130.1929265324, 239.2223908609%, 4.873488282%);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(rec2020 none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(0, 0%, 0%);
+}

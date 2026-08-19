@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), rec2020)}
 a {
   b: color(rec2020 0.8403632233 0.4573990543 0.296448064);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), rec2020)}
+
+<===> missing/non_hue/output.css
+a {
+  b: color(rec2020 0.8277080064 0.368096751 0.1895507624);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), rec2020)}
+
+<===> missing/all/output.css
+a {
+  b: color(rec2020 none none none);
+}

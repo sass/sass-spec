@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), lab)}
 a {
   b: lab(60.7483623827% 64.2863186591 55.7098309346);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), lab)}
+
+<===> missing/non_hue/output.css
+a {
+  b: lab(56.0326115973% 75.9501054187 70.216785337);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), lab)}
+
+<===> missing/all/output.css
+a {
+  b: lab(none none none);
+}

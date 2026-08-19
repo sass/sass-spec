@@ -116,3 +116,25 @@ a {b: color.to-space(lab(10% 20 none), rec2020)}
 a {
   b: color(rec2020 0.2063393882 0.1229873357 0.1553854471);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(10% none none), rec2020)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(rec2020 0.1542212427 0.1542212427 0.1542212427);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(none none none), rec2020)}
+
+<===> missing/all/output.css
+a {
+  b: color(rec2020 none none none);
+}
