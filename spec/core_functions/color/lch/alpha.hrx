@@ -89,6 +89,19 @@ a {
 
 <===>
 ================================================================================
+<===> negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 3deg / -0));
+
+<===> negative_zero/output.css
+a {
+  value: lch(1% 2 3deg / 0);
+  space: lch;
+  channels: 1% 2 3deg / 0;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lch($channels: 1% 2 3deg / 0.4));

@@ -76,6 +76,19 @@ a {
 
 <===>
 ================================================================================
+<===> unitless/lightness/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(-0% 2 3deg));
+
+<===> unitless/lightness/negative_zero/output.css
+a {
+  value: lch(0% 2 3deg);
+  space: lch;
+  channels: 0% 2 3deg / 1;
+}
+
+<===>
+================================================================================
 <===> unitless/chroma/above_range/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lch(1% 0.5 3deg));
@@ -141,6 +154,19 @@ a {
 
 <===>
 ================================================================================
+<===> unitless/chroma/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% -0 3deg));
+
+<===> unitless/chroma/negative_zero/output.css
+a {
+  value: lch(1% 0 3deg);
+  space: lch;
+  channels: 1% 0 3deg / 1;
+}
+
+<===>
+================================================================================
 <===> unitless/hue/above_range/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(lch(1% 2 361deg));
@@ -173,9 +199,9 @@ a {
 
 <===> unitless/hue/degenerate/positive_infinity/output.css
 a {
-  value: lch(1% 2 calc(NaN * 1deg));
+  value: lch(1% 2 0deg);
   space: lch;
-  channels: 1% 2 calc(NaN * 1deg) / 1;
+  channels: 1% 2 0deg / 1;
 }
 
 <===>
@@ -186,9 +212,9 @@ a {
 
 <===> unitless/hue/degenerate/negative_infinity/output.css
 a {
-  value: lch(1% 2 calc(NaN * 1deg));
+  value: lch(1% 2 0deg);
   space: lch;
-  channels: 1% 2 calc(NaN * 1deg) / 1;
+  channels: 1% 2 0deg / 1;
 }
 
 <===>
@@ -199,9 +225,22 @@ a {
 
 <===> unitless/hue/degenerate/nan/output.css
 a {
-  value: lch(1% 2 calc(NaN * 1deg));
+  value: lch(1% 2 0deg);
   space: lch;
-  channels: 1% 2 calc(NaN * 1deg) / 1;
+  channels: 1% 2 0deg / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/hue/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(lch(1% 2 -0));
+
+<===> unitless/hue/negative_zero/output.css
+a {
+  value: lch(1% 2 0deg);
+  space: lch;
+  channels: 1% 2 0deg / 1;
 }
 
 <===>
