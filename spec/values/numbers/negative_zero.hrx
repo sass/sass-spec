@@ -1,0 +1,49 @@
+<===> unitless/input.scss
+a {b: -0}
+
+<===> unitless/output.css
+a {
+  b: -0;
+}
+
+<===>
+================================================================================
+<===> single_unit/input.scss
+a {b: -0px}
+
+<===> single_unit/output.css
+a {
+  b: -0px;
+}
+
+<===>
+================================================================================
+<===> multiple_numerator_units/input.scss
+a {b: -0px * 1em}
+
+<===> multiple_numerator_units/output.css
+a {
+  b: calc(-0px * 1em);
+}
+
+<===>
+================================================================================
+<===> denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(-0, 1px)}
+
+<===> denominator_unit/output.css
+a {
+  b: calc(-0 / 1px);
+}
+
+<===>
+================================================================================
+<===> numerator_and_denominator_unit/input.scss
+@use 'sass:math';
+a {b: math.div(-0px, 1em)}
+
+<===> numerator_and_denominator_unit/output.css
+a {
+  b: calc(-0px / 1em);
+}
