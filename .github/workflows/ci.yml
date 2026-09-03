@@ -24,7 +24,7 @@ jobs:
       - run: npm install
       - run: npm test
 
-  static_analysis:
+  static_analysis_code:
     name: "Static analysis"
     runs-on: ubuntu-latest
 
@@ -34,6 +34,19 @@ jobs:
         with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint
+
+  static_analysis_ci:
+    name: Static analysis (GitHub Actions)
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write # Required by upload-sarif
+      actions: read # Required by upload-sarif
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with: {persona: pedantic}
 
   lint_spec:
     name: "Lint spec files"
