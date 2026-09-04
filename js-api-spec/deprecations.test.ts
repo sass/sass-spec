@@ -3,14 +3,14 @@
 // https://opensource.org/licenses/MIT.
 
 import {
-  compileString,
-  deprecations,
   Deprecation,
   Importer,
   Version,
+  compileString,
+  deprecations,
 } from 'sass';
 
-import {captureStdio, URL} from './utils';
+import {URL, captureStdio} from './utils';
 
 const emptyStylesheetImporter: Importer = {
   canonicalize: () => new URL('noop:noop'),
@@ -26,7 +26,7 @@ describe('a warning', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations['import']);
           done();
@@ -36,17 +36,16 @@ describe('a warning', () => {
   });
 
   // Excluding this test until we add post-2.0.0 deprecations.
-  xit('is emitted with different deprecation type silenced', done => {
-    // compileString('@import "other"', {
-    //   importers: [emptyStylesheetImporter],
+  xit('is emitted with different deprecation type silenced', () => {
+    // compileString('a { $b: c !global; }', {
     //   logger: {
     //     warn(
     //       message: string,
     //       {
     //         deprecationType,
-    //       }: {deprecation: boolean; deprecationType?: Deprecation}
+    //       }: {deprecation: boolean; deprecationType?: Deprecation},
     //     ) {
-    //       expect(deprecationType).toEqual(deprecations['import']);
+    //       expect(deprecationType).toEqual(deprecations['new-global']);
     //       done();
     //     },
     //   },
@@ -108,7 +107,7 @@ describe('an error', () => {
       compileString('@import "other"', {
         importers: [emptyStylesheetImporter],
         fatalDeprecations: [deprecations['import']],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -117,7 +116,7 @@ describe('an error', () => {
       compileString('@import "other"', {
         importers: [emptyStylesheetImporter],
         fatalDeprecations: [deprecations['import']],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -126,7 +125,7 @@ describe('an error', () => {
       compileString('@import "other"', {
         importers: [emptyStylesheetImporter],
         fatalDeprecations: [new Version(1, 80, 0)],
-      })
+      }),
     ).toThrowError();
   });
 
@@ -142,7 +141,7 @@ describe('an error', () => {
             done();
           },
         },
-      })
+      }),
     ).toThrowError();
   });
 });
@@ -175,7 +174,7 @@ xdescribe('for a future deprecation,', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
@@ -193,7 +192,7 @@ xdescribe('for a future deprecation,', () => {
           message: string,
           {
             deprecationType,
-          }: {deprecation: boolean; deprecationType?: Deprecation}
+          }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
           expect(deprecationType).toEqual(deprecations.import);
           done();
@@ -247,7 +246,7 @@ xdescribe('for a future deprecation,', () => {
 xdescribe('API deprecations', () => {
   it('emit a warning outside of any compilation', () => {
     // const stdio = captureStdio(() => {
-    //   new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
+    //   void new SassColor({red: 255, green: 0, blue: 0, space: 'rgb'}).red;
     // });
     // expect(stdio.err).toContain('color-4-api');
   });
@@ -285,7 +284,7 @@ xdescribe('API deprecations', () => {
     //       'fn($color)': (args: Value[]) =>
     //         new SassNumber(args[0].assertColor().red),
     //     },
-    //   })
+    //   }),
     // ).toThrowError();
   });
 });

@@ -66,7 +66,7 @@ status: 0
 <===> output.css
 OUTPUT
 `;
-    expect(await getResults(contents)).toEqual({
+    await expect(await getResults(contents)).toEqual({
       output: 'OUTPUT',
       warning: 'WARNING\n',
       isSuccess: true,
@@ -84,7 +84,7 @@ status: 0
 <===> output.css
 OUTPUT
 `;
-    expect(() => getResults(contents)).rejects.toThrow();
+    await expect(() => getResults(contents)).rejects.toThrow();
   });
 
   describe('command args', () => {
@@ -109,7 +109,7 @@ OUTPUT
       await TestCase.create(dir, 'sass-mock', compiler);
       expect(compile).toHaveBeenCalledWith(
         expect.anything(),
-        expect.arrayContaining(['--precision', '6'])
+        expect.arrayContaining(['--precision', '6']),
       );
     });
   });

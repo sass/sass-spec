@@ -147,3 +147,14 @@ a {b: color.to-space(color(srgb-linear 0.1 0.2 none), hwb)}
 a {
   b: hsl(76.7592364631, 100%, 24.2264602241%);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb-linear none none none), hwb)}
+
+<===> missing/all/output.css
+a {
+  b: red;
+}

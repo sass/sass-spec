@@ -53,30 +53,3 @@ Error: expected "{".
   '
   _upstream.scss 1:5  @import
   input.scss 1:9      root stylesheet
-
-<===>
-================================================================================
-<===> parent_selector/input.scss
-@import 'upstream';
-
-<===> parent_selector/_upstream.scss
-&{ a: b; }
-
-<===> parent_selector/error
-DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
-
-More info and automated migrator: https://sass-lang.com/d/import
-
-  ,
-1 | @import 'upstream';
-  |         ^^^^^^^^^^
-  '
-    input.scss 1:9  root stylesheet
-
-Error: Top-level selectors may not contain the parent selector "&".
-  ,
-1 | &{ a: b; }
-  | ^
-  '
-  _upstream.scss 1:1  @import
-  input.scss 1:9      root stylesheet

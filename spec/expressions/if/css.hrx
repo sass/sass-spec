@@ -8,12 +8,35 @@ a {
 
 <===>
 ================================================================================
-<===> alone/no_else/input.scss
+<===> alone/no_else/unquoted/input.scss
 a {b: if(css(): c)}
 
-<===> alone/no_else/output.css
+<===> alone/no_else/unquoted/output.css
 a {
   b: if(css(): c);
+}
+
+<===>
+================================================================================
+<===> alone/no_else/quoted/input.scss
+a {b: if(css(): "c")}
+
+<===> alone/no_else/quoted/output.css
+a {
+  b: if(css(): "c");
+}
+
+<===>
+================================================================================
+<===> alone/no_else/list/input.scss
+a {b: if(css(): c d e)}
+
+<===> alone/no_else/list/README.md
+Regression test for https://github.com/sass/dart-sass/issues/2807.
+
+<===> alone/no_else/list/output.css
+a {
+  b: if(css(): c d e);
 }
 
 <===>

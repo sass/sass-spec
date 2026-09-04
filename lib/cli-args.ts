@@ -39,7 +39,7 @@ Make sure the command you provide prints to stdout.
  */
 export async function parseArgs(
   cliArgs: string[],
-  wrap = (t: Argv<{}>) => t
+  wrap = (t: Argv<{}>) => t,
 ): Promise<CliArgs> {
   const argv = wrap(yargs(cliArgs))
     .parserConfiguration({
@@ -48,7 +48,7 @@ export async function parseArgs(
     .usage(usageText)
     .example(
       'npm run ./sass-spec.js -- spec/basic',
-      'Run tests only in the spec/basic folder'
+      'Run tests only in the spec/basic folder',
     )
     .option('verbose', {
       alias: 'v',
@@ -129,8 +129,8 @@ export async function parseArgs(
     todoMode: argv['run-todo']
       ? 'run'
       : argv['probe-todo']
-      ? 'probe'
-      : undefined,
+        ? 'probe'
+        : undefined,
     trimErrors: argv['trim-errors'],
     skipWarning: argv['ignore-warning-diffs'],
     ignoreErrorDiffs: argv['ignore-error-diffs'],
@@ -145,7 +145,7 @@ export async function parseArgs(
   if (argv.command) {
     args.compiler = new ExecutableCompiler(
       path.resolve(process.cwd(), argv.command),
-      cmdArgs
+      cmdArgs,
     );
   }
   if (argv.dart) {

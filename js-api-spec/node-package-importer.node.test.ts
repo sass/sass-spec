@@ -3,19 +3,20 @@
 // https://opensource.org/licenses/MIT.
 
 import {
+  NodePackageImporter,
   compile,
   compileAsync,
   compileString,
   compileStringAsync,
-  NodePackageImporter,
 } from 'sass';
 
 import {sandbox} from './sandbox';
 import {spy} from './utils';
 
 import {fileURLToPath} from 'url';
+import * as path from 'path';
 
-const testPackageImporter = ({
+function testPackageImporter({
   input,
   output,
   files,
@@ -25,8 +26,8 @@ const testPackageImporter = ({
   output: string;
   files: {[path: string]: string};
   entryPoint?: string;
-}) =>
-  sandbox(dir => {
+}): Promise<void> {
+  return sandbox(dir => {
     dir.write(files);
     return dir.chdir(() => {
       try {
@@ -41,16 +42,36 @@ const testPackageImporter = ({
       }
     });
   });
+}
 
 describe('Node Package Importer', () => {
   describe('resolves conditional exports', () => {
     ['sass', 'style', 'default'].forEach(key => {
-      it(`${key} for root `, () =>
+      it(`${key} for root`, () =>
         testPackageImporter({
           input: '@use "pkg:foo";',
           output: 'a {b: c;}',
           files: {
             'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                '.': {
+                  [key]: './src/sass/_styles.scss',
+                },
+              },
+            }),
+          },
+        }));
+
+      it(`${key} for root import-only`, () =>
+        testPackageImporter({
+          input: '@import "pkg:foo";',
+          output: 'a {b: "import-only";}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/_styles.import.scss':
+              'a {b: "import-only"}',
             'node_modules/foo/package.json': JSON.stringify({
               exports: {
                 '.': {
@@ -91,6 +112,25 @@ describe('Node Package Importer', () => {
           },
         }));
 
+      it(`${key} with subpath import-only`, () =>
+        testPackageImporter({
+          input: '@import "pkg:foo/styles";',
+          output: 'a {b: "import-only";}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/_styles.import.scss':
+              'a {b: "import-only"}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                './_styles.scss': {
+                  [key]: './src/sass/_styles.scss',
+                },
+              },
+            }),
+          },
+        }));
+
       it(`${key} with index`, () =>
         testPackageImporter({
           input: '@use "pkg:foo/subdir";',
@@ -101,6 +141,25 @@ describe('Node Package Importer', () => {
               exports: {
                 './subdir/index.scss': {
                   [key]: './src/sass/subdir/index.scss',
+                },
+              },
+            }),
+          },
+        }));
+
+      it(`${key} with index import-only`, () =>
+        testPackageImporter({
+          input: '@import "pkg:foo/subdir";',
+          output: 'a {b: "import-only";}',
+          files: {
+            'node_modules/foo/src/sass/subdir/_index.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/subdir/_index.import.scss':
+              'a {b: "import-only"}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {
+                './subdir/_index.scss': {
+                  [key]: './src/sass/subdir/_index.scss',
                 },
               },
             }),
@@ -195,7 +254,7 @@ describe('Node Package Importer', () => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
-            })
+            }),
           ).toThrowSassException({
             includes: 'multiple potential resolutions',
           });
@@ -231,7 +290,7 @@ describe('Node Package Importer', () => {
           expect(() =>
             compileString('@use "pkg:foo";', {
               importers: [new NodePackageImporter()],
-            })
+            }),
           ).toThrowSassException({
             includes: "_styles.txt', which is not a '.scss'",
           });
@@ -299,6 +358,21 @@ describe('Node Package Importer', () => {
           },
         }));
 
+      it('resolves import-only', () =>
+        testPackageImporter({
+          input: '@import "pkg:foo/styles";',
+          output: 'a {b: "import-only";}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/_styles.import.scss':
+              'a {b: "import-only"}',
+            'node_modules/foo/package.json': JSON.stringify({
+              exports: {'./*.scss': './src/sass/*.scss'},
+            }),
+          },
+        }));
+
       it('throws if multiple wildcard exports match', () =>
         sandbox(dir => {
           dir.write({
@@ -313,7 +387,7 @@ describe('Node Package Importer', () => {
               () =>
                 compileString('@use "pkg:foo/styles";', {
                   importers: [new NodePackageImporter()],
-                }).css
+                }).css,
             ).toThrowSassException({
               includes: 'multiple potential resolutions',
             });
@@ -331,7 +405,7 @@ describe('Node Package Importer', () => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
-          })
+          }),
         ).toThrowSassException({
           includes: 'Failed to parse',
         });
@@ -339,54 +413,122 @@ describe('Node Package Importer', () => {
     }));
 
   describe('without subpath', () => {
-    it('sass key in package.json', () =>
-      testPackageImporter({
-        input: '@use "pkg:foo";',
-        output: 'a {b: c;}',
-        files: {
-          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-          'node_modules/foo/package.json': JSON.stringify({
-            sass: 'src/sass/_styles.scss',
-          }),
-        },
-      }));
+    describe('not import-only', () => {
+      it('sass key in package.json', () =>
+        testPackageImporter({
+          input: '@use "pkg:foo";',
+          output: 'a {b: c;}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              sass: 'src/sass/_styles.scss',
+            }),
+          },
+        }));
 
-    it('style key in package.json', () =>
-      testPackageImporter({
-        input: '@use "pkg:foo";',
-        output: 'a {b: c;}',
-        files: {
-          'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
-          'node_modules/foo/package.json': JSON.stringify({
-            style: 'src/sass/_styles.scss',
-          }),
-        },
-      }));
+      it('style key in package.json', () =>
+        testPackageImporter({
+          input: '@use "pkg:foo";',
+          output: 'a {b: c;}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss': 'a {b: c}',
+            'node_modules/foo/package.json': JSON.stringify({
+              style: 'src/sass/_styles.scss',
+            }),
+          },
+        }));
 
-    ['index.scss', 'index.css', '_index.scss', '_index.css'].forEach(
-      fileName => {
+      ['index.scss', 'index.css', '_index.scss', '_index.css'].forEach(
+        fileName => {
+          it(`loads from ${fileName}`, () =>
+            testPackageImporter({
+              input: '@use "pkg:foo";',
+              output: 'a {b: c;}',
+              files: {
+                [`node_modules/foo/${fileName}`]: 'a {b: c}',
+                'node_modules/foo/package.json': JSON.stringify({}),
+              },
+            }));
+        },
+      );
+
+      ['index.sass', '_index.sass'].forEach(fileName => {
         it(`loads from ${fileName}`, () =>
           testPackageImporter({
             input: '@use "pkg:foo";',
             output: 'a {b: c;}',
             files: {
-              [`node_modules/foo/${fileName}`]: 'a {b: c}',
+              [`node_modules/foo/${fileName}`]: 'a \n b: c',
               'node_modules/foo/package.json': JSON.stringify({}),
             },
           }));
-      }
-    );
+      });
+    });
 
-    ['index.sass', '_index.sass'].forEach(fileName => {
-      it(`loads from ${fileName}`, () =>
+    describe('import-only', () => {
+      it('sass key in package.json', () =>
         testPackageImporter({
-          input: '@use "pkg:foo";',
-          output: 'a {b: c;}',
+          input: '@import "pkg:foo";',
+          output: 'a {b: "import-only";}',
           files: {
-            [`node_modules/foo/${fileName}`]: 'a \n b: c',
-            'node_modules/foo/package.json': JSON.stringify({}),
+            'node_modules/foo/src/sass/_styles.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/_styles.import.scss':
+              'a {b: "import-only"}',
+            'node_modules/foo/package.json': JSON.stringify({
+              sass: 'src/sass/_styles.scss',
+            }),
           },
         }));
+
+      it('style key in package.json', () =>
+        testPackageImporter({
+          input: '@import "pkg:foo";',
+          output: 'a {b: "import-only";}',
+          files: {
+            'node_modules/foo/src/sass/_styles.scss':
+              'a {b: "not import-only"}',
+            'node_modules/foo/src/sass/_styles.import.scss':
+              'a {b: "import-only"}',
+            'node_modules/foo/package.json': JSON.stringify({
+              style: 'src/sass/_styles.scss',
+            }),
+          },
+        }));
+
+      ['index.scss', 'index.css', '_index.scss', '_index.css'].forEach(
+        fileName => {
+          it(`loads from ${fileName}`, async () => {
+            const ext = path.extname(fileName);
+            const importOnly = fileName.slice(0, -ext.length) + '.import' + ext;
+            await testPackageImporter({
+              input: '@import "pkg:foo";',
+              output: 'a {b: "import-only";}',
+              files: {
+                [`node_modules/foo/${fileName}`]: 'a {b: "not import-only"}',
+                [`node_modules/foo/${importOnly}`]: 'a {b: "import-only"}',
+                'node_modules/foo/package.json': JSON.stringify({}),
+              },
+            });
+          });
+        },
+      );
+
+      ['index.sass', '_index.sass'].forEach(fileName => {
+        it(`loads from ${fileName}`, async () => {
+          const ext = path.extname(fileName);
+          const importOnly = fileName.slice(0, -ext.length) + '.import' + ext;
+          await testPackageImporter({
+            input: '@import "pkg:foo";',
+            output: 'a {b: "import-only";}',
+            files: {
+              [`node_modules/foo/${fileName}`]: 'a \n b: "not import-only"',
+              [`node_modules/foo/${importOnly}`]: 'a \n b: "import-only"',
+              'node_modules/foo/package.json': JSON.stringify({}),
+            },
+          });
+        });
+      });
     });
   });
 
@@ -488,7 +630,7 @@ describe('Node Package Importer', () => {
           'node_modules/bah/package.json': JSON.stringify({}),
           'node_modules/bah/node_modules/bar-sub/index.scss': 'a {b: c}',
           'node_modules/bah/node_modules/bar-sub/package.json': JSON.stringify(
-            {}
+            {},
           ),
         },
       }));
@@ -499,14 +641,14 @@ describe('Node Package Importer', () => {
           'node_modules/bar-above/index.scss': 'a {b: c}',
           'node_modules/bar-above/package.json': JSON.stringify({}),
         });
-        return dir.chdir(
+        dir.chdir(
           () => {
             const result = compileString('@use "pkg:bar-above";', {
               importers: [new NodePackageImporter()],
             });
             return expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
           },
-          {entryPoint: 'deeply/nested/file/'}
+          {entryPoint: 'deeply/nested/file/'},
         );
       }));
 
@@ -517,7 +659,7 @@ describe('Node Package Importer', () => {
           'node_modules/bar-abs/package.json': JSON.stringify({}),
         });
         const entryPoint = fileURLToPath(dir.url());
-        return dir.chdir(() => {
+        dir.chdir(() => {
           const result = compileString('@use "pkg:bar-abs";', {
             importers: [new NodePackageImporter(entryPoint)],
           });
@@ -554,7 +696,8 @@ describe('Node Package Importer', () => {
         expect(url).toStartWith('pkg:');
         return null;
       });
-      sandbox(dir => {
+
+      return sandbox(dir => {
         return dir.chdir(() => {
           expect(() =>
             compileString('@use "pkg:bah";', {
@@ -565,7 +708,7 @@ describe('Node Package Importer', () => {
                   load: () => null,
                 },
               ],
-            })
+            }),
           ).toThrowSassException({
             includes: "Can't find stylesheet to import",
           });
@@ -582,7 +725,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:foo";', {
           importers: [Symbol() as unknown as NodePackageImporter],
-        })
+        }),
       ).toThrow();
     }));
 
@@ -603,7 +746,7 @@ describe('Node Package Importer', () => {
         expect(() =>
           compileString('@use "pkg:foo";', {
             importers: [new NodePackageImporter()],
-          })
+          }),
         ).toThrowSassException({
           includes: 'can not have both conditions and paths',
         });
@@ -719,7 +862,6 @@ describe('Node Package Importer', () => {
             ],
           });
           expect(result.css).toEqualIgnoringWhitespace('a { b: c;}');
-          return result;
         });
       }));
 
@@ -734,7 +876,6 @@ describe('Node Package Importer', () => {
             importers: [new NodePackageImporter()],
           });
           expect(result.css).toEqualIgnoringWhitespace('a {b: c;}');
-          return result;
         });
       }));
   });
@@ -744,7 +885,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:/absolute";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not begin with /'});
     });
 
@@ -752,7 +893,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://host/library";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -762,7 +903,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://user:password@library/path" as library;', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -772,7 +913,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg://host:8080/library";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({
         includes: 'must not have a host, port, username or password',
       });
@@ -784,7 +925,7 @@ describe('Node Package Importer', () => {
         // the `as` clause.
         compileString('@use "pkg:" as pkg;', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have an empty path'});
     });
 
@@ -792,7 +933,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:library?query";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
 
@@ -800,7 +941,7 @@ describe('Node Package Importer', () => {
       expect(() =>
         compileString('@use "pkg:library#fragment";', {
           importers: [new NodePackageImporter()],
-        })
+        }),
       ).toThrowSassException({includes: 'must not have a query or fragment'});
     });
   });
@@ -819,7 +960,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });
@@ -837,7 +978,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });
@@ -855,7 +996,7 @@ describe('Node Package Importer', () => {
             new NodePackageImporter(),
             {canonicalize, load: () => null},
           ],
-        })
+        }),
       ).toThrowSassException({
         includes: "Can't find stylesheet to import",
       });

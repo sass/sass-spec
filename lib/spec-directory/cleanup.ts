@@ -11,15 +11,15 @@ const events = ['beforeExit', 'exit', 'SIGINT'];
  */
 export async function withAsyncCleanup(
   cleanup: () => Promise<void>,
-  cb: () => Promise<void>
+  cb: () => Promise<void>,
 ): Promise<void> {
   // Cleanup callbacks must be synchronous,
   // so trigger an async function that exits the process
-  const cleanupAndExit = async (status = 0) => {
+  async function cleanupAndExit(status = 0): Promise<never> {
     // cleanup and then trigger an exit
     await cleanup();
-    process.exit(status); // eslint-disable-line no-process-exit
-  };
+    process.exit(status);
+  }
 
   for (const event of events) {
     process.on(event, cleanupAndExit);

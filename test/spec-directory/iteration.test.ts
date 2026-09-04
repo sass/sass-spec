@@ -1,5 +1,5 @@
 import path from 'path';
-import {fromRoot, SpecDirectory} from '../../lib/spec-directory';
+import {SpecDirectory, fromRoot} from '../../lib/spec-directory';
 
 describe('SpecDirectory iteration', () => {
   describe('forEachTest', () => {
@@ -13,12 +13,14 @@ describe('SpecDirectory iteration', () => {
       await dir.forEachTest(async subdir => {
         testCases.push(subdir.relPath());
       });
-      expect(testCases).toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
+      expect(testCases).toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
       // counts directories with input.sass as valid
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
       // does not iterate through directories without an input file
-      expect(testCases).not.toContain('iterate/archive/no-input');
+      expect(testCases).not.toContain(
+        path.join('iterate', 'archive', 'no-input'),
+      );
     });
 
     it('works when passed in a single path argument', async () => {
@@ -27,11 +29,11 @@ describe('SpecDirectory iteration', () => {
         async subdir => {
           testCases.push(subdir.relPath());
         },
-        ['iterate/archive']
+        ['iterate/archive'],
       );
-      expect(testCases).not.toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).not.toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
     });
 
     it('works when passed in multiple path arguments', async () => {
@@ -40,11 +42,13 @@ describe('SpecDirectory iteration', () => {
         async subdir => {
           testCases.push(subdir.relPath());
         },
-        ['iterate/physical', 'iterate/archive/scss']
+        ['iterate/physical', 'iterate/archive/scss'],
       );
-      expect(testCases).toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).not.toContain('iterate/archive/indented');
+      expect(testCases).toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).not.toContain(
+        path.join('iterate', 'archive', 'indented'),
+      );
     });
 
     it('works when one path is under another', async () => {
@@ -53,11 +57,11 @@ describe('SpecDirectory iteration', () => {
         async subdir => {
           testCases.push(subdir.relPath());
         },
-        ['iterate/archive', 'iterate/archive/scss']
+        ['iterate/archive', 'iterate/archive/scss'],
       );
-      expect(testCases).not.toContain('iterate/physical');
-      expect(testCases).toContain('iterate/archive/scss');
-      expect(testCases).toContain('iterate/archive/indented');
+      expect(testCases).not.toContain(path.join('iterate', 'physical'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'scss'));
+      expect(testCases).toContain(path.join('iterate', 'archive', 'indented'));
     });
 
     it('throws when an unknown path is passed', async () => {
@@ -67,8 +71,8 @@ describe('SpecDirectory iteration', () => {
           async subdir => {
             testCases.push(subdir.relPath());
           },
-          ['iterate/archive', 'iterate/unknown']
-        )
+          ['iterate/archive', 'iterate/unknown'],
+        ),
       ).rejects.toThrow("Path iterate/unknown doesn't exist");
     });
 
@@ -76,7 +80,7 @@ describe('SpecDirectory iteration', () => {
       describe('in fromRoot()', () => {
         it('for a physical directory', async () => {
           dir = await fromRoot(
-            path.resolve(__dirname, './fixtures/iterate/physical/')
+            path.resolve(__dirname, './fixtures/iterate/physical/'),
           );
 
           const testCases: string[] = [];
@@ -88,14 +92,17 @@ describe('SpecDirectory iteration', () => {
 
         it('for an HRX archive', async () => {
           dir = await fromRoot(
-            path.resolve(__dirname, './fixtures/iterate/archive/')
+            path.resolve(__dirname, './fixtures/iterate/archive/'),
           );
 
           const testCases: string[] = [];
           await dir.forEachTest(async subdir => {
             testCases.push(subdir.relPath());
           });
-          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+          expect(testCases).toEqual([
+            path.join('archive', 'scss'),
+            path.join('archive', 'indented'),
+          ]);
         });
       });
 
@@ -106,9 +113,9 @@ describe('SpecDirectory iteration', () => {
             async subdir => {
               testCases.push(subdir.relPath());
             },
-            ['iterate/physical/']
+            ['iterate/physical/'],
           );
-          expect(testCases).toEqual(['iterate/physical']);
+          expect(testCases).toEqual([path.join('iterate', 'physical')]);
         });
 
         it('for an HRX archive', async () => {
@@ -117,11 +124,11 @@ describe('SpecDirectory iteration', () => {
             async subdir => {
               testCases.push(subdir.relPath());
             },
-            ['iterate/archive/']
+            ['iterate/archive/'],
           );
           expect(testCases).toEqual([
-            'iterate/archive/scss',
-            'iterate/archive/indented',
+            path.join('iterate', 'archive', 'scss'),
+            path.join('iterate', 'archive', 'indented'),
           ]);
         });
       });
@@ -131,7 +138,7 @@ describe('SpecDirectory iteration', () => {
       describe('in fromRoot()', () => {
         it('for a physical directory', async () => {
           dir = await fromRoot(
-            path.resolve(__dirname, './fixtures/iterate/physical.hrx')
+            path.resolve(__dirname, './fixtures/iterate/physical.hrx'),
           );
 
           const testCases: string[] = [];
@@ -143,14 +150,17 @@ describe('SpecDirectory iteration', () => {
 
         it('for an HRX archive', async () => {
           dir = await fromRoot(
-            path.resolve(__dirname, './fixtures/iterate/archive.hrx')
+            path.resolve(__dirname, './fixtures/iterate/archive.hrx'),
           );
 
           const testCases: string[] = [];
           await dir.forEachTest(async subdir => {
             testCases.push(subdir.relPath());
           });
-          expect(testCases).toEqual(['archive/scss', 'archive/indented']);
+          expect(testCases).toEqual([
+            path.join('archive', 'scss'),
+            path.join('archive', 'indented'),
+          ]);
         });
       });
 
@@ -161,9 +171,9 @@ describe('SpecDirectory iteration', () => {
             async subdir => {
               testCases.push(subdir.relPath());
             },
-            ['iterate/physical.hrx']
+            ['iterate/physical.hrx'],
           );
-          expect(testCases).toEqual(['iterate/physical']);
+          expect(testCases).toEqual([path.join('iterate', 'physical')]);
         });
 
         it('for an HRX archive', async () => {
@@ -172,11 +182,11 @@ describe('SpecDirectory iteration', () => {
             async subdir => {
               testCases.push(subdir.relPath());
             },
-            ['iterate/archive.hrx']
+            ['iterate/archive.hrx'],
           );
           expect(testCases).toEqual([
-            'iterate/archive/scss',
-            'iterate/archive/indented',
+            path.join('iterate', 'archive', 'scss'),
+            path.join('iterate', 'archive', 'indented'),
           ]);
         });
       });

@@ -1,0 +1,235 @@
+<===> alone/first/input.scss
+& {a: b}
+
+<===> alone/first/output.css
+& {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> alone/second/input.scss
+a {
+  & {b: c}
+}
+
+<===> alone/second/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> in_at_rule/input.scss
+@a {
+  & {b: c}
+}
+
+<===> in_at_rule/output.css
+@a {
+  & {
+    b: c;
+  }
+}
+
+<===>
+================================================================================
+<===> compound/input.scss
+a {
+  &.b {c: d}
+}
+
+<===> compound/output.css
+a.b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> suffix/input.scss
+a {
+  &b {c: d}
+}
+
+<===> suffix/output.css
+ab {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> complex/simple_parent/input.scss
+a {
+  b &.c {d: e}
+}
+
+<===> complex/simple_parent/output.css
+b a.c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> complex/complex_parent/input.scss
+a b {
+  c &.d {e: f}
+}
+
+<===> complex/complex_parent/output.css
+c a b.d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/is/input.scss
+a {
+  :is(&) {b: c}
+}
+
+<===> selector_pseudo/simple_parent/is/output.css
+:is(a) {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/where/input.scss
+a {
+  :where(&) {b: c}
+}
+
+<===> selector_pseudo/simple_parent/where/output.css
+:where(a) {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/simple_parent/matches/input.scss
+a {
+  :matches(&) {b: c}
+}
+
+<===> selector_pseudo/simple_parent/matches/output.css
+:matches(a) {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/is/input.scss
+a b {
+  :is(&) {c: d}
+}
+
+<===> selector_pseudo/complex_parent/is/output.css
+:is(a b) {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/where/input.scss
+a b {
+  :where(&) {c: d}
+}
+
+<===> selector_pseudo/complex_parent/where/output.css
+:where(a b) {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> selector_pseudo/complex_parent/matches/input.scss
+a b {
+  :where(&) {c: d}
+}
+
+<===> selector_pseudo/complex_parent/matches/output.css
+:where(a b) {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> multiple/input.scss
+a {
+  &.b &.c {d: e}
+}
+
+<===> multiple/output.css
+a.b a.c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> in_one_complex/input.scss
+a {
+  &.b, c {d: e}
+}
+
+<===> in_one_complex/output.css
+a.b, a c {
+  d: e;
+}
+
+<===>
+================================================================================
+<===> error/first_arg_suffix/input.scss
+&a {b: c}
+
+<===> error/first_arg_suffix/error
+Error: A top-level selector may not contain a parent selector with a suffix.
+  ,
+1 | &a {b: c}
+  | ^^
+  '
+  input.scss 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/in_at_rule_suffix/input.scss
+@a {
+  &b {c: d}
+}
+
+<===> error/in_at_rule_suffix/error
+Error: A top-level selector may not contain a parent selector with a suffix.
+  ,
+2 |   &b {c: d}
+  |   ^^
+  '
+  input.scss 2:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_initial/input.scss
+a {
+  [b]& {c: d}
+}
+
+<===> error/non_initial/error
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+2 |   [b]& {c: d}
+  |      ^
+  '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/prefix/input.scss
+a {
+  b& {c: d}
+}
+
+<===> error/prefix/error
+Error: "&" may only used at the beginning of a compound selector.
+  ,
+2 |   b& {c: d}
+  |    ^
+  '
+  input.scss 2:4  root stylesheet

@@ -116,3 +116,25 @@ a {b: color.to-space(oklab(10% 0.2 none), display-p3)}
 a {
   b: color(display-p3 0.1380887336 -0.0636630559 0.0058108369);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), display-p3)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(display-p3 0.01292 0.01292 0.01292);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), display-p3)}
+
+<===> missing/all/output.css
+a {
+  b: color(display-p3 none none none);
+}

@@ -116,3 +116,14 @@ a {b: color.to-space(color(srgb-linear 0.1 0.2 none), oklab)}
 a {
   b: oklab(53.8237211404% -0.0823086195 0.1108579758);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb-linear none none none), oklab)}
+
+<===> missing/all/output.css
+a {
+  b: oklab(none none none);
+}

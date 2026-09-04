@@ -26,7 +26,7 @@ a {b: color.to-space(oklch(50% 0 0deg), rgb)}
 
 <===> gray/output.css
 a {
-  b: rgb(99.0860790568, 99.0860790568, 99.0860790568);
+  b: rgb(38.8572859046%, 38.8572859046%, 38.8572859046%);
 }
 
 <===>
@@ -114,7 +114,7 @@ a {b: color.to-space(oklch(10% none 30deg), rgb)}
 
 <===> missing/chroma/output.css
 a {
-  b: rgb(3.2946, 3.2946, 3.2946);
+  b: rgb(1.292%, 1.292%, 1.292%);
 }
 
 <===>
@@ -126,4 +126,37 @@ a {b: color.to-space(oklch(10% 0.1 none), rgb)}
 <===> missing/hue/output.css
 a {
   b: hsl(342.5627245765, 169.3004993061%, 3.4369836159%);
+}
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(none none 10deg), rgb)}
+
+<===> missing/non_hue/output.css
+a {
+  b: black;
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(50% none none), rgb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: rgb(38.8572859046%, 38.8572859046%, 38.8572859046%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(none none none), rgb)}
+
+<===> missing/all/output.css
+a {
+  b: black;
 }

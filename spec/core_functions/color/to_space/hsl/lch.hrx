@@ -127,3 +127,43 @@ a {b: color.to-space(hsl(10deg 20% none), lch)}
 a {
   b: lch(none 0 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+// This seems unintuitive, in that one would expect the HSL hue to translate
+// into an LCH hue. However, CSS specifies the HSL -> LCH conversion as going
+// through sRGB, which discards hue information if there aren't also saturation
+// and lightness values. (This matches the behavior of `color-mix` in Chrome.)
+//
+// See discussion of this behavior in 
+// https://github.com/w3c/csswg-drafts/issues/10210#issuecomment-5052906087.
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), lch)}
+
+<===> missing/non_hue/output.css
+a {
+  b: lch(none none none);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), lch)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: lch(53.3889647411% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), lch)}
+
+<===> missing/all/output.css
+a {
+  b: lch(none none none);
+}

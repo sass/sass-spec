@@ -127,3 +127,14 @@ a {b: color.to-space(rgb(10 20 none), hsl)}
 a {
   b: hsl(90, 100%, 3.9215686275%);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(0, 0%, 0%);
+}

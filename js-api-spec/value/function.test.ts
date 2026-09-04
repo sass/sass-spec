@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {SassFunction, SassNumber, compileString, sassNull, Value} from 'sass';
+import {SassFunction, SassNumber, Value, compileString, sassNull} from 'sass';
 
 import {spy} from '../utils';
 
@@ -23,8 +23,8 @@ it('can round-trip a function reference from Sass', () => {
     `,
       {
         functions: {'foo($arg)': fn},
-      }
-    ).css
+      },
+    ).css,
   ).toBe('a {\n  b: 3;\n}');
 
   expect(fn).toHaveBeenCalled();
@@ -49,8 +49,8 @@ it('can call a function reference from JS', () => {
     `,
       {
         functions: {'foo()': fn},
-      }
-    ).css
+      },
+    ).css,
   ).toBe('a {\n  b: 3;\n}');
 
   expect(fn).toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe('rejects a function signature that', () => {
     expect(() =>
       compileString('a {b: inspect(foo())}', {
         functions: {'foo()': fn},
-      })
+      }),
     ).toThrowSassException({line: 0});
 
     expect(fn).toHaveBeenCalled();
@@ -97,7 +97,7 @@ it('rejects a compiler function from a different compilation', () => {
           return plusOne;
         },
       },
-    }
+    },
   );
 
   let plusTwo;
@@ -116,7 +116,7 @@ it('rejects a compiler function from a different compilation', () => {
             return plusOne!;
           },
         },
-      }
+      },
     );
   }).toThrowSassException({line: 4});
 

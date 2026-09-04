@@ -25,7 +25,7 @@ function expectsSuccess(dir: SpecDirectory, impl: string): boolean | null {
 function getResultFile(
   dir: SpecDirectory,
   impl: string,
-  type: 'output' | 'error' | 'warning'
+  type: 'output' | 'error' | 'warning',
 ): string {
   const ext = type === 'output' ? '.css' : '';
   const overrideFile = `${type}-${impl}${ext}`;
@@ -37,7 +37,7 @@ function getResultFile(
  */
 export async function getExpectedResult(
   dir: SpecDirectory,
-  impl: string
+  impl: string,
 ): Promise<ExpectedSassResult> {
   checkDuplicateOutputs(dir, impl);
   const isSuccessCase = expectsSuccess(dir, impl);
@@ -45,7 +45,7 @@ export async function getExpectedResult(
   const resultFilename = getResultFile(
     dir,
     impl,
-    isSuccessCase ? 'output' : 'error'
+    isSuccessCase ? 'output' : 'error',
   );
   const expected = await dir.readFile(resultFilename);
 
