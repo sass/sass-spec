@@ -86,33 +86,44 @@ a {
 
 <===>
 ================================================================================
-<===> missing/red/input.scss
+<===> missing/x/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz none 0.2 0.3), oklch)}
 
-<===> missing/red/output.css
+<===> missing/x/output.css
 a {
   b: oklch(52.6994311398% 0.4939251964 184.7577868469deg);
 }
 
 <===>
 ================================================================================
-<===> missing/green/input.scss
+<===> missing/y/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 none 0.3), oklch)}
 
-<===> missing/green/output.css
+<===> missing/y/output.css
 a {
   b: oklch(26.3423255262% 0.4568648662 323.7012844561deg);
 }
 
 <===>
 ================================================================================
-<===> missing/blue/input.scss
+<===> missing/z/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 0.2 none), oklch)}
 
-<===> missing/blue/output.css
+<===> missing/z/output.css
 a {
   b: oklch(56.6867662885% 0.2192447326 136.5398255702deg);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(xyz none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
 }

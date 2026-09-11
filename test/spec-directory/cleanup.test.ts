@@ -16,7 +16,7 @@ describe('withAsyncCleanup', () => {
         throw new Error('YEET');
       });
       expect(mock).toHaveBeenCalled();
-    } catch (e) {
+    } catch {
       // Ignore the error.
     }
   });

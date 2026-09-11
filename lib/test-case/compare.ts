@@ -1,5 +1,5 @@
 import {createPatch} from 'diff';
-import {failures, ExpectedSassResult, SassResult, TestResult} from './util';
+import {ExpectedSassResult, SassResult, TestResult, failures} from './util';
 
 /**
  * Normalize the output of the Sass compiler.
@@ -48,7 +48,7 @@ function getDiff(
   filename: string,
   expected = '',
   actual = '',
-  normalizer: (text: string) => string = normalizeOutput
+  normalizer: (text: string) => string = normalizeOutput,
 ): string | undefined {
   expected = normalizer(expected);
   actual = normalizer(actual);
@@ -81,7 +81,7 @@ export interface CompareOptions {
 export function compareResults(
   expected: ExpectedSassResult,
   actual: SassResult,
-  {skipWarning, trimErrors, ignoreErrorDiffs}: CompareOptions
+  {skipWarning, trimErrors, ignoreErrorDiffs}: CompareOptions,
 ): TestResult {
   if (expected.isSuccess === null) {
     return failures.MissingOutput();
@@ -101,7 +101,7 @@ export function compareResults(
         'warning',
         expected.warning,
         actual.warning,
-        normalizer
+        normalizer,
       );
       if (diff) {
         return failures.WarningDifference(diff);

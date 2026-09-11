@@ -8,6 +8,8 @@ import * as p from 'path';
 import {URL, pathToFileURL} from 'url';
 import {PromiseOr} from 'sass';
 
+import {finallyOr} from './utils';
+
 /**
  * Runs `test` within a sandbox directory. This directory is made available via
  * the `dir` parameter, which provides various utilities for working with it.
@@ -20,15 +22,15 @@ export async function sandbox(
   options?: {
     // Directories to put in the SASS_PATH env variable before running test.
     sassPathDirs?: string[];
-  }
+  },
 ): Promise<void> {
   const testDir = p.resolve(
-    p.join('spec', 'sandbox', `${Math.random()}`.slice(2))
+    p.join('spec', 'sandbox', `${Math.random()}`.slice(2)),
   );
   fs.mkdirSync(testDir, {recursive: true});
   if (options?.sassPathDirs) {
     process.env.SASS_PATH = options.sassPathDirs.join(
-      process.platform === 'win32' ? ';' : ':'
+      process.platform === 'win32' ? ';' : ':',
     );
   }
   try {
@@ -49,9 +51,9 @@ export async function sandbox(
             fs.writeFileSync(fullPath, contents);
           }
         },
-        chdir: async (
-          callback: () => unknown,
-          options?: {entryPoint: string}
+        chdir: <T, sync extends 'sync' | 'async'>(
+          callback: () => PromiseOr<T, sync>,
+          options?: {entryPoint: string},
         ) => {
           const oldPath = process.cwd();
           process.chdir(testDir);
@@ -60,14 +62,13 @@ export async function sandbox(
             const filename = options?.entryPoint || p.basename(oldEntryPoint);
             require.main!.filename = `${testDir}/${filename}`;
           }
-          try {
-            return await callback();
-          } finally {
+
+          return finallyOr(callback, () => {
             process.chdir(oldPath);
             if (oldEntryPoint) require.main!.filename = oldEntryPoint;
-          }
+          });
         },
-      })
+      }),
     );
   } finally {
     if (options?.sassPathDirs) process.env.SASS_PATH = undefined;
@@ -108,5 +109,8 @@ export interface SandboxDirectory {
    * as the filename within the directory, otherwise it uses the basename of the
    * original `require.main.filename`.
    * */
-  chdir<T>(callback: () => T, options?: {entryPoint: string}): void;
+  chdir<T, sync extends 'sync' | 'async' = 'sync'>(
+    callback: () => PromiseOr<T, sync>,
+    options?: {entryPoint: string},
+  ): PromiseOr<T, sync>;
 }

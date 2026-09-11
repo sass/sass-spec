@@ -192,3 +192,44 @@ $a: 1 !default
 $a: 1 !default
 
 <===> after_close_paren/silent/output.css
+
+<===>
+================================================================================
+<===> loud/repeated_use/input.scss
+// Regression test for sass/dart-sass#2851
+/* before */
+@use "other" as *;
+/* between */
+@use "other" as *;
+/* after */
+
+<===> loud/repeated_use/_other.scss
+a {b: c}
+
+<===> loud/repeated_use/output.css
+/* before */
+a {
+  b: c;
+}
+/* between */
+/* after */
+
+<===>
+================================================================================
+<===> loud/skip/input.scss
+// Regression test for sass/dart-sass#2851
+/* before */
+@use "upstream";
+@use "midstream";
+
+<===> loud/skip/_midstream.scss
+@use "upstream";
+
+<===> loud/skip/_upstream.scss
+a {b: c}
+
+<===> loud/skip/output.css
+/* before */
+a {
+  b: c;
+}

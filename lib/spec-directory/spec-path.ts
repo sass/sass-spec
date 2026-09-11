@@ -28,8 +28,13 @@ export function resolveSpecPath(path: string): string {
  * `.hrx` extension.
  */
 export function normalizeSpecPath(path: string): string {
-  path = p.normalize(path);
-  if (path.endsWith(p.sep)) path = path.substring(0, path.length - 1);
+  path = p.normalize(path).replaceAll(p.sep, '/');
+  if (path.endsWith('/')) path = path.substring(0, path.length - 1);
+
+  // Normalizing the single-element path `null` on Windows adds `./` because
+  // `NULL` can be a special path name. We don't care about that, though.
+  if (path.startsWith('./')) path = path.substring(2);
+
   return path.endsWith('.hrx')
     ? path.substring(0, path.length - '.hrx'.length)
     : path;

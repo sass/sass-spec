@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 import yaml from 'js-yaml';
-import {deprecations, Deprecation, Version} from 'sass';
+import {Deprecation, Version, deprecations} from 'sass';
 
 // TODO: Test warnings from the JS API once some exist that will last past Dart
 // Sass 2.0.0.
@@ -17,7 +17,7 @@ describe('deprecation type', () => {
   const activeDeprecations: {[key: string]: string} = {};
   const futureDeprecations: Set<string> = new Set();
   const data = yaml.load(
-    fs.readFileSync('js-api-spec/node_modules/sass/deprecations.yaml', 'utf8')
+    fs.readFileSync('js-api-spec/node_modules/sass/deprecations.yaml', 'utf8'),
   ) as {
     [key: string]: {
       'dart-sass':

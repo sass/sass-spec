@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, SassList, SassMap, SassNumber, SassString} from 'sass';
+import {SassList, SassMap, SassNumber, SassString, Value} from 'sass';
 import {List, OrderedMap} from 'immutable';
 
 describe('SassMap', () => {
@@ -12,7 +12,7 @@ describe('SassMap', () => {
       OrderedMap([
         [new SassString('a'), new SassString('b')],
         [new SassString('c'), new SassString('d')],
-      ])
+      ]),
     );
   });
 
@@ -42,7 +42,7 @@ describe('SassMap', () => {
         OrderedMap([
           [new SassString('a'), new SassString('b')],
           [new SassString('c'), new SassString('d')],
-        ])
+        ]),
       );
     });
 
@@ -55,7 +55,7 @@ describe('SassMap', () => {
           new SassList([new SassString('c'), new SassString('d')], {
             separator: ' ',
           }),
-        ])
+        ]),
       );
     });
 
@@ -71,8 +71,8 @@ describe('SassMap', () => {
           OrderedMap([
             [new SassString('a'), new SassString('b')],
             [new SassString('c'), new SassString('d')],
-          ])
-        )
+          ]),
+        ),
       );
     });
 
@@ -82,8 +82,8 @@ describe('SassMap', () => {
           OrderedMap([
             [new SassString('c'), new SassString('d')],
             [new SassString('a'), new SassString('b')],
-          ])
-        )
+          ]),
+        ),
       );
     });
 
@@ -98,8 +98,8 @@ describe('SassMap', () => {
               separator: ',',
             }),
           ],
-          {separator: ','}
-        )
+          {separator: ','},
+        ),
       );
     });
 
@@ -110,8 +110,8 @@ describe('SassMap', () => {
             OrderedMap([
               [new SassString('a'), new SassString('x')],
               [new SassString('c'), new SassString('d')],
-            ])
-          )
+            ]),
+          ),
         );
       });
 
@@ -121,14 +121,14 @@ describe('SassMap', () => {
             OrderedMap([
               [new SassString('a'), new SassString('b')],
               [new SassString('x'), new SassString('d')],
-            ])
-          )
+            ]),
+          ),
         );
       });
 
       it('a missing pair', () => {
         expect(map).not.toEqualWithHash(
-          new SassMap(OrderedMap([[new SassString('a'), new SassString('b')]]))
+          new SassMap(OrderedMap([[new SassString('a'), new SassString('b')]])),
         );
       });
 
@@ -139,8 +139,8 @@ describe('SassMap', () => {
               [new SassString('a'), new SassString('b')],
               [new SassString('c'), new SassString('d')],
               [new SassString('e'), new SassString('f')],
-            ])
-          )
+            ]),
+          ),
         );
       });
     });
@@ -171,7 +171,7 @@ describe('SassMap', () => {
         OrderedMap([
           [new SassString('a'), new SassString('b')],
           [new SassString('c'), new SassString('d')],
-        ])
+        ]),
       );
     });
 
@@ -180,12 +180,12 @@ describe('SassMap', () => {
         expect(map.get(0)).toEqualWithHash(
           new SassList([new SassString('a'), new SassString('b')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(1)).toEqualWithHash(
           new SassList([new SassString('c'), new SassString('d')], {
             separator: ' ',
-          })
+          }),
         );
       });
 
@@ -193,12 +193,12 @@ describe('SassMap', () => {
         expect(map.get(-2)).toEqualWithHash(
           new SassList([new SassString('a'), new SassString('b')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(-1)).toEqualWithHash(
           new SassList([new SassString('c'), new SassString('d')], {
             separator: ' ',
-          })
+          }),
         );
       });
 
@@ -211,23 +211,23 @@ describe('SassMap', () => {
         expect(map.get(0.1)).toEqualWithHash(
           new SassList([new SassString('a'), new SassString('b')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(1.9)).toEqualWithHash(
           new SassList([new SassString('c'), new SassString('d')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(2.1)).toBe(undefined);
         expect(map.get(-0.1)).toEqualWithHash(
           new SassList([new SassString('c'), new SassString('d')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(-1.9)).toEqualWithHash(
           new SassList([new SassString('a'), new SassString('b')], {
             separator: ' ',
-          })
+          }),
         );
         expect(map.get(-2.1)).toBe(undefined);
       });
@@ -236,10 +236,10 @@ describe('SassMap', () => {
     describe('with a Value', () => {
       it('returns values associated with keys', () => {
         expect(map.get(new SassString('a'))).toEqualWithHash(
-          new SassString('b')
+          new SassString('b'),
         );
         expect(map.get(new SassString('c'))).toEqualWithHash(
-          new SassString('d')
+          new SassString('d'),
         );
       });
 

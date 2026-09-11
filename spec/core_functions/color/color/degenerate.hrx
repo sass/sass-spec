@@ -23,7 +23,17 @@ a {b: color(srgb calc(NaN) 0 0)}
 
 <===> arg1/nan/output.css
 a {
-  b: color(srgb calc(NaN) 0 0);
+  b: color(srgb 0 0 0);
+}
+
+<===>
+================================================================================
+<===> arg1/negative_zero/input.scss
+a {b: color(srgb -0 0 0)}
+
+<===> arg1/negative_zero/output.css
+a {
+  b: color(srgb 0 0 0);
 }
 
 <===>
@@ -53,7 +63,7 @@ a {b: color(srgb 0 0 calc(NaN) / 0.5)}
 
 <===> before_alpha/nan/output.css
 a {
-  b: color(srgb 0 0 calc(NaN) / 0.5);
+  b: color(srgb 0 0 0 / 0.5);
 }
 
 <===>
@@ -82,6 +92,16 @@ a {
 a {b: color(srgb 0 0 0 / calc(NaN))}
 
 <===> alpha/nan/output.css
+a {
+  b: color(srgb 0 0 0 / 0);
+}
+
+<===>
+================================================================================
+<===> alpha/negative_zero/input.scss
+a {b: color(srgb 0 0 0 / -0)}
+
+<===> alpha/negative_zero/output.css
 a {
   b: color(srgb 0 0 0 / 0);
 }

@@ -6,7 +6,7 @@ import * as specDirectory from '../lib/spec-directory';
 it('every directory contains or is contained by a test', async () => {
   // Verifies that `dir` either is a test, or that all its children are tests.
   async function verifyDirectory(
-    dir: specDirectory.SpecDirectory
+    dir: specDirectory.SpecDirectory,
   ): Promise<void> {
     if (dir.isTestDir()) return;
 
@@ -18,7 +18,7 @@ it('every directory contains or is contained by a test', async () => {
       const path = p.relative(process.cwd(), dir.path);
       throw new Error(
         `Directory ${path} is neither a test, the child of a test, nor the ` +
-          'parent of a test.'
+          'parent of a test.',
       );
     } else {
       await Promise.all(subdirs.map(verifyDirectory));

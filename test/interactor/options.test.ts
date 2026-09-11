@@ -19,7 +19,7 @@ describe('Interactor options', () => {
   async function expectOption(
     key: string,
     args: MockTestCaseArg,
-    valid = true
+    valid = true,
   ): Promise<void> {
     const options = optionsFor(mockTestCase(args));
     const keys = options.map(o => o.key);
@@ -40,7 +40,7 @@ describe('Interactor options', () => {
     await expectOption(
       'o',
       {result: {type: 'fail', failureType: 'warning_difference'}},
-      false
+      false,
     );
   });
 
@@ -48,7 +48,7 @@ describe('Interactor options', () => {
     await expectOption(
       'e',
       {actual: {isSuccess: true, output: 'output'}},
-      false
+      false,
     );
     await expectOption('e', {
       actual: {isSuccess: true, output: 'output', warning: 'warning'},
@@ -61,7 +61,7 @@ describe('Interactor options', () => {
       await expectOption(
         key,
         {result: {type: 'fail', failureType: 'unnecessary_todo'}},
-        false
+        false,
       );
     }
   });

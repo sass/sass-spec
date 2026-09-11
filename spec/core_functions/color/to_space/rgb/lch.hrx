@@ -127,3 +127,14 @@ a {b: color.to-space(rgb(10 20 none), lch)}
 a {
   b: lch(5.1399777246% 9.5627863857 128.3411151091deg);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(none none none), lch)}
+
+<===> missing/all/output.css
+a {
+  b: lch(none none none);
+}

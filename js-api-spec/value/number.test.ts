@@ -4,7 +4,7 @@
 
 import {List} from 'immutable';
 
-import {Value, SassNumber} from 'sass';
+import {SassNumber, Value} from 'sass';
 
 const precision = 10;
 
@@ -77,10 +77,10 @@ describe('Sass number', () => {
 
         it('equals the same number within precision tolerance', () => {
           expect(number).toEqualWithHash(
-            new SassNumber(123 + Math.pow(10, -precision - 2))
+            new SassNumber(123 + Math.pow(10, -precision - 2)),
           );
           expect(number).toEqualWithHash(
-            new SassNumber(123 - Math.pow(10, -precision - 2))
+            new SassNumber(123 - Math.pow(10, -precision - 2)),
           );
         });
 
@@ -88,10 +88,10 @@ describe('Sass number', () => {
           expect(number).not.toEqualWithHash(new SassNumber(122));
           expect(number).not.toEqualWithHash(new SassNumber(124));
           expect(number).not.toEqualWithHash(
-            new SassNumber(123 + Math.pow(10, -precision - 1))
+            new SassNumber(123 + Math.pow(10, -precision - 1)),
           );
           expect(number).not.toEqualWithHash(
-            new SassNumber(123 - Math.pow(10, -precision - 1))
+            new SassNumber(123 - Math.pow(10, -precision - 1)),
           );
         });
 
@@ -112,7 +112,7 @@ describe('Sass number', () => {
 
         it('can be converted to match unitless', () => {
           expect(number.convertToMatch(new SassNumber(456))).toEqualWithHash(
-            new SassNumber(123)
+            new SassNumber(123),
           );
         });
 
@@ -122,7 +122,7 @@ describe('Sass number', () => {
 
         it('cannot be converted to match a unit', () => {
           expect(() =>
-            number.convertToMatch(new SassNumber(456, 'px'))
+            number.convertToMatch(new SassNumber(456, 'px')),
           ).toThrow();
         });
 
@@ -140,7 +140,7 @@ describe('Sass number', () => {
 
         it('cannot convert its value to match a unit', () => {
           expect(() =>
-            number.convertValueToMatch(new SassNumber(456, 'px'))
+            number.convertValueToMatch(new SassNumber(456, 'px')),
           ).toThrow();
         });
       });
@@ -152,7 +152,7 @@ describe('Sass number', () => {
 
         it('can be coerced to match unitless', () => {
           expect(number.coerceToMatch(new SassNumber(456))).toEqualWithHash(
-            new SassNumber(123)
+            new SassNumber(123),
           );
         });
 
@@ -160,7 +160,7 @@ describe('Sass number', () => {
           expect(number.coerce(['px'], [])).toEqualWithHash(
             new SassNumber(123, {
               numeratorUnits: ['px'],
-            })
+            }),
           );
         });
 
@@ -169,12 +169,12 @@ describe('Sass number', () => {
             number.coerceToMatch(
               new SassNumber(456, {
                 numeratorUnits: ['px'],
-              })
-            )
+              }),
+            ),
           ).toEqualWithHash(
             new SassNumber(123, {
               numeratorUnits: ['px'],
-            })
+            }),
           );
         });
 
@@ -195,8 +195,8 @@ describe('Sass number', () => {
             number.coerceValueToMatch(
               new SassNumber(456, {
                 numeratorUnits: ['px'],
-              })
-            )
+              }),
+            ),
           ).toEqual(123);
         });
       });
@@ -231,14 +231,14 @@ describe('Sass number', () => {
 
       it('equals the same number', () => {
         expect(number).toEqualWithHash(
-          new SassNumber(123 + Math.pow(10, -precision - 2))
+          new SassNumber(123 + Math.pow(10, -precision - 2)),
         );
       });
 
       it('equals the same number within precision tolerance', () => {
         expect(number).toEqualWithHash(new SassNumber(123));
         expect(number).toEqualWithHash(
-          new SassNumber(123 - Math.pow(10, -precision - 2))
+          new SassNumber(123 - Math.pow(10, -precision - 2)),
         );
       });
     });
@@ -309,16 +309,16 @@ describe('Sass number', () => {
       it('can be converted to compatible units', () => {
         expect(number.convert(['px'], [])).toEqualWithHash(number);
         expect(number.convert(['in'], [])).toEqualWithHash(
-          new SassNumber(1.28125, 'in')
+          new SassNumber(1.28125, 'in'),
         );
       });
 
       it('can be converted to match compatible units', () => {
         expect(
-          number.convertToMatch(new SassNumber(456, 'px'))
+          number.convertToMatch(new SassNumber(456, 'px')),
         ).toEqualWithHash(number);
         expect(
-          number.convertToMatch(new SassNumber(456, 'in'))
+          number.convertToMatch(new SassNumber(456, 'in')),
         ).toEqualWithHash(new SassNumber(1.28125, 'in'));
       });
 
@@ -328,7 +328,7 @@ describe('Sass number', () => {
 
       it('cannot be converted to match incompatible units', () => {
         expect(() =>
-          number.convertToMatch(new SassNumber(456, 'abc'))
+          number.convertToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
 
@@ -348,7 +348,7 @@ describe('Sass number', () => {
       it('can convert its value to match compatible units', () => {
         expect(number.convertValueToMatch(new SassNumber(456, 'px'))).toBe(123);
         expect(number.convertValueToMatch(new SassNumber(456, 'in'))).toBe(
-          1.28125
+          1.28125,
         );
       });
 
@@ -358,7 +358,7 @@ describe('Sass number', () => {
 
       it('cannot convert its value to match incompatible units', () => {
         expect(() =>
-          number.convertValueToMatch(new SassNumber(456, 'abc'))
+          number.convertValueToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
     });
@@ -370,23 +370,23 @@ describe('Sass number', () => {
 
       it('can be coerced to match unitless', () => {
         expect(number.coerceToMatch(new SassNumber(456))).toEqualWithHash(
-          new SassNumber(123)
+          new SassNumber(123),
         );
       });
 
       it('can be coerced to compatible units', () => {
         expect(number.coerce(['px'], [])).toEqualWithHash(number);
         expect(number.coerce(['in'], [])).toEqualWithHash(
-          new SassNumber(1.28125, 'in')
+          new SassNumber(1.28125, 'in'),
         );
       });
 
       it('can be coerced to match compatible units', () => {
         expect(number.coerceToMatch(new SassNumber(456, 'px'))).toEqualWithHash(
-          number
+          number,
         );
         expect(number.coerceToMatch(new SassNumber(456, 'in'))).toEqualWithHash(
-          new SassNumber(1.28125, 'in')
+          new SassNumber(1.28125, 'in'),
         );
       });
 
@@ -396,7 +396,7 @@ describe('Sass number', () => {
 
       it('cannot be coerced to match incompatible units', () => {
         expect(() =>
-          number.coerceToMatch(new SassNumber(456, 'abc'))
+          number.coerceToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
 
@@ -416,7 +416,7 @@ describe('Sass number', () => {
       it('can coerce its value to match compatible units', () => {
         expect(number.coerceValueToMatch(new SassNumber(456, 'px'))).toBe(123);
         expect(number.coerceValueToMatch(new SassNumber(456, 'in'))).toBe(
-          1.28125
+          1.28125,
         );
       });
 
@@ -426,7 +426,7 @@ describe('Sass number', () => {
 
       it('cannot coerce its value to match incompatible units', () => {
         expect(() =>
-          number.coerceValueToMatch(new SassNumber(456, 'abc'))
+          number.coerceValueToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
     });
@@ -447,16 +447,16 @@ describe('Sass number', () => {
       it("doesn't equal a number with different units", () => {
         expect(number).not.toEqualWithHash(new SassNumber(123, 'abc'));
         expect(number).not.toEqualWithHash(
-          new SassNumber(123, {numeratorUnits: ['px', 'px']})
+          new SassNumber(123, {numeratorUnits: ['px', 'px']}),
         );
         expect(number).not.toEqualWithHash(
           new SassNumber(123, {
             numeratorUnits: ['px'],
             denominatorUnits: ['abc'],
-          })
+          }),
         );
         expect(number).not.toEqualWithHash(
-          new SassNumber(123, {denominatorUnits: ['px']})
+          new SassNumber(123, {denominatorUnits: ['px']}),
         );
       });
     });
@@ -530,7 +530,7 @@ describe('Sass number', () => {
           new SassNumber(1281.25, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
 
@@ -540,21 +540,21 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
-            })
-          )
+            }),
+          ),
         ).toEqualWithHash(number);
         expect(
           number.convertToMatch(
             new SassNumber(456, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
-            })
-          )
+            }),
+          ),
         ).toEqualWithHash(
           new SassNumber(1281.25, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
 
@@ -564,7 +564,7 @@ describe('Sass number', () => {
 
       it('cannot be converted to match incompatible units', () => {
         expect(() =>
-          number.convertToMatch(new SassNumber(456, 'abc'))
+          number.convertToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
 
@@ -587,16 +587,16 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
-            })
-          )
+            }),
+          ),
         ).toBe(123);
         expect(
           number.convertValueToMatch(
             new SassNumber(456, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
-            })
-          )
+            }),
+          ),
         ).toBe(1281.25);
       });
 
@@ -606,7 +606,7 @@ describe('Sass number', () => {
 
       it('cannot convert its value to match incompatible units', () => {
         expect(() =>
-          number.convertValueToMatch(new SassNumber(456, 'abc'))
+          number.convertValueToMatch(new SassNumber(456, 'abc')),
         ).toThrow();
       });
     });
@@ -618,7 +618,7 @@ describe('Sass number', () => {
 
       it('can be coerced to match unitless', () => {
         expect(number.coerceToMatch(new SassNumber(456))).toEqualWithHash(
-          new SassNumber(123)
+          new SassNumber(123),
         );
       });
 
@@ -628,7 +628,7 @@ describe('Sass number', () => {
           new SassNumber(1281.25, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
 
@@ -638,21 +638,21 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
-            })
-          )
+            }),
+          ),
         ).toEqualWithHash(number);
         expect(
           number.coerceToMatch(
             new SassNumber(456, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
-            })
-          )
+            }),
+          ),
         ).toEqualWithHash(
           new SassNumber(1281.25, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
 
@@ -666,8 +666,8 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['abc'],
               denominatorUnits: [],
-            })
-          )
+            }),
+          ),
         ).toThrow();
       });
 
@@ -681,8 +681,8 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: [],
               denominatorUnits: [],
-            })
-          )
+            }),
+          ),
         ).toBe(123);
       });
 
@@ -697,16 +697,16 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['px'],
               denominatorUnits: ['ms'],
-            })
-          )
+            }),
+          ),
         ).toBe(123);
         expect(
           number.coerceValueToMatch(
             new SassNumber(456, {
               numeratorUnits: ['in'],
               denominatorUnits: ['s'],
-            })
-          )
+            }),
+          ),
         ).toBe(1281.25);
       });
 
@@ -720,8 +720,8 @@ describe('Sass number', () => {
             new SassNumber(456, {
               numeratorUnits: ['abc'],
               denominatorUnits: [],
-            })
-          )
+            }),
+          ),
         ).toThrow();
       });
     });
@@ -732,7 +732,7 @@ describe('Sass number', () => {
           new SassNumber(123, {
             numeratorUnits: ['px'],
             denominatorUnits: ['ms'],
-          })
+          }),
         );
       });
 
@@ -741,7 +741,7 @@ describe('Sass number', () => {
           new SassNumber(1281.25, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
 
@@ -752,19 +752,19 @@ describe('Sass number', () => {
       it("doesn't equal a number with different units", () => {
         expect(number).not.toEqualWithHash(new SassNumber(123, 'px'));
         expect(number).not.toEqualWithHash(
-          new SassNumber(123, {denominatorUnits: ['ms']})
+          new SassNumber(123, {denominatorUnits: ['ms']}),
         );
         expect(number).not.toEqualWithHash(
           new SassNumber(123, {
             numeratorUnits: ['ms'],
             denominatorUnits: ['px'],
-          })
+          }),
         );
         expect(number).not.toEqualWithHash(
           new SassNumber(123, {
             numeratorUnits: ['in'],
             denominatorUnits: ['s'],
-          })
+          }),
         );
       });
     });

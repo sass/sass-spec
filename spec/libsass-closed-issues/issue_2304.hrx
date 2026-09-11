@@ -8,7 +8,16 @@
 .foo, &:before {
   background: red;
 }
-<===> error
+<===> output.css
+.foo, & {
+  background: red;
+}
+
+.foo, &:before {
+  background: red;
+}
+
+<===> warning
 DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
 
 More info and automated migrator: https://sass-lang.com/d/import
@@ -18,11 +27,3 @@ More info and automated migrator: https://sass-lang.com/d/import
   |         ^^^^^^^^
   '
     input.scss 1:9  root stylesheet
-
-Error: Top-level selectors may not contain the parent selector "&".
-  ,
-1 | .foo, & {
-  |       ^
-  '
-  _module.scss 1:7  @import
-  input.scss 1:9    root stylesheet
