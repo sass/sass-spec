@@ -196,6 +196,24 @@ a {
 
 <===>
 ================================================================================
+<===> module_value/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-variables(meta.get-module("other")))}
+
+<===> module_value/_other.scss
+$c: c value;
+$d: d value;
+$e: e value;
+
+<===> module_value/output.css
+a {
+  b: ("c": c value, "d": d value, "e": e value);
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @use "other";
@@ -219,7 +237,7 @@ a {
 a {b: meta.inspect(meta.module-variables(1))}
 
 <===> error/type/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | a {b: meta.inspect(meta.module-variables(1))}
   |                    ^^^^^^^^^^^^^^^^^^^^^^^^

@@ -30,6 +30,7 @@ describe('Legacy SassColor', () => {
         expect(() => color.assertMap()).toThrow();
         expect(color.tryMap()).toBe(null);
         expect(() => color.assertMixin()).toThrow();
+        expect(() => color.assertModule()).toThrow();
         expect(() => color.assertNumber()).toThrow();
         expect(() => color.assertString()).toThrow();
       });

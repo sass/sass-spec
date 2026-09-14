@@ -1,0 +1,19 @@
+<===> input.scss
+@use "sass:meta";
+@use "shared";
+$_: meta.load("other");
+
+a {shared-b: shared.$b}
+
+<===> _other.scss
+@use "shared";
+
+shared.$b: value set by other;
+
+<===> _shared.scss
+$b: default value;
+
+<===> output.css
+a {
+  shared-b: value set by other;
+}

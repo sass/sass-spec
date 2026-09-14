@@ -49,6 +49,7 @@ describe('SassCalculation', () => {
       expect(() => calculation.assertMap()).toThrow();
       expect(calculation.tryMap()).toBe(null);
       expect(() => calculation.assertMixin()).toThrow();
+      expect(() => calculation.assertModule()).toThrow();
       expect(() => calculation.assertNumber()).toThrow();
       expect(() => calculation.assertString()).toThrow();
     });

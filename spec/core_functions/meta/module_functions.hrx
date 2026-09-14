@@ -239,6 +239,27 @@ a {
 
 <===>
 ================================================================================
+<===> module_value/input.scss
+@use "sass:meta";
+@use "../util";
+@use "other";
+
+@include util.print-function-map(meta.module-functions(meta.get-module("other")));
+
+<===> module_value/_other.scss
+@function b() {@return b value}
+@function c() {@return c value}
+@function d() {@return d value}
+
+<===> module_value/output.css
+a {
+  b: b value;
+  c: c value;
+  d: d value;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @use "../util";
@@ -265,7 +286,7 @@ a {
 $a: meta.module-functions(1);
 
 <===> error/type/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | $a: meta.module-functions(1);
   |     ^^^^^^^^^^^^^^^^^^^^^^^^
