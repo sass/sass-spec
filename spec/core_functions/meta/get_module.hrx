@@ -1,0 +1,232 @@
+<===> user_defined/input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.global-variable-exists("other", $module: meta.get-module("other"))}
+
+<===> user_defined/_other.scss
+$other: c;
+
+<===> user_defined/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> built_in/input.scss
+@use "sass:meta";
+@use "sass:math";
+a {b: meta.global-variable-exists("e", $module: meta.get-module("math"))}
+
+<===> built_in/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> meta/inspect/namespace/input.scss
+@use "sass:meta";
+a {b: meta.inspect(meta.get-module(meta))};
+
+<===> meta/inspect/namespace/output.css
+a {
+  b: get-module("meta");
+}
+
+<===>
+================================================================================
+<===> meta/inspect/no_namespace/input.scss
+@use "sass:meta";
+@use "1" as one;
+a {b: meta.inspect(meta.get-module(one))};
+
+<===> meta/inspect/no_namespace/_1.scss
+
+<===> meta/inspect/no_namespace/output.css
+a {
+  b: get-module();
+}
+
+<===>
+================================================================================
+<===> meta/type_of/input.scss
+@use "sass:meta";
+a {b: meta.type-of(meta.get-module(meta))};
+
+<===> meta/type_of/output.css
+a {
+  b: module;
+}
+
+<===>
+================================================================================
+<===> equality/same_value/input.scss
+@use "sass:meta";
+$meta: meta.get-module(meta);
+a {b: $meta == $meta}
+
+<===> equality/same_value/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> equality/built_in/same/input.scss
+@use "sass:meta";
+a {b: meta.get-module(meta) == meta.get-module(meta)}
+
+<===> equality/built_in/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> equality/built_in/different/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.get-module(meta) == meta.get-module(color)}
+
+<===> equality/built_in/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> equality/user_defined/same/input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.get-module(other) == meta.get-module(other)}
+
+<===> equality/user_defined/same/_other.scss
+
+<===> equality/user_defined/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> equality/user_defined/different/input.scss
+@use "sass:meta";
+@use "left";
+@use "right";
+a {b: meta.get-module(left) == meta.get-module(right)}
+
+<===> equality/user_defined/different/_left.scss
+
+<===> equality/user_defined/different/_right.scss
+
+<===> equality/user_defined/different/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+@use "sass:math";
+
+a {b: meta.global-variable-exists("e", $module: meta.get-module($module: "math"))}
+
+<===> named/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> error/argument/type/module/input.scss
+@use "sass:meta";
+a {b: meta.get-module(null)}
+
+<===> error/argument/type/module/error
+Error: $module: null is neither a string nor a module reference.
+  ,
+2 | a {b: meta.get-module(null)}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/argument/too_few/input.scss
+@use "sass:meta";
+a {b: meta.get-module()}
+
+<===> error/argument/too_few/error
+Error: Missing argument $module.
+  ,--> input.scss
+2 | a {b: meta.get-module()}
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-module($module) {
+  |           =================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/argument/too_many/input.scss
+@use "sass:meta";
+a {b: meta.get-module(c, d)}
+
+<===> error/argument/too_many/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | a {b: meta.get-module(c, d)}
+  |       ^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function get-module($module) {
+  |           =================== declaration
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/non_existent/input.scss
+@use "sass:meta";
+a {b: meta.get-module(does-not-exist)}
+
+<===> error/non_existent/error
+Error: There is no module with namespace "does-not-exist".
+  ,
+2 | a {b: meta.get-module(does-not-exist)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/built_in_but_not_loaded/input.scss
+@use "sass:meta";
+a {b: meta.get-module("color")}
+
+<===> error/built_in_but_not_loaded/error
+Error: There is no module with namespace "color".
+  ,
+2 | a {b: meta.get-module("color")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/dash_sensitive/input.scss
+@use "sass:color" as a-b;
+@use "sass:meta";
+c {d: meta.get-module("a_b")}
+
+<===> error/dash_sensitive/error
+Error: There is no module with namespace "a_b".
+  ,
+3 | c {d: meta.get-module("a_b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet

@@ -17,7 +17,7 @@ Error: $name: 2px is not a string.
 a {b: meta.get-mixin(c, $module: 1)}
 
 <===> argument/type/module/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | a {b: meta.get-mixin(c, $module: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -187,7 +187,7 @@ Error: Mixin not found: "c"
 a {b: meta.get-mixin("c", $module: "d")}
 
 <===> module/non_existent/error
-Error: There is no module with the namespace "d".
+Error: There is no module with namespace "d".
   ,
 2 | a {b: meta.get-mixin("c", $module: "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -201,7 +201,7 @@ Error: There is no module with the namespace "d".
 a {b: meta.get-mixin("red", $module: "color")}
 
 <===> module/built_in_but_not_loaded/error
-Error: There is no module with the namespace "color".
+Error: There is no module with namespace "color".
   ,
 2 | a {b: meta.get-mixin("red", $module: "color")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -216,7 +216,7 @@ Error: There is no module with the namespace "color".
 c {d: meta.get-mixin("c", $module: "a_b")}
 
 <===> module/dash_sensitive/error
-Error: There is no module with the namespace "a_b".
+Error: There is no module with namespace "a_b".
   ,
 3 | c {d: meta.get-mixin("c", $module: "a_b")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

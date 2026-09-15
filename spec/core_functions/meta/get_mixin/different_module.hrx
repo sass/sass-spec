@@ -1,13 +1,29 @@
-<===> defined/input.scss
+<===> defined/string/input.scss
 @use "sass:meta";
 @use "other";
 a {@include meta.apply(meta.get-mixin("a", $module: "other"), #abcdef)}
 
-<===> defined/_other.scss
+<===> defined/string/_other.scss
 @use "sass:color";
 @mixin a($color) {b: color.channel($color, 'red')}
 
-<===> defined/output.css
+<===> defined/string/output.css
+a {
+  b: 171;
+}
+
+<===>
+================================================================================
+<===> defined/module_value/input.scss
+@use "sass:meta";
+@use "other";
+a {@include meta.apply(meta.get-mixin("a", $module: meta.get-module("other")), #abcdef)}
+
+<===> defined/module_value/_other.scss
+@use "sass:color";
+@mixin a($color) {b: color.channel($color, 'red')}
+
+<===> defined/module_value/output.css
 a {
   b: 171;
 }

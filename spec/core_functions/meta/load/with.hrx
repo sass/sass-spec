@@ -1,0 +1,15 @@
+<===> input.scss
+// This is a cursory test to verify that with works at all. More thorough tests
+// exist for `meta.load-css()`, because it's easier to verify the behavior based
+// on CSS output. `meta.load()` is expected to have the same behavior.
+@use "sass:meta";
+$module: meta.load("other", $with: (a: b));
+c {d: meta.inspect(meta.module-variables($module))}
+
+<===> _other.scss
+$a: e !default;
+
+<===> output.css
+c {
+  d: ("a": b);
+}
