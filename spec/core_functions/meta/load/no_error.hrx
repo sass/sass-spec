@@ -1,0 +1,25 @@
+<===> README.md
+Unlike `meta.load-css()`, errors that appear during CSS extension and
+serialization aren't triggered just be loading a module with `meta.load()`.
+
+<===>
+================================================================================
+<===> extend/input.scss
+@use "sass:meta";
+$_: meta.load("other");
+
+<===> extend/_other.scss
+a {@extend missing}
+
+<===> extend/output.css
+
+<===>
+================================================================================
+<===> serialize/input.scss
+@use "sass:meta";
+$_: meta.load("other");
+
+<===> serialize/_other.scss
+a {b: (c: d)}
+
+<===> serialize/output.css

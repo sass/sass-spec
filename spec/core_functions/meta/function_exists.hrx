@@ -90,24 +90,61 @@ a {
 
 <===>
 ================================================================================
-<===> different_module/undefined/input.scss
+<===> different_module/undefined/string/input.scss
 @use "sass:meta";
 @use "sass:color";
 a {b: meta.function-exists("c", "color")}
 
-<===> different_module/undefined/output.css
+<===> different_module/undefined/string/output.css
 a {
   b: false;
 }
 
 <===>
 ================================================================================
-<===> different_module/defined/input.scss
+<===> different_module/undefined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("c", meta.get-module("color"))}
+
+<===> different_module/undefined/module_value/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/global/string/input.scss
+// Regression test
+@use "sass:meta";
+@use "sass:list";
+a {b: meta.function-exists("rgb", "list")}
+
+<===> different_module/global/string/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/string/input.scss
 @use "sass:meta";
 @use "sass:color";
 a {b: meta.function-exists("red", "color")}
 
-<===> different_module/defined/output.css
+<===> different_module/defined/string/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("red", meta.get-module("color"))}
+
+<===> different_module/defined/module_value/output.css
 a {
   b: true;
 }
@@ -259,7 +296,7 @@ Error: $name: 12px is not a string.
 a {b: meta.function-exists("red", 1)}
 
 <===> error/argument/type/module/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | a {b: meta.function-exists("red", 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -337,7 +374,7 @@ Error: This function is available from multiple global modules.
 a {b: meta.function-exists("c", "d")}
 
 <===> error/module/non_existent/error
-Error: There is no module with the namespace "d".
+Error: There is no module with namespace "d".
   ,
 2 | a {b: meta.function-exists("c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -351,7 +388,7 @@ Error: There is no module with the namespace "d".
 a {b: meta.function-exists("red", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
-Error: There is no module with the namespace "color".
+Error: There is no module with namespace "color".
   ,
 2 | a {b: meta.function-exists("red", "color")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -366,7 +403,7 @@ Error: There is no module with the namespace "color".
 c {d: meta.function-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
-Error: There is no module with the namespace "a_b".
+Error: There is no module with namespace "a_b".
   ,
 3 | c {d: meta.function-exists("c", $module: "a_b")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

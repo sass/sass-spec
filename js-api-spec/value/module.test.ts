@@ -2,22 +2,22 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {SassMixin, Value, compileString} from 'sass';
+import {SassModule, Value, compileString} from 'sass';
 
 import {spy} from '../utils';
 
-it('can round-trip a mixin reference from Sass', () => {
+it('can round-trip a module reference from Sass', () => {
   const fn = spy(args => {
     expect(args).toBeArrayOfSize(1);
     const value = args[0];
-    expect(value).toBeInstanceOf(SassMixin);
+    expect(value).toBeInstanceOf(SassModule);
     expect(value.assertCalculation).toThrow();
     expect(value.assertColor).toThrow();
     expect(value.assertFunction).toThrow();
     expect(value.assertMap).toThrow();
+    expect(value.assertMixin).toThrow();
     expect(value.tryMap()).toBe(null);
-    expect(value.assertMixin()).toBe(value);
-    expect(value.assertModule).toThrow();
+    expect(value.assertModule()).toBe(value);
     expect(value.assertNumber).toThrow();
     expect(value.assertString).toThrow();
 
@@ -28,37 +28,23 @@ it('can round-trip a mixin reference from Sass', () => {
     compileString(
       `
       @use 'sass:meta';
-
-      @mixin a() {
-        a {
-          b: c;
-        }
-      }
-
-      @include meta.apply(foo(meta.get-mixin('a')));
+      a {b: meta.function-exists('function-exists', foo(meta.get-module('meta')))}
     `,
       {
         functions: {'foo($arg)': fn},
       },
     ).css,
-  ).toBe('a {\n  b: c;\n}');
+  ).toBe('a {\n  b: true;\n}');
 
   expect(fn).toHaveBeenCalled();
 });
 
-it('rejects a compiler mixin from a different compilation', () => {
+it('rejects a compiler module from a different compilation', () => {
   let a: Value | undefined;
   compileString(
     `
       @use 'sass:meta';
-
-      @mixin a() {
-        a {
-          b: c;
-        }
-      }
-
-      @include meta.apply(foo(meta.get-mixin('a')));
+      $_: foo(meta.get-module('meta'));
     `,
     {
       functions: {
@@ -75,13 +61,7 @@ it('rejects a compiler mixin from a different compilation', () => {
     compileString(
       `
         @use 'sass:meta';
-
-        @mixin b() {
-          c {
-            d: e;
-          }
-        }
-        @include meta.apply(foo(meta.get-mixin('b')));
+        $_: meta.module-variables(foo(meta.get-module('meta')));
       `,
       {
         functions: {
@@ -92,7 +72,7 @@ it('rejects a compiler mixin from a different compilation', () => {
         },
       },
     );
-  }).toThrowSassException({line: 8});
+  }).toThrowSassException({line: 2});
 
   expect(a).not.toEqual(b);
 });
