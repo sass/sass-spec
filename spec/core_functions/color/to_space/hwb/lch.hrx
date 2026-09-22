@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), lch)}
 a {
   b: lch(60.7483623827% 85.0665388358 40.9118491907deg);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), lch)}
+
+<===> missing/non_hue/output.css
+a {
+  b: lch(none none 42.7537544434deg);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), lch)}
+
+<===> missing/all/output.css
+a {
+  b: lch(none none none);
+}

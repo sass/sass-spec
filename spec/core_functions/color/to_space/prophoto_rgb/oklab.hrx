@@ -116,3 +116,14 @@ a {b: color.to-space(color(prophoto-rgb 0.1 0.2 none), oklab)}
 a {
   b: oklab(33.9153746566% -0.1155256052 0.0932618107);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb none none none), oklab)}
+
+<===> missing/all/output.css
+a {
+  b: oklab(none none none);
+}

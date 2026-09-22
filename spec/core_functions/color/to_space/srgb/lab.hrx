@@ -116,3 +116,14 @@ a {b: color.to-space(color(srgb 0.1 0.2 none), lab)}
 a {
   b: lab(18.3483752329% -17.6137840535 25.305473968);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(srgb none none none), lab)}
+
+<===> missing/all/output.css
+a {
+  b: lab(none none none);
+}

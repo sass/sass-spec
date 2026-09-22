@@ -26,7 +26,7 @@ a {b: color.to-space(oklab(50% 0 0), rgb)}
 
 <===> gray/output.css
 a {
-  b: rgb(99.0860790568, 99.0860790568, 99.0860790568);
+  b: rgb(38.8572859046%, 38.8572859046%, 38.8572859046%);
 }
 
 <===>
@@ -115,4 +115,26 @@ a {b: color.to-space(oklab(10% 0.2 none), rgb)}
 <===> missing/b/output.css
 a {
   b: hsl(339.4567051743, 263.6331125505%, 4.4011033198%);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), rgb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: rgb(1.292%, 1.292%, 1.292%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), rgb)}
+
+<===> missing/all/output.css
+a {
+  b: black;
 }

@@ -131,10 +131,10 @@ export default abstract class SpecDirectory {
     // remove it from a parent directory instead and manually re-apply it to all
     // this directory's siblings.
     const parent = (await this.parent())!;
-    parent.removeOptionForImpl(impl, option);
+    await parent.removeOptionForImpl(impl, option);
     for (const sibling of await parent.subdirs()) {
       if (sibling === this) continue;
-      sibling.addOptionForImpl(impl, option);
+      await sibling.addOptionForImpl(impl, option);
     }
   }
 
@@ -164,7 +164,7 @@ export default abstract class SpecDirectory {
    * @throws {Error} if `only` contains any paths that aren't in this directory
    */
   async forEachTest(iteratee: SpecIteratee, only?: string[]): Promise<void> {
-    const relPath = this.relPath();
+    const relPath = normalizeSpecPath(this.relPath());
     if (
       only === undefined ||
       only.some(path => normalizeSpecPath(path) === relPath)
@@ -183,13 +183,13 @@ export default abstract class SpecDirectory {
 
     // A map from the basename of each subdirectory to that subdirectory
     const subdirsByBasename = _.fromPairs(
-      (await this.subdirs()).map(subdir => [p.basename(subdir.path), subdir])
+      (await this.subdirs()).map(subdir => [p.basename(subdir.path), subdir]),
     );
 
     // A map from the first component of each path in `only` (for example, `foo`
     // in `foo/bar/baz`) to the full paths under that component.
     const onlyByFirstComponent = _.groupBy(only, path =>
-      normalizeSpecPath(pathSplit(p.relative(relPath, path))[0])
+      normalizeSpecPath(pathSplit(p.relative(relPath, path))[0]),
     );
 
     for (const [component, paths] of _.toPairs(onlyByFirstComponent)) {

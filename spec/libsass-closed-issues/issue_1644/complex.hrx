@@ -35,12 +35,24 @@ $grid-breakpoints-immobile: (
   }
 }
 
-<===> error
-Error: Top-level selectors may not contain the parent selector "&".
-   ,
-31 |     body.immobile & {
-   |                   ^
-   '
-  input.scss 31:19  @content
-  input.scss 23:9   grid-media-query()
-  input.scss 30:3   root stylesheet
+<===> output.css
+@media only screen and (min-width: 768px) and (max-width: 980px) {
+  body.immobile & {
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 980px) and (max-width: 1120px) {
+  body.immobile & {
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 1120px) and (max-width: 1280px) {
+  body.immobile & {
+    margin-bottom: 0;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  body.immobile & {
+    margin-bottom: 0;
+  }
+}

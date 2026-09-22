@@ -127,3 +127,37 @@ a {b: color.to-space(hsl(10deg 20% none), oklch)}
 a {
   b: oklch(none 0 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+// See comment in missing/non_hue/input.scss in lch.hrx.
+@use "sass:color";
+a {b: color.to-space(hsl(10deg none none), oklch)}
+
+<===> missing/non_hue/output.css
+a {
+  b: oklch(none none none);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none 50%), oklch)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: oklch(59.8180730527% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hsl(none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
+}

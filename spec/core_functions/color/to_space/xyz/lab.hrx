@@ -86,33 +86,44 @@ a {
 
 <===>
 ================================================================================
-<===> missing/red/input.scss
+<===> missing/x/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz none 0.2 0.3), lab)}
 
-<===> missing/red/output.css
+<===> missing/x/output.css
 a {
   b: lab(51.0322781723% -262.2343975897 -14.80446365);
 }
 
 <===>
 ================================================================================
-<===> missing/green/input.scss
+<===> missing/y/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 none 0.3), lab)}
 
-<===> missing/green/output.css
+<===> missing/y/output.css
 a {
   b: color-mix(in lab, color(xyz 0.1 0 0.3) 100%, black);
 }
 
 <===>
 ================================================================================
-<===> missing/blue/input.scss
+<===> missing/z/input.scss
 @use "sass:color";
 a {b: color.to-space(color(xyz 0.1 0.2 none), lab)}
 
-<===> missing/blue/output.css
+<===> missing/z/output.css
 a {
   b: lab(51.9556818936% -50.8750926576 85.6399941916);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(xyz none none none), lab)}
+
+<===> missing/all/output.css
+a {
+  b: lab(none none none);
 }

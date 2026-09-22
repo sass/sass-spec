@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import {fromRoot} from './lib/spec-directory';
 
-async function migrate() {
+async function migrate(): Promise<void> {
   const dirToMigrate = process.argv[2];
   const migratorCommand = process.argv[3];
   const migratorArgs = process.argv.slice(4);
@@ -20,7 +20,7 @@ async function migrate() {
       const allFiles = await testDir.listFiles();
       if (allFiles.includes('error')) return;
       const files = allFiles.filter(
-        file => file.endsWith('.scss') || file.endsWith('.sass')
+        file => file.endsWith('.scss') || file.endsWith('.sass'),
       );
       console.log(testDir.relPath());
       const output = child_process.execFileSync(
@@ -28,10 +28,10 @@ async function migrate() {
           __dirname,
           'node_modules',
           'sass-migrator',
-          'sass-migrator.js'
+          'sass-migrator.js',
         ),
         [migratorCommand, `--load-path=${root}`, ...migratorArgs, ...files],
-        {cwd: testDir.path, encoding: 'utf8'}
+        {cwd: testDir.path, encoding: 'utf8'},
       );
       if (output.length > 0) console.log(output);
       // Actually write the migrator's changes to the virtual directory's cache.
@@ -40,12 +40,12 @@ async function migrate() {
           file,
           await fs.promises.readFile(path.join(testDir.path, file), {
             encoding: 'utf8',
-          })
+          }),
         );
       }
     },
-    [dirToMigrate]
+    [dirToMigrate],
   );
 }
 
-migrate();
+void migrate();

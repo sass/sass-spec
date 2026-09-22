@@ -7,55 +7,85 @@ on:
   push: {branches: [main, feature.*]}
   pull_request:
 
+permissions: {}
+
 jobs:
   unit_tests:
-    name: "Unit tests"
-    runs-on: ubuntu-latest
+    name: "Unit tests | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v3
-      # TODO(jathak): Update this to 'lts/*' (the latest lts version) once unit tests are fixed.
-      - uses: actions/setup-node@v3
-        with: {node-version: 14}
-      - uses: dart-lang/setup-dart@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with: {node-version: 'lts/*'}
+      - uses: dart-lang/setup-dart@65eb853c7ba17dde3be364c3d2858773e7144260 # v1.7.2
         with: {sdk: stable}
       - run: npm install
       - run: npm test
 
-  static_analysis:
+  static_analysis_code:
     name: "Static analysis"
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint
+
+  static_analysis_ci:
+    name: Static analysis (GitHub Actions)
+    runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write # Required by upload-sarif
+      actions: read # Required by upload-sarif
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
+        with: {persona: pedantic}
 
   lint_spec:
     name: "Lint spec files"
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: {node-version: 'lts/*'}
       - run: npm install
       - run: npm run lint-spec
 
   dart_sass_language:
-    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }}"
-    runs-on: ubuntu-latest
+    name: "Language | Dart Sass | Dart ${{ matrix.dart_channel }} | ${{ matrix.os }}"
+    runs-on: "${{ matrix.os }}"
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     strategy:
       matrix:
-        dart_channel: [stable, dev]
+        # We expect language test results not to vary from OS to OS. In most
+        # cases, this is trivial, but for operations on very high-precision
+        # floating-point numbers there are cases where float rounding can differ
+        # (see sass/sass-spec#2156). To ensure we don't include these in our
+        # test cases, we test against Windows and MacOS as well.
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        dart_channel: [stable]
+        include:
+        - os: ubuntu-latest
+          dart_channel: dev
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: {node-version: 'lts/*'}
       - run: npm install
 
@@ -87,8 +117,9 @@ jobs:
           node_version: lts/-3
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
 
@@ -113,8 +144,9 @@ jobs:
     if: "github.event_name != 'pull_request' || !contains(github.event.pull_request.body, 'skip dart-sass')"
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: browser-actions/setup-chrome@v1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4 # v2.2.0
       - run: npm install
 
       - uses: ./.github/util/dart-sass
@@ -154,8 +186,9 @@ jobs:
           node_version: lts/-3
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: {persist-credentials: false}
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
 
@@ -164,7 +197,7 @@ jobs:
           github-token: ${{ github.token }}
 
       - name: Node.js Embedded Host | Checkout
-        uses: sass/clone-linked-repo@v1
+        uses: sass/clone-linked-repo@ec2dcd11c5eaec56b64855712372056a14e9614d # v1.0.0
         with: {repo: sass/embedded-host-node, path: embedded-host-node}
 
       # Work around actions/checkout#197. We need this outside the main checkout

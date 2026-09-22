@@ -50,3 +50,36 @@ a {b: color.to-space(lch(10% 20 none), lch)}
 a {
   b: lch(10% 20 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none 10deg), lch)}
+
+<===> missing/non_hue/output.css
+a {
+  b: lch(none none 10deg);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(50% none none), lch)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: lch(50% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none none), lch)}
+
+<===> missing/all/output.css
+a {
+  b: lch(none none none);
+}

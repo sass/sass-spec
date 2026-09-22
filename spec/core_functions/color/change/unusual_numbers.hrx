@@ -1,0 +1,63 @@
+<===> infinity/polar/input.scss
+@use "sass:color";
+a {b: color.change(lch(50% 100% 0deg), $hue: calc(infinity))};
+
+<===> infinity/polar/output.css
+a {
+  b: lch(50% 150 0deg);
+}
+
+<===>
+================================================================================
+<===> infinity/linear/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 0 0), $a: calc(infinity))};
+
+<===> infinity/linear/output.css
+a {
+  b: lab(50% calc(infinity) 0);
+}
+
+<===>
+================================================================================
+<===> negative_infinity/polar/input.scss
+@use "sass:color";
+a {b: color.change(lch(50% 100% 0deg), $hue: calc(-infinity))};
+
+<===> negative_infinity/polar/output.css
+a {
+  b: lch(50% 150 0deg);
+}
+
+<===>
+================================================================================
+<===> negative_infinity/linear/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 0 0), $a: calc(-infinity))};
+
+<===> negative_infinity/linear/output.css
+a {
+  b: lab(50% calc(-infinity) 0);
+}
+
+<===>
+================================================================================
+<===> nan/linear/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 0 0), $a: calc(nan))};
+
+<===> nan/linear/output.css
+a {
+  b: lab(50% 0 0);
+}
+
+<===>
+================================================================================
+<===> negative_zero/input.scss
+@use "sass:color";
+a {b: color.change(lab(50% 0 0), $a: -0)};
+
+<===> negative_zero/output.css
+a {
+  b: lab(50% 0 0);
+}

@@ -110,12 +110,12 @@ a {
 
 <===>
 ================================================================================
-<===> missing/red/input.scss
+<===> missing/x/input.scss
 @use "sass:color";
 @use 'core_functions/color/utils';
 @include utils.inspect(color.to-space(color(xyz none 0.2 0.3), hwb));
 
-<===> missing/red/output.css
+<===> missing/x/output.css
 a {
   value: hsl(355.8794204538, 2697.9214173204%, -2.5244914397%);
   space: hwb;
@@ -124,12 +124,12 @@ a {
 
 <===>
 ================================================================================
-<===> missing/green/input.scss
+<===> missing/y/input.scss
 @use "sass:color";
 @use 'core_functions/color/utils';
 @include utils.inspect(color.to-space(color(xyz 0.1 none 0.3), hwb));
 
-<===> missing/green/output.css
+<===> missing/y/output.css
 a {
   value: hsl(290.3526254976, 328.3439800543%, 14.0892871543%);
   space: hwb;
@@ -138,12 +138,23 @@ a {
 
 <===>
 ================================================================================
-<===> missing/blue/input.scss
+<===> missing/z/input.scss
 @use "sass:color";
 @use 'core_functions/color/utils';
 a {b: color.to-space(color(xyz 0.1 0.2 none), hwb)}
 
-<===> missing/blue/output.css
+<===> missing/z/output.css
 a {
   b: hsl(93.2964667331, 215.664278299%, 17.8710983929%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(xyz none none none), hwb)}
+
+<===> missing/all/output.css
+a {
+  b: red;
 }

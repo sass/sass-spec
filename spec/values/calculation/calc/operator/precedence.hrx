@@ -108,6 +108,26 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/additive/degenerate/no_unit/input.scss
+a {b: calc(var(--c) + infinity)}
+
+<===> preserved/additive/degenerate/no_unit/output.css
+a {
+  b: calc(var(--c) + infinity);
+}
+
+<===>
+================================================================================
+<===> preserved/additive/degenerate/unit/input.scss
+a {b: calc(var(--c) + infinity * 1%)}
+
+<===> preserved/additive/degenerate/unit/output.css
+a {
+  b: calc(var(--c) + infinity * 1%);
+}
+
+<===>
+================================================================================
 <===> preserved/multiplicative/default/parens/input.scss
 a {b: calc(1px * (2 / var(--c)))}
 
@@ -128,12 +148,32 @@ a {
 
 <===>
 ================================================================================
+<===> preserved/multiplicative/default/degenerate/input.scss
+a {b: calc(var(--c) / infinity)}
+
+<===> preserved/multiplicative/default/degenerate/output.css
+a {
+  b: calc(var(--c) / infinity);
+}
+
+<===>
+================================================================================
 <===> preserved/multiplicative/needs_parens/parens/input.scss
 a {b: calc(1px / (2 * var(--c)))}
 
 <===> preserved/multiplicative/needs_parens/parens/output.css
 a {
   b: calc(1px / (2 * var(--c)));
+}
+
+<===>
+================================================================================
+<===> preserved/multiplicative/needs_parens/degenerate/input.scss
+a {b: calc(var(--c) / (infinity * 1px))}
+
+<===> preserved/multiplicative/needs_parens/degenerate/output.css
+a {
+  b: calc(var(--c) / (infinity * 1px));
 }
 
 <===>

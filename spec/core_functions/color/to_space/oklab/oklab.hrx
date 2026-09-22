@@ -50,3 +50,25 @@ a {b: color.to-space(oklab(10% 0.2 none), oklab)}
 a {
   b: oklab(10% 0.2 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), oklab)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: oklab(10% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), oklab)}
+
+<===> missing/all/output.css
+a {
+  b: oklab(none none none);
+}

@@ -1,3 +1,4 @@
+import readline from 'readline';
 import {Interactor} from '../../lib/interactor';
 import {Readable, Writable} from 'stream';
 import {fromContents} from '../../lib/spec-directory';
@@ -7,11 +8,11 @@ import {mockCompiler} from '../fixtures/mock-compiler';
 
 class MemoryWritable extends Writable {
   chunks: string[] = [];
-  _write(chunk: object, enc: unknown, cb: () => void) {
+  _write(chunk: object, enc: unknown, cb: () => void): void {
     this.chunks.push(chunk.toString());
     cb();
   }
-  contents() {
+  contents(): string {
     return this.chunks.join('');
   }
 }
@@ -22,7 +23,7 @@ function makeInputStream(inputs: string[]): Readable {
 
 async function makeTestCase(
   contents: string,
-  options?: {todo?: TodoMode; subdir?: string}
+  options?: {todo?: TodoMode; subdir?: string},
 ): Promise<TestCase> {
   let dir = await fromContents(contents.trim());
   if (options?.subdir) dir = await dir.atPath(options.subdir);
@@ -30,20 +31,25 @@ async function makeTestCase(
     dir,
     'sass-mock',
     mockCompiler(dir),
-    options?.todo
+    options?.todo,
   );
 }
 
 async function runInteractor(
   inputs: string[],
   contents: string,
-  options?: {todo?: TodoMode; subdir?: string}
-) {
+  options?: {todo?: TodoMode; subdir?: string},
+): Promise<{
+  test: TestCase;
+  output: string;
+}> {
   const input = makeInputStream(inputs);
   const output = new MemoryWritable();
-  const interactor = new Interactor(input, output);
+  const rl = readline.createInterface(input, output);
+  const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
   const test = await makeTestCase(contents, options);
   await interactor.prompt(test);
+  rl.close();
   return {test, output: output.contents()};
 }
 
@@ -56,7 +62,7 @@ describe('Interactor loop', () => {
 stderr: ERROR
 <===> output.css
 OUTPUT
-    `
+    `,
     );
     expect(test.result()).toMatchObject({type: 'fail'});
     expect(output).toContain('Please select an option >');
@@ -70,7 +76,7 @@ OUTPUT
 stderr: THIS IS ERROR
 <===> output.css
 OUTPUT
-    `
+    `,
     );
     expect(output).toContain('************\nTHIS IS ERROR\n************');
   });
@@ -83,7 +89,7 @@ OUTPUT
 stderr: THIS IS ERROR
 <===> output.css
 OUTPUT
-    `
+    `,
     );
     expect(test.result()).toEqual({type: 'pass'});
     expect(await test.dir.readFile('error-sass-mock')).toEqual('THIS IS ERROR');
@@ -97,7 +103,7 @@ OUTPUT
 stderr: THIS IS ERROR
 <===> output.css
 OUTPUT
-    `
+    `,
     );
     expect(output).toContain('Invalid option chosen');
   });
@@ -110,7 +116,7 @@ OUTPUT
 stderr: THIS IS ERROR
 <===> output.css
 OUTPUT
-    `
+    `,
     );
     expect(output).toContain('Invalid option chosen');
   });
@@ -123,7 +129,7 @@ OUTPUT
 <===> input.scss
 stdout: OUTPUT
 status: 0
-    `
+    `,
       );
       expect(test.result()).toMatchObject({type: 'pass'});
       expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
@@ -136,7 +142,7 @@ status: 0
 <===> input.scss
 stderr: ERROR
 status: 1
-    `
+    `,
       );
       expect(test.result()).toMatchObject({type: 'pass'});
       expect(await test.dir.readFile('error')).toEqual('ERROR');
@@ -155,7 +161,7 @@ status: 1
 stdout: OUTPUT
 status: 0
     `,
-          {todo: 'run'}
+          {todo: 'run'},
         );
         expect(test.result()).toMatchObject({type: 'pass'});
         expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
@@ -176,7 +182,7 @@ status: 0
 stdout: OUTPUT
 status: 0
     `,
-          {todo: 'run'}
+          {todo: 'run'},
         );
         expect(test.result()).toMatchObject({type: 'pass'});
         expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
@@ -184,7 +190,7 @@ status: 0
           `
 :ignore_for:
   - libsass
-`.trimLeft()
+`.trimLeft(),
         );
       });
 
@@ -201,7 +207,7 @@ status: 0
 stdout: OUTPUT
 status: 0
     `,
-          {todo: 'run'}
+          {todo: 'run'},
         );
         expect(test.result()).toMatchObject({type: 'pass'});
         expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
@@ -209,7 +215,7 @@ status: 0
           `
 :todo:
   - libsass
-`.trimLeft()
+`.trimLeft(),
         );
       });
 
@@ -229,7 +235,7 @@ status: 0
 stdout: OUTPUT
 status: 0
     `,
-          {todo: 'run', subdir: 'test_to_run'}
+          {todo: 'run', subdir: 'test_to_run'},
         );
         expect(test.result()).toMatchObject({type: 'pass'});
         expect(await test.dir.readFile('output.css')).toEqual('OUTPUT');
@@ -238,12 +244,12 @@ status: 0
         const parent = (await test.dir.parent())!;
         expect(parent.hasFile('options.yml')).toEqual(false);
         expect(
-          await (await parent.atPath('other_test')).readFile('options.yml')
+          await (await parent.atPath('other_test')).readFile('options.yml'),
         ).toEqual(
           `
 :todo:
   - sass-mock
-`.trimLeft()
+`.trimLeft(),
         );
       });
 
@@ -262,7 +268,7 @@ status: 0
 <===> output.css
 OUTPUT
     `,
-          {todo: 'probe'}
+          {todo: 'probe'},
         );
 
         expect(test.result()).toMatchObject({type: 'pass'});
@@ -286,9 +292,11 @@ OUTPUT
     `;
       const test1 = await makeTestCase(content);
       const test2 = await makeTestCase(content);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       expect(test2.dir.hasFile('error')).toBeTruthy();
     });
 
@@ -304,9 +312,11 @@ OUTPUT
     `;
       const test1 = await makeTestCase(content);
       const test2 = await makeTestCase(content);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       // Make sure the second test has a prompt
       const contents = output.contents();
       const prompts = contents
@@ -335,9 +345,11 @@ status: 0
 <===> output.css
 OTHER OUTPUT
       `);
-      const interactor = new Interactor(input, output);
+      const rl = readline.createInterface(input, output);
+      const interactor = new Interactor(rl[Symbol.asyncIterator](), output);
       await interactor.prompt(test1);
       await interactor.prompt(test2);
+      rl.close();
       const prompts = output
         .contents()
         .split('\n')

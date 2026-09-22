@@ -1,5 +1,5 @@
 import yargs from 'yargs';
-import {parseArgs, CliArgs} from '../lib/cli-args';
+import {CliArgs, parseArgs} from '../lib/cli-args';
 
 // mock the compiler, since we don't actually care that it's created
 jest.mock('../lib/compiler');
@@ -15,9 +15,9 @@ async function parseTestArgs(args: string): Promise<CliArgs> {
 }
 
 describe('getArgs', () => {
-  it('requires one of --dart or --command', () => {
-    expect(() => parseTestArgs('')).rejects.toThrow(
-      'Must specify --dart or --command'
+  it('requires one of --dart or --command', async () => {
+    await expect(() => parseTestArgs('')).rejects.toThrow(
+      'Must specify --dart or --command',
     );
   });
 

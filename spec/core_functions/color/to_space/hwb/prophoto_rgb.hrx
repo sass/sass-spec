@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), prophoto-rgb)}
 a {
   b: color(prophoto-rgb 0.7274254108 0.3840965619 0.2020562891);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), prophoto-rgb)}
+
+<===> missing/non_hue/output.css
+a {
+  b: color(prophoto-rgb 0.7079854223 0.3065255884 0.1127118493);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), prophoto-rgb)}
+
+<===> missing/all/output.css
+a {
+  b: color(prophoto-rgb none none none);
+}

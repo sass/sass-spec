@@ -9,10 +9,10 @@ $common-border: "foo";
   }
 }
 
-<===> error
-Error: Top-level selectors may not contain the parent selector "&".
-  ,
-2 | .nihilo & {
-  |         ^
-  '
-  input.scss 2:9  root stylesheet
+<===> output.css
+.nihilo & .dijitMenu {
+  border: "foo";
+}
+.nihilo & .dijitMenu .dijitMenuItem {
+  color: getColor("text-dark-main");
+}

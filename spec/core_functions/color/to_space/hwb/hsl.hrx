@@ -127,3 +127,25 @@ a {b: color.to-space(hwb(10deg 20% none), hsl)}
 a {
   b: hsl(10, 100%, 60%);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(10deg none none), hsl)}
+
+<===> missing/non_hue/output.css
+a {
+  b: hsl(10, 0%, 0%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(hwb(none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(0, 0%, 0%);
+}

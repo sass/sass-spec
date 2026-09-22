@@ -163,3 +163,14 @@ a {b: color.to-space(rgb(10 20 none), hwb)}
 a {
   b: #0a1400;
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(rgb(none none none), hwb)}
+
+<===> missing/all/output.css
+a {
+  b: red;
+}

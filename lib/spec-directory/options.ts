@@ -23,7 +23,7 @@ export default class SpecOptions {
   get isEmpty(): boolean {
     return Object.entries(this.data).every(([key, value]) =>
       // Check whether each entry is set to its default value.
-      key === ':precision' ? value === 10 : value.length === 0
+      key === ':precision' ? value === 10 : value.length === 0,
     );
   }
 
@@ -36,7 +36,7 @@ export default class SpecOptions {
   /** Create new SpecOptions by merging this with other options */
   merge(other: SpecOptions): SpecOptions {
     // return the result of these options merged with other options
-    const mergeOption = (option: OptionKey) => {
+    const mergeOption = (option: OptionKey): string[] => {
       return [...(this.data[option] ?? []), ...(other.data[option] ?? [])];
     };
     return new SpecOptions({

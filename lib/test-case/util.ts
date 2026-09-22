@@ -74,31 +74,31 @@ function makeFailureFactory(failureType: FailureType, message: string) {
 export const failures = {
   UnexpectedError: makeFailureFactory(
     'unexpected_error',
-    'Test case should succeed but it did not'
+    'Test case should succeed but it did not',
   ),
   UnexpectedSuccess: makeFailureFactory(
     'unexpected_success',
-    'Expected test to fail but it did not'
+    'Expected test to fail but it did not',
   ),
   OutputDifference: makeFailureFactory(
     'output_difference',
-    'Expected did not match output'
+    'Expected did not match output',
   ),
   WarningDifference: makeFailureFactory(
     'warning_difference',
-    'Expected did not match warning'
+    'Expected did not match warning',
   ),
   ErrorDifference: makeFailureFactory(
     'error_difference',
-    'Expected did not match error'
+    'Expected did not match error',
   ),
   UnnecessaryTodo: makeFailureFactory(
     'unnecessary_todo',
-    'Expected test marked TODO to fail but it passed'
+    'Expected test marked TODO to fail but it passed',
   ),
   MissingOutput: makeFailureFactory(
     'missing_output',
-    'Test case is missing an output file'
+    'Test case is missing an output file',
   ),
 };
 
@@ -112,7 +112,7 @@ export function getExpectedFiles(impl?: string): string[] {
 export async function overwriteResults(
   dir: SpecDirectory,
   actual: SassResult,
-  impl?: string
+  impl?: string,
 ): Promise<void> {
   const [outputFile, warningFile, errorFile] = getExpectedFiles(impl);
   if (actual.isSuccess) {

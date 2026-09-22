@@ -116,3 +116,14 @@ a {b: color.to-space(color(display-p3 0.1 0.2 none), hsl)}
 a {
   b: hsl(96.0435532608, 143.3480015017%, 8.3456369204%);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(display-p3 none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(0, 0%, 0%);
+}

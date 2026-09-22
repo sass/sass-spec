@@ -127,3 +127,36 @@ a {b: color.to-space(lch(10% 20 none), srgb-linear)}
 a {
   b: color(srgb-linear 0.0329247775 0.004494318 0.0117575878);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none 10deg), srgb-linear)}
+
+<===> missing/non_hue/output.css
+a {
+  b: color(srgb-linear 0 0 0);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(50% none none), srgb-linear)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(srgb-linear 0.1841865185 0.1841865185 0.1841865185);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lch(none none none), srgb-linear)}
+
+<===> missing/all/output.css
+a {
+  b: color(srgb-linear none none none);
+}

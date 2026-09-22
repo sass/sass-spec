@@ -1,8 +1,8 @@
-import {fromContents, SpecDirectory} from '../../lib/spec-directory';
+import {SpecDirectory, fromContents} from '../../lib/spec-directory';
 import TestCase from '../../lib/test-case';
 import {mockCompiler} from '../fixtures/mock-compiler';
 
-function makeHrx(files: Record<string, string>) {
+function makeHrx(files: Record<string, string>): string {
   return Object.entries(files)
     .map(([filename, contents]) => `<===> ${filename}\n${contents}`)
     .join('\n');

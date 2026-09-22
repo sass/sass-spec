@@ -50,3 +50,36 @@ a {b: color.to-space(oklch(10% 0.1 none), oklch)}
 a {
   b: oklch(10% 0.1 none);
 }
+
+<===>
+================================================================================
+<===> missing/non_hue/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(none none 10deg), oklch)}
+
+<===> missing/non_hue/output.css
+a {
+  b: oklch(none none 10deg);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(50% none none), oklch)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: oklch(50% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklch(none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
+}

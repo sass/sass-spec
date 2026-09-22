@@ -116,3 +116,14 @@ a {b: color.to-space(color(display-p3 0.1 0.2 none), oklch)}
 a {
   b: oklch(28.5078225669% 0.0988037508 135.6275962604deg);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(display-p3 none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
+}

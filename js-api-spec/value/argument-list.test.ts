@@ -6,9 +6,9 @@ import {
   SassArgumentList,
   SassList,
   SassString,
+  Value,
   compileString,
   sassNull,
-  Value,
 } from 'sass';
 import {List, OrderedMap} from 'immutable';
 
@@ -29,7 +29,7 @@ it('passes an argument list', () => {
   expect(
     compileString('a {b: foo(x, y, z)}', {
       functions: {'foo($args...)': fn},
-    }).css
+    }).css,
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
@@ -42,7 +42,7 @@ it('passes keyword arguments', () => {
     expect(args[0].asList.size).toBe(0);
     const keywords = (args[0] as SassArgumentList).keywords;
     expect(keywords).toEqualWithHash(
-      OrderedMap([['bar', new SassString('baz', {quotes: false})]])
+      OrderedMap([['bar', new SassString('baz', {quotes: false})]]),
     );
     return sassNull;
   });
@@ -50,7 +50,7 @@ it('passes keyword arguments', () => {
   expect(
     compileString('a {b: foo($bar: baz)}', {
       functions: {'foo($args...)': fn},
-    }).css
+    }).css,
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
@@ -67,7 +67,7 @@ it("throws an error if arglist keywords aren't accessed", () => {
     () =>
       compileString('a {b: foo($bar: baz)}', {
         functions: {'foo($args...)': fn},
-      }).css
+      }).css,
   ).toThrowSassException({line: 0});
 
   expect(fn).toHaveBeenCalled();
@@ -79,7 +79,7 @@ describe('SassArgumentList', () => {
     beforeEach(() => {
       list = new SassArgumentList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {d: new SassString('e')}
+        {d: new SassString('e')},
       );
     });
 
@@ -108,13 +108,13 @@ describe('SassArgumentList', () => {
 
     it('returns its contents as a list', () => {
       expect(list.asList).toEqualWithHash(
-        List([new SassString('a'), new SassString('b'), new SassString('c')])
+        List([new SassString('a'), new SassString('b'), new SassString('c')]),
       );
     });
 
     it('returns its keywords', () => {
       expect(list.keywords).toEqualWithHash(
-        OrderedMap({d: new SassString('e')})
+        OrderedMap({d: new SassString('e')}),
       );
     });
   });
@@ -124,7 +124,7 @@ describe('SassArgumentList', () => {
     beforeEach(() => {
       list = new SassArgumentList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {d: new SassString('e')}
+        {d: new SassString('e')},
       );
     });
 
@@ -132,8 +132,8 @@ describe('SassArgumentList', () => {
       expect(list).toEqualWithHash(
         new SassArgumentList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {d: new SassString('e')}
-        )
+          {d: new SassString('e')},
+        ),
       );
     });
 
@@ -141,8 +141,8 @@ describe('SassArgumentList', () => {
       expect(list).toEqualWithHash(
         new SassArgumentList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {f: new SassString('g')}
-        )
+          {f: new SassString('g')},
+        ),
       );
     });
 
@@ -152,7 +152,7 @@ describe('SassArgumentList', () => {
           new SassString('a'),
           new SassString('b'),
           new SassString('c'),
-        ])
+        ]),
       );
     });
 
@@ -161,8 +161,8 @@ describe('SassArgumentList', () => {
         new SassArgumentList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
           {},
-          ' '
-        )
+          ' ',
+        ),
       );
     });
 
@@ -170,8 +170,8 @@ describe('SassArgumentList', () => {
       expect(list).not.toEqualWithHash(
         new SassList(
           [new SassString('a'), new SassString('b'), new SassString('c')],
-          {brackets: true}
-        )
+          {brackets: true},
+        ),
       );
     });
   });
@@ -180,7 +180,7 @@ describe('SassArgumentList', () => {
     it('defaults to comma separator and no brackets', () => {
       const list = new SassArgumentList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
-        {}
+        {},
       );
       expect(list.separator).toBe(',');
       expect(list.hasBrackets).toBe(false);
@@ -200,8 +200,8 @@ describe('SassArgumentList', () => {
           new SassArgumentList(
             [new SassString('a'), new SassString('b')],
             {},
-            null
-          )
+            null,
+          ),
       ).toThrow();
     });
 
@@ -209,7 +209,7 @@ describe('SassArgumentList', () => {
       const list = new SassArgumentList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
         {},
-        ' '
+        ' ',
       );
       expect(list.separator).toBe(' ');
     });
@@ -218,7 +218,7 @@ describe('SassArgumentList', () => {
       const list = new SassArgumentList(
         [new SassString('a'), new SassString('b'), new SassString('c')],
         {},
-        '/'
+        '/',
       );
       expect(list.separator).toBe('/');
     });

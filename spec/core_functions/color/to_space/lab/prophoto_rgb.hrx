@@ -116,3 +116,25 @@ a {b: color.to-space(lab(10% 20 none), prophoto-rgb)}
 a {
   b: color(prophoto-rgb 0.1155645311 0.0659678734 0.0827038254);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(10% none none), prophoto-rgb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(prophoto-rgb 0.0827038254 0.0827038254 0.0827038254);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(none none none), prophoto-rgb)}
+
+<===> missing/all/output.css
+a {
+  b: color(prophoto-rgb none none none);
+}

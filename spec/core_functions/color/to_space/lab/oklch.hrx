@@ -116,3 +116,25 @@ a {b: color.to-space(lab(10% 20 none), oklch)}
 a {
   b: oklch(23.0834634055% 0.0614385679 359.3456789541deg);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(10% none none), oklch)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: oklch(22.4137931034% none none);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(none none none), oklch)}
+
+<===> missing/all/output.css
+a {
+  b: oklch(none none none);
+}

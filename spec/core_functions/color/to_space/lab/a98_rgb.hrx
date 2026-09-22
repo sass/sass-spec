@@ -116,3 +116,25 @@ a {b: color.to-space(lab(10% 20 none), a98-rgb)}
 a {
   b: color(a98-rgb 0.1862731835 0.0856347366 0.1310611506);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(10% none none), a98-rgb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(a98-rgb 0.1300242938 0.1300242938 0.1300242938);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(lab(none none none), a98-rgb)}
+
+<===> missing/all/output.css
+a {
+  b: color(a98-rgb none none none);
+}

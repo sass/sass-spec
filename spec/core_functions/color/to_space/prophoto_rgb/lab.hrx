@@ -116,3 +116,14 @@ a {b: color.to-space(color(prophoto-rgb 0.1 0.2 none), lab)}
 a {
   b: lab(24.9058511193% -38.7042406064 42.9411226195);
 }
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(color(prophoto-rgb none none none), lab)}
+
+<===> missing/all/output.css
+a {
+  b: lab(none none none);
+}

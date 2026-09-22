@@ -116,3 +116,25 @@ a {b: color.to-space(oklab(10% 0.2 none), srgb-linear)}
 a {
   b: color(srgb-linear 0.0219904416 -0.0062152621 0.0005755719);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), srgb-linear)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(srgb-linear 0.001 0.001 0.001);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), srgb-linear)}
+
+<===> missing/all/output.css
+a {
+  b: color(srgb-linear none none none);
+}

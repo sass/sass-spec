@@ -69,7 +69,7 @@ export default class Tabulator {
       this.printTodos();
     }
     this.writeLine(
-      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored, ${this.counts.error} errors`
+      `${this.total} runs, ${this.counts.pass} passing, ${this.counts.fail} failures, ${this.counts.todo} todo, ${this.counts.skip} ignored, ${this.counts.error} errors`,
     );
   }
 

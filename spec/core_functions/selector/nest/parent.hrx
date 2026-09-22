@@ -1,8 +1,19 @@
-<===> alone/input.scss
+<===> alone/first/input.scss
+@use "sass:selector";
+a {b: selector.nest("&")}
+
+<===> alone/first/output.css
+a {
+  b: &;
+}
+
+<===>
+================================================================================
+<===> alone/second/input.scss
 @use "sass:selector";
 a {b: selector.nest("c", "&")}
 
-<===> alone/output.css
+<===> alone/second/output.css
 a {
   b: c;
 }

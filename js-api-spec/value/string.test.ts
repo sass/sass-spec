@@ -2,7 +2,7 @@
 // MIT-style license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import {Value, SassNumber, SassString} from 'sass';
+import {SassNumber, SassString, Value} from 'sass';
 
 describe('Sass string', () => {
   describe('construction', () => {
@@ -76,13 +76,13 @@ describe('Sass string', () => {
 
     it('rejects a non-integer index', () => {
       expect(() =>
-        string.sassIndexToStringIndex(new SassNumber(0.1))
+        string.sassIndexToStringIndex(new SassNumber(0.1)),
       ).toThrow();
     });
 
     it('rejects a non-SassNumber index', () => {
       expect(() =>
-        string.sassIndexToStringIndex(new SassString('1'))
+        string.sassIndexToStringIndex(new SassString('1')),
       ).toThrow();
     });
 
@@ -108,10 +108,10 @@ describe('Sass string', () => {
 
       it('rejects out of bound indices', () => {
         expect(() =>
-          string.sassIndexToStringIndex(new SassNumber(3))
+          string.sassIndexToStringIndex(new SassNumber(3)),
         ).toThrow();
         expect(() =>
-          string.sassIndexToStringIndex(new SassNumber(-3))
+          string.sassIndexToStringIndex(new SassNumber(-3)),
         ).toThrow();
       });
     });
@@ -144,10 +144,10 @@ describe('Sass string', () => {
 
       it('rejects out of bound indices', () => {
         expect(() =>
-          string.sassIndexToStringIndex(new SassNumber(6))
+          string.sassIndexToStringIndex(new SassNumber(6)),
         ).toThrow();
         expect(() =>
-          string.sassIndexToStringIndex(new SassNumber(-6))
+          string.sassIndexToStringIndex(new SassNumber(-6)),
         ).toThrow();
       });
     });

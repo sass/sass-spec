@@ -2,8 +2,9 @@ import events from 'events';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
+import url from 'url';
 import child_process, {ChildProcessWithoutNullStreams} from 'child_process';
-import {Writable, Readable} from 'stream';
+import {Readable, Writable} from 'stream';
 
 export interface Stdio {
   stdout: string;
@@ -29,7 +30,7 @@ export abstract class Compiler {
 export class ExecutableCompiler extends Compiler {
   constructor(
     private readonly command: string,
-    private readonly initArgs: string[] = []
+    private readonly initArgs: string[] = [],
   ) {
     super();
   }
@@ -42,7 +43,7 @@ export class ExecutableCompiler extends Compiler {
         cwd: path,
         encoding: 'utf-8',
         stdio: ['ignore', 'pipe', 'pipe'],
-      }
+      },
     );
     if (error) {
       throw new Error(`Failed to run executable compiler: ${error}`);
@@ -58,7 +59,7 @@ export class DartCompiler implements Compiler {
     private readonly dart: ChildProcessWithoutNullStreams,
     private readonly stdout: AsyncGenerator<string>,
     private readonly stderr: AsyncGenerator<string>,
-    private readonly initArgs: string[] = []
+    private readonly initArgs: string[] = [],
   ) {
     this.stdin = dart.stdin;
   }
@@ -68,7 +69,7 @@ export class DartCompiler implements Compiler {
    */
   static async fromRepo(
     path: string,
-    initArgs: string[] = []
+    initArgs: string[] = [],
   ): Promise<DartCompiler> {
     const dart = await this.createProcess(path);
     const stdout = DartCompiler.toChunks(dart.stdout);
@@ -92,6 +93,8 @@ export class DartCompiler implements Compiler {
 
   async compile(path: string, opts: string[]): Promise<Stdio> {
     this.stdin.write(`!cd ${path}\n`);
+    await this.stdout.next();
+
     this.stdin.write([...this.initArgs, ...opts].join(' ') + '\n');
 
     const [stderr, stdout, status] = await Promise.all([
@@ -99,6 +102,13 @@ export class DartCompiler implements Compiler {
       this.stdout.next(),
       this.stdout.next(),
     ]);
+
+    // Make sure the process is out of the directory before reporting the result
+    // so that it doesn't hold a lock on the directory in Windows when it's time
+    // to delete it.
+    this.stdin.write(`!cd ${process.cwd()}\n`);
+    await this.stdout.next();
+
     return {
       stdout: stdout.value,
       stderr: stderr.value,
@@ -106,7 +116,7 @@ export class DartCompiler implements Compiler {
     };
   }
 
-  shutdown() {
+  shutdown(): void {
     this.dart.kill();
   }
 
@@ -115,16 +125,18 @@ export class DartCompiler implements Compiler {
    * and compiles the files piped to stdin.
    */
   private static async createProcess(
-    repoPath: string
+    repoPath: string,
   ): Promise<ChildProcessWithoutNullStreams> {
     if (!fs.existsSync(path.resolve(repoPath, 'bin/sass.dart'))) {
       throw new Error(`${repoPath} is not a valid Dart Sass repository`);
     }
+
+    const sassRepoUrl = url.pathToFileURL(repoPath);
     const dartFile = `
 import "dart:convert";
 import "dart:io";
 
-import "${repoPath}/bin/sass.dart" as sass;
+import "${sassRepoUrl}/bin/sass.dart" as sass;
 
 main() async {
   // Emit an initial signal that the process has started and is ready for input.
@@ -133,6 +145,7 @@ main() async {
   await for (var line in new LineSplitter().bind(utf8.decoder.bind(stdin))) {
     if (line.startsWith("!cd ")) {
       Directory.current = line.substring("!cd ".length);
+      stdout.add([0xFF]);
       continue;
     }
 
@@ -218,7 +231,7 @@ main() async {
   // Consume the remaining text in `generator` and emit it as-is, with break
   // characters converted to newlines.
   private static async readRest(
-    generator: AsyncGenerator<string>
+    generator: AsyncGenerator<string>,
   ): Promise<string> {
     let text = '';
     const first = true;

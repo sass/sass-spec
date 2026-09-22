@@ -4,7 +4,7 @@
 
 // General space-specific info and construction
 
-import {Value, SassColor} from 'sass';
+import {SassColor, Value} from 'sass';
 import type {KnownColorSpace} from 'sass';
 
 import {spaces} from './spaces';
@@ -55,12 +55,12 @@ describe('Color 4 SassColors Spaces', () => {
             const above = space.constructor(
               i === 0 ? aboveRange : average1,
               i === 1 ? aboveRange : average2,
-              i === 2 ? aboveRange : average3
+              i === 2 ? aboveRange : average3,
             );
             const below = space.constructor(
               i === 0 ? belowRange : average1,
               i === 1 ? belowRange : average2,
-              i === 2 ? belowRange : average3
+              i === 2 ? belowRange : average3,
             );
 
             expect(above.channels.get(i)).toEqual(aboveRange);

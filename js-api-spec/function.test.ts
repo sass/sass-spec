@@ -4,11 +4,11 @@
 
 import {
   CustomFunction,
+  SassCalculation,
   SassString,
   compileString,
   compileStringAsync,
   sassNull,
-  SassCalculation,
 } from 'sass';
 
 import {spy} from './utils';
@@ -23,7 +23,7 @@ it('passes an argument to a custom function and uses its return value', () => {
   expect(
     compileString('a {b: foo(bar)}', {
       functions: {'foo($arg)': fn},
-    }).css
+    }).css,
   ).toBe('a {\n  b: "result";\n}');
 
   expect(fn).toHaveBeenCalled();
@@ -38,7 +38,7 @@ it('passes no arguments to a custom function', () => {
   expect(
     compileString('a {b: foo()}', {
       functions: {'foo()': fn},
-    }).css
+    }).css,
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
@@ -56,7 +56,7 @@ it('passes multiple arguments to a custom function', () => {
   expect(
     compileString('a {b: foo(x, y, z)}', {
       functions: {'foo($arg1, $arg2, $arg3)': fn},
-    }).css
+    }).css,
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
@@ -72,7 +72,7 @@ it('passes a default argument value', () => {
   expect(
     compileString('a {b: foo()}', {
       functions: {'foo($arg: default)': fn},
-    }).css
+    }).css,
   ).toBe('');
 
   expect(fn).toHaveBeenCalled();
@@ -87,7 +87,7 @@ describe('gracefully handles a custom function', () => {
             throw 'heck';
           },
         },
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 
@@ -95,7 +95,7 @@ describe('gracefully handles a custom function', () => {
     expect(() =>
       compileString('a {b: foo()}', {
         functions: {'foo()': (() => {}) as unknown as CustomFunction<'sync'>},
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 
@@ -106,7 +106,7 @@ describe('gracefully handles a custom function', () => {
           functions: {
             'foo()': (() => 'wrong') as unknown as CustomFunction<'sync'>,
           },
-        })
+        }),
       ).toThrowSassException({line: 0});
     });
 
@@ -117,7 +117,7 @@ describe('gracefully handles a custom function', () => {
             'foo()': () =>
               SassCalculation.calc('wrong' as unknown as SassString),
           },
-        })
+        }),
       ).toThrowSassException({line: 0});
     });
   });
@@ -130,7 +130,7 @@ describe('dash-normalizes function calls', () => {
     expect(
       compileString('a {b: foo_bar()}', {
         functions: {'foo-bar()': fn},
-      }).css
+      }).css,
     ).toBe('');
 
     expect(fn).toHaveBeenCalled();
@@ -142,7 +142,7 @@ describe('dash-normalizes function calls', () => {
     expect(
       compileString('a {b: foo-bar()}', {
         functions: {'foo_bar()': fn},
-      }).css
+      }).css,
     ).toBe('');
 
     expect(fn).toHaveBeenCalled();
@@ -170,7 +170,7 @@ describe('asynchronously', () => {
       await expectAsync(() =>
         compileStringAsync('a {b: foo(bar)}', {
           functions: {'foo($arg)': () => Promise.reject('heck')},
-        })
+        }),
       ).toThrowSassException({line: 0});
     });
 
@@ -181,7 +181,7 @@ describe('asynchronously', () => {
             functions: {
               'foo()': (() => 'wrong') as unknown as CustomFunction<'async'>,
             },
-          })
+          }),
         ).toThrowSassException({line: 0});
       });
 
@@ -192,7 +192,7 @@ describe('asynchronously', () => {
               'foo()': () =>
                 SassCalculation.calc('wrong' as unknown as SassString),
             },
-          })
+          }),
         ).toThrowSassException({line: 0});
       });
     });
@@ -202,55 +202,55 @@ describe('asynchronously', () => {
 describe('rejects a function signature that', () => {
   it('is empty', () => {
     expect(() =>
-      compileString('', {functions: {'': () => sassNull}})
+      compileString('', {functions: {'': () => sassNull}}),
     ).toThrow();
   });
 
   it('has no name', () => {
     expect(() =>
-      compileString('', {functions: {'()': () => sassNull}})
+      compileString('', {functions: {'()': () => sassNull}}),
     ).toThrow();
   });
 
   it('has no arguments', () => {
     expect(() =>
-      compileString('', {functions: {foo: () => sassNull}})
+      compileString('', {functions: {foo: () => sassNull}}),
     ).toThrow();
   });
 
   it('has invalid arguments', () => {
     expect(() =>
-      compileString('', {functions: {'foo(arg)': () => sassNull}})
+      compileString('', {functions: {'foo(arg)': () => sassNull}}),
     ).toThrow();
   });
 
   it('has no closing parentheses', () => {
     expect(() =>
-      compileString('', {functions: {'foo(': () => sassNull}})
+      compileString('', {functions: {'foo(': () => sassNull}}),
     ).toThrow();
   });
 
   it('has a non-identifier name', () => {
     expect(() =>
-      compileString('', {functions: {'$foo()': () => sassNull}})
+      compileString('', {functions: {'$foo()': () => sassNull}}),
     ).toThrow();
   });
 
   it('has whitespace before the signature', () => {
     expect(() =>
-      compileString('', {functions: {' foo()': () => sassNull}})
+      compileString('', {functions: {' foo()': () => sassNull}}),
     ).toThrow();
   });
 
   it('has whitespace after the signature', () => {
     expect(() =>
-      compileString('', {functions: {'foo() ': () => sassNull}})
+      compileString('', {functions: {'foo() ': () => sassNull}}),
     ).toThrow();
   });
 
   it('has whitespace between the identifier and the arguments', () => {
     expect(() =>
-      compileString('', {functions: {'foo ()': () => sassNull}})
+      compileString('', {functions: {'foo ()': () => sassNull}}),
     ).toThrow();
   });
 });

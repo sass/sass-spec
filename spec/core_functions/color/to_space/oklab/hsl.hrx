@@ -116,3 +116,25 @@ a {b: color.to-space(oklab(10% 0.2 none), hsl)}
 a {
   b: hsl(339.4567051743, 263.6331125505%, 4.4011033198%);
 }
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), hsl)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: hsl(0, 0%, 1.292%);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), hsl)}
+
+<===> missing/all/output.css
+a {
+  b: hsl(0, 0%, 0%);
+}

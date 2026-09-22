@@ -55,11 +55,11 @@ a {
 ================================================================================
 <===> out_of_range/far/input.scss
 @use "sass:color";
-a {b: color.to-space(oklab(50% -999999 0), prophoto-rgb)}
+a {b: color.to-space(oklab(50% -99999 0), prophoto-rgb)}
 
 <===> out_of_range/far/output.css
 a {
-  b: color(prophoto-rgb -2922132835.874805 1810415087.1875782 574653499.7241842);
+  b: color(prophoto-rgb -62953357.545661636 39003046.47732807 12380258.956467552);
 }
 
 <===>
@@ -115,4 +115,26 @@ a {b: color.to-space(oklab(10% 0.2 none), prophoto-rgb)}
 <===> missing/b/output.css
 a {
   b: color(prophoto-rgb 0.0759873336 -0.0414646624 0.0022071927);
+}
+
+<===>
+================================================================================
+<===> missing/non_lightness/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(10% none none), prophoto-rgb)}
+
+<===> missing/non_lightness/output.css
+a {
+  b: color(prophoto-rgb 0.016 0.016 0.016);
+}
+
+<===>
+================================================================================
+<===> missing/all/input.scss
+@use "sass:color";
+a {b: color.to-space(oklab(none none none), prophoto-rgb)}
+
+<===> missing/all/output.css
+a {
+  b: color(prophoto-rgb none none none);
 }

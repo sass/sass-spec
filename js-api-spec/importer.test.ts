@@ -3,14 +3,14 @@
 // https://opensource.org/licenses/MIT.
 
 import {
-  compileString,
-  compileStringAsync,
   CanonicalizeContext,
   Importer,
   NodePackageImporter,
+  compileString,
+  compileStringAsync,
 } from 'sass';
 
-import {sassImpl, runOnlyForImpl, URL} from './utils';
+import {URL, runOnlyForImpl, sassImpl} from './utils';
 
 it('uses an importer to resolve a @use', () => {
   const result = compileString('@use "orange";', {
@@ -61,7 +61,7 @@ it('only invokes the importer once for a given canonicalization', () => {
         },
       ],
       silenceDeprecations: ['import'],
-    }
+    },
   );
 
   expect(result.css).toBe(`.blue {
@@ -133,7 +133,7 @@ describe('the containing URL', () => {
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
                 expect(context.containingUrl).toEqual(
-                  new URL('x:original.scss')
+                  new URL('x:original.scss'),
                 );
                 return new URL(url.replace(/^u:/, 'x:'));
               },
@@ -172,7 +172,7 @@ describe('the containing URL', () => {
             {
               canonicalize: (url: string, context: CanonicalizeContext) => {
                 expect(context.containingUrl).toEqual(
-                  new URL('x:original.scss')
+                  new URL('x:original.scss'),
                 );
                 return new URL(url.replace(/^u:/, 'x:'));
               },
@@ -257,7 +257,7 @@ describe(
               nonCanonicalScheme: ['u'],
             },
           ],
-        })
+        }),
       ).toThrowSassException({line: 0}));
 
     it('set as a string', () =>
@@ -272,9 +272,9 @@ describe(
               nonCanonicalScheme: 'u',
             },
           ],
-        })
+        }),
       ).toThrowSassException({line: 0}));
-  }
+  },
 );
 
 describe('throws an error for an invalid scheme:', () => {
@@ -288,7 +288,7 @@ describe('throws an error for an invalid scheme:', () => {
             nonCanonicalScheme: '',
           },
         ],
-      })
+      }),
     ).toThrow());
 
   it('uppercase', () =>
@@ -301,7 +301,7 @@ describe('throws an error for an invalid scheme:', () => {
             nonCanonicalScheme: 'U',
           },
         ],
-      })
+      }),
     ).toThrow());
 
   it('colon', () =>
@@ -314,7 +314,7 @@ describe('throws an error for an invalid scheme:', () => {
             nonCanonicalScheme: 'u:',
           },
         ],
-      })
+      }),
     ).toThrow());
 });
 
@@ -474,7 +474,7 @@ describe('async', () => {
             },
           } as unknown as Importer<'async'>,
         ],
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 
@@ -491,7 +491,7 @@ describe('async', () => {
             },
           } as unknown as Importer<'async'>,
         ],
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 
@@ -504,7 +504,7 @@ describe('async', () => {
             load: () => Promise.reject('this import is bad actually'),
           },
         ],
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 
@@ -519,7 +519,7 @@ describe('async', () => {
             },
           },
         ],
-      })
+      }),
     ).toThrowSassException({line: 0});
   });
 });

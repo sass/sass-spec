@@ -18,11 +18,11 @@ export class LintReporter {
 
   constructor(
     private readonly output: Writable,
-    private readonly rootPath: string
+    private readonly rootPath: string,
   ) {}
 
   /** Reports that the linter checked {@link path}. */
-  reportLintedFile(path: string) {
+  reportLintedFile(path: string): void {
     if (p.isAbsolute(path)) path = p.relative(this.rootPath, path);
     this.lintedFiles.add(path);
   }
@@ -37,8 +37,8 @@ export class LintReporter {
     this.output.write(`${relativePath}: ${message}\n`);
     this.githubActionsAnnotations.push(
       `::error file=${escapeProperty(relativePath)},line=1::${escapeData(
-        message
-      )}`
+        message,
+      )}`,
     );
   }
 
@@ -56,11 +56,11 @@ export class LintReporter {
         this.errors === 1 ? '' : 's'
       } while linting ${this.lintedFiles.size} file${
         this.lintedFiles.size === 1 ? '' : 's'
-      }.`
+      }.`,
     );
     if (this.fixableErrorCount > 0) {
       this.output.write(
-        ` ${this.fixableErrorCount} of them can be fixed automatically by passing the "--fix" flag.`
+        ` ${this.fixableErrorCount} of them can be fixed automatically by passing the "--fix" flag.`,
       );
     }
     this.output.write('\n');

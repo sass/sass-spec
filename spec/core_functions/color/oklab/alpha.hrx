@@ -89,6 +89,19 @@ a {
 
 <===>
 ================================================================================
+<===> negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% 2 -3 / -0));
+
+<===> negative_zero/output.css
+a {
+  value: oklab(1% 2 -3 / 0);
+  space: oklab;
+  channels: 1% 2 -3 / 0;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use 'core_functions/color/utils';
 @include utils.inspect(oklab($channels: 1% 2 3 / 0.4));

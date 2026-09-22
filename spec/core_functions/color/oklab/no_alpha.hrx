@@ -69,9 +69,22 @@ a {
 
 <===> unitless/a/degenerate/nan/output.css
 a {
-  value: oklab(1% calc(NaN) -300);
+  value: oklab(1% 0 -300);
   space: oklab;
-  channels: 1% calc(NaN) -300 / 1;
+  channels: 1% 0 -300 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/a/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% -0 -300));
+
+<===> unitless/a/negative_zero/output.css
+a {
+  value: oklab(1% 0 -300);
+  space: oklab;
+  channels: 1% 0 -300 / 1;
 }
 
 <===>
@@ -108,9 +121,22 @@ a {
 
 <===> unitless/b/degenerate/nan/output.css
 a {
-  value: oklab(1% 2 calc(NaN));
+  value: oklab(1% 2 0);
   space: oklab;
-  channels: 1% 2 calc(NaN) / 1;
+  channels: 1% 2 0 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/b/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(1% 2 -0));
+
+<===> unitless/b/negative_zero/output.css
+a {
+  value: oklab(1% 2 0);
+  space: oklab;
+  channels: 1% 2 0 / 1;
 }
 
 <===>
@@ -185,6 +211,19 @@ a {
 @include utils.inspect(oklab(calc(NaN) 2 -3));
 
 <===> unitless/lightness/degenerate/nan/output.css
+a {
+  value: oklab(0% 2 -3);
+  space: oklab;
+  channels: 0% 2 -3 / 1;
+}
+
+<===>
+================================================================================
+<===> unitless/lightness/negative_zero/input.scss
+@use 'core_functions/color/utils';
+@include utils.inspect(oklab(-0% 2 -3));
+
+<===> unitless/lightness/negative_zero/output.css
 a {
   value: oklab(0% 2 -3);
   space: oklab;
