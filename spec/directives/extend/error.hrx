@@ -47,3 +47,125 @@ Error: expected selector.
   |           ^
   '
   input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> cross_media/before/extend_in_media/input.scss
+@media screen {
+  a {@extend b}
+}
+
+b {c: d}
+
+<===> cross_media/before/extend_in_media/error
+Error: You may not @extend selectors across media queries.
+    ,
+1   | @media screen {
+    |        ====== extension @media
+2   |   a {@extend b}
+    |      ^^^^^^^^^ extension
+... |
+5   | b {c: d}
+    | = extended selector
+    '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> cross_media/before/both_in_media/input.scss
+@media screen {
+  a {@extend b}
+}
+
+@media print {
+  b {c: d}
+}
+
+<===> cross_media/before/both_in_media/error
+Error: You may not @extend selectors across media queries.
+    ,
+1   | @media screen {
+    |        ====== extension @media
+2   |   a {@extend b}
+    |      ^^^^^^^^^ extension
+... |
+5   | @media print {
+    |        ===== extended selector @media
+6   |   b {c: d}
+    |   = extended selector
+    '
+  input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> cross_media/after/extend_in_media/input.scss
+a {b: c}
+
+@media screen {
+  d {@extend a}
+}
+
+<===> cross_media/after/extend_in_media/error
+Error: You may not @extend selectors across media queries.
+    ,
+1   | a {b: c}
+    | = extended selector
+... |
+3   | @media screen {
+    |        ====== extension @media
+4   |   d {@extend a}
+    |      ^^^^^^^^^ extension
+    '
+  input.scss 4:6  root stylesheet
+
+<===>
+================================================================================
+<===> cross_media/after/both_in_media/input.scss
+@media print {
+  a {b: c}
+}
+
+@media screen {
+  d {@extend a}
+}
+
+<===> cross_media/after/both_in_media/error
+Error: You may not @extend selectors across media queries.
+    ,
+1   | @media print {
+    |        ===== extended selector @media
+2   |   a {b: c}
+    |   = extended selector
+... |
+5   | @media screen {
+    |        ====== extension @media
+6   |   d {@extend a}
+    |      ^^^^^^^^^ extension
+    '
+  input.scss 6:6  root stylesheet
+
+<===>
+================================================================================
+<===> cross_media/merged/input.scss
+@media screen {
+  a {@extend b !optional}
+}
+
+@media print {
+  a {@extend b !optional}
+}
+
+<===> cross_media/merged/error
+Error: You may not @extend the same selector from within different media queries.
+    ,
+1   | @media screen {
+    |        ====== first extension @media
+2   |   a {@extend b !optional}
+    |      =================== first extension
+... |
+5   | @media print {
+    |        ===== second extension @media
+6   |   a {@extend b !optional}
+    |      ^^^^^^^^^^^^^^^^^^^ second extension
+    '
+  input.scss 6:6  root stylesheet
