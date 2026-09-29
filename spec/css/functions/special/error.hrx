@@ -1,12 +1,105 @@
-<===> whitespace/sass/before_paren/middle/input.sass
+<===> lowercase/whitespace/sass/before_paren/middle/input.sass
 a
   b: url
     (c)
 
-<===> whitespace/sass/before_paren/middle/error
+<===> lowercase/whitespace/sass/before_paren/middle/error
 Error: Expected identifier.
   ,
 2 |   b: url
   |         ^
   '
   input.sass 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> lowercase/prefixed/expression/punctuation/input.scss
+a {b: -c-expression(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> lowercase/prefixed/expression/punctuation/error
+Error: expected ")".
+  ,
+1 | a {b: -c-expression(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> lowercase/prefixed/progid/input.scss
+a {b: -c-progid:d(0)}
+
+<===> lowercase/prefixed/progid/error
+Error: expected ";".
+  ,
+1 | a {b: -c-progid:d(0)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> lowercase/url/punctuation/input.scss
+a {b: -c-url(http://d.e/f!g)}
+
+<===> lowercase/url/punctuation/error
+Error: expected ")".
+  ,
+1 | a {b: -c-url(http://d.e/f!g)}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet
+
+<===>
+================================================================================
+<===> uppercase/whitespace/sass/before_paren/middle/input.sass
+a
+  b: URL
+    (c)
+
+<===> uppercase/whitespace/sass/before_paren/middle/error
+Error: Expected identifier.
+  ,
+2 |   b: URL
+  |         ^
+  '
+  input.sass 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> uppercase/prefixed/expression/punctuation/input.scss
+a {b: -c-EXPRESSIOn(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+
+<===> uppercase/prefixed/expression/punctuation/error
+Error: expected ")".
+  ,
+1 | a {b: -c-EXPRESSIOn(@#$%^&*({[]})_-+=|\\:""''<>,.?/)}
+  |                     ^
+  '
+  input.scss 1:21  root stylesheet
+
+<===>
+================================================================================
+<===> uppercase/prefixed/progid/input.scss
+a {b: -c-PROGID:d(0)}
+
+<===> uppercase/prefixed/progid/error
+Error: expected ";".
+  ,
+1 | a {b: -c-PROGID:d(0)}
+  |                ^
+  '
+  input.scss 1:16  root stylesheet
+
+<===>
+================================================================================
+<===> uppercase/url/punctuation/input.scss
+a {b: -c-URL(http://d.e/f!g)}
+
+<===> uppercase/url/punctuation/error
+Error: expected ")".
+  ,
+1 | a {b: -c-URL(http://d.e/f!g)}
+  |                  ^
+  '
+  input.scss 1:18  root stylesheet

@@ -77,90 +77,27 @@ a {
 
 <===>
 ================================================================================
-<===> special/expression/uppercase/input.scss
-@function EXPRESSION() {@return 1}
-a {
-  b: EXPRESSION();
-}
-
-<===> special/expression/uppercase/output.css
-a {
-  b: expression();
-}
-
-<===> special/expression/uppercase/warning
-DEPRECATION WARNING [function-name]: Custom functions with this name are deprecated and will be removed in a future
-release. Please choose a different name.
-More info: https://sass-lang.com/d/function-name
-
-  ,
-1 | @function EXPRESSION() {@return 1}
-  |           ^^^^^^^^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
 <===> special/expression/prefix/input.scss
-@function -a-expression() {@return 1}
-b {
-  c: -a-expression();
-}
+@function -a-expression($b) {@return $b}
+c {d: -a-expression(1)}
 
 <===> special/expression/prefix/output.css
-b {
-  c: -a-expression();
+c {
+  d: 1;
 }
-
-<===>
-================================================================================
-<===> special/url/uppercase/input.scss
-@function URL() {@return 1}
-a {
-  b: URL();
-}
-
-<===> special/url/uppercase/output.css
-a {
-  b: url();
-}
-
-<===> special/url/uppercase/warning
-DEPRECATION WARNING [function-name]: Custom functions with this name are deprecated and will be removed in a future
-release. Please choose a different name.
-More info: https://sass-lang.com/d/function-name
-
-  ,
-1 | @function URL() {@return 1}
-  |           ^^^
-  '
-    input.scss 1:11  root stylesheet
 
 <===>
 ================================================================================
 <===> special/url/prefix/input.scss
-@function -a-url() {@return 1}
-b {
-  c: -a-url();
+@function -a-url($b) {@return $b}
+c {
+  d: -a-url(1);
 }
 
 <===> special/url/prefix/output.css
-b {
-  c: url();
+c {
+  d: 1;
 }
-
-<===> special/url/prefix/warning
-DEPRECATION WARNING [function-name]: Vendor-prefixed url() functions will no longer have special parsing in a future release of Dart Sass. Once that happens, this argument will be parsed as SassScript. To preserve current behavior:
-
-null(#{"url()"})
-
-More info: https://sass-lang.com/d/function-name
-
-  ,
-3 |   c: -a-url();
-  |      ^^^^^^^^
-  '
-    input.scss 3:6  root stylesheet
 
 <===>
 ================================================================================
@@ -241,54 +178,6 @@ b {
 
 <===>
 ================================================================================
-<===> special/element/no_prefix/uppercase/input.scss
-@function ELEMENT() {@return 1}
-a {
-  b: ELEMENT();
-}
-
-<===> special/element/no_prefix/uppercase/output.css
-a {
-  b: element();
-}
-
-<===> special/element/no_prefix/uppercase/warning
-DEPRECATION WARNING [function-name]: Custom functions with this name are deprecated and will be removed in a future
-release. Please choose a different name.
-More info: https://sass-lang.com/d/function-name
-
-  ,
-1 | @function ELEMENT() {@return 1}
-  |           ^^^^^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
-<===> special/element/prefix/uppercase/input.scss
-@function -A-ELEMENT() {@return 1}
-a {
-  b: -A-ELEMENT();
-}
-
-<===> special/element/prefix/uppercase/output.css
-a {
-  b: -a-element();
-}
-
-<===> special/element/prefix/uppercase/warning
-DEPRECATION WARNING [function-name]: Custom functions with this name are deprecated and will be removed in a future
-release. Please choose a different name.
-More info: https://sass-lang.com/d/function-name
-
-  ,
-1 | @function -A-ELEMENT() {@return 1}
-  |           ^^^^^^^^^^
-  '
-    input.scss 1:11  root stylesheet
-
-<===>
-================================================================================
 <===> error/special/element/no_prefix/lowercase/input.scss
 @function element() {@return 1}
 
@@ -296,6 +185,19 @@ More info: https://sass-lang.com/d/function-name
 Error: Invalid function name.
   ,
 1 | @function element() {@return 1}
+  |           ^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/special/element/no_prefix/uppercase/input.scss
+@function ELEMENT() {@return 1}
+
+<===> error/special/element/no_prefix/uppercase/error
+Error: Invalid function name.
+  ,
+1 | @function ELEMENT() {@return 1}
   |           ^^^^^^^
   '
   input.scss 1:11  root stylesheet
@@ -315,6 +217,19 @@ Error: Invalid function name.
 
 <===>
 ================================================================================
+<===> error/special/element/prefix/uppercase/input.scss
+@function -A-ELEMENT() {@return 1}
+
+<===> error/special/element/prefix/uppercase/error
+Error: Invalid function name.
+  ,
+1 | @function -A-ELEMENT() {@return 1}
+  |           ^^^^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
 <===> error/special/expression/no_prefix/lowercase/input.scss
 @function expression() {@return 1}
 
@@ -328,6 +243,19 @@ Error: Invalid function name.
 
 <===>
 ================================================================================
+<===> error/special/expression/uppercase/input.scss
+@function EXPRESSION() {@return 1}
+
+<===> error/special/expression/uppercase/error
+Error: Invalid function name.
+  ,
+1 | @function EXPRESSION() {@return 1}
+  |           ^^^^^^^^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
 <===> error/special/url/no_prefix/lowercase/input.scss
 @function url() {@return 1}
 
@@ -335,6 +263,19 @@ Error: Invalid function name.
 Error: Invalid function name.
   ,
 1 | @function url() {@return 1}
+  |           ^^^
+  '
+  input.scss 1:11  root stylesheet
+
+<===>
+================================================================================
+<===> error/special/url/uppercase/input.scss
+@function URL() {@return 1}
+
+<===> error/special/url/uppercase/error
+Error: Invalid function name.
+  ,
+1 | @function URL() {@return 1}
   |           ^^^
   '
   input.scss 1:11  root stylesheet
