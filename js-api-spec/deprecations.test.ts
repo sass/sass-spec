@@ -58,6 +58,15 @@ describe('a warning', () => {
     expect(stdio.err).toBe('');
   });
 
+  it('is not emitted when deprecation silenced without a list', () => {
+    const stdio = captureStdio(() => {
+      compileString('a { $b: c !global; }', {
+        silenceDeprecations: deprecations['new-global'],
+      });
+    });
+    expect(stdio.err).toBe('');
+  });
+
   it('is not emitted when deprecation id silenced', () => {
     const stdio = captureStdio(() => {
       compileString('a { $b: c !global; }', {
@@ -91,6 +100,43 @@ describe('a warning', () => {
       },
     });
   });
+
+  it('is emitted for an excluded fatal deprecation', done => {
+    compileString('a { $b: c !global; }', {
+      logger: {
+        fatalDeprecations: {
+          include: new Version(1, 105, 0),
+          exclude: 'new-global',
+        },
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['new-global']);
+          done();
+        },
+      },
+    });
+  });
+
+  it('is emitted for a non-Dart Sass 2 deprecation when Dart Sass 2 is fatal', done => {
+    compileString('a { b: if(true, c, d); }', {
+      logger: {
+        fatalDeprecations: deprecations.dartSass2,
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['if-expression']);
+          done();
+        },
+      },
+    });
+  });
 });
 
 describe('an error', () => {
@@ -114,6 +160,22 @@ describe('an error', () => {
     expect(() =>
       compileString('a { $b: c !global; }', {
         fatalDeprecations: [new Version(1, 17, 2)],
+      }),
+    ).toThrowError();
+  });
+
+  it('is thrown when deprecation made fatal without a list', () => {
+    expect(() =>
+      compileString('a { $b: c !global; }', {
+        fatalDeprecations: deprecations['new-global'],
+      }),
+    ).toThrowError();
+  });
+
+  it('is thrown for a Dart Sass 2 warning', () => {
+    expect(() =>
+      compileString('a { $b: c !global; }', {
+        fatalDeprecations: deprecations.dartSass2,
       }),
     ).toThrowError();
   });
@@ -175,6 +237,24 @@ xdescribe('for a future deprecation,', () => {
     compileString('@import "a"', {
       importers: [importer],
       futureDeprecations: ['import'],
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations.import);
+          done();
+        },
+      },
+    });
+  });
+
+  it('warning emitted when opted into without a list', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      futureDeprecations: deprecations.import,
       logger: {
         warn(
           message: string,
