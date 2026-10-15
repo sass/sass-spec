@@ -46,6 +46,36 @@ a:b([c]) {
 
 <===>
 ================================================================================
+<===> an_plus_b/escape/n/input.scss
+:nth-child(1\6e+2) {a: b}
+
+<===> an_plus_b/escape/n/output.css
+:nth-child(1n+2) {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> an_plus_b/escape/odd/input.scss
+:nth-child(\6f dd) {a: b}
+
+<===> an_plus_b/escape/odd/output.css
+:nth-child(odd) {
+  a: b;
+}
+
+<===>
+================================================================================
+<===> an_plus_b/escape/even/input.scss
+:nth-child(\65 ven) {a: b}
+
+<===> an_plus_b/escape/even/output.css
+:nth-child(even) {
+  a: b;
+}
+
+<===>
+================================================================================
 <===> error/with_attribute_mismatched/sass/input.scss
 a:b([c)]{
   d: e;

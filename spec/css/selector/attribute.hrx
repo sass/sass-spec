@@ -59,12 +59,23 @@
 
 <===>
 ================================================================================
-<===> backslash/input.scss
+<===> backslash/alone/input.scss
 // Regression test for https://github.com/sass/dart-sass/issues/1423.
 [a="\\"] {c: d}
 
-<===> backslash/output.css
+<===> backslash/alone/output.css
 [a="\\"] {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> backslash/escape_like/input.scss
+// Regression test for https://github.com/sass/dart-sass/issues/1423.
+[a="\\b"] {c: d}
+
+<===> backslash/escape_like/output.css
+[a="\\b"] {
   c: d;
 }
 
@@ -254,6 +265,28 @@ Error: expected "]".
   |      ^
   '
   input.scss 2:6  root stylesheet
+
+<===>
+================================================================================
+<===> error/indented/unclosed_with_escape/input.sass
+// Regression test for sass/dart-sass#2874. It's important that this not have a
+// trailing newline.
+[a\b
+<===> error/indented/unclosed_with_escape/error
+WARNING: This selector doesn't have any properties and won't be rendered.
+
+  ,
+3 | [a\b
+  | ^^^^
+  '
+    input.sass 3:1  root stylesheet
+
+Error: expected more input.
+  ,
+3 | [a\b
+  |     ^
+  '
+  input.sass 3:5  root stylesheet
 
 <===>
 ================================================================================

@@ -1,23 +1,69 @@
-<===> zero/input.scss
-// Although zero is not a valid code point per spec, we pass it through because
-// it can be used for browser hacks.
+<===> zero/README.md
+Although zero is not a valid code point per spec, we pass it through exactly for
+the identifier `\0` because it's used in browser hacks.
+
+<===>
+================================================================================
+<===> zero/alone/input.scss
 a {b: \0}
 
-<===> zero/output.css
+<===> zero/alone/output.css
 a {
   b: \0 ;
 }
 
 <===>
 ================================================================================
-<===> error/syntax/too_high/input.scss
+<===> zero/start/input.scss
+a {b: \0xyz}
+
+<===> zero/start/output.css
+@charset "UTF-8";
+a {
+  b: �xyz;
+}
+
+<===>
+================================================================================
+<===> zero/mid/input.scss
+a {b: x\0y}
+
+<===> zero/mid/output.css
+@charset "UTF-8";
+a {
+  b: x�y;
+}
+
+<===>
+================================================================================
+<===> surrogate/leading/input.scss
+a {b: \D800}
+
+<===> surrogate/leading/output.css
+@charset "UTF-8";
+a {
+  b: �;
+}
+
+<===>
+================================================================================
+<===> surrogate/trailing/input.scss
+a {b: \DC00}
+
+<===> surrogate/trailing/output.css
+@charset "UTF-8";
+a {
+  b: �;
+}
+
+<===>
+================================================================================
+<===> too_high/input.scss
 // Regression test for sass/dart-sass#1030.
 a {b: \110000}
 
-<===> error/syntax/too_high/error
-Error: Invalid Unicode code point.
-  ,
-2 | a {b: \110000}
-  |       ^^^^^^^
-  '
-  input.scss 2:7  root stylesheet
+<===> too_high/output.css
+@charset "UTF-8";
+a {
+  b: �;
+}

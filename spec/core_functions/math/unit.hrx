@@ -145,6 +145,28 @@ More info and automated migrator: https://sass-lang.com/d/slash-div
 
 <===>
 ================================================================================
+<===> escape/normalized/input.scss
+@use "sass:math";
+a {b: math.unit(1\65 m)}
+
+<===> escape/normalized/output.css
+a {
+  b: "em";
+}
+
+<===>
+================================================================================
+<===> escape/preserved/input.scss
+@use "sass:math";
+a {b: math.unit(1\%)}
+
+<===> escape/preserved/output.css
+a {
+  b: "\\%";
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:math";
 a {b: math.unit($number: 1)}
