@@ -388,3 +388,32 @@ a {
 a d {
   e: f;
 }
+
+<===>
+================================================================================
+<===> error/commented_closing_comment_in_interpolation/input.scss
+// Regression test for the second report in sass/dart-sass#2874. This isn't
+// actually unique to style rules; it would happen for any interpolation that
+// injects the left-hand edge of an error or warning. This is just the most
+// convenient way to reproduce it.
+#{
+  // */
+  "++"
+} {a: b}
+
+<===> error/commented_closing_comment_in_interpolation/output.css
+
+<===> error/commented_closing_comment_in_interpolation/warning
+DEPRECATION WARNING [bogus-combinators]: The selector "+ +" is invalid CSS. It will be omitted from the generated CSS.
+This will be an error in Dart Sass 2.0.0.
+
+More info: https://sass-lang.com/d/bogus-combinators
+
+  ,
+5 | / #{
+6 | |   // */
+7 | |   "++"
+8 | | } {a: b}
+  | '-^
+  '
+    input.scss 5:1  root stylesheet
