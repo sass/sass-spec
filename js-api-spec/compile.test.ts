@@ -5,6 +5,8 @@
 import {compileString, compileStringAsync} from 'sass';
 import type {OutputStyle} from 'sass';
 
+import {URL} from './utils';
+
 describe('compileString', () => {
   describe('success', () => {
     describe('input', () => {
@@ -66,6 +68,98 @@ describe('compileString', () => {
         expect(sourceMap).toHaveMember('sourcesContent');
         expect(sourceMap.sourcesContent!).toBeArray();
         expect(sourceMap.sourcesContent!.length).toBeGreaterThanOrEqual(1);
+      });
+
+      it('includes source content for stylesheet without explictly defined sourceMapUrl if sourceMapIncludeSources is "auto"', () => {
+        const result = compileString('@use "u:explict"; @use "u:implict";', {
+          sourceMap: true,
+          sourceMapIncludeSources: 'auto',
+          importers: [
+            {
+              canonicalize: (url: string) => new URL(url),
+              load(url: typeof URL) {
+                const path = url.pathname;
+                return {
+                  contents: `.${path} {content: ${path}}`,
+                  syntax: 'scss',
+                  sourceMapUrl: path === 'explict' ? url : undefined,
+                };
+              },
+            },
+          ],
+        });
+        expect(result).toHaveMember('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveMember('sources');
+        expect(sourceMap.sources!).toBeArray();
+        expect(sourceMap).toHaveMember('sourcesContent');
+        expect(sourceMap.sourcesContent!).toBeArray();
+        expect(
+          sourceMap.sourcesContent![sourceMap.sources!.indexOf('u:explict')],
+        ).toBeNull();
+        expect(
+          sourceMap.sourcesContent![sourceMap.sources!.indexOf('u:implict')],
+        ).toBeString();
+      });
+
+      it('includes all source content if sourceMapIncludeSources is "always"', () => {
+        const result = compileString('@use "u:explict"; @use "u:implict";', {
+          sourceMap: true,
+          sourceMapIncludeSources: 'always',
+          importers: [
+            {
+              canonicalize: (url: string) => new URL(url),
+              load(url: typeof URL) {
+                const path = url.pathname;
+                return {
+                  contents: `.${path} {content: ${path}}`,
+                  syntax: 'scss',
+                  sourceMapUrl: path === 'explict' ? url : undefined,
+                };
+              },
+            },
+          ],
+        });
+        expect(result).toHaveMember('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveMember('sources');
+        expect(sourceMap.sources!).toBeArray();
+        expect(sourceMap).toHaveMember('sourcesContent');
+        expect(sourceMap.sourcesContent!).toBeArray();
+        expect(
+          sourceMap.sourcesContent![sourceMap.sources!.indexOf('u:explict')],
+        ).toBeString();
+        expect(
+          sourceMap.sourcesContent![sourceMap.sources!.indexOf('u:implict')],
+        ).toBeString();
+      });
+
+      it('includes no source content if sourceMapIncludeSources is "never"', () => {
+        const result = compileString('@use "u:explict"; @use "u:implict";', {
+          sourceMap: true,
+          sourceMapIncludeSources: 'never',
+          importers: [
+            {
+              canonicalize: (url: string) => new URL(url),
+              load(url: typeof URL) {
+                const path = url.pathname;
+                return {
+                  contents: `.${path} {content: ${path}}`,
+                  syntax: 'scss',
+                  sourceMapUrl: path === 'explict' ? url : undefined,
+                };
+              },
+            },
+          ],
+        });
+        expect(result).toHaveMember('sourceMap');
+
+        const sourceMap = result.sourceMap!;
+        expect(sourceMap).toHaveMember('sources');
+        expect(sourceMap.sources!).toBeArray();
+        expect(sourceMap).not.toHaveMember('sourcesContent');
       });
     });
 
