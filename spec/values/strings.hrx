@@ -86,3 +86,27 @@ Error: Expected '.
   |            ^
   '
   input.sass 2:12  root stylesheet
+
+<===>
+================================================================================
+<===> escape/max_valid/input.scss
+// Regression test. This used to be parsed incorrectly as U+FFFD REPLACEMENT
+// CHARACTER.
+a {b: "\10FFFF"}
+
+<===> escape/max_valid/output.css
+a {
+  b: "\10ffff";
+}
+
+<===>
+================================================================================
+<===> escape/min_invalid/input.scss
+// This one should be parsed as a replacement character.
+a {b: "\110000"}
+
+<===> escape/min_invalid/output.css
+@charset "UTF-8";
+a {
+  b: "�";
+}

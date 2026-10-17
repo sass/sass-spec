@@ -1,38 +1,48 @@
-<===> escape/close_paren/input.scss
+<===> contents/escape/close_paren/input.scss
 a {b: url(\))}
 
-<===> escape/close_paren/output.css
+<===> contents/escape/close_paren/output.css
 a {
   b: url(\));
 }
 
 <===>
 ================================================================================
-<===> escape/interpolation/input.scss
+<===> contents/escape/interpolation/input.scss
 a {b: url(\#{})}
 
-<===> escape/interpolation/output.css
+<===> contents/escape/interpolation/output.css
 a {
   b: url(\#{});
 }
 
 <===>
 ================================================================================
-<===> escape/ascii/input.scss
+<===> contents/escape/ascii/input.scss
 a {b: url(\41)}
 
-<===> escape/ascii/output.css
+<===> contents/escape/ascii/output.css
 a {
   b: url(A);
 }
 
 <===>
 ================================================================================
-<===> escape/non_ascii/input.scss
+<===> contents/escape/non_ascii/input.scss
 a {b: url(\2603)}
 
-<===> escape/non_ascii/output.css
+<===> contents/escape/non_ascii/output.css
 @charset "UTF-8";
 a {
   b: url(☃);
+}
+
+<===>
+================================================================================
+<===> escaped/input.scss
+a {b: \75 rl(http://example.org)}
+
+<===> escaped/output.css
+a {
+  b: url(http://example.org);
 }

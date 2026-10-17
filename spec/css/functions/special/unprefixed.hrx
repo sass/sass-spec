@@ -143,3 +143,13 @@ a {b: TYPE(#{0})}
 a {
   b: type(0);
 }
+
+<===>
+================================================================================
+<===> escaped/input.scss
+a {b: \75 rl(http://example.org)}
+
+<===> escaped/output.css
+a {
+  b: url(http://example.org);
+}
