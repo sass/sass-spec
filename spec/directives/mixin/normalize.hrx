@@ -1,0 +1,45 @@
+<===> definition/direct/input.scss
+@mixin a_b {c: d}
+
+e {@include a-b}
+
+<===> definition/direct/output.css
+e {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> definition/escape/input.scss
+@mixin a\5f b {c: d}
+
+e {@include a-b}
+
+<===> definition/escape/output.css
+e {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> use/direct/input.scss
+@mixin a-b {c: d}
+
+e {@include a_b}
+
+<===> use/direct/output.css
+e {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> use/escape/input.scss
+@mixin a-b {c: d}
+
+e {@include a\5f b}
+
+<===> use/escape/output.css
+e {
+  c: d;
+}
