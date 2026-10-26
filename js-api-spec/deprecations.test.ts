@@ -103,11 +103,11 @@ describe('a warning', () => {
 
   it('is emitted for an excluded fatal deprecation', done => {
     compileString('a { $b: c !global; }', {
+      fatalDeprecations: {
+        include: new Version(1, 105, 0),
+        exclude: 'new-global',
+      },
       logger: {
-        fatalDeprecations: {
-          include: new Version(1, 105, 0),
-          exclude: 'new-global',
-        },
         warn(
           message: string,
           {
@@ -123,8 +123,8 @@ describe('a warning', () => {
 
   it('is emitted for a non-Dart Sass 2 deprecation when Dart Sass 2 is fatal', done => {
     compileString('a { b: if(true, c, d); }', {
+      fatalDeprecations: deprecations.dartSass2,
       logger: {
-        fatalDeprecations: deprecations.dartSass2,
         warn(
           message: string,
           {
