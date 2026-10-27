@@ -131,7 +131,7 @@ describe('a warning', () => {
             deprecationType,
           }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
-          expect(deprecationType).toEqual(deprecations['if-expression']);
+          expect(deprecationType).toEqual(deprecations['if-function']);
           done();
         },
       },
