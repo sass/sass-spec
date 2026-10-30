@@ -7,6 +7,10 @@ on:
   push: {branches: [main, feature.*]}
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-test-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -42,15 +46,13 @@ jobs:
   static_analysis_ci:
     name: Static analysis (GitHub Actions)
     runs-on: ubuntu-latest
-
-    permissions:
-      security-events: write # Required by upload-sarif
-      actions: read # Required by upload-sarif
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: {persist-credentials: false}
       - uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
-        with: {persona: pedantic}
+        with:
+          persona: pedantic
+          advanced-security: false # Fail the GitHub action if Zizmor has findings
 
   lint_spec:
     name: "Lint spec files"
@@ -89,7 +91,7 @@ jobs:
         with: {node-version: current}
       - run: npm install
 
-      - uses: ./.github/util/dart-sass
+      - uses: $/.github/util/dart-sass
         with:
           github-token: ${{ github.token }}
           dart-sdk: ${{ matrix.dart_channel }}
@@ -125,7 +127,7 @@ jobs:
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
 
-      - uses: ./.github/util/dart-sass
+      - uses: $/.github/util/dart-sass
         with:
           github-token: ${{ github.token }}
 
@@ -151,7 +153,7 @@ jobs:
       - uses: browser-actions/setup-chrome@48ad923757ca74d66703209fe939badbdf80f2f4 # v2.2.0
       - run: npm install
 
-      - uses: ./.github/util/dart-sass
+      - uses: $/.github/util/dart-sass
         with:
           github-token: ${{ github.token }}
 
@@ -196,7 +198,7 @@ jobs:
         with: {node-version: "${{ matrix.node_version }}"}
       - run: npm install
 
-      - uses: ./.github/util/dart-sass
+      - uses: $/.github/util/dart-sass
         with:
           github-token: ${{ github.token }}
 
