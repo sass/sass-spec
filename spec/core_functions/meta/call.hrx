@@ -114,6 +114,193 @@ Recommendation: call(get-function("rgb"))
 
 <===>
 ================================================================================
+<===> string/escape/unquoted/normalized/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call(\$, 1)}
+
+<===> string/escape/unquoted/normalized/output.css
+a {
+  b: 2;
+}
+
+<===> string/escape/unquoted/normalized/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(\$))
+
+  ,
+3 | a {b: meta.call(\$, 1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call(string.unquote("\\24"), 1)}
+
+<===> string/escape/unquoted/non_normalized/output.css
+a {
+  b: \24(1);
+}
+
+<===> string/escape/unquoted/non_normalized/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(\24))
+
+  ,
+4 | a {b: meta.call(string.unquote("\\24"), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call(string.unquote("c\\5f d"), 1)}
+
+<===> string/escape/unquoted/dash_insensitive/output.css
+a {
+  b: c\5f d(1);
+}
+
+<===> string/escape/unquoted/dash_insensitive/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(c\5f d))
+
+  ,
+4 | a {b: meta.call(string.unquote("c\\5f d"), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call(string.unquote("$"), 1)}
+
+<===> string/escape/unquoted/semantic/output.css
+a {
+  b: $(1);
+}
+
+<===> string/escape/unquoted/semantic/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function($))
+
+  ,
+4 | a {b: meta.call(string.unquote("$"), 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/quoted/normalized/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call("\\$", 1)}
+
+<===> string/escape/quoted/normalized/output.css
+a {
+  b: 2;
+}
+
+<===> string/escape/quoted/normalized/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function("\\$"))
+
+  ,
+3 | a {b: meta.call("\\$", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call("\\24", 1)}
+
+<===> string/escape/quoted/non_normalized/output.css
+a {
+  b: \24(1);
+}
+
+<===> string/escape/quoted/non_normalized/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function("\\24"))
+
+  ,
+3 | a {b: meta.call("\\24", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@function a-b($arg) {@return $arg + 1}
+c {d: meta.call("a\\5f b", 1)}
+
+<===> string/escape/quoted/dash_insensitive/output.css
+c {
+  d: a\5f b(1);
+}
+
+<===> string/escape/quoted/dash_insensitive/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function("a\\5f b"))
+
+  ,
+3 | c {d: meta.call("a\\5f b", 1)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escape/quoted/semantic/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.call("$", 1)}
+
+<===> string/escape/quoted/semantic/output.css
+a {
+  b: $(1);
+}
+
+<===> string/escape/quoted/semantic/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function("$"))
+
+  ,
+3 | a {b: meta.call("$", 1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 a {b: meta.call($function: meta.get-function("rgb"), $red: 1, $green: 2, $blue: 3)}

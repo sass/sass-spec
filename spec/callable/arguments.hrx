@@ -389,3 +389,163 @@ This will be an error in Dart Sass 2.0.0.
   |           ====== rest argument
   '
     input.scss 2:22  root stylesheet
+
+<===>
+================================================================================
+<===> keyword/escape/literal/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a($\$: d)}
+
+<===> keyword/escape/literal/normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> keyword/escape/literal/non_normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a($\24: d)}
+
+<===> keyword/escape/literal/non_normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> keyword/escape/literal/dash_insensitive/input.scss
+@function a($b-c) {@return $b-c}
+d {e: a($b\5f c: f)}
+
+<===> keyword/escape/literal/dash_insensitive/output.css
+d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> keyword/escape/rest/unquoted/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a((\$: d)...)}
+
+<===> keyword/escape/rest/unquoted/normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> keyword/escape/rest/quoted/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a(("\\$": d)...)}
+
+<===> keyword/escape/rest/quoted/normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/unquoted/non_normalized/input.scss
+@use 'sass:string';
+@function a($\$) {@return $\$}
+b {c: a((string.unquote("\\24"): d)...)}
+
+<===> error/keyword/escape/rest/unquoted/non_normalized/error
+Error: Missing argument $\$.
+  ,
+2 | @function a($\$) {@return $\$}
+  |           ====== declaration
+3 | b {c: a((string.unquote("\\24"): d)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 3:7  a()
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/unquoted/dash_insensitive/input.scss
+@use 'sass:string';
+@function a($b-c) {@return $b-c}
+d {e: a((string.unquote("b\\5f c"): f)...)}
+
+<===> error/keyword/escape/rest/unquoted/dash_insensitive/error
+Error: Missing argument $b-c.
+  ,
+2 | @function a($b-c) {@return $b-c}
+  |           ======= declaration
+3 | d {e: a((string.unquote("b\\5f c"): f)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 3:7  a()
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/unquoted/semantic/input.scss
+@use 'sass:string';
+@function a($\$) {@return $\$}
+b {c: a((string.unquote("$"): d)...)}
+
+<===> error/keyword/escape/rest/unquoted/semantic/error
+Error: Missing argument $\$.
+  ,
+2 | @function a($\$) {@return $\$}
+  |           ====== declaration
+3 | b {c: a((string.unquote("$"): d)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 3:7  a()
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/quoted/non_normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a(("\\24": d)...)}
+
+<===> error/keyword/escape/rest/quoted/non_normalized/error
+Error: Missing argument $\$.
+  ,
+1 | @function a($\$) {@return $\$}
+  |           ====== declaration
+2 | b {c: a(("\\24": d)...)}
+  |       ^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 2:7  a()
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/quoted/dash_insensitive/input.scss
+@function a($b-c) {@return $b-c}
+d {e: a(("b\\5F c": f)...)}
+
+<===> error/keyword/escape/rest/quoted/dash_insensitive/error
+Error: Missing argument $b-c.
+  ,
+1 | @function a($b-c) {@return $b-c}
+  |           ======= declaration
+2 | d {e: a(("b\\5F c": f)...)}
+  |       ^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 2:7  a()
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/keyword/escape/rest/quoted/semantic/input.scss
+@function a($\$) {@return $\$}
+b {c: a(("$": d)...)}
+
+<===> error/keyword/escape/rest/quoted/semantic/error
+Error: Missing argument $\$.
+  ,
+1 | @function a($\$) {@return $\$}
+  |           ====== declaration
+2 | b {c: a(("$": d)...)}
+  |       ^^^^^^^^^^^^^^ invocation
+  '
+  input.scss 2:7  a()
+  input.scss 2:7  root stylesheet

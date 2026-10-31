@@ -127,12 +127,135 @@ a {
 ================================================================================
 <===> dash_insensitive/input.scss
 @use "sass:meta";
-@use "../utils";
+@use "core_functions/meta/keywords/utils";
 a {b: meta.inspect(utils.args-to-keywords($c-d: e, $f_g: h))}
 
 <===> dash_insensitive/output.css
 a {
   b: (c-d: e, f-g: h);
+}
+
+<===>
+================================================================================
+<===> escape/literal/normalized/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords($\$: d))}
+
+<===> escape/literal/normalized/output.css
+a {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> escape/literal/non_normalized/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords($\24: d))}
+
+<===> escape/literal/non_normalized/output.css
+a {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/unquoted/normalized/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords((\$: d)...))}
+
+<===> escape/rest/unquoted/normalized/output.css
+a {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords((string.unquote("\\24"): d)...))}
+
+<===> escape/rest/unquoted/non_normalized/output.css
+a {
+  b: (\24: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords((string.unquote("c\\5f d"): e)...))}
+
+<===> escape/rest/unquoted/dash_insensitive/output.css
+a {
+  b: (c\5f d: e);
+}
+
+<===>
+================================================================================
+<===> escape/rest/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords((string.unquote("$"): d)...))}
+
+<===> escape/rest/unquoted/semantic/output.css
+a {
+  b: ($: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/quoted/normalized/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords(("\\$": d)...))}
+
+<===> escape/rest/quoted/normalized/output.css
+a {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/quoted/non_normalized/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords(("\\24": d)...))}
+
+<===> escape/rest/quoted/non_normalized/output.css
+a {
+  b: (\24: d);
+}
+
+<===>
+================================================================================
+<===> escape/rest/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords(("c\\5f d": e)...))}
+
+<===> escape/rest/quoted/dash_insensitive/output.css
+a {
+  b: (c\5f d: e);
+}
+
+<===>
+================================================================================
+<===> escape/rest/quoted/semantic/input.scss
+@use "sass:meta";
+@use "core_functions/meta/keywords/utils";
+a {b: meta.inspect(utils.args-to-keywords(("$": d)...))}
+
+<===> escape/rest/quoted/semantic/output.css
+a {
+  b: ($: d);
 }
 
 <===>

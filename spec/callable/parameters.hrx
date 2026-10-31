@@ -243,3 +243,126 @@ Error: expected ")".
   |                    ^
   '
   input.scss 1:20  root stylesheet
+
+<===>
+================================================================================
+<===> rest/named/escape/literal/normalized/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a($\$: d)}
+
+<===> rest/named/escape/literal/normalized/output.css
+c {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/literal/non_normalized/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a($\24: d)}
+
+<===> rest/named/escape/literal/non_normalized/output.css
+c {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/unquoted/normalized/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a((\$: d)...)}
+
+<===> rest/named/escape/rest/unquoted/normalized/output.css
+c {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/unquoted/non_normalized/input.scss
+@use 'sass:meta';
+@use 'sass:string';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a((string.unquote("\\24"): d)...)}
+
+<===> rest/named/escape/rest/unquoted/non_normalized/output.css
+c {
+  b: (\24: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/unquoted/dash_insensitive/input.scss
+@use 'sass:meta';
+@use 'sass:string';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a((string.unquote("d\\5f e"): f)...)}
+
+<===> rest/named/escape/rest/unquoted/dash_insensitive/output.css
+c {
+  b: (d\5f e: f);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/unquoted/semantic/input.scss
+@use 'sass:meta';
+@use 'sass:string';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a((string.unquote("$"): d)...)}
+
+<===> rest/named/escape/rest/unquoted/semantic/output.css
+c {
+  b: ($: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/quoted/normalized/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a(("\\$": d)...)}
+
+<===> rest/named/escape/rest/quoted/normalized/output.css
+c {
+  b: (\$: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/quoted/non_normalized/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a(("\\24": d)...)}
+
+<===> rest/named/escape/rest/quoted/non_normalized/output.css
+c {
+  b: (\24: d);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/quoted/dash_insensitive/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a(("d\\5f e": f)...)}
+
+<===> rest/named/escape/rest/quoted/dash_insensitive/output.css
+c {
+  b: (d\5f e: f);
+}
+
+<===>
+================================================================================
+<===> rest/named/escape/rest/quoted/semantic/input.scss
+@use 'sass:meta';
+@mixin a($args...) {b: meta.inspect(meta.keywords($args))}
+c {@include a(("$": d)...)}
+
+<===> rest/named/escape/rest/quoted/semantic/output.css
+c {
+  b: ($: d);
+}

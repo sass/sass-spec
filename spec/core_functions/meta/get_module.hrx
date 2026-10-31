@@ -127,6 +127,30 @@ a {
 
 <===>
 ================================================================================
+<===> escape/unquoted/normalized/input.scss
+@use "sass:math" as \$;
+@use "sass:meta";
+a {b: meta.global-variable-exists("e", $module: meta.get-module(\$))}
+
+<===> escape/unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/normalized/input.scss
+@use "sass:math" as \$;
+@use "sass:meta";
+a {b: meta.global-variable-exists("e", $module: meta.get-module("\\$"))}
+
+<===> escape/quoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @use "sass:math";
@@ -228,5 +252,98 @@ Error: There is no module with namespace "a_b".
   ,
 3 | c {d: meta.get-module("a_b")}
   |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/unquoted/non_normalized/input.scss
+@use "sass:color" as \$;
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.get-module(string.unquote("\\24"))}
+
+<===> error/escape/unquoted/non_normalized/error
+Error: There is no module with namespace "\24".
+  ,
+4 | a {b: meta.get-module(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/unquoted/dash_insensitive/input.scss
+@use "sass:color" as a-b;
+@use "sass:meta";
+@use "sass:string";
+c {d: meta.get-module(string.unquote("a\\5f b"))}
+
+<===> error/escape/unquoted/dash_insensitive/error
+Error: There is no module with namespace "a\5f b".
+  ,
+4 | c {d: meta.get-module(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/unquoted/semantic/input.scss
+@use "sass:color" as \$;
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.get-module(string.unquote("$"))}
+
+<===> error/escape/unquoted/semantic/error
+Error: There is no module with namespace "$".
+  ,
+4 | a {b: meta.get-module(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/quoted/non_normalized/input.scss
+@use "sass:color" as \$;
+@use "sass:meta";
+a {b: meta.get-module("\\24")}
+
+<===> error/escape/quoted/non_normalized/error
+Error: There is no module with namespace "\24".
+  ,
+3 | a {b: meta.get-module("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/quoted/dash_insensitive/input.scss
+@use "sass:color" as a-b;
+@use "sass:meta";
+c {d: meta.get-module("a\\5f b")}
+
+<===> error/escape/quoted/dash_insensitive/error
+Error: There is no module with namespace "a\5f b".
+  ,
+3 | c {d: meta.get-module("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escape/quoted/semantic/input.scss
+@use "sass:color" as \$;
+@use "sass:meta";
+a {b: meta.get-module("$")}
+
+<===> error/escape/quoted/semantic/error
+Error: There is no module with namespace "$".
+  ,
+3 | a {b: meta.get-module("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet

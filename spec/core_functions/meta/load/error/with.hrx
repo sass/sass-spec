@@ -110,7 +110,7 @@ $_: meta.load("other", $with: (a-b: c, a_b: c));
 $a-b: c !default;
 
 <===> repeated_variable/error
-Error: The variable $a-b was configured twice.
+Error: The variable $a_b was configured twice.
   ,
 2 | $_: meta.load("other", $with: (a-b: c, a_b: c));
   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -179,7 +179,7 @@ d {
 }
 
 <===> private/matching/underscore/warning
-DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $_a) is deprecated.
 This will be an error in Dart Sass 2.0.0.
 
   ,

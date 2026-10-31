@@ -110,7 +110,7 @@ Error: This variable is available from multiple global modules.
 $a-b: c !default;
 
 <===> repeated_variable/error
-Error: The variable $a-b was configured twice.
+Error: The variable $a_b was configured twice.
   ,
 2 | @include meta.load-css("other", $with: (a-b: c, a_b: c));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -177,7 +177,7 @@ d {
 }
 
 <===> private/matching/underscore/warning
-DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $_a) is deprecated.
 This will be an error in Dart Sass 2.0.0.
 
   ,
@@ -463,5 +463,116 @@ Error: $a was not declared with !default in the @used module.
   ,
 2 | @include meta.load-css("used", $with: (a: b));
   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@include meta.load-css("other", $with: (string.unquote("\\24"): override));
+
+<===> unquoted/non_normalized/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> unquoted/non_normalized/error
+Error: $\24 was not declared with !default in the @used module.
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("\\24"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@include meta.load-css("other", $with: (string.unquote("a\\5f b"): override));
+
+<===> unquoted/dash_insensitive/_other.scss
+$a-b: original !default;
+c {d: $a-b}
+
+<===> unquoted/dash_insensitive/error
+Error: $a\5f b was not declared with !default in the @used module.
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("a\\5f b"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@include meta.load-css("other", $with: (string.unquote("$"): override));
+
+<===> unquoted/semantic/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> unquoted/semantic/error
+Error: $$ was not declared with !default in the @used module.
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("$"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:1  root stylesheet
+
+<===>
+================================================================================
+<===> quoted/non_normalized/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("\\24": override));
+
+<===> quoted/non_normalized/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> quoted/non_normalized/error
+Error: $\24 was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("\\24": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("a\\5f b": override));
+
+<===> quoted/dash_insensitive/_other.scss
+$a-b: original !default;
+c {d: $a-b}
+
+<===> quoted/dash_insensitive/error
+Error: $a\5f b was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("a\\5f b": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> quoted/semantic/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("$": override));
+
+<===> quoted/semantic/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> quoted/semantic/error
+Error: $$ was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("$": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 2:1  root stylesheet

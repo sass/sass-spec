@@ -90,6 +90,105 @@ c {
 
 <===>
 ================================================================================
+<===> escape/unquoted/normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists(\$)}
+
+<===> escape/unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+$\$: null;
+a {b: meta.global-variable-exists(unquoted("\\24"))}
+
+<===> escape/unquoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+$a-b: null;
+c {d: meta.global-variable-exists(unquoted("a\\5f b"))}
+
+<===> escape/unquoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+$\$: null;
+a {b: meta.global-variable-exists(string.unquote("$"))}
+
+<===> escape/unquoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("\\$")}
+
+<===> escape/quoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("\\24")}
+
+<===> escape/quoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+$a-b: null;
+c {d: meta.global-variable-exists("a\\5f b")}
+
+<===> escape/quoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/semantic/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("$")}
+
+<===> escape/quoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> different_module/undefined/string/input.scss
 @use "sass:meta";
 @use "sass:color";
