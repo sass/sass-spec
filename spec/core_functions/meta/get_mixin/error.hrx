@@ -222,3 +222,18 @@ Error: There is no module with namespace "a_b".
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_unquoted/input.scss
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.get-mixin(url())}
+
+<===> invalid_unquoted/error
+Error: Invalid argument(s): "url()" isn't a valid CSS identifier
+  ,
+3 | a {b: meta.get-mixin(url())}
+  |       ^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet

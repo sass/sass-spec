@@ -51,6 +51,42 @@ c {
 
 <===>
 ================================================================================
+<===> escape/quoted/input.scss
+@use "sass:meta";
+$\20: null;
+a {b: meta.variable-exists(" ")}
+
+<===> escape/quoted/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/same/input.scss
+@use "sass:meta";
+$\20: null;
+a {b: meta.variable-exists(\20)}
+
+<===> escape/unquoted/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/different/input.scss
+@use "sass:meta";
+$\20: null;
+a {b: meta.variable-exists(\ )}
+
+<===> escape/unquoted/different/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> through_import/input.scss
 @use "sass:meta";
 @import "other";

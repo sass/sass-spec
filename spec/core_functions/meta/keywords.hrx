@@ -137,6 +137,18 @@ a {
 
 <===>
 ================================================================================
+<===> escape/input.scss
+@use "sass:meta";
+@use "../utils";
+a {b: meta.inspect(utils.args-to-keywords($\20: d))}
+
+<===> escape/output.css
+a {
+  b: (\20: d);
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @function args-to-keywords($args...) {

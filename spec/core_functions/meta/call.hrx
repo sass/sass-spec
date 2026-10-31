@@ -114,6 +114,75 @@ Recommendation: call(get-function("rgb"))
 
 <===>
 ================================================================================
+<===> string/escaped/local/quoted/input.scss
+@use "sass:meta";
+@function \20($arg) {@return $arg + 1}
+a {b: meta.call(" ", 1)}
+
+<===> string/escaped/local/quoted/output.css
+a {
+  b: 2;
+}
+
+<===> string/escaped/local/quoted/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(" "))
+
+  ,
+3 | a {b: meta.call(" ", 1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escaped/local/unquoted/same/input.scss
+@use "sass:meta";
+@function \20($arg) {@return $arg + 1}
+a {b: meta.call(\20, 1)}
+
+<===> string/escaped/local/unquoted/same/output.css
+a {
+  b: 2;
+}
+
+<===> string/escaped/local/unquoted/same/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(\ ))
+
+  ,
+3 | a {b: meta.call(\20, 1)}
+  |       ^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> string/escaped/local/unquoted/different/input.scss
+@use "sass:meta";
+@function \20($arg) {@return $arg + 1}
+a {b: meta.call(\ , 1)}
+
+<===> string/escaped/local/unquoted/different/output.css
+a {
+  b: 2;
+}
+
+<===> string/escaped/local/unquoted/different/warning
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(\ ))
+
+  ,
+3 | a {b: meta.call(\ , 1)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 a {b: meta.call($function: meta.get-function("rgb"), $red: 1, $green: 2, $blue: 3)}
@@ -185,3 +254,27 @@ Error: Undefined variable.
   |                                                    ^^^^^^^^^^
   '
   input.scss 5:52  root stylesheet
+
+<===>
+================================================================================
+<===> error/string/invalid_unquoted/input.scss
+@use "sass:meta";
+a {b: meta.call(url())}
+
+<===> error/string/invalid_unquoted/error
+DEPRECATION WARNING [call-string]: Passing a string to call() is deprecated and will be illegal in Dart Sass 2.0.0.
+
+Recommendation: call(get-function(url()))
+
+  ,
+2 | a {b: meta.call(url())}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
+Error: Invalid argument(s): "url()" isn't a valid CSS identifier
+  ,
+2 | a {b: meta.call(url())}
+  |       ^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

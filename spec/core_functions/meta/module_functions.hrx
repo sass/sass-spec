@@ -67,6 +67,22 @@ a {
 
 <===>
 ================================================================================
+<===> escaped/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-functions("other"))}
+
+<===> escaped/_other.scss
+@function \20() {@return null}
+
+<===> escaped/output.css
+a {
+  b: (" ": get-function(" "));
+}
+
+<===>
+================================================================================
 <===> as/input.scss
 @use "sass:meta";
 @use "../util";

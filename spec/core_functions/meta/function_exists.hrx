@@ -77,6 +77,42 @@ c {
 
 <===>
 ================================================================================
+<===> same_module/escape/quoted/input.scss
+@use "sass:meta";
+@function \20() {@return null}
+a {b: meta.function-exists(" ")}
+
+<===> same_module/escape/quoted/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/same/input.scss
+@use "sass:meta";
+@function \20() {@return null}
+a {b: meta.function-exists(\20)}
+
+<===> same_module/escape/unquoted/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/different/input.scss
+@use "sass:meta";
+@function \20() {@return null}
+a {b: meta.function-exists(\ )}
+
+<===> same_module/escape/unquoted/different/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> same_module/non_existent/input.scss
 @use "sass:meta";
 a {
@@ -366,6 +402,21 @@ Error: This function is available from multiple global modules.
     |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ function use
     '
   input.scss 5:7  root stylesheet
+
+
+<===>
+================================================================================
+<===> error/invalid_unquoted/input.scss
+@use "sass:meta";
+a {b: meta.function-exists(url())}
+
+<===> error/invalid_unquoted/error
+Error: Invalid argument(s): "url()" isn't a valid CSS identifier
+  ,
+2 | a {b: meta.function-exists(url())}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================

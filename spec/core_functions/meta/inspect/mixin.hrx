@@ -18,3 +18,15 @@ a {b: meta.inspect(meta.get-mixin(load-css, meta))};
 a {
   b: get-mixin("load-css");
 }
+
+<===>
+================================================================================
+<===> escaped_name/input.scss
+@use "sass:meta";
+@mixin \20 {}
+a {b: meta.inspect(meta.get-mixin(\20))}
+
+<===> escaped_name/output.css
+a {
+  b: get-mixin(" ");
+}

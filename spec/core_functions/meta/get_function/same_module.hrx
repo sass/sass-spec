@@ -96,7 +96,7 @@ More info and automated migrator: https://sass-lang.com/d/import
 
 <===>
 ================================================================================
-<===> plain_css/input.scss
+<===> plain_css/ident/input.scss
 @use "sass:meta";
 $sass-fn: meta.get-function(round);
 $css-fn: meta.get-function(round, $css: true);
@@ -106,13 +106,13 @@ a {
   css-fn: meta.call($css-fn, 0.6);
 }
 
-<===> plain_css/output.css
+<===> plain_css/ident/output.css
 a {
   sass-fn: 1;
   css-fn: round(0.6);
 }
 
-<===> plain_css/warning
+<===> plain_css/ident/warning
 DEPRECATION WARNING [global-builtin]: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use math.round instead.
 
@@ -123,6 +123,40 @@ More info and automated migrator: https://sass-lang.com/d/import
   |            ^^^^^^^^^^^^^^^^^^^^^^^^
   '
     input.scss 6:12  root stylesheet
+
+<===>
+================================================================================
+<===> plain_css/escaped/unquoted/input.scss
+@use "sass:meta";
+a {b: meta.call(meta.get-function(\20, $css: true), 1)}
+
+<===> plain_css/escaped/unquoted/output.css
+a {
+  b: \ (1);
+}
+
+<===>
+================================================================================
+<===> plain_css/escaped/quoted/input.scss
+@use "sass:meta";
+a {b: meta.call(meta.get-function(" ", $css: true), 1)}
+
+<===> plain_css/escaped/quoted/output.css
+a {
+  b: \ (1);
+}
+
+<===>
+================================================================================
+<===> plain_css/non_ident/input.scss
+@use "sass:meta";
+@use "sass:string";
+a {b: meta.call(meta.get-function(string.unquote("$"), $css: true), 1)}
+
+<===> plain_css/non_ident/output.css
+a {
+  b: $(1);
+}
 
 <===>
 ================================================================================
@@ -148,4 +182,43 @@ a {b: meta.call(meta.get-function(add_two), 10)}
 <===> dash_insensitive/underscore_to_dash/output.css
 a {
   b: 12;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/input.scss
+@use "sass:meta";
+@function \20($v) {@return $v + 2}
+
+a {b: meta.call(meta.get-function(" "), 1)}
+
+<===> escape/quoted/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/same/input.scss
+@use "sass:meta";
+@function \20($v) {@return $v + 2}
+
+a {b: meta.call(meta.get-function(\20), 1)}
+
+<===> escape/unquoted/same/output.css
+a {
+  b: 3;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/different/input.scss
+@use "sass:meta";
+@function \20($v) {@return $v + 2}
+
+a {b: meta.call(meta.get-function(\ ), 1)}
+
+<===> escape/unquoted/different/output.css
+a {
+  b: 3;
 }

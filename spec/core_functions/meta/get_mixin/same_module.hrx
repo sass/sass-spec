@@ -80,3 +80,42 @@ a {@include meta.apply(meta.get-mixin(add_two), 10)}
 a {
   b: 12;
 }
+
+<===>
+================================================================================
+<===> escape/quoted/input.scss
+@use "sass:meta";
+@mixin \20($v) {b: $v + 2}
+
+a {@include meta.apply(meta.get-mixin(" "), 10)}
+
+<===> escape/quoted/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/same/input.scss
+@use "sass:meta";
+@mixin \20($v) {b: $v + 2}
+
+a {@include meta.apply(meta.get-mixin(\20), 10)}
+
+<===> escape/unquoted/same/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> escape/unquoted/different/input.scss
+@use "sass:meta";
+@mixin \20($v) {b: $v + 2}
+
+a {@include meta.apply(meta.get-mixin(\ ), 10)}
+
+<===> escape/unquoted/different/output.css
+a {
+  b: 12;
+}

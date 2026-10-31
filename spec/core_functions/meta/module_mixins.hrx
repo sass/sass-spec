@@ -95,6 +95,22 @@ a {
 
 <===>
 ================================================================================
+<===> escaped/input.scss
+@use "sass:meta";
+@use "other";
+
+a {b: meta.inspect(meta.module-mixins("other"))}
+
+<===> escaped/_other.scss
+@mixin \20 {}
+
+<===> escaped/output.css
+a {
+  b: (" ": get-mixin(" "));
+}
+
+<===>
+================================================================================
 <===> as/input.scss
 @use "sass:meta";
 @use "core_functions/meta/module_mixins/utils";

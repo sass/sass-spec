@@ -64,6 +64,42 @@ a {
 
 <===>
 ================================================================================
+<===> same_module/escape/quoted/input.scss
+@use "sass:meta";
+@mixin \20() {}
+a {b: meta.mixin-exists(" ")}
+
+<===> same_module/escape/quoted/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/same/input.scss
+@use "sass:meta";
+@mixin \20() {}
+a {b: meta.mixin-exists(\20)}
+
+<===> same_module/escape/unquoted/same/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/different/input.scss
+@use "sass:meta";
+@mixin \20() {}
+a {b: meta.mixin-exists(\ )}
+
+<===> same_module/escape/unquoted/different/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> different_module/undefined/string/input.scss
 @use "sass:meta";
 @use "sass:color";
@@ -381,3 +417,17 @@ Error: There is no module with namespace "a_b".
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/module/invalid_unquoted/input.scss
+@use "sass:meta";
+a {b: meta.mixin-exists(url())}
+
+<===> error/module/invalid_unquoted/error
+Error: Invalid argument(s): "url()" isn't a valid CSS identifier
+  ,
+2 | a {b: meta.mixin-exists(url())}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

@@ -274,3 +274,31 @@ Error: $css and $module may not both be passed at once.
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_unquoted/sass/input.scss
+@use "sass:meta";
+a {b: meta.get-function(url())}
+
+<===> invalid_unquoted/sass/error
+Error: Invalid argument(s): "url()" isn't a valid CSS identifier
+  ,
+2 | a {b: meta.get-function(url())}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> invalid_unquoted/css/input.scss
+@use "sass:meta";
+a {b: meta.get-function(url(), $css: true)}
+
+<===> invalid_unquoted/css/error
+Error: get-function("url()") isn't a valid CSS value.
+  ,
+2 | a {b: meta.get-function(url(), $css: true)}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:7  root stylesheet

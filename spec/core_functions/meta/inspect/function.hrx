@@ -1,4 +1,4 @@
-<===> input.scss
+<===> ident_name/input.scss
 @use "sass:meta";
 $result: meta.inspect(meta.get-function("get-function", $module: "meta"));
 a {
@@ -6,8 +6,20 @@ a {
   type: meta.type-of($result);
 }
 
-<===> output.css
+<===> ident_name/output.css
 a {
   value: get-function("get-function");
   type: string;
+}
+
+<===>
+================================================================================
+<===> escaped_name/input.scss
+@use "sass:meta";
+@function \20() {@return null}
+a {b: meta.inspect(meta.get-function(\20))}
+
+<===> escaped_name/output.css
+a {
+  b: get-function(" ");
 }
