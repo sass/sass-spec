@@ -127,6 +127,42 @@ a {
 
 <===>
 ================================================================================
+<===> escaped/quoted/input.scss
+@use "sass:math" as \20;
+@use "sass:meta";
+a {b: meta.global-variable-exists("e", $module: meta.get-module(" "))}
+
+<===> escaped/quoted/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escaped/unquoted/normalized/input.scss
+@use "sass:math" as \20;
+@use "sass:meta";
+a {b: meta.global-variable-exists("e", $module: meta.get-module(\20))}
+
+<===> escaped/unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escaped/unquoted/non_normalized/input.scss
+@use "sass:math" as \20;
+@use "sass:meta";
+a {b: meta.global-variable-exists("e", $module: meta.get-module(\ ))}
+
+<===> escaped/unquoted/non_normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
 <===> named/input.scss
 @use "sass:meta";
 @use "sass:math";
@@ -230,3 +266,19 @@ Error: There is no module with namespace "a_b".
   |       ^^^^^^^^^^^^^^^^^^^^^^
   '
   input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/invalid_unquoted/input.scss
+@use "sass:color" as a\20 b;
+@use "sass:meta";
+@use "sass:string";
+c {d: meta.get-module(string.unquote("a b"))}
+
+<===> error/invalid_unquoted/error
+Error: Invalid argument(s): "a b" isn't a valid CSS identifier
+  ,
+4 | c {d: meta.get-module(string.unquote("a b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
