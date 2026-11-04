@@ -1,0 +1,77 @@
+<===> README.md
+These will be errors in Dart Sass 2.0.0.
+
+<===>
+================================================================================
+<===> matching/dash/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("-a": b));
+
+<===> matching/dash/_other.scss
+$-a: c !default;
+d {e: $-a}
+
+<===> matching/dash/output.css
+d {
+  e: b;
+}
+
+<===> matching/dash/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("-a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> matching/underscore/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("_a": b));
+
+<===> matching/underscore/_other.scss
+$_a: c !default;
+d {e: $_a}
+
+<===> matching/underscore/output.css
+d {
+  e: b;
+}
+
+<===> matching/underscore/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $_a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("_a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> different/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("-a": b));
+
+<===> different/_other.scss
+$_a: c !default;
+d {e: $_a}
+
+<===> different/output.css
+d {
+  e: b;
+}
+
+<===> different/warning
+DEPRECATION WARNING [with-private]: Configuring private variables (such as $-a) is deprecated.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+2 | @include meta.load-css("other", $with: ("-a": b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet
