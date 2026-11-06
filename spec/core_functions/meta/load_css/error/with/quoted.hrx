@@ -1,0 +1,51 @@
+<===> non_normalized/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("\\24": override));
+
+<===> non_normalized/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> non_normalized/error
+Error: $\24 was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("\\24": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> dash_insensitive/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("a\\5f b": override));
+
+<===> dash_insensitive/_other.scss
+$a-b: original !default;
+c {d: $a-b}
+
+<===> dash_insensitive/error
+Error: $a\5f b was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("a\\5f b": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> semantic/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("$": override));
+
+<===> semantic/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> semantic/error
+Error: $$ was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: ("$": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

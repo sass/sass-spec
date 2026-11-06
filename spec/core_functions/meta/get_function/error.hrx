@@ -202,6 +202,100 @@ Error: This function is available from multiple global modules.
     '
   input.scss 5:7  root stylesheet
 
+
+<===>
+================================================================================
+<===> escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function(string.unquote("\\24"))}
+
+<===> escape/unquoted/non_normalized/error
+Error: Function not found: \24
+  ,
+4 | a {b: meta.get-function(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function a-b($arg) {@return $arg + 1}
+c {d: meta.get-function(string.unquote("a\\5f b"))}
+
+<===> escape/unquoted/dash_insensitive/error
+Error: Function not found: a\5f b
+  ,
+4 | c {d: meta.get-function(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function(string.unquote("$"))}
+
+<===> escape/unquoted/semantic/error
+Error: Function not found: $
+  ,
+4 | a {b: meta.get-function(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function("\\24")}
+
+<===> escape/quoted/non_normalized/error
+Error: Function not found: "\\24"
+  ,
+3 | a {b: meta.get-function("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@function a-b($arg) {@return $arg + 1}
+c {d: meta.get-function("a\\5f b")}
+
+<===> escape/quoted/dash_insensitive/error
+Error: Function not found: "a\\5f b"
+  ,
+3 | c {d: meta.get-function("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/semantic/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function("$")}
+
+<===> escape/quoted/semantic/error
+Error: Function not found: "$"
+  ,
+3 | a {b: meta.get-function("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> module/undefined/input.scss

@@ -1,0 +1,23 @@
+<===> dash_to_underscore/input.scss
+@use "sass:meta";
+$a_b: null;
+
+c {d: meta.global-variable-exists(a-b)}
+
+<===> dash_to_underscore/output.css
+c {
+  d: true;
+}
+
+<===>
+================================================================================
+<===> underscore_to_dash/input.scss
+@use "sass:meta";
+$a-b: null;
+
+c {d: meta.global-variable-exists(a_b)}
+
+<===> underscore_to_dash/output.css
+c {
+  d: true;
+}

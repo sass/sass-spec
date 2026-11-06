@@ -64,6 +64,105 @@ a {
 
 <===>
 ================================================================================
+<===> same_module/escape/unquoted/normalized/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists(\$)}
+
+<===> same_module/escape/unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin \$ {}
+a {b: meta.mixin-exists(unquoted("\\24"))}
+
+<===> same_module/escape/unquoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin a-b {}
+c {d: meta.mixin-exists(unquoted("a\\5f b"))}
+
+<===> same_module/escape/unquoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin \$ {}
+a {b: meta.mixin-exists(string.unquote("$"))}
+
+<===> same_module/escape/unquoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/normalized/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("\\$")}
+
+<===> same_module/escape/quoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("\\24")}
+
+<===> same_module/escape/quoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@mixin a-b {}
+c {d: meta.mixin-exists("a\\5f b")}
+
+<===> same_module/escape/quoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/semantic/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("$")}
+
+<===> same_module/escape/quoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
 <===> different_module/undefined/string/input.scss
 @use "sass:meta";
 @use "sass:color";

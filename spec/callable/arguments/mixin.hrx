@@ -1,0 +1,204 @@
+<===> _utils.scss
+@use 'sass:meta';
+
+@mixin a($args...) {
+  b {
+    positional: meta.inspect($args);
+    named: meta.inspect(meta.keywords($args));
+  }
+}
+
+<===>
+================================================================================
+<===> trailing_comma/positional/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1, );
+
+<===> trailing_comma/positional/output.css
+b {
+  positional: (1,);
+  named: ();
+}
+
+<===>
+================================================================================
+<===> trailing_comma/named/alone/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a($c: 1, );
+
+<===> trailing_comma/named/alone/output.css
+b {
+  positional: ();
+  named: (c: 1);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/named/after_positional/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1, $c: 2, );
+
+<===> trailing_comma/named/after_positional/output.css
+b {
+  positional: (1,);
+  named: (c: 2);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/rest/alone/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1..., );
+
+<===> trailing_comma/rest/alone/output.css
+b {
+  positional: (1,);
+  named: ();
+}
+
+<===>
+================================================================================
+<===> trailing_comma/rest/after_positional/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1, 2..., );
+
+<===> trailing_comma/rest/after_positional/output.css
+b {
+  positional: 1, 2;
+  named: ();
+}
+
+<===>
+================================================================================
+<===> trailing_comma/rest/after_named/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a($c: 1, 2..., );
+
+<===> trailing_comma/rest/after_named/output.css
+b {
+  positional: (2,);
+  named: (c: 1);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/rest/after_both/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1, $c: 2, 3..., );
+
+<===> trailing_comma/rest/after_both/output.css
+b {
+  positional: 1, 3;
+  named: (c: 2);
+}
+
+<===>
+================================================================================
+<===> trailing_comma/keyword_rest/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a(1..., (c: 2)..., );
+
+<===> trailing_comma/keyword_rest/output.css
+b {
+  positional: (1,);
+  named: (c: 2);
+}
+
+<===>
+================================================================================
+<===> error/comma_only/input.scss
+@use 'callable/arguments/mixin/utils';
+@include utils.a( , );
+
+<===> error/comma_only/error
+Error: expected ")".
+  ,
+2 | @include utils.a( , );
+  |                   ^
+  '
+  input.scss 2:19  root stylesheet
+
+<===>
+================================================================================
+<===> error/positional_after_named/input.scss
+@mixin a($b, $c) {}
+
+@include a($b: 1, 2) {}
+
+<===> error/positional_after_named/error
+Error: Positional arguments must come before keyword arguments.
+  ,
+3 | @include a($b: 1, 2) {}
+  |                   ^
+  '
+  input.scss 3:19  root stylesheet
+
+<===>
+================================================================================
+<===> error/duplicate_named/input.scss
+@mixin a($b) {}
+
+@include a($b: 1, $b: 2);
+
+<===> error/duplicate_named/error
+Error: Duplicate argument.
+  ,
+3 | @include a($b: 1, $b: 2);
+  |                   ^^
+  '
+  input.scss 3:19  root stylesheet
+
+<===>
+================================================================================
+<===> error/duplicate_named_normalization/input.scss
+@mixin a($b-c) {}
+
+@include a($b-c: 1, $b_c: 2);
+
+<===> error/duplicate_named_normalization/error
+Error: Duplicate argument.
+  ,
+3 | @include a($b-c: 1, $b_c: 2);
+  |                     ^^^^
+  '
+  input.scss 3:21  root stylesheet
+
+<===>
+================================================================================
+<===> error/splat/before_positional/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
+@mixin a($b, $args...) {}
+@include a([1, 2]..., 3);
+
+<===> error/splat/before_positional/output.css
+
+<===> error/splat/before_positional/warning
+DEPRECATION WARNING [misplaced-rest]: Positional arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+3 | @include a([1, 2]..., 3);
+  |                       ^ positional argument
+  |            ====== rest argument
+  '
+    input.scss 3:23  root stylesheet
+
+<===>
+================================================================================
+<===> error/splat/before_named/input.scss
+// TODO - https://github.com/sass/sass-spec/issues/2073: This will be an error in Dart Sass 2
+@mixin a($a, $b, $c) {}
+@include a([1, 2]..., $c: 3);
+
+<===> error/splat/before_named/output.css
+
+<===> error/splat/before_named/warning
+DEPRECATION WARNING [misplaced-rest]: Named arguments must come before rest arguments.
+This will be an error in Dart Sass 2.0.0.
+
+  ,
+3 | @include a([1, 2]..., $c: 3);
+  |                       ^^^^^ named argument
+  |            ====== rest argument
+  '
+    input.scss 3:23  root stylesheet

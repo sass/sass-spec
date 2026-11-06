@@ -1,0 +1,63 @@
+<===> global/input.scss
+@use "sass:meta";
+$global-variable: null;
+
+a {b: meta.global-variable-exists(global-variable)}
+
+<===> global/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> local/input.scss
+@use "sass:meta";
+a {
+  $local-variable: null;
+  b: meta.global-variable-exists(local-variable);
+}
+
+<===> local/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> through_import/input.scss
+@use "sass:meta";
+@import "other";
+a {b: meta.global-variable-exists(global-variable)}
+
+<===> through_import/other.scss
+$global-variable: null;
+
+<===> through_import/output.css
+a {
+  b: true;
+}
+
+<===> through_import/warning
+DEPRECATION WARNING [import]: Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+
+More info and automated migrator: https://sass-lang.com/d/import
+
+  ,
+2 | @import "other";
+  |         ^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
+<===>
+================================================================================
+<===> non_existent/input.scss
+@use "sass:meta";
+a {
+  b: meta.global-variable-exists(non-existent);
+}
+
+<===> non_existent/output.css
+a {
+  b: false;
+}

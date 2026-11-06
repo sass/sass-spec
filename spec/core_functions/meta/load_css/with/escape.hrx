@@ -1,0 +1,27 @@
+<===> unquoted/normalized/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (\$: override));
+
+<===> unquoted/normalized/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> unquoted/normalized/output.css
+a {
+  b: override;
+}
+
+<===>
+================================================================================
+<===> quoted/normalized/input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: ("\\$": override));
+
+<===> quoted/normalized/_other.scss
+$\$: original !default;
+a {b: $\$}
+
+<===> quoted/normalized/output.css
+a {
+  b: override;
+}
