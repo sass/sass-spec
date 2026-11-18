@@ -1,0 +1,14 @@
+<===> input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a-b: c, a_b: c));
+
+<===> _other.scss
+$a-b: c !default;
+
+<===> error
+Error: The variable $a_b was configured twice.
+  ,
+2 | @include meta.load-css("other", $with: (a-b: c, a_b: c));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

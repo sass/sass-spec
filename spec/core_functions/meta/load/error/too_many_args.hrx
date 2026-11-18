@@ -1,0 +1,15 @@
+<===> input.scss
+@use "sass:meta";
+$_: meta.load("other", (), "a");
+
+<===> error
+Error: Only 2 arguments allowed, but 3 were passed.
+  ,--> input.scss
+2 | $_: meta.load("other", (), "a");
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @function load($url, $with: null) {
+  |           ======================= declaration
+  '
+  input.scss 2:5  root stylesheet

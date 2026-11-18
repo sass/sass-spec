@@ -1,0 +1,17 @@
+<===> escape/normalized/input.scss
+a {b: 1\65 m == 1em}
+
+<===> escape/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> escape/preserved/input.scss
+a {b: 1\% == 1%}
+
+<===> escape/preserved/output.css
+a {
+  b: false;
+}

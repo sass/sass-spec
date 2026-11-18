@@ -80,3 +80,27 @@ a {@include meta.apply(meta.get-mixin(add_two), 10)}
 a {
   b: 12;
 }
+
+<===>
+================================================================================
+<===> escape/unquoted/normalized/input.scss
+@use "sass:meta";
+@mixin \$($v) {b: $v + 2}
+a {@include meta.apply(meta.get-mixin(\$), 10)}
+
+<===> escape/unquoted/normalized/output.css
+a {
+  b: 12;
+}
+
+<===>
+================================================================================
+<===> escape/quoted/normalized/input.scss
+@use "sass:meta";
+@mixin \$($v) {b: $v + 2}
+a {@include meta.apply(meta.get-mixin("\\$"), 10)}
+
+<===> escape/quoted/normalized/output.css
+a {
+  b: 12;
+}

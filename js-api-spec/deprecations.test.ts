@@ -35,22 +35,21 @@ describe('a warning', () => {
     });
   });
 
-  // Excluding this test until we add post-2.0.0 deprecations.
-  xit('is emitted with different deprecation type silenced', () => {
-    // compileString('a { $b: c !global; }', {
-    //   logger: {
-    //     warn(
-    //       message: string,
-    //       {
-    //         deprecationType,
-    //       }: {deprecation: boolean; deprecationType?: Deprecation},
-    //     ) {
-    //       expect(deprecationType).toEqual(deprecations['new-global']);
-    //       done();
-    //     },
-    //   },
-    //   silenceDeprecations: ['call-string'],
-    // });
+  it('is emitted with different deprecation type silenced', done => {
+    compileString('a { $b: if(true, c, d); }', {
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['if-function']);
+          done();
+        },
+      },
+      silenceDeprecations: ['import'],
+    });
   });
 
   it('is not emitted when deprecation silenced', () => {
@@ -58,6 +57,15 @@ describe('a warning', () => {
       compileString('@import "other"', {
         importers: [emptyStylesheetImporter],
         silenceDeprecations: [deprecations['import']],
+      });
+    });
+    expect(stdio.err).toBe('');
+  });
+
+  it('is not emitted when deprecation silenced without a list', () => {
+    const stdio = captureStdio(() => {
+      compileString('a { $b: if(true, c, d); }', {
+        silenceDeprecations: deprecations['if-function'],
       });
     });
     expect(stdio.err).toBe('');
@@ -99,6 +107,43 @@ describe('a warning', () => {
       },
     });
   });
+
+  it('is emitted for an excluded fatal deprecation', done => {
+    compileString('a { $b: if(true, c, d); }', {
+      fatalDeprecations: {
+        include: new Version(1, 105, 0),
+        exclude: 'if-function',
+      },
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['if-function']);
+          done();
+        },
+      },
+    });
+  });
+
+  it('is emitted for a non-Dart Sass 2 deprecation when Dart Sass 2 is fatal', done => {
+    compileString('a { b: if(true, c, d); }', {
+      fatalDeprecations: deprecations.dartSass2,
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['if-function']);
+          done();
+        },
+      },
+    });
+  });
 });
 
 describe('an error', () => {
@@ -125,6 +170,14 @@ describe('an error', () => {
       compileString('@import "other"', {
         importers: [emptyStylesheetImporter],
         fatalDeprecations: [new Version(1, 80, 0)],
+      }),
+    ).toThrowError();
+  });
+
+  it('is thrown when deprecation made fatal without a list', () => {
+    expect(() =>
+      compileString('a { $b: if(true, c, d); }', {
+        fatalDeprecations: deprecations['if-function'],
       }),
     ).toThrowError();
   });
@@ -187,6 +240,24 @@ xdescribe('for a future deprecation,', () => {
     compileString('@import "a"', {
       importers: [importer],
       futureDeprecations: ['import'],
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations.import);
+          done();
+        },
+      },
+    });
+  });
+
+  it('warning emitted when opted into without a list', done => {
+    compileString('@import "a"', {
+      importers: [importer],
+      futureDeprecations: deprecations.import,
       logger: {
         warn(
           message: string,

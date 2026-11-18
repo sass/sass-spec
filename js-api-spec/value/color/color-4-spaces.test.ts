@@ -37,6 +37,7 @@ describe('Color 4 SassColors Spaces', () => {
         expect(() => color.assertMap()).toThrow();
         expect(color.tryMap()).toBe(null);
         expect(() => color.assertMixin()).toThrow();
+        expect(() => color.assertModule()).toThrow();
         expect(() => color.assertNumber()).toThrow();
         expect(() => color.assertString()).toThrow();
       });

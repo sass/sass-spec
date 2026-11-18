@@ -1,0 +1,52 @@
+<===> escape/literal/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a($\$: d)}
+
+<===> escape/literal/normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> escape/literal/non_normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a($\24: d)}
+
+<===> escape/literal/non_normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> escape/literal/dash_insensitive/input.scss
+@function a($b-c) {@return $b-c}
+d {e: a($b\5f c: f)}
+
+<===> escape/literal/dash_insensitive/output.css
+d {
+  e: f;
+}
+
+<===>
+================================================================================
+<===> escape/rest/unquoted/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a((\$: d)...)}
+
+<===> escape/rest/unquoted/normalized/output.css
+b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> escape/rest/quoted/normalized/input.scss
+@function a($\$) {@return $\$}
+b {c: a(("\\$": d)...)}
+
+<===> escape/rest/quoted/normalized/output.css
+b {
+  c: d;
+}

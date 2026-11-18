@@ -64,27 +64,153 @@ a {
 
 <===>
 ================================================================================
-<===> different_module/undefined/input.scss
+<===> same_module/escape/unquoted/normalized/input.scss
 @use "sass:meta";
-@use "sass:color";
-a {b: meta.mixin-exists("c", "color")}
+@mixin \$ {}
+a {b: meta.mixin-exists(\$)}
 
-<===> different_module/undefined/output.css
+<===> same_module/escape/unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin \$ {}
+a {b: meta.mixin-exists(unquoted("\\24"))}
+
+<===> same_module/escape/unquoted/non_normalized/output.css
 a {
   b: false;
 }
 
 <===>
 ================================================================================
-<===> different_module/defined/input.scss
+<===> same_module/escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin a-b {}
+c {d: meta.mixin-exists(unquoted("a\\5f b"))}
+
+<===> same_module/escape/unquoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@mixin \$ {}
+a {b: meta.mixin-exists(string.unquote("$"))}
+
+<===> same_module/escape/unquoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/normalized/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("\\$")}
+
+<===> same_module/escape/quoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("\\24")}
+
+<===> same_module/escape/quoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@mixin a-b {}
+c {d: meta.mixin-exists("a\\5f b")}
+
+<===> same_module/escape/quoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> same_module/escape/quoted/semantic/input.scss
+@use "sass:meta";
+@mixin \$ {}
+a {b: meta.mixin-exists("$")}
+
+<===> same_module/escape/quoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/undefined/string/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.mixin-exists("c", "color")}
+
+<===> different_module/undefined/string/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/undefined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.mixin-exists("c", meta.get-module("color"))}
+
+<===> different_module/undefined/module_value/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/string/input.scss
 @use "sass:meta";
 @use "other";
 a {b: meta.mixin-exists("c", "other")}
 
-<===> different_module/defined/_other.scss
+<===> different_module/defined/string/_other.scss
 @mixin c() {}
 
-<===> different_module/defined/output.css
+<===> different_module/defined/string/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> different_module/defined/module_value/input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.mixin-exists("c", meta.get-module("other"))}
+
+<===> different_module/defined/module_value/_other.scss
+@mixin c() {}
+
+<===> different_module/defined/module_value/output.css
 a {
   b: true;
 }
@@ -241,7 +367,7 @@ Error: $name: 12px is not a string.
 a {b: meta.mixin-exists(c, 1)}
 
 <===> error/argument/type/module/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | a {b: meta.mixin-exists(c, 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^
@@ -319,7 +445,7 @@ Error: This mixin is available from multiple global modules.
 a {b: meta.mixin-exists("c", "d")}
 
 <===> error/module/non_existent/error
-Error: There is no module with the namespace "d".
+Error: There is no module with namespace "d".
   ,
 2 | a {b: meta.mixin-exists("c", "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -333,7 +459,7 @@ Error: There is no module with the namespace "d".
 a {b: meta.mixin-exists("c", "color")}
 
 <===> error/module/built_in_but_not_loaded/error
-Error: There is no module with the namespace "color".
+Error: There is no module with namespace "color".
   ,
 2 | a {b: meta.mixin-exists("c", "color")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -348,7 +474,7 @@ Error: There is no module with the namespace "color".
 c {d: meta.mixin-exists("c", $module: "a_b")}
 
 <===> error/module/dash_sensitive/error
-Error: There is no module with the namespace "a_b".
+Error: There is no module with namespace "a_b".
   ,
 3 | c {d: meta.mixin-exists("c", $module: "a_b")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

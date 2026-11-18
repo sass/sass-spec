@@ -1,0 +1,77 @@
+<===> show/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> show/_used.scss
+@forward "forwarded" show $b;
+
+<===> show/_forwarded.scss
+$a: d !default;
+
+<===> show/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> hide/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> hide/_used.scss
+@forward "forwarded" hide $a;
+
+<===> hide/_forwarded.scss
+$a: d !default;
+
+<===> hide/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> as/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> as/_used.scss
+@forward "forwarded" as c-*;
+
+<===> as/_forwarded.scss
+$a: d !default;
+
+<===> as/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> with/input.scss
+@use "sass:meta";
+@include meta.load-css("used", $with: (a: b));
+
+<===> with/_used.scss
+@forward "forwarded" with ($a: c);
+
+<===> with/_forwarded.scss
+$a: d !default;
+
+<===> with/error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("used", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

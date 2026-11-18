@@ -293,3 +293,19 @@ Error: Style rules may not be used within keyframe blocks.
   |       ^^^^^^^^^
   '
   input.scss 2:7  root stylesheet
+
+<===>
+================================================================================
+<===> error/escaped_exponent/input.scss
+// Regression test. We used to interpret escaped "e" as exponents.
+@keyframes a {
+  1\65 1% {b: c}
+}
+
+<===> error/escaped_exponent/error
+Error: expected "%".
+  ,
+3 |   1\65 1% {b: c}
+  |    ^
+  '
+  input.scss 3:4  root stylesheet

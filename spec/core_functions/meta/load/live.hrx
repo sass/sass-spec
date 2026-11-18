@@ -1,0 +1,21 @@
+<===> input.scss
+// `meta.load()` should return a reference to a module that updates as the
+// module changes, not a static copy.
+@use "sass:meta";
+@use "other";
+$module: meta.load("other");
+
+a {
+  before: meta.inspect(meta.module-variables($module));
+  other.$value: b;
+  after: meta.inspect(meta.module-variables($module));
+}
+
+<===> _other.scss
+$value: c;
+
+<===> output.css
+a {
+  before: ("value": c);
+  after: ("value": b);
+}

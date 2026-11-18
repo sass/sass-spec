@@ -1,0 +1,14 @@
+<===> input.scss
+@use "sass:meta";
+@include meta.load-css("other", $with: (a: b));
+
+<===> _other.scss
+c {$a: d !default}
+
+<===> error
+Error: $a was not declared with !default in the @used module.
+  ,
+2 | @include meta.load-css("other", $with: (a: b));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet

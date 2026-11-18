@@ -1,0 +1,96 @@
+<===> unquoted/normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists(\$)}
+
+<===> unquoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+$\$: null;
+a {b: meta.global-variable-exists(unquoted("\\24"))}
+
+<===> unquoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+$a-b: null;
+c {d: meta.global-variable-exists(unquoted("a\\5f b"))}
+
+<===> unquoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+$\$: null;
+a {b: meta.global-variable-exists(string.unquote("$"))}
+
+<===> unquoted/semantic/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> quoted/normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("\\$")}
+
+<===> quoted/normalized/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> quoted/non_normalized/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("\\24")}
+
+<===> quoted/non_normalized/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> quoted/dash_insensitive/input.scss
+@use "sass:meta";
+$a-b: null;
+c {d: meta.global-variable-exists("a\\5f b")}
+
+<===> quoted/dash_insensitive/output.css
+c {
+  d: false;
+}
+
+<===>
+================================================================================
+<===> quoted/semantic/input.scss
+@use "sass:meta";
+$\$: null;
+a {b: meta.global-variable-exists("$")}
+
+<===> quoted/semantic/output.css
+a {
+  b: false;
+}

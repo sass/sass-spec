@@ -17,7 +17,7 @@ Error: $name: 2px is not a string.
 a {b: meta.get-function(c, $module: 1)}
 
 <===> argument/type/module/error
-Error: $module: 1 is not a string.
+Error: $module: 1 is neither a string nor a module reference.
   ,
 2 | a {b: meta.get-function(c, $module: 1)}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -202,6 +202,100 @@ Error: This function is available from multiple global modules.
     '
   input.scss 5:7  root stylesheet
 
+
+<===>
+================================================================================
+<===> escape/unquoted/non_normalized/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function(string.unquote("\\24"))}
+
+<===> escape/unquoted/non_normalized/error
+Error: Function not found: \24
+  ,
+4 | a {b: meta.get-function(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/unquoted/dash_insensitive/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function a-b($arg) {@return $arg + 1}
+c {d: meta.get-function(string.unquote("a\\5f b"))}
+
+<===> escape/unquoted/dash_insensitive/error
+Error: Function not found: a\5f b
+  ,
+4 | c {d: meta.get-function(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/unquoted/semantic/input.scss
+@use "sass:meta";
+@use "sass:string";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function(string.unquote("$"))}
+
+<===> escape/unquoted/semantic/error
+Error: Function not found: $
+  ,
+4 | a {b: meta.get-function(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 4:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/non_normalized/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function("\\24")}
+
+<===> escape/quoted/non_normalized/error
+Error: Function not found: "\\24"
+  ,
+3 | a {b: meta.get-function("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/dash_insensitive/input.scss
+@use "sass:meta";
+@function a-b($arg) {@return $arg + 1}
+c {d: meta.get-function("a\\5f b")}
+
+<===> escape/quoted/dash_insensitive/error
+Error: Function not found: "a\\5f b"
+  ,
+3 | c {d: meta.get-function("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
+<===>
+================================================================================
+<===> escape/quoted/semantic/input.scss
+@use "sass:meta";
+@function \$($arg) {@return $arg + 1}
+a {b: meta.get-function("$")}
+
+<===> escape/quoted/semantic/error
+Error: Function not found: "$"
+  ,
+3 | a {b: meta.get-function("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> module/undefined/input.scss
@@ -224,7 +318,7 @@ Error: Function not found: "c"
 a {b: meta.get-function("c", $module: "d")}
 
 <===> module/non_existent/error
-Error: There is no module with the namespace "d".
+Error: There is no module with namespace "d".
   ,
 2 | a {b: meta.get-function("c", $module: "d")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -238,7 +332,7 @@ Error: There is no module with the namespace "d".
 a {b: meta.get-function("red", $module: "color")}
 
 <===> module/built_in_but_not_loaded/error
-Error: There is no module with the namespace "color".
+Error: There is no module with namespace "color".
   ,
 2 | a {b: meta.get-function("red", $module: "color")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -253,7 +347,7 @@ Error: There is no module with the namespace "color".
 c {d: meta.get-function("c", $module: "a_b")}
 
 <===> module/dash_sensitive/error
-Error: There is no module with the namespace "a_b".
+Error: There is no module with namespace "a_b".
   ,
 3 | c {d: meta.get-function("c", $module: "a_b")}
   |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

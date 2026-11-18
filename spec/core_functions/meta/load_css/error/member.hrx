@@ -6,7 +6,7 @@ module.
 ================================================================================
 <===> global/input.scss
 @use "sass:meta";
-@meta.load-css("other");
+@include meta.load-css("other");
 
 a {b: $c}
 
@@ -25,7 +25,7 @@ Error: Undefined variable.
 ================================================================================
 <===> namespace/input.scss
 @use "sass:meta";
-@meta.load-css("other");
+@include meta.load-css("other");
 
 a {b: other.$c}
 
@@ -33,7 +33,7 @@ a {b: other.$c}
 $c: d;
 
 <===> namespace/error
-Error: There is no module with the namespace "other".
+Error: There is no module with namespace "other".
   ,
 4 | a {b: other.$c}
   |       ^^^^^^^^
