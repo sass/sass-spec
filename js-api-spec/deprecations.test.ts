@@ -35,22 +35,21 @@ describe('a warning', () => {
     });
   });
 
-  // Excluding this test until we add post-2.0.0 deprecations.
-  xit('is emitted with different deprecation type silenced', () => {
-    // compileString('a { $b: c !global; }', {
-    //   logger: {
-    //     warn(
-    //       message: string,
-    //       {
-    //         deprecationType,
-    //       }: {deprecation: boolean; deprecationType?: Deprecation},
-    //     ) {
-    //       expect(deprecationType).toEqual(deprecations['new-global']);
-    //       done();
-    //     },
-    //   },
-    //   silenceDeprecations: ['call-string'],
-    // });
+  it('is emitted with different deprecation type silenced', done => {
+    compileString('a { $b: if(true, c, d); }', {
+      logger: {
+        warn(
+          message: string,
+          {
+            deprecationType,
+          }: {deprecation: boolean; deprecationType?: Deprecation},
+        ) {
+          expect(deprecationType).toEqual(deprecations['if-function']);
+          done();
+        },
+      },
+      silenceDeprecations: ['import'],
+    });
   });
 
   it('is not emitted when deprecation silenced', () => {
@@ -65,8 +64,8 @@ describe('a warning', () => {
 
   it('is not emitted when deprecation silenced without a list', () => {
     const stdio = captureStdio(() => {
-      compileString('a { $b: c !global; }', {
-        silenceDeprecations: deprecations['new-global'],
+      compileString('a { $b: if(true, c, d); }', {
+        silenceDeprecations: deprecations['if-function'],
       });
     });
     expect(stdio.err).toBe('');
@@ -110,10 +109,10 @@ describe('a warning', () => {
   });
 
   it('is emitted for an excluded fatal deprecation', done => {
-    compileString('a { $b: c !global; }', {
+    compileString('a { $b: if(true, c, d); }', {
       fatalDeprecations: {
         include: new Version(1, 105, 0),
-        exclude: 'new-global',
+        exclude: 'if-function',
       },
       logger: {
         warn(
@@ -122,7 +121,7 @@ describe('a warning', () => {
             deprecationType,
           }: {deprecation: boolean; deprecationType?: Deprecation},
         ) {
-          expect(deprecationType).toEqual(deprecations['new-global']);
+          expect(deprecationType).toEqual(deprecations['if-function']);
           done();
         },
       },
@@ -177,16 +176,8 @@ describe('an error', () => {
 
   it('is thrown when deprecation made fatal without a list', () => {
     expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: deprecations['new-global'],
-      }),
-    ).toThrowError();
-  });
-
-  it('is thrown for a Dart Sass 2 warning', () => {
-    expect(() =>
-      compileString('a { $b: c !global; }', {
-        fatalDeprecations: deprecations.dartSass2,
+      compileString('a { $b: if(true, c, d); }', {
+        fatalDeprecations: deprecations['if-function'],
       }),
     ).toThrowError();
   });
