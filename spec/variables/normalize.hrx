@@ -1,0 +1,45 @@
+<===> definition/direct/input.scss
+$a_b: c;
+
+d {e: $a-b}
+
+<===> definition/direct/output.css
+d {
+  e: c;
+}
+
+<===>
+================================================================================
+<===> definition/escape/input.scss
+$a\5f b: c;
+
+d {e: $a-b}
+
+<===> definition/escape/output.css
+d {
+  e: c;
+}
+
+<===>
+================================================================================
+<===> use/direct/input.scss
+$a-b: c;
+
+d {e: $a\5f b}
+
+<===> use/direct/output.css
+d {
+  e: c;
+}
+
+<===>
+================================================================================
+<===> use/escape/input.scss
+$a-b: c;
+
+d {e: $a\5f b}
+
+<===> use/escape/output.css
+d {
+  e: c;
+}

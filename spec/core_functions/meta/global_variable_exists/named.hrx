@@ -1,0 +1,12 @@
+<===> input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.global-variable-exists($name: "c", $module: "other")}
+
+<===> _other.scss
+$c: null;
+
+<===> output.css
+a {
+  b: true;
+}

@@ -1,0 +1,25 @@
+<===> duplicate_parameter/non_rest/input.scss
+@mixin a($b, $b) {}
+
+<===> duplicate_parameter/non_rest/error
+Error: Duplicate parameter.
+  ,
+1 | @mixin a($b, $b) {}
+  |          ^^ first
+  |              == second
+  '
+  input.scss 1:10  root stylesheet
+
+<===>
+================================================================================
+<===> duplicate_parameter/rest/input.scss
+@mixin a($b, $b...) {}
+
+<===> duplicate_parameter/rest/error
+Error: Duplicate parameter.
+  ,
+1 | @mixin a($b, $b...) {}
+  |          ^^ first
+  |              ===== second
+  '
+  input.scss 1:10  root stylesheet

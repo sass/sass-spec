@@ -1,0 +1,176 @@
+<===> README.md
+Most of the details of this function are tested as part of `meta.load-css()` and
+for brevity, aren't repeated here.
+
+<===>
+================================================================================
+<===> direct/load/input.scss
+@use "sass:meta";
+@include meta.css(meta.load("other"));
+
+<===> direct/load/_other.scss
+a {b: c}
+
+<===> direct/load/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> direct/get_module/input.scss
+@use "sass:meta";
+@use "other";
+@include meta.css(meta.get-module("other"));
+
+<===> direct/get_module/_other.scss
+a {b: c}
+
+<===> direct/get_module/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> indirect/load/input.scss
+@use "sass:meta";
+@use "midstream";
+@include meta.css(midstream.$module);
+
+<===> indirect/load/_midstream.scss
+@use "sass:meta";
+$module: meta.load("upstream");
+
+<===> indirect/load/_upstream.scss
+a {b: c}
+
+<===> indirect/load/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> indirect/get_module/input.scss
+@use "sass:meta";
+@use "midstream";
+@include meta.css(midstream.$module);
+
+<===> indirect/get_module/_midstream.scss
+@use "sass:meta";
+@use "upstream";
+$module: meta.get-module("upstream");
+
+<===> indirect/get_module/_upstream.scss
+a {b: c}
+
+<===> indirect/get_module/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> string/input.scss
+@use "sass:meta";
+@use "other";
+@include meta.css("other");
+
+<===> string/_other.scss
+a {b: c}
+
+<===> string/output.css
+a {
+  b: c;
+}
+
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> nested/input.scss
+@use "sass:meta";
+a {@include meta.css(meta.load("other"))}
+
+<===> nested/_other.scss
+b {c: d}
+
+<===> nested/output.css
+a b {
+  c: d;
+}
+
+<===>
+================================================================================
+<===> named/input.scss
+@use "sass:meta";
+@include meta.css($module: meta.load("other"));
+
+<===> named/_other.scss
+a {b: c}
+
+<===> named/output.css
+a {
+  b: c;
+}
+
+<===>
+================================================================================
+<===> error/argument/type/input.scss
+@use "sass:meta";
+@include meta.css(1);
+
+<===> error/argument/type/error
+Error: $module: 1 is neither a string nor a module reference.
+  ,
+2 | @include meta.css(1);
+  | ^^^^^^^^^^^^^^^^^^^^
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/argument/too_few/input.scss
+@use "sass:meta";
+@include meta.css();
+
+<===> error/argument/too_few/error
+Error: Missing argument $module.
+  ,--> input.scss
+2 | @include meta.css();
+  | ^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin css($module) {
+  |        ============ declaration
+  '
+  input.scss 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/argument/too_many/input.scss
+@use "sass:meta";
+@include meta.css(meta.get-module("meta"), a);
+
+<===> error/argument/too_many/error
+Error: Only 1 argument allowed, but 2 were passed.
+  ,--> input.scss
+2 | @include meta.css(meta.get-module("meta"), a);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invocation
+  '
+  ,--> sass:meta
+1 | @mixin css($module) {
+  |        ============ declaration
+  '
+  input.scss 2:1  root stylesheet

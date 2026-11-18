@@ -388,3 +388,68 @@ a {
 a d {
   e: f;
 }
+
+<===>
+================================================================================
+<===> error/commented_closing_comment_in_interpolation/input.scss
+// Regression test for the second report in sass/dart-sass#2874. This isn't
+// actually unique to style rules; it would happen for any interpolation that
+// injects the left-hand edge of an error or warning. This is just the most
+// convenient way to reproduce it.
+#{
+  // */
+  "++"
+} {a: b}
+
+<===> error/commented_closing_comment_in_interpolation/error
+Error: expected selector.
+  ,--> input.scss
+7 |   "++"
+  |   ^^^^ 
+  '
+  ,
+1 | ++ 
+  |  = error in interpolated output
+  '
+  input.scss 7:3  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass/initial_indent/first_line/input.sass
+  a
+
+<===> error/sass/initial_indent/first_line/error
+Error: Indenting at the beginning of the document is illegal.
+  ,
+1 |   a
+  | ^^
+  '
+  input.sass 1:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass/initial_indent/second_line/input.sass
+
+  a
+
+<===> error/sass/initial_indent/second_line/error
+Error: Indenting at the beginning of the document is illegal.
+  ,
+2 |   a
+  | ^^
+  '
+  input.sass 2:1  root stylesheet
+
+<===>
+================================================================================
+<===> error/sass/initial_indent/after_empty_line_with_whitespace/input.sass
+  	
+  a
+
+<===> error/sass/initial_indent/after_empty_line_with_whitespace/error
+Error: Indenting at the beginning of the document is illegal.
+  ,
+2 |   a
+  | ^^
+  '
+  input.sass 2:1  root stylesheet

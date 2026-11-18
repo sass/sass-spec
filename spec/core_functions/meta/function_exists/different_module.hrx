@@ -1,0 +1,171 @@
+<===> undefined/string/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("c", "color")}
+
+<===> undefined/string/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> undefined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("c", meta.get-module("color"))}
+
+<===> undefined/module_value/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> global/string/input.scss
+// Regression test
+@use "sass:meta";
+@use "sass:list";
+a {b: meta.function-exists("rgb", "list")}
+
+<===> global/string/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> defined/string/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("red", "color")}
+
+<===> defined/string/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> defined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.function-exists("red", meta.get-module("color"))}
+
+<===> defined/module_value/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> chosen_prefix/input.scss
+@use "sass:meta";
+@use "sass:color" as a;
+b {c: meta.function-exists("red", "a")}
+
+<===> chosen_prefix/output.css
+b {
+  c: true;
+}
+
+<===>
+================================================================================
+<===> through_use/input.scss
+@use "sass:meta";
+@use "other" as *;
+a {b: meta.function-exists(global-function)}
+
+<===> through_use/other.scss
+@function global-function() {@return null}
+
+<===> through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {b: meta.function-exists(c)}
+
+<===> through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/bare/_upstream.scss
+@function c() {@return null}
+
+<===> through_forward/bare/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  with-prefix: meta.function-exists(b-c);
+  without-prefix: meta.function-exists(c);
+}
+
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> through_forward/as/_upstream.scss
+@function c() {@return null}
+
+<===> through_forward/as/output.css
+a {
+  with-prefix: true;
+  without-prefix: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  shown: meta.function-exists(b);
+  not-shown: meta.function-exists(c);
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show b;
+
+<===> through_forward/show/_upstream.scss
+@function b() {@return null}
+@function c() {@return null}
+
+<===> through_forward/show/output.css
+a {
+  shown: true;
+  not-shown: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  hidden: meta.function-exists(b);
+  not-hidden: meta.function-exists(c);
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide b;
+
+<===> through_forward/hide/_upstream.scss
+@function b() {@return null}
+@function c() {@return null}
+
+<===> through_forward/hide/output.css
+a {
+  hidden: false;
+  not-hidden: true;
+}
