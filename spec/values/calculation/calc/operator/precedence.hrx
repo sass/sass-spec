@@ -68,6 +68,28 @@ a {
 
 <===>
 ================================================================================
+<===> simplified/all/head/input.scss
+// Regression test
+a {b: calc(1 + 2 * 3 / 4)}
+
+<===> simplified/all/head/output.css
+a {
+  b: 2.5;
+}
+
+<===>
+================================================================================
+<===> simplified/all/tail/input.scss
+// Regression test
+a {b: calc(1 / 2 * 3 + 4)}
+
+<===> simplified/all/tail/output.css
+a {
+  b: 5.5;
+}
+
+<===>
+================================================================================
 <===> simplified/parens/multiplicative_and_additive/input.scss
 a {b: calc(2 * (3 + 4) / (5 - 6))}
 
