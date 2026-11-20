@@ -7,6 +7,19 @@ a {
   b: 1;
 }
 
+<===> color/max/warning
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha(red)}
+  |       ^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> color/min/input.scss
@@ -17,6 +30,19 @@ a {b: color.alpha(rgba(red, 0))}
 a {
   b: 0;
 }
+
+<===> color/min/warning
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha(rgba(red, 0))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -29,6 +55,19 @@ a {
   b: 0.42;
 }
 
+<===> color/middle/warning
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha(rgba(red, 0.42))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> color/named/input.scss
@@ -39,6 +78,19 @@ a {b: color.alpha($color: rgba(red, 0.73))}
 a {
   b: 0.73;
 }
+
+<===> color/named/warning
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha($color: rgba(red, 0.73))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -94,6 +146,19 @@ a {
   b: 0.2;
 }
 
+<===> opacity/positional/warning
+DEPRECATION WARNING [color-opacity]: color.opacity() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.opacity(rgba(red, 0.2))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 <===>
 ================================================================================
 <===> opacity/named/input.scss
@@ -104,6 +169,19 @@ a {b: color.opacity($color: rgba(red, 0.2))}
 a {
   b: 0.2;
 }
+
+<===> opacity/named/warning
+DEPRECATION WARNING [color-opacity]: color.opacity() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.opacity($color: rgba(red, 0.2))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
 
 <===>
 ================================================================================
@@ -202,7 +280,7 @@ a {
 }
 
 <===> css_overloads/opacity/warning
-DEPRECATION WARNING [color-module-compat]: Passing a number (1 to color.opacity() is deprecated.
+DEPRECATION WARNING [color-module-compat]: Passing a number (1) to color.opacity() is deprecated.
 
 Recommendation: opacity(1)
 
@@ -246,6 +324,18 @@ Error: Only 1 argument allowed, but 2 were passed.
 a {b: color.alpha(1)}
 
 <===> error/type/error
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha(1)}
+  |       ^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 Error: $color: 1 is not a color.
   ,
 2 | a {b: color.alpha(1)}
@@ -260,6 +350,18 @@ Error: $color: 1 is not a color.
 a {b: color.opacity(var(--c))}
 
 <===> error/with_module/type/error
+DEPRECATION WARNING [color-opacity]: color.opacity() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.opacity(var(--c))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 Error: $color: var(--c) is not a color.
   ,
 2 | a {b: color.opacity(var(--c))}
@@ -274,6 +376,18 @@ Error: $color: var(--c) is not a color.
 a {b: color.alpha("c=d")}
 
 <===> error/quoted_string/error
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha("c=d")}
+  |       ^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 Error: $color: "c=d" is not a color.
   ,
 2 | a {b: color.alpha("c=d")}
@@ -288,6 +402,18 @@ Error: $color: "c=d" is not a color.
 a {b: color.alpha(cd)}
 
 <===> error/unquoted_string/no_equals/error
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+2 | a {b: color.alpha(cd)}
+  |       ^^^^^^^^^^^^^^^
+  '
+    input.scss 2:7  root stylesheet
+
 Error: $color: cd is not a color.
   ,
 2 | a {b: color.alpha(cd)}
@@ -303,6 +429,18 @@ Error: $color: cd is not a color.
 a {b: color.alpha(string.unquote("1=c"))}
 
 <===> error/unquoted_string/non_identifier_before_equals/error
+DEPRECATION WARNING [color-opacity]: color.alpha() is deprecated. Suggestion:
+
+color.channel($color, "alpha")
+
+More info: https://sass-lang.com/d/color-opacity
+
+  ,
+3 | a {b: color.alpha(string.unquote("1=c"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: $color: 1=c is not a color.
   ,
 3 | a {b: color.alpha(string.unquote("1=c"))}
