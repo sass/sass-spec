@@ -87,6 +87,19 @@ a {
   b: false;
 }
 
+<===> same_module/escape/unquoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will throw an error or
+the unquoted string `unquoted("\\24")` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.mixin-exists(unquoted("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> same_module/escape/unquoted/dash_insensitive/input.scss
@@ -99,6 +112,19 @@ c {d: meta.mixin-exists(unquoted("a\\5f b"))}
 c {
   d: false;
 }
+
+<===> same_module/escape/unquoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will throw an error or
+the unquoted string `unquoted("a\\5f b")` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {d: meta.mixin-exists(unquoted("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
 
 <===>
 ================================================================================
@@ -113,6 +139,19 @@ a {
   b: false;
 }
 
+<===> same_module/escape/unquoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.mixin-exists(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> same_module/escape/quoted/normalized/input.scss
@@ -124,6 +163,21 @@ a {b: meta.mixin-exists("\\$")}
 a {
   b: true;
 }
+
+<===> same_module/escape/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.mixin-exists(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.mixin-exists("\\$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
@@ -137,6 +191,21 @@ a {
   b: false;
 }
 
+<===> same_module/escape/quoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.mixin-exists(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.mixin-exists("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> same_module/escape/quoted/dash_insensitive/input.scss
@@ -149,6 +218,21 @@ c {
   d: false;
 }
 
+<===> same_module/escape/quoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will interpret the
+quoted string "a\\5f b" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.mixin-exists(a\\5f\ b))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {d: meta.mixin-exists("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> same_module/escape/quoted/semantic/input.scss
@@ -160,6 +244,21 @@ a {b: meta.mixin-exists("$")}
 a {
   b: false;
 }
+
+<===> same_module/escape/quoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.mixin-exists() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.mixin-exists(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.mixin-exists("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================

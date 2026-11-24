@@ -50,3 +50,18 @@ b {c: a(("\\$": d)...)}
 b {
   c: d;
 }
+
+<===> escape/rest/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\\$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | b {c: a(("\\$": d)...)}
+  |         ^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet

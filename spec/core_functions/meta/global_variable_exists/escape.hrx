@@ -21,6 +21,19 @@ a {
   b: false;
 }
 
+<===> unquoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will throw an error or
+the unquoted string `unquoted("\\24")` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.global-variable-exists(unquoted("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> unquoted/dash_insensitive/input.scss
@@ -33,6 +46,19 @@ c {d: meta.global-variable-exists(unquoted("a\\5f b"))}
 c {
   d: false;
 }
+
+<===> unquoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will throw an error or
+the unquoted string `unquoted("a\\5f b")` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {d: meta.global-variable-exists(unquoted("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
 
 <===>
 ================================================================================
@@ -47,6 +73,19 @@ a {
   b: false;
 }
 
+<===> unquoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.global-variable-exists(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quoted/normalized/input.scss
@@ -58,6 +97,21 @@ a {b: meta.global-variable-exists("\\$")}
 a {
   b: true;
 }
+
+<===> quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.global-variable-exists(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.global-variable-exists("\\$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
 
 <===>
 ================================================================================
@@ -71,6 +125,21 @@ a {
   b: false;
 }
 
+<===> quoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.global-variable-exists(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.global-variable-exists("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quoted/dash_insensitive/input.scss
@@ -83,6 +152,21 @@ c {
   d: false;
 }
 
+<===> quoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will interpret the
+quoted string "a\\5f b" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.global-variable-exists(a\\5f\ b))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {d: meta.global-variable-exists("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 <===>
 ================================================================================
 <===> quoted/semantic/input.scss
@@ -94,3 +178,18 @@ a {b: meta.global-variable-exists("$")}
 a {
   b: false;
 }
+
+<===> quoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.global-variable-exists() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.global-variable-exists(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.global-variable-exists("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet

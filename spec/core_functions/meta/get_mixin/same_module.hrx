@@ -104,3 +104,18 @@ a {@include meta.apply(meta.get-mixin("\\$"), 10)}
 a {
   b: 12;
 }
+
+<===> escape/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-mixin(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {@include meta.apply(meta.get-mixin("\\$"), 10)}
+  |                        ^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:24  root stylesheet

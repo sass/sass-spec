@@ -212,6 +212,19 @@ Error: This function is available from multiple global modules.
 a {b: meta.get-function(string.unquote("\\24"))}
 
 <===> escape/unquoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+unquoted string `\24` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-function(\$)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-function(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Function not found: \24
   ,
 4 | a {b: meta.get-function(string.unquote("\\24"))}
@@ -228,6 +241,19 @@ Error: Function not found: \24
 c {d: meta.get-function(string.unquote("a\\5f b"))}
 
 <===> escape/unquoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+unquoted string `a\5f b` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-function(a_b)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {d: meta.get-function(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Function not found: a\5f b
   ,
 4 | c {d: meta.get-function(string.unquote("a\\5f b"))}
@@ -244,6 +270,18 @@ Error: Function not found: a\5f b
 a {b: meta.get-function(string.unquote("$"))}
 
 <===> escape/unquoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-function(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Function not found: $
   ,
 4 | a {b: meta.get-function(string.unquote("$"))}
@@ -259,6 +297,20 @@ Error: Function not found: $
 a {b: meta.get-function("\\24")}
 
 <===> escape/quoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-function("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Function not found: "\\24"
   ,
 3 | a {b: meta.get-function("\\24")}
@@ -274,6 +326,20 @@ Error: Function not found: "\\24"
 c {d: meta.get-function("a\\5f b")}
 
 <===> escape/quoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "a\\5f b" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(a\\5f\ b))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {d: meta.get-function("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Function not found: "a\\5f b"
   ,
 3 | c {d: meta.get-function("a\\5f b")}
@@ -289,6 +355,20 @@ Error: Function not found: "a\\5f b"
 a {b: meta.get-function("$")}
 
 <===> escape/quoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-function("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Function not found: "$"
   ,
 3 | a {b: meta.get-function("$")}

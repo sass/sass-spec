@@ -174,6 +174,19 @@ Error: This mixin is available from multiple global modules.
 a {b: meta.get-mixin(string.unquote("\\24"))}
 
 <===> escape/unquoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+unquoted string `\24` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-mixin(\$)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-mixin(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Mixin not found: \24
   ,
 4 | a {b: meta.get-mixin(string.unquote("\\24"))}
@@ -190,6 +203,19 @@ Error: Mixin not found: \24
 c {d: meta.get-mixin(string.unquote("a\\5f b"))}
 
 <===> escape/unquoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+unquoted string `a\5f b` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-mixin(a_b)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {d: meta.get-mixin(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Mixin not found: a\5f b
   ,
 4 | c {d: meta.get-mixin(string.unquote("a\\5f b"))}
@@ -206,6 +232,18 @@ Error: Mixin not found: a\5f b
 a {b: meta.get-mixin(string.unquote("$"))}
 
 <===> escape/unquoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-mixin(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: Mixin not found: $
   ,
 4 | a {b: meta.get-mixin(string.unquote("$"))}
@@ -221,6 +259,20 @@ Error: Mixin not found: $
 a {b: meta.get-mixin("\\24")}
 
 <===> escape/quoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-mixin(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-mixin("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Mixin not found: "\\24"
   ,
 3 | a {b: meta.get-mixin("\\24")}
@@ -236,6 +288,20 @@ Error: Mixin not found: "\\24"
 c {d: meta.get-mixin("a\\5f b")}
 
 <===> escape/quoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+quoted string "a\\5f b" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-mixin(a\\5f\ b))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {d: meta.get-mixin("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Mixin not found: "a\\5f b"
   ,
 3 | c {d: meta.get-mixin("a\\5f b")}
@@ -251,6 +317,20 @@ Error: Mixin not found: "a\\5f b"
 a {b: meta.get-mixin("$")}
 
 <===> escape/quoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-mixin() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-mixin(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-mixin("$")}
+  |       ^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: Mixin not found: "$"
   ,
 3 | a {b: meta.get-mixin("$")}
