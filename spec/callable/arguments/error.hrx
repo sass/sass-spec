@@ -4,6 +4,21 @@
 b {c: a((string.unquote("\\24"): d)...)}
 
 <===> keyword/escape/rest/unquoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `\24` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | b {c: a((string.unquote("\\24"): d)...)}
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
+
 Error: Missing argument $\$.
   ,
 2 | @function a($\$) {@return $\$}
@@ -22,6 +37,21 @@ Error: Missing argument $\$.
 d {e: a((string.unquote("b\\5f c"): f)...)}
 
 <===> keyword/escape/rest/unquoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `b\5f c` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: b_c: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | d {e: a((string.unquote("b\\5f c"): f)...)}
+  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:9  root stylesheet
+
 Error: Missing argument $b-c.
   ,
 2 | @function a($b-c) {@return $b-c}
@@ -57,6 +87,20 @@ Error: Missing argument $\$.
 b {c: a(("\\24": d)...)}
 
 <===> keyword/escape/rest/quoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\24" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\24: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | b {c: a(("\\24": d)...)}
+  |         ^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
 Error: Missing argument $\$.
   ,
 1 | @function a($\$) {@return $\$}
@@ -74,6 +118,20 @@ Error: Missing argument $\$.
 d {e: a(("b\\5F c": f)...)}
 
 <===> keyword/escape/rest/quoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "b\\5F c" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: b\\5F\ c: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | d {e: a(("b\\5F c": f)...)}
+  |         ^^^^^^^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
 Error: Missing argument $b-c.
   ,
 1 | @function a($b-c) {@return $b-c}
@@ -91,6 +149,20 @@ Error: Missing argument $b-c.
 b {c: a(("$": d)...)}
 
 <===> keyword/escape/rest/quoted/semantic/error
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | b {c: a(("$": d)...)}
+  |         ^^^^^^^^
+  '
+    input.scss 2:9  root stylesheet
+
 Error: Missing argument $\$.
   ,
 1 | @function a($\$) {@return $\$}

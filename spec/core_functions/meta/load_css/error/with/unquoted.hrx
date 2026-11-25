@@ -8,6 +8,19 @@ $\$: original !default;
 a {b: $\$}
 
 <===> non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.load-css() will interpret the
+unquoted string `\24` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.load-css(..., $with: (\$: ...))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("\\24"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:1  root stylesheet
+
 Error: $\24 was not declared with !default in the @used module.
   ,
 3 | @include meta.load-css("other", $with: (string.unquote("\\24"): override));
@@ -27,6 +40,19 @@ $a-b: original !default;
 c {d: $a-b}
 
 <===> dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.load-css() will interpret the
+unquoted string `a\5f b` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.load-css(..., $with: (a_b: ...))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("a\\5f b"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:1  root stylesheet
+
 Error: $a\5f b was not declared with !default in the @used module.
   ,
 3 | @include meta.load-css("other", $with: (string.unquote("a\\5f b"): override));
@@ -46,6 +72,18 @@ $\$: original !default;
 a {b: $\$}
 
 <===> semantic/error
+DEPRECATION WARNING [meta-escape]: meta.load-css() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | @include meta.load-css("other", $with: (string.unquote("$"): override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:1  root stylesheet
+
 Error: $$ was not declared with !default in the @used module.
   ,
 3 | @include meta.load-css("other", $with: (string.unquote("$"): override));

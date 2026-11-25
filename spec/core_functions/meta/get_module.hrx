@@ -149,6 +149,21 @@ a {
   b: true;
 }
 
+<===> escape/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-module(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.global-variable-exists("e", $module: meta.get-module("\\$"))}
+  |                                                 ^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:49  root stylesheet
+
 <===>
 ================================================================================
 <===> named/input.scss
@@ -264,6 +279,19 @@ Error: There is no module with namespace "a_b".
 a {b: meta.get-module(string.unquote("\\24"))}
 
 <===> error/escape/unquoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+unquoted string `\24` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-module(\$)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-module(string.unquote("\\24"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: There is no module with namespace "\24".
   ,
 4 | a {b: meta.get-module(string.unquote("\\24"))}
@@ -280,6 +308,19 @@ Error: There is no module with namespace "\24".
 c {d: meta.get-module(string.unquote("a\\5f b"))}
 
 <===> error/escape/unquoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+unquoted string `a\5f b` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-module(a_b)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {d: meta.get-module(string.unquote("a\\5f b"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: There is no module with namespace "a\5f b".
   ,
 4 | c {d: meta.get-module(string.unquote("a\\5f b"))}
@@ -296,6 +337,18 @@ Error: There is no module with namespace "a\5f b".
 a {b: meta.get-module(string.unquote("$"))}
 
 <===> error/escape/unquoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.get-module(string.unquote("$"))}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:7  root stylesheet
+
 Error: There is no module with namespace "$".
   ,
 4 | a {b: meta.get-module(string.unquote("$"))}
@@ -311,6 +364,20 @@ Error: There is no module with namespace "$".
 a {b: meta.get-module("\\24")}
 
 <===> error/escape/quoted/non_normalized/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-module(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-module("\\24")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: There is no module with namespace "\24".
   ,
 3 | a {b: meta.get-module("\\24")}
@@ -326,6 +393,20 @@ Error: There is no module with namespace "\24".
 c {d: meta.get-module("a\\5f b")}
 
 <===> error/escape/quoted/dash_insensitive/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+quoted string "a\\5f b" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-module(a\\5f\ b))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {d: meta.get-module("a\\5f b")}
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: There is no module with namespace "a\5f b".
   ,
 3 | c {d: meta.get-module("a\\5f b")}
@@ -341,6 +422,20 @@ Error: There is no module with namespace "a\5f b".
 a {b: meta.get-module("$")}
 
 <===> error/escape/quoted/semantic/error
+DEPRECATION WARNING [meta-escape]: meta.get-module() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-module(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.get-module("$")}
+  |       ^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:7  root stylesheet
+
 Error: There is no module with namespace "$".
   ,
 3 | a {b: meta.get-module("$")}

@@ -1,0 +1,167 @@
+<===> undefined/string/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.mixin-exists("c", "color")}
+
+<===> undefined/string/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> undefined/module_value/input.scss
+@use "sass:meta";
+@use "sass:color";
+a {b: meta.mixin-exists("c", meta.get-module("color"))}
+
+<===> undefined/module_value/output.css
+a {
+  b: false;
+}
+
+<===>
+================================================================================
+<===> defined/string/input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.mixin-exists("c", "other")}
+
+<===> defined/string/_other.scss
+@mixin c() {}
+
+<===> defined/string/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> defined/module_value/input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.mixin-exists("c", meta.get-module("other"))}
+
+<===> defined/module_value/_other.scss
+@mixin c() {}
+
+<===> defined/module_value/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> chosen_prefix/input.scss
+@use "sass:meta";
+@use "other" as a;
+b {c: meta.mixin-exists("d", "a")}
+
+<===> chosen_prefix/_other.scss
+@mixin d() {}
+
+<===> chosen_prefix/output.css
+b {
+  c: true;
+}
+
+<===>
+================================================================================
+<===> through_use/input.scss
+@use "sass:meta";
+@use "other" as *;
+a {b: meta.mixin-exists(global-mixin)}
+
+<===> through_use/other.scss
+@mixin global-mixin() {}
+
+<===> through_use/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> through_forward/bare/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {b: meta.mixin-exists(c)}
+
+<===> through_forward/bare/_midstream.scss
+@forward "upstream";
+
+<===> through_forward/bare/_upstream.scss
+@mixin c() {}
+
+<===> through_forward/bare/output.css
+a {
+  b: true;
+}
+
+<===>
+================================================================================
+<===> through_forward/as/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  with-prefix: meta.mixin-exists(b-c);
+  without-prefix: meta.mixin-exists(c);
+}
+
+<===> through_forward/as/_midstream.scss
+@forward "upstream" as b-*;
+
+<===> through_forward/as/_upstream.scss
+@mixin c() {}
+
+<===> through_forward/as/output.css
+a {
+  with-prefix: true;
+  without-prefix: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/show/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  shown: meta.mixin-exists(b);
+  not-shown: meta.mixin-exists(c);
+}
+
+<===> through_forward/show/_midstream.scss
+@forward "upstream" show b;
+
+<===> through_forward/show/_upstream.scss
+@mixin b() {}
+@mixin c() {}
+
+<===> through_forward/show/output.css
+a {
+  shown: true;
+  not-shown: false;
+}
+
+<===>
+================================================================================
+<===> through_forward/hide/input.scss
+@use "sass:meta";
+@use "midstream" as *;
+a {
+  hidden: meta.mixin-exists(b);
+  not-hidden: meta.mixin-exists(c);
+}
+
+<===> through_forward/hide/_midstream.scss
+@forward "upstream" hide b;
+
+<===> through_forward/hide/_upstream.scss
+@mixin b() {}
+@mixin c() {}
+
+<===> through_forward/hide/output.css
+a {
+  hidden: false;
+  not-hidden: true;
+}

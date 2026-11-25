@@ -293,6 +293,22 @@ c {
   b: (\24: d);
 }
 
+<===> rest/named/escape/rest/unquoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `\24` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {@include a((string.unquote("\\24"): d)...)}
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:15  root stylesheet
+
 <===>
 ================================================================================
 <===> rest/named/escape/rest/unquoted/dash_insensitive/input.scss
@@ -305,6 +321,22 @@ c {@include a((string.unquote("d\\5f e"): f)...)}
 c {
   b: (d\5f e: f);
 }
+
+<===> rest/named/escape/rest/unquoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `d\5f e` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: d_e: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | c {@include a((string.unquote("d\\5f e"): f)...)}
+  |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:15  root stylesheet
 
 <===>
 ================================================================================
@@ -331,6 +363,21 @@ c {
   b: (\$: d);
 }
 
+<===> rest/named/escape/rest/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\\$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {@include a(("\\$": d)...)}
+  |               ^^^^^^^^^^
+  '
+    input.scss 3:15  root stylesheet
+
 <===>
 ================================================================================
 <===> rest/named/escape/rest/quoted/non_normalized/input.scss
@@ -342,6 +389,21 @@ c {@include a(("\\24": d)...)}
 c {
   b: (\24: d);
 }
+
+<===> rest/named/escape/rest/quoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\24" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\24: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {@include a(("\\24": d)...)}
+  |               ^^^^^^^^^^^
+  '
+    input.scss 3:15  root stylesheet
 
 <===>
 ================================================================================
@@ -355,6 +417,21 @@ c {
   b: (d\5f e: f);
 }
 
+<===> rest/named/escape/rest/quoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "d\\5f e" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: d\\5f\ e: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {@include a(("d\\5f e": f)...)}
+  |               ^^^^^^^^^^^^^^
+  '
+    input.scss 3:15  root stylesheet
+
 <===>
 ================================================================================
 <===> rest/named/escape/rest/quoted/semantic/input.scss
@@ -366,3 +443,18 @@ c {@include a(("$": d)...)}
 c {
   b: ($: d);
 }
+
+<===> rest/named/escape/rest/quoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | c {@include a(("$": d)...)}
+  |               ^^^^^^^^
+  '
+    input.scss 3:15  root stylesheet

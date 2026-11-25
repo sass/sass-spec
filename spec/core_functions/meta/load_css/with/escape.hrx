@@ -25,3 +25,18 @@ a {b: $\$}
 a {
   b: override;
 }
+
+<===> quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.load-css() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.load-css(..., $with: (\\\$: ...)))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | @include meta.load-css("other", $with: ("\\$": override));
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:1  root stylesheet

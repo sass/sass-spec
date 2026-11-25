@@ -147,6 +147,20 @@ a {
   b: \24(1);
 }
 
+<===> plain_css/escape/unquoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+unquoted string `\24` as its value with escapes resolved in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string in canonical form instead:
+
+Suggestion: meta.get-function(\$)
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.call(meta.get-function(string.unquote("\\24"), $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:17  root stylesheet
+
 <===>
 ================================================================================
 <===> plain_css/escape/unquoted/semantic/input.scss
@@ -159,6 +173,19 @@ a {
   b: $(1);
 }
 
+<===> plain_css/escape/unquoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.call(meta.get-function(string.unquote("$"), $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:17  root stylesheet
+
 <===>
 ================================================================================
 <===> plain_css/escape/quoted/normalized/input.scss
@@ -169,6 +196,21 @@ a {b: meta.call(meta.get-function("\\$", $css: true), 1)}
 a {
   b: \$(1);
 }
+
+<===> plain_css/escape/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | a {b: meta.call(meta.get-function("\\$", $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:17  root stylesheet
 
 <===>
 ================================================================================
@@ -181,6 +223,21 @@ a {
   b: \24(1);
 }
 
+<===> plain_css/escape/quoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "\\24" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\\24))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | a {b: meta.call(meta.get-function("\\24", $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:17  root stylesheet
+
 <===>
 ================================================================================
 <===> plain_css/escape/quoted/semantic/input.scss
@@ -191,6 +248,21 @@ a {b: meta.call(meta.get-function("$", $css: true), 1)}
 a {
   b: $(1);
 }
+
+<===> plain_css/escape/quoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+2 | a {b: meta.call(meta.get-function("$", $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 2:17  root stylesheet
 
 <===>
 ================================================================================
@@ -203,6 +275,19 @@ a {b: meta.call(meta.get-function(string.unquote("$"), $css: true), 1)}
 a {
   b: $(1);
 }
+
+<===> plain_css/non_ident/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will throw an error or
+the unquoted string `$` in Dart Sass 3.0.0 because it
+isn't a valid CSS identifier.
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.call(meta.get-function(string.unquote("$"), $css: true), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:17  root stylesheet
 
 <===>
 ================================================================================
@@ -253,3 +338,18 @@ a {b: meta.call(meta.get-function("\\$"), 1)}
 a {
   b: 2;
 }
+
+<===> escape/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: meta.get-function() will interpret the
+quoted string "\\$" as the semantic value of an identifier
+in Dart Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: meta.get-function(\\\$))
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.call(meta.get-function("\\$"), 1)}
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 3:17  root stylesheet

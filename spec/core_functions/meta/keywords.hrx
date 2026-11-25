@@ -184,6 +184,22 @@ a {
   b: (\24: d);
 }
 
+<===> escape/rest/unquoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `\24` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.inspect(utils.args-to-keywords((string.unquote("\\24"): d)...))}
+  |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:43  root stylesheet
+
 <===>
 ================================================================================
 <===> escape/rest/unquoted/dash_insensitive/input.scss
@@ -196,6 +212,22 @@ a {b: meta.inspect(utils.args-to-keywords((string.unquote("c\\5f d"): e)...))}
 a {
   b: (c\5f d: e);
 }
+
+<===> escape/rest/unquoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the unquoted
+string `c\5f d` as its value with escapes resolved in Dart Sass
+3.0.0. For forwards-compatibility, use an unquoted string in canonical form
+instead:
+
+Suggestion: c_d: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+4 | a {b: meta.inspect(utils.args-to-keywords((string.unquote("c\\5f d"): e)...))}
+  |                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  '
+    input.scss 4:43  root stylesheet
 
 <===>
 ================================================================================
@@ -222,6 +254,21 @@ a {
   b: (\$: d);
 }
 
+<===> escape/rest/quoted/normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\\$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.inspect(utils.args-to-keywords(("\\$": d)...))}
+  |                                           ^^^^^^^^^^
+  '
+    input.scss 3:43  root stylesheet
+
 <===>
 ================================================================================
 <===> escape/rest/quoted/non_normalized/input.scss
@@ -233,6 +280,21 @@ a {b: meta.inspect(utils.args-to-keywords(("\\24": d)...))}
 a {
   b: (\24: d);
 }
+
+<===> escape/rest/quoted/non_normalized/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "\\24" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \\24: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.inspect(utils.args-to-keywords(("\\24": d)...))}
+  |                                           ^^^^^^^^^^^
+  '
+    input.scss 3:43  root stylesheet
 
 <===>
 ================================================================================
@@ -246,6 +308,21 @@ a {
   b: (c\5f d: e);
 }
 
+<===> escape/rest/quoted/dash_insensitive/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "c\\5f d" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: c\\5f\ d: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.inspect(utils.args-to-keywords(("c\\5f d": e)...))}
+  |                                           ^^^^^^^^^^^^^^
+  '
+    input.scss 3:43  root stylesheet
+
 <===>
 ================================================================================
 <===> escape/rest/quoted/semantic/input.scss
@@ -257,6 +334,21 @@ a {b: meta.inspect(utils.args-to-keywords(("$": d)...))}
 a {
   b: ($: d);
 }
+
+<===> escape/rest/quoted/semantic/warning
+DEPRECATION WARNING [meta-escape]: Function calls will interpret the quoted
+string "$" as the semantic value of an argument name in Dart
+Sass 3.0.0. For forwards-compatibility, use an unquoted string instead:
+
+Suggestion: \$: ...
+
+More info: https://sass-lang.com/d/meta-escape
+
+  ,
+3 | a {b: meta.inspect(utils.args-to-keywords(("$": d)...))}
+  |                                           ^^^^^^^^
+  '
+    input.scss 3:43  root stylesheet
 
 <===>
 ================================================================================
