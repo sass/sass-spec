@@ -1,0 +1,12 @@
+<===> input.scss
+@use "sass:meta";
+@use "other";
+a {b: meta.mixin-exists($name: "c", $module: "other")}
+
+<===> _other.scss
+@mixin c() {}
+
+<===> output.css
+a {
+  b: true;
+}
